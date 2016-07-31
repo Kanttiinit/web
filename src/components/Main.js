@@ -4,11 +4,11 @@ import {Provider} from 'react-redux';
 import {persistStore} from 'redux-persist';
 import localForage from 'localForage'
 
-import style from '../styles/main.scss'
+import '../styles/main.scss'
 
 import store from '../store';
 import {fetchAreas, fetchLocation, fetchMenus, fetchRestaurants, fetchFavorites} from '../store/actions/async';
-import {updateNow, setKeyboardVisible, setInitializing} from '../store/actions/values';
+import {updateNow, setKeyboardVisible} from '../store/actions/values';
 
 import App from './App'
 
@@ -19,8 +19,7 @@ const actions = bindActionCreators({
   fetchLocation,
   setKeyboardVisible,
   fetchFavorites,
-  fetchMenus,
-  setInitializing
+  fetchMenus
 }, store.dispatch)
 
 class Main extends React.Component {
@@ -34,20 +33,17 @@ class Main extends React.Component {
       storage: localForage
     }, () => {
       actions.fetchMenus()
-      actions.setInitializing(false)
     })
 
-    this.refresh()
-  }
-
-  refresh() {
     actions.fetchLocation()
   }
 
   render() {
-    return <Provider store={store}>
-      <App />
-    </Provider>
+     return (
+         <Provider store={store}>
+            <App />
+         </Provider>
+      )
   }
 }
 

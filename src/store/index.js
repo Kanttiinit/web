@@ -4,19 +4,11 @@ import promiseMiddleware from 'redux-promise-middleware';
 import {autoRehydrate} from 'redux-persist';
 import saveLogger from 'redux-logger'
 
-import preferences from './reducers/preferences';
-import modal from './reducers/modal';
-
 const defaultValues = {
-   currentView: 'Ruokalista',
-   views: 0,
-   dayOffset: 0,
-   initializing: true
+   dayOffset: 0
 };
 
 const reducer = combineReducers({
-   preferences,
-   modal,
    value: (state = defaultValues, {type, payload}) => {
       if (type.startsWith('SET_VALUE_')) {
          return {...state, ...payload};
@@ -56,7 +48,8 @@ const reducer = combineReducers({
 
 const enhancer = compose(
    autoRehydrate(),
-   applyMiddleware(thunk, promiseMiddleware(), saveLogger())
+   applyMiddleware(thunk, promiseMiddleware(), saveLogger()),
+   window.devToolsExtension ? window.devToolsExtension() : f => f
 );
 
 export default createStore(reducer, enhancer);

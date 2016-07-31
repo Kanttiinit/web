@@ -36,7 +36,6 @@ export function fetchLocation() {
 
 export function fetchMenus() {
    return (dispatch, getState) => {
-      // const idString = getState().preferences.selectedRestaurants.join(',');
       return dispatch({
          type: 'FETCH_MENUS',
          payload: http.get('/menus?restaurants'),

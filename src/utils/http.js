@@ -1,4 +1,4 @@
-require('isomorphic-fetch')
+import 'isomorphic-fetch';
 
 const API_BASE = 'https://kitchen.kanttiinit.fi'
 

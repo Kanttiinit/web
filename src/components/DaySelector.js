@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { setDayOffset } from '../store/actions/values';
 
-let DaySelector = ({ setDayOffset }) => {
+const DaySelector = ({ setDayOffset }) => {
   return (
     <div className="day-selector">
       <button onClick={() => setDayOffset(-1)}>-</button>

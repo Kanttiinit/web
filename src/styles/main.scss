@@ -1,6 +1,16 @@
 @import '_colors';
 @import '_restaurants';
+@import '_dayselector';
+@import '_constants';
 
 body {
   font-family: sans-serif;
+  margin: 0px;
+  background-color: $body_background;
+}
+
+.app {
+  max-width: 90em;
+  margin: 0 auto;
+
 }

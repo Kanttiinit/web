@@ -3,27 +3,34 @@ import { connect } from 'react-redux'
 import moment from 'moment'
 import _ from 'lodash'
 
+const getDayOfWeek = (dayOffset) => {
+  return moment().add(dayOffset, 'day').locale('fi').weekday()
+}
+
 const formattedRestaurants = (dayOffset, restaurants, menus) => {
   let day = moment().add(dayOffset, 'day').format('YYYY-MM-DD')
-  const asd = _.orderBy(
+  return _.orderBy(
       restaurants.map(restaurant => {
          const courses = _.get(menus, [restaurant.id, day], []);
          return {...restaurant, courses, noCourses: !courses.length};
       }),
    ['noCourses'])
-  console.log(asd)
-  return asd
 }
 
-const Restaurant = ({ restaurant }) => {
+const Restaurant = ({ restaurant, dayOfWeek }) => {
   return (
-    <div className="restaurant">
+    <div className={"restaurant" + (restaurant.noCourses ? ' restaurant-empty' : '')}>
       <div className="restaurant-header">
         <h2>{restaurant.name}</h2>
+        <span>{restaurant.openingHours[dayOfWeek]}</span>
       </div>
       <div className="restaurant-body">
-        {restaurant.noCourses ? (<span className="restaurant-empty">Ei ruokaa</span>) : restaurant.courses.map((course) => (
-          <span className="restaurant-course" key={course.key}>{course.title}</span>
+        {restaurant.noCourses ? (<span className="restaurant-empty-text">Ei ruokaa</span>) : restaurant.courses.map((course) => (
+          <span
+            className={"restaurant-course" + (restaurant.courses[restaurant.courses.length - 1].title === course.title ? ' last-course' : '')}
+            key={course.title}>
+            {course.title}
+          </span>
         ))}
       </div>
     </div>
@@ -35,7 +42,7 @@ const Restaurants = ({ loading, restaurants, menus, dayOffset }) => {
     <div className="restaurants">
       {loading ? "loading" :
         formattedRestaurants(dayOffset, restaurants, menus).map((data) =>
-          <Restaurant key={data.id} restaurant={data}></Restaurant>
+          <Restaurant key={data.id} restaurant={data} dayOfWeek={getDayOfWeek(dayOffset)}></Restaurant>
         )
       }
     </div>

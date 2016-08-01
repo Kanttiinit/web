@@ -1,0 +1,38 @@
+@import '_constants';
+
+.dayselector {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin: 10px;
+  align-items: center;
+
+  .dayselector-header {
+    font-size: 20pt;
+    margin: 0px;
+    margin-bottom: 6px;
+    font-weight: 300;
+  }
+
+  .dayselector-controls {
+    button {
+      border-radius: $small_border_radius;
+      padding: 4px 9px 4px 9px;
+      border: none;
+      margin: 2px 4px 2px 4px;
+      color: #fff;
+      background-color: $button_color;
+
+      &:hover {
+        background-color: $button_color_hover;
+      }
+
+      &:active {
+        background-color: $button_color_pressed;
+      }
+    }
+
+  }
+
+
+}

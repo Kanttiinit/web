@@ -7,6 +7,8 @@ const PATHS = {
   dist: path.join(__dirname, './dist')
 };
 
+const is_prod = process.env.NODE_ENV === 'production';
+
 module.exports = {
   entry: {
     javascript: PATHS.app,
@@ -38,6 +40,17 @@ module.exports = {
       }
     ]
   },
+  plugins: is_prod ? [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: { warnings: false }
+    }),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    })
+  ] : [],
   sassLoader: {
     includePaths: [path.resolve(__dirname, './src/styles')]
   }

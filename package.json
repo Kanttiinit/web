@@ -40,7 +40,7 @@
   },
   "scripts": {
     "run": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js  --hot --inline",
-    "build": "node node_modules/webpack/bin/webpack.js --optimize-minimize --optimize-dedupe",
+    "build": "node node_modules/webpack/bin/webpack.js",
     "postinstall": "npm run build",
     "start": "node index.js"
   },

@@ -1,21 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
-import _ from 'lodash'
-
-const getDayOfWeek = (dayOffset) => {
-  return moment().add(dayOffset, 'day').locale('fi').weekday()
-}
-
-const formattedRestaurants = (dayOffset, restaurants, menus) => {
-  let day = moment().add(dayOffset, 'day').format('YYYY-MM-DD')
-  return _.orderBy(
-      restaurants.map(restaurant => {
-         const courses = _.get(menus, [restaurant.id, day], []);
-         return {...restaurant, courses, noCourses: !courses.length};
-      }),
-   ['noCourses'])
-}
+import {getFormattedRestaurants} from '../store/selectors'
 
 const Restaurant = ({ restaurant, dayOfWeek }) => {
   return (
@@ -38,12 +24,16 @@ const Restaurant = ({ restaurant, dayOfWeek }) => {
   )
 }
 
-const Restaurants = ({ loading, restaurants, menus, dayOffset }) => {
+const Restaurants = ({ loading, restaurants, dayOffset }) => {
+  const dayOfWeek = moment().add(dayOffset, 'day').locale('fi').weekday()
   return (
     <div className="restaurants">
       {loading ? "loading" :
-        formattedRestaurants(dayOffset, restaurants, menus).map((data) =>
-          <Restaurant key={data.id} restaurant={data} dayOfWeek={getDayOfWeek(dayOffset)}></Restaurant>
+        restaurants.map(restaurant =>
+          <Restaurant
+            key={restaurant.id}
+            restaurant={restaurant}
+            dayOfWeek={dayOfWeek} />
         )
       }
     </div>
@@ -52,8 +42,7 @@ const Restaurants = ({ loading, restaurants, menus, dayOffset }) => {
 
 const mapState = state => ({
   loading: state.pending.menus || state.pending.restaurants,
-  restaurants: state.data.restaurants,
-  menus: state.data.menus,
+  restaurants: getFormattedRestaurants(state),
   dayOffset: state.value.dayOffset
 })
 

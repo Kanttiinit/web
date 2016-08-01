@@ -1,9 +1,8 @@
 import {createStore, combineReducers, compose, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 import promiseMiddleware from 'redux-promise-middleware'
-import {autoRehydrate, persistStore} from 'redux-persist'
+// import {autoRehydrate, persistStore} from 'redux-persist'
 import saveLogger from 'redux-logger'
-import localForage from 'localForage'
 
 const defaultValues = {
    dayOffset: 0
@@ -48,16 +47,16 @@ const reducer = combineReducers({
 })
 
 const enhancer = compose(
-   autoRehydrate(),
-   applyMiddleware(thunk, promiseMiddleware(), saveLogger()),
+  //  autoRehydrate(),
+   applyMiddleware(thunk, promiseMiddleware()/*, saveLogger()*/),
    window.devToolsExtension ? window.devToolsExtension() : f => f
 )
 
 const store = createStore(reducer, enhancer)
 
-persistStore(store, {
-   whitelist: [],
-   storage: localForage
-})
+// persistStore(store, {
+//    whitelist: [],
+//    storage: 'localStorage'
+// })
 
 export default store

@@ -1,0 +1,47 @@
+.restaurants {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.restaurant {
+  display: flex;
+  flex-direction: column;
+  margin: 6px;
+  padding: 10px;
+  background-color: #f5f5f5;
+  max-width: 300px;
+  min-width: 300px;
+
+  .restaurant-header {
+    display: flex;
+    font-size: 10pt;
+    border-bottom: 1px solid #d7d7d7;
+    margin-bottom: 10px;
+
+    h2 {
+      font-weight: 400;
+      margin: 0px;
+    }
+  }
+
+  .restaurant-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 60px;
+    font-weight: 300;
+
+    .restaurant-course {
+      margin-bottom: 4px;
+    }
+
+    .restaurant-empty {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

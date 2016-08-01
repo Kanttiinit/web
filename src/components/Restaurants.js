@@ -26,11 +26,12 @@ const Restaurant = ({ restaurant, dayOfWeek }) => {
       </div>
       <div className="restaurant-body">
         {restaurant.noCourses ? (<span className="restaurant-empty-text">Ei ruokaa</span>) : restaurant.courses.map((course) => (
-          <span
+          <div
             className={"restaurant-course" + (restaurant.courses[restaurant.courses.length - 1].title === course.title ? ' last-course' : '')}
             key={course.title}>
-            {course.title}
-          </span>
+            <span className="course-title">{course.title}</span>
+            <span className="course-props">{course.properties.join(" ")}</span>
+          </div>
         ))}
       </div>
     </div>

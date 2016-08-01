@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "Kanttiinit.fi web client using react.",
   "main": "index.js",
+  "engines": {
+    "node": "5.0.0",
+    "npm": "3.3.9"
+  },
   "dependencies": {
     "express": "^4.14.0",
     "isomorphic-fetch": "^2.2.1",

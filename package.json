@@ -4,6 +4,7 @@
   "description": "Kanttiinit.fi web client using react.",
   "main": "index.js",
   "dependencies": {
+    "express": "^4.14.0",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.14.1",
     "moment": "^2.14.1",
@@ -14,6 +15,7 @@
     "redux": "^3.5.2",
     "redux-promise-middleware": "^3.3.2",
     "redux-thunk": "^2.1.0",
+    "serve-static": "^1.11.1",
     "webpack": "^1.13.1"
   },
   "devDependencies": {

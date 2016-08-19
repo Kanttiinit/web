@@ -4,8 +4,9 @@ import {Provider} from 'react-redux'
 
 import '../styles/main.scss'
 
-import store from '../store';
-import {fetchAreas, fetchLocation, fetchMenus, fetchRestaurants, fetchFavorites} from '../store/actions/async';
+import store from '../store'
+import {fetchAreas, fetchLocation, fetchMenus, fetchRestaurants, fetchFavorites} from '../store/actions/async'
+import {selectLang} from '../store/selectors'
 
 import App from './App'
 
@@ -17,10 +18,12 @@ const actions = bindActionCreators({
   fetchMenus
 }, store.dispatch)
 
-actions.fetchFavorites()
-actions.fetchRestaurants()
-actions.fetchAreas()
-actions.fetchMenus()
+const lang = selectLang(store.getState())
+
+actions.fetchFavorites(lang)
+actions.fetchRestaurants(lang)
+actions.fetchAreas(lang)
+actions.fetchMenus(lang)
 
 actions.fetchLocation()
 

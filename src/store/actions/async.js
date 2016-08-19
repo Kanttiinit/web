@@ -1,19 +1,19 @@
 import http from '../../utils/http';
 
-export function fetchAreas() {
+export function fetchAreas(lang) {
    return {
       type: 'FETCH_AREAS',
-      payload: http.get('/areas'),
+      payload: http.get('/areas', lang),
       meta: {
          data: 'areas'
       }
    };
 }
 
-export function fetchFavorites() {
+export function fetchFavorites(lang) {
    return {
       type: 'FETCH_FAVORITES',
-      payload: http.get('/favorites'),
+      payload: http.get('/favorites', lang),
       meta: {
          data: 'favorites'
       }
@@ -34,11 +34,11 @@ export function fetchLocation() {
    };
 }
 
-export function fetchMenus() {
+export function fetchMenus(lang) {
    return (dispatch, getState) => {
       return dispatch({
          type: 'FETCH_MENUS',
-         payload: http.get('/menus?restaurants'),
+         payload: http.get('/menus?restaurants', lang),
          meta: {
             data: 'menus'
          }
@@ -46,10 +46,10 @@ export function fetchMenus() {
    };
 }
 
-export function fetchRestaurants() {
+export function fetchRestaurants(lang) {
    return {
       type: 'FETCH_RESTAURANTS',
-      payload: http.get('/restaurants'),
+      payload: http.get('/restaurants', lang),
       meta: {
          data: 'restaurants'
       }

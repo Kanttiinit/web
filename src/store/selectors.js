@@ -16,3 +16,5 @@ export const getFormattedRestaurants = createSelector(
      ['noCourses'])
   }
 )
+
+export const selectLang = state => state.value.lang || 'fi'

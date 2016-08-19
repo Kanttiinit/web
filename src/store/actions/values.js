@@ -6,3 +6,10 @@ export function setDayOffset(dayOffset) {
       payload: {dayOffset}
    };
 }
+
+export function setLang(lang) {
+   return {
+      type: 'SET_VALUE_LANG',
+      payload: {lang}
+   };
+}

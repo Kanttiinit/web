@@ -18,7 +18,7 @@ const DaySelector = ({ dayOffset, setDayOffset }) => {
         <button onClick={() => setDayOffset(dayOffset - 1)}>
           <IoArrowLeftC size={24}/>
         </button>
-        <h1 className="dayselector-header">{getDayString(dayOffset)}</h1>
+        <h1 className="dayselector-header">{getDayString(dayOffset).toUpperCase()}</h1>
         <button onClick={() => setDayOffset(dayOffset + 1)}>
           <IoArrowRightC size={24}/>
         </button>

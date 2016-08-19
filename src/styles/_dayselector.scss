@@ -7,15 +7,27 @@
 
   @media (max-width: $break-small) {
     padding: 0px;
+    position: fixed;
+    background-color: $body_background;
+    border-bottom: 1px solid #ededed;
+    width: 100%;
+    z-index: 100;
+
+    .dayselector-header {
+      font-size: 12pt;
+    }
   }
 
   @media (min-width: $break-large) {
     padding: 0px 12px 0px 12px;
+
+    .dayselector-header {
+      font-size: 18pt;
+    }
   }
 
   .dayselector-header {
     display: inline;
-    font-size: 20pt;
     font-weight: 300;
   }
 

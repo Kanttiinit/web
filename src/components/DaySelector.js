@@ -8,7 +8,7 @@ import { IoArrowLeftC, IoArrowRightC } from 'react-icons/lib/io'
 import { setDayOffset } from '../store/actions/values';
 
 const getDayString = (dayOffset) => {
-  return moment().add(dayOffset, 'day').locale('fi').format('dddd, Do MMMM') + 'ta' // :----D
+  return moment().add(dayOffset, 'day').locale('fi').format('dddd, D.M.')
 }
 
 const DaySelector = ({ dayOffset, setDayOffset }) => {

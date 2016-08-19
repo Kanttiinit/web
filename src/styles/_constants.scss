@@ -11,10 +11,10 @@ $break-large: 768px;
 .default-button {
   border-radius: $small_border_radius;
   padding: 6px;
-  display: flex;
 
   p {
-    align-self: center;
+    display: flex;
+    justify-content: center;
     margin: 0px 4px 0px 4px;
   }
 

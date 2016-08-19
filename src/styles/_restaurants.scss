@@ -37,6 +37,7 @@
 
   @media (max-width: $break-small) {
     margin: 3px 4px 3px 4px;
+
   }
 
   @media (min-width: $break-large) {
@@ -47,7 +48,6 @@
 
   .restaurant-header {
     display: flex;
-    font-size: 11pt;
     margin-bottom: 16px;
     justify-content: space-between;
     align-items: center;
@@ -61,8 +61,28 @@
 
     span {
       color: $dark_gray;
-      font-size: 10pt;
     }
+
+    @media (max-width: $break-small) {
+      h2 {
+        font-size: 13pt;
+      }
+
+      span {
+        font-size: 9pt;
+      }
+    }
+
+    @media (min-width: $break-large) {
+      h2 {
+        font-size: 15pt;
+      }
+
+      span {
+        font-size: 10pt;
+      }
+    }
+
   }
 
   .restaurant-body {

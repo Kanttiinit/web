@@ -27,13 +27,6 @@
   border-radius: $small_border_radius;
   border: $subtle_border;
   border-top: none;
-  // transition: transform 0.1s ease-out;
-  // transform: scale(1);
-
-  // &:hover {
-  //   transform: scale(1.1);
-  //   z-index: 999;
-  // }
 
   @media (max-width: $break-small) {
     margin: 3px 4px 3px 4px;

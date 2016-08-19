@@ -26,6 +26,13 @@
   border-radius: $small_border_radius;
   border: $subtle_border;
   border-top: none;
+  // transition: transform 0.1s ease-out;
+  // transform: scale(1);
+
+  // &:hover {
+  //   transform: scale(1.1);
+  //   z-index: 999;
+  // }
 
   @media (max-width: $break-small) {
     margin: 3px 4px 3px 4px;
@@ -41,17 +48,18 @@
     display: flex;
     font-size: 11pt;
     margin-bottom: 16px;
-    color: $accent_color;
     justify-content: space-between;
     align-items: center;
 
     h2 {
+      color: $almost_black;
       font-weight: 400;
       margin: 0px;
       max-width: 60%;
     }
 
     span {
+      color: $dark_gray;
       font-size: 10pt;
     }
   }
@@ -61,12 +69,13 @@
     flex-direction: column;
     flex: 1;
     min-height: 60px;
-    font-size: 12pt;
+    font-size: 11pt;
     font-weight: 300;
+    color: #464646;
 
     .restaurant-course {
-      padding-bottom: 2px;
-      margin-bottom: 2px;
+      padding-bottom: 3px;
+      margin-bottom: 3px;
       display: flex;
       justify-content: space-between;
 
@@ -97,10 +106,15 @@
   }
 
   &.restaurant-empty {
-    opacity: 0.5;
+    opacity: 0.4;
 
-    .restaurant-header {
-      color: grey;
+    .restaurant-header h2, span{
+      color: $dark_gray;
+
+    }
+
+    .restaurant-body {
+      color: $dark_gray;
     }
   }
 }

@@ -47,21 +47,17 @@
       transition: transform 0.1s ease-out;
       transform: scale(1.0);
 
-      &:hover {
-        background-color: $button_color_hover;
-        transform: scale(1.05);
-      }
+      &.button-disabled {
+        opacity: 0.5;
 
-      svg {
-        transition: transform 0.1s ease-out;
-        // transform: rotate3d(0, 0, 0);
         &:hover {
-          // transform: rotate3d(1, 0, 0);
+          transform: scale(1.0);
         }
       }
 
-      &:active {
-        // background-color: $button_color_hover;
+      &:hover {
+        background-color: $button_color_hover;
+        transform: scale(1.05);
       }
 
     }

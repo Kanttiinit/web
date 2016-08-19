@@ -7,8 +7,8 @@ import { IoArrowLeftC, IoArrowRightC } from 'react-icons/lib/io'
 
 import { setDayOffset } from '../store/actions/values';
 
-const getDayString = (dayOffset) => {
-  return moment().add(dayOffset, 'day').locale('fi').format('dddd, D.M.')
+const getDayString = (dayOffset, format) => {
+  return moment().add(dayOffset, 'day').locale('fi').format(format).toUpperCase()
 }
 
 const canSetDay = (dayOffset, delta) => {
@@ -23,14 +23,14 @@ const DaySelector = ({ dayOffset, setDayOffset }) => {
           className={!canSetDay(dayOffset, -1) ? 'button-disabled': ''}
           disabled={!canSetDay(dayOffset, -1)}
           onClick={() => setDayOffset(dayOffset - 1)}>
-          <IoArrowLeftC size={24}/>
+          <p>{getDayString(dayOffset - 1, 'dddd')}</p>
         </button>
-        <h1 className="dayselector-header">{getDayString(dayOffset).toUpperCase()}</h1>
+        <h1 className="dayselector-header">{getDayString(dayOffset, 'dddd, D.M.')}</h1>
         <button
           className={!canSetDay(dayOffset, 1) ? 'button-disabled' : ''}
           disabled={!canSetDay(dayOffset, 1)}
           onClick={() => setDayOffset(dayOffset + 1)}>
-          <IoArrowRightC size={24}/>
+          <p>{getDayString(dayOffset + 1, 'dddd')}</p>
         </button>
       </div>
     </div>

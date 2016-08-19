@@ -1,3 +1,5 @@
+@import '_colors';
+
 $border_radius: 4px;
 $small_border_radius: 2px;
 $margin: 4px 3px 4px 3px;
@@ -5,3 +7,38 @@ $subtle_border: 1px $extra_light_gray solid;
 
 $break-small: 767px;
 $break-large: 768px;
+
+.default-button {
+  border-radius: $small_border_radius;
+  // padding: 4px 9px 4px 9px;
+  padding: 6px;
+  display: flex;
+
+  p {
+    align-self: center;
+    margin: 0px 4px 0px 4px;
+  }
+
+  border: 1px $gray solid;
+  margin: 2px 4px 2px 4px;
+  color: $gray;
+  font-size: 10pt;
+  background-color: transparent;
+
+  transition: transform 0.1s ease-out, border 0.1s ease-out, color 0.1s ease-out;
+  transform: scale(1.0);
+
+  &.button-disabled {
+    opacity: 0.5;
+
+    &:hover {
+      transform: scale(1.0);
+    }
+  }
+
+  &:hover {
+    border: 1px $accent_color solid;
+    color: $accent_color_light;
+    transform: scale(1.05);
+  }
+}

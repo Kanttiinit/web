@@ -10,7 +10,6 @@ $break-large: 768px;
 
 .default-button {
   border-radius: $small_border_radius;
-  // padding: 4px 9px 4px 9px;
   padding: 6px;
   display: flex;
 
@@ -25,20 +24,29 @@ $break-large: 768px;
   font-size: 10pt;
   background-color: transparent;
 
-  transition: transform 0.1s ease-out, border 0.1s ease-out, color 0.1s ease-out;
-  transform: scale(1.0);
+  @media (max-width: $break-small) {
+    // border: none;
+  }
 
-  &.button-disabled {
-    opacity: 0.5;
+  @media (min-width: $break-large) {
+    transition: transform 0.1s ease-out, border 0.1s ease-out, color 0.1s ease-out;
+    transform: scale(1.0);
+
+    &.button-disabled {
+      &:hover {
+        transform: scale(1.0);
+      }
+    }
 
     &:hover {
-      transform: scale(1.0);
+      border: 1px $accent_color solid;
+      color: $accent_color_light;
+      transform: scale(1.05);
     }
   }
 
-  &:hover {
-    border: 1px $accent_color solid;
-    color: $accent_color_light;
-    transform: scale(1.05);
+  &.button-disabled {
+    opacity: 0.5;
   }
+
 }

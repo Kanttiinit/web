@@ -14,11 +14,11 @@ const getDayString = (dayOffset) => {
 const DaySelector = ({ dayOffset, setDayOffset }) => {
   return (
     <div className="dayselector">
-      <h1 className="dayselector-header">{getDayString(dayOffset)}</h1>
       <div className="dayselector-controls">
         <button onClick={() => setDayOffset(dayOffset - 1)}>
           <IoArrowLeftC size={24}/>
         </button>
+        <h1 className="dayselector-header">{getDayString(dayOffset)}</h1>
         <button onClick={() => setDayOffset(dayOffset + 1)}>
           <IoArrowRightC size={24}/>
         </button>

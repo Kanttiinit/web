@@ -26,7 +26,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.html$/,
+        test: /\.(html|png|svg)$/,
         loader: "file?name=[name].[ext]"
       },
       {

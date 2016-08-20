@@ -13,8 +13,13 @@ body {
   background-color: $body_background;
 }
 
-.app {
+.header {
+  padding: 1rem;
+  background: $accent_color;
+  color: white;
+}
+
+.content {
   max-width: 95em;
   margin: 0 auto;
-
 }

@@ -29,24 +29,22 @@ $break-large: 768px;
   }
 
   @media (min-width: $break-large) {
-    transition: transform 0.1s ease-out, border 0.1s ease-out, color 0.1s ease-out;
+    transition: border 0.1s ease-out, color 0.1s ease-out;
     transform: scale(1.0);
-
-    &.button-disabled {
-      &:hover {
-        transform: scale(1.0);
-      }
-    }
 
     &:hover {
       border: 1px $accent_color solid;
       color: $accent_color_light;
-      transform: scale(1.05);
     }
   }
 
   &.button-disabled {
     opacity: 0.2;
+  }
+
+  &:focus {
+    outline: none;
+    border: 1px $accent_color solid;
   }
 
 }

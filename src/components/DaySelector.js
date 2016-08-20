@@ -16,7 +16,7 @@ const DaySelector = ({ dayOffset, setDayOffset }) => {
         key={i}
         className={i === dayOffset ? 'selected' : ''}
         onClick={() => setDayOffset(i)}>
-        {getDayString(i, 'dddd, DD.MM.')}
+        {getDayString(i, 'dd DD.MM.')}
       </button>
       )}
     </div>

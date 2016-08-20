@@ -32,7 +32,7 @@
 
   button {
     @extend .default-button;
-    min-width: 10rem;
+    min-width: 7rem;
 
     &.selected {
       background: $accent_color;

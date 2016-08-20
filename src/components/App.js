@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Header from './Header'
 import DaySelector from './DaySelector'
 import Restaurants from './Restaurants'
+import Footer from './Footer'
 
 const App = () => (
    <div>
@@ -12,6 +13,7 @@ const App = () => (
        <DaySelector />
        <Restaurants />
      </div>
+     <Footer />
    </div>
  )
 

@@ -62,3 +62,23 @@ body {
   max-width: 95em;
   margin: 0 auto;
 }
+
+.footer {
+  text-align: center;
+  color: $gray;
+  margin: 5rem 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.05rem;
+
+  a {
+    color: $dark_gray;
+    text-transform: uppercase;
+    margin: 0 0.5rem;
+    text-decoration: none;
+    vertical-align: middle;
+
+    &:hover {
+      color: $accent_color;
+    }
+  }
+}

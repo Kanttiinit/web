@@ -1,7 +1,8 @@
 import React from 'react'
 
-const PageContainer = ({children}) => (
+const PageContainer = ({children, title}) => (
   <div className="page-container">
+    <h1>{title}</h1>
     {children}
   </div>
 )

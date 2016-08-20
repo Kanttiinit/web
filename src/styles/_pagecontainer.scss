@@ -1,4 +1,13 @@
 .page-container {
   max-width: 60rem;
-  margin: 1rem auto;
+  margin: 2rem auto;
+  background: white;
+  padding: 1rem;
+
+  h1:first-child {
+    margin-top: 0;
+    font-weight: normal;
+    border-bottom: solid 1px $light_gray;
+    padding-bottom: 0.5rem;
+  }
 }

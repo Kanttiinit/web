@@ -12,6 +12,7 @@ import {selectLang} from '../store/selectors'
 
 import App from './App'
 import Restaurants from './Restaurants';
+import PrivacyPolicy from './PrivacyPolicy';
 
 const actions = bindActionCreators({
   fetchRestaurants,
@@ -32,7 +33,7 @@ actions.fetchMenus(lang)
 actions.fetchLocation()
 
 page('/', () => actions.setView(<Restaurants />))
-page('/privacy-policy', () => actions.setView(<p>asd</p>))
+page('/privacy-policy', () => actions.setView(<PrivacyPolicy />))
 page()
 
 export default function() {

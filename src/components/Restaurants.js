@@ -1,6 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
+
+import DaySelector from './DaySelector'
 import {getFormattedRestaurants} from '../store/selectors'
 
 const Restaurant = ({ restaurant, dayOfWeek }) => {
@@ -27,15 +29,18 @@ const Restaurant = ({ restaurant, dayOfWeek }) => {
 const Restaurants = ({ loading, restaurants, dayOffset }) => {
   const dayOfWeek = moment().add(dayOffset, 'day').locale('fi').weekday()
   return (
-    <div className="restaurants">
-      {loading ? "loading" :
-        restaurants.map(restaurant =>
-          <Restaurant
-            key={restaurant.id}
-            restaurant={restaurant}
-            dayOfWeek={dayOfWeek} />
-        )
-      }
+    <div>
+      <DaySelector />
+      <div className="restaurants">
+        {loading ? "loading" :
+          restaurants.map(restaurant =>
+            <Restaurant
+              key={restaurant.id}
+              restaurant={restaurant}
+              dayOfWeek={dayOfWeek} />
+          )
+        }
+      </div>
     </div>
   )
 }

@@ -13,3 +13,10 @@ export function setLang(lang) {
       payload: {lang}
    };
 }
+
+export function setView(view) {
+  return {
+    type: 'SET_VALUE_VIEW',
+    payload: {view}
+  }
+}

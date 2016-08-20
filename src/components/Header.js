@@ -1,5 +1,4 @@
 import React from 'react'
-import DaySelector from './DaySelector'
 import iosImg from '../assets/ios_store.svg'
 import telegramImg from '../assets/telegram.svg'
 import logo from '../assets/logo.png'
@@ -19,19 +18,16 @@ export const AppLinks = ({style}) => (
 )
 
 const Header = () => (
-  <div className="header-container">
-    <header className="header">
-      <div className="logo">
-        <img src={logo} />
-        <div>
-          <h1>Kanttiinit</h1>
-          <p>Kampusten ruokalistat helposti.</p>
-        </div>
+  <header className="header">
+    <div className="logo">
+      <img src={logo} />
+      <div>
+        <h1>Kanttiinit</h1>
+        <p>Kampusten ruokalistat helposti.</p>
       </div>
-      <AppLinks />
-    </header>
-    <DaySelector />
-  </div>
+    </div>
+    <AppLinks />
+  </header>
 )
 
 export default Header

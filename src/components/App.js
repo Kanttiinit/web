@@ -2,15 +2,18 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import Header from './Header'
-import Restaurants from './Restaurants'
 import Footer from './Footer'
 
-const App = () => (
+const App = ({view}) => (
   <div>
     <Header />
-    <Restaurants />
+    {view}
     <Footer />
   </div>
 )
 
-export default connect()(App)
+const mapState = state => ({
+  view: state.value.view
+})
+
+export default connect(mapState)(App)

@@ -2,9 +2,10 @@
 
 .dayselector {
   display: flex;
-  flex-direction: column;
   background: white;
+  padding: 0.5rem;
   box-shadow: 0 0.1rem 0.2rem -0.1rem rgba(0, 0, 0, 0.4);
+  justify-content: center;
 
   @media (max-width: $break-small) {
     padding: 0;
@@ -17,30 +18,21 @@
   }
 
   @media (min-width: $break-large) {
-    padding: 0px 13px 0px 13px;
 
     .dayselector-header {
       font-size: 18pt;
     }
   }
 
-  .dayselector-header {
-    display: inline;
-    font-weight: 300;
-  }
+  button {
+    @extend .default-button;
+    min-width: 10rem;
 
-  .dayselector-controls {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-
-    button {
-     @extend .default-button;
-     min-width: 100px;
-
+    &.selected {
+      background: $accent_color;
+      color: white;
+      border-color: $accent_color;
     }
-
   }
 
 }

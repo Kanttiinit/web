@@ -12,12 +12,6 @@ $break-large: 768px;
   border-radius: $small_border_radius;
   padding: 6px;
 
-  p {
-    display: flex;
-    justify-content: center;
-    margin: 0px 4px 0px 4px;
-  }
-
   border: 1px $gray solid;
   margin: 2px 4px 2px 4px;
   color: $gray;
@@ -34,7 +28,7 @@ $break-large: 768px;
 
     &:hover {
       border: 1px $accent_color solid;
-      color: $accent_color_light;
+      opacity: 0.8;
     }
   }
 

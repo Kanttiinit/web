@@ -6,11 +6,17 @@
   padding: 0.5rem;
   box-shadow: 0 0.1rem 0.2rem -0.1rem rgba(0, 0, 0, 0.4);
   justify-content: center;
+  box-sizing: border-box;
 
   @media (max-width: $break-small) {
-    padding: 0;
     background-color: $body_background;
     border-bottom: 1px solid #ededed;
+    justify-content: flex-start;
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     .dayselector-header {
       font-size: 12pt;

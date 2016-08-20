@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
+import {StickyContainer, Sticky} from 'react-sticky'
 
 import DaySelector from './DaySelector'
 import {getFormattedRestaurants} from '../store/selectors'
@@ -29,8 +30,10 @@ const Restaurant = ({ restaurant, dayOfWeek }) => {
 const Restaurants = ({ loading, restaurants, dayOffset }) => {
   const dayOfWeek = moment().add(dayOffset, 'day').locale('fi').weekday()
   return (
-    <div>
-      <DaySelector />
+    <StickyContainer>
+      <Sticky style={{zIndex: 1}}>
+        <DaySelector />
+      </Sticky>
       <div className="restaurants">
         {loading ? "loading" :
           restaurants.map(restaurant =>
@@ -41,7 +44,7 @@ const Restaurants = ({ loading, restaurants, dayOffset }) => {
           )
         }
       </div>
-    </div>
+    </StickyContainer>
   )
 }
 

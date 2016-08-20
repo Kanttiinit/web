@@ -4,14 +4,13 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  background: white;
+  box-shadow: 0 0.1rem 0.2rem -0.1rem rgba(0, 0, 0, 0.4);
 
   @media (max-width: $break-small) {
-    padding: 0px;
-    position: fixed;
+    padding: 0;
     background-color: $body_background;
     border-bottom: 1px solid #ededed;
-    width: 100%;
-    z-index: 100;
 
     .dayselector-header {
       font-size: 12pt;

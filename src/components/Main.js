@@ -34,6 +34,9 @@ const routes = {
 
 Object.keys(routes).forEach(path => {
   page(path, () => {
+    if (window.ga) {
+      window.ga('send', 'pageview', path)
+    }
     const route = {
       path,
       view: React.createElement(routes[path])

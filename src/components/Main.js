@@ -13,6 +13,7 @@ import {selectLang} from '../store/selectors'
 import App from './App'
 import Restaurants from './Restaurants';
 import PrivacyPolicy from './PrivacyPolicy';
+import NotFound from './NotFound'
 
 const lang = selectLang(store.getState())
 
@@ -25,7 +26,8 @@ store.dispatch(fetchLocation())
 
 const routes = {
   '/': Restaurants,
-  '/privacy-policy': PrivacyPolicy
+  '/privacy-policy': PrivacyPolicy,
+  '*': NotFound
 }
 
 Object.keys(routes).forEach(path => {

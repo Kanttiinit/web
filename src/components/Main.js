@@ -14,23 +14,14 @@ import App from './App'
 import Restaurants from './Restaurants';
 import PrivacyPolicy from './PrivacyPolicy';
 
-const actions = bindActionCreators({
-  fetchRestaurants,
-  fetchAreas,
-  fetchLocation,
-  fetchFavorites,
-  fetchMenus,
-  setView
-}, store.dispatch)
-
 const lang = selectLang(store.getState())
 
-actions.fetchFavorites(lang)
-actions.fetchRestaurants(lang)
-actions.fetchAreas(lang)
-actions.fetchMenus(lang)
+store.dispatch(fetchFavorites(lang))
+store.dispatch(fetchRestaurants(lang))
+store.dispatch(fetchAreas(lang))
+store.dispatch(fetchMenus(lang))
 
-actions.fetchLocation()
+store.dispatch(fetchLocation())
 
 const routes = {
   '/': Restaurants,
@@ -38,7 +29,7 @@ const routes = {
 }
 
 Object.keys(routes).forEach(path => {
-  page(path, () => actions.setView(React.createElement(routes[path])))
+  page(path, () => store.dispatch(setView(React.createElement(routes[path]))))
 })
 page()
 

@@ -11,6 +11,17 @@ const getDayString = (dayOffset, format) =>
 class DaySelector extends React.Component {
   componentDidMount() {
     this.firstButton.focus()
+    document.addEventListener('keyup', e => {
+      const {setDayOffset, dayOffset} = this.props;
+      switch (e.keyCode) {
+        case 39:
+          setDayOffset(dayOffset + 1)
+          break
+        case 37:
+          setDayOffset(dayOffset - 1)
+          break
+      }
+    })
   }
   render() {
     const { dayOffset, setDayOffset } = this.props

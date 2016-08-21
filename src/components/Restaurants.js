@@ -6,26 +6,24 @@ import {StickyContainer, Sticky} from 'react-sticky'
 import DaySelector from './DaySelector'
 import {getFormattedRestaurants} from '../store/selectors'
 
-const Restaurant = ({ restaurant, dayOfWeek }) => {
-  return (
-    <div className={"restaurant" + (restaurant.noCourses ? ' restaurant-empty' : '')}>
-      <div className="restaurant-header">
-        <h2>{restaurant.name}</h2>
-        <span>{restaurant.openingHours[dayOfWeek]}</span>
-      </div>
-      <div className="restaurant-body">
-        {restaurant.noCourses ? (<span className="restaurant-empty-text">Ei ruokaa</span>) : restaurant.courses.map((course) => (
-          <div
-            className={"restaurant-course" + (restaurant.courses[restaurant.courses.length - 1].title === course.title ? ' last-course' : '')}
-            key={course.title}>
-            <span className="course-title">{course.title}</span>
-            <span className="course-props">{course.properties.join(" ")}</span>
-          </div>
-        ))}
-      </div>
+const Restaurant = ({ restaurant, dayOfWeek }) => (
+  <div className={"restaurant" + (restaurant.noCourses ? ' restaurant-empty' : '')}>
+    <div className="restaurant-header">
+      <h2>{restaurant.name}</h2>
+      <span>{restaurant.openingHours[dayOfWeek]}</span>
     </div>
-  )
-}
+    <div className="restaurant-body">
+      {restaurant.noCourses ? (<span className="restaurant-empty-text">Ei ruokaa</span>) : restaurant.courses.map((course) => (
+        <div
+          className={"restaurant-course" + (restaurant.courses[restaurant.courses.length - 1].title === course.title ? ' last-course' : '')}
+          key={course.title}>
+          <span className="course-title">{course.title}</span>
+          <span className="course-props">{course.properties.join(" ")}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+)
 
 const Restaurants = ({ loading, restaurants, dayOffset }) => {
   const dayOfWeek = moment().add(dayOffset, 'day').locale('fi').weekday()

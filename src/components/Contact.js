@@ -21,16 +21,21 @@ export default class Contact extends React.Component {
         message: `Email: ${this.refs.email.value}\n"${this.refs.message.value}"`
       })
     })
-    .then(() => setState({sending: false, sent: true}))
-    .catch(() => setState({sending: false, error: true}))
+    .then(() => {
+      this.setState({sending: false, sent: true})
+      this.refs.email.value = ''
+      this.refs.message.value = ''
+    })
+    .catch(() => this.setState({sending: false, error: true}))
   }
   componentDidMount() {
     this.refs.email.focus()
   }
   render() {
-    const {sending} = this.state;
+    const {sending, sent} = this.state;
     return (
       <PageContainer title="Contact">
+        {sent && <p>Kiitos palautteestasi!</p>}
         <form className="contact-form" onSubmit={this.onSubmit.bind(this)}>
           <input type="email" ref="email" placeholder="E-mail" required />
           <textarea placeholder="Message" rows="10" ref="message" required></textarea>

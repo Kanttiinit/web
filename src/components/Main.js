@@ -32,8 +32,14 @@ actions.fetchMenus(lang)
 
 actions.fetchLocation()
 
-page('/', () => actions.setView(<Restaurants />))
-page('/privacy-policy', () => actions.setView(<PrivacyPolicy />))
+const routes = {
+  '/': Restaurants,
+  '/privacy-policy': PrivacyPolicy
+}
+
+Object.keys(routes).forEach(path => {
+  page(path, () => actions.setView(React.createElement(routes[path])))
+})
 page()
 
 export default function() {

@@ -8,19 +8,30 @@ import { setDayOffset } from '../store/actions/values';
 const getDayString = (dayOffset, format) =>
   moment().add(dayOffset, 'day').locale('fi').format(format).toUpperCase()
 
-const DaySelector = ({ dayOffset, setDayOffset }) => {
-  return (
-    <div className="dayselector">
-      {_.times(6, i =>
-      <button
-        key={i}
-        className={i === dayOffset ? 'selected' : ''}
-        onClick={() => setDayOffset(i)}>
-        {getDayString(i, 'dd DD.MM.')}
-      </button>
-      )}
-    </div>
-  )
+class DaySelector extends React.Component {
+  componentDidMount() {
+    this.firstButton.focus()
+  }
+  render() {
+    const { dayOffset, setDayOffset } = this.props
+    return (
+      <div className="dayselector">
+        {_.times(6, i =>
+        <button
+          key={i}
+          ref={e => {
+            if (i === 0) {
+              this.firstButton = e
+            }
+          }}
+          className={i === dayOffset ? 'selected' : ''}
+          onClick={() => setDayOffset(i)}>
+          {getDayString(i, 'dd DD.MM.')}
+        </button>
+        )}
+      </div>
+    )
+  }
 }
 
 const mapState = state => ({

@@ -39,6 +39,7 @@ $break-large: 768px;
   &:focus {
     outline: none;
     border: 1px $accent_color solid;
+    color: $accent_color;
   }
 
 }

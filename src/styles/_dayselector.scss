@@ -38,6 +38,11 @@
       background: $accent_color;
       color: white;
       border-color: $accent_color;
+
+      &:focus {
+        color: white;
+        background: $accent_color_light;
+      }
     }
   }
 

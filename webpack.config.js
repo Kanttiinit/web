@@ -21,7 +21,10 @@ module.exports = {
   },
   devtool: 'cheap-module-source-map',
   devServer: {
-    contentBase: PATHS.dist
+    contentBase: PATHS.dist,
+    historyApiFallback: {
+      index: 'index.html'
+    }
   },
   module: {
     loaders: [

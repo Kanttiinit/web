@@ -1,0 +1,40 @@
+@import '_colors';
+
+.contact-form {
+  font-size: 1.25rem;
+
+  input, textarea {
+    font-size: inherit;
+    font-family: inherit;
+    border: solid 0.2rem $gray;
+    padding: 1rem;
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+
+    &:focus {
+      outline: none;
+      border-color: $accent_color;
+    }
+  }
+
+  button {
+    border: none;
+    padding: 1rem 2rem;
+    font-family: inherit;
+    background: $accent_color;
+    text-transform: uppercase;
+    font-size: inherit;
+    color: white;
+
+    &:focus {
+      outline: none;
+      background: $accent_color_light;
+    }
+
+    &:disabled {
+      background: $gray;
+    }
+  }
+}

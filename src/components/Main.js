@@ -7,7 +7,7 @@ import '../styles/main.scss'
 
 import store from '../store'
 import {setView} from '../store/actions/values';
-import {fetchAreas, fetchLocation, fetchMenus, fetchRestaurants, fetchFavorites} from '../store/actions/async'
+import {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites} from '../store/actions/async'
 import {selectLang} from '../store/selectors'
 
 import App from './App'

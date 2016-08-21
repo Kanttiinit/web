@@ -87,6 +87,13 @@ body {
     margin: 0 0.5rem;
     text-decoration: none;
     vertical-align: middle;
+    border-bottom: solid 1px transparent;
+    padding-bottom: 0.25rem;
+
+    &.current {
+      border-color: fade_out($accent_color, 0.5);
+      color: $accent_color;
+    }
 
     &:hover {
       color: $accent_color;

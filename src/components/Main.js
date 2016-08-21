@@ -31,7 +31,13 @@ const routes = {
 }
 
 Object.keys(routes).forEach(path => {
-  page(path, () => store.dispatch(setView(React.createElement(routes[path]))))
+  page(path, () => {
+    const route = {
+      path,
+      view: React.createElement(routes[path])
+    }
+    store.dispatch(setView(route))
+  })
 })
 page()
 

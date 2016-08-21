@@ -13,7 +13,7 @@ const App = ({view}) => (
 )
 
 const mapState = state => ({
-  view: state.value.view
+  view: state.value.view.view
 })
 
 export default connect(mapState)(App)

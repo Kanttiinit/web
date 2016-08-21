@@ -9,7 +9,7 @@ import {getFormattedRestaurants} from '../store/selectors'
 const Restaurant = ({ restaurant, dayOfWeek }) => (
   <div className={"restaurant" + (restaurant.noCourses ? ' restaurant-empty' : '')}>
     <div className="restaurant-header">
-      <h2>{restaurant.name}</h2>
+      <h2><a href={restaurant.url} target="_blank">{restaurant.name}</a></h2>
       <span>{restaurant.openingHours[dayOfWeek]}</span>
     </div>
     <div className="restaurant-body">

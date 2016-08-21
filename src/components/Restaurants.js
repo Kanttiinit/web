@@ -4,6 +4,7 @@ import moment from 'moment'
 import {StickyContainer, Sticky} from 'react-sticky'
 
 import DaySelector from './DaySelector'
+import Loader from './Loader'
 import {getFormattedRestaurants} from '../store/selectors'
 
 const Restaurant = ({ restaurant, dayOfWeek }) => (
@@ -33,7 +34,7 @@ const Restaurants = ({ loading, restaurants, dayOffset }) => {
         <DaySelector />
       </Sticky>
       <div className="restaurants">
-        {loading ? "loading" :
+        {loading ? <Loader /> :
           restaurants.map(restaurant =>
             <Restaurant
               key={restaurant.id}

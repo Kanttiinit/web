@@ -23,8 +23,6 @@ store.dispatch(fetchRestaurants(lang))
 store.dispatch(fetchAreas(lang))
 store.dispatch(fetchMenus(lang))
 
-store.dispatch(fetchLocation())
-
 const routes = {
   '/': Restaurants,
   '/privacy-policy': PrivacyPolicy,

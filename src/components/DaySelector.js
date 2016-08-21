@@ -22,10 +22,10 @@ class DaySelector extends React.Component {
           break
       }
     }
-    document.addEventListener('keyup', this.listener)
+    document.addEventListener('keydown', this.listener)
   }
   componentWillUnmount() {
-    document.removeEventListener('keyup', this.listener)
+    document.removeEventListener('keydown', this.listener)
   }
   render() {
     const { dayOffset, setDayOffset } = this.props

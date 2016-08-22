@@ -119,8 +119,19 @@ a:hover {
 
 .language-selector {
   margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 
   button {
     @extend .default-button;
+    padding: 0.5rem 0.8rem;
+    text-transform: uppercase;
+    border-color: transparent;
+
+    &:hover {
+      border-color: transparent;
+    }
   }
 }

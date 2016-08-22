@@ -13,8 +13,8 @@ const Footer = ({path}) => {
       <a href="/contact" className={getClassName('/contact')}>Ota yhteyttä</a>&bull;
       <a href="/privacy-policy" className={getClassName('/privacy-policy')}>Yksityisyyskäytäntö</a>&bull;
       <a href="https://github.com/Kanttiinit" target="_blank">Lähdekoodi</a>
-      <AppLinks style={{marginTop: '2rem'}} />
       <LanguageSelector />
+      <AppLinks style={{marginTop: '2rem'}} />
     </footer>
   )
 }

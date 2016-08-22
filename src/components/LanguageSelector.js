@@ -3,9 +3,11 @@ import {connect} from 'react-redux'
 
 import {selectLang} from '../store/selectors'
 import {setLang} from '../store/actions/preferences'
+import {IoIosWorldOutline} from 'react-icons/lib/io'
 
 const LanguageSelector = ({lang, setLang}) => (
   <div className="language-selector">
+    <IoIosWorldOutline size={18}/> 
     <button onClick={() => setLang('fi')}>Finnish</button>
     <button onClick={() => setLang('en')}>English</button>
   </div>

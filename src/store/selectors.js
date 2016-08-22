@@ -17,4 +17,4 @@ export const getFormattedRestaurants = createSelector(
   }
 )
 
-export const selectLang = state => state.value.lang || 'fi'
+export const selectLang = state => state.preferences.lang

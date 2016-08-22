@@ -1,11 +1,13 @@
 import {createStore, combineReducers, compose, applyMiddleware} from 'redux'
 import thunk from 'redux-thunk'
 import promiseMiddleware from 'redux-promise-middleware'
-// import {autoRehydrate, persistStore} from 'redux-persist'
+import {autoRehydrate, persistStore} from 'redux-persist'
+import {REHYDRATE} from 'redux-persist/constants'
 import saveLogger from 'redux-logger'
 
 const defaultValues = {
-   dayOffset: 0
+   dayOffset: 0,
+   initializing: true
 }
 
 const reducer = combineReducers({
@@ -43,20 +45,30 @@ const reducer = combineReducers({
          }
       }
       return state
+   },
+   preferences: (state = {lang: 'fi'}, {type, payload}) => {
+     if (type === REHYDRATE && payload.preferences) {
+       return payload.preferences
+     } else if (type.startsWith('SET_PREFERENCE_')) {
+        return {...state, ...payload}
+     }
+     return state
    }
 })
 
 const enhancer = compose(
-  //  autoRehydrate(),
-   applyMiddleware(thunk, promiseMiddleware()/*, saveLogger()*/),
+   autoRehydrate(),
+   applyMiddleware(thunk, promiseMiddleware()),
    window.devToolsExtension ? window.devToolsExtension() : f => f
 )
 
 const store = createStore(reducer, enhancer)
 
-// persistStore(store, {
-//    whitelist: [],
-//    storage: 'localStorage'
-// })
+persistStore(store, {whitelist: 'preferences'}, () => {
+  store.dispatch({
+    type: 'SET_VALUE_INIT',
+    payload: {initializing: false}
+  })
+})
 
 export default store

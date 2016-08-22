@@ -7,21 +7,12 @@ import '../styles/main.scss'
 
 import store from '../store'
 import {setView} from '../store/actions/values';
-import {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites} from '../store/actions/async'
-import {selectLang} from '../store/selectors'
 
 import App from './App'
 import Restaurants from './Restaurants'
 import PrivacyPolicy from './PrivacyPolicy'
 import Contact from './Contact'
 import NotFound from './NotFound'
-
-const lang = selectLang(store.getState())
-
-store.dispatch(fetchFavorites(lang))
-store.dispatch(fetchRestaurants(lang))
-store.dispatch(fetchAreas(lang))
-store.dispatch(fetchMenus(lang))
 
 const routes = {
   '/': Restaurants,

@@ -47,7 +47,7 @@ const Areas = ({restaurants, areas, dayOffset, loading}) => {
       <Sticky style={{zIndex: 1}}>
         <DaySelector />
       </Sticky>
-      {loading ? <Loader /> :
+      {loading || !areas ? <Loader /> :
         areas.map(area =>
           <Restaurants
             key={area.id}

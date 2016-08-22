@@ -2,6 +2,7 @@ import React from 'react'
 import c from 'classnames'
 import {connect} from 'react-redux'
 
+import LanguageSelector from './LanguageSelector'
 import {AppLinks} from './Header'
 
 const Footer = ({path}) => {
@@ -13,6 +14,7 @@ const Footer = ({path}) => {
       <a href="/privacy-policy" className={getClassName('/privacy-policy')}>Yksityisyyskäytäntö</a>&bull;
       <a href="https://github.com/Kanttiinit" target="_blank">Lähdekoodi</a>
       <AppLinks style={{marginTop: '2rem'}} />
+      <LanguageSelector />
     </footer>
   )
 }

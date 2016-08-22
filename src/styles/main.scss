@@ -13,6 +13,7 @@ body {
     "Droid Sans", "Helvetica Neue", sans-serif;
   margin: 0px;
   background-color: $body_background;
+  overflow-y: scroll;
 }
 
 a:link, a:visited, a:active, a:hover {

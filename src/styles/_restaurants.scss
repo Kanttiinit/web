@@ -1,10 +1,24 @@
 @import '_constants';
 
+.area-restaurants {
+  h1 {
+    font-weight: normal;
+    padding: 3rem 2rem 0;
+    font-size: 1rem;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 0 5%;
+
+    &:first-child {
+      padding-top: 2rem;
+    }
+  }
+}
+
 .restaurants {
   display: flex;
-  flex: 1;
   justify-content: center;
-  padding-top: 1rem;
+  padding: 1rem 0;
 
   @media (max-width: $break-small) {
     max-width: 100%;
@@ -21,57 +35,48 @@
 .restaurant {
   display: flex;
   flex-direction: column;
-  padding: 12px;
+  padding: 1rem;
   background-color: white;
   border-radius: $small_border_radius;
   border: $subtle_border;
   border-top: none;
 
   @media (max-width: $break-small) {
-    margin: 3px 4px 3px 4px;
+    margin: 0.1rem 0.2rem;
 
   }
 
   @media (min-width: $break-large) {
-    max-width: 340px;
-    min-width: 340px;
-    margin: 4px;
+    width: 20rem;
+    margin: 0.25rem;
   }
 
   .restaurant-header {
     display: flex;
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
     justify-content: space-between;
     align-items: center;
 
     h2 {
       color: $accent_color_dark;
       font-weight: 400;
-      margin: 0px;
+      margin: 0;
       max-width: 60%;
+      font-size: 1.2rem;
     }
 
     span {
       color: $dark_gray;
+      font-size: 0.8rem;
     }
 
     @media (max-width: $break-small) {
       h2 {
-        font-size: 13pt;
+        font-size: 1rem;
       }
 
       span {
-        font-size: 9pt;
-      }
-    }
-
-    @media (min-width: $break-large) {
-      h2 {
-        font-size: 15pt;
-      }
-
-      span {
-        font-size: 10pt;
+        font-size: 0.7rem;
       }
     }
 
@@ -81,14 +86,14 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    min-height: 60px;
-    font-size: 11pt;
+    min-height: 5rem;
+    font-size: 0.9em;
     font-weight: 300;
     color: #464646;
 
     .restaurant-course {
-      padding-bottom: 3px;
-      margin-bottom: 3px;
+      padding-bottom: 0.2rem;
+      margin-bottom: 0.2rem;
       display: flex;
       justify-content: space-between;
 
@@ -97,7 +102,7 @@
       }
 
       .course-props {
-        font-size: 9pt;
+        font-size: 0.7rem;
         font-weight: 200;
         display: inline;
         color: $text_color_light;
@@ -109,17 +114,16 @@
     }
 
     .restaurant-empty-text {
-      font-size: 14pt;
+      font-size: 1rem;
       display: flex;
       flex: 1;
-      flex-direction: row;
       align-items: center;
       justify-content: center;
     }
   }
 
   &.restaurant-empty {
-    opacity: 0.4;
+    opacity: 0.5;
 
     .restaurant-header h2, span{
       color: $dark_gray;

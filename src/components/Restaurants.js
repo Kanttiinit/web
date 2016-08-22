@@ -26,31 +26,48 @@ const Restaurant = ({ restaurant, dayOfWeek }) => (
   </div>
 )
 
-const Restaurants = ({ loading, restaurants, dayOffset }) => {
+const Restaurants = ({area, restaurants, dayOfWeek}) => (
+  <div className="area-restaurants">
+    <h1>{area.name}</h1>
+    <div className="restaurants">
+      {restaurants.map(restaurant =>
+      <Restaurant
+        key={restaurant.id}
+        restaurant={restaurant}
+        dayOfWeek={dayOfWeek} />
+      )}
+    </div>
+  </div>
+)
+
+const Areas = ({restaurants, areas, dayOffset, loading}) => {
   const dayOfWeek = moment().add(dayOffset, 'day').locale('fi').weekday()
   return (
     <StickyContainer>
       <Sticky style={{zIndex: 1}}>
         <DaySelector />
       </Sticky>
-      <div className="restaurants">
-        {loading ? <Loader /> :
-          restaurants.map(restaurant =>
-            <Restaurant
-              key={restaurant.id}
-              restaurant={restaurant}
-              dayOfWeek={dayOfWeek} />
-          )
-        }
-      </div>
+      {loading ? <Loader /> :
+        areas.map(area =>
+          <Restaurants
+            key={area.id}
+            area={area}
+            restaurants={restaurants.filter(r => {
+              const restaurantIds = area.restaurants.map(r => r.id)
+              return restaurantIds.includes(r.id)
+            })}
+            dayOfWeek={dayOfWeek} />
+        )
+      }
     </StickyContainer>
   )
 }
 
 const mapState = state => ({
-  loading: state.pending.menus || state.pending.restaurants,
+  loading: state.pending.menus || state.pending.restaurants || state.pending.areas,
   restaurants: getFormattedRestaurants(state),
-  dayOffset: state.value.dayOffset
+  dayOffset: state.value.dayOffset,
+  areas: state.data.areas
 })
 
-export default connect(mapState)(Restaurants)
+export default connect(mapState)(Areas)

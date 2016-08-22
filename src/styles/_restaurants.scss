@@ -29,6 +29,8 @@
   @media (min-width: $break-large) {
     flex-direction: row;
     flex-wrap: wrap;
+    max-width: 95em;
+    margin: 0 auto;
   }
 }
 

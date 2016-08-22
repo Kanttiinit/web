@@ -11,11 +11,6 @@ const LanguageSelector = ({lang, setLang}) => (
   </div>
 )
 
-// <select style={{fontSize: '2rem', marginTop: '1rem'}} value={lang} onChange={e => setLang(e.target.value)}>
-//   <option value="fi">Finnish</option>
-//   <option value="en">English</option>
-// </select>
-
 const mapState = state => ({
   lang: selectLang(state)
 })

@@ -1,12 +1,12 @@
 @import '_colors';
 
 .contact-form {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
 
   input, textarea {
     font-size: inherit;
     font-family: inherit;
-    border: solid 0.2rem $gray;
+    border: solid 0.15rem $gray;
     padding: 1rem;
     display: block;
     width: 100%;
@@ -21,7 +21,8 @@
 
   button {
     border: none;
-    padding: 1rem 2rem;
+    padding: 1rem 1.5rem;
+    margin: 0;
     font-family: inherit;
     background: $accent_color;
     text-transform: uppercase;

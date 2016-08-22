@@ -9,7 +9,6 @@ import Footer from './Footer'
 
 class App extends React.Component {
   componentWillReceiveProps(props) {
-
     if (props.initializing === false || props.lang !== this.props.lang) {
       this.fetchAll(props.lang)
     }

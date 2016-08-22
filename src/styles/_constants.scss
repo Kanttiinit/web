@@ -29,6 +29,10 @@ $break-large: 768px;
     &:hover {
       border: 1px $accent_color solid;
       opacity: 0.8;
+
+      &:not(.selected) {
+        color: $accent_color;
+      }
     }
   }
 

@@ -5,13 +5,16 @@ import {selectLang} from '../store/selectors'
 import {setLang} from '../store/actions/preferences'
 
 const LanguageSelector = ({lang, setLang}) => (
-  <div>
-    <select style={{fontSize: '2rem', marginTop: '1rem'}} value={lang} onChange={e => setLang(e.target.value)}>
-      <option value="fi">Finnish</option>
-      <option value="en">English</option>
-    </select>
+  <div className="language-selector">
+    <button onClick={() => setLang('fi')}>Finnish</button>
+    <button onClick={() => setLang('en')}>English</button>
   </div>
 )
+
+// <select style={{fontSize: '2rem', marginTop: '1rem'}} value={lang} onChange={e => setLang(e.target.value)}>
+//   <option value="fi">Finnish</option>
+//   <option value="en">English</option>
+// </select>
 
 const mapState = state => ({
   lang: selectLang(state)

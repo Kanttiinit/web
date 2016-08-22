@@ -116,3 +116,11 @@ a:hover {
     }
   }
 }
+
+.language-selector {
+  margin-top: 1rem;
+
+  button {
+    @extend .default-button;
+  }
+}

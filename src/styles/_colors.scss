@@ -1,7 +1,7 @@
 $accent_color: #009688;
-$accent_color_hover: #03a798;
-$accent_color_light: #1da79a;
-$accent_color_dark: #018c7f;
+$accent_color_hover: lighten($accent_color, 5%);
+$accent_color_light: lighten($accent_color, 3%);
+$accent_color_dark: darken($accent_color, 5%);
 $text_color: #222222;
 $text_color_light: #636363;
 $text_color_superlight: #a3a3a3;

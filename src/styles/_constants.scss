@@ -17,6 +17,7 @@ $break-large: 768px;
   color: $gray;
   font-size: 10pt;
   background-color: transparent;
+  cursor: pointer;
 
   @media (max-width: $break-small) {
     // border: none;

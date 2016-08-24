@@ -19,10 +19,6 @@ $break-large: 768px;
   background-color: transparent;
   cursor: pointer;
 
-  @media (max-width: $break-small) {
-    // border: none;
-  }
-
   @media (min-width: $break-large) {
     transition: border 0.1s ease-out, color 0.1s ease-out;
     transform: scale(1.0);
@@ -35,10 +31,6 @@ $break-large: 768px;
         color: $accent_color;
       }
     }
-  }
-
-  &.button-disabled {
-    opacity: 0.2;
   }
 
   &:focus {

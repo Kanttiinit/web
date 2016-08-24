@@ -25,13 +25,6 @@ a:hover {
   opacity: 0.8;
 }
 
-.header-container {
-  position: fixed;
-  width: 100%;
-  z-index: 1;
-  box-sizing: border-box;
-}
-
 .header {
   padding: 1rem;
   background: $accent_color_light;

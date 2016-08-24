@@ -17,17 +17,6 @@
     &::-webkit-scrollbar {
       display: none;
     }
-
-    .dayselector-header {
-      font-size: 12pt;
-    }
-  }
-
-  @media (min-width: $break-large) {
-
-    .dayselector-header {
-      font-size: 18pt;
-    }
   }
 
   button {

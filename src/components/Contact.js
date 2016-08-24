@@ -2,6 +2,7 @@ import React from 'react'
 import 'isomorphic-fetch'
 
 import PageContainer from './PageContainer'
+import Text from './Text'
 
 export default class Contact extends React.Component {
   constructor() {
@@ -34,12 +35,14 @@ export default class Contact extends React.Component {
   render() {
     const {sending, sent} = this.state;
     return (
-      <PageContainer title="Contact">
-        {sent && <p>Kiitos palautteestasi!</p>}
+      <PageContainer title={<Text id="contact" />}>
+        {sent && <p><Text id="thanksForFeedback" /></p>}
         <form className="contact-form" onSubmit={this.onSubmit.bind(this)}>
-          <input type="email" ref="email" placeholder="E-mail" required />
-          <textarea placeholder="Message" rows="10" ref="message" required></textarea>
-          <button disabled={sending} type="submit">{sending ? 'Lähetetään...' : 'Lähetä'}</button>
+          <label htmlFor="email"><Text id="email" /></label>
+          <input type="email" id="email" ref="email" required />
+          <label htmlFor="message"><Text id="message" /></label>
+          <textarea rows="10" id="message" ref="message" required></textarea>
+          <button disabled={sending} type="submit">{sending ? <Text id="sending" /> : <Text id="send" />}</button>
         </form>
       </PageContainer>
     )

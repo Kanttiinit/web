@@ -3,6 +3,15 @@
 .contact-form {
   font-size: 1.15rem;
 
+  label {
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    color: $dark_gray;
+  }
+
   input, textarea {
     font-size: inherit;
     font-family: inherit;

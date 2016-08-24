@@ -1,10 +1,11 @@
 import React from 'react'
 
 import PageContainer from './PageContainer'
+import Text from './Text'
 
 const PrivacyPolicy = () => (
-  <PageContainer title="Privacy Policy">
-    <p>Kanttiinit only records anonymous usage data; it doesn't store any identifiable data or location data.</p>
+  <PageContainer title={<Text id="privacyPolicy" />}>
+    <p><Text id="privacyPolicyContent" /></p>
   </PageContainer>
 )
 

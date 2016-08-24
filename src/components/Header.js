@@ -3,6 +3,8 @@ import iosImg from '../assets/ios_store.svg'
 import telegramImg from '../assets/telegram.svg'
 import logo from '../assets/logo.png'
 
+import Text from './Text'
+
 export const AppLinks = ({style}) => (
   <div className="app-links" style={style}>
     <a href="https://telegram.me/KanttiinitBOT">
@@ -23,7 +25,7 @@ const Header = () => (
       <img src={logo} />
       <div>
         <h1>Kanttiinit</h1>
-        <p>Kampusten ruokalistat helposti.</p>
+        <p><Text id="slogan" /></p>
       </div>
     </div>
     <AppLinks />

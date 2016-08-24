@@ -5,6 +5,8 @@ import {autoRehydrate, persistStore} from 'redux-persist'
 import {REHYDRATE} from 'redux-persist/constants'
 import saveLogger from 'redux-logger'
 
+import translations from '../utils/translations'
+
 const defaultValues = {
    dayOffset: 0,
    initializing: true
@@ -46,14 +48,15 @@ const reducer = combineReducers({
       }
       return state
    },
-   preferences: (state = {lang: 'fi'}, {type, payload}) => {
+   preferences: (state = {}, {type, payload}) => {
      if (type === REHYDRATE && payload.preferences) {
        return payload.preferences
      } else if (type.startsWith('SET_PREFERENCE_')) {
         return {...state, ...payload}
      }
      return state
-   }
+   },
+   translations: (state = translations, {type}) => state
 })
 
 const enhancer = compose(

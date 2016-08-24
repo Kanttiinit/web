@@ -21,7 +21,9 @@ class App extends React.Component {
     fetchFavorites(lang)
   }
   render() {
-    const {view} = this.props
+    const {view, initializing} = this.props
+    if (initializing)
+      return null
     return (
       <div>
         <Header />

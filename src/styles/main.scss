@@ -134,5 +134,15 @@ a:hover {
     &:hover {
       border-color: transparent;
     }
+
+    &:focus {
+      background: fade_out($accent_color_light, 0.9);
+    }
+
+    &.selected {
+      border-color: $accent_color;
+      color: $accent_color;
+    }
+
   }
 }

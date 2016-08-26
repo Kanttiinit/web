@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import moment from 'moment'
 
 import { setDayOffset } from '../store/actions/values';
-
+import Text from './Text'
 
 class DaySelector extends React.Component {
   componentDidMount() {
@@ -26,7 +26,7 @@ class DaySelector extends React.Component {
     document.removeEventListener('keydown', this.listener)
   }
   render() {
-    const { dayOffset, setDayOffset, lang } = this.props
+    const { dayOffset, setDayOffset } = this.props
     return (
       <div className="dayselector">
         {_.times(6, i =>
@@ -39,7 +39,7 @@ class DaySelector extends React.Component {
           }}
           className={i === dayOffset ? 'selected' : ''}
           onClick={() => setDayOffset(i)}>
-          {moment().add(i, 'day').locale(lang).format('dd DD.MM.').toUpperCase()}
+          <Text moment={moment().add(i, 'day')} id="dd DD.MM." />
         </button>
         )}
       </div>
@@ -48,8 +48,7 @@ class DaySelector extends React.Component {
 }
 
 const mapState = state => ({
-  dayOffset: state.value.dayOffset,
-  lang: state.preferences.lang
+  dayOffset: state.value.dayOffset
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({ setDayOffset }, dispatch)

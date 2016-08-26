@@ -4,6 +4,7 @@
 @import '_constants';
 @import '_pagecontainer';
 @import '_contact';
+@import '_modal';
 
 body {
   // font-family: sans-serif;
@@ -138,4 +139,9 @@ a:hover {
     }
 
   }
+}
+
+.inline-icon {
+  vertical-align: -0.1rem !important;
+  margin-right: 0.1rem;
 }

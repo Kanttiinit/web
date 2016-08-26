@@ -4,20 +4,22 @@ import moment from 'moment'
 import {StickyContainer, Sticky} from 'react-sticky'
 
 import DaySelector from './DaySelector'
+import RestaurantModal from './RestaurantModal'
 import Loader from './Loader'
 import {getFormattedRestaurants} from '../store/selectors'
+import {openModal} from '../store/actions/values'
 
-const Restaurant = ({ restaurant, dayOfWeek }) => (
+const Restaurant = ({ restaurant, dayOfWeek, openModal }) => (
   <div className={"restaurant" + (restaurant.noCourses ? ' restaurant-empty' : '')}>
-    <div className="restaurant-header">
-      <h2><a href={restaurant.url} target="_blank">{restaurant.name}</a></h2>
+    <div onClick={() => openModal()} className="restaurant-header">
+      <h2>{restaurant.name}</h2>
       <span>{restaurant.openingHours[dayOfWeek]}</span>
     </div>
     <div className="restaurant-body">
-      {restaurant.noCourses ? (<span className="restaurant-empty-text">Ei ruokaa</span>) : restaurant.courses.map((course) => (
+      {restaurant.noCourses ? (<span className="restaurant-empty-text">Ei ruokaa</span>) : restaurant.courses.map((course, i) => (
         <div
           className={"restaurant-course" + (restaurant.courses[restaurant.courses.length - 1].title === course.title ? ' last-course' : '')}
-          key={course.title}>
+          key={i}>
           <span className="course-title">{course.title}</span>
           <span className="course-props">{course.properties.join(" ")}</span>
         </div>
@@ -26,12 +28,16 @@ const Restaurant = ({ restaurant, dayOfWeek }) => (
   </div>
 )
 
+const ConnecedRestaurant = connect(null, (dispatch, props) => ({
+  openModal: () => dispatch(openModal(<RestaurantModal restaurant={props.restaurant} />))
+}))(Restaurant)
+
 const Restaurants = ({area, restaurants, dayOfWeek}) => (
   <div className="area-restaurants">
     <h1>{area.name}</h1>
     <div className="restaurants">
       {restaurants.map(restaurant =>
-      <Restaurant
+      <ConnecedRestaurant
         key={restaurant.id}
         restaurant={restaurant}
         dayOfWeek={dayOfWeek} />

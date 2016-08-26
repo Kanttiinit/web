@@ -13,3 +13,26 @@ export function setView(view) {
     payload: {view}
   }
 }
+
+export function openModal(component) {
+  return {
+    type: 'SET_VALUE_MODAL',
+    payload: {
+      modal: {
+        open: true,
+        component
+      }
+    }
+  }
+}
+
+export function closeModal() {
+  return {
+    type: 'SET_VALUE_MODAL',
+    payload: {
+      modal: {
+        open: false
+      }
+    }
+  }
+}

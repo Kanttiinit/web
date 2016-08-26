@@ -3,13 +3,14 @@ import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
 
 import {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites} from '../store/actions/async'
+import {closeModal} from '../store/actions/values'
 import {selectLang} from '../store/selectors'
 import Header from './Header'
 import Footer from './Footer'
 
 class App extends React.Component {
   componentWillReceiveProps(props) {
-    if (props.initializing === false || props.lang !== this.props.lang) {
+    if ((!props.initializing && this.props.initializing) || props.lang !== this.props.lang) {
       this.fetchAll(props.lang)
     }
   }
@@ -21,7 +22,7 @@ class App extends React.Component {
     fetchFavorites(lang)
   }
   render() {
-    const {view, initializing} = this.props
+    const {view, initializing, modal, closeModal} = this.props
     if (initializing)
       return null
     return (
@@ -29,6 +30,10 @@ class App extends React.Component {
         <Header />
         {view}
         <Footer />
+        <div className={'modal' + (modal.open ? ' open' : '')}>
+          <div className="modal-overlay" onClick={() => closeModal()}></div>
+          <div className="modal-content">{modal.component}</div>
+        </div>
       </div>
     )
   }
@@ -37,14 +42,16 @@ class App extends React.Component {
 const mapState = state => ({
   initializing: state.value.initializing,
   view: state.value.view.view,
-  lang: selectLang(state)
+  lang: selectLang(state),
+  modal: state.value.modal
 })
 
 const mapDispatch = dispatch => bindActionCreators({
   fetchAreas,
   fetchMenus,
   fetchRestaurants,
-  fetchFavorites
+  fetchFavorites,
+  closeModal
 }, dispatch)
 
 export default connect(mapState, mapDispatch)(App)

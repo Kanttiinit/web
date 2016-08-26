@@ -9,7 +9,8 @@ import translations from '../utils/translations'
 
 const defaultValues = {
    dayOffset: 0,
-   initializing: true
+   initializing: true,
+   modal: {}
 }
 
 const reducer = combineReducers({
@@ -48,7 +49,7 @@ const reducer = combineReducers({
       }
       return state
    },
-   preferences: (state = {}, {type, payload}) => {
+   preferences: (state = {lang: 'fi'}, {type, payload}) => {
      if (type === REHYDRATE && payload.preferences) {
        return payload.preferences
      } else if (type.startsWith('SET_PREFERENCE_')) {

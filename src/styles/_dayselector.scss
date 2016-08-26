@@ -22,6 +22,7 @@
   button {
     @extend .default-button;
     min-width: 7rem;
+    text-transform: uppercase;
 
     &.selected {
       background: $accent_color;

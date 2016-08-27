@@ -2,12 +2,15 @@ import React from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import {StickyContainer, Sticky} from 'react-sticky'
+import ExpandMore from 'react-icons/lib/md/expand-more'
+import ExpandLess from 'react-icons/lib/md/expand-less'
 
 import DaySelector from './DaySelector'
 import RestaurantModal from './RestaurantModal'
 import Loader from './Loader'
-import {getFormattedRestaurants} from '../store/selectors'
+import {getFormattedRestaurants, isAreaHidden} from '../store/selectors'
 import {openModal} from '../store/actions/values'
+import {setAreaHidden} from '../store/actions/preferences'
 
 const Restaurant = ({ restaurant, dayOfWeek, openModal }) => (
   <div className={"restaurant" + (restaurant.noCourses ? ' restaurant-empty' : '')}>
@@ -32,9 +35,10 @@ const ConnecedRestaurant = connect(null, (dispatch, props) => ({
   openModal: () => dispatch(openModal(<RestaurantModal restaurant={props.restaurant} />))
 }))(Restaurant)
 
-const Restaurants = ({area, restaurants, dayOfWeek}) => (
+const Restaurants = ({area, restaurants, dayOfWeek, isHidden, setHidden}) => (
   <div className="area-restaurants">
-    <h1>{area.name}</h1>
+    <h1 onClick={() => setHidden(!isHidden)}>{area.name} {isHidden ? <ExpandMore /> : <ExpandLess />}</h1>
+    {!isHidden &&
     <div className="restaurants">
       {restaurants.map(restaurant =>
       <ConnecedRestaurant
@@ -43,8 +47,15 @@ const Restaurants = ({area, restaurants, dayOfWeek}) => (
         dayOfWeek={dayOfWeek} />
       )}
     </div>
+    }
   </div>
 )
+
+const ConnectedRestaurants = connect((state, props) => ({
+  isHidden: isAreaHidden(state, props)
+}), (dispatch, props) => ({
+  setHidden: hidden => dispatch(setAreaHidden(props.area.id, hidden))
+}))(Restaurants)
 
 const Areas = ({restaurants, areas, dayOffset, loading}) => {
   const dayOfWeek = moment().add(dayOffset, 'day').locale('fi').weekday()
@@ -55,7 +66,7 @@ const Areas = ({restaurants, areas, dayOffset, loading}) => {
       </Sticky>
       {loading || !areas ? <Loader /> :
         areas.map(area =>
-          <Restaurants
+          <ConnectedRestaurants
             key={area.id}
             area={area}
             restaurants={restaurants.filter(r => {

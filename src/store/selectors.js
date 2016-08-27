@@ -17,4 +17,9 @@ export const getFormattedRestaurants = createSelector(
   }
 )
 
+export const isAreaHidden = createSelector(
+  state => state.preferences.hiddenAreas, (state, props) => props.area,
+  (hiddenAreas, area) => hiddenAreas.some(id => id === area.id)
+)
+
 export const selectLang = state => state.preferences.lang

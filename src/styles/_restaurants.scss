@@ -8,6 +8,8 @@
     text-transform: uppercase;
     text-align: center;
     margin: 0 5%;
+    cursor: pointer;
+    user-select: none;
 
     &:first-child {
       padding-top: 2rem;

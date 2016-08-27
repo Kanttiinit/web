@@ -1,14 +1,20 @@
 import React from 'react'
-import GoogleMap from 'google-map-react'
+import GoogleMapLoader from 'react-google-maps/lib/GoogleMapLoader'
+import GoogleMap from 'react-google-maps/lib/GoogleMap'
+import Marker from 'react-google-maps/lib/Marker'
 import moment from 'moment'
 import Pin from 'react-icons/lib/md/place'
 import Home from 'react-icons/lib/md/home'
 
 import Text from './Text'
+import mapStyle from './mapStyle.json'
 
-const Marker = () => (
-  <Pin size={42} color="black" />
-)
+const mapOptions = {
+  zoomControl: false,
+  mapTypeControl: false,
+  streetViewControl: false,
+  styles: mapStyle
+}
 
 const RestaurantModal = ({restaurant}) => {
   const latLng = {
@@ -17,13 +23,16 @@ const RestaurantModal = ({restaurant}) => {
   }
   return (
     <div className="restaurant-modal">
-      <div className="restaurant-modal-map">
-        <GoogleMap
-          defaultZoom={14}
-          defaultCenter={latLng}>
-          <Marker {...latLng} />
-        </GoogleMap>
-      </div>
+      <GoogleMapLoader
+        containerElement={<div className="restaurant-modal-map" />}
+        googleMapElement={
+          <GoogleMap
+            defaultOptions={mapOptions}
+            defaultZoom={14}
+            defaultCenter={latLng}>
+            <Marker position={latLng} />
+          </GoogleMap>
+        }/>
       <div className="restaurant-modal-info">
         <h1>{restaurant.name}</h1>
         <div className="restaurant-modal-meta">

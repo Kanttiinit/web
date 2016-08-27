@@ -13,6 +13,12 @@ const defaultValues = {
    modal: {}
 }
 
+const lang = navigator.language.split('-')[0]
+
+const defaultPreferences = {
+  lang: ['fi', 'en'].includes(lang) ? lang : 'fi'
+}
+
 const reducer = combineReducers({
    value: (state = defaultValues, {type, payload}) => {
       if (type.startsWith('SET_VALUE_')) {
@@ -49,7 +55,7 @@ const reducer = combineReducers({
       }
       return state
    },
-   preferences: (state = {lang: 'fi'}, {type, payload}) => {
+   preferences: (state = defaultPreferences, {type, payload}) => {
      if (type === REHYDRATE && payload.preferences) {
        return payload.preferences
      } else if (type.startsWith('SET_PREFERENCE_')) {

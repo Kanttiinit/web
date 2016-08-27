@@ -67,19 +67,26 @@
     opacity: 0.6;
   }
 
+  &-opening-hours-container {
+    display: table;
+  }
+
   &-opening-hours {
-    display: flex;
+    display: table-row;
+
+    .day, .hours {
+      display: table-cell;
+    }
 
     .day {
       text-transform: uppercase;
-      width: 2.5rem;
       opacity: 0.6;
-      margin-right: 0.5rem;
+      text-align: right;
     }
 
     .hours {
-      flex: 1;
       font-weight: 300;
+      padding-left: 0.25em;
     }
   }
 }

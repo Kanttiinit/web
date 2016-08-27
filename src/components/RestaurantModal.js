@@ -16,11 +16,25 @@ const mapOptions = {
   styles: mapStyle
 }
 
+function getOpeningHourString(hours) {
+  return hours.reduce((open, hour, i) => {
+    if (hour) {
+      const existingIndex = open.findIndex(_ => _.hour === hour);
+      if (existingIndex > -1)
+        open[existingIndex].endDay = i;
+      else
+        open.push({startDay: i, hour});
+    }
+    return open;
+  }, []);
+}
+
 const RestaurantModal = ({restaurant}) => {
   const latLng = {
     lat: restaurant.latitude,
     lng: restaurant.longitude
   }
+  console.log(getOpeningHourString(restaurant.openingHours))
   return (
     <div className="restaurant-modal">
       <GoogleMapLoader
@@ -47,12 +61,22 @@ const RestaurantModal = ({restaurant}) => {
             {restaurant.url.replace(/https?\:\/\//, '').replace(/\/$/, '')}
           </a>
         </div>
-        {restaurant.openingHours.map((hours, i) =>
-          <div key={i} className="restaurant-modal-opening-hours">
-            <span className="day"><Text id="ddd" moment={moment().weekday((i + 1) % 7)} /></span>
-            <span className="hours">{hours || <Text id="closed" />}</span>
-          </div>
-        )}
+        <div className="restaurant-modal-opening-hours-container">
+          {getOpeningHourString(restaurant.openingHours).map(hours =>
+            <div key={hours.startDay} className="restaurant-modal-opening-hours">
+              <span className="day">
+                <Text id="ddd" moment={moment().weekday((hours.startDay + 1) % 7)} />
+                {hours.endDay &&
+                <span>
+                  &nbsp;&ndash;&nbsp;
+                  <Text id="ddd" moment={moment().weekday((hours.endDay + 1) % 7)} />
+                </span>
+                }
+              </span>
+              <span className="hours">{hours.hour.replace('-', '–') || <Text id="closed" />}</span>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

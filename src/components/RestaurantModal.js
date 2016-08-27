@@ -50,7 +50,7 @@ const RestaurantModal = ({restaurant}) => {
         {restaurant.openingHours.map((hours, i) =>
           <div key={i} className="restaurant-modal-opening-hours">
             <span className="day"><Text id="ddd" moment={moment().weekday((i + 1) % 7)} /></span>
-            <span className="hours">{hours || 'closed'}</span>
+            <span className="hours">{hours || <Text id="closed" />}</span>
           </div>
         )}
       </div>

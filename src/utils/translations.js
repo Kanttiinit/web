@@ -42,5 +42,9 @@ export default {
   sending: {
     fi: 'Lähetetään...',
     en: 'Sending...'
+  },
+  closed: {
+    fi: 'suljettu',
+    en: 'closed'
   }
 }

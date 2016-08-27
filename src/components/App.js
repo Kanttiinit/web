@@ -21,6 +21,13 @@ class App extends React.Component {
     fetchRestaurants(lang)
     fetchFavorites(lang)
   }
+  componentDidMount() {
+    document.addEventListener('keydown', e => {
+      if (e.keyCode === 27) {
+        this.props.closeModal()
+      }
+    })
+  }
   render() {
     const {view, initializing, modal, closeModal} = this.props
     if (initializing)

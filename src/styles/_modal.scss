@@ -25,7 +25,9 @@
     position: relative;
     margin: 5rem auto;
     max-width: 40rem;
-    border-radius: 0.1rem;
+    border-radius: 0.2rem;
+    overflow: hidden;
+    box-shadow: 0rem 0.1rem 0.6rem -0.2rem rgba(0,0,0,0.3);
   }
 
   &.open {
@@ -63,7 +65,7 @@
   &-meta a {
     text-transform: uppercase;
     display: block;
-    margin-top: 0.25rem;
+    margin-top: 0.2rem;
     opacity: 0.6;
   }
 
@@ -86,7 +88,7 @@
 
     .hours {
       font-weight: 300;
-      padding-left: 0.25em;
+      padding-left: 0.4em;
     }
   }
 }

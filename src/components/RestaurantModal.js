@@ -34,7 +34,6 @@ const RestaurantModal = ({restaurant}) => {
     lat: restaurant.latitude,
     lng: restaurant.longitude
   }
-  console.log(getOpeningHourString(restaurant.openingHours))
   return (
     <div className="restaurant-modal">
       <GoogleMapLoader

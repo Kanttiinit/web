@@ -46,5 +46,13 @@ export default {
   closed: {
     fi: 'suljettu',
     en: 'closed'
+  },
+  androidTester: {
+    fi: 'Ryhdy Android testaajaksi',
+    en: 'Become a tester on Android'
+  },
+  betaSite: {
+    fi: 'Kokeile beta sivua',
+    en: 'Try the beta site'
   }
 }

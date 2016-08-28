@@ -13,6 +13,7 @@ const Footer = ({path}) => {
       <a href="/" className={getClassName('/')}><Text id="menus" /></a>&bull;
       <a href="/contact" className={getClassName('/contact')}><Text id="contact" /></a>&bull;
       <a href="/privacy-policy" className={getClassName('/privacy-policy')}><Text id="privacyPolicy" /></a>&bull;
+      <a href="/beta" className={getClassName('/beta')}>Beta</a>&bull;
       <a href="https://github.com/Kanttiinit" target="_blank"><Text id="sourceCode" /></a>
       <LanguageSelector />
       <AppLinks style={{marginTop: '2rem'}} />

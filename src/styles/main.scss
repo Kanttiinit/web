@@ -123,15 +123,25 @@ a:hover {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  font-size: 0;
 
   button {
     @extend .default-button;
     padding: 0.5rem 0.8rem;
     text-transform: uppercase;
-    border-color: transparent;
+    border-color: $accent_color;
+    font-size: 0.8rem;
+    margin: 0;
 
-    &:hover {
-      border-color: transparent;
+    $radius: 0.3rem;
+
+    &:first-child {
+      border-right: none;
+      border-radius: $radius 0 0 $radius;
+    }
+
+    &:last-child {
+      border-radius: 0 $radius $radius 0;
     }
 
     &:focus {
@@ -139,8 +149,8 @@ a:hover {
     }
 
     &.selected {
-      border-color: $accent_color;
       color: $accent_color;
+      background: fade_out($accent_color, 0.95);
     }
 
   }

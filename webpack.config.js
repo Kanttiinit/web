@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const autoprefixer = require('autoprefixer');
 
 const PATHS = {
   app: './src/index.js',
@@ -39,7 +40,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ["style", "css", "sass"]
+        loader: "style-loader!css-loader!postcss-loader!sass-loader"
       },
       {
         test: /\.json$/,
@@ -47,6 +48,7 @@ module.exports = {
       }
     ]
   },
+  postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
   plugins: is_prod ? [
     new webpack.optimize.UglifyJsPlugin({
       compress: { warnings: false }

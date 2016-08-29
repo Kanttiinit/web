@@ -9,14 +9,14 @@ import store from '../store'
 import {setView} from '../store/actions/values';
 
 import App from './App'
-import Restaurants from './Restaurants'
+import Menus from './Menus'
 import PrivacyPolicy from './PrivacyPolicy'
 import Contact from './Contact'
 import Beta from './Beta'
 import NotFound from './NotFound'
 
 const routes = {
-  '/': Restaurants,
+  '/': Menus,
   '/privacy-policy': PrivacyPolicy,
   '/beta': Beta,
   '/contact': Contact,
@@ -36,8 +36,6 @@ Object.keys(routes).forEach(path => {
   })
 })
 page()
-
-window.isBeta = location.hostname === 'beta.kanttiinit.fi'
 
 export default function() {
    return (

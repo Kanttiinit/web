@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import moment from 'moment'
 
-import { setDayOffset } from '../store/actions/values';
-import Text from './Text'
+import { setDayOffset } from '../../store/actions/values';
+import Text from '../Text'
 
 class DaySelector extends React.Component {
   componentDidMount() {

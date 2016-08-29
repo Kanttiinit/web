@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import {StickyContainer, Sticky} from 'react-sticky'
+import sortBy from 'lodash/sortBy'
 
 import DaySelector from './DaySelector'
 import Loader from '../Loader'
@@ -16,7 +17,7 @@ const Areas = ({restaurants, areas, dayOffset, loading}) => {
         <DaySelector />
       </Sticky>
       {loading || !areas ? <Loader /> :
-        areas.map(area =>
+        sortBy(areas, 'name').map(area =>
           <Area
             key={area.id}
             area={area}

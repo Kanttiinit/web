@@ -1,6 +1,8 @@
 @import '_constants';
 
 .area-restaurants {
+  transition: opacity 0.2s;
+
   h1 {
     font-weight: normal;
     padding: 3rem 2rem 0;
@@ -15,6 +17,19 @@
       padding-top: 2rem;
     }
   }
+
+  .inline-icon {
+    transition: transform 0.2s;
+  }
+
+  &.hidden {
+    opacity: 0.5;
+
+    .inline-icon {
+      transform: rotateZ(180deg);
+    }
+  }
+
 }
 
 .restaurants {

@@ -2,8 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import moment from 'moment'
 import {StickyContainer, Sticky} from 'react-sticky'
-import ExpandMore from 'react-icons/lib/md/expand-more'
 import ExpandLess from 'react-icons/lib/md/expand-less'
+import Collapse from 'react-collapse'
+import c from 'classnames'
 
 import DaySelector from './DaySelector'
 import RestaurantModal from './RestaurantModal'
@@ -31,23 +32,25 @@ const Restaurant = ({ restaurant, dayOfWeek, openModal }) => (
   </div>
 )
 
-const ConnecedRestaurant = connect(null, (dispatch, props) => ({
+const ConnectedRestaurant = connect(null, (dispatch, props) => ({
   openModal: () => dispatch(openModal(<RestaurantModal restaurant={props.restaurant} />))
 }))(Restaurant)
 
 const Restaurants = ({area, restaurants, dayOfWeek, isHidden, setHidden}) => (
-  <div className="area-restaurants">
-    <h1 onClick={() => setHidden(!isHidden)}>{area.name} {isHidden ? <ExpandMore /> : <ExpandLess />}</h1>
-    {!isHidden &&
-    <div className="restaurants">
-      {restaurants.map(restaurant =>
-      <ConnecedRestaurant
-        key={restaurant.id}
-        restaurant={restaurant}
-        dayOfWeek={dayOfWeek} />
-      )}
-    </div>
-    }
+  <div className={c({'area-restaurants': true, 'hidden': isHidden})}>
+    <h1 onClick={() => setHidden(!isHidden)}>{area.name} <ExpandLess className="inline-icon" /></h1>
+    <Collapse
+      springConfig={{stiffness: 500, damping: 50}}
+      isOpened={!isHidden}>
+      <div className="restaurants">
+        {restaurants.map(restaurant =>
+        <ConnectedRestaurant
+          key={restaurant.id}
+          restaurant={restaurant}
+          dayOfWeek={dayOfWeek} />
+        )}
+      </div>
+    </Collapse>
   </div>
 )
 

@@ -6,7 +6,7 @@ import Text from './Text'
 
 const Settings = ({preferences}) => (
   <PageContainer title={<Text id="settings" />}>
-    <p>hello world</p>
+    <p>Coming up soon!</p>
   </PageContainer>
 )
 

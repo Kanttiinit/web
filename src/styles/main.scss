@@ -5,7 +5,7 @@
 @import '_pagecontainer';
 @import '_contact';
 @import '_modal';
-@import '_areaselector';
+@import '_radio';
 
 body {
   // font-family: sans-serif;
@@ -124,37 +124,6 @@ a:hover {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-size: 0;
-
-  button {
-    @extend .default-button;
-    padding: 0.5rem 0.8rem;
-    text-transform: uppercase;
-    border-color: $accent_color;
-    font-size: 0.8rem;
-    margin: 0;
-
-    $radius: 0.3rem;
-
-    &:first-child {
-      border-right: none;
-      border-radius: $radius 0 0 $radius;
-    }
-
-    &:last-child {
-      border-radius: 0 $radius $radius 0;
-    }
-
-    &:focus {
-      background: fade_out($accent_color_light, 0.9);
-    }
-
-    &.selected {
-      color: $accent_color;
-      background: fade_out($accent_color, 0.95);
-    }
-
-  }
 }
 
 .inline-icon {

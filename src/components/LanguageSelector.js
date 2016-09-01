@@ -8,7 +8,7 @@ import {IoIosWorldOutline} from 'react-icons/lib/io'
 const LanguageSelector = ({lang, setLang}) => (
   <div className="language-selector">
     <IoIosWorldOutline size={18} style={{marginRight: '1rem'}}/>
-    <div>
+    <div className="radio">
       <button className={lang === 'fi' ? 'selected' : ''} onClick={() => setLang('fi')}>Finnish</button>
       <button className={lang === 'en' ? 'selected' : ''} onClick={() => setLang('en')}>English</button>
     </div>

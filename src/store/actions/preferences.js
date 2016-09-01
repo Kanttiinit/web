@@ -1,4 +1,4 @@
-export const SET_AREA_HIDDEN = 'SET_AREA_HIDDEN'
+export const SET_SELECTED_AREA = 'SET_SELECTED_AREA'
 
 export function setLang(lang) {
    return {
@@ -7,9 +7,9 @@ export function setLang(lang) {
    }
 }
 
-export function setAreaHidden(areaId, hidden) {
+export function setSelectedArea(areaId) {
   return {
-    type: SET_AREA_HIDDEN,
-    payload: {areaId, hidden}
+    type: SET_SELECTED_AREA,
+    payload: {areaId}
   }
 }

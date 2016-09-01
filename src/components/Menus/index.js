@@ -5,28 +5,23 @@ import {StickyContainer, Sticky} from 'react-sticky'
 import sortBy from 'lodash/sortBy'
 
 import DaySelector from './DaySelector'
+import AreaSelector from './AreaSelector'
 import Loader from '../Loader'
 import {getFormattedRestaurants} from '../../store/selectors'
-import Area from './Area'
+import RestaurantList from './RestaurantList'
 
-const Areas = ({restaurants, areas, dayOffset, loading}) => {
+const Areas = ({restaurants, dayOffset, loading}) => {
   const dayOfWeek = moment().add(dayOffset, 'day').locale('fi').weekday()
   return (
     <StickyContainer>
       <Sticky style={{zIndex: 1}}>
         <DaySelector />
       </Sticky>
-      {loading || !areas ? <Loader /> :
-        sortBy(areas, 'name').map(area =>
-          <Area
-            key={area.id}
-            area={area}
-            restaurants={restaurants.filter(r => {
-              const restaurantIds = area.restaurants.map(r => r.id)
-              return restaurantIds.includes(r.id)
-            })}
-            dayOfWeek={dayOfWeek} />
-        )
+      <AreaSelector />
+      {loading ? <Loader /> :
+      <RestaurantList
+        restaurants={restaurants}
+        dayOfWeek={dayOfWeek} />
       }
     </StickyContainer>
   )
@@ -35,8 +30,7 @@ const Areas = ({restaurants, areas, dayOffset, loading}) => {
 const mapState = state => ({
   loading: state.pending.menus || state.pending.restaurants || state.pending.areas,
   restaurants: getFormattedRestaurants(state),
-  dayOffset: state.value.dayOffset,
-  areas: state.data.areas
+  dayOffset: state.value.dayOffset
 })
 
 export default connect(mapState)(Areas)

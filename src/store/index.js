@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import promiseMiddleware from 'redux-promise-middleware'
 import {autoRehydrate, persistStore} from 'redux-persist'
 import {REHYDRATE} from 'redux-persist/constants'
-import {SET_AREA_HIDDEN} from './actions/preferences'
+import {SET_SELECTED_AREA} from './actions/preferences'
 import saveLogger from 'redux-logger'
 import {Set} from 'immutable'
 
@@ -19,7 +19,7 @@ const lang = navigator.language.split('-')[0]
 
 const defaultPreferences = {
   lang: ['fi', 'en'].includes(lang) ? lang : 'fi',
-  hiddenAreas: Set([])
+  selectedArea: 1
 }
 
 const reducer = combineReducers({
@@ -62,14 +62,14 @@ const reducer = combineReducers({
      if (type === REHYDRATE && payload.preferences) {
        return {
          lang: payload.preferences.lang,
-         hiddenAreas: Set(payload.preferences.hiddenAreas)
+         selectedArea: payload.preferences.selectedArea
        }
      } else if (type.startsWith('SET_PREFERENCE_')) {
         return {...state, ...payload}
-     } else if (type === SET_AREA_HIDDEN) {
+     } else if (type === SET_SELECTED_AREA) {
         return {
           ...state,
-          hiddenAreas: payload.hidden ? state.hiddenAreas.add(payload.areaId) : state.hiddenAreas.remove(payload.areaId)
+          selectedArea: payload.areaId
         }
      }
      return state

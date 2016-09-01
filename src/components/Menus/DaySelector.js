@@ -7,49 +7,22 @@ import Settings from 'react-icons/lib/md/settings'
 import { setDayOffset } from '../../store/actions/values';
 import Text from '../Text'
 
-class DaySelector extends React.Component {
-  componentDidMount() {
-    this.firstButton.focus()
-    this.listener = e => {
-      const {setDayOffset, dayOffset} = this.props;
-      switch (e.keyCode) {
-        case 39:
-          setDayOffset(dayOffset + 1)
-          break
-        case 37:
-          setDayOffset(dayOffset - 1)
-          break
-      }
-    }
-    document.addEventListener('keydown', this.listener)
-  }
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.listener)
-  }
-  render() {
-    const { dayOffset, setDayOffset } = this.props
-    return (
-      <div className="dayselector">
-        {_.times(6, i =>
-        <button
-          key={i}
-          ref={e => {
-            if (i === 0) {
-              this.firstButton = e
-            }
-          }}
-          className={i === dayOffset ? 'selected' : ''}
-          onClick={() => setDayOffset(i)}>
-          <Text moment={moment().add(i, 'day')} id="dd DD.MM." />
-        </button>
-        )}
-        <a className="settings-icon" href="/settings">
-          <Settings size={24} />
-        </a>
-      </div>
-    )
-  }
-}
+const DaySelector = ({ dayOffset, setDayOffset }) => (
+  <div className="dayselector">
+    {_.times(6, i =>
+    <button
+      key={i}
+      ref={e => i === 0 && e.focus()}
+      className={i === dayOffset ? 'selected' : ''}
+      onClick={() => setDayOffset(i)}>
+      <Text moment={moment().add(i, 'day')} id="dd DD.MM." />
+    </button>
+    )}
+    <a className="settings-icon" href="/settings">
+      <Settings size={24} />
+    </a>
+  </div>
+)
 
 const mapState = state => ({
   dayOffset: state.value.dayOffset

@@ -1,12 +1,13 @@
 import React from 'react'
 import {bindActionCreators} from 'redux'
 import {Provider} from 'react-redux'
-import page from 'page';
+import page from 'page'
+import key from 'keymaster'
 
 import '../styles/main.scss'
 
 import store from '../store'
-import {setView} from '../store/actions/values';
+import {setView, setDayOffset} from '../store/actions/values';
 
 import App from './App'
 import Menus from './Menus'
@@ -24,6 +25,11 @@ const routes = {
   '/settings': Settings,
   '*': NotFound
 }
+
+key('left,right', (event, handler) => {
+  const offset = handler.shortcut === 'left' ? -1 : 1
+  store.dispatch(setDayOffset(store.getState().value.dayOffset + offset))
+})
 
 Object.keys(routes).forEach(path => {
   page(path, () => {

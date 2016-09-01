@@ -1,12 +1,12 @@
 @import '_constants';
 
 .dayselector {
-  display: flex;
   background: white;
   padding: 0.5rem;
   box-shadow: 0 0.1rem 0.2rem -0.1rem rgba(0, 0, 0, 0.4);
-  justify-content: center;
   box-sizing: border-box;
+  position: relative;
+  text-align: center;
 
   @media (max-width: $break-small) {
     background-color: $body_background;
@@ -34,6 +34,17 @@
         background: $accent_color_light;
       }
     }
+  }
+
+  .settings-icon {
+    color: $accent_color;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    bottom: 0;
+    margin-right: 1rem;
   }
 
 }

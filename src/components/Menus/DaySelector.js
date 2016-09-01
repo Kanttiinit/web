@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import moment from 'moment'
+import Settings from 'react-icons/lib/md/settings'
 
 import { setDayOffset } from '../../store/actions/values';
 import Text from '../Text'
@@ -42,6 +43,9 @@ class DaySelector extends React.Component {
           <Text moment={moment().add(i, 'day')} id="dd DD.MM." />
         </button>
         )}
+        <a className="settings-icon" href="/settings">
+          <Settings size={24} />
+        </a>
       </div>
     )
   }

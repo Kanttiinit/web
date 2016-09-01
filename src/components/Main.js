@@ -13,6 +13,7 @@ import Menus from './Menus'
 import PrivacyPolicy from './PrivacyPolicy'
 import Contact from './Contact'
 import Beta from './Beta'
+import Settings from './Settings'
 import NotFound from './NotFound'
 
 const routes = {
@@ -20,6 +21,7 @@ const routes = {
   '/privacy-policy': PrivacyPolicy,
   '/beta': Beta,
   '/contact': Contact,
+  '/settings': Settings,
   '*': NotFound
 }
 

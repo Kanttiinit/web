@@ -21,13 +21,13 @@ export const AppLinks = ({style}) => (
 
 const Header = () => (
   <header className="header">
-    <div className="logo">
+    <a href="/" className="logo">
       <img src={logo} />
       <div>
         <h1>Kanttiinit{window.isBeta && <sup>BETA</sup>}</h1>
         <p><Text id="slogan" /></p>
       </div>
-    </div>
+    </a>
     <AppLinks />
   </header>
 )

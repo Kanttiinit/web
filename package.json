@@ -52,7 +52,8 @@
   },
   "scripts": {
     "run": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js  --hot --inline",
-    "postinstall": "node node_modules/.bin/webpack",
+    "build": "node node_modules/.bin/webpack",
+    "postinstall": "npm run build",
     "start": "node index.js"
   },
   "keywords": [

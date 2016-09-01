@@ -6,9 +6,10 @@ import sortBy from 'lodash/sortBy'
 import {setSelectedArea} from '../../store/actions/preferences'
 
 const AreaSelector = ({areas, selectedArea, setSelectedArea}) => (
-  <div>
+  <div className="area-selector">
     {sortBy(areas, 'name').map(area =>
     <button
+      key={area.id}
       className={c({selected: area.id === selectedArea})}
       onClick={() => setSelectedArea(area.id)}>
       {area.name}

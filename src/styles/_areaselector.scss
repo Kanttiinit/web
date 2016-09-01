@@ -1,0 +1,37 @@
+.area-selector {
+  text-align: center;
+  margin: 1.5rem 0 0.5rem;
+
+  button {
+    border: solid $accent_color;
+    color: $accent_color;
+    border-width: 1px 0 1px 1px;
+    background: transparent;
+    font-size: 0.8rem;
+    font-family: inherit;
+    font-weight: 500;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    transition: background 0.1s, color 0.1s;
+
+    &.selected {
+      background: $accent_color;
+      color: white;
+    }
+
+    &:focus {
+      background: lighten($accent_color, 5%);
+      color: white;
+      outline: none;
+    }
+
+    &:first-child {
+      border-radius: 0.2rem 0 0 0.2rem;
+    }
+
+    &:last-child {
+      border-radius: 0 0.2rem 0.2rem 0;
+      border-right-width: 1px;
+    }
+  }
+}

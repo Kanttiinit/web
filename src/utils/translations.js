@@ -15,6 +15,10 @@ export default {
     fi: 'Lähdekoodi',
     en: 'Source Code'
   },
+  settings: {
+    fi: 'Asetukset',
+    en: 'Settings'
+  },
   privacyPolicyContent: {
     fi: 'Kanttiinit kerää vain nimetöntä käyttötilastoa; se ei kerää mitään tietoa tai sijantidataa joilla käyttäjiä voitaisiin tunnistaa.',
     en: 'Kanttiinit only records anonymous usage data; it doesn\'t store any identifiable data or location data.'

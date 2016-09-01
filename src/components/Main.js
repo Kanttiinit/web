@@ -37,10 +37,8 @@ Object.keys(routes).forEach(path => {
 })
 page()
 
-export default function() {
-   return (
-      <Provider store={store}>
-         <App />
-      </Provider>
-   )
-}
+export default () => (
+  <Provider store={store}>
+     <App />
+  </Provider>
+ )

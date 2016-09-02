@@ -16,15 +16,21 @@ const Item = ({label, children}) => (
 
 const Settings = ({preferences, setUseLocation, setLang}) => (
   <PageContainer title={<Text id="settings" />} className="settings">
-    <Item label="Use location">
+    <Item label={<Text id="useLocation" />}>
       <Radio
-        options={[{label: 'Yes', value: true}, {label: 'No', value: false}]}
+        options={[
+          {label: <Text id="yes" />, value: true},
+          {label: <Text id="no" />, value: false}
+        ]}
         selected={preferences.useLocation}
         onChange={value => setUseLocation(value)} />
     </Item>
-    <Item label="Language">
+    <Item label={<Text id="language" />}>
       <Radio
-        options={[{label: 'Finnish', value: 'fi'}, {label: 'English', value: 'en'}]}
+        options={[
+          {label: 'Finnish', value: 'fi'},
+          {label: 'English', value: 'en'}
+        ]}
         selected={preferences.lang}
         onChange={lang => setLang(lang)} />
     </Item>

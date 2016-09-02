@@ -58,5 +58,21 @@ export default {
   betaSite: {
     fi: 'Kokeile beta sivua',
     en: 'Try the beta site'
+  },
+  useLocation: {
+    fi: 'Käytä sijaintia',
+    en: 'Use location'
+  },
+  language: {
+    fi: 'Kieli',
+    en: 'Language'
+  },
+  yes: {
+    fi: 'Kyllä',
+    en: 'Yes'
+  },
+  no: {
+    fi: 'Ei',
+    en: 'No'
   }
 }

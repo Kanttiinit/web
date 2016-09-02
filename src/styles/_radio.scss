@@ -10,6 +10,7 @@
     text-transform: uppercase;
     padding: 0.5rem 1rem;
     transition: background 0.1s, color 0.1s;
+    min-width: 5rem;
 
     &.selected {
       background: $accent_color;

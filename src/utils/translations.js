@@ -59,6 +59,10 @@ export default {
     fi: 'Kokeile sivun betaversiota',
     en: 'Try the beta site'
   },
+  area: {
+    fi: 'Alue',
+    en: 'Area'
+  },
   useLocation: {
     fi: 'Käytä sijaintia',
     en: 'Use location'

@@ -17,7 +17,7 @@ const Item = ({label, children}) => (
 
 const Settings = ({preferences, setUseLocation, setLang}) => (
   <PageContainer title={<Text id="settings" />} className="settings">
-    <Item label="Alue">
+    <Item label={<Text id="area" />}>
       <AreaSelector />
     </Item>
     <Item label={<Text id="useLocation" />}>

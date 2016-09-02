@@ -52,11 +52,11 @@ export default {
     en: 'closed'
   },
   androidTester: {
-    fi: 'Ryhdy Android testaajaksi',
+    fi: 'Ryhdy Android-applikaation betatestaajaksi',
     en: 'Become a tester on Android'
   },
   betaSite: {
-    fi: 'Kokeile beta sivua',
+    fi: 'Kokeile sivun betaversiota',
     en: 'Try the beta site'
   },
   useLocation: {

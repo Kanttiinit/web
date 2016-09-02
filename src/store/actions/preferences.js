@@ -18,3 +18,10 @@ export function setUseLocation(useLocation) {
     payload: {useLocation}
   }
 }
+
+export function setFiltersExpanded(filtersExpanded) {
+  return {
+    type: 'SET_PREFERENCE_FILTERS_EXPANDED',
+    payload: {filtersExpanded}
+  }
+}

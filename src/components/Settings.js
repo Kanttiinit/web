@@ -6,6 +6,7 @@ import * as actions from '../store/actions/preferences'
 import PageContainer from './PageContainer'
 import Text from './Text'
 import Radio from './Radio'
+import AreaSelector from './Menus/AreaSelector'
 
 const Item = ({label, children}) => (
   <div className="settings-item">
@@ -16,6 +17,9 @@ const Item = ({label, children}) => (
 
 const Settings = ({preferences, setUseLocation, setLang}) => (
   <PageContainer title={<Text id="settings" />} className="settings">
+    <Item label="Alue">
+      <AreaSelector />
+    </Item>
     <Item label={<Text id="useLocation" />}>
       <Radio
         options={[

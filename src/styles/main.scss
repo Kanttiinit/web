@@ -114,7 +114,8 @@ a:hover {
 
     @media (max-width: $break-small) {
       display: block;
-      margin: 0.5rem 0;
+      margin: 0.3rem 0;
+      border-bottom: none;
     }
   }
 }

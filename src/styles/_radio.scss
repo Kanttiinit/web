@@ -1,4 +1,12 @@
 .radio {
+  white-space: nowrap;
+  overflow-x: auto;
+  padding: 0 0.25rem;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
   button {
     border: solid $accent_color;
     color: $accent_color;

@@ -2,7 +2,6 @@ import React from 'react'
 import c from 'classnames'
 import {connect} from 'react-redux'
 
-import LanguageSelector from './LanguageSelector'
 import {AppLinks} from './Header'
 import Text from './Text'
 
@@ -16,7 +15,6 @@ const Footer = ({path}) => {
       <a href="/privacy-policy" className={getClassName('/privacy-policy')}><Text id="privacyPolicy" /></a>&bull;
       <a href="/beta" className={getClassName('/beta')}>Beta</a>&bull;
       <a href="https://github.com/Kanttiinit" target="_blank"><Text id="sourceCode" /></a>
-      <LanguageSelector />
       <AppLinks style={{marginTop: '2rem'}} />
     </footer>
   )

@@ -1,5 +1,3 @@
-export const SET_SELECTED_AREA = 'SET_SELECTED_AREA'
-
 export function setLang(lang) {
    return {
       type: 'SET_PREFERENCE_LANG',
@@ -7,9 +5,16 @@ export function setLang(lang) {
    }
 }
 
-export function setSelectedArea(areaId) {
+export function setSelectedArea(selectedArea) {
   return {
-    type: SET_SELECTED_AREA,
-    payload: {areaId}
+    type: 'SET_PREFERENCE_SELECTED_AREA',
+    payload: {selectedArea}
+  }
+}
+
+export function setUseLocation(useLocation) {
+  return {
+    type: 'SET_PREFERENCE_USE_LOCATION',
+    payload: {useLocation}
   }
 }

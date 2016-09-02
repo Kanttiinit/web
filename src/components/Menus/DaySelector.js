@@ -12,7 +12,7 @@ const DaySelector = ({ dayOffset, setDayOffset }) => (
     {_.times(6, i =>
     <button
       key={i}
-      ref={e => i === 0 && e.focus()}
+      ref={e => i === 0 && e && e.focus()}
       className={i === dayOffset ? 'selected' : ''}
       onClick={() => setDayOffset(i)}>
       <Text moment={moment().add(i, 'day')} id="dd DD.MM." />

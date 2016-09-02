@@ -3,19 +3,17 @@ import {connect} from 'react-redux'
 import c from 'classnames'
 import sortBy from 'lodash/sortBy'
 
+import Radio from '../Radio'
 import {setSelectedArea} from '../../store/actions/preferences'
 
 const AreaSelector = ({areas, selectedArea, setSelectedArea}) => (
-  <div className="radio" style={{textAlign: 'center', margin: '1.5rem 0 0.5rem'}}>
-    {sortBy(areas, 'name').map(area =>
-    <button
-      key={area.id}
-      className={c({selected: area.id === selectedArea})}
-      onClick={() => setSelectedArea(area.id)}>
-      {area.name}
-    </button>
+  <Radio
+    options={sortBy(areas, 'name').map(area =>
+      ({label: area.name, value: area.id})
     )}
-  </div>
+    onChange={areaId => setSelectedArea(areaId)}
+    selected={selectedArea}
+    style={{textAlign: 'center', margin: '1.5rem 0 0.5rem'}} />
 )
 
 const mapState = state => ({

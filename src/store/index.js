@@ -3,7 +3,6 @@ import thunk from 'redux-thunk'
 import promiseMiddleware from 'redux-promise-middleware'
 import {autoRehydrate, persistStore} from 'redux-persist'
 import {REHYDRATE} from 'redux-persist/constants'
-import {SET_SELECTED_AREA} from './actions/preferences'
 import saveLogger from 'redux-logger'
 import {Set} from 'immutable'
 
@@ -60,17 +59,9 @@ const reducer = combineReducers({
    },
    preferences: (state = defaultPreferences, {type, payload}) => {
      if (type === REHYDRATE && payload.preferences) {
-       return {
-         lang: payload.preferences.lang,
-         selectedArea: payload.preferences.selectedArea
-       }
+       return payload.preferences
      } else if (type.startsWith('SET_PREFERENCE_')) {
-        return {...state, ...payload}
-     } else if (type === SET_SELECTED_AREA) {
-        return {
-          ...state,
-          selectedArea: payload.areaId
-        }
+       return {...state, ...payload}
      }
      return state
    },

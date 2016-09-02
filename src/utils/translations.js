@@ -3,6 +3,10 @@ export default {
     fi: 'Ruokalistat',
     en: 'Menus'
   },
+  noMenu: {
+    fi: 'Ei ruokalistaa saatavilla',
+    en: 'No menu available'
+  },
   privacyPolicy: {
     fi: 'Yksityisyyskäytäntö',
     en: 'Privacy Policy'

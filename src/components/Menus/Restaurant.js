@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import {openModal} from '../../store/actions/values'
 import RestaurantModal from '../RestaurantModal'
+import Text from '../Text'
 
 const Restaurant = ({ restaurant, dayOfWeek, openModal }) => (
   <div className={"restaurant" + (restaurant.noCourses ? ' restaurant-empty' : '')}>
@@ -10,8 +11,9 @@ const Restaurant = ({ restaurant, dayOfWeek, openModal }) => (
       <h2>{restaurant.name}</h2>
       <span>{restaurant.openingHours[dayOfWeek]}</span>
     </div>
+
     <div className="restaurant-body">
-      {restaurant.noCourses ? (<span className="restaurant-empty-text">Ei ruokaa</span>) : restaurant.courses.map((course, i) => (
+      {restaurant.noCourses ? (<span className="restaurant-empty-text">{<Text id="noMenu" />}</span>) : restaurant.courses.map((course, i) => (
         <div
           className={"restaurant-course" + (restaurant.courses[restaurant.courses.length - 1].title === course.title ? ' last-course' : '')}
           key={i}>

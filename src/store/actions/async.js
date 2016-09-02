@@ -20,19 +20,19 @@ export function fetchFavorites(lang) {
    };
 }
 
-// export function fetchLocation() {
-//    return {
-//       type: 'FETCH_LOCATION',
-//       payload: new Promise((resolve, reject) => {
-//          navigator.geolocation.getCurrentPosition(
-//             position => resolve(position.coords),
-//             error => console.log('could not get location', error),
-//             {timeout: 3000, maximumAge: 60000}
-//          );
-//       }),
-//       meta: {data: 'location'}
-//    };
-// }
+export function fetchLocation() {
+   return {
+      type: 'FETCH_LOCATION',
+      payload: new Promise((resolve, reject) => {
+         navigator.geolocation.getCurrentPosition(
+            position => resolve(position.coords),
+            error => reject(error),
+            {timeout: 10000, maximumAge: 60000}
+         );
+      }),
+      meta: {data: 'location'}
+   };
+}
 
 export function fetchMenus(lang) {
    return (dispatch, getState) => {

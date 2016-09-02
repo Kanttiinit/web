@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
 
-import {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites} from '../store/actions/async'
+import {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites, fetchLocation} from '../store/actions/async'
 import {closeModal} from '../store/actions/values'
 import {selectLang} from '../store/selectors'
 import Header from './Header'
@@ -12,6 +12,10 @@ class App extends React.Component {
   componentWillReceiveProps(props) {
     if ((!props.initializing && this.props.initializing) || props.lang !== this.props.lang) {
       this.fetchAll(props.lang)
+    }
+
+    if (props.useLocation && props.useLocation !== this.props.useLocation) {
+      this.props.fetchLocation()
     }
   }
   fetchAll(lang) {
@@ -50,7 +54,8 @@ const mapState = state => ({
   initializing: state.value.initializing,
   view: state.value.view.view,
   lang: selectLang(state),
-  modal: state.value.modal
+  modal: state.value.modal,
+  useLocation: state.preferences.useLocation
 })
 
 const mapDispatch = dispatch => bindActionCreators({
@@ -58,6 +63,7 @@ const mapDispatch = dispatch => bindActionCreators({
   fetchMenus,
   fetchRestaurants,
   fetchFavorites,
+  fetchLocation,
   closeModal
 }, dispatch)
 

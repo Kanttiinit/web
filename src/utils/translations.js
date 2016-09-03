@@ -52,7 +52,7 @@ export default {
     en: 'closed'
   },
   androidTester: {
-    fi: 'Ryhdy Android-applikaation betatestaajaksi',
+    fi: 'Ryhdy Android-sovelluksen betatestaajaksi',
     en: 'Become a tester on Android'
   },
   betaSite: {

@@ -18,7 +18,8 @@ const lang = navigator.language.split('-')[0]
 
 const defaultPreferences = {
   lang: ['fi', 'en'].includes(lang) ? lang : 'fi',
-  selectedArea: 1
+  selectedArea: undefined,
+  useLocation: false
 }
 
 const reducer = combineReducers({

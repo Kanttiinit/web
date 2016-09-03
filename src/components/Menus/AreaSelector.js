@@ -5,15 +5,18 @@ import sortBy from 'lodash/sortBy'
 
 import Radio from '../Radio'
 import {setSelectedArea} from '../../store/actions/preferences'
+import Text from '../Text'
 
 const AreaSelector = ({areas, selectedArea, setSelectedArea, style}) => (
-  <Radio
-    options={sortBy(areas, 'name').map(area =>
-      ({label: area.name, value: area.id})
-    )}
-    onChange={areaId => setSelectedArea(areaId)}
-    selected={selectedArea}
-    style={style} />
+  <div style={style}>
+    {!selectedArea && <p><Text id="selectArea" /></p>}
+    <Radio
+      options={sortBy(areas, 'name').map(area =>
+        ({label: area.name, value: area.id})
+      )}
+      onChange={areaId => setSelectedArea(areaId)}
+      selected={selectedArea} />
+  </div>
 )
 
 const mapState = state => ({

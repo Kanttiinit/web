@@ -78,5 +78,9 @@ export default {
   no: {
     fi: 'Ei',
     en: 'No'
+  },
+  selectArea: {
+    fi: 'Aloita valitsemalla alue',
+    en: 'Start by selecting an area'
   }
 }

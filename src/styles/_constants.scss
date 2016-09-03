@@ -13,7 +13,6 @@ $break-large: 768px;
   border-radius: $small_border_radius;
   padding: 6px;
 
-  border: 1px $gray solid;
   margin: 2px 4px 2px 4px;
   color: $gray;
   font-size: 10pt;
@@ -25,7 +24,6 @@ $break-large: 768px;
     transform: scale(1.0);
 
     &:hover {
-      border: 1px $accent_color solid;
       opacity: 0.8;
 
       &:not(.selected) {
@@ -36,7 +34,6 @@ $break-large: 768px;
 
   &:focus {
     outline: none;
-    border: 1px $accent_color solid;
     color: $accent_color;
   }
 

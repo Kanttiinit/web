@@ -21,24 +21,29 @@
   }
 
   button {
-    @extend .default-button;
-    min-width: 7rem;
+    border: none;
+    background: transparent;
+    font-size: 0.8rem;
+    display: inline-block;
+    border-bottom: solid 1px transparent;
     text-transform: uppercase;
+    padding: 0.5em 1em;
+    margin: 0 0.25em;
+    color: $gray;
+
+    &:focus {
+      outline: none;
+      color: $accent_color_light;
+    }
 
     &.selected {
-      background: $accent_color;
-      color: white;
-      border-color: $accent_color;
-
-      &:focus {
-        color: white;
-        background: $accent_color_light;
-      }
+      color: $accent_color;
+      border-bottom-color: $accent_color;
     }
   }
 
   .settings-icon, .filters-icon {
-    color: $accent_color;
+    color: $gray;
     position: absolute;
     right: 0;
     top: 0;
@@ -46,6 +51,11 @@
     align-items: center;
     bottom: 0;
     margin: 0 1rem;
+
+    &:hover, &:focus {
+      outline: none;
+      color: $accent_color;
+    }
 
     @media (max-width: $break-small) {
       display: inline-block;

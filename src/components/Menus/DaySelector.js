@@ -20,7 +20,7 @@ const DaySelector = ({ dayOffset, setDayOffset, setFiltersExpanded, filtersExpan
     {_.times(6, i =>
     <button
       key={i}
-      ref={e => i === 0 && e && e.focus()}
+      ref={e => i === dayOffset && e && e.focus()}
       className={i === dayOffset ? 'selected' : ''}
       onClick={() => setDayOffset(i)}>
       <Text moment={moment().add(i, 'day')} id="dd DD.MM." />

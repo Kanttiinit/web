@@ -29,6 +29,19 @@ const facebookLogin = () => new Promise((resolve, reject) => {
 })
 
 class Settings extends React.Component {
+  componentDidMount() {
+    gapi.signin2.render('google-login', {
+      longtitle: true,
+      theme: 'dark',
+      width: 200,
+      onsuccess: user => {
+        this.props.setAuthData({
+          provider: 'google',
+          token: user.getAuthResponse().id_token
+        })
+      }
+    })
+  }
   render() {
     const {preferences, setUseLocation, setAuthData, setLang, isLoggedIn, user} = this.props;
     return (
@@ -55,22 +68,27 @@ class Settings extends React.Component {
             onChange={lang => setLang(lang)} />
         </Item>
         <Item label={<Text id="profile" />}>
-          {isLoggedIn && user ?
+          {isLoggedIn &&
             <div className="user">
               <img src={user.photo} />
               <p>{user.displayName}<br /><small>{user.email}</small></p>
-              <button onClick={() => setAuthData()}><Text id="logout" /></button>
+              <button onClick={() => {
+                gapi.load('auth2', () => {
+                  const auth2 = gapi.auth2.getAuthInstance()
+                  if (auth2) {
+                    auth2.signOut()
+                  }
+                  setAuthData()
+                })
+              }}><Text id="logout" /></button>
             </div>
-          :
-          <div className="login-buttons">
+          }
+          <div style={{display: isLoggedIn ? 'none' : 'block'}} className="login-buttons">
             <button style={{background: '#3b5998'}} onClick={() => facebookLogin().then(authData => setAuthData(authData))}>
               <Facebook className="inline-icon" /><Text id="facebookLogin" />
             </button>
-            <button style={{background: '#d34836'}} onClick={() => facebookLogin().then(authData => setAuthData(authData))}>
-              <Google className="inline-icon" /><Text id="googleLogin" />
-            </button>
+            <div id="google-login"></div>
           </div>
-          }
         </Item>
       </PageContainer>
     )

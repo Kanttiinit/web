@@ -28,7 +28,7 @@ const DaySelector = ({ dayOffset, setDayOffset, setFiltersExpanded, filtersExpan
     </button>
     )}
     <a className="account-icon" href="/settings">
-      {isLoggedIn ? (user ? <img src={user.photo} /> : <Loader />) : <Account size={24} />}
+      {isLoggedIn ? <img src={user.photo} /> : <Account size={24} />}
     </a>
   </div>
 )

@@ -1,6 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import Facebook from 'react-icons/lib/fa/facebook-official'
+import Google from 'react-icons/lib/fa/google'
 
 import * as actions from '../store/actions/preferences'
 import {isLoggedIn} from '../store/selectors'
@@ -27,14 +29,6 @@ const facebookLogin = () => new Promise((resolve, reject) => {
 })
 
 class Settings extends React.Component {
-  componentDidMount() {
-    gapi.signin2.render('g-signin2', {
-      scope: 'https://www.googleapis.com/auth/plus.login',
-      onsuccess: user => {
-        console.log(user)
-      }
-    })
-  }
   render() {
     const {preferences, setUseLocation, setAuthData, setLang, isLoggedIn, user} = this.props;
     return (
@@ -60,19 +54,21 @@ class Settings extends React.Component {
             selected={preferences.lang}
             onChange={lang => setLang(lang)} />
         </Item>
-        <Item label="Profile">
-          {isLoggedIn ?
-          <div>
+        <Item label={<Text id="profile" />}>
+          {isLoggedIn && user ?
             <div className="user">
               <img src={user.photo} />
               <p>{user.displayName}<br /><small>{user.email}</small></p>
+              <button onClick={() => setAuthData()}><Text id="logout" /></button>
             </div>
-            <button className="default-button" onClick={() => setAuthData()}>Logout</button>
-          </div>
           :
-          <div>
-            <button onClick={() => facebookLogin().then(authData => setAuthData(authData))}>Login with Facebook</button>
-            <div id="g-signin2" data-onsuccess="onSignIn"></div>
+          <div className="login-buttons">
+            <button style={{background: '#3b5998'}} onClick={() => facebookLogin().then(authData => setAuthData(authData))}>
+              <Facebook className="inline-icon" /><Text id="facebookLogin" />
+            </button>
+            <button style={{background: '#d34836'}} onClick={() => facebookLogin().then(authData => setAuthData(authData))}>
+              <Google className="inline-icon" /><Text id="googleLogin" />
+            </button>
           </div>
           }
         </Item>

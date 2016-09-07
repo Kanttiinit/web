@@ -130,3 +130,9 @@
     margin: 0.25rem;
   }
 }
+
+.filters {
+  background: darken($light_gray, 2%);
+  padding: 1rem;
+  box-shadow: 0 0.1rem 0.2rem -0.1rem rgba(0, 0, 0, 0.4);
+}

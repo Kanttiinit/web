@@ -18,8 +18,10 @@ class App extends React.Component {
       this.props.fetchLocation()
     }
 
-    if (props.authData) {
-      this.props.fetchUser(props.authData)
+    if (props.authData !== this.props.authData) {
+      if (props.authData) {
+        this.props.fetchUser(props.authData)
+      }
     }
   }
   fetchAll(lang) {

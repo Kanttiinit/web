@@ -18,8 +18,8 @@ const Areas = ({restaurants, dayOffset, loading, filtersExpanded}) => {
         <DaySelector />
       </Sticky>
       {filtersExpanded &&
-      <div>
-        <AreaSelector style={{textAlign: 'center', padding: '1.5rem 0 0.5rem'}} />
+      <div className="filters">
+        <AreaSelector style={{textAlign: 'center'}} />
       </div>
       }
       {loading ? <Loader /> :

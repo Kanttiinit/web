@@ -21,5 +21,39 @@
       border-radius: 1.5rem;
       margin-right: 0.5rem;
     }
+
+    button {
+      text-transform: uppercase;
+      font-weight: 500;
+      font-family: inherit;
+      border: none;
+      padding: 0.5em;
+      margin-left: 1em;
+      background: $accent_color;
+      border-radius: 0.2em;
+      color: white;
+    }
+
+    small {
+      color: $dark_gray;
+    }
+  }
+
+  .login-buttons {
+    button {
+      font-size: 1em;
+      border: none;
+      padding: 1em;
+      font-family: inherit;
+      text-transform: uppercase;
+      font-weight: 500;
+      color: white;
+      margin-right: 1em;
+      border-radius: 0.2em;
+
+      span {
+        margin-left: 0.5em;
+      }
+    }
   }
 }

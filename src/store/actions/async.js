@@ -13,7 +13,7 @@ export function fetchAreas(lang) {
 export function fetchUser(authData) {
   return {
     type: 'FETCH_USER_DATA',
-    payload: fetch(`http://localhost:3000/auth/${authData.provider}/${authData.token}`).then(r => r.json()),
+    payload: http.get(`/auth/${authData.provider}/${authData.token}`),
     meta: {
       data: 'user'
     }

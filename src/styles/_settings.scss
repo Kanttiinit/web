@@ -10,4 +10,16 @@
     font-weight: 500;
     color: $dark_gray;
   }
+
+  .user {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 1.5rem;
+      margin-right: 0.5rem;
+    }
+  }
 }

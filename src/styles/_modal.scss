@@ -9,6 +9,9 @@
   pointer-events: none;
   padding: 1rem;
   transition: opacity 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &-overlay {
     background: rgba(0, 0, 0, 0.7);
@@ -23,11 +26,12 @@
     background: white;
     z-index: 6;
     position: relative;
-    margin: 5rem auto;
+    margin: 0.5rem;
     max-width: 40rem;
     border-radius: 0.2rem;
     overflow: hidden;
     box-shadow: 0rem 0.1rem 0.6rem -0.2rem rgba(0,0,0,0.3);
+    flex-grow: 1;
   }
 
   &.open {

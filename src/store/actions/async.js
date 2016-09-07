@@ -10,6 +10,16 @@ export function fetchAreas(lang) {
    };
 }
 
+export function fetchUser(authData) {
+  return {
+    type: 'FETCH_USER_DATA',
+    payload: fetch(`http://localhost:3000/auth/${authData.provider}/${authData.token}`).then(r => r.json()),
+    meta: {
+      data: 'user'
+    }
+  }
+}
+
 export function fetchFavorites(lang) {
    return {
       type: 'FETCH_FAVORITES',

@@ -25,3 +25,10 @@ export function setFiltersExpanded(filtersExpanded) {
     payload: {filtersExpanded}
   }
 }
+
+export function setAuthData(authData) {
+  return {
+    type: 'SET_PREFERENCE_AUTH_DATA',
+    payload: {authData}
+  }
+}

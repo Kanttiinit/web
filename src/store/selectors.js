@@ -36,3 +36,8 @@ export const selectFiltersExpanded = createSelector(
   state => state.preferences.filtersExpanded,
   (selectedArea, filtersExpanded) => !selectedArea || filtersExpanded
 )
+
+export const isLoggedIn = createSelector(
+  state => state.preferences.authData,
+  authData => !!authData
+)

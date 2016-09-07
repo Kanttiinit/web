@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
 
-import {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites, fetchLocation} from '../store/actions/async'
+import * as asyncActions from '../store/actions/async'
 import {closeModal} from '../store/actions/values'
 import {selectLang} from '../store/selectors'
 import Header from './Header'
@@ -17,6 +17,10 @@ class App extends React.Component {
     if (props.useLocation && props.useLocation !== this.props.useLocation) {
       this.props.fetchLocation()
     }
+
+    if (props.authData) {
+      this.props.fetchUser(props.authData)
+    }
   }
   fetchAll(lang) {
     const {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites} = this.props
@@ -24,13 +28,6 @@ class App extends React.Component {
     fetchMenus(lang)
     fetchRestaurants(lang)
     fetchFavorites(lang)
-  }
-  componentDidMount() {
-    document.addEventListener('keydown', e => {
-      if (e.keyCode === 27) {
-        this.props.closeModal()
-      }
-    })
   }
   render() {
     const {view, initializing, modal, closeModal} = this.props
@@ -55,15 +52,12 @@ const mapState = state => ({
   view: state.value.view.view,
   lang: selectLang(state),
   modal: state.value.modal,
-  useLocation: state.preferences.useLocation
+  useLocation: state.preferences.useLocation,
+  authData: state.preferences.authData
 })
 
 const mapDispatch = dispatch => bindActionCreators({
-  fetchAreas,
-  fetchMenus,
-  fetchRestaurants,
-  fetchFavorites,
-  fetchLocation,
+  ...asyncActions,
   closeModal
 }, dispatch)
 

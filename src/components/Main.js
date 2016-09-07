@@ -7,7 +7,7 @@ import key from 'keymaster'
 import '../styles/main.scss'
 
 import store from '../store'
-import {setView, setDayOffset} from '../store/actions/values';
+import {setView, setDayOffset, closeModal} from '../store/actions/values';
 
 import App from './App'
 import Menus from './Menus'
@@ -30,6 +30,8 @@ key('left,right', (event, handler) => {
   const offset = handler.shortcut === 'left' ? -1 : 1
   store.dispatch(setDayOffset(store.getState().value.dayOffset + offset))
 })
+
+key('esc', () => store.dispatch(closeModal()))
 
 Object.keys(routes).forEach(path => {
   page(path, () => {

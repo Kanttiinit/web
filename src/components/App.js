@@ -17,12 +17,6 @@ class App extends React.Component {
     if (props.useLocation && props.useLocation !== this.props.useLocation) {
       this.props.fetchLocation()
     }
-
-    if (props.authData !== this.props.authData) {
-      if (props.authData) {
-        this.props.fetchUser(props.authData)
-      }
-    }
   }
   fetchAll(lang) {
     const {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites} = this.props

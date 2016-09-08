@@ -10,6 +10,7 @@ import PageContainer from './PageContainer'
 import Text from './Text'
 import Radio from './Radio'
 import AreaSelector from './Menus/AreaSelector'
+import auth from '../utils/auth'
 
 const Item = ({label, children}) => (
   <div className="settings-item">
@@ -18,32 +19,9 @@ const Item = ({label, children}) => (
   </div>
 )
 
-const facebookLogin = () => new Promise((resolve, reject) => {
-  FB.login(response => {
-    if (response.authResponse) {
-      resolve({provider: 'facebook', token: response.authResponse.accessToken})
-    } else {
-      reject()
-    }
-  });
-})
-
 class Settings extends React.Component {
-  componentDidMount() {
-    gapi.signin2.render('google-login', {
-      longtitle: true,
-      theme: 'dark',
-      width: 200,
-      onsuccess: user => {
-        this.props.setAuthData({
-          provider: 'google',
-          token: user.getAuthResponse().id_token
-        })
-      }
-    })
-  }
   render() {
-    const {preferences, setUseLocation, setAuthData, setLang, isLoggedIn, user} = this.props;
+    const {preferences, setUseLocation, setLang, isLoggedIn, user} = this.props;
     return (
       <PageContainer title={<Text id="settings" />} className="settings">
         <Item label={<Text id="area" />}>
@@ -72,22 +50,16 @@ class Settings extends React.Component {
             <div className="user">
               <img src={user.photo} />
               <p>{user.displayName}<br /><small>{user.email}</small></p>
-              <button onClick={() => {
-                gapi.load('auth2', () => {
-                  const auth2 = gapi.auth2.getAuthInstance()
-                  if (auth2) {
-                    auth2.signOut()
-                  }
-                  setAuthData()
-                })
-              }}><Text id="logout" /></button>
+              <button onClick={() => 1}><Text id="logout" /></button>
             </div>
           }
           <div style={{display: isLoggedIn ? 'none' : 'block'}} className="login-buttons">
-            <button style={{background: '#3b5998'}} onClick={() => facebookLogin().then(authData => setAuthData(authData))}>
+            <button style={{background: '#3b5998'}} onClick={() => auth.facebook.login()}>
               <Facebook className="inline-icon" /><Text id="facebookLogin" />
             </button>
-            <div id="google-login"></div>
+            <button style={{background: '#983b70'}} onClick={() => auth.google.login()}>
+              <Google className="inline-icon" /><Text id="googleLogin" />
+            </button>
           </div>
         </Item>
       </PageContainer>

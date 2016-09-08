@@ -5,23 +5,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
   <meta name="description" content="Kampusten ruokalistat helposti.">
-  <meta name="google-signin-client_id" content="402535393048-osrrh9uci8031oh4sv3vepgifsol0rd8.apps.googleusercontent.com">
   <link rel="icon" href="/logo.png">
   <title>Kanttiinit</title>
 </head>
 <body>
-  <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/en_GB/sdk.js#version=v2.7&appId=1841481822746867";
-    fjs.parentNode.insertBefore(js, fjs);
-  }(document, 'script', 'facebook-jssdk'));</script>
+  <script src="//connect.facebook.net/en_GB/sdk.js#version=v2.7&appId=1841481822746867"></script>
 
   <div id="root"></div>
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFqW3NtbnzHaUcFn0yZ9RjzWKC8JaVcT0" async defer></script>
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://apis.google.com/js/platform.js"></script>
   <script>
     window.isBeta = location.hostname === 'beta.kanttiinit.fi';
 

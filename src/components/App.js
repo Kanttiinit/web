@@ -17,6 +17,10 @@ class App extends React.Component {
     if (props.useLocation && props.useLocation !== this.props.useLocation) {
       this.props.fetchLocation()
     }
+
+    if (props.authData && props.authData !== this.props.authData) {
+      this.props.fetchUser(props.authData)
+    }
   }
   fetchAll(lang) {
     const {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites} = this.props
@@ -49,7 +53,7 @@ const mapState = state => ({
   lang: selectLang(state),
   modal: state.value.modal,
   useLocation: state.preferences.useLocation,
-  authData: state.preferences.authData
+  authData: state.value.authData
 })
 
 const mapDispatch = dispatch => bindActionCreators({

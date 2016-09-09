@@ -38,6 +38,7 @@ export const selectFiltersExpanded = createSelector(
 )
 
 export const isLoggedIn = createSelector(
+  state => state.value.authData,
   state => state.data.user,
-  user => !!user
+  (authData, user) => !!authData && !!user
 )

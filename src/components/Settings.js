@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import Facebook from 'react-icons/lib/fa/facebook-official'
 import Google from 'react-icons/lib/fa/google'
+import hello from 'hellojs'
 
 import * as actions from '../store/actions/preferences'
 import {isLoggedIn} from '../store/selectors'
@@ -10,7 +11,6 @@ import PageContainer from './PageContainer'
 import Text from './Text'
 import Radio from './Radio'
 import AreaSelector from './Menus/AreaSelector'
-import auth from '../utils/auth'
 
 const Item = ({label, children}) => (
   <div className="settings-item">
@@ -50,14 +50,17 @@ class Settings extends React.Component {
             <div className="user">
               <img src={user.photo} />
               <p>{user.displayName}<br /><small>{user.email}</small></p>
-              <button onClick={() => 1}><Text id="logout" /></button>
+              <button onClick={() => {
+                hello.logout('facebook')
+                hello.logout('google')
+              }}><Text id="logout" /></button>
             </div>
           }
           <div style={{display: isLoggedIn ? 'none' : 'block'}} className="login-buttons">
-            <button style={{background: '#3b5998'}} onClick={() => auth.facebook.login()}>
+            <button style={{background: '#3b5998'}} onClick={() => hello.login('facebook')}>
               <Facebook className="inline-icon" /><Text id="facebookLogin" />
             </button>
-            <button style={{background: '#983b70'}} onClick={() => auth.google.login()}>
+            <button style={{background: '#983b3b'}} onClick={() => hello.login('google')}>
               <Google className="inline-icon" /><Text id="googleLogin" />
             </button>
           </div>

@@ -60,7 +60,7 @@ class Settings extends React.Component {
             <button style={{background: '#3b5998'}} onClick={() => hello.login('facebook')}>
               <Facebook className="inline-icon" /><Text id="facebookLogin" />
             </button>
-            <button style={{background: '#983b3b'}} onClick={() => hello.login('google')}>
+            <button style={{background: '#983b3b'}} onClick={() => hello('google').login({scope: 'https://www.googleapis.com/auth/userinfo.email'})}>
               <Google className="inline-icon" /><Text id="googleLogin" />
             </button>
           </div>

@@ -21,11 +21,9 @@ import NotFound from './NotFound'
 hello.init({
   facebook: '1841481822746867',
   google: '402535393048-osrrh9uci8031oh4sv3vepgifsol0rd8.apps.googleusercontent.com'
-}, {
-  scope: 'emails'
 })
 
-hello.on('auth', () => {
+hello.on('auth.login', () => {
   const authData = store.getState().value.authData
   const googleAuth = hello.getAuthResponse('google')
   const facebookAuth = hello.getAuthResponse('facebook')

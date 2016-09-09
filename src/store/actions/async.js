@@ -13,7 +13,7 @@ export function fetchAreas(lang) {
 export function fetchUser(authData) {
   return {
     type: 'FETCH_USER_DATA',
-    payload: http.get(`/me?${authData.provider}Token=${authData.token}`),
+    payload: fetch(`https://kitchen.kanttiinit.fi/me?${authData.provider}Token=${authData.token}`).then(r => r.json()),
     meta: {
       data: 'user'
     }

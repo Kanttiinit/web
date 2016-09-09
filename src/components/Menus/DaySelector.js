@@ -18,15 +18,24 @@ const DaySelector = ({ dayOffset, setDayOffset, setFiltersExpanded, filtersExpan
       className={'filters-icon' + (filtersExpanded ? ' expanded' : '')}>
       <More size={24} />
     </a>
-    {_.times(6, i =>
-    <button
-      key={i}
-      ref={e => i === dayOffset && e && e.focus()}
-      className={i === dayOffset ? 'selected' : ''}
-      onClick={() => setDayOffset(i)}>
-      <Text moment={moment().add(i, 'day')} id="dd DD.MM." />
-    </button>
-    )}
+    <div className="hide-mobile">
+      {_.times(6, i =>
+      <button
+        key={i}
+        ref={e => i === dayOffset && e && e.focus()}
+        className={i === dayOffset ? 'selected' : ''}
+        onClick={() => setDayOffset(i)}>
+        <Text moment={moment().add(i, 'day')} id="dd DD.MM." />
+      </button>
+      )}
+    </div>
+    <select className="show-mobile" value={dayOffset} onChange={event => setDayOffset(event.target.value)}>
+      {_.times(6, i =>
+        <option key={i} value={i}>
+          <Text moment={moment().add(i, 'day')} id="dddd DD.MM." />
+        </option>
+      )}
+    </select>
     <a className="account-icon" href="/settings">
       {isLoggedIn ? <img src={user.photo} /> : <Account size={24} />}
     </a>

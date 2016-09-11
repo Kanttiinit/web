@@ -3,10 +3,11 @@ import iosImg from '../assets/ios_store.svg'
 import telegramImg from '../assets/telegram.svg'
 import logo from '../assets/logo.png'
 
+import css from '../styles/Header.scss'
 import Text from './Text'
 
 export const AppLinks = ({style}) => (
-  <div className="app-links" style={style}>
+  <div className={css.appLinks} style={style}>
     <a href="https://telegram.me/KanttiinitBOT">
       <img src={telegramImg} />
     </a>
@@ -20,8 +21,8 @@ export const AppLinks = ({style}) => (
 )
 
 const Header = () => (
-  <header className="header">
-    <a href="/" className="logo">
+  <header className={css.container}>
+    <a href="/" className={css.logo}>
       <img src={logo} />
       <div>
         <h1>Kanttiinit{window.isBeta && <sup>BETA</sup>}</h1>

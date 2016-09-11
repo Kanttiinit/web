@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
 
+import css from '../styles/App.scss'
+import modalCss from '../styles/Modal.scss'
 import * as asyncActions from '../store/actions/async'
 import {closeModal} from '../store/actions/values'
 import {selectLang} from '../store/selectors'
@@ -38,9 +40,9 @@ class App extends React.Component {
         <Header />
         {view}
         <Footer />
-        <div className={'modal' + (modal.open ? ' open' : '')}>
-          <div className="modal-overlay" onClick={() => closeModal()}></div>
-          <div className="modal-content">{modal.component}</div>
+        <div className={modalCss.container + (modal.open ? ' ' + modalCss.open : '')}>
+          <div className={modalCss.overlay} onClick={() => closeModal()}></div>
+          <div className={modalCss.content}>{modal.component}</div>
         </div>
       </div>
     )

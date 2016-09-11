@@ -6,6 +6,7 @@ import moment from 'moment'
 import Pin from 'react-icons/lib/md/place'
 import Home from 'react-icons/lib/md/home'
 
+import css from '../styles/RestaurantModal.scss'
 import Text from './Text'
 import mapStyle from './mapStyle.json'
 
@@ -35,9 +36,9 @@ const RestaurantModal = ({restaurant}) => {
     lng: restaurant.longitude
   }
   return (
-    <div className="restaurant-modal">
+    <div className={css.container}>
       <GoogleMapLoader
-        containerElement={<div className="restaurant-modal-map" />}
+        containerElement={<div className={css.map} />}
         googleMapElement={
           <GoogleMap
             defaultOptions={mapOptions}
@@ -46,24 +47,23 @@ const RestaurantModal = ({restaurant}) => {
             <Marker position={latLng} />
           </GoogleMap>
         }/>
-      <div className="restaurant-modal-info">
+      <div className={css.info}>
         <h1>{restaurant.name}</h1>
-        <div className="restaurant-modal-meta">
+        <div className={css.meta}>
           <a href={`https://maps.google.com/?q=${encodeURIComponent(restaurant.address)}`} target="_blank">
             <Pin className="inline-icon" />
             {restaurant.address}
           </a>
           <a
-            className="restaurant-modal-url"
             href={restaurant.url} target="_blank">
             <Home className="inline-icon" />
             {restaurant.url.replace(/https?\:\/\//, '').replace(/\/$/, '')}
           </a>
         </div>
-        <div className="restaurant-modal-opening-hours-container">
+        <div className={css.openingHoursContainer}>
           {getOpeningHourString(restaurant.openingHours).map(hours =>
-            <div key={hours.startDay} className="restaurant-modal-opening-hours">
-              <span className="day">
+            <div key={hours.startDay} className={css.openingHours}>
+              <span className={css.day}>
                 <Text id="ddd" moment={moment().weekday((hours.startDay + 1) % 7)} />
                 {hours.endDay &&
                 <span>
@@ -72,7 +72,7 @@ const RestaurantModal = ({restaurant}) => {
                 </span>
                 }
               </span>
-              <span className="hours">{hours.hour.replace('-', '–') || <Text id="closed" />}</span>
+              <span className={css.hours}>{hours.hour.replace('-', '–') || <Text id="closed" />}</span>
             </div>
           )}
         </div>

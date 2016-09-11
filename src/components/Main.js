@@ -5,8 +5,6 @@ import page from 'page'
 import key from 'keymaster'
 import hello from 'hellojs'
 
-import '../styles/main.scss'
-
 import store from '../store'
 import {setView, setDayOffset, closeModal, setAuthData} from '../store/actions/values'
 

@@ -1,0 +1,20 @@
+@import 'constants';
+
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem 0;
+
+  @media (max-width: $break-small) {
+    max-width: 100%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+
+  @media (min-width: $break-large) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 95em;
+    margin: 0 auto;
+  }
+}

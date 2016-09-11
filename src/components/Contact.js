@@ -1,6 +1,7 @@
 import React from 'react'
 import 'isomorphic-fetch'
 
+import css from '../styles/Contact.scss'
 import PageContainer from './PageContainer'
 import Text from './Text'
 
@@ -37,7 +38,7 @@ export default class Contact extends React.Component {
     return (
       <PageContainer title={<Text id="contact" />}>
         {sent && <p><Text id="thanksForFeedback" /></p>}
-        <form className="contact-form" onSubmit={this.onSubmit.bind(this)}>
+        <form className={css.container} onSubmit={this.onSubmit.bind(this)}>
           <label htmlFor="email"><Text id="email" /></label>
           <input type="email" id="email" ref="email" required />
           <label htmlFor="message"><Text id="message" /></label>

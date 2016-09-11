@@ -2,13 +2,14 @@ import React from 'react'
 import c from 'classnames'
 import {connect} from 'react-redux'
 
+import css from '../styles/Footer.scss'
 import {AppLinks} from './Header'
 import Text from './Text'
 
 const Footer = ({path}) => {
-  const getClassName = currentPath => c({current: path === currentPath})
+  const getClassName = currentPath => c({[css.current]: path === currentPath})
   return (
-    <footer className="footer">
+    <footer className={css.container}>
       <a href="/" className={getClassName('/')}><Text id="menus" /></a>
       <a href="/settings" className={getClassName('/settings')}><Text id="settings" /></a>
       <a href="/contact" className={getClassName('/contact')}><Text id="contact" /></a>

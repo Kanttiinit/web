@@ -5,6 +5,7 @@ import Facebook from 'react-icons/lib/fa/facebook-official'
 import Google from 'react-icons/lib/fa/google'
 import hello from 'hellojs'
 
+import css from '../styles/Settings.scss'
 import * as actions from '../store/actions/preferences'
 import {isLoggedIn} from '../store/selectors'
 import PageContainer from './PageContainer'
@@ -23,7 +24,7 @@ class Settings extends React.Component {
   render() {
     const {preferences, setUseLocation, setLang, isLoggedIn, user} = this.props;
     return (
-      <PageContainer title={<Text id="settings" />} className="settings">
+      <PageContainer title={<Text id="settings" />} className={css.container}>
         <Item label={<Text id="area" />}>
           <AreaSelector />
         </Item>
@@ -47,7 +48,7 @@ class Settings extends React.Component {
         </Item>
         <Item label={<Text id="profile" />}>
           {isLoggedIn &&
-            <div className="user">
+            <div className={css.user}>
               <img src={user.photo} />
               <p>{user.displayName}<br /><small>{user.email}</small></p>
               <button onClick={() => {
@@ -56,7 +57,7 @@ class Settings extends React.Component {
               }}><Text id="logout" /></button>
             </div>
           }
-          <div style={{display: isLoggedIn ? 'none' : 'block'}} className="login-buttons">
+          <div style={{display: isLoggedIn ? 'none' : 'block'}} className={css.loginButtons}>
             <button style={{background: '#3b5998'}} onClick={() => hello('facebook').login({scope: 'email'})}>
               <Facebook className="inline-icon" /><Text id="facebookLogin" />
             </button>

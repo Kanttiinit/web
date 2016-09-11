@@ -1,6 +1,6 @@
-@import '_constants';
+@import 'constants';
 
-.dayselector {
+.container {
   background: white;
   padding: 0.5rem;
   box-shadow: 0 0.1rem 0.2rem -0.1rem rgba(0, 0, 0, 0.4);
@@ -42,7 +42,7 @@
     }
   }
 
-  .show-mobile {
+  :global(.show-mobile) {
     border: none;
     background: transparent;
     font-size: 1rem;
@@ -51,38 +51,37 @@
     text-transform: uppercase;
     color: $accent_color;
   }
+}
 
-  .account-icon, .filters-icon {
-    color: $gray;
-    position: absolute;
-    right: 0;
-    top: 0;
-    display: flex;
-    align-items: center;
-    bottom: 0;
-    margin: 0 1rem;
+a.accountIcon, .filtersIcon {
+  color: $gray;
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  bottom: 0;
+  margin: 0 1rem;
 
-    &:hover, &:focus {
-      outline: none;
-      color: $accent_color;
-    }
+  &:hover, &:focus {
+    outline: none;
+    color: $accent_color;
   }
+}
 
-  .account-icon img {
-    width: 24px;
-    height: 24px;
-    border-radius: 12px;
+.accountIcon img {
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+}
+
+.filtersIcon {
+  left: 0;
+  right: auto;
+  transition: transform 0.2s;
+  user-select: none;
+
+  &.expanded {
+    transform: rotateZ(-180deg);
   }
-
-  .filters-icon {
-    left: 0;
-    right: auto;
-    transition: transform 0.2s;
-    user-select: none;
-
-    &.expanded {
-      transform: rotateZ(-180deg);
-    }
-  }
-
 }

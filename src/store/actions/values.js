@@ -36,10 +36,3 @@ export function closeModal() {
     }
   }
 }
-
-export function setAuthData(authData) {
-  return {
-    type: 'SET_VALUE_AUTH_DATA',
-    payload: {authData}
-  }
-}

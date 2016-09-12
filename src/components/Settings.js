@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import Facebook from 'react-icons/lib/fa/facebook-official'
 import Google from 'react-icons/lib/fa/google'
-import hello from 'hellojs'
 
 import css from '../styles/Settings.scss'
 import * as actions from '../store/actions/preferences'
@@ -58,12 +57,16 @@ class Settings extends React.Component {
             </div>
           }
           <div style={{display: isLoggedIn ? 'none' : 'block'}} className={css.loginButtons}>
-            <button style={{background: '#3b5998'}} onClick={() => hello('facebook').login({scope: 'email'})}>
-              <Facebook className="inline-icon" /><Text id="facebookLogin" />
-            </button>
-            <button style={{background: '#983b3b'}} onClick={() => hello('google').login({scope: 'https://www.googleapis.com/auth/userinfo.email'})}>
-              <Google className="inline-icon" /><Text id="googleLogin" />
-            </button>
+            <a href={`https://www.facebook.com/dialog/oauth?client_id=1841481822746867&redirect_uri=${location.href}?facebook&response_type=token&scope=email`}>
+              <button style={{background: '#3b5998'}}>
+                <Facebook className="inline-icon" /><Text id="facebookLogin" />
+              </button>
+            </a>
+            <a href={`https://accounts.google.com/o/oauth2/v2/auth?client_id=402535393048-osrrh9uci8031oh4sv3vepgifsol0rd8.apps.googleusercontent.com&redirect_uri=${location.href}?google&response_type=token&scope=https://www.googleapis.com/auth/userinfo.email`}>
+              <button style={{background: '#983b3b'}}>
+                <Google className="inline-icon" /><Text id="googleLogin" />
+              </button>
+            </a>
           </div>
         </Item>
       </PageContainer>

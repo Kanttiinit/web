@@ -5,6 +5,7 @@ import Marker from 'react-google-maps/lib/Marker'
 import moment from 'moment'
 import Pin from 'react-icons/lib/md/place'
 import Home from 'react-icons/lib/md/home'
+import findIndex from 'lodash/findIndex'
 
 import css from '../styles/RestaurantModal.scss'
 import Text from './Text'
@@ -20,7 +21,7 @@ const mapOptions = {
 function getOpeningHourString(hours) {
   return hours.reduce((open, hour, i) => {
     if (hour) {
-      const existingIndex = open.findIndex(_ => _.hour === hour);
+      const existingIndex = findIndex(open, ['hour', hour])
       if (existingIndex > -1)
         open[existingIndex].endDay = i;
       else

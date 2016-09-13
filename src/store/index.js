@@ -5,6 +5,7 @@ import {autoRehydrate, persistStore} from 'redux-persist'
 import {REHYDRATE} from 'redux-persist/constants'
 import saveLogger from 'redux-logger'
 import {Set} from 'immutable'
+import includes from 'lodash/fp/includes'
 
 import translations from '../utils/translations'
 
@@ -17,7 +18,7 @@ const defaultValues = {
 const lang = navigator.language.split('-')[0]
 
 const defaultPreferences = {
-  lang: ['fi', 'en'].includes(lang) ? lang : 'fi',
+  lang: includes(['fi', 'en'], lang) ? lang : 'fi',
   selectedArea: 1,
   useLocation: false,
   filtersExpanded: true

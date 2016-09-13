@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
 
+import http from '../utils/http'
 import css from '../styles/App.scss'
 import modalCss from '../styles/Modal.scss'
 import * as asyncActions from '../store/actions/async'
@@ -20,8 +21,9 @@ class App extends React.Component {
       this.props.fetchLocation()
     }
 
-    if (props.authData && props.authData !== this.props.authData) {
-      this.props.fetchUser(props.authData)
+    if (props.token && props.token !== this.props.token) {
+      http.setToken(props.token)
+      this.props.fetchUser()
     }
   }
   fetchAll(lang) {
@@ -55,7 +57,7 @@ const mapState = state => ({
   lang: selectLang(state),
   modal: state.value.modal,
   useLocation: state.preferences.useLocation,
-  authData: state.value.authData
+  token: state.preferences.token
 })
 
 const mapDispatch = dispatch => bindActionCreators({

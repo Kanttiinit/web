@@ -10,10 +10,10 @@ export function fetchAreas(lang) {
    };
 }
 
-export function fetchUser(authData) {
+export function fetchUser() {
   return {
     type: 'FETCH_USER_DATA',
-    payload: fetch(`https://kitchen.kanttiinit.fi/me?${authData.provider}Token=${authData.token}`).then(r => r.json()),
+    payload: http.get('/me'),
     meta: {
       data: 'user'
     }

@@ -25,3 +25,10 @@ export function setFiltersExpanded(filtersExpanded) {
     payload: {filtersExpanded}
   }
 }
+
+export function setToken(token) {
+  return {
+    type: 'SET_PREFERENCE_TOKEN',
+    payload: {token}
+  }
+}

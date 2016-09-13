@@ -3,9 +3,10 @@ import {bindActionCreators} from 'redux'
 import {Provider} from 'react-redux'
 import page from 'page'
 import key from 'keymaster'
-import fetch from 'isomorphic-fetch'
+import http from '../utils/http'
 
 import store from '../store'
+import {setToken} from '../store/actions/preferences'
 import {setView, setDayOffset, closeModal} from '../store/actions/values'
 
 import parseAuth from '../utils/parseAuth'
@@ -49,7 +50,10 @@ page()
 
 const auth = parseAuth(page)
 if (auth) {
-  console.log(auth)
+  http.get(`/me/login?${auth.provider}Token=${auth.token}`)
+  .then(response => {
+    store.dispatch(setToken(response.token))
+  })
 }
 
 export default () => (

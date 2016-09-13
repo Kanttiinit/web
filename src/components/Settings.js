@@ -21,7 +21,7 @@ const Item = ({label, children}) => (
 
 class Settings extends React.Component {
   render() {
-    const {preferences, setUseLocation, setLang, isLoggedIn, user} = this.props;
+    const {preferences, setUseLocation, setLang, isLoggedIn, user, setToken} = this.props;
     return (
       <PageContainer title={<Text id="settings" />} className={css.container}>
         <Item label={<Text id="area" />}>
@@ -50,10 +50,7 @@ class Settings extends React.Component {
             <div className={css.user}>
               <img src={user.photo} />
               <p>{user.displayName}<br /><small>{user.email}</small></p>
-              <button onClick={() => {
-                hello.logout('facebook')
-                hello.logout('google')
-              }}><Text id="logout" /></button>
+              <button onClick={() => setToken()}><Text id="logout" /></button>
             </div>
           }
           <div style={{display: isLoggedIn ? 'none' : 'block'}} className={css.loginButtons}>

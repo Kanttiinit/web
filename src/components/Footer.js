@@ -16,7 +16,7 @@ const Footer = ({path, token}) => {
       <a href="/privacy-policy" className={getClassName('/privacy-policy')}><Text id="privacyPolicy" /></a>
       <a href="/beta" className={getClassName('/beta')}>Beta</a>
       <a href="https://github.com/Kanttiinit" target="_blank"><Text id="sourceCode" /></a>
-      {token &&
+      {token && user && user.admin &&
       <a href={'https://kitchen.kanttiinit.fi/admin?token=' + token} target="_blank">Admin</a>}
       <AppLinks style={{marginTop: '2rem'}} />
     </footer>
@@ -25,7 +25,8 @@ const Footer = ({path, token}) => {
 
 const mapState = state => ({
   path: state.value.view.path,
-  token: state.preferences.token
+  token: state.preferences.token,
+  user: state.data.user
 })
 
 export default connect(mapState)(Footer)

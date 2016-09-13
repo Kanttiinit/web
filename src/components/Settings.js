@@ -45,6 +45,7 @@ class Settings extends React.Component {
             selected={preferences.lang}
             onChange={lang => setLang(lang)} />
         </Item>
+        {isBeta &&
         <Item label={<Text id="profile" />}>
           {isLoggedIn &&
             <div className={css.user}>
@@ -66,6 +67,7 @@ class Settings extends React.Component {
             </a>
           </div>
         </Item>
+        }
       </PageContainer>
     )
   }

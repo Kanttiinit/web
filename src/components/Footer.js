@@ -6,7 +6,7 @@ import css from '../styles/Footer.scss'
 import {AppLinks} from './Header'
 import Text from './Text'
 
-const Footer = ({path}) => {
+const Footer = ({path, token}) => {
   const getClassName = currentPath => c({[css.current]: path === currentPath})
   return (
     <footer className={css.container}>
@@ -16,13 +16,16 @@ const Footer = ({path}) => {
       <a href="/privacy-policy" className={getClassName('/privacy-policy')}><Text id="privacyPolicy" /></a>
       <a href="/beta" className={getClassName('/beta')}>Beta</a>
       <a href="https://github.com/Kanttiinit" target="_blank"><Text id="sourceCode" /></a>
+      {token &&
+      <a href={'https://kitchen.kanttiinit.fi/admin?token=' + token} target="_blank">Admin</a>}
       <AppLinks style={{marginTop: '2rem'}} />
     </footer>
   )
 }
 
 const mapState = state => ({
-  path: state.value.view.path
+  path: state.value.view.path,
+  token: state.preferences.token
 })
 
 export default connect(mapState)(Footer)

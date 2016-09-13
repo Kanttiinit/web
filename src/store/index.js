@@ -6,6 +6,8 @@ import {REHYDRATE} from 'redux-persist/constants'
 import saveLogger from 'redux-logger'
 import {Set} from 'immutable'
 import includes from 'lodash/fp/includes'
+import startsWith from 'lodash/startsWith'
+import endsWith from 'lodash/endsWith'
 
 import translations from '../utils/translations'
 
@@ -26,7 +28,7 @@ const defaultPreferences = {
 
 const reducer = combineReducers({
    value: (state = defaultValues, {type, payload}) => {
-      if (type.startsWith('SET_VALUE_')) {
+      if (startsWith(type, 'SET_VALUE_')) {
          return {...state, ...payload}
       }
       return state
@@ -34,9 +36,9 @@ const reducer = combineReducers({
    pending: (state = {}, {type, payload, meta = {}}) => {
       const key = meta.data
       if (key) {
-         if (type.endsWith('_FULFILLED') || type.endsWith('_REJECTED')) {
+         if (endsWith(type, '_FULFILLED') || endsWith(type, '_REJECTED')) {
             return {...state, [key]: false}
-         } else if (type.endsWith('_PENDING')) {
+         } else if (endsWith(type, '_PENDING')) {
             return {...state, [key]: true}
          }
       }
@@ -44,7 +46,7 @@ const reducer = combineReducers({
    },
    data: (state = {}, {type, payload, meta = {}}) => {
       const key = meta.data
-      if (key && type.endsWith('_FULFILLED')) {
+      if (key && endsWith(type, '_FULFILLED')) {
          return {...state, [key]: payload}
       }
       return state
@@ -52,9 +54,9 @@ const reducer = combineReducers({
    error: (state = {}, {type, payload, meta = {}}) => {
       const key = meta.data
       if (key) {
-         if (type.endsWith('_FULFILLED')) {
+         if (endsWith(type, '_FULFILLED')) {
             return {...state, [key]: undefined}
-         } else if (type.endsWith('_REJECTED')) {
+         } else if (endsWith(type, '_REJECTED')) {
             return {...state, [key]: payload}
          }
       }
@@ -63,7 +65,7 @@ const reducer = combineReducers({
    preferences: (state = defaultPreferences, {type, payload}) => {
      if (type === REHYDRATE && payload.preferences) {
        return payload.preferences
-     } else if (type.startsWith('SET_PREFERENCE_')) {
+     } else if (startsWith(type, 'SET_PREFERENCE_')) {
        return {...state, ...payload}
      }
      return state

@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import c from 'classnames'
 import sortBy from 'lodash/sortBy'
 
+import {setSelectedArea} from '../../store/actions/preferences'
 import Radio from '../Radio'
 import Text from '../Text'
 

@@ -32,9 +32,8 @@ export const getFormattedRestaurants = createSelector(
 export const selectLang = state => state.preferences.lang
 
 export const selectFiltersExpanded = createSelector(
-  state => state.preferences.selectedArea,
   state => state.preferences.filtersExpanded,
-  (selectedArea, filtersExpanded) => !selectedArea || filtersExpanded
+  filtersExpanded => filtersExpanded
 )
 
 export const isLoggedIn = createSelector(

@@ -102,5 +102,8 @@ export default {
   googleLogin: {
     fi: 'Kirjaudu sisään Googlella',
     en: 'Log in with Google'
+  save: {
+    fi: 'Tallenna',
+    en: 'Save'
   }
 }

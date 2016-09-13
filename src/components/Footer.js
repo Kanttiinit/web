@@ -6,7 +6,7 @@ import css from '../styles/Footer.scss'
 import {AppLinks} from './Header'
 import Text from './Text'
 
-const Footer = ({path, token}) => {
+const Footer = ({path, token, user}) => {
   const getClassName = currentPath => c({[css.current]: path === currentPath})
   return (
     <footer className={css.container}>

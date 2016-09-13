@@ -1,0 +1,86 @@
+@import 'constants';
+
+.container {
+  background: white;
+  box-shadow: 0 0.1rem 0.2rem -0.1rem rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
+  position: relative;
+  text-align: center;
+  white-space: nowrap;
+
+  @media (max-width: $break-small) {
+    background-color: $body_background;
+    border-bottom: 1px solid #ededed;
+    justify-content: flex-start;
+    overflow-x: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  button {
+    border: none;
+    background: transparent;
+    font-size: 0.8rem;
+    display: inline-block;
+    border-bottom: solid 0px $accent_color;
+    text-transform: uppercase;
+    padding: 1em 1em 0.75em;
+    margin: 0 0.25em;
+    color: $gray;
+
+    &:focus {
+      outline: none;
+      color: $accent_color_light;
+    }
+
+    &.selected {
+      color: $accent_color;
+      border-bottom-width: 0.25em;
+    }
+  }
+
+  :global(.show-mobile) {
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    margin: 0.5em;
+    font-family: inherit;
+    text-transform: uppercase;
+    color: $accent_color;
+  }
+}
+
+a.accountIcon, .filtersIcon {
+  color: $gray;
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  bottom: 0;
+  margin: 0 1rem;
+
+  &:hover, &:focus {
+    outline: none;
+    color: $accent_color;
+  }
+}
+
+.accountIcon img {
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+}
+
+.filtersIcon {
+  left: 0;
+  right: auto;
+  transition: transform 0.2s;
+  user-select: none;
+
+  &.expanded {
+    transform: rotateZ(-180deg);
+  }
+}

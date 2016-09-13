@@ -1,0 +1,63 @@
+@import 'constants';
+
+.container {
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.8rem;
+
+  h1, h2 {
+    font-weight: 300;
+    margin: 0;
+  }
+}
+
+.map {
+  flex: 1;
+}
+
+.info {
+  padding: 1em;
+  box-sizing: border-box;
+  color: white;
+  background: $accent_color;
+}
+
+.meta {
+  margin-bottom: 1em;
+}
+
+.meta a {
+  text-transform: uppercase;
+  display: block;
+  margin-top: 0.2rem;
+  opacity: 0.6;
+  white-space: nowrap;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.openingHoursContainer {
+  display: table;
+}
+
+.openingHours {
+  display: table-row;
+
+  .day, .hours {
+    display: table-cell;
+  }
+
+  .day {
+    text-transform: uppercase;
+    opacity: 0.6;
+    text-align: right;
+  }
+
+  .hours {
+    font-weight: 300;
+    padding-left: 0.4em;
+  }
+}

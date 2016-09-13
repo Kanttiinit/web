@@ -10,6 +10,16 @@ export function fetchAreas(lang) {
    };
 }
 
+export function fetchUser() {
+  return {
+    type: 'FETCH_USER_DATA',
+    payload: http.get('/me'),
+    meta: {
+      data: 'user'
+    }
+  }
+}
+
 export function fetchFavorites(lang) {
    return {
       type: 'FETCH_FAVORITES',

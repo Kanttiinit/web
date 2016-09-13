@@ -2,7 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
 
-import {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites, fetchLocation} from '../store/actions/async'
+import http from '../utils/http'
+import css from '../styles/App.scss'
+import modalCss from '../styles/Modal.scss'
+import * as asyncActions from '../store/actions/async'
 import {closeModal} from '../store/actions/values'
 import {selectLang} from '../store/selectors'
 import Header from './Header'
@@ -17,6 +20,11 @@ class App extends React.Component {
     if (props.useLocation && props.useLocation !== this.props.useLocation) {
       this.props.fetchLocation()
     }
+
+    if (props.token && props.token !== this.props.token) {
+      http.setToken(props.token)
+      this.props.fetchUser()
+    }
   }
   fetchAll(lang) {
     const {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites} = this.props
@@ -24,13 +32,6 @@ class App extends React.Component {
     fetchMenus(lang)
     fetchRestaurants(lang)
     fetchFavorites(lang)
-  }
-  componentDidMount() {
-    document.addEventListener('keydown', e => {
-      if (e.keyCode === 27) {
-        this.props.closeModal()
-      }
-    })
   }
   render() {
     const {view, initializing, modal, closeModal} = this.props
@@ -41,9 +42,9 @@ class App extends React.Component {
         <Header />
         {view}
         <Footer />
-        <div className={'modal' + (modal.open ? ' open' : '')}>
-          <div className="modal-overlay" onClick={() => closeModal()}></div>
-          <div className="modal-content">{modal.component}</div>
+        <div className={modalCss.container + (modal.open ? ' ' + modalCss.open : '')}>
+          <div className={modalCss.overlay} onClick={() => closeModal()}></div>
+          <div className={modalCss.content}>{modal.component}</div>
         </div>
       </div>
     )
@@ -55,15 +56,12 @@ const mapState = state => ({
   view: state.value.view.view,
   lang: selectLang(state),
   modal: state.value.modal,
-  useLocation: state.preferences.useLocation
+  useLocation: state.preferences.useLocation,
+  token: state.preferences.token
 })
 
 const mapDispatch = dispatch => bindActionCreators({
-  fetchAreas,
-  fetchMenus,
-  fetchRestaurants,
-  fetchFavorites,
-  fetchLocation,
+  ...asyncActions,
   closeModal
 }, dispatch)
 

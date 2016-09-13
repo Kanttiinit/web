@@ -86,5 +86,21 @@ export default {
   selectArea: {
     fi: 'Aloita valitsemalla alue',
     en: 'Start by selecting an area'
+  },
+  profile: {
+    fi: 'Profiili',
+    en: 'Profile'
+  },
+  logout: {
+    fi: 'Kirjaudu ulos',
+    en: 'Log out'
+  },
+  facebookLogin: {
+    fi: 'Kirjaudu sisään Facebookilla',
+    en: 'Log in with Facebook'
+  },
+  googleLogin: {
+    fi: 'Kirjaudu sisään Googlella',
+    en: 'Log in with Google'
   }
 }

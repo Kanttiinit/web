@@ -3,12 +3,13 @@ import {bindActionCreators} from 'redux'
 import {Provider} from 'react-redux'
 import page from 'page'
 import key from 'keymaster'
-
-import '../styles/main.scss'
+import http from '../utils/http'
 
 import store from '../store'
-import {setView, setDayOffset} from '../store/actions/values';
+import {setToken} from '../store/actions/preferences'
+import {setView, setDayOffset, closeModal} from '../store/actions/values'
 
+import parseAuth from '../utils/parseAuth'
 import App from './App'
 import Menus from './Menus'
 import PrivacyPolicy from './PrivacyPolicy'
@@ -31,6 +32,8 @@ key('left,right', (event, handler) => {
   store.dispatch(setDayOffset(store.getState().value.dayOffset + offset))
 })
 
+key('esc', () => store.dispatch(closeModal()))
+
 Object.keys(routes).forEach(path => {
   page(path, () => {
     if (window.ga) {
@@ -44,6 +47,14 @@ Object.keys(routes).forEach(path => {
   })
 })
 page()
+
+const auth = parseAuth(page)
+if (auth) {
+  http.get(`/me/login?${auth.provider}Token=${auth.token}`)
+  .then(response => {
+    store.dispatch(setToken(response.token))
+  })
+}
 
 export default () => (
   <Provider store={store}>

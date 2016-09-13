@@ -1,24 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import css from '../../styles/Restaurant.scss'
 import {openModal} from '../../store/actions/values'
 import RestaurantModal from '../RestaurantModal'
-import Text from '../Text'
 
 const Restaurant = ({ restaurant, dayOfWeek, openModal }) => (
-  <div className={"restaurant" + (restaurant.noCourses ? ' restaurant-empty' : '')}>
-    <div onClick={() => openModal()} className="restaurant-header">
+  <div className={css.container + (restaurant.noCourses ? ' ' + css.empty : '')}>
+    <div onClick={() => openModal()} className={css.header}>
       <h2>{restaurant.name}</h2>
       <span>{restaurant.openingHours[dayOfWeek]}</span>
     </div>
-
-    <div className="restaurant-body">
-      {restaurant.noCourses ? (<span className="restaurant-empty-text">{<Text id="noMenu" />}</span>) : restaurant.courses.map((course, i) => (
+    <div className={css.body}>
+      {restaurant.noCourses ? (<span className={css.emptyText}>Ei ruokaa</span>) : restaurant.courses.map((course, i) => (
         <div
-          className={"restaurant-course" + (restaurant.courses[restaurant.courses.length - 1].title === course.title ? ' last-course' : '')}
+          className={css.course}
           key={i}>
-          <span className="course-title">{course.title}</span>
-          <span className="course-props">{course.properties.join(" ")}</span>
+          <span className={css.title}>{course.title}</span>
+          <span className={css.props}>{course.properties.join(" ")}</span>
         </div>
       ))}
     </div>

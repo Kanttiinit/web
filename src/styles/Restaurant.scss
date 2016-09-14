@@ -31,7 +31,6 @@
   margin-bottom: 1rem;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
 
   h2 {
     color: $accent_color_dark;
@@ -106,5 +105,19 @@
 
   .body {
     color: $dark_gray;
+  }
+}
+
+.restaurantActions {
+  align-self: flex-end;
+  margin-top: 0.7rem;
+  color: $gray;
+
+}
+
+.actionIcon {
+  &:hover, &:focus {
+    outline: none;
+    color: $accent_color;
   }
 }

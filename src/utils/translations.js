@@ -97,10 +97,14 @@ export default {
   },
   facebookLogin: {
     fi: 'Kirjaudu sisään Facebookilla',
-    en: 'Log in with Facebook'
+    en: 'Facebook login'
   },
   googleLogin: {
     fi: 'Kirjaudu sisään Googlella',
-    en: 'Log in with Google'
+    en: 'Google login'
+  },
+  save: {
+    fi: 'Tallenna',
+    en: 'Save'
   }
 }

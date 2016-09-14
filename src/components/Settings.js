@@ -68,6 +68,9 @@ class Settings extends React.Component {
           </div>
         </Item>
         }
+        <Item>
+          <a href="/" className={css.saveButton}><Text id="save" /></a>
+        </Item>
       </PageContainer>
     )
   }

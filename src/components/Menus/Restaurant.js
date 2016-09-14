@@ -5,6 +5,7 @@ import Walk from 'react-icons/lib/md/directions-walk'
 import css from '../../styles/Restaurant.scss'
 import {openModal} from '../../store/actions/values'
 import RestaurantModal from '../RestaurantModal'
+import Map from 'react-icons/lib/io/more'
 
 const Restaurant = ({ restaurant, dayOfWeek, openModal }) => (
   <div className={css.container + (restaurant.noCourses ? ' ' + css.empty : '')}>
@@ -20,6 +21,9 @@ const Restaurant = ({ restaurant, dayOfWeek, openModal }) => (
       <div className={css.meta}>
         {restaurant.openingHours[dayOfWeek]}
       </div>
+    <div className={css.header}>
+      <h2>{restaurant.name}</h2>
+      <span>{restaurant.openingHours[dayOfWeek]}</span>
     </div>
     <div className={css.body}>
       {restaurant.noCourses ? (<span className={css.emptyText}>Ei ruokaa</span>) : restaurant.courses.map((course, i) => (
@@ -30,6 +34,11 @@ const Restaurant = ({ restaurant, dayOfWeek, openModal }) => (
           <span className={css.props}>{course.properties.join(" ")}</span>
         </div>
       ))}
+    </div>
+    <div className={css.restaurantActions}>
+      <a onClick={() => openModal()} className={css.actionIcon}>
+        <Map size={18}/>
+      </a>
     </div>
   </div>
 )

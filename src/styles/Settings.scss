@@ -60,3 +60,22 @@
 .item {
   margin-bottom: 2rem;
 }
+
+.saveButton {
+  font-size: 0.8em;
+  border: none;
+  padding: 0.8em 1.2em;
+  font-family: inherit;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-radius: 0.2em;
+  display: inline-block;
+  margin-top: 2rem;
+  min-width: 4rem;
+  background: $accent_color;
+  text-align: center;
+
+  span {
+    color: white;
+  }
+}

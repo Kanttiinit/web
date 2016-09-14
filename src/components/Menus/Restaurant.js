@@ -9,7 +9,7 @@ import Map from 'react-icons/lib/io/more'
 
 const Restaurant = ({ restaurant, dayOfWeek, openModal }) => (
   <div className={css.container + (restaurant.noCourses ? ' ' + css.empty : '')}>
-    <div onClick={() => openModal()} className={css.header}>
+    <div className={css.header}>
       <h2>
         {restaurant.name}
         {restaurant.distance &&

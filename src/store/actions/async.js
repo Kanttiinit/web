@@ -35,7 +35,10 @@ export function fetchLocation() {
       type: 'FETCH_LOCATION',
       payload: new Promise((resolve, reject) => {
          navigator.geolocation.getCurrentPosition(
-            position => resolve(position.coords),
+            position => {
+              const {latitude, longitude} = position.coords
+              resolve({latitude, longitude})
+            },
             error => reject(error),
             {timeout: 10000, maximumAge: 60000}
          );

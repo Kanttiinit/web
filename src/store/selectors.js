@@ -1,6 +1,7 @@
 import {createSelector} from 'reselect'
 import moment from 'moment'
 import _ from 'lodash'
+import haversine from 'haversine'
 
 export const selectAreas = state => state.data.areas || []
 
@@ -15,7 +16,8 @@ export const getFormattedRestaurants = createSelector(
   state => state.data.restaurants || [],
   state => state.data.menus,
   selectSelectedArea,
-  (dayOffset, restaurants, menus, selectedArea = {}) => {
+  state => state.data.location,
+  (dayOffset, restaurants, menus, selectedArea = {}, location) => {
     const day = moment().add(dayOffset, 'day').format('YYYY-MM-DD')
     return _.orderBy(
         restaurants
@@ -23,9 +25,10 @@ export const getFormattedRestaurants = createSelector(
           selectedArea.restaurants && selectedArea.restaurants.some(r => r.id === restaurant.id))
         .map(restaurant => {
            const courses = _.get(menus, [restaurant.id, day], [])
-           return {...restaurant, courses, noCourses: !courses.length}
+           const distance = location && haversine(location, restaurant, {unit: 'meter'})
+           return {...restaurant, courses, distance, noCourses: !courses.length}
         }),
-     ['noCourses'])
+     ['noCourses', 'distance'])
   }
 )
 

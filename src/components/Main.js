@@ -18,6 +18,8 @@ import Beta from './Beta'
 import Settings from './Settings'
 import NotFound from './NotFound'
 
+window.isBeta = location.hostname === 'beta.kanttiinit.fi' || location.hostname === 'localhost'
+
 const routes = {
   '/': Menus,
   '/privacy-policy': PrivacyPolicy,

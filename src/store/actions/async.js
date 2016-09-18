@@ -12,7 +12,7 @@ export function fetchAreas(lang) {
 
 export function fetchUser() {
   return {
-    type: 'FETCH_USER_DATA',
+    type: 'FETCH_USER',
     payload: http.get('/me'),
     meta: {
       data: 'user'

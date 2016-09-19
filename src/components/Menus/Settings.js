@@ -4,13 +4,13 @@ import {bindActionCreators} from 'redux'
 import Facebook from 'react-icons/lib/fa/facebook-official'
 import Google from 'react-icons/lib/fa/google'
 
-import css from '../styles/Settings.scss'
-import * as actions from '../store/actions/preferences'
-import {isLoggedIn} from '../store/selectors'
-import PageContainer from './PageContainer'
-import Text from './Text'
-import Radio from './Radio'
-import AreaSelector from './Menus/AreaSelector'
+import css from '../../styles/Settings.scss'
+import * as actions from '../../store/actions/preferences'
+import {savePreferences} from '../../store/actions/async'
+import {isLoggedIn} from '../../store/selectors'
+import Text from '../Text'
+import Radio from '../Radio'
+import AreaSelector from './AreaSelector'
 
 const Item = ({label, children}) => (
   <div className="settings-item">
@@ -21,9 +21,10 @@ const Item = ({label, children}) => (
 
 class Settings extends React.Component {
   render() {
-    const {preferences, setUseLocation, setLang, isLoggedIn, user, setToken} = this.props;
+    const {preferences, savePreferences, setUseLocation, setLang, isLoggedIn, user, setToken} = this.props;
     return (
-      <PageContainer title={<Text id="settings" />} className={css.container}>
+      <div className={css.container}>
+        <h1><Text id="settings" /></h1>
         <Item label={<Text id="area" />}>
           <AreaSelector />
         </Item>
@@ -68,10 +69,11 @@ class Settings extends React.Component {
           </div>
         </Item>
         }
+        {isLoggedIn &&
         <Item>
-          <a href="/" className={css.saveButton}><Text id="save" /></a>
-        </Item>
-      </PageContainer>
+          <a onClick={() => savePreferences({...preferences, token: undefined})} className={css.saveButton}><Text id="save" /></a>
+        </Item>}
+      </div>
     )
   }
 }
@@ -82,6 +84,6 @@ const mapState = state => ({
   user: state.data.user
 })
 
-const mapDispatch = dispatch => bindActionCreators(actions, dispatch)
+const mapDispatch = dispatch => bindActionCreators({...actions, savePreferences}, dispatch)
 
 export default connect(mapState, mapDispatch)(Settings)

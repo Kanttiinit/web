@@ -20,6 +20,16 @@ export function fetchUser() {
   }
 }
 
+export function savePreferences(preferences) {
+  return {
+    type: 'SAVE_PREFERENCES',
+    payload: http.put('/me/preferences', preferences),
+    meta: {
+      data: 'savePreferences'
+    }
+  }
+}
+
 export function fetchFavorites(lang) {
    return {
       type: 'FETCH_FAVORITES',

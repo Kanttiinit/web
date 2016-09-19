@@ -8,6 +8,9 @@ export default {
 		if (this.token) {
 			headers.Authorization = this.token
 		}
+		if (body) {
+			headers['Content-Type'] = 'application/json'
+		}
 		return fetch(API_BASE + url, {
 			method,
 			body: body ? JSON.stringify(body) : undefined,

@@ -11,7 +11,6 @@ const Footer = ({path, token, user}) => {
   return (
     <footer className={css.container}>
       <a href="/" className={getClassName('/')}><Text id="menus" /></a>
-      <a href="/settings" className={getClassName('/settings')}><Text id="settings" /></a>
       <a href="/contact" className={getClassName('/contact')}><Text id="contact" /></a>
       <a href="/privacy-policy" className={getClassName('/privacy-policy')}><Text id="privacyPolicy" /></a>
       <a href="/beta" className={getClassName('/beta')}>Beta</a>

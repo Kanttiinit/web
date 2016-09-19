@@ -17,7 +17,6 @@ import Menus from './Menus'
 import PrivacyPolicy from './PrivacyPolicy'
 import Contact from './Contact'
 import Beta from './Beta'
-import Settings from './Settings'
 import NotFound from './NotFound'
 
 window.isBeta = location.hostname === 'beta.kanttiinit.fi' || location.hostname === 'localhost'
@@ -41,7 +40,6 @@ const routes = {
   '/privacy-policy': PrivacyPolicy,
   '/beta': Beta,
   '/contact': Contact,
-  '/settings': Settings,
   '*': NotFound
 }
 

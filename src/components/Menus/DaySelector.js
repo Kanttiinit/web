@@ -5,14 +5,15 @@ import moment from 'moment'
 import Account from 'react-icons/lib/md/account-circle'
 import More from 'react-icons/lib/md/expand-more'
 
+import Settings from './Settings'
 import css from '../../styles/DaySelector.scss'
 import Loader from '../Loader'
-import {setDayOffset} from '../../store/actions/values'
+import {setDayOffset, openModal} from '../../store/actions/values'
 import {setFiltersExpanded} from '../../store/actions/preferences'
 import {selectFiltersExpanded, isLoggedIn} from '../../store/selectors'
 import Text from '../Text'
 
-const DaySelector = ({ dayOffset, setDayOffset, setFiltersExpanded, filtersExpanded, user, isLoggedIn }) => (
+const DaySelector = ({ dayOffset, setDayOffset, openModal, setFiltersExpanded, filtersExpanded, user, isLoggedIn }) => (
   <div className={css.container}>
     <a
       onClick={() => setFiltersExpanded(!filtersExpanded)}
@@ -37,7 +38,7 @@ const DaySelector = ({ dayOffset, setDayOffset, setFiltersExpanded, filtersExpan
         </option>
       )}
     </select>
-    <a className={css.accountIcon} href="/settings">
+    <a className={css.accountIcon} onClick={() => openModal(<Settings />)}>
       {isLoggedIn ? <img src={user.photo} /> : <Account size={24} />}
     </a>
   </div>
@@ -50,6 +51,6 @@ const mapState = state => ({
   isLoggedIn: isLoggedIn(state)
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({setDayOffset, setFiltersExpanded}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({setDayOffset, openModal, setFiltersExpanded}, dispatch)
 
 export default connect(mapState, mapDispatchToProps)(DaySelector)

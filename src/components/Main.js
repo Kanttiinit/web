@@ -54,10 +54,8 @@ Object.keys(routes).forEach(path => {
       view: React.createElement(routes[path])
     }
     store.dispatch(setView(route))
-    if (isProduction) {
-      GA.set({page: path})
-      GA.pageview(path)
-    }
+    GA.set({page: path})
+    GA.pageview(path)
   })
 })
 page()

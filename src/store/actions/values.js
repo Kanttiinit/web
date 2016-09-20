@@ -1,6 +1,8 @@
-import moment from 'moment';
+import moment from 'moment'
+import trackAction from '../../utils/trackAction'
 
 export function setDayOffset(dayOffset) {
+  trackAction('set day offset', dayOffset)
    return {
       type: 'SET_VALUE_DAY_OFFSET',
       payload: {dayOffset: Math.min(Math.max(dayOffset, 0), 5)}
@@ -15,6 +17,7 @@ export function setView(view) {
 }
 
 export function openModal(component) {
+  trackAction('open modal', component.displayName)
   return {
     type: 'SET_VALUE_MODAL',
     payload: {
@@ -27,6 +30,7 @@ export function openModal(component) {
 }
 
 export function closeModal() {
+  trackAction('close modal')
   return {
     type: 'SET_VALUE_MODAL',
     payload: {

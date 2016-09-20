@@ -106,5 +106,9 @@ export default {
   save: {
     fi: 'Tallenna',
     en: 'Save'
+  },
+  saving: {
+    fi: 'Tallennetaan...',
+    en: 'Saving...'
   }
 }

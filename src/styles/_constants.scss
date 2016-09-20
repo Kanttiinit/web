@@ -8,35 +8,3 @@ $subtle_border: 1px $extra_light_gray solid;
 
 $break-small: 767px;
 $break-large: 768px;
-
-:global {
-  .default-button {
-    border-radius: $small_border_radius;
-    padding: 6px;
-
-    margin: 2px 4px 2px 4px;
-    color: $gray;
-    font-size: 10pt;
-    background-color: transparent;
-    cursor: pointer;
-
-    @media (min-width: $break-large) {
-      transition: border 0.1s ease-out, color 0.1s ease-out;
-      transform: scale(1.0);
-
-      &:hover {
-        opacity: 0.8;
-
-        &:not(.selected) {
-          color: $accent_color;
-        }
-      }
-    }
-
-    &:focus {
-      outline: none;
-      color: $accent_color;
-    }
-
-  }
-}

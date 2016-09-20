@@ -35,6 +35,36 @@
     text-decoration: none;
   }
 
+  .button {
+    font-size: 0.8rem;
+    border: none;
+    padding: 0.8em 1.2em;
+    font-family: inherit;
+    text-transform: uppercase;
+    font-weight: 500;
+    border-radius: 0.2em;
+    display: inline-block;
+    min-width: 4rem;
+    background: $accent_color;
+    text-align: center;
+    color: white;
+    outline: none;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    &:focus {
+      background: $accent_color_light;
+    }
+
+    &-small {
+      font-size: 0.7rem;
+      padding: 0.5em 0.7em;
+    }
+  }
+
   a, button {
     cursor: pointer;
   }

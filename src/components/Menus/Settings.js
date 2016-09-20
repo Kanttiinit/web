@@ -19,69 +19,70 @@ const Item = ({label, children}) => (
   </div>
 )
 
-class Settings extends React.Component {
-  render() {
-    const {preferences, savePreferences, setUseLocation, setLang, isLoggedIn, user, setToken} = this.props;
-    return (
-      <div className={css.container}>
-        <h1><Text id="settings" /></h1>
-        <Item label={<Text id="area" />}>
-          <AreaSelector />
-        </Item>
-        <Item label={<Text id="useLocation" />}>
-          <Radio
-            options={[
-              {label: <Text id="yes" />, value: true},
-              {label: <Text id="no" />, value: false}
-            ]}
-            selected={preferences.useLocation}
-            onChange={value => setUseLocation(value)} />
-        </Item>
-        <Item label={<Text id="language" />}>
-          <Radio
-            options={[
-              {label: 'Finnish', value: 'fi'},
-              {label: 'English', value: 'en'}
-            ]}
-            selected={preferences.lang}
-            onChange={lang => setLang(lang)} />
-        </Item>
-        {isBeta &&
-        <Item label={<Text id="profile" />}>
-          {isLoggedIn &&
-            <div className={css.user}>
-              <img src={user.photo} />
-              <p>{user.displayName}<br /><small>{user.email}</small></p>
-              <button onClick={() => setToken()}><Text id="logout" /></button>
-            </div>
-          }
-          <div style={{display: isLoggedIn ? 'none' : 'block'}} className={css.loginButtons}>
-            <a href={`https://www.facebook.com/dialog/oauth?client_id=1841481822746867&redirect_uri=${location.href}?facebook&response_type=token&scope=email`}>
-              <button style={{background: '#3b5998'}}>
-                <Facebook className="inline-icon" /><Text id="facebookLogin" />
-              </button>
-            </a>
-            <a href={`https://accounts.google.com/o/oauth2/v2/auth?client_id=402535393048-osrrh9uci8031oh4sv3vepgifsol0rd8.apps.googleusercontent.com&redirect_uri=${location.href}?google&response_type=token&scope=https://www.googleapis.com/auth/userinfo.email`}>
-              <button style={{background: '#983b3b'}}>
-                <Google className="inline-icon" /><Text id="googleLogin" />
-              </button>
-            </a>
-          </div>
-        </Item>
-        }
-        {isLoggedIn &&
-        <Item>
-          <a onClick={() => savePreferences({...preferences, token: undefined})} className={css.saveButton}><Text id="save" /></a>
-        </Item>}
+const Settings = ({preferences, savePreferences, setUseLocation, setLang, isLoggedIn, user, setToken, saving}) => (
+  <div className={css.container}>
+    <h1><Text id="settings" /></h1>
+    <Item label={<Text id="area" />}>
+      <AreaSelector />
+    </Item>
+    <Item label={<Text id="useLocation" />}>
+      <Radio
+        options={[
+          {label: <Text id="yes" />, value: true},
+          {label: <Text id="no" />, value: false}
+        ]}
+        selected={preferences.useLocation}
+        onChange={value => setUseLocation(value)} />
+    </Item>
+    <Item label={<Text id="language" />}>
+      <Radio
+        options={[
+          {label: 'Finnish', value: 'fi'},
+          {label: 'English', value: 'en'}
+        ]}
+        selected={preferences.lang}
+        onChange={lang => setLang(lang)} />
+    </Item>
+    {isBeta &&
+    <Item label={<Text id="profile" />}>
+      {isLoggedIn &&
+        <div className={css.user}>
+          <img src={user.photo} />
+          <p>{user.displayName}<br /><small>{user.email}</small></p>
+          <button className="button button-small" style={{marginLeft: '1em'}} onClick={() => setToken()}><Text id="logout" /></button>
+        </div>
+      }
+      <div style={{display: isLoggedIn ? 'none' : 'block'}} className={css.loginButtons}>
+        <a href={`https://www.facebook.com/dialog/oauth?client_id=1841481822746867&redirect_uri=${location.href}?facebook&response_type=token&scope=email`}>
+          <button style={{background: '#3b5998'}}>
+            <Facebook className="inline-icon" /><Text id="facebookLogin" />
+          </button>
+        </a>
+        <a href={`https://accounts.google.com/o/oauth2/v2/auth?client_id=402535393048-osrrh9uci8031oh4sv3vepgifsol0rd8.apps.googleusercontent.com&redirect_uri=${location.href}?google&response_type=token&scope=https://www.googleapis.com/auth/userinfo.email`}>
+          <button style={{background: '#983b3b'}}>
+            <Google className="inline-icon" /><Text id="googleLogin" />
+          </button>
+        </a>
       </div>
-    )
-  }
-}
+    </Item>
+    }
+    {isLoggedIn &&
+    <Item>
+      <button
+        disabled={saving}
+        onClick={() => savePreferences({...preferences, token: undefined})}
+        className="button">
+        {saving ? <Text id="saving" /> : <Text id="save" />}
+      </button>
+    </Item>}
+  </div>
+)
 
 const mapState = state => ({
   preferences: state.preferences,
   isLoggedIn: isLoggedIn(state),
-  user: state.data.user
+  user: state.data.user,
+  saving: state.pending.savePreferences
 })
 
 const mapDispatch = dispatch => bindActionCreators({...actions, savePreferences}, dispatch)

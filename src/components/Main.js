@@ -20,6 +20,7 @@ import Beta from './Beta'
 import NotFound from './NotFound'
 
 window.isBeta = location.hostname === 'beta.kanttiinit.fi' || location.hostname === 'localhost'
+window.isProduction = process.env.NODE_ENV === 'production'
 
 // keyboard shortcuts
 key('left,right', (event, handler) => {
@@ -31,7 +32,7 @@ key('esc', () => store.dispatch(closeModal()))
 
 // analytics setup
 GA.initialize('UA-55969084-5', {
-  debug: process.env.NODE_ENV !== 'production'
+  debug: !isProduction
 })
 
 // routing
@@ -53,8 +54,10 @@ Object.keys(routes).forEach(path => {
       view: React.createElement(routes[path])
     }
     store.dispatch(setView(route))
-    GA.set({page: path})
-    GA.pageview(path)
+    if (isProduction) {
+      GA.set({page: path})
+      GA.pageview(path)
+    }
   })
 })
 page()

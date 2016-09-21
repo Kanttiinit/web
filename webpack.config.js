@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const autoprefixer = require('autoprefixer');
+const pkg = require('./package.json');
 
 const PATHS = {
   app: './src/index.js',
@@ -8,7 +9,27 @@ const PATHS = {
   dist: path.join(__dirname, './dist')
 };
 
-const is_prod = process.env.NODE_ENV === 'production';
+const isProd = process.env.NODE_ENV === 'production';
+
+const prodPlugins = [
+  new webpack.optimize.UglifyJsPlugin({
+    compress: { warnings: false }
+  }),
+  new webpack.optimize.DedupePlugin()
+];
+
+const plugins = [
+  new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': process.env.NODE_ENV
+    },
+    version: JSON.stringify(pkg.version)
+  })
+];
+
+if (isProd) {
+  plugins.concat(prodPlugins);
+}
 
 module.exports = {
   entry: {
@@ -49,17 +70,7 @@ module.exports = {
     ]
   },
   postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
-  plugins: is_prod ? [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false }
-    }),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production')
-      }
-    })
-  ] : [],
+  plugins: plugins,
   sassLoader: {
     includePaths: [path.resolve(__dirname, './src/styles')]
   }

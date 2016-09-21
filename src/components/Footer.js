@@ -21,7 +21,7 @@ const Footer = ({path, token, lang, setLang, user}) => {
       {token && user && user.admin &&
       <a href={'https://kitchen.kanttiinit.fi/admin?token=' + token} target="_blank">Admin</a>}
       &nbsp;
-      <span>1.0.0</span>
+      <span>{version}</span>
       <Radio
         style={{marginTop: '2rem'}}
         selected={lang}

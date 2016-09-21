@@ -17,6 +17,8 @@ const Footer = ({path, token, user}) => {
       <a href="https://github.com/Kanttiinit" target="_blank"><Text id="sourceCode" /></a>
       {token && user && user.admin &&
       <a href={'https://kitchen.kanttiinit.fi/admin?token=' + token} target="_blank">Admin</a>}
+      &nbsp;
+      <span>1.0.0</span>
       <AppLinks style={{marginTop: '2rem'}} />
     </footer>
   )

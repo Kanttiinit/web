@@ -77,10 +77,8 @@ a.accountIcon, .filtersIcon {
 .filtersIcon {
   left: 0;
   right: auto;
-  transition: transform 0.2s;
-  user-select: none;
 
   &.expanded {
-    transform: rotateZ(-180deg);
+    color: $accent_color;
   }
 }

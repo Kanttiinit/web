@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import moment from 'moment'
 import Account from 'react-icons/lib/md/account-circle'
-import More from 'react-icons/lib/md/expand-more'
+import Filter from 'react-icons/lib/md/filter-list'
 
 import Settings from './Settings'
 import css from '../../styles/DaySelector.scss'
@@ -18,7 +18,7 @@ const DaySelector = ({ dayOffset, setDayOffset, openModal, setFiltersExpanded, f
     <a
       onClick={() => setFiltersExpanded(!filtersExpanded)}
       className={css.filtersIcon + (filtersExpanded ? ' ' + css.expanded : '')}>
-      <More size={24} />
+      <Filter size={24} />
     </a>
     <div className="hide-mobile">
       {_.times(6, i =>

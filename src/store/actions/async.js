@@ -40,23 +40,6 @@ export function fetchFavorites(lang) {
    };
 }
 
-export function fetchLocation() {
-   return {
-      type: 'FETCH_LOCATION',
-      payload: new Promise((resolve, reject) => {
-         navigator.geolocation.getCurrentPosition(
-            position => {
-              const {latitude, longitude} = position.coords
-              resolve({latitude, longitude})
-            },
-            error => reject(error),
-            {timeout: 10000, maximumAge: 60000}
-         );
-      }),
-      meta: {data: 'location'}
-   };
-}
-
 export function fetchMenus(lang) {
    return (dispatch, getState) => {
       return dispatch({

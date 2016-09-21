@@ -6,7 +6,7 @@ import http from '../utils/http'
 import css from '../styles/App.scss'
 import modalCss from '../styles/Modal.scss'
 import * as asyncActions from '../store/actions/async'
-import {closeModal} from '../store/actions/values'
+import {closeModal, setLocation} from '../store/actions/values'
 import {selectLang} from '../store/selectors'
 import Header from './Header'
 import Footer from './Footer'
@@ -17,8 +17,15 @@ class App extends React.Component {
       this.fetchAll(props.lang)
     }
 
-    if (props.useLocation && props.useLocation !== this.props.useLocation) {
-      this.props.fetchLocation()
+    if (props.useLocation !== this.props.useLocation) {
+      if (props.useLocation) {
+        this.locationWatchId = navigator.geolocation.watchPosition(({coords: {latitude, longitude}}) => {
+          this.props.setLocation({latitude, longitude})
+        })
+      } else if (this.locationWatchId) {
+        navigator.geolocation.clearWatch(this.locationWatchId)
+        this.props.setLocation()
+      }
     }
 
     if (props.token && props.token !== this.props.token) {
@@ -62,7 +69,8 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => bindActionCreators({
   ...asyncActions,
-  closeModal
+  closeModal,
+  setLocation
 }, dispatch)
 
 export default connect(mapState, mapDispatch)(App)

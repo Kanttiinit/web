@@ -16,7 +16,7 @@ export const getFormattedRestaurants = createSelector(
   state => state.data.restaurants || [],
   state => state.data.menus,
   selectSelectedArea,
-  state => state.data.location,
+  state => state.value.location,
   (dayOffset, restaurants, menus, selectedArea = {}, location) => {
     const day = moment().add(dayOffset, 'day').format('YYYY-MM-DD')
     return _.orderBy(

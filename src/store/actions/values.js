@@ -16,6 +16,13 @@ export function setView(view) {
   }
 }
 
+export function setLocation(location) {
+  return {
+    type: 'SET_VALUE_LOCATION',
+    payload: {location}
+  }
+}
+
 export function openModal(component) {
   trackAction('open modal', component.displayName)
   return {

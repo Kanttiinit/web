@@ -1,12 +1,15 @@
 import React from 'react'
 import c from 'classnames'
 import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
 
+import Radio from './Radio'
+import {setLang} from '../store/actions/preferences'
 import css from '../styles/Footer.scss'
 import {AppLinks} from './Header'
 import Text from './Text'
 
-const Footer = ({path, token, user}) => {
+const Footer = ({path, token, lang, setLang, user}) => {
   const getClassName = currentPath => c({[css.current]: path === currentPath})
   return (
     <footer className={css.container}>
@@ -19,7 +22,14 @@ const Footer = ({path, token, user}) => {
       <a href={'https://kitchen.kanttiinit.fi/admin?token=' + token} target="_blank">Admin</a>}
       &nbsp;
       <span>1.0.0</span>
-      <AppLinks style={{marginTop: '2rem'}} />
+      <Radio
+        style={{marginTop: '2rem'}}
+        selected={lang}
+        onChange={lang => setLang(lang)}
+        options={[
+          {label: 'Finnish', value: 'fi'},
+          {label: 'English', value: 'en'}
+        ]} />
     </footer>
   )
 }
@@ -27,7 +37,10 @@ const Footer = ({path, token, user}) => {
 const mapState = state => ({
   path: state.value.view.path,
   token: state.preferences.token,
-  user: state.data.user
+  user: state.data.user,
+  lang: state.preferences.lang
 })
 
-export default connect(mapState)(Footer)
+const mapDispatch = dispatch => bindActionCreators({setLang}, dispatch)
+
+export default connect(mapState, mapDispatch)(Footer)

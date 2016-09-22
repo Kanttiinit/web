@@ -3,6 +3,7 @@ import thunk from 'redux-thunk'
 import promiseMiddleware from 'redux-promise-middleware'
 import {autoRehydrate, persistStore} from 'redux-persist'
 import saveLogger from 'redux-logger'
+import localForage from 'localForage'
 
 import asyncReducers from './reducers/async'
 import valueReducer from './reducers/value'
@@ -25,7 +26,10 @@ const enhancer = compose(
 
 const store = createStore(reducer, enhancer)
 
-persistStore(store, {whitelist: 'preferences'}, () => {
+persistStore(store, {
+  whitelist: 'preferences',
+  storage: localForage
+}, () => {
   store.dispatch({
     type: 'SET_VALUE_INIT',
     payload: {initializing: false}

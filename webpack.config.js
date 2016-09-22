@@ -28,7 +28,7 @@ const plugins = [
 ];
 
 if (isProd) {
-  plugins.concat(prodPlugins);
+  plugins = plugins.concat(prodPlugins);
 }
 
 module.exports = {

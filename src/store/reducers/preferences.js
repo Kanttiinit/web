@@ -12,7 +12,7 @@ const defaultState = {
 
 export default (state = defaultState, {type, payload}) => {
   if (type === REHYDRATE && payload.preferences) {
-    return payload.preferences
+    return {...defaultState, ...payload.preferences}
   } else if (startsWith(type, 'SET_PREFERENCE_')) {
     return {...state, ...payload}
   } else if (type === 'FETCH_USER_FULFILLED') {

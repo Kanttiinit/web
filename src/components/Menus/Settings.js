@@ -66,7 +66,6 @@ const Settings = ({preferences, savePreferences, setUseLocation, setLang, isLogg
       </div>
     </Item>
     }
-    {isLoggedIn &&
     <Item>
       <button
         disabled={saving}
@@ -74,7 +73,7 @@ const Settings = ({preferences, savePreferences, setUseLocation, setLang, isLogg
         className="button">
         {saving ? <Text id="saving" /> : <Text id="save" />}
       </button>
-    </Item>}
+    </Item>
   </div>
 )
 

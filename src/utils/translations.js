@@ -28,8 +28,8 @@ export default {
     en: 'Kanttiinit only records anonymous usage data; it doesn\'t store any identifiable data or location data.'
   },
   slogan: {
-    fi: 'Kampusten ruokalistat helposti.',
-    en: 'Campus menus effortlessly.'
+    fi: 'Opiskelijalounas vaivattomasti.',
+    en: 'Student lunch effortlessly.'
   },
   thanksForFeedback: {
     fi: 'Kiitos palautteestasi!',

@@ -1,6 +1,9 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
+import 'moment/locale/fi'
+import 'moment/locale/en-gb'
+
 const Text = ({translations, lang, id, moment}) => {
   if (!moment) {
     if (!translations[id]) {

@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import promiseMiddleware from 'redux-promise-middleware'
 import {autoRehydrate, persistStore} from 'redux-persist'
 import saveLogger from 'redux-logger'
-import localForage from 'localForage'
+import localForage from 'localforage'
 
 import asyncReducers from './reducers/async'
 import valueReducer from './reducers/value'

@@ -18,15 +18,18 @@ export const getFormattedRestaurants = createSelector(
   selectSelectedArea,
   state => state.value.location,
   (dayOffset, restaurants, menus, selectedArea = {}, location) => {
-    const day = moment().add(dayOffset, 'day').format('YYYY-MM-DD')
+    const day = moment().add(dayOffset, 'day')
     return _.orderBy(
         restaurants
         .filter(restaurant =>
           selectedArea.restaurants && selectedArea.restaurants.some(r => r.id === restaurant.id))
         .map(restaurant => {
-           const courses = _.get(menus, [restaurant.id, day], [])
+           const courses = _.get(menus, [restaurant.id, day.format('YYYY-MM-DD')], [])
            const distance = location && haversine(location, restaurant, {unit: 'meter'})
-           return {...restaurant, courses, distance, noCourses: !courses.length}
+           const isOpenNow = (restaurant.openingHours[day.locale('fi').weekday()]) ?
+            Number(moment().format('HHMM')) < Number(restaurant.openingHours[day.locale('fi').weekday()].split('-')[1].replace(':', ''))
+            : undefined
+           return {...restaurant, courses, distance, noCourses: !courses.length, isOpenNow}
         }),
      ['noCourses', 'distance'])
   }

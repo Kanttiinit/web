@@ -7,6 +7,10 @@ export default {
     fi: 'Ei ruokalistaa saatavilla',
     en: 'No menu available'
   },
+  restaurantClosed: {
+    fi: 'suljettu',
+    en: 'closed'
+  },
   privacyPolicy: {
     fi: 'Yksityisyyskäytäntö',
     en: 'Privacy Policy'

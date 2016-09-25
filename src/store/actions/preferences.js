@@ -1,7 +1,12 @@
 import trackAction from '../../utils/trackAction'
+import http from '../../utils/http'
+
+const savePreferences = preferences =>
+  http.token && http.put('/me/preferences', preferences)
 
 export function setLang(lang) {
   trackAction('set lang', lang)
+  savePreferences({lang})
    return {
       type: 'SET_PREFERENCE_LANG',
       payload: {lang}
@@ -10,6 +15,7 @@ export function setLang(lang) {
 
 export function setSelectedArea(selectedArea) {
   trackAction('set selected area', selectedArea)
+  savePreferences({selectedArea})
   return {
     type: 'SET_PREFERENCE_SELECTED_AREA',
     payload: {selectedArea}
@@ -18,6 +24,7 @@ export function setSelectedArea(selectedArea) {
 
 export function setUseLocation(useLocation) {
   trackAction('use location', useLocation)
+  savePreferences({useLocation})
   return {
     type: 'SET_PREFERENCE_USE_LOCATION',
     payload: {useLocation}

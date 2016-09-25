@@ -28,9 +28,11 @@ class App extends React.Component {
       }
     }
 
-    if (props.token && props.token !== this.props.token) {
+    if (props.token !== this.props.token) {
       http.setToken(props.token)
-      this.props.fetchUser()
+      if (props.token) {
+        this.props.fetchUser()
+      }
     }
   }
   fetchAll(lang) {

@@ -64,9 +64,7 @@ page()
 const auth = parseAuth(page)
 if (auth) {
   http.get(`/me/login?${auth.provider}Token=${auth.token}`)
-  .then(response => {
-    store.dispatch(setToken(response.token))
-  })
+  .then(response => store.dispatch(setToken(response.token)))
 }
 
 // export app wrapped in store provider

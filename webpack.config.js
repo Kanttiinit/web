@@ -33,13 +33,13 @@ if (isProd) {
 
 module.exports = {
   entry: {
-    javascript: PATHS.app,
-    html: PATHS.html
+    app: [PATHS.app, PATHS.html],
+    admin: ['./admin/index.js', './admin/index_admin.html']
   },
   output: {
     path: PATHS.dist,
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: '[name].js'
   },
   devtool: 'cheap-module-source-map',
   devServer: {

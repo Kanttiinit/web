@@ -19,7 +19,7 @@ const Footer = ({path, token, lang, setLang, user}) => {
       <a href="/beta" className={getClassName('/beta')}>Beta</a>
       <a href="https://github.com/Kanttiinit" target="_blank"><Text id="sourceCode" /></a>
       {token && user && user.admin &&
-      <a href={'https://kitchen.kanttiinit.fi/admin?token=' + token} target="_blank">Admin</a>}
+      <a href={'/admin?token=' + token} target="_blank">Admin</a>}
       &nbsp;
       <span>{version}</span>
       <Radio

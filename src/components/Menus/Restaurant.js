@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Walk from 'react-icons/lib/md/directions-walk'
+import Text from '../Text'
 
 import css from '../../styles/Restaurant.scss'
 import {openModal} from '../../store/actions/values'
@@ -23,7 +24,7 @@ const Restaurant = ({ restaurant, dayOfWeek, openModal }) => (
       </div>
     </div>
     <div className={css.body}>
-      {restaurant.noCourses ? (<span className={css.emptyText}>Ei ruokaa</span>) : restaurant.courses.map((course, i) => (
+      {restaurant.noCourses ? (<span className={css.emptyText}>{<Text id="noMenu" />}</span>) : restaurant.courses.map((course, i) => (
         <div
           className={css.course}
           key={i}>

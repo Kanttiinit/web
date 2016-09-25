@@ -26,6 +26,7 @@ const Menus = ({restaurants, dayOffset, loading, filtersExpanded}) => {
       {loading ? <Loader /> :
       <RestaurantList
         restaurants={restaurants}
+        dayOffset={dayOffset}
         dayOfWeek={dayOfWeek} />
       }
     </StickyContainer>

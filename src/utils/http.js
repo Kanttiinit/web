@@ -19,7 +19,7 @@ export default {
 		.then(r => r.json())
 	},
 	get(url, lang) {
-		return this.fetch('GET', url + '?&lang=' + lang)
+		return this.fetch('GET', url + (lang ? '?&lang=' + lang : ''))
 	},
 	put(url, data) {
 		return this.fetch('PUT', url, data)

@@ -20,16 +20,6 @@ export function fetchUser() {
   }
 }
 
-export function savePreferences(preferences) {
-  return {
-    type: 'SAVE_PREFERENCES',
-    payload: http.put('/me/preferences', preferences),
-    meta: {
-      data: 'savePreferences'
-    }
-  }
-}
-
 export function fetchFavorites(lang) {
    return {
       type: 'FETCH_FAVORITES',
@@ -41,15 +31,13 @@ export function fetchFavorites(lang) {
 }
 
 export function fetchMenus(lang) {
-   return (dispatch, getState) => {
-      return dispatch({
-         type: 'FETCH_MENUS',
-         payload: http.get('/menus?restaurants', lang),
-         meta: {
-            data: 'menus'
-         }
-      });
-   };
+  return {
+     type: 'FETCH_MENUS',
+     payload: http.get('/menus?restaurants', lang),
+     meta: {
+        data: 'menus'
+     }
+  }
 }
 
 export function fetchRestaurants(lang) {
@@ -59,5 +47,5 @@ export function fetchRestaurants(lang) {
       meta: {
          data: 'restaurants'
       }
-   };
+   }
 }

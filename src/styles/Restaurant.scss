@@ -25,6 +25,7 @@
     padding: 0.5rem;
     margin: 0.25rem;
   }
+
 }
 
 .header {
@@ -106,6 +107,12 @@
 
   .body {
     color: $dark_gray;
+  }
+}
+
+.shut {
+  .header h2 {
+    color: $text_color_light;
   }
 }
 

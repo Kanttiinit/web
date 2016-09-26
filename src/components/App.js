@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
 
+import '../styles/App.scss'
 import http from '../utils/http'
 import modalCss from '../styles/Modal.scss'
 import * as asyncActions from '../store/actions/async'

@@ -27,7 +27,7 @@ const enhancer = compose(
 const store = createStore(reducer, enhancer)
 
 persistStore(store, {
-  whitelist: 'preferences',
+  whitelist: ['preferences'],
   storage: localForage
 }, () => {
   store.dispatch({

@@ -37,10 +37,10 @@ class App extends React.Component {
   }
   fetchAll(lang) {
     const {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites} = this.props
-    fetchAreas(lang)
     fetchMenus(lang)
     fetchRestaurants(lang)
-    fetchFavorites(lang)
+    fetchAreas(lang)
+    //fetchFavorites(lang)
   }
   render() {
     const {view, initializing, modal, closeModal} = this.props

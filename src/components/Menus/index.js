@@ -34,7 +34,7 @@ const Menus = ({restaurants, dayOffset, loading, filtersExpanded}) => {
 }
 
 const mapState = state => ({
-  loading: state.pending.menus || state.pending.restaurants || state.pending.areas,
+  loading: !state.data.menus || !state.data.restaurants || !state.data.areas,
   restaurants: getFormattedRestaurants(state),
   dayOffset: state.value.dayOffset,
   filtersExpanded: selectFiltersExpanded(state)

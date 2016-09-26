@@ -8,7 +8,7 @@ const ShareModal = ({restaurant}) => {
       <img src={imageUrl} />
       <input onFocus={e => e.target.select()} defaultValue={imageUrl} />
     </div>
-  );
+  )
 }
 
 export default ShareModal

@@ -1,5 +1,4 @@
 import React from 'react'
-import {bindActionCreators} from 'redux'
 import {Provider} from 'react-redux'
 import page from 'page'
 import key from 'keymaster'
@@ -19,7 +18,7 @@ import Contact from './Contact'
 import Beta from './Beta'
 import NotFound from './NotFound'
 
-window.isBeta = location.hostname === 'beta.kanttiinit.fi' || location.hostname === 'localhost'
+window.isBeta = location.hostname === 'beta.kanttiinit.fi' || location.hostname === 'localhost'
 window.isProduction = process.env.NODE_ENV === 'production'
 
 // keyboard shortcuts
@@ -32,7 +31,7 @@ key('esc', () => store.dispatch(closeModal()))
 
 // analytics setup
 GA.initialize('UA-55969084-5', {
-  debug: !isProduction
+  debug: !window.isProduction
 })
 
 // routing

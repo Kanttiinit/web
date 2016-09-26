@@ -7,10 +7,10 @@ const savePreferences = preferences =>
 export function setLang(lang) {
   trackAction('set lang', lang)
   savePreferences({lang})
-   return {
-      type: 'SET_PREFERENCE_LANG',
-      payload: {lang}
-   }
+  return {
+    type: 'SET_PREFERENCE_LANG',
+    payload: {lang}
+  }
 }
 
 export function setSelectedArea(selectedArea) {

@@ -1,12 +1,11 @@
-import moment from 'moment'
 import trackAction from '../../utils/trackAction'
 
 export function setDayOffset(dayOffset) {
   trackAction('set day offset', dayOffset)
-   return {
-      type: 'SET_VALUE_DAY_OFFSET',
-      payload: {dayOffset: Math.min(Math.max(dayOffset, 0), 5)}
-   };
+  return {
+    type: 'SET_VALUE_DAY_OFFSET',
+    payload: {dayOffset: Math.min(Math.max(dayOffset, 0), 5)}
+  }
 }
 
 export function setView(view) {

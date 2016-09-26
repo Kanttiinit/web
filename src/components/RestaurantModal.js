@@ -24,12 +24,12 @@ function getOpeningHourString(hours) {
     if (hour) {
       const existingIndex = findIndex(open, ['hour', hour])
       if (existingIndex > -1)
-        open[existingIndex].endDay = i;
+        open[existingIndex].endDay = i
       else
-        open.push({startDay: i, hour});
+        open.push({startDay: i, hour})
     }
-    return open;
-  }, []);
+    return open
+  }, [])
 }
 
 const RestaurantModal = ({restaurant, location}) => {

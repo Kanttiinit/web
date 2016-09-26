@@ -46,7 +46,6 @@
     "react-redux": "^4.4.5",
     "react-sticky": "^5.0.5",
     "redux": "^3.6.0",
-    "redux-logger": "^2.6.1",
     "redux-persist": "^3.2.2",
     "redux-promise-middleware": "^3.3.2",
     "redux-thunk": "^2.1.0",
@@ -69,5 +68,10 @@
     "redux"
   ],
   "author": "Jere Vaara",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "babel-eslint": "^6.1.2",
+    "eslint": "^3.6.0",
+    "eslint-plugin-react": "^6.3.0"
+  }
 }

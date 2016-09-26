@@ -18,7 +18,7 @@ const Item = ({label, children}) => (
   </div>
 )
 
-const Settings = ({preferences, setUseLocation, setLang, isLoggedIn, user, setToken, saving}) => (
+const Settings = ({preferences, setUseLocation, setLang, isLoggedIn, user, setToken}) => (
   <div className={css.container}>
     <h1><Text id="settings" /></h1>
     <Item label={<Text id="area" />}>

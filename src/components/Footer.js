@@ -6,7 +6,6 @@ import {bindActionCreators} from 'redux'
 import Radio from './Radio'
 import {setLang} from '../store/actions/preferences'
 import css from '../styles/Footer.scss'
-import {AppLinks} from './Header'
 import Text from './Text'
 
 const Footer = ({path, token, lang, setLang, user}) => {

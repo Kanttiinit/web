@@ -1,4 +1,4 @@
-module.exports = page => {
+export default page => {
   const {hash, search} = window.location
   const accessTokenRegexp = /#access_token\=([^&]+)/
   const accessTokenMatch = hash.match(accessTokenRegexp)

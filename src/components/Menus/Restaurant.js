@@ -31,7 +31,7 @@ const Restaurant = ({ restaurant, dayOffset, dayOfWeek, openModal }) => {
             className={css.course}
             key={i}>
             <span className={css.title}>{course.title}</span>
-            <span className={css.props}>{course.properties.join(" ")}</span>
+            <span className={css.props}>{course.properties.join(' ')}</span>
           </div>
         ))}
       </div>

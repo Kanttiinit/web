@@ -34,7 +34,7 @@ export default class Contact extends React.Component {
     this.refs.email.focus()
   }
   render() {
-    const {sending, sent} = this.state;
+    const {sending, sent} = this.state
     return (
       <PageContainer title={<Text id="contact" />}>
         {sent && <p><Text id="thanksForFeedback" /></p>}

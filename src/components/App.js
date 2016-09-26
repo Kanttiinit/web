@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import {bindActionCreators} from 'redux'
 
 import http from '../utils/http'
-import css from '../styles/App.scss'
 import modalCss from '../styles/Modal.scss'
 import * as asyncActions from '../store/actions/async'
 import {closeModal, setLocation} from '../store/actions/values'

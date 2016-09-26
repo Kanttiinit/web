@@ -3,7 +3,7 @@ import moment from 'moment'
 import _ from 'lodash'
 import haversine from 'haversine'
 
-export const selectAreas = state => state.data.areas || []
+export const selectAreas = state => state.data.areas || []
 
 export const selectSelectedArea = createSelector(
   selectAreas,
@@ -13,7 +13,7 @@ export const selectSelectedArea = createSelector(
 
 export const getFormattedRestaurants = createSelector(
   state => state.value.dayOffset,
-  state => state.data.restaurants || [],
+  state => state.data.restaurants || [],
   state => state.data.menus,
   selectSelectedArea,
   state => state.value.location,
@@ -23,14 +23,14 @@ export const getFormattedRestaurants = createSelector(
         restaurants
         .filter(restaurant =>
           selectedArea.restaurants && selectedArea.restaurants.some(r => r.id === restaurant.id))
-        .map(restaurant => {
-           const courses = _.get(menus, [restaurant.id, day.format('YYYY-MM-DD')], [])
-           const distance = location && haversine(location, restaurant, {unit: 'meter'})
-           const isOpenNow = (restaurant.openingHours[day.locale('fi').weekday()]) ?
-            Number(moment().format('HHMM')) < Number(restaurant.openingHours[day.locale('fi').weekday()].split('-')[1].replace(':', ''))
-            : undefined
-           return {...restaurant, courses, distance, noCourses: !courses.length, isOpenNow}
-        }),
+          .map(restaurant => {
+            const courses = _.get(menus, [restaurant.id, day.format('YYYY-MM-DD')], [])
+            const distance = location && haversine(location, restaurant, {unit: 'meter'})
+            const isOpenNow = (restaurant.openingHours[day.locale('fi').weekday()]) ?
+              Number(moment().format('HHMM')) < Number(restaurant.openingHours[day.locale('fi').weekday()].split('-')[1].replace(':', ''))
+              : undefined
+            return {...restaurant, courses, distance, noCourses: !courses.length, isOpenNow}
+          }),
      ['noCourses', 'distance'])
   }
 )

@@ -20,7 +20,7 @@ const isOpenNow = (restaurant, day) => {
     return false
   }
   const [open, close] = restaurant.openingHours[weekday].split(' - ')
-  const now = moment().set({hour: 14, minute: 31})
+  const now = moment()
   return now.isAfter(moment(open, 'HH:mm')) && now.isBefore(moment(close, 'HH:mm'))
 }
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import Walk from 'react-icons/lib/md/directions-walk'
 import Map from 'react-icons/lib/io/more'
 import Star from 'react-icons/lib/io/star'
+import c from 'classnames'
 
 import Text from '../Text'
 import css from '../../styles/Restaurant.scss'
@@ -11,9 +12,13 @@ import {setRestaurantStarred} from '../../store/actions/preferences'
 import RestaurantModal from '../RestaurantModal'
 
 const Restaurant = ({ restaurant, dayOffset, dayOfWeek, openModal, toggleStar }) => {
-  const isOpen = dayOffset == 0 && !restaurant.isOpenNow
+  const isClosed = dayOffset === 0 && !restaurant.isOpenNow
   return (
-    <div className={css.container + (restaurant.noCourses ? ' ' + css.empty : '') + (isOpen ? ' ' + css.shut : '')}>
+    <div className={c({
+      [css.container]: true,
+      [css.empty]: restaurant.noCourses,
+      [css.shut]: isClosed
+    })}>
       <div className={css.header}>
         <h2>
           {restaurant.name}
@@ -23,8 +28,9 @@ const Restaurant = ({ restaurant, dayOffset, dayOfWeek, openModal, toggleStar })
           </div>
           }
         </h2>
-        <div className={css.meta}>
-          {(isOpen ? <Text id="restaurantClosed" /> : restaurant.openingHours[dayOfWeek])}
+        <div className={css.meta} style={{textAlign: 'right'}}>
+          {restaurant.openingHours[dayOfWeek].replace('-', '–')}<br />
+          {isClosed && <small><Text id="restaurantClosed" /></small>}
         </div>
       </div>
       <div className={css.body}>

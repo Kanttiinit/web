@@ -14,6 +14,16 @@ export const selectSelectedArea = createSelector(
 
 export const starredRestaurants = state => state.preferences.starredRestaurants || Set()
 
+const isOpenNow = (restaurant, day) => {
+  const weekday = day.weekday()
+  if (!restaurant.openingHours[weekday]) {
+    return false
+  }
+  const [open, close] = restaurant.openingHours[weekday].split(' - ')
+  const now = moment().set({hour: 14, minute: 31})
+  return now.isAfter(moment(open, 'HH:mm')) && now.isBefore(moment(close, 'HH:mm'))
+}
+
 export const getFormattedRestaurants = createSelector(
   state => state.value.dayOffset,
   state => state.data.restaurants || [],
@@ -24,24 +34,22 @@ export const getFormattedRestaurants = createSelector(
   (dayOffset, restaurants, menus, selectedArea = {}, location, starredRestaurants) => {
     const day = moment().add(dayOffset, 'day')
     return _.orderBy(
-        restaurants
-        .filter(restaurant =>
-          selectedArea.restaurants && selectedArea.restaurants.some(r => r.id === restaurant.id))
-          .map(restaurant => {
-            const courses = _.get(menus, [restaurant.id, day.format('YYYY-MM-DD')], [])
-            const distance = location && haversine(location, restaurant, {unit: 'meter'})
-            const isOpenNow = (restaurant.openingHours[day.locale('fi').weekday()]) ?
-              Number(moment().format('HHMM')) < Number(restaurant.openingHours[day.locale('fi').weekday()].split('-')[1].replace(':', ''))
-              : undefined
-            return {
-              ...restaurant,
-              courses,
-              distance,
-              noCourses: !courses.length, isOpenNow,
-              isStarred: starredRestaurants.includes(restaurant.id)
-            }
-          }),
-     ['noCourses', 'isStarred', 'distance'], ['asc', 'desc', 'desc'])
+      restaurants
+      .filter(restaurant =>
+        selectedArea.restaurants && selectedArea.restaurants.some(r => r.id === restaurant.id))
+      .map(restaurant => {
+        const courses = _.get(menus, [restaurant.id, day.format('YYYY-MM-DD')], [])
+        const distance = location && haversine(location, restaurant, {unit: 'meter'})
+        return {
+          ...restaurant,
+          courses,
+          distance,
+          noCourses: !courses.length,
+          isOpenNow: isOpenNow(restaurant, day),
+          isStarred: starredRestaurants.includes(restaurant.id)
+        }
+      }),
+     ['isStarred', 'isOpenNow', 'noCourses', 'distance'], ['desc', 'desc', 'asc', 'asc'])
   }
 )
 

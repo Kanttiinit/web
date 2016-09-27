@@ -42,9 +42,12 @@ export function setFiltersExpanded(filtersExpanded) {
 }
 
 export function setRestaurantStarred(restaurantId, isStarred) {
-  return {
-    type: SET_PREFERENCE_RESTAURANT_STARRED,
-    payload: {restaurantId, isStarred}
+  return (dispatch, getState) => {
+    dispatch({
+      type: SET_PREFERENCE_RESTAURANT_STARRED,
+      payload: {restaurantId, isStarred}
+    })
+    savePreferences({starredRestaurants: getState().preferences.starredRestaurants})
   }
 }
 

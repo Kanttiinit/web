@@ -17,6 +17,7 @@ const defaultState = {
 export default (state = defaultState, {type, payload}) => {
   if (type === REHYDRATE && payload.preferences) {
     return {
+      ...state,
       ...defaultState,
       ...payload.preferences,
       starredRestaurants: Set(payload.preferences.starredRestaurants || [])

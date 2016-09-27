@@ -1,14 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Walk from 'react-icons/lib/md/directions-walk'
-import Text from '../Text'
+import Map from 'react-icons/lib/io/more'
+import Star from 'react-icons/lib/io/star'
 
+import Text from '../Text'
 import css from '../../styles/Restaurant.scss'
 import {openModal} from '../../store/actions/values'
+import {setRestaurantStarred} from '../../store/actions/preferences'
 import RestaurantModal from '../RestaurantModal'
-import Map from 'react-icons/lib/io/more'
 
-const Restaurant = ({ restaurant, dayOffset, dayOfWeek, openModal }) => {
+const Restaurant = ({ restaurant, dayOffset, dayOfWeek, openModal, toggleStar }) => {
   const isOpen = dayOffset == 0 && !restaurant.isOpenNow
   return (
     <div className={css.container + (restaurant.noCourses ? ' ' + css.empty : '') + (isOpen ? ' ' + css.shut : '')}>
@@ -36,6 +38,10 @@ const Restaurant = ({ restaurant, dayOffset, dayOfWeek, openModal }) => {
         ))}
       </div>
       <div className={css.restaurantActions}>
+        <a onClick={() => toggleStar()} className={css.actionIcon}>
+          <Star size={18} color={restaurant.isStarred ? '#FFD600' : undefined} />
+        </a>
+        &nbsp;
         <a onClick={() => openModal()} className={css.actionIcon}>
           <Map size={18}/>
         </a>
@@ -45,7 +51,10 @@ const Restaurant = ({ restaurant, dayOffset, dayOfWeek, openModal }) => {
 }
 
 const mapDispatch = (dispatch, props) => ({
-  openModal: () => dispatch(openModal(<RestaurantModal restaurant={props.restaurant} />))
+  openModal: () => dispatch(openModal(<RestaurantModal restaurant={props.restaurant} />)),
+  toggleStar() {
+    dispatch(setRestaurantStarred(props.restaurant.id, !props.restaurant.isStarred))
+  }
 })
 
 export default connect(null, mapDispatch)(Restaurant)

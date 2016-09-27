@@ -2,6 +2,7 @@ import {createSelector} from 'reselect'
 import moment from 'moment'
 import _ from 'lodash'
 import haversine from 'haversine'
+import {Set} from 'immutable'
 
 export const selectAreas = state => state.data.areas || []
 
@@ -11,13 +12,16 @@ export const selectSelectedArea = createSelector(
   (areas, selectedArea) => areas.find(a => a.id === selectedArea)
 )
 
+export const starredRestaurants = state => state.preferences.starredRestaurants || Set()
+
 export const getFormattedRestaurants = createSelector(
   state => state.value.dayOffset,
   state => state.data.restaurants || [],
   state => state.data.menus,
   selectSelectedArea,
   state => state.value.location,
-  (dayOffset, restaurants, menus, selectedArea = {}, location) => {
+  starredRestaurants,
+  (dayOffset, restaurants, menus, selectedArea = {}, location, starredRestaurants) => {
     const day = moment().add(dayOffset, 'day')
     return _.orderBy(
         restaurants
@@ -29,9 +33,15 @@ export const getFormattedRestaurants = createSelector(
             const isOpenNow = (restaurant.openingHours[day.locale('fi').weekday()]) ?
               Number(moment().format('HHMM')) < Number(restaurant.openingHours[day.locale('fi').weekday()].split('-')[1].replace(':', ''))
               : undefined
-            return {...restaurant, courses, distance, noCourses: !courses.length, isOpenNow}
+            return {
+              ...restaurant,
+              courses,
+              distance,
+              noCourses: !courses.length, isOpenNow,
+              isStarred: starredRestaurants.includes(restaurant.id)
+            }
           }),
-     ['noCourses', 'distance'])
+     ['noCourses', 'isStarred', 'distance'], ['asc', 'desc', 'desc'])
   }
 )
 

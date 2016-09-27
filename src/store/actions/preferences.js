@@ -1,6 +1,8 @@
 import trackAction from '../../utils/trackAction'
 import http from '../../utils/http'
 
+export const SET_PREFERENCE_RESTAURANT_STARRED = 'SET_PREFERENCE_RESTAURANT_STARRED'
+
 const savePreferences = preferences =>
   http.token && http.put('/me/preferences', preferences)
 
@@ -36,6 +38,13 @@ export function setFiltersExpanded(filtersExpanded) {
   return {
     type: 'SET_PREFERENCE_FILTERS_EXPANDED',
     payload: {filtersExpanded}
+  }
+}
+
+export function setRestaurantStarred(restaurantId, isStarred) {
+  return {
+    type: SET_PREFERENCE_RESTAURANT_STARRED,
+    payload: {restaurantId, isStarred}
   }
 }
 

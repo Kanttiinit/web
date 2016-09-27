@@ -33,7 +33,11 @@ export default (state = defaultState, {type, payload}) => {
   } else if (startsWith(type, 'SET_PREFERENCE_')) {
     return {...state, ...payload}
   } else if (type === 'FETCH_USER_FULFILLED') {
-    return {...state, ...payload.preferences}
+    return {
+      ...state,
+      ...payload.preferences,
+      starredRestaurants: Set(payload.preferences.starredRestaurants || [])
+    }
   }
   return state
 }

@@ -9,6 +9,7 @@
     max-width: 100%;
     flex-direction: column;
     flex-wrap: nowrap;
+    padding-top: 0;
   }
 
   @media (min-width: $break-large) {

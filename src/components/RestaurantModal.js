@@ -32,6 +32,15 @@ function getOpeningHourString(hours) {
   }, [])
 }
 
+const fitBounds = (restaurantPoint, userPoint) => map => {
+  const bounds = new window.google.maps.LatLngBounds()
+  bounds.extend(restaurantPoint)
+  if (map && userPoint) {
+    bounds.extend(userPoint)
+    map.fitBounds(bounds)
+  }
+}
+
 const RestaurantModal = ({restaurant, location}) => {
   const restaurantPoint = {
     lat: restaurant.latitude,
@@ -41,17 +50,13 @@ const RestaurantModal = ({restaurant, location}) => {
     lat: location.latitude,
     lng: location.longitude
   } : undefined
-  const bounds = new window.google.maps.LatLngBounds()
-  bounds.extend(restaurantPoint)
-  if (userPoint) {
-    bounds.extend(userPoint)
-  }
   return (
     <div className={css.container}>
       <GoogleMapLoader
         containerElement={<div className={css.map} />}
         googleMapElement={
           <GoogleMap
+            ref={fitBounds(restaurantPoint, userPoint)}
             defaultOptions={mapOptions}
             defaultZoom={14}
             defaultCenter={restaurantPoint}>

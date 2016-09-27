@@ -33,9 +33,11 @@ const DaySelector = ({ dayOffset, setDayOffset, openModal, setFiltersExpanded, f
     </div>
     <select className="show-mobile" value={dayOffset} onChange={event => setDayOffset(event.target.value)}>
       {_.times(6, i =>
-        <option key={i} value={i}>
-          <Text moment={moment().add(i, 'day')} id="dddd DD.MM." />
-        </option>
+        <Text
+          key={i}
+          element="option"
+          value={i}
+          moment={moment().add(i, 'day')} id="dddd DD.MM." />
       )}
     </select>
     <a className={css.accountIcon} onClick={() => openModal(<Settings />)}>

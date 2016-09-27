@@ -33,9 +33,18 @@ function getOpeningHourString(hours) {
 }
 
 const RestaurantModal = ({restaurant, location}) => {
-  const latLng = {
+  const restaurantPoint = {
     lat: restaurant.latitude,
     lng: restaurant.longitude
+  }
+  const userPoint = location ? {
+    lat: location.latitude,
+    lng: location.longitude
+  } : undefined
+  const bounds = new window.google.maps.LatLngBounds()
+  bounds.extend(restaurantPoint)
+  if (userPoint) {
+    bounds.extend(userPoint)
   }
   return (
     <div className={css.container}>
@@ -45,10 +54,10 @@ const RestaurantModal = ({restaurant, location}) => {
           <GoogleMap
             defaultOptions={mapOptions}
             defaultZoom={14}
-            defaultCenter={latLng}>
+            defaultCenter={restaurantPoint}>
             <Marker
               label={restaurant.name}
-              position={latLng} />
+              position={restaurantPoint} />
             {location &&
             <Marker
               defaultIcon={{
@@ -56,7 +65,7 @@ const RestaurantModal = ({restaurant, location}) => {
                 anchor: {x: 12, y: 12},
                 scaledSize: {width: 24, height: 24}
               }}
-              position={{lat: location.latitude, lng: location.longitude}} />
+              position={userPoint} />
             }
           </GoogleMap>
         }/>

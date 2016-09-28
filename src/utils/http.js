@@ -3,9 +3,9 @@ import 'isomorphic-fetch'
 const API_BASE = 'https://kitchen.kanttiinit.fi'
 
 export default {
-  fetch(method, url, body) {
+  fetch(method, url, body, authorize) {
     const headers = {}
-    if (this.token) {
+    if (this.token && authorize) {
       headers.Authorization = this.token
     }
     if (body) {
@@ -18,11 +18,11 @@ export default {
     })
     .then(r => r.json())
   },
-  get(url, lang) {
-    return this.fetch('GET', url + (lang ? '?&lang=' + lang : ''))
+  get(url, authorize) {
+    return this.fetch('GET', url, undefined, authorize)
   },
   put(url, data) {
-    return this.fetch('PUT', url, data)
+    return this.fetch('PUT', url, data, true)
   },
   setToken(token) {
     this.token = token

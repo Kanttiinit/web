@@ -77,11 +77,11 @@ const RestaurantModal = ({restaurant, location}) => {
           {getOpeningHourString(restaurant.openingHours).map(hours =>
             <div key={hours.startDay} className={css.openingHours}>
               <span className={css.day}>
-                <Text id="ddd" moment={moment().weekday((hours.startDay + 1) % 7)} />
+                <Text id="ddd" moment={moment().weekday(hours.startDay)} />
                 {hours.endDay &&
                 <span>
                   &nbsp;&ndash;&nbsp;
-                  <Text id="ddd" moment={moment().weekday((hours.endDay + 1) % 7)} />
+                  <Text id="ddd" moment={moment().weekday(hours.endDay)} />
                 </span>
                 }
               </span>

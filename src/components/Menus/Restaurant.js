@@ -29,7 +29,7 @@ const Restaurant = ({ restaurant, dayOffset, dayOfWeek, openModal, toggleStar })
           }
         </h2>
         <div className={css.meta} style={{textAlign: 'right'}}>
-          {restaurant.openingHours[dayOfWeek].replace('-', '–')}<br />
+          {restaurant.openingHours[dayOfWeek] && restaurant.openingHours[dayOfWeek].replace('-', '–')}<br />
           {isClosed && <Text id="restaurantClosed" element="small" />}
         </div>
       </div>

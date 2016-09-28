@@ -114,5 +114,9 @@ export default {
   saving: {
     fi: 'Tallennetaan...',
     en: 'Saving...'
+  },
+  emptyRestaurants: {
+    fi: 'Ei ravintoloita.',
+    en: 'No restaurants.'
   }
 }

@@ -4,12 +4,14 @@ import _ from 'lodash'
 import haversine from 'haversine'
 import {Set} from 'immutable'
 
+const STARRED = 'STARRED'
+
 export const selectAreas = state => state.data.areas || []
 
 export const selectSelectedArea = createSelector(
   selectAreas,
   state => state.preferences.selectedArea,
-  (areas, selectedArea) => areas.find(a => a.id === selectedArea)
+  (areas, selectedArea) => areas.find(a => a.id === selectedArea) || STARRED
 )
 
 export const starredRestaurants = state => state.preferences.starredRestaurants || Set()
@@ -35,8 +37,16 @@ export const getFormattedRestaurants = createSelector(
     const day = moment().add(dayOffset, 'day')
     return _.orderBy(
       restaurants
-      .filter(restaurant =>
-        selectedArea.restaurants && selectedArea.restaurants.some(r => r.id === restaurant.id))
+      .map(restaurant => ({
+        ...restaurant,
+        isStarred: starredRestaurants.includes(restaurant.id)
+      }))
+      .filter(restaurant => {
+        if (selectedArea === STARRED) {
+          return restaurant.isStarred
+        }
+        return selectedArea.restaurants && selectedArea.restaurants.some(r => r.id === restaurant.id)
+      })
       .map(restaurant => {
         const courses = _.get(menus, [restaurant.id, day.format('YYYY-MM-DD')], [])
         const distance = location && haversine(location, restaurant, {unit: 'meter'})
@@ -45,8 +55,7 @@ export const getFormattedRestaurants = createSelector(
           courses,
           distance,
           noCourses: !courses.length,
-          isOpenNow: isOpenNow(restaurant, day),
-          isStarred: starredRestaurants.includes(restaurant.id)
+          isOpenNow: isOpenNow(restaurant, day)
         }
       }),
      ['isStarred', 'isOpenNow', 'noCourses', 'distance'], ['desc', 'desc', 'asc', 'asc'])

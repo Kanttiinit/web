@@ -1,19 +1,26 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import sortBy from 'lodash/sortBy'
+import Star from 'react-icons/lib/io/star'
 
 import {setSelectedArea} from '../../store/actions/preferences'
 import Radio from '../Radio'
 
-const AreaSelector = ({areas, selectedArea, setSelectedArea, style}) => (
-  <Radio
-    style={style}
-    options={sortBy(areas, 'name').map(area =>
-      ({label: area.name, value: area.id})
-    )}
-    onChange={areaId => setSelectedArea(areaId)}
-    selected={selectedArea} />
-)
+const AreaSelector = ({areas, selectedArea, setSelectedArea, style}) => {
+  const options = [{
+    label: <span><Star size={14} className="inline-icon" />&nbsp;Starred</span>,
+    value: -1
+  }].concat(sortBy(areas, 'name').map(area =>
+    ({label: area.name, value: area.id})
+  ))
+  return (
+    <Radio
+      style={style}
+      options={options}
+      onChange={areaId => setSelectedArea(areaId)}
+      selected={selectedArea} />
+  )
+}
 
 const mapState = state => ({
   areas: state.data.areas || [],

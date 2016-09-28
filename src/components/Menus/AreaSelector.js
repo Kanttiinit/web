@@ -8,7 +8,7 @@ import Radio from '../Radio'
 
 const AreaSelector = ({areas, selectedArea, setSelectedArea, style}) => {
   const options = [{
-    label: <span><Star size={14} className="inline-icon" />&nbsp;Starred</span>,
+    label: <span><Star className="inline-icon" /></span>,
     value: -1
   }].concat(sortBy(areas, 'name').map(area =>
     ({label: area.name, value: area.id})

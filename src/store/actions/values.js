@@ -8,13 +8,6 @@ export function setDayOffset(dayOffset) {
   }
 }
 
-export function setView(view) {
-  return {
-    type: 'SET_VALUE_VIEW',
-    payload: {view}
-  }
-}
-
 export function setLocation(location) {
   return {
     type: 'SET_VALUE_LOCATION',

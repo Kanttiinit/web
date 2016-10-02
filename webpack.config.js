@@ -23,7 +23,8 @@ var plugins = [
     'process.env': {
       'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
     },
-    version: JSON.stringify(pkg.version)
+    version: JSON.stringify(pkg.version),
+    apiBase: JSON.stringify(process.env.API_BASE || 'https://kitchen.kanttiinit.fi')
   })
 ];
 

@@ -1,7 +1,5 @@
 import 'isomorphic-fetch'
 
-const API_BASE = 'http://dev.kanttiinit.fi:3000'
-
 export default {
   fetch(method, url, body, authorize) {
     const options = {method, headers: {}}
@@ -12,7 +10,7 @@ export default {
       options.headers['Content-Type'] = 'application/json'
       options.body = JSON.stringify(body)
     }
-    return fetch(API_BASE + url, options)
+    return fetch(apiBase + url, options)
     .then(r => {
       if (r.status >= 400) {
         return r.json().then(json => Promise.reject(json))
@@ -28,5 +26,8 @@ export default {
   },
   put(url, data) {
     return this.fetch('PUT', url, data, true)
+  },
+  delete(url, data) {
+    return this.fetch('DELETE', url, data, true)
   }
 }

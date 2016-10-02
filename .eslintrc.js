@@ -17,6 +17,7 @@ module.exports = {
   ],
   "globals": {
     "process": true,
+    "apiBase": true,
     "version": true,
     "require": true,
     "__dirname": true

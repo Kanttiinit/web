@@ -29,7 +29,7 @@ key('left,right', (event, handler) => {
 key('esc', () => store.dispatch(closeModal()))
 
 // analytics setup
-GA.initialize('UA-55969084-5', {
+GA.initialize('UA-85003235-1', {
   debug: !window.isProduction
 })
 

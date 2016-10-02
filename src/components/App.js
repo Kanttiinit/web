@@ -46,6 +46,7 @@ class App extends React.Component {
   componentDidMount() {
     this.props.fetchUser()
     .then(() => this.fetchAll(this.props.lang))
+    .catch(() => this.fetchAll(this.props.lang))
   }
   render() {
     const {children, modal, closeModal, location} = this.props

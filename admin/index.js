@@ -1,44 +1,38 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import http from 'axios';
-import AdminInterface from './AdminInterface';
-import models from './models';
+import 'isomorphic-fetch'
+import React from 'react'
+import ReactDOM from 'react-dom'
+import http from '../src/utils/http'
+import AdminInterface from './AdminInterface'
+import models from './models'
 
 class BaseView extends React.Component {
   constructor() {
-    super();
-    this.state = {};
-    const tokenMatch = location.href.match(/token\=([^&%#]+)/);
-    if (tokenMatch) {
-      const token = tokenMatch[1];
-      this.state.token = token;
-      http.defaults.headers.common['Authorization'] = token;
-      this.changeModel(models[0]);
-    }
+    super()
+    this.state = {}
   }
   updateMenus() {
-    this.setState({updatingRestaurants: true});
-    http.post('https://kitchen.kanttiinit.fi/admin/update-restaurants')
-    .then(() => this.setState({updatingRestaurants: false}));
+    this.setState({updatingRestaurants: true})
+    http.post('/admin/update-restaurants')
+    .then(() => this.setState({updatingRestaurants: false}))
   }
   changeModel(model = this.state.currentModel) {
-    http.get('https://kitchen.kanttiinit.fi/admin/' + model.name.toLowerCase())
+    http.get('/admin/' + model.name.toLowerCase(), true)
     .then(response => {
       this.setState({
         currentModel: model,
-        items: response.data
-      });
+        items: response
+      })
     })
-    .catch(() => this.setState({token: undefined}));
+    .catch(() => this.setState({unauthorized: true}))
+  }
+  componentDidMount() {
+    this.changeModel(models[0])
   }
   render() {
-    const {currentModel, items, token} = this.state;
-    if (!token)
-      return (
-        <form>
-          <br /><input placeholder="Enter token" className="form-control" name="token" />
-        </form>
-      );
+    const {currentModel, items, unauthorized} = this.state
+    if (unauthorized) {
+      return <p>Unauthorized.</p>
+    }
     return (
       <div>
         <br />
@@ -54,8 +48,8 @@ class BaseView extends React.Component {
         </div>
         <AdminInterface onUpdate={() => this.changeModel()} model={currentModel} items={items} />
       </div>
-    );
+    )
   }
 }
 
-ReactDOM.render(<BaseView />, document.querySelector('.container'));
+ReactDOM.render(<BaseView />, document.querySelector('.container'))

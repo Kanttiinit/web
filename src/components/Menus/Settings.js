@@ -4,8 +4,10 @@ import {bindActionCreators} from 'redux'
 import Facebook from 'react-icons/lib/fa/facebook-official'
 import Google from 'react-icons/lib/fa/google'
 
+import http from '../../utils/http'
 import css from '../../styles/Settings.scss'
 import * as actions from '../../store/actions/preferences'
+import {fetchUser} from '../../store/actions/async'
 import {isLoggedIn} from '../../store/selectors'
 import Text from '../Text'
 import Radio from '../Radio'
@@ -18,7 +20,7 @@ const Item = ({label, children}) => (
   </div>
 )
 
-const Settings = ({preferences, setUseLocation, setLang, isLoggedIn, user, setToken}) => (
+const Settings = ({preferences, setUseLocation, setLang, isLoggedIn, user, fetchUser}) => (
   <div className={css.container}>
     <h1><Text id="settings" /></h1>
     <Item label={<Text id="area" />}>
@@ -47,7 +49,14 @@ const Settings = ({preferences, setUseLocation, setLang, isLoggedIn, user, setTo
       <div className={css.user}>
         <img src={user.photo} />
         <p>{user.displayName}<br /><small>{user.email}</small></p>
-        <button className="button button-small" style={{marginLeft: '1em'}} onClick={() => setToken()}><Text id="logout" /></button>
+        <button
+          className="button button-small"
+          style={{marginLeft: '1em'}}
+          onClick={() =>
+            http.get('/me/logout', true).then(() => fetchUser())
+          }>
+            <Text id="logout" />
+          </button>
       </div>
       :
       <div className={css.loginButtons}>
@@ -73,6 +82,6 @@ const mapState = state => ({
   user: state.data.user
 })
 
-const mapDispatch = dispatch => bindActionCreators(actions, dispatch)
+const mapDispatch = dispatch => bindActionCreators({...actions, fetchUser}, dispatch)
 
 export default connect(mapState, mapDispatch)(Settings)

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Provider} from 'react-redux'
+import {Provider, connect} from 'react-redux'
 import key from 'keymaster'
 import http from '../utils/http'
 import GA from 'react-ga'
@@ -12,7 +12,7 @@ import Beta from './Beta'
 import NotFound from './NotFound'
 
 import store from '../store'
-import {setToken} from '../store/actions/preferences'
+import {fetchUser} from '../store/actions/async'
 import {setDayOffset, closeModal} from '../store/actions/values'
 import parseAuth from '../utils/parseAuth'
 import App from './App'
@@ -36,13 +36,17 @@ GA.initialize('UA-55969084-5', {
 // login if auth token is in URL
 const auth = parseAuth()
 if (auth) {
-  http.get(`/me/login?${auth.provider}Token=${auth.token}`)
-  .then(response => store.dispatch(setToken(response.token)))
+  http.post('/me/login', auth)
+  .then(() => store.dispatch(fetchUser()))
 }
 
-// export app wrapped in store provider
-export default () => (
-  <Provider store={store}>
+const AppRouter = connect(state => ({
+  initializing: state.value.initializing
+}))(({initializing}) => {
+  if (initializing)
+    return null
+
+  return (
     <Router history={browserHistory}>
       <Route path="/" component={App}>
         <IndexRoute component={Menus} />
@@ -52,5 +56,12 @@ export default () => (
         <Route path="*" component={NotFound} />
       </Route>
     </Router>
+  )
+})
+
+// export app wrapped in store provider
+export default () => (
+  <Provider store={store}>
+    <AppRouter />
   </Provider>
 )

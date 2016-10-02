@@ -8,7 +8,7 @@ import {setLang} from '../store/actions/preferences'
 import css from '../styles/Footer.scss'
 import Text from './Text'
 
-const Footer = ({token, lang, setLang, user}) => {
+const Footer = ({lang, setLang, user}) => {
   return (
     <footer className={css.container}>
       <IndexLink to="/" activeClassName={css.current}><Text id="menus" /></IndexLink>
@@ -16,8 +16,8 @@ const Footer = ({token, lang, setLang, user}) => {
       <Link to="/privacy-policy" activeClassName={css.current}><Text id="privacyPolicy" /></Link>
       <Link to="/beta" activeClassName={css.current}>Beta</Link>
       <a href="https://github.com/Kanttiinit" target="_blank"><Text id="sourceCode" /></a>
-      {token && user && user.admin &&
-      <a href={'/admin?token=' + token} target="_blank">Admin</a>}
+      {user && user.admin &&
+      <a href="/admin" target="_blank">Admin</a>}
       &nbsp;
       <span>{version}</span>
       <Radio
@@ -33,7 +33,6 @@ const Footer = ({token, lang, setLang, user}) => {
 }
 
 const mapState = state => ({
-  token: state.preferences.token,
   user: state.data.user,
   lang: state.preferences.lang
 })

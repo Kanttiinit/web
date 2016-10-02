@@ -4,7 +4,7 @@ import http from '../../utils/http'
 export const SET_PREFERENCE_RESTAURANT_STARRED = 'SET_PREFERENCE_RESTAURANT_STARRED'
 
 const savePreferences = preferences =>
-  http.token && http.put('/me/preferences', preferences)
+  http.put('/me/preferences', preferences)
 
 export function setLang(lang) {
   trackAction('set lang', lang)
@@ -48,12 +48,5 @@ export function setRestaurantStarred(restaurantId, isStarred) {
       payload: {restaurantId, isStarred}
     })
     savePreferences({starredRestaurants: getState().preferences.starredRestaurants})
-  }
-}
-
-export function setToken(token) {
-  return {
-    type: 'SET_PREFERENCE_TOKEN',
-    payload: {token}
   }
 }

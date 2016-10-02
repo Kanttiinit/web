@@ -17,7 +17,9 @@ module.exports = {
   ],
   "globals": {
     "process": true,
-    "version": true
+    "version": true,
+    "require": true,
+    "__dirname": true
   },
   "rules": {
     "no-console": 0,

@@ -70,7 +70,6 @@ export const selectFiltersExpanded = createSelector(
 )
 
 export const isLoggedIn = createSelector(
-  state => state.preferences.token,
   state => state.data.user,
-  (token, user) => token && user
+  user => !!user
 )

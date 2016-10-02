@@ -16,6 +16,8 @@ export default {
     const key = meta.data
     if (key && endsWith(type, '_FULFILLED')) {
       return {...state, [key]: payload}
+    } else if (endsWith(type, '_REJECTED')) {
+      return {...state, [key]: undefined}
     }
     return state
   },

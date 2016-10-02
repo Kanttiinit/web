@@ -4,7 +4,6 @@ import {bindActionCreators} from 'redux'
 import GA from 'react-ga'
 
 import '../styles/App.scss'
-import http from '../utils/http'
 import modalCss from '../styles/Modal.scss'
 import * as asyncActions from '../store/actions/async'
 import {closeModal, setLocation} from '../store/actions/values'
@@ -15,7 +14,7 @@ import Footer from './Footer'
 class App extends React.Component {
   componentWillReceiveProps(props) {
     // if app has initialized or lang has changed, fetch all resources
-    if ((!props.initializing && this.props.initializing) || props.lang !== this.props.lang) {
+    if (props.lang !== this.props.lang) {
       this.fetchAll(props.lang)
     }
 
@@ -28,14 +27,6 @@ class App extends React.Component {
       } else if (this.locationWatchId) {
         navigator.geolocation.clearWatch(this.locationWatchId)
         this.props.setLocation()
-      }
-    }
-
-    // if token has changed, set it to the http client and fetch user if its available
-    if (props.token !== this.props.token) {
-      http.setToken(props.token)
-      if (props.token) {
-        this.props.fetchUser()
       }
     }
 
@@ -52,10 +43,12 @@ class App extends React.Component {
     fetchRestaurants(lang)
     fetchAreas(lang)
   }
+  componentDidMount() {
+    this.props.fetchUser()
+    .then(() => this.fetchAll(this.props.lang))
+  }
   render() {
-    const {children, initializing, modal, closeModal, location} = this.props
-    if (initializing)
-      return null
+    const {children, modal, closeModal, location} = this.props
     return (
       <div>
         <Header />
@@ -71,11 +64,9 @@ class App extends React.Component {
 }
 
 const mapState = state => ({
-  initializing: state.value.initializing,
   lang: selectLang(state),
   modal: state.value.modal,
-  useLocation: state.preferences.useLocation,
-  token: state.preferences.token
+  useLocation: state.preferences.useLocation
 })
 
 const mapDispatch = dispatch => bindActionCreators({

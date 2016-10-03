@@ -5,6 +5,7 @@ import Map from 'react-icons/lib/io/more'
 import Star from 'react-icons/lib/io/star'
 import c from 'classnames'
 
+import Tooltip from '../Tooltip'
 import Text from '../Text'
 import css from '../../styles/Restaurant.scss'
 import {openModal} from '../../store/actions/values'
@@ -44,13 +45,13 @@ const Restaurant = ({ restaurant, dayOffset, dayOfWeek, openModal, toggleStar })
         ))}
       </div>
       <div className={css.restaurantActions}>
-        <a onClick={() => toggleStar()} className={css.actionIcon}>
+        <Tooltip margin={12} content={<Text id="star" />} element="a" onClick={() => toggleStar()} className={css.actionIcon}>
           <Star size={18} color={restaurant.isStarred ? '#FFD600' : undefined} />
-        </a>
+        </Tooltip>
         &nbsp;
-        <a onClick={() => openModal()} className={css.actionIcon}>
+        <Tooltip margin={12} element="a" content={<Text id="moreInfo" />} onClick={() => openModal()} className={css.actionIcon}>
           <Map size={18}/>
-        </a>
+        </Tooltip>
       </div>
     </div>
   )

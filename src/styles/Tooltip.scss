@@ -1,0 +1,20 @@
+@import '_constants';
+
+.tooltip {
+  font-size: 0.8rem;
+  pointer-events: none;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 0.5em 0.75em;
+  border-radius: 0.2em;
+  box-sizing: border-box;
+  text-align: center;
+  transition: opacity 0.1s;
+}
+
+.visible {
+  display: block;
+  pointer-events: auto;
+  opacity: 1;
+}

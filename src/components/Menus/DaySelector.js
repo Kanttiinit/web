@@ -6,6 +6,7 @@ import Account from 'react-icons/lib/md/account-circle'
 import Filter from 'react-icons/lib/md/filter-list'
 import _ from 'lodash'
 
+import Tooltip from '../Tooltip'
 import Settings from './Settings'
 import css from '../../styles/DaySelector.scss'
 import {setDayOffset, openModal} from '../../store/actions/values'
@@ -15,11 +16,13 @@ import Text from '../Text'
 
 const DaySelector = ({ dayOffset, setDayOffset, openModal, setFiltersExpanded, filtersExpanded, user, isLoggedIn }) => (
   <div className={css.container}>
-    <a
+    <Tooltip
+      element="a"
+      content={<Text id="filters" />}
       onClick={() => setFiltersExpanded(!filtersExpanded)}
       className={css.filtersIcon + (filtersExpanded ? ' ' + css.expanded : '')}>
       <Filter size={24} />
-    </a>
+    </Tooltip>
     <div className="hide-mobile">
       {_.times(6, i =>
       <button
@@ -40,9 +43,13 @@ const DaySelector = ({ dayOffset, setDayOffset, openModal, setFiltersExpanded, f
           moment={moment().add(i, 'day')} id="dddd DD.MM." />
       )}
     </select>
-    <a className={css.accountIcon} onClick={() => openModal(<Settings />)}>
+    <Tooltip
+      element="a"
+      content={<Text id="settings" />}
+      className={css.accountIcon}
+      onClick={() => openModal(<Settings />)}>
       {isLoggedIn ? <img src={user.photo} /> : <Account size={24} />}
-    </a>
+    </Tooltip>
   </div>
 )
 

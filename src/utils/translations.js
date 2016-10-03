@@ -118,5 +118,17 @@ export default {
   emptyRestaurants: {
     fi: 'Ei ravintoloita.',
     en: 'No restaurants.'
+  },
+  star: {
+    fi: 'Tähditä',
+    en: 'Star'
+  },
+  filters: {
+    fi: 'Suodattimet',
+    en: 'Filters'
+  },
+  moreInfo: {
+    fi: 'Lisätietoa',
+    en: 'More information'
   }
 }

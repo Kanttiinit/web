@@ -33,7 +33,7 @@ export function fetchFavorites(lang) {
 export function fetchMenus(lang) {
   return {
     type: 'FETCH_MENUS',
-    payload: http.get('/menus?restaurants?lang=' + lang),
+    payload: http.get('/menus?lang=' + lang),
     meta: {
       data: 'menus'
     }

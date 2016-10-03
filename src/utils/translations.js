@@ -119,9 +119,13 @@ export default {
     fi: 'Ei ravintoloita.',
     en: 'No restaurants.'
   },
-  star: {
-    fi: 'Tähditä',
+  addStar: {
+    fi: 'Merkitse tähdellä',
     en: 'Star'
+  },
+  removeStar: {
+    fi: 'Poista tähtimerkintä',
+    en: 'Unstar'
   },
   filters: {
     fi: 'Suodattimet',

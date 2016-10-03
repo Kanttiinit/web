@@ -45,12 +45,17 @@ const Restaurant = ({ restaurant, dayOffset, dayOfWeek, openModal, toggleStar })
         ))}
       </div>
       <div className={css.restaurantActions}>
-        <Tooltip margin={12} content={<Text id="star" />} element="a" onClick={() => toggleStar()} className={css.actionIcon}>
-          <Star size={18} color={restaurant.isStarred ? '#FFD600' : undefined} />
+        <Tooltip
+          margin={12}
+          content={<Text id={restaurant.isStarred ? 'removeStar' : 'addStar'} />}
+          element="a"
+          onClick={() => toggleStar()}
+          className={css.actionIcon}>
+          <Star size={20} color={restaurant.isStarred ? '#FFD600' : undefined} />
         </Tooltip>
         &nbsp;
         <Tooltip margin={12} element="a" content={<Text id="moreInfo" />} onClick={() => openModal()} className={css.actionIcon}>
-          <Map size={18}/>
+          <Map size={20}/>
         </Tooltip>
       </div>
     </div>

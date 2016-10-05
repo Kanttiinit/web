@@ -19,7 +19,7 @@ const Menus = ({restaurants, dayOffset, loading, filtersExpanded}) => {
       </Sticky>
       {filtersExpanded &&
       <div className={css.filters}>
-        <AreaSelector style={{textAlign: 'center'}} />
+        <AreaSelector />
       </div>
       }
       {loading ? <Loader /> :

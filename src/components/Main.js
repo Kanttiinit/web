@@ -33,6 +33,12 @@ GA.initialize('UA-85003235-1', {
   debug: !window.isProduction
 })
 
+const pageView = ({location: prev}, {location: next}) => {
+  const location = next || prev
+  GA.set({page: location.pathname})
+  GA.pageview(location.pathname)
+}
+
 // login if auth token is in URL
 const auth = parseAuth()
 if (auth) {
@@ -48,7 +54,11 @@ const AppRouter = connect(state => ({
 
   return (
     <Router history={browserHistory}>
-      <Route path="/" component={App}>
+      <Route
+        onEnter={pageView}
+        onChange={pageView}
+        path="/"
+        component={App}>
         <IndexRoute component={Menus} />
         <Route path="privacy-policy" component={PrivacyPolicy} />
         <Route path="beta" component={Beta} />

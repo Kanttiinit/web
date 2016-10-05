@@ -18,23 +18,18 @@ class App extends React.Component {
       this.fetchAll(props.lang)
     }
 
+    this.updateLocation(props)
+  }
+  updateLocation(props) {
     // start or stop watching for location
-    if (props.useLocation !== this.props.useLocation) {
-      if (props.useLocation) {
-        this.locationWatchId = navigator.geolocation.watchPosition(({coords: {latitude, longitude}}) => {
-          this.props.setLocation({latitude, longitude})
-        })
-      } else if (this.locationWatchId) {
-        navigator.geolocation.clearWatch(this.locationWatchId)
-        this.props.setLocation()
-      }
-    }
-
-    // send pageview to google analytics if path has changed
-    const path = props.location.pathname
-    if (path !== this.props.location.pathname) {
-      GA.set({page: path})
-      GA.pageview(path)
+    if (props.useLocation && !this.locationWatchId) {
+      this.locationWatchId = navigator.geolocation.watchPosition(({coords: {latitude, longitude}}) => {
+        this.props.setLocation({latitude, longitude})
+      })
+    } else if (!props.useLocation) {
+      navigator.geolocation.clearWatch(this.locationWatchId)
+      this.locationWatchId = undefined
+      this.props.setLocation()
     }
   }
   fetchAll(lang) {
@@ -47,6 +42,8 @@ class App extends React.Component {
     this.props.fetchUser()
     .then(() => this.fetchAll(this.props.lang))
     .catch(() => this.fetchAll(this.props.lang))
+
+    this.updateLocation(this.props)
   }
   render() {
     const {children, modal, closeModal, location} = this.props

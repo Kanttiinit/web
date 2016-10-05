@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Walk from 'react-icons/lib/md/directions-walk'
+import Bike from 'react-icons/lib/md/directions-bike'
 import Map from 'react-icons/lib/io/more'
 import Star from 'react-icons/lib/io/star'
 import c from 'classnames'
@@ -11,6 +12,22 @@ import css from '../../styles/Restaurant.scss'
 import {openModal} from '../../store/actions/values'
 import {setRestaurantStarred} from '../../store/actions/preferences'
 import RestaurantModal from '../RestaurantModal'
+
+const Distance = ({distance}) => {
+  const kilometers = distance > 1500
+  return (
+    <span>
+      {kilometers
+      ? <Bike className="inline-icon" />
+      : <Walk className="inline-icon" />}
+      {kilometers
+      ? parseFloat(distance / 1000).toFixed(1)
+      : Math.round(distance)}
+      &nbsp;
+      <Text id={kilometers ? 'kilometers' : 'meters'} />
+    </span>
+  )
+}
 
 const Restaurant = ({ restaurant, dayOffset, dayOfWeek, openModal, toggleStar }) => {
   const isClosed = dayOffset === 0 && !restaurant.isOpenNow
@@ -25,7 +42,7 @@ const Restaurant = ({ restaurant, dayOffset, dayOfWeek, openModal, toggleStar })
           {restaurant.name}
           {restaurant.distance &&
           <div className={css.meta}>
-            <Walk className="inline-icon" />{Math.round(restaurant.distance)} meters
+            <Distance distance={restaurant.distance} />
           </div>
           }
         </h2>

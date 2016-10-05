@@ -1,17 +1,23 @@
 import {createSelector} from 'reselect'
 import moment from 'moment'
-import _ from 'lodash'
+import get from 'lodash/get'
+import orderBy from 'lodash/orderBy'
 import haversine from 'haversine'
 import {Set} from 'immutable'
 
-const STARRED = 'STARRED'
+const STARRED = -1
+const NEARBY = -2
 
 export const selectAreas = state => state.data.areas || []
 
 export const selectSelectedArea = createSelector(
   selectAreas,
   state => state.preferences.selectedArea,
-  (areas, selectedArea) => areas.find(a => a.id === selectedArea) || STARRED
+  (areas, selectedArea) => {
+    if (selectedArea < 0)
+      return selectedArea
+    return areas.find(a => a.id === selectedArea)
+  }
 )
 
 export const starredRestaurants = state => state.preferences.starredRestaurants || Set()
@@ -35,28 +41,27 @@ export const getFormattedRestaurants = createSelector(
   starredRestaurants,
   (dayOffset, restaurants, menus, selectedArea = {}, location, starredRestaurants) => {
     const day = moment().add(dayOffset, 'day')
-    return _.orderBy(
+    return orderBy(
       restaurants
-      .map(restaurant => ({
-        ...restaurant,
-        isStarred: starredRestaurants.includes(restaurant.id)
-      }))
-      .filter(restaurant => {
-        if (selectedArea === STARRED) {
-          return restaurant.isStarred
-        }
-        return selectedArea.restaurants && selectedArea.restaurants.some(r => r.id === restaurant.id)
-      })
       .map(restaurant => {
-        const courses = _.get(menus, [restaurant.id, day.format('YYYY-MM-DD')], [])
+        const courses = get(menus, [restaurant.id, day.format('YYYY-MM-DD')], [])
         const distance = location && haversine(location, restaurant, {unit: 'meter'})
         return {
           ...restaurant,
           courses,
           distance,
           noCourses: !courses.length,
-          isOpenNow: isOpenNow(restaurant, day)
+          isOpenNow: isOpenNow(restaurant, day),
+          isStarred: starredRestaurants.includes(restaurant.id)
         }
+      })
+      .filter(restaurant => {
+        if (selectedArea === STARRED) {
+          return restaurant.isStarred
+        } else if (selectedArea === NEARBY) {
+          return restaurant.distance < 1500
+        }
+        return selectedArea.restaurants && selectedArea.restaurants.some(r => r.id === restaurant.id)
       }),
      ['isStarred', 'isOpenNow', 'noCourses', 'distance'], ['desc', 'desc', 'asc', 'asc'])
   }

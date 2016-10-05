@@ -134,5 +134,21 @@ export default {
   moreInfo: {
     fi: 'Lisätietoa',
     en: 'More information'
+  },
+  starred: {
+    fi: 'Tähdellä merkityt',
+    en: 'Starred'
+  },
+  nearby: {
+    fi: 'Lähellä',
+    en: 'Nearby'
+  },
+  meters: {
+    fi: 'metriä',
+    en: 'meters'
+  },
+  kilometers: {
+    fi: 'kilometriä',
+    en: 'kilometers'
   }
 }

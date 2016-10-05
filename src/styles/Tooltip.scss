@@ -11,4 +11,8 @@
   box-sizing: border-box;
   text-align: center;
   white-space: nowrap;
+
+  @media (max-width: $break-small) {
+    display: none;
+  }
 }

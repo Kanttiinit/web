@@ -30,6 +30,7 @@ const AreaSelector = ({areas, selectedArea, useLocation, setSelectedArea, width 
         style={{textAlign: 'center'}}
         options={options}
         clearable={false}
+        searchable={false}
         onChange={({value}) => setSelectedArea(value)}
         value={selectedArea} />
     </div>

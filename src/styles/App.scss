@@ -35,9 +35,14 @@
     text-decoration: none;
   }
 
+  button {
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
+
   .button {
     font-size: 0.8rem;
-    border: none;
     padding: 0.8em 1.2em;
     font-family: inherit;
     text-transform: uppercase;

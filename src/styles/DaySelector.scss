@@ -4,21 +4,25 @@
   background: white;
   box-shadow: 0 0.1rem 0.2rem -0.1rem rgba(0, 0, 0, 0.4);
   box-sizing: border-box;
-  position: relative;
+  display: flex;
+  align-items: center;
   text-align: center;
-  white-space: nowrap;
+  padding: 0 1em;
 
   @media (max-width: $break-small) {
     background-color: $body_background;
     border-bottom: 1px solid #ededed;
     justify-content: flex-start;
-    overflow-x: auto;
-    padding: 0.25em 0;
+    padding: 0.25em 0.5em;
 
     &::-webkit-scrollbar {
       display: none;
     }
   }
+}
+
+.days {
+  flex: 1;
 
   button {
     border: none;
@@ -41,45 +45,36 @@
       border-bottom-width: 0.25em;
     }
   }
-
-  :global(.show-mobile) {
-    border: none;
-    background: transparent;
-    font-size: 1rem;
-    margin: 0.5em;
-    font-family: inherit;
-    text-transform: uppercase;
-    color: $accent_color;
-  }
 }
 
-a.accountIcon, .filtersIcon {
+.icon {
   color: $gray;
-  position: absolute;
-  right: 0;
-  top: 0;
-  display: flex;
-  align-items: center;
-  bottom: 0;
-  margin: 0 1rem;
 
   &:hover, &:focus {
     outline: none;
     color: $accent_color;
   }
-}
 
-.accountIcon img {
-  width: 24px;
-  height: 24px;
-  border-radius: 12px;
-}
-
-.filtersIcon {
-  left: 0;
-  right: auto;
+  img {
+    width: 24px;
+    height: 24px;
+    border-radius: 12px;
+  }
 
   &.expanded {
     color: $accent_color;
+  }
+}
+
+.dropdown {
+  width: 14em;
+  vertical-align: middle;
+
+  :global {
+    .Select-control {
+      background: transparent;
+      border: none;
+      text-transform: uppercase;
+    }
   }
 }

@@ -40,13 +40,11 @@ export default class Tooltip extends React.Component {
       {
         ref: e => {
           if (!this.initialized) {
-            e.addEventListener('mouseover', () => {
-              this.showTooltip(e)
-            })
+            e.addEventListener('focus', () => this.showTooltip(e))
+            e.addEventListener('mouseover', () => this.showTooltip(e))
 
-            e.addEventListener('mouseout', () => {
-              this.hideTooltip()
-            })
+            e.addEventListener('blur', () => this.hideTooltip())
+            e.addEventListener('mouseout', () => this.hideTooltip())
             this.initialized = true
           }
         },

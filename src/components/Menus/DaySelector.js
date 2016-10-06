@@ -6,16 +6,16 @@ import Account from 'react-icons/lib/md/account-circle'
 import Filter from 'react-icons/lib/md/filter-list'
 import times from 'lodash/times'
 import Select from 'react-select'
+import {Link} from 'react-router'
 
 import Tooltip from '../Tooltip'
-import Settings from './Settings'
 import css from '../../styles/DaySelector.scss'
-import {setDayOffset, openModal} from '../../store/actions/values'
+import {setDayOffset} from '../../store/actions/values'
 import {setFiltersExpanded} from '../../store/actions/preferences'
 import {selectFiltersExpanded, isLoggedIn} from '../../store/selectors'
 import Text from '../Text'
 
-const DaySelector = ({ dayOffset, setDayOffset, openModal, setFiltersExpanded, filtersExpanded, user, isLoggedIn }) => (
+const DaySelector = ({ dayOffset, setDayOffset, setFiltersExpanded, filtersExpanded, user, isLoggedIn }) => (
   <div className={css.container}>
     <Tooltip
       element="button"
@@ -47,13 +47,14 @@ const DaySelector = ({ dayOffset, setDayOffset, openModal, setFiltersExpanded, f
         onChange={option => setDayOffset(option.value)}
         value={dayOffset} />
     </div>
-    <Tooltip
-      element="button"
-      content={<Text id="settings" />}
-      className={css.icon}
-      onClick={() => openModal(<Settings />)}>
-      {isLoggedIn ? <img src={user.photo} /> : <Account size={24} />}
-    </Tooltip>
+    <Link to="/settings">
+      <Tooltip
+        element="button"
+        content={<Text id="settings" />}
+        className={css.icon}>
+        {isLoggedIn ? <img src={user.photo} /> : <Account size={24} />}
+      </Tooltip>
+    </Link>
   </div>
 )
 
@@ -64,6 +65,6 @@ const mapState = state => ({
   isLoggedIn: isLoggedIn(state)
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({setDayOffset, openModal, setFiltersExpanded}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({setDayOffset, setFiltersExpanded}, dispatch)
 
 export default connect(mapState, mapDispatchToProps)(DaySelector)

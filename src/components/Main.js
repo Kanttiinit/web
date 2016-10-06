@@ -10,10 +10,12 @@ import PrivacyPolicy from './PrivacyPolicy'
 import Contact from './Contact'
 import Beta from './Beta'
 import NotFound from './NotFound'
+import Settings from './Menus/Settings'
+import RestaurantModal from './RestaurantModal'
 
 import store from '../store'
 import {fetchUser} from '../store/actions/async'
-import {setDayOffset, closeModal} from '../store/actions/values'
+import {setDayOffset, closeModal, openModal} from '../store/actions/values'
 import parseAuth from '../utils/parseAuth'
 import App from './App'
 
@@ -46,6 +48,8 @@ if (auth) {
   .then(() => store.dispatch(fetchUser()))
 }
 
+const dispatchCloseModal = () => store.dispatch(closeModal())
+
 const AppRouter = connect(state => ({
   initializing: state.value.initializing
 }))(({initializing}) => {
@@ -59,7 +63,17 @@ const AppRouter = connect(state => ({
         onChange={pageView}
         path="/"
         component={App}>
-        <IndexRoute component={Menus} />
+        <Route component={Menus}>
+          <IndexRoute />
+          <Route
+            path="settings"
+            onLeave={dispatchCloseModal}
+            onEnter={() => store.dispatch(openModal(<Settings />))} />
+          <Route
+            path="restaurant/:id"
+            onLeave={dispatchCloseModal}
+            onEnter={state => store.dispatch(openModal(<RestaurantModal restaurantId={+state.params.id} />))} />
+        </Route>
         <Route path="privacy-policy" component={PrivacyPolicy} />
         <Route path="beta" component={Beta} />
         <Route path="contact" component={Contact} />

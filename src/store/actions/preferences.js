@@ -2,6 +2,7 @@ import trackAction from '../../utils/trackAction'
 import http from '../../utils/http'
 
 export const SET_PREFERENCE_RESTAURANT_STARRED = 'SET_PREFERENCE_RESTAURANT_STARRED'
+export const SET_PREFERENCE_FAVORITE = 'SET_PREFERENCE_FAVORITE'
 
 const savePreferences = preferences =>
   http.put('/me/preferences', preferences)
@@ -48,5 +49,15 @@ export function setRestaurantStarred(restaurantId, isStarred) {
       payload: {restaurantId, isStarred}
     })
     savePreferences({starredRestaurants: getState().preferences.starredRestaurants})
+  }
+}
+
+export function setFavorite(favoriteId, isFavorited) {
+  return (dispatch, getState) => {
+    dispatch({
+      type: SET_PREFERENCE_FAVORITE,
+      payload: {favoriteId, isFavorited}
+    })
+    savePreferences({favorites: getState().preferences.favorites})
   }
 }

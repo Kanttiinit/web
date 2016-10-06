@@ -68,6 +68,16 @@
       font-size: 0.7rem;
       padding: 0.5em 0.7em;
     }
+
+    &-light {
+      background: transparent;
+      color: $accent_color;
+
+      &:focus {
+        color: $accent_color_dark;
+        background: transparent;
+      }
+    }
   }
 
   a, button {

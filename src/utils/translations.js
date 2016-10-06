@@ -150,5 +150,9 @@ export default {
   kilometers: {
     fi: 'kilometriä',
     en: 'kilometers'
+  },
+  favorites: {
+    fi: 'Suosikit',
+    en: 'Favorites'
   }
 }

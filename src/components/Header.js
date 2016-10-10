@@ -32,7 +32,7 @@ const Header = () => (
         <p><Text id="slogan" /></p>
       </div>
     </InboundLink>
-    <div style={{background: 'white', borderRadius: '0.2rem', padding: '0.5rem'}}>
+    <div className={css.languageSelector}>
       <LanguageSelector />
     </div>
   </header>

@@ -56,11 +56,8 @@ const Restaurant = ({ restaurant, dayOffset, dayOfWeek, toggleStar }) => {
           <div
             className={`${css.course} ${course.isFavorite ? css.favoriteCourse : ''}`}
             key={i}>
-            <span className={css.title}>
-              {course.isFavorite && <Heart className="inline-icon" />}
-              &nbsp;
-              {course.title}
-            </span>
+            {course.isFavorite && <Heart className={`inline-icon ${css.icon}`} />}
+            <span className={css.title}>{course.title}</span>
             <span className={css.props}>{course.properties.join(' ')}</span>
           </div>
         ))}

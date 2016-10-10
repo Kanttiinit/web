@@ -10,6 +10,13 @@ const NEARBY = -2
 
 export const selectAreas = state => state.data.areas || []
 
+export const selectedFavorites = createSelector(
+  state => state.data.favorites || [],
+  state => state.preferences.favorites,
+  (favorites, selectedFavorites) =>
+    favorites.filter(favorite => selectedFavorites.indexOf(favorite.id) > -1)
+)
+
 export const selectSelectedArea = createSelector(
   selectAreas,
   state => state.preferences.selectedArea,
@@ -39,18 +46,31 @@ export const getFormattedRestaurants = createSelector(
   selectSelectedArea,
   state => state.value.location,
   starredRestaurants,
-  (dayOffset, restaurants, menus, selectedArea = {}, location, starredRestaurants) => {
+  selectedFavorites,
+  (dayOffset, restaurants, menus, selectedArea = {}, location, starredRestaurants, selectedFavorites) => {
     const day = moment().add(dayOffset, 'day')
     return orderBy(
       restaurants
       .map(restaurant => {
+        let favoriteCourses = 0
         const courses = get(menus, [restaurant.id, day.format('YYYY-MM-DD')], [])
+        .map(course => {
+          const isFavorite = selectedFavorites.some(favorite => course.title.match(new RegExp(favorite.regexp, 'i')))
+          if (isFavorite) {
+            favoriteCourses++
+          }
+          return {
+            ...course,
+            isFavorite
+          }
+        })
         const distance = location && haversine(location, restaurant, {unit: 'meter'})
         return {
           ...restaurant,
           courses,
           distance,
           noCourses: !courses.length,
+          favoriteCourses: favoriteCourses > 0,
           isOpenNow: isOpenNow(restaurant, day),
           isStarred: starredRestaurants.includes(restaurant.id)
         }
@@ -63,7 +83,7 @@ export const getFormattedRestaurants = createSelector(
         }
         return selectedArea.restaurants && selectedArea.restaurants.some(r => r.id === restaurant.id)
       }),
-     ['isStarred', 'isOpenNow', 'noCourses', 'distance'], ['desc', 'desc', 'asc', 'asc'])
+     ['isStarred', 'isOpenNow', 'noCourses', 'favoriteCourses', 'distance'], ['desc', 'desc', 'asc', 'desc', 'asc'])
   }
 )
 

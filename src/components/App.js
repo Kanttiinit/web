@@ -33,10 +33,11 @@ class App extends React.Component {
     }
   }
   fetchAll(lang) {
-    const {fetchAreas, fetchMenus, fetchRestaurants} = this.props
+    const {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites} = this.props
     fetchMenus(lang)
     fetchRestaurants(lang)
     fetchAreas(lang)
+    fetchFavorites(lang)
   }
   componentDidMount() {
     this.props.fetchUser()

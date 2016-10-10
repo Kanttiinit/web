@@ -4,6 +4,7 @@ import Walk from 'react-icons/lib/md/directions-walk'
 import Bike from 'react-icons/lib/md/directions-bike'
 import Map from 'react-icons/lib/io/more'
 import Star from 'react-icons/lib/io/star'
+import Heart from 'react-icons/lib/io/heart'
 import c from 'classnames'
 import {Link} from 'react-router'
 
@@ -53,9 +54,13 @@ const Restaurant = ({ restaurant, dayOffset, dayOfWeek, toggleStar }) => {
       <div className={css.body}>
         {restaurant.noCourses ? (<span className={css.emptyText}>{<Text id="noMenu" />}</span>) : restaurant.courses.map((course, i) => (
           <div
-            className={css.course}
+            className={`${css.course} ${course.isFavorite ? css.favoriteCourse : ''}`}
             key={i}>
-            <span className={css.title}>{course.title}</span>
+            <span className={css.title}>
+              {course.isFavorite && <Heart className="inline-icon" />}
+              &nbsp;
+              {course.title}
+            </span>
             <span className={css.props}>{course.properties.join(' ')}</span>
           </div>
         ))}

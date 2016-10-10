@@ -2,7 +2,7 @@ import {REHYDRATE} from 'redux-persist/constants'
 import startsWith from 'lodash/startsWith'
 import {Set} from 'immutable'
 
-import {SET_PREFERENCE_RESTAURANT_STARRED, SET_PREFERENCE_FAVORITE} from '../actions/preferences'
+import {SET_PREFERENCE_RESTAURANT_STARRED} from '../actions/preferences'
 
 const lang = navigator.language.split('-')[0]
 
@@ -12,7 +12,7 @@ const defaultState = {
   useLocation: false,
   filtersExpanded: true,
   starredRestaurants: Set(),
-  favorites: Set()
+  favorites: []
 }
 
 const toggleInSet = (list, value, toggle) => {
@@ -29,18 +29,12 @@ export default (state = defaultState, {type, payload}) => {
       ...state,
       ...defaultState,
       ...payload.preferences,
-      starredRestaurants: Set(payload.preferences.starredRestaurants || []),
-      favorites: Set(payload.preferences.favorites || [])
+      starredRestaurants: Set(payload.preferences.starredRestaurants || [])
     }
   } else if (type === SET_PREFERENCE_RESTAURANT_STARRED) {
     return {
       ...state,
       starredRestaurants: toggleInSet(state.starredRestaurants, payload.restaurantId, payload.isStarred)
-    }
-  } else if (type === SET_PREFERENCE_FAVORITE) {
-    return {
-      ...state,
-      favorites: toggleInSet(state.favorites, payload.favoriteId, payload.isStarred)
     }
   } else if (startsWith(type, 'SET_PREFERENCE_')) {
     return {...state, ...payload}

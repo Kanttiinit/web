@@ -1,14 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
 import {IndexLink, Link} from 'react-router'
 
-import Radio from './Radio'
-import {setLang} from '../store/actions/preferences'
 import css from '../styles/Footer.scss'
 import Text from './Text'
 
-const Footer = ({lang, setLang, user}) => {
+const Footer = ({user}) => {
   return (
     <footer className={css.container}>
       <IndexLink to="/" activeClassName={css.current}><Text id="menus" /></IndexLink>
@@ -20,23 +17,12 @@ const Footer = ({lang, setLang, user}) => {
       <a href="/admin" target="_blank">Admin</a>}
       &nbsp;
       <span>{version}</span>
-      <Radio
-        style={{marginTop: '2rem'}}
-        selected={lang}
-        onChange={lang => setLang(lang)}
-        options={[
-          {label: 'Finnish', value: 'fi'},
-          {label: 'English', value: 'en'}
-        ]} />
     </footer>
   )
 }
 
 const mapState = state => ({
-  user: state.data.user,
-  lang: state.preferences.lang
+  user: state.data.user
 })
 
-const mapDispatch = dispatch => bindActionCreators({setLang}, dispatch)
-
-export default connect(mapState, mapDispatch)(Footer)
+export default connect(mapState)(Footer)

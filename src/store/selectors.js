@@ -54,6 +54,7 @@ export const getFormattedRestaurants = createSelector(
       .map(restaurant => {
         let favoriteCourses = 0
         const courses = get(menus, [restaurant.id, day.format('YYYY-MM-DD')], [])
+        .filter(course => course.title)
         .map(course => {
           const isFavorite = selectedFavorites.some(favorite => course.title.match(new RegExp(favorite.regexp, 'i')))
           if (isFavorite) {
@@ -83,7 +84,8 @@ export const getFormattedRestaurants = createSelector(
         }
         return selectedArea.restaurants && selectedArea.restaurants.some(r => r.id === restaurant.id)
       }),
-     ['isStarred', 'isOpenNow', 'noCourses', 'favoriteCourses', 'distance'], ['desc', 'desc', 'asc', 'desc', 'asc'])
+     ['isStarred', 'isOpenNow', 'noCourses', 'favoriteCourses', 'distance'],
+     ['desc', 'desc', 'asc', 'desc', 'asc'])
   }
 )
 

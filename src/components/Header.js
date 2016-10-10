@@ -2,6 +2,7 @@ import React from 'react'
 import {OutboundLink as Link} from 'react-ga'
 import {Link as InboundLink} from 'react-router'
 
+import {LanguageSelector} from './Menus/Settings'
 import iosImg from '../assets/ios_store.svg'
 import telegramImg from '../assets/telegram.svg'
 import logo from '../assets/logo.png'
@@ -31,7 +32,9 @@ const Header = () => (
         <p><Text id="slogan" /></p>
       </div>
     </InboundLink>
-    <AppLinks />
+    <div style={{background: 'white', borderRadius: '0.2rem', padding: '0.5rem'}}>
+      <LanguageSelector />
+    </div>
   </header>
 )
 

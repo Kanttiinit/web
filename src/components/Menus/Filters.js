@@ -4,6 +4,7 @@ import {connect} from 'react-redux'
 import sortBy from 'lodash/sortBy'
 import Select from 'react-select'
 
+import Text from '../Text'
 import AreaSelector from './AreaSelector'
 import css from '../../styles/Filters.scss'
 import {setFavorites} from '../../store/actions/preferences'
@@ -17,11 +18,11 @@ const Item = ({title, children}) => (
 
 const Filters = ({favorites, selectedFavorites, setFavorites}) => (
   <div className={css.filters}>
-    <Item title="Area">
+    <Item title={<Text id="area" />}>
       <AreaSelector />
     </Item>
     {favorites &&
-    <Item title="Favorites">
+    <Item title={<Text id="favorites" />}>
       <Select
         onChange={values => setFavorites(values.map(v => v.value))}
         clearable={false}

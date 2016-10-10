@@ -49,3 +49,17 @@ export function fetchRestaurants(lang) {
     }
   }
 }
+
+export function savePreferences(preferences) {
+  return (dispatch, getState) => {
+    if (getState().data.user) {
+      dispatch({
+        type: 'FETCH_SAVE_PREFERENCES',
+        payload: http.put('/me/preferences', preferences),
+        meta: {
+          data: 'savePreferences'
+        }
+      })
+    }
+  }
+}

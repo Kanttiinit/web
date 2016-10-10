@@ -2,6 +2,7 @@ import trackAction from '../../utils/trackAction'
 import {savePreferences} from './async'
 
 export const SET_PREFERENCE_RESTAURANT_STARRED = 'SET_PREFERENCE_RESTAURANT_STARRED'
+export const orders = ['ORDER_AUTOMATIC', 'ORDER_ALPHABET', 'ORDER_DISTANCE']
 
 const saveablePreferenceAction = (type, key) => payload => dispatch => {
   trackAction(key, payload)
@@ -18,6 +19,8 @@ export const setSelectedArea = saveablePreferenceAction('SET_PREFERENCE_SELECTED
 
 export const setUseLocation = saveablePreferenceAction('SET_PREFERENCE_USE_LOCATION', 'useLocation')
 
+export const setOrder = saveablePreferenceAction('SET_PREFERENCE_ORDER', 'order')
+
 export function setFiltersExpanded(filtersExpanded) {
   trackAction('set filters expanded', filtersExpanded)
   return {
@@ -32,7 +35,7 @@ export function setRestaurantStarred(restaurantId, isStarred) {
       type: SET_PREFERENCE_RESTAURANT_STARRED,
       payload: {restaurantId, isStarred}
     })
-    savePreferences({starredRestaurants: getState().preferences.starredRestaurants})
+    dispatch(savePreferences({starredRestaurants: getState().preferences.starredRestaurants}))
   }
 }
 

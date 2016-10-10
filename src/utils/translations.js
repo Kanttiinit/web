@@ -154,5 +154,21 @@ export default {
   favorites: {
     fi: 'Suosikit',
     en: 'Favorites'
+  },
+  order: {
+    fi: 'Järjestys',
+    en: 'Order'
+  },
+  ORDER_AUTOMATIC: {
+    fi: 'Automaattinen',
+    en: 'Automatic'
+  },
+  ORDER_ALPHABET: {
+    fi: 'Aakkos',
+    en: 'Alphabet'
+  },
+  ORDER_DISTANCE: {
+    fi: 'Etäisyys',
+    en: 'Distance'
   }
 }

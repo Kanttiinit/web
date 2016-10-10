@@ -12,7 +12,8 @@ const defaultState = {
   useLocation: false,
   filtersExpanded: true,
   starredRestaurants: Set(),
-  favorites: []
+  favorites: [],
+  order: 'ORDER_AUTOMATIC'
 }
 
 const toggleInSet = (list, value, toggle) => {

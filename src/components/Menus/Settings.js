@@ -11,7 +11,6 @@ import {fetchUser} from '../../store/actions/async'
 import {isLoggedIn} from '../../store/selectors'
 import Text from '../Text'
 import Radio from '../Radio'
-import AreaSelector from './AreaSelector'
 
 const Item = ({label, children}) => (
   <div className="settings-item">
@@ -36,9 +35,6 @@ export const LanguageSelector = connect(
 const Settings = ({preferences, setUseLocation, isLoggedIn, user, fetchUser}) => (
   <div className={css.container}>
     <h1><Text id="settings" /></h1>
-    <Item label={<Text id="area" />}>
-      <AreaSelector />
-    </Item>
     <Item label={<Text id="useLocation" />}>
       <Radio
         options={[

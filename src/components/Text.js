@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import 'moment/locale/fi'
 import 'moment/locale/en-gb'
 
-const Text = ({translations, lang, id, moment, element = 'span', dispatch, ...props}) => {
+const Text = ({translations, lang, id, moment, element = 'span', children, dispatch, ...props}) => {
   if (!moment) {
     if (!translations[id]) {
       console.warn(`no translations for "${id}"`)
@@ -12,7 +12,7 @@ const Text = ({translations, lang, id, moment, element = 'span', dispatch, ...pr
       console.warn(`"${id}" is not translated into ${lang}`)
     }
   }
-  return React.createElement(element, props, moment ? moment.locale(lang).format(id) : translations[id][lang])
+  return React.createElement(element, props, [children, moment ? moment.locale(lang).format(id) : translations[id][lang]])
 }
 
 const mapState = state => ({

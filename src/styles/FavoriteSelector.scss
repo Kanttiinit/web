@@ -12,6 +12,11 @@
     background: white;
     color: $dark_gray;
     text-align: left;
+    display: flex;
+
+    :global(.inline-icon) {
+      flex-shrink: 0;
+    }
 
     &:focus {
       color: black;

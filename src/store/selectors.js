@@ -106,6 +106,16 @@ export const getFormattedRestaurants = createSelector(
 
 export const selectLang = state => state.preferences.lang
 
+export const selectFavorites = createSelector(
+  state => state.preferences.favorites || [],
+  state => state.data.favorites || [],
+  (selectedFavorites, favorites) =>
+    orderBy(favorites, ['name']).map(favorite => ({
+      ...favorite,
+      isSelected: selectedFavorites.indexOf(favorite.id) > -1
+    }))
+)
+
 export const selectFiltersExpanded = createSelector(
   state => state.preferences.filtersExpanded,
   filtersExpanded => filtersExpanded

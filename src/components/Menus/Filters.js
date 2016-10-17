@@ -12,7 +12,7 @@ import css from '../../styles/Filters.scss'
 import * as actions from '../../store/actions/preferences'
 import {selectSelectedArea} from '../../store/selectors'
 
-const Filters = ({favorites, order, setOrder, selectedArea}) => (
+const Filters = ({order, setOrder, selectedArea}) => (
   <div className={css.filters}>
     <Select
       style={{width: '7em'}}
@@ -33,16 +33,15 @@ const Filters = ({favorites, order, setOrder, selectedArea}) => (
         : selectedArea && selectedArea.name}
       </button>
     </Link>
-    {favorites &&
+    <Link to="/select-favorites">
       <Text id="favorites" element="button" className="button">
         <Star className="inline-icon" />&nbsp;
       </Text>
-    }
+    </Link>
   </div>
 )
 
 const mapState = state => ({
-  favorites: state.data.favorites,
   order: state.preferences.order,
   selectedArea: selectSelectedArea(state)
 })

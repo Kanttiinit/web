@@ -11,6 +11,8 @@ import Contact from './Contact'
 import Beta from './Beta'
 import NotFound from './NotFound'
 import Settings from './Menus/Settings'
+import AreaSelector from './Menus/AreaSelector'
+import FavoriteSelector from './Menus/FavoriteSelector'
 import RestaurantModal from './RestaurantModal'
 
 import store from '../store'
@@ -73,6 +75,14 @@ const AppRouter = connect(state => ({
             path="restaurant/:id"
             onLeave={dispatchCloseModal}
             onEnter={state => store.dispatch(openModal(<RestaurantModal restaurantId={+state.params.id} />))} />
+          <Route
+            path="select-area"
+            onLeave={dispatchCloseModal}
+            onEnter={() => store.dispatch(openModal(<AreaSelector />))} />
+          <Route
+            path="select-favorites"
+            onLeave={dispatchCloseModal}
+            onEnter={() => store.dispatch(openModal(<FavoriteSelector />))} />
         </Route>
         <Route path="privacy-policy" component={PrivacyPolicy} />
         <Route path="beta" component={Beta} />

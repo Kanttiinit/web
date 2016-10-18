@@ -16,7 +16,7 @@ export function setLocation(location) {
 }
 
 export function openModal(component) {
-  trackAction('open modal', component.displayName)
+  trackAction('open modal')
   return {
     type: 'SET_VALUE_MODAL',
     payload: {

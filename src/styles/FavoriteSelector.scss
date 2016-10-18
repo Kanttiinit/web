@@ -1,0 +1,30 @@
+@import "constants";
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  overflow: auto;
+
+  button {
+    width: calc(50% - 0.25em);
+    margin-bottom: 0.5em;
+    background: white;
+    color: $dark_gray;
+    text-align: left;
+    display: flex;
+
+    :global(.inline-icon) {
+      flex-shrink: 0;
+    }
+
+    &:focus {
+      color: black;
+      background: white;
+    }
+
+    &.selected {
+      color: $red;
+    }
+  }
+}

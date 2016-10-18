@@ -1,0 +1,23 @@
+@import "constants";
+
+.modal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  button {
+    width: calc(33.3% - 0.5em);
+    padding: 1em 0.5em;
+    background: white;
+    margin-bottom: 0.75em;
+    color: $dark_gray;
+
+    &:hover {
+      color: black;
+    }
+  }
+
+  .selected {
+    color: $accent_color;
+  }
+}

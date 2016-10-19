@@ -18,19 +18,22 @@ const toggleFromFavorites = ({id}, favorites, setFavorites) => {
 }
 
 const FavoriteSelector = ({favorites, setFavorites}) => (
-  <div className={css.container}>
-    {favorites.map(favorite =>
-    <button
-      key={favorite.id}
-      className={'button ' + (favorite.isSelected ? css.selected : '')}
-      onClick={() => toggleFromFavorites(favorite, favorites, setFavorites)}>
-      {favorite.isSelected
-      ? <Heart className="inline-icon" />
-      : <HeartOutline className="inline-icon" />}
-      &nbsp;
-      {favorite.name}
-    </button>
-    )}
+  <div className={css.modal}>
+    <span className={css.title}>Suosikit</span>
+    <div className={css.container}>
+      {favorites.map(favorite =>
+      <button
+        key={favorite.id}
+        className={'button ' + (favorite.isSelected ? css.selected : '')}
+        onClick={() => toggleFromFavorites(favorite, favorites, setFavorites)}>
+        {favorite.isSelected
+        ? <Heart className="inline-icon" />
+        : <HeartOutline className="inline-icon" />}
+        &nbsp;
+        {favorite.name}
+      </button>
+      )}
+    </div>
   </div>
 )
 

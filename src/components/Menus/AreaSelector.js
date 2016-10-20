@@ -24,7 +24,7 @@ export const AreaSelector = ({areas, selectedArea, setSelectedArea}) => (
       {specialAreas.concat(sortBy(areas, 'name')).map(area =>
       <div className={css.area + (selectedArea === area.id ? ' ' + css.selected : '')}>
         <div className={css.map}>
-          <img src={mapImg}></img>
+          <img src={mapImg}/>
         </div>
         <button
           onClick={() => {setSelectedArea(area.id); browserHistory.replace('/')}}

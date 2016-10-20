@@ -5,7 +5,6 @@ import moment from 'moment'
 import Account from 'react-icons/lib/md/account-circle'
 import Filter from 'react-icons/lib/md/filter-list'
 import times from 'lodash/times'
-import Select from 'react-select'
 import {Link} from 'react-router'
 
 import Tooltip from '../Tooltip'
@@ -25,27 +24,15 @@ const DaySelector = ({ dayOffset, setDayOffset, setFiltersExpanded, filtersExpan
       <Filter size={24} />
     </Tooltip>
     <div className={css.days}>
-      <div className="hide-mobile">
-        {times(6, i =>
-        <button
-          key={i}
-          ref={e => i === dayOffset && e && e.focus()}
-          className={i === dayOffset ? css.selected : ''}
-          onClick={() => setDayOffset(i)}>
-          <Text moment={moment().add(i, 'day')} id="dd DD.MM." />
-        </button>
-        )}
-      </div>
-      <Select
-        className={`show-mobile ${css.dropdown}`}
-        clearable={false}
-        searchable={false}
-        options={times(6, value => ({
-          label: <Text moment={moment().add(value, 'day')} id="dddd DD.MM." />,
-          value
-        }))}
-        onChange={option => setDayOffset(option.value)}
-        value={dayOffset} />
+      {times(6, i =>
+      <button
+        key={i}
+        ref={e => i === dayOffset && e && e.focus()}
+        className={i === dayOffset ? css.selected : ''}
+        onClick={() => setDayOffset(i)}>
+        <Text moment={moment().add(i, 'day')} id="dd DD.MM." />
+      </button>
+      )}
     </div>
     <Link to="/settings">
       <Tooltip

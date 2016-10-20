@@ -13,16 +13,19 @@
     background-color: $body_background;
     border-bottom: 1px solid #ededed;
     justify-content: flex-start;
-    padding: 0.25em 0.5em;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    padding: 0 0.5em;
   }
 }
 
 .days {
   flex: 1;
+  white-space: nowrap;
+  overflow: auto;
+  margin: 0 0.5em;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   button {
     border: none;
@@ -43,6 +46,10 @@
     &.selected {
       color: $accent_color;
       border-bottom-width: 0.25em;
+    }
+
+    @media (max-width: $break-small) {
+      margin: 0;
     }
   }
 }
@@ -69,12 +76,4 @@
 .dropdown {
   width: 14em;
   vertical-align: middle;
-
-  :global {
-    .Select-control {
-      background: transparent;
-      border: none;
-      text-transform: uppercase;
-    }
-  }
 }

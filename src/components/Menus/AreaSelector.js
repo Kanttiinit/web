@@ -5,6 +5,7 @@ import Star from 'react-icons/lib/io/star'
 import Map from 'react-icons/lib/io/map'
 import {browserHistory} from 'react-router'
 import 'react-select/dist/react-select.css'
+import mapImg from '../../assets/map.png'
 
 import css from '../../styles/AreaSelector.scss'
 import Text from '../Text'
@@ -18,14 +19,22 @@ const specialAreas = [
 
 export const AreaSelector = ({areas, selectedArea, setSelectedArea}) => (
   <div className={css.modal}>
-    {specialAreas.concat(sortBy(areas, 'name')).map(area =>
-    <button
-      onClick={() => {setSelectedArea(area.id); browserHistory.replace('/')}}
-      className={'button ' + (selectedArea === area.id ? css.selected : '')}
-      key={area.id}>
-      {area.name}
-    </button>
-    )}
+    <span className={css.title}>Valitse näkyvät alueet</span>
+    <div className={css.container}>
+      {specialAreas.concat(sortBy(areas, 'name')).map(area =>
+      <div className={css.area + (selectedArea === area.id ? ' ' + css.selected : '')}>
+        <div className={css.map}>
+          <img src={mapImg}></img>
+        </div>
+        <button
+          onClick={() => {setSelectedArea(area.id); browserHistory.replace('/')}}
+          className={'button ' + (selectedArea === area.id ? css.selected : '')}
+          key={area.id}>
+          {area.name}
+        </button>
+      </div>
+      )}
+    </div>
   </div>
 )
 

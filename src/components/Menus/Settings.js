@@ -8,6 +8,7 @@ import {Link} from 'react-router'
 import http from '../../utils/http'
 import css from '../../styles/Settings.scss'
 import * as actions from '../../store/actions/preferences'
+import {orders} from '../../store/actions/preferences'
 import {fetchUser} from '../../store/actions/async'
 import {isLoggedIn} from '../../store/selectors'
 import Text from '../Text'
@@ -33,12 +34,21 @@ export const LanguageSelector = connect(
     onChange={lang => setLang(lang)} />
 ))
 
-const Settings = ({preferences, setUseLocation, isLoggedIn, user, fetchUser}) => (
+const Settings = ({preferences, setUseLocation, setOrder, isLoggedIn, user, fetchUser}) => (
   <div className={css.container}>
     <h1><Text id="settings" /></h1>
     <Link to="/select-favorites">
       <Text id="favorites" className="button" element="button" />
     </Link>
+    <Item label={<Text id="order" />}>
+      <Radio
+        options={orders.map(order => ({
+          value: order,
+          label: <Text id={order} />
+        }))}
+        selected={preferences.order}
+        onChange={value => setOrder(value)} />
+    </Item>
     <Item label={<Text id="useLocation" />}>
       <Radio
         options={[

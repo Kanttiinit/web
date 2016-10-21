@@ -4,7 +4,6 @@ import sortBy from 'lodash/sortBy'
 import Star from 'react-icons/lib/io/star'
 import Map from 'react-icons/lib/md/map'
 import {browserHistory} from 'react-router'
-import 'react-select/dist/react-select.css'
 import mapImg from '../../assets/map.png'
 
 import css from '../../styles/AreaSelector.scss'

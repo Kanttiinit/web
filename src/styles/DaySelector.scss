@@ -30,11 +30,11 @@
   button {
     border: none;
     background: transparent;
-    font-size: 0.8rem;
     display: inline-block;
     border-bottom: solid 0px $accent_color;
     text-transform: uppercase;
-    padding: 1em 1em 0.75em;
+    font-size: 0.75rem;
+    padding: 1em 0.6em 0.75em;
     margin: 0 0.25em;
     color: $gray;
 
@@ -46,6 +46,11 @@
     &.selected {
       color: $accent_color;
       border-bottom-width: 0.25em;
+    }
+
+    @media (min-width: $break_large) {
+      font-size: 0.8rem;
+      padding: 1em 1em 0.75em;
     }
 
     @media (max-width: $break-small) {

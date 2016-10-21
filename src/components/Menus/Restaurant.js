@@ -7,6 +7,7 @@ import Star from 'react-icons/lib/io/star'
 import Heart from 'react-icons/lib/io/heart'
 import c from 'classnames'
 import {Link} from 'react-router'
+import moment from 'moment'
 
 import Tooltip from '../Tooltip'
 import Text from '../Text'

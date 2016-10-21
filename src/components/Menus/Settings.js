@@ -37,7 +37,7 @@ export const LanguageSelector = connect(
 const Settings = ({preferences, setUseLocation, setOrder, isLoggedIn, user, fetchUser}) => (
   <div className={css.container}>
     <h1><Text id="settings" /></h1>
-    <Link to="/select-favorites">
+    <Link className={css.favorites} to="/select-favorites">
       <Text id="favorites" className="button" element="button" />
     </Link>
     <Item label={<Text id="order" />}>

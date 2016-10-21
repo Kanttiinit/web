@@ -21,14 +21,6 @@ export const setUseLocation = saveablePreferenceAction('SET_PREFERENCE_USE_LOCAT
 
 export const setOrder = saveablePreferenceAction('SET_PREFERENCE_ORDER', 'order')
 
-export function setFiltersExpanded(filtersExpanded) {
-  trackAction('set filters expanded', filtersExpanded)
-  return {
-    type: 'SET_PREFERENCE_FILTERS_EXPANDED',
-    payload: {filtersExpanded}
-  }
-}
-
 export function setRestaurantStarred(restaurantId, isStarred) {
   return (dispatch, getState) => {
     dispatch({

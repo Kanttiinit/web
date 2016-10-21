@@ -2,27 +2,27 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import moment from 'moment'
-import Account from 'react-icons/lib/md/account-circle'
-import Filter from 'react-icons/lib/md/filter-list'
+import Account from 'react-icons/lib/md/settings'
+import Map from 'react-icons/lib/md/map'
 import times from 'lodash/times'
 import {Link} from 'react-router'
 
 import Tooltip from '../Tooltip'
 import css from '../../styles/DaySelector.scss'
 import {setDayOffset} from '../../store/actions/values'
-import {setFiltersExpanded} from '../../store/actions/preferences'
-import {selectFiltersExpanded, isLoggedIn} from '../../store/selectors'
+import {isLoggedIn} from '../../store/selectors'
 import Text from '../Text'
 
-const DaySelector = ({ dayOffset, setDayOffset, setFiltersExpanded, filtersExpanded, user, isLoggedIn }) => (
+const DaySelector = ({ dayOffset, setDayOffset, user, isLoggedIn }) => (
   <div className={css.container}>
-    <Tooltip
-      element="button"
-      content={<Text id="filters" />}
-      onClick={() => setFiltersExpanded(!filtersExpanded)}
-      className={css.icon + (filtersExpanded ? ' ' + css.expanded : '')}>
-      <Filter size={24} />
-    </Tooltip>
+    <Link to="/select-area">
+      <Tooltip
+        element="button"
+        className={css.icon}
+        content={<Text id="selectArea" />}>
+          <Map size={24} />
+      </Tooltip>
+    </Link>
     <div className={css.days}>
       {times(6, i =>
       <button
@@ -47,11 +47,10 @@ const DaySelector = ({ dayOffset, setDayOffset, setFiltersExpanded, filtersExpan
 
 const mapState = state => ({
   dayOffset: state.value.dayOffset,
-  filtersExpanded: selectFiltersExpanded(state),
   user: state.data.user,
   isLoggedIn: isLoggedIn(state)
 })
 
-const mapDispatchToProps = dispatch => bindActionCreators({setDayOffset, setFiltersExpanded}, dispatch)
+const mapDispatchToProps = dispatch => bindActionCreators({setDayOffset}, dispatch)
 
 export default connect(mapState, mapDispatchToProps)(DaySelector)

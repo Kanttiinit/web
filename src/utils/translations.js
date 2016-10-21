@@ -88,8 +88,8 @@ export default {
     en: 'No'
   },
   selectArea: {
-    fi: 'Aloita valitsemalla alue',
-    en: 'Start by selecting an area'
+    fi: 'Valitse alue',
+    en: 'Select area'
   },
   profile: {
     fi: 'Profiili',
@@ -126,10 +126,6 @@ export default {
   removeStar: {
     fi: 'Poista tähtimerkintä',
     en: 'Unstar'
-  },
-  filters: {
-    fi: 'Suodattimet',
-    en: 'Filters'
   },
   moreInfo: {
     fi: 'Lisätietoa',

@@ -5,7 +5,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  // justify-content: center;
   padding: 0.4em;
   @media (min-width: $break_large) {
     padding: 2em;
@@ -22,8 +21,6 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  // flex-shrink: 1;
-  // flex-basis: 20em;
 
   @media (max-width: $break_small) {
     justify-content: space-around;
@@ -38,23 +35,21 @@
 
   &.selected {
     .map {
-      border: 1px solid lighten($accent_color_light, 10);
-    }
-
-    button {
-      text-decoration: underline;
+      filter: none;
     }
   }
 
   .map {
-    height: 4rem;
-    width: 4rem;
+    font-size: 4rem;
+    height: 1em;
+    width: 1em;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    border-radius: 100rem;
-    border: 1px solid $light_gray;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 0 0 0.1em;
+    filter: grayscale(90%);
 
     @media (min-width: $break_large) {
       height: 5rem;
@@ -67,12 +62,13 @@
   }
 
   button {
-    // border: 1px solid #dadada;
     align-self: flex-end;
     background-color: transparent;
     color: #666666;
     width: 8em;
-  }
+    padding: 0;
+    padding: 1em 0;
 
+  }
 
 }

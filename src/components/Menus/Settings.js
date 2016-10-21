@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import Facebook from 'react-icons/lib/fa/facebook-official'
 import Google from 'react-icons/lib/fa/google'
+import {Link} from 'react-router'
 
 import http from '../../utils/http'
 import css from '../../styles/Settings.scss'
@@ -35,6 +36,9 @@ export const LanguageSelector = connect(
 const Settings = ({preferences, setUseLocation, isLoggedIn, user, fetchUser}) => (
   <div className={css.container}>
     <h1><Text id="settings" /></h1>
+    <Link to="/select-favorites">
+      <Text id="favorites" className="button" element="button" />
+    </Link>
     <Item label={<Text id="useLocation" />}>
       <Radio
         options={[

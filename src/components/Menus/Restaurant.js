@@ -29,7 +29,11 @@ const Distance = ({distance}) => {
   )
 }
 
-const Restaurant = ({ restaurant, dayOffset, dayOfWeek, toggleStar }) => {
+const Restaurant = ({ restaurant, dayOffset, toggleStar }) => {
+  const dayOfWeek = moment().add(dayOffset, 'day').locale('fi').weekday()
+  if (!restaurant) {
+    return <p>Loading...</p>
+  }
   const isClosed = dayOffset === 0 && !restaurant.isOpenNow
   return (
     <div className={c({

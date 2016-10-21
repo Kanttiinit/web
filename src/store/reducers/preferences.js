@@ -10,7 +10,6 @@ const defaultState = {
   lang: ['fi', 'en'].indexOf(lang) > -1 ? lang : 'fi',
   selectedArea: 1,
   useLocation: false,
-  filtersExpanded: true,
   starredRestaurants: Set(),
   favorites: [],
   order: 'ORDER_AUTOMATIC'

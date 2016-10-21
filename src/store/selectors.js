@@ -116,11 +116,6 @@ export const selectFavorites = createSelector(
     }))
 )
 
-export const selectFiltersExpanded = createSelector(
-  state => state.preferences.filtersExpanded,
-  filtersExpanded => filtersExpanded
-)
-
 export const isLoggedIn = createSelector(
   state => state.data.user,
   user => !!user

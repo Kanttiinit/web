@@ -28,7 +28,7 @@
 }
 
 .area {
-  margin: .4em;
+  margin: .2em;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -62,13 +62,9 @@
   }
 
   button {
-    align-self: flex-end;
     background-color: transparent;
     color: #666666;
     width: 8em;
-    padding: 0;
-    padding: 1em 0;
-
   }
 
 }

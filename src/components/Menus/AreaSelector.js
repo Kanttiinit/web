@@ -4,7 +4,6 @@ import sortBy from 'lodash/sortBy'
 import Star from 'react-icons/lib/io/star'
 import Map from 'react-icons/lib/md/map'
 import {browserHistory} from 'react-router'
-import mapImg from '../../assets/map.png'
 
 import css from '../../styles/AreaSelector.scss'
 import Text from '../Text'
@@ -26,7 +25,9 @@ export const AreaSelector = ({areas, selectedArea, setSelectedArea}) => (
         onClick={() => {setSelectedArea(area.id); browserHistory.replace('/')}}
         className={'button ' + (selectedArea === area.id ? css.selected : '')}
         key={area.id}>
-          {area.icon ? <div className={css.map}>{area.icon}</div> : <img className={css.map} src={mapImg} />}
+          {area.icon
+          ? <div className={css.map}>{area.icon}</div>
+          : <img className={css.map} src={area.mapImageUrl} />}
           {area.name}
         </button>
       </div>

@@ -80,7 +80,7 @@ const AppRouter = connect(state => ({
             onLeave={dispatchCloseModal}
             onEnter={() => store.dispatch(openModal(<AreaSelector />))} />
           <Route
-            path="select-favorites"
+            path="settings/favorites"
             onLeave={dispatchCloseModal}
             onEnter={() => store.dispatch(openModal(<FavoriteSelector />))} />
         </Route>

@@ -4,18 +4,11 @@
   background: white;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  // justify-content: center;
   padding: 0.4em;
   @media (min-width: $break_large) {
     padding: 2em;
   }
 
-}
-
-.title {
-  font-size: 1.5em;
-  margin: 0.2em;
 }
 
 @media (max-width: $break_small) {
@@ -25,15 +18,13 @@
 }
 
 .container {
-  margin-top: 1.5em;
-  margin-bottom: 1.5em;
   display: flex;
   flex-wrap: wrap;
   overflow: auto;
 
   button {
-    // width: calc(50% - 0.25em);
-    // margin-bottom: 0.5em;
+    align-items: center;
+    justify-content: center;
     margin: 0.2em;
     background: $light_gray;
     color: $dark_gray;

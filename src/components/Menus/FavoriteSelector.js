@@ -3,6 +3,8 @@ import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 import Heart from 'react-icons/lib/md/favorite'
 import HeartOutline from 'react-icons/lib/md/favorite-outline'
+import Back from 'react-icons/lib/md/arrow-back'
+import {Link} from 'react-router'
 
 import css from '../../styles/FavoriteSelector.scss'
 import {setFavorites} from '../../store/actions/preferences'
@@ -19,7 +21,12 @@ const toggleFromFavorites = ({id}, favorites, setFavorites) => {
 
 const FavoriteSelector = ({favorites, setFavorites}) => (
   <div className={css.modal}>
-    <span className={css.title}>Suosikit</span>
+    <h1>
+      <Link to="/settings">
+        <Back size={26} className="inline-icon" /> &nbsp;
+      </Link>
+      Suosikit
+    </h1>
     <div className={css.container}>
       {favorites.map(favorite =>
       <button

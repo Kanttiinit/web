@@ -8,6 +8,9 @@
   align-items: center;
   text-align: center;
   padding: 0 1em;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
 
   @media (max-width: $break-small) {
     background-color: $body_background;

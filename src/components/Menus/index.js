@@ -1,7 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import moment from 'moment'
-import {StickyContainer, Sticky} from 'react-sticky'
 
 import DaySelector from './DaySelector'
 import Loader from '../Loader'
@@ -10,16 +8,16 @@ import RestaurantList from './RestaurantList'
 
 const Menus = ({restaurants, dayOffset, loading}) => {
   return (
-    <StickyContainer>
-      <Sticky style={{zIndex: 1}}>
-        <DaySelector />
-      </Sticky>
-      {loading ? <Loader /> :
-      <RestaurantList
-        restaurants={restaurants}
-        dayOffset={dayOffset} />
-      }
-    </StickyContainer>
+    <div>
+      <DaySelector />
+      <div style={{paddingTop: '2rem'}}>
+        {loading ? <Loader /> :
+        <RestaurantList
+          restaurants={restaurants}
+          dayOffset={dayOffset} />
+        }
+      </div>
+    </div>
   )
 }
 

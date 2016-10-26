@@ -50,7 +50,6 @@ class App extends React.Component {
     const {children, modal, location} = this.props
     return (
       <div>
-        <Header />
         {children}
         <Footer path={location.pathname} />
         <div className={modalCss.container + (modal.open ? ' ' + modalCss.open : '')}>

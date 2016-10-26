@@ -3,7 +3,7 @@ import {OutboundLink as Link} from 'react-ga'
 
 import iosImg from '../assets/ios_store.svg'
 import telegramImg from '../assets/telegram.svg'
-import css from '../styles/Header.scss'
+import css from '../styles/AppLinks.scss'
 
 export const AppLinks = ({style}) => (
   <div className={css.appLinks} style={style}>

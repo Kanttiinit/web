@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {IndexLink, Link} from 'react-router'
 
+import AppLinks from './AppLinks'
 import logo from '../assets/logo.png'
 import css from '../styles/Footer.scss'
 import Text from './Text'
@@ -27,6 +28,7 @@ const Footer = ({user}) => {
         &nbsp;
         <span>{version}</span>
       </nav>
+      <AppLinks style={{marginTop: '2rem'}} />
     </footer>
   )
 }

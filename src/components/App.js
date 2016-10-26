@@ -8,7 +8,6 @@ import modalCss from '../styles/Modal.scss'
 import * as asyncActions from '../store/actions/async'
 import {setLocation} from '../store/actions/values'
 import {selectLang} from '../store/selectors'
-import Header from './Header'
 import Footer from './Footer'
 
 class App extends React.Component {

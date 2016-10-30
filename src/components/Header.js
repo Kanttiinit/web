@@ -3,6 +3,7 @@ import {OutboundLink as Link} from 'react-ga'
 import {Link as InboundLink} from 'react-router'
 
 import iosImg from '../assets/ios_store.svg'
+import androidImg from '../assets/google_play.png'
 import telegramImg from '../assets/telegram.svg'
 import logo from '../assets/logo.png'
 import css from '../styles/Header.scss'
@@ -14,7 +15,7 @@ export const AppLinks = ({style}) => (
       <img src={telegramImg} />
     </Link>
     <Link eventLabel="Android Store" to="https://play.google.com/store/apps/details?id=com.kanttiinit">
-      <img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/apps/en-play-badge.png" />
+      <img alt="Get it on Google Play" src={androidImg} />
     </Link>
     <Link eventLabel="iOS Store" to="https://itunes.apple.com/fi/app/kanttiinit/id1069903670?l=fi&mt=8">
      <img src={iosImg} />

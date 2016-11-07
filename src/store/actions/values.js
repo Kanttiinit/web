@@ -1,4 +1,5 @@
 import trackAction from '../../utils/trackAction'
+import http from '../../utils/http'
 
 export function setDayOffset(dayOffset) {
   trackAction('set day offset', dayOffset)
@@ -8,11 +9,12 @@ export function setDayOffset(dayOffset) {
   }
 }
 
-export function setLocation(location) {
-  return {
+export const setLocation = location => (dispatch, getState) => {
+  http.post('/location', {...location, userHash: getState().preferences.userHash})
+  dispatch({
     type: 'SET_VALUE_LOCATION',
     payload: {location}
-  }
+  })
 }
 
 export function openModal(component) {

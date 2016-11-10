@@ -11,8 +11,8 @@ import {openModal} from '../../store/actions/values'
 import {setSelectedArea} from '../../store/actions/preferences'
 
 const specialAreas = [
-  {id: -2, name: <Text id="nearby" />, icon: <Map className="inline-icon" />},
-  {id: -1, name: <Text id="starred" />, icon: <Star className="inline-icon" />}
+  {id: -2, name: <Text id="nearby" />, icon: <Map />},
+  {id: -1, name: <Text id="starred" />, icon: <Star />}
 ]
 
 export const AreaSelector = ({areas, selectedArea, setSelectedArea}) => (
@@ -23,7 +23,7 @@ export const AreaSelector = ({areas, selectedArea, setSelectedArea}) => (
       <div className={css.area + (selectedArea === area.id ? ' ' + css.selected : '')}>
       <button
         onClick={() => {setSelectedArea(area.id); browserHistory.replace('/')}}
-        className={'button ' + (selectedArea === area.id ? css.selected : '')}
+        className={'button-text ' + (selectedArea === area.id ? css.selected : '')}
         key={area.id}>
           {area.icon
           ? <div className={css.map}>{area.icon}</div>

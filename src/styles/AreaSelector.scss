@@ -21,6 +21,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
 
   @media (max-width: $break_small) {
     justify-content: space-around;
@@ -28,28 +29,20 @@
 }
 
 .area {
-  margin: .2em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  opacity: 0.6;
+  transition: opacity 0.2s;
 
-  &.selected {
-    .map {
-      filter: none;
-    }
+  &.selected, &:hover {
+    opacity: 1;
   }
 
   .map {
     font-size: 4rem;
     height: 1em;
     width: 1em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    display: inline-block;
+    border-radius: 25%;
+    display: block;
     margin: 0 0 0.1em;
-    filter: grayscale(90%);
 
     @media (min-width: $break_large) {
       height: 5rem;
@@ -62,6 +55,10 @@
   }
 
   button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background-color: transparent;
     color: #666666;
     width: 8em;

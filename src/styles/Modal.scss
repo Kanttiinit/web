@@ -9,7 +9,7 @@
   z-index: 11;
   opacity: 0;
   pointer-events: none;
-  padding: 1rem;
+  padding: 0.5rem;
   transition: opacity 0.1s;
   display: flex;
   align-items: center;
@@ -28,7 +28,6 @@
 .content {
   z-index: 6;
   position: relative;
-  margin: 0.5rem;
   max-width: 40rem;
   border-radius: 0.2rem;
   overflow: hidden;

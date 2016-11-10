@@ -1,0 +1,68 @@
+@import "constants";
+
+.modal {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.4em;
+  @media (min-width: $break_large) {
+    padding: 2em;
+  }
+
+}
+
+.title {
+  font-size: 1.5em;
+  margin-bottom: 2rem;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  @media (max-width: $break_small) {
+    justify-content: space-around;
+  }
+}
+
+.area {
+  opacity: 0.6;
+  transition: opacity 0.2s;
+
+  &.selected, &:hover {
+    opacity: 1;
+  }
+
+  .map {
+    font-size: 4rem;
+    height: 1em;
+    width: 1em;
+    border-radius: 25%;
+    display: block;
+    margin: 0 0 0.1em;
+
+    @media (min-width: $break_large) {
+      height: 5rem;
+      width: 5rem;
+    }
+
+    img {
+      height: 20rem;
+    }
+  }
+
+  button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: #666666;
+    width: 8em;
+    padding: 1em 0;
+  }
+
+}

@@ -1,6 +1,6 @@
 {
   "name": "kanttiinit-web",
-  "version": "3.0.1",
+  "version": "5.2.0",
   "description": "Kanttiinit.fi web client using react.",
   "main": "index.js",
   "engines": {
@@ -41,8 +41,6 @@
     "react-icons": "^2.2.1",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
-    "react-select": "^1.0.0-rc.2",
-    "react-sticky": "^5.0.5",
     "redux": "^3.6.0",
     "redux-persist": "^3.2.2",
     "redux-promise-middleware": "^3.3.2",

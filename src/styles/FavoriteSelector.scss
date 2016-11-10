@@ -1,0 +1,48 @@
+@import "constants";
+
+.modal {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  padding: 0.4em;
+  @media (min-width: $break_large) {
+    padding: 2em;
+  }
+
+}
+
+@media (max-width: $break_small) {
+  .container * {
+    font-size: 0.7em;
+  }
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: auto;
+
+  button {
+    align-items: center;
+    justify-content: center;
+    margin: 0.2em;
+    background: $light_gray;
+    color: $dark_gray;
+    text-align: left;
+    display: flex;
+    flex-grow: 1;
+
+    :global(.inline-icon) {
+      flex-shrink: 0;
+    }
+
+    &:focus {
+      color: black;
+      background: white;
+    }
+
+    &.selected {
+      color: $red;
+    }
+  }
+}

@@ -42,6 +42,9 @@ const fitBounds = (restaurantPoint, userPoint) => map => {
 }
 
 const RestaurantModal = ({restaurant, location}) => {
+  if (!restaurant) {
+    return null
+  }
   const restaurantPoint = {
     lat: restaurant.latitude,
     lng: restaurant.longitude
@@ -108,8 +111,9 @@ const RestaurantModal = ({restaurant, location}) => {
   )
 }
 
-const mapState = state => ({
-  location: state.value.location
+const mapState = (state, props) => ({
+  location: state.value.location,
+  restaurant: (state.data.restaurants || []).find(({id}) => id === props.restaurantId)
 })
 
 export default connect(mapState)(RestaurantModal)

@@ -4,14 +4,25 @@ import {Set} from 'immutable'
 
 import {SET_PREFERENCE_RESTAURANT_STARRED} from '../actions/preferences'
 
-const lang = navigator.language.split('-')[0]
-
 const defaultState = {
-  lang: ['fi', 'en'].indexOf(lang) > -1 ? lang : 'fi',
+  lang: 'fi',
   selectedArea: 1,
   useLocation: false,
-  filtersExpanded: true,
-  starredRestaurants: Set()
+  starredRestaurants: Set(),
+  favorites: [],
+  order: 'ORDER_AUTOMATIC',
+  userHash: 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r&0x3|0x8)
+    return v.toString(16)
+  })
+}
+
+const toggleInSet = (list, value, toggle) => {
+  if (toggle) {
+    return list.add(value)
+  } else {
+    return list.remove(value)
+  }
 }
 
 export default (state = defaultState, {type, payload}) => {
@@ -23,12 +34,9 @@ export default (state = defaultState, {type, payload}) => {
       starredRestaurants: Set(payload.preferences.starredRestaurants || [])
     }
   } else if (type === SET_PREFERENCE_RESTAURANT_STARRED) {
-    const starredRestaurants = payload.isStarred
-      ? state.starredRestaurants.add(payload.restaurantId)
-      : state.starredRestaurants.remove(payload.restaurantId)
     return {
       ...state,
-      starredRestaurants
+      starredRestaurants: toggleInSet(state.starredRestaurants, payload.restaurantId, payload.isStarred)
     }
   } else if (startsWith(type, 'SET_PREFERENCE_')) {
     return {...state, ...payload}

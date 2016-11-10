@@ -11,6 +11,7 @@
   box-sizing: border-box;
   text-align: center;
   white-space: nowrap;
+  z-index: 11;
 
   @media (max-width: $break-small) {
     display: none;

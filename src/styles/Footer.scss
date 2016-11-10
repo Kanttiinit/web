@@ -3,7 +3,7 @@
 .container {
   text-align: center;
   color: $gray;
-  margin: 5rem 0;
+  margin: 3rem 0 5rem;
   font-size: 0.8rem;
   letter-spacing: 0.05rem;
 
@@ -11,28 +11,49 @@
     margin: 1rem 0;
   }
 
-  a {
-    color: $dark_gray;
-    text-transform: uppercase;
-    margin: 0 0.5rem;
-    text-decoration: none;
-    vertical-align: middle;
-    border-bottom: solid 1px transparent;
-    padding-bottom: 0.25rem;
+  nav {
+    a {
+      color: $dark_gray;
+      text-transform: uppercase;
+      margin: 0 0.5rem;
+      text-decoration: none;
+      vertical-align: middle;
+      border-bottom: solid 1px transparent;
+      padding-bottom: 0.25rem;
 
-    &.current {
-      border-color: fade_out($accent_color, 0.5);
-      color: $accent_color;
-    }
+      &.current {
+        border-color: fade_out($accent_color, 0.5);
+        color: $accent_color;
+      }
 
-    &:hover {
-      color: $accent_color;
-    }
+      &:hover {
+        color: $accent_color;
+      }
 
-    @media (max-width: $break-small) {
-      display: block;
-      margin: 0.3rem 0;
-      border-bottom: none;
+      @media (max-width: $break-small) {
+        display: block;
+        margin: 0.3rem 0;
+        border-bottom: none;
+      }
     }
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    margin: 0;
+
+    sup {
+      font-size: 0.5em;
+    }
+  }
+
+  img {
+    height: 2rem;
+    margin-right: 1rem;
   }
 }

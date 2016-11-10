@@ -1,14 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import GA from 'react-ga'
+import {browserHistory} from 'react-router'
 
 import '../styles/App.scss'
 import modalCss from '../styles/Modal.scss'
 import * as asyncActions from '../store/actions/async'
-import {closeModal, setLocation} from '../store/actions/values'
+import {setLocation} from '../store/actions/values'
 import {selectLang} from '../store/selectors'
-import Header from './Header'
 import Footer from './Footer'
 
 class App extends React.Component {
@@ -33,10 +32,11 @@ class App extends React.Component {
     }
   }
   fetchAll(lang) {
-    const {fetchAreas, fetchMenus, fetchRestaurants} = this.props
+    const {fetchAreas, fetchMenus, fetchRestaurants, fetchFavorites} = this.props
     fetchMenus(lang)
     fetchRestaurants(lang)
     fetchAreas(lang)
+    fetchFavorites(lang)
   }
   componentDidMount() {
     this.props.fetchUser()
@@ -46,14 +46,13 @@ class App extends React.Component {
     this.updateLocation(this.props)
   }
   render() {
-    const {children, modal, closeModal, location} = this.props
+    const {children, modal, location} = this.props
     return (
       <div>
-        <Header />
         {children}
         <Footer path={location.pathname} />
         <div className={modalCss.container + (modal.open ? ' ' + modalCss.open : '')}>
-          <div className={modalCss.overlay} onClick={() => closeModal()}></div>
+          <div className={modalCss.overlay} onClick={() => browserHistory.push('/')}></div>
           <div className={modalCss.content}>{modal.component}</div>
         </div>
       </div>
@@ -69,7 +68,6 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => bindActionCreators({
   ...asyncActions,
-  closeModal,
   setLocation
 }, dispatch)
 

@@ -4,14 +4,15 @@ import Walk from 'react-icons/lib/md/directions-walk'
 import Bike from 'react-icons/lib/md/directions-bike'
 import Map from 'react-icons/lib/io/more'
 import Star from 'react-icons/lib/io/star'
+import Heart from 'react-icons/lib/io/heart'
 import c from 'classnames'
+import {Link} from 'react-router'
+import moment from 'moment'
 
 import Tooltip from '../Tooltip'
 import Text from '../Text'
 import css from '../../styles/Restaurant.scss'
-import {openModal} from '../../store/actions/values'
 import {setRestaurantStarred} from '../../store/actions/preferences'
-import RestaurantModal from '../RestaurantModal'
 
 const Distance = ({distance}) => {
   const kilometers = distance > 1500
@@ -29,7 +30,11 @@ const Distance = ({distance}) => {
   )
 }
 
-const Restaurant = ({ restaurant, dayOffset, dayOfWeek, openModal, toggleStar }) => {
+const Restaurant = ({ restaurant, dayOffset, toggleStar }) => {
+  const dayOfWeek = moment().add(dayOffset, 'day').locale('fi').weekday()
+  if (!restaurant) {
+    return <p>Loading...</p>
+  }
   const isClosed = dayOffset === 0 && !restaurant.isOpenNow
   return (
     <div className={c({
@@ -54,8 +59,9 @@ const Restaurant = ({ restaurant, dayOffset, dayOfWeek, openModal, toggleStar })
       <div className={css.body}>
         {restaurant.noCourses ? (<span className={css.emptyText}>{<Text id="noMenu" />}</span>) : restaurant.courses.map((course, i) => (
           <div
-            className={css.course}
+            className={`${css.course} ${course.isFavorite ? css.favoriteCourse : ''}`}
             key={i}>
+            {course.isFavorite && <Heart className={`inline-icon ${css.icon}`} />}
             <span className={css.title}>{course.title}</span>
             <span className={css.props}>{course.properties.join(' ')}</span>
           </div>
@@ -71,16 +77,20 @@ const Restaurant = ({ restaurant, dayOffset, dayOfWeek, openModal, toggleStar })
           <Star size={20} color={restaurant.isStarred ? '#FFD600' : undefined} />
         </Tooltip>
         &nbsp;
-        <Tooltip margin={12} element="a" content={<Text id="moreInfo" />} onClick={() => openModal()} className={css.actionIcon}>
-          <Map size={20}/>
-        </Tooltip>
+        <Link to={`/restaurant/${restaurant.id}`}>
+          <Tooltip
+            margin={12}
+            content={<Text id="moreInfo" />}
+            className={css.actionIcon}>
+            <Map size={20}/>
+          </Tooltip>
+        </Link>
       </div>
     </div>
   )
 }
 
 const mapDispatch = (dispatch, props) => ({
-  openModal: () => dispatch(openModal(<RestaurantModal restaurant={props.restaurant} />)),
   toggleStar() {
     dispatch(setRestaurantStarred(props.restaurant.id, !props.restaurant.isStarred))
   }

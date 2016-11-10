@@ -8,30 +8,36 @@
   align-items: center;
   text-align: center;
   padding: 0 1em;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
 
   @media (max-width: $break-small) {
     background-color: $body_background;
     border-bottom: 1px solid #ededed;
     justify-content: flex-start;
-    padding: 0.25em 0.5em;
-
-    &::-webkit-scrollbar {
-      display: none;
-    }
+    padding: 0 0.5em;
   }
 }
 
 .days {
   flex: 1;
+  white-space: nowrap;
+  overflow: auto;
+  margin: 0 0.5em;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   button {
     border: none;
     background: transparent;
-    font-size: 0.8rem;
     display: inline-block;
     border-bottom: solid 0px $accent_color;
     text-transform: uppercase;
-    padding: 1em 1em 0.75em;
+    font-size: 0.75rem;
+    padding: 1em 0.6em 0.75em;
     margin: 0 0.25em;
     color: $gray;
 
@@ -43,6 +49,15 @@
     &.selected {
       color: $accent_color;
       border-bottom-width: 0.25em;
+    }
+
+    @media (min-width: $break_large) {
+      font-size: 0.8rem;
+      padding: 1em 1em 0.75em;
+    }
+
+    @media (max-width: $break-small) {
+      margin: 0;
     }
   }
 }
@@ -69,12 +84,4 @@
 .dropdown {
   width: 14em;
   vertical-align: middle;
-
-  :global {
-    .Select-control {
-      background: transparent;
-      border: none;
-      text-transform: uppercase;
-    }
-  }
 }

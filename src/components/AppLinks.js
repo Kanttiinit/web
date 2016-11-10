@@ -1,13 +1,10 @@
 import React from 'react'
 import {OutboundLink as Link} from 'react-ga'
-import {Link as InboundLink} from 'react-router'
 
 import iosImg from '../assets/ios_store.svg'
 import androidImg from '../assets/google_play.png'
 import telegramImg from '../assets/telegram.svg'
-import logo from '../assets/logo.png'
-import css from '../styles/Header.scss'
-import Text from './Text'
+import css from '../styles/AppLinks.scss'
 
 export const AppLinks = ({style}) => (
   <div className={css.appLinks} style={style}>
@@ -23,17 +20,4 @@ export const AppLinks = ({style}) => (
   </div>
 )
 
-const Header = () => (
-  <header className={css.container}>
-    <InboundLink to="/" className={css.logo}>
-      <img src={logo} />
-      <div>
-        <h1>Kanttiinit{window.isBeta && <sup>BETA</sup>}</h1>
-        <p><Text id="slogan" /></p>
-      </div>
-    </InboundLink>
-    <AppLinks />
-  </header>
-)
-
-export default Header
+export default AppLinks

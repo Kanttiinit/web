@@ -3,15 +3,16 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import Facebook from 'react-icons/lib/fa/facebook-official'
 import Google from 'react-icons/lib/fa/google'
+import {Link} from 'react-router'
 
 import http from '../../utils/http'
 import css from '../../styles/Settings.scss'
 import * as actions from '../../store/actions/preferences'
+import {orders} from '../../store/actions/preferences'
 import {fetchUser} from '../../store/actions/async'
 import {isLoggedIn} from '../../store/selectors'
 import Text from '../Text'
 import Radio from '../Radio'
-import AreaSelector from './AreaSelector'
 
 const Item = ({label, children}) => (
   <div className="settings-item">
@@ -20,11 +21,33 @@ const Item = ({label, children}) => (
   </div>
 )
 
-const Settings = ({preferences, setUseLocation, setLang, isLoggedIn, user, fetchUser}) => (
+export const LanguageSelector = connect(
+  state => ({lang: state.preferences.lang}),
+  dispatch => ({setLang: lang => dispatch(actions.setLang(lang))})
+)(({lang, setLang}) => (
+  <Radio
+    options={[
+      {label: 'Finnish', value: 'fi'},
+      {label: 'English', value: 'en'}
+    ]}
+    selected={lang}
+    onChange={lang => setLang(lang)} />
+))
+
+const Settings = ({preferences, setUseLocation, setOrder, isLoggedIn, user, fetchUser}) => (
   <div className={css.container}>
     <h1><Text id="settings" /></h1>
-    <Item label={<Text id="area" />}>
-      <AreaSelector />
+    <Link className={css.favorites} to="/settings/favorites">
+      <Text id="favorites" className="button" element="button" />
+    </Link>
+    <Item label={<Text id="order" />}>
+      <Radio
+        options={orders.map(order => ({
+          value: order,
+          label: <Text id={order} />
+        }))}
+        selected={preferences.order}
+        onChange={value => setOrder(value)} />
     </Item>
     <Item label={<Text id="useLocation" />}>
       <Radio
@@ -36,13 +59,7 @@ const Settings = ({preferences, setUseLocation, setLang, isLoggedIn, user, fetch
         onChange={value => setUseLocation(value)} />
     </Item>
     <Item label={<Text id="language" />}>
-      <Radio
-        options={[
-          {label: 'Finnish', value: 'fi'},
-          {label: 'English', value: 'en'}
-        ]}
-        selected={preferences.lang}
-        onChange={lang => setLang(lang)} />
+      <LanguageSelector />
     </Item>
     <Item label={<Text id="profile" />}>
       {isLoggedIn ?

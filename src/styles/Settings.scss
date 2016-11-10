@@ -4,6 +4,16 @@
   background: white;
   padding: 1rem;
 
+  @media (max-width: $break-small) {
+    font-size: 0.8em;
+
+    .favorites {
+      button {
+        font-size: 0.8em;
+      }
+    }
+  }
+
   h2 {
     font-size: 0.8rem;
     text-transform: uppercase;

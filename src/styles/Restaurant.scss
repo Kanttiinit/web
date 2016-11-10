@@ -80,10 +80,14 @@
   padding-bottom: 0.2rem;
   margin-bottom: 0.2rem;
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+
+  .icon {
+    margin-right: 0.5em;
+  }
 
   .title {
-    max-width: 80%;
+    flex: 1;
   }
 
   .props {
@@ -98,8 +102,11 @@
   }
 }
 
+.favoriteCourse {
+  color: #B71C1C;
+}
+
 .empty {
-  opacity: 0.5;
 
   .header h2, span{
     color: $dark_gray;

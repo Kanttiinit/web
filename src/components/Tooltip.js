@@ -33,7 +33,7 @@ export default class Tooltip extends React.Component {
     this.setState({isVisible: false})
   }
   render() {
-    const {content, children, margin, element, ...props} = this.props
+    const {content, children, margin, element = 'span', ...props} = this.props
     const {isVisible} = this.state
     return React.createElement(
       element,

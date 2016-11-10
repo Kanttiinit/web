@@ -4,10 +4,8 @@ import {Set} from 'immutable'
 
 import {SET_PREFERENCE_RESTAURANT_STARRED} from '../actions/preferences'
 
-const lang = navigator.language.split('-')[0]
-
 const defaultState = {
-  lang: ['fi', 'en'].indexOf(lang) > -1 ? lang : 'fi',
+  lang: 'fi',
   selectedArea: 1,
   useLocation: false,
   starredRestaurants: Set(),

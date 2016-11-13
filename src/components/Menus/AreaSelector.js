@@ -20,11 +20,11 @@ export const AreaSelector = ({areas, selectedArea, setSelectedArea}) => (
     <span className={css.title}>Valitse näkyvät alueet</span>
     <div className={css.container}>
       {specialAreas.concat(sortBy(areas, 'name')).map(area =>
-      <div className={css.area + (selectedArea === area.id ? ' ' + css.selected : '')}>
-      <button
-        onClick={() => {setSelectedArea(area.id); browserHistory.replace('/')}}
-        className={'button-text ' + (selectedArea === area.id ? css.selected : '')}
-        key={area.id}>
+      <div key={area.id} className={css.area + (selectedArea === area.id ? ' ' + css.selected : '')}>
+        <button
+          onClick={() => {setSelectedArea(area.id); browserHistory.replace('/')}}
+          className={'button-text ' + (selectedArea === area.id ? css.selected : '')}
+          key={area.id}>
           {area.icon
           ? <div className={css.map}>{area.icon}</div>
           : <img className={css.map} src={area.mapImageUrl} />}

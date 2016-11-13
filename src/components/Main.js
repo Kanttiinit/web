@@ -8,7 +8,6 @@ import {Router, Route, IndexRoute, browserHistory} from 'react-router'
 import Menus from './Menus'
 import PrivacyPolicy from './PrivacyPolicy'
 import Contact from './Contact'
-import Beta from './Beta'
 import NotFound from './NotFound'
 import Settings from './Menus/Settings'
 import AreaSelector from './Menus/AreaSelector'
@@ -50,7 +49,10 @@ if (auth) {
   .then(() => store.dispatch(fetchUser()))
 }
 
-const dispatchCloseModal = () => store.dispatch(closeModal())
+const modalRouteProps = renderModal => ({
+  onEnter: state => store.dispatch(openModal(renderModal(state))),
+  onLeave: () => store.dispatch(closeModal())
+})
 
 const AppRouter = connect(state => ({
   initializing: state.value.initializing
@@ -67,26 +69,13 @@ const AppRouter = connect(state => ({
         component={App}>
         <Route component={Menus}>
           <IndexRoute />
-          <Route
-            path="settings"
-            onLeave={dispatchCloseModal}
-            onEnter={() => store.dispatch(openModal(<Settings />))} />
-          <Route
-            path="restaurant/:id"
-            onLeave={dispatchCloseModal}
-            onEnter={state => store.dispatch(openModal(<RestaurantModal restaurantId={+state.params.id} />))} />
-          <Route
-            path="select-area"
-            onLeave={dispatchCloseModal}
-            onEnter={() => store.dispatch(openModal(<AreaSelector />))} />
-          <Route
-            path="settings/favorites"
-            onLeave={dispatchCloseModal}
-            onEnter={() => store.dispatch(openModal(<FavoriteSelector />))} />
+          <Route path="settings" {...modalRouteProps(() => <Settings />)} />
+          <Route path="restaurant/:id" {...modalRouteProps(state => <RestaurantModal restaurantId={+state.params.id} />)} />
+          <Route path="select-area" {...modalRouteProps(() => <AreaSelector />)} />
+          <Route path="settings/favorites" {...modalRouteProps(() => <FavoriteSelector />)} />
+          <Route path="privacy-policy" {...modalRouteProps(() => <PrivacyPolicy />)} />
+          <Route path="contact" {...modalRouteProps(() => <Contact />)} />
         </Route>
-        <Route path="privacy-policy" component={PrivacyPolicy} />
-        <Route path="beta" component={Beta} />
-        <Route path="contact" component={Contact} />
         <Route path="*" component={NotFound} />
       </Route>
     </Router>

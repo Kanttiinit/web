@@ -1,10 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import translations from '../utils/translations'
 
 import 'moment/locale/fi'
 import 'moment/locale/en-gb'
 
-const Text = ({translations, lang, id, moment, element = 'span', children, dispatch, ...props}) => {
+const Text = ({lang, id, moment, element = 'span', children, dispatch, ...props}) => {
   if (!moment) {
     if (!translations[id]) {
       console.warn(`no translations for "${id}"`)
@@ -16,7 +17,6 @@ const Text = ({translations, lang, id, moment, element = 'span', children, dispa
 }
 
 const mapState = state => ({
-  translations: state.translations,
   lang: state.preferences.lang
 })
 

@@ -5,7 +5,7 @@ import Text from './Text'
 
 const PrivacyPolicy = () => (
   <PageContainer title={<Text id="privacyPolicy" />}>
-    <p><Text id="privacyPolicyContent" /></p>
+    <Text id="privacyPolicyContent" />
   </PageContainer>
 )
 

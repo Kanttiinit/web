@@ -8,13 +8,10 @@ import asyncReducers from './reducers/async'
 import valueReducer from './reducers/value'
 import preferencesReducer from './reducers/preferences'
 
-import translations from '../utils/translations'
-
 const reducer = combineReducers({
   ...asyncReducers,
   value: valueReducer,
-  preferences: preferencesReducer,
-  translations: () => translations
+  preferences: preferencesReducer
 })
 
 const enhancer = compose(

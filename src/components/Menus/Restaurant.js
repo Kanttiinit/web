@@ -83,22 +83,16 @@ const Restaurant = ({ restaurant, dayOffset, toggleStar }) => {
         ))}
       </div>
       <div className={css.restaurantActions}>
-        <Tooltip
-          margin={12}
-          content={<Text id={restaurant.isStarred ? 'removeStar' : 'addStar'} />}
-          element="a"
+        <a
           onClick={() => toggleStar()}
+          style={{color: restaurant.isStarred ? '#e6c100' : undefined}}
           className={css.actionIcon}>
-          <Star size={20} color={restaurant.isStarred ? '#FFD600' : undefined} />
-        </Tooltip>
+          <Star className="inline-icon" />
+          <Text id={restaurant.isStarred ? 'removeStar' : 'addStar'} />
+        </a>
         &nbsp;
-        <Link to={`/restaurant/${restaurant.id}`}>
-          <Tooltip
-            margin={12}
-            content={<Text id="moreInfo" />}
-            className={css.actionIcon}>
-            <Map size={20}/>
-          </Tooltip>
+        <Link className={css.actionIcon} to={`/restaurant/${restaurant.id}`}>
+          <Map className="inline-icon" /> <Text id="moreInfo" />
         </Link>
       </div>
     </div>

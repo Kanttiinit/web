@@ -138,16 +138,16 @@ export default {
     en: 'No restaurants'
   },
   addStar: {
-    fi: 'Merkitse tähdellä',
+    fi: 'Tähti',
     en: 'Star'
   },
   removeStar: {
-    fi: 'Poista tähtimerkintä',
+    fi: 'Poista tähti',
     en: 'Unstar'
   },
   moreInfo: {
-    fi: 'Lisätietoa',
-    en: 'More information'
+    fi: 'Tiedot',
+    en: 'Details'
   },
   starred: {
     fi: 'Tähdellä merkityt',

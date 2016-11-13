@@ -120,7 +120,7 @@
 
 .empty {
 
-  .header h2, span{
+  .header h2 {
     color: $dark_gray;
   }
 
@@ -136,15 +136,19 @@
 }
 
 .restaurantActions {
-  align-self: flex-end;
-  margin-top: 0.7rem;
   color: $gray;
+  font-size: 0.75em;
+  text-transform: uppercase;
+  font-weight: 500;
 
+  .actionIcon {
+    margin-right: 0.5em;
+    color: inherit;
+  }
 }
 
 .actionIcon {
   &:hover, &:focus {
-    outline: none;
     color: $accent_color;
   }
 }

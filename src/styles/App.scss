@@ -1,7 +1,8 @@
 @import 'constants';
 
 .container {
-  overflow: auto;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
   height: 100vh;
 }
 

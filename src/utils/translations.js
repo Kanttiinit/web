@@ -134,8 +134,8 @@ export default {
     en: 'Saving...'
   },
   emptyRestaurants: {
-    fi: 'Ei ravintoloita.',
-    en: 'No restaurants.'
+    fi: 'Ei ravintoloita',
+    en: 'No restaurants'
   },
   addStar: {
     fi: 'Merkitse tähdellä',

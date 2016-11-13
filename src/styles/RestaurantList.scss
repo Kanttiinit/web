@@ -3,13 +3,12 @@
 .container {
   display: flex;
   justify-content: center;
-  padding: 1.5rem 0;
+  padding: 3rem 0 1.5rem;
 
   @media (max-width: $break-small) {
     max-width: 100%;
     flex-direction: column;
     flex-wrap: nowrap;
-    padding-top: 0;
   }
 
   @media (min-width: $break-large) {
@@ -18,4 +17,11 @@
     max-width: 95em;
     margin: 0 auto;
   }
+}
+
+.emptyText {
+  font-weight: 500;
+  text-transform: uppercase;
+  color: $text_color_superlight;
+  margin: 2em 0 0;
 }

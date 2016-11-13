@@ -8,6 +8,8 @@ import Heart from 'react-icons/lib/io/heart'
 import c from 'classnames'
 import {Link} from 'react-router'
 import moment from 'moment'
+import times from 'lodash/times'
+import random from 'lodash/random'
 
 import Tooltip from '../Tooltip'
 import Text from '../Text'
@@ -30,11 +32,24 @@ const Distance = ({distance}) => {
   )
 }
 
+export class Placeholder extends React.Component {
+  shouldComponentUpdate() {
+    return false
+  }
+  render() {
+    return (
+      <div className={css.container + ' ' + css.placeholder}>
+        <div className={css.header} style={{width: random(30, 70) + '%'}}></div>
+        <div className={css.body}>
+          {times(6, i => <div key={i} className={css.course} style={{width: random(40, 100) + '%'}}></div>)}
+        </div>
+      </div>
+    )
+  }
+}
+
 const Restaurant = ({ restaurant, dayOffset, toggleStar }) => {
   const dayOfWeek = moment().add(dayOffset, 'day').locale('fi').weekday()
-  if (!restaurant) {
-    return <p>Loading...</p>
-  }
   const isClosed = dayOffset === 0 && !restaurant.isOpenNow
   return (
     <div className={c({

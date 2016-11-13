@@ -19,7 +19,6 @@ export const setLocation = location => (dispatch, getState) => {
 
 export function openModal(component) {
   trackAction('open modal')
-  window.document.body.className = 'modal-open'
   return {
     type: 'SET_VALUE_MODAL',
     payload: {
@@ -33,7 +32,6 @@ export function openModal(component) {
 
 export function closeModal() {
   trackAction('close modal')
-  window.document.body.className = ''
   return {
     type: 'SET_VALUE_MODAL',
     payload: {

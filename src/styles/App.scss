@@ -1,5 +1,10 @@
 @import 'constants';
 
+.container {
+  overflow: auto;
+  height: 100vh;
+}
+
 :global {
   * {
     user-select: inherit;
@@ -12,12 +17,8 @@
       "Droid Sans", "Helvetica Neue", sans-serif;
     margin: 0;
     background-color: $body_background;
-    overflow-y: scroll;
+    overflow: hidden;
     user-select: none;
-
-    &.modal-open {
-      overflow: hidden;
-    }
   }
 
   .show-mobile {

@@ -29,11 +29,12 @@
 }
 
 .area {
-  opacity: 0.6;
+  opacity: 0.5;
   transition: opacity 0.2s;
 
   &.selected, &:hover {
     opacity: 1;
+    color: $accent_color;
   }
 
   .map {
@@ -42,7 +43,7 @@
     width: 1em;
     border-radius: 25%;
     display: block;
-    margin: 0 0 0.1em;
+    margin: 0 0 0.5rem;
 
     @media (min-width: $break_large) {
       height: 5rem;
@@ -54,13 +55,20 @@
     }
   }
 
+  .icon {
+    font-size: 4em;
+    height: 5rem;
+    width: 5rem;
+    margin-bottom: 0.5rem;
+  }
+
   button {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: transparent;
-    color: #666666;
+    color: inherit;
     width: 8em;
     padding: 1em 0;
   }

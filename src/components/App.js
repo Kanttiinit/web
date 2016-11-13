@@ -1,14 +1,13 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import {browserHistory} from 'react-router'
 
-import '../styles/App.scss'
-import modalCss from '../styles/Modal.scss'
+import css from '../styles/App.scss'
 import * as asyncActions from '../store/actions/async'
 import {setLocation} from '../store/actions/values'
 import {selectLang} from '../store/selectors'
 import Footer from './Footer'
+import Modal from './Modal'
 
 class App extends React.Component {
   componentWillReceiveProps(props) {
@@ -46,15 +45,14 @@ class App extends React.Component {
     this.updateLocation(this.props)
   }
   render() {
-    const {children, modal, location} = this.props
+    const {children, location} = this.props
     return (
       <div>
-        {children}
-        <Footer path={location.pathname} />
-        <div className={modalCss.container + (modal.open ? ' ' + modalCss.open : '')}>
-          <div className={modalCss.overlay} onClick={() => browserHistory.push('/')}></div>
-          <div className={modalCss.content}>{modal.component}</div>
+        <div className={css.container}>
+          {children}
+          <Footer path={location.pathname} />
         </div>
+        <Modal />
       </div>
     )
   }
@@ -62,7 +60,6 @@ class App extends React.Component {
 
 const mapState = state => ({
   lang: selectLang(state),
-  modal: state.value.modal,
   useLocation: state.preferences.useLocation
 })
 

@@ -12,12 +12,12 @@ import {setSelectedArea} from '../../store/actions/preferences'
 
 const specialAreas = [
   {id: -2, name: <Text id="nearby" />, icon: <Map />},
-  {id: -1, name: <Text id="starred" />, icon: <Star />}
+  {id: -1, name: <Text id="starred" />, icon: <Star style={{marginLeft: '0.4rem'}} />}
 ]
 
 export const AreaSelector = ({areas, selectedArea, setSelectedArea}) => (
   <div className={css.modal}>
-    <span className={css.title}>Valitse näkyvät alueet</span>
+    <Text id="selectArea" className={css.title} />
     <div className={css.container}>
       {specialAreas.concat(sortBy(areas, 'name')).map(area =>
       <div key={area.id} className={css.area + (selectedArea === area.id ? ' ' + css.selected : '')}>
@@ -26,7 +26,7 @@ export const AreaSelector = ({areas, selectedArea, setSelectedArea}) => (
           className={'button-text ' + (selectedArea === area.id ? css.selected : '')}
           key={area.id}>
           {area.icon
-          ? <div className={css.map}>{area.icon}</div>
+          ? <div className={css.icon}>{area.icon}</div>
           : <img className={css.map} src={area.mapImageUrl} />}
           {area.name}
         </button>

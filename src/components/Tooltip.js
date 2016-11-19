@@ -1,7 +1,7 @@
 import React from 'react'
 import css from '../styles/Tooltip.scss'
 
-export default class Tooltip extends React.Component {
+export default class Tooltip extends React.PureComponent {
   constructor() {
     super()
     this.state = {isVisible: false}

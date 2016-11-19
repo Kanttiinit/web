@@ -21,12 +21,7 @@ const toggleFromFavorites = ({id}, favorites, setFavorites) => {
 
 const FavoriteSelector = ({favorites, setFavorites}) => (
   <div className={css.modal}>
-    <h1>
-      <Link to="/settings">
-        <Back size={26} className="inline-icon" /> &nbsp;
-      </Link>
-      Suosikit
-    </h1>
+    <h1>Suosikit</h1>
     <div className={css.container}>
       {favorites.map(favorite =>
       <button

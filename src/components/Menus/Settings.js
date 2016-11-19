@@ -40,6 +40,9 @@ const Settings = ({preferences, setUseLocation, setOrder, isLoggedIn, user, fetc
     <Link className={css.favorites} to="/settings/favorites">
       <Text id="favorites" className="button" element="button" />
     </Link>
+    <Item label={<Text id="language" />}>
+      <LanguageSelector />
+    </Item>
     <Item label={<Text id="order" />}>
       <Radio
         options={orders.map(order => ({
@@ -57,9 +60,6 @@ const Settings = ({preferences, setUseLocation, setOrder, isLoggedIn, user, fetc
         ]}
         selected={preferences.useLocation}
         onChange={value => setUseLocation(value)} />
-    </Item>
-    <Item label={<Text id="language" />}>
-      <LanguageSelector />
     </Item>
     <Item label={<Text id="profile" />}>
       {isLoggedIn ?

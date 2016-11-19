@@ -15,13 +15,9 @@ import Text from '../Text'
 
 const DaySelector = ({ dayOffset, setDayOffset, user, isLoggedIn }) => (
   <div className={css.container}>
-    <Link to="/select-area">
-      <Tooltip
-        element="button"
-        className={css.icon}
-        content={<Text id="selectArea" />}>
-          <Map size={24} />
-      </Tooltip>
+    <Link to="/select-area" className={css.icon}>
+      <Map size={24} />
+      <Text id="selectArea" />
     </Link>
     <div className={css.days}>
       {times(6, i =>
@@ -34,13 +30,9 @@ const DaySelector = ({ dayOffset, setDayOffset, user, isLoggedIn }) => (
       </button>
       )}
     </div>
-    <Link to="/settings">
-      <Tooltip
-        element="button"
-        content={<Text id="settings" />}
-        className={css.icon}>
-        {isLoggedIn ? <img src={user.photo} /> : <Account size={24} />}
-      </Tooltip>
+    <Link to="/settings" className={css.icon}>
+      <Text id="settings" />
+      {isLoggedIn ? <img src={user.photo} /> : <Account size={24} />}
     </Link>
   </div>
 )

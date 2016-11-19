@@ -29,8 +29,6 @@ key('left,right', (event, handler) => {
   store.dispatch(setDayOffset(store.getState().value.dayOffset + offset))
 })
 
-key('esc', () => store.dispatch(closeModal()))
-
 // analytics setup
 GA.initialize('UA-85003235-1', {
   debug: !window.isProduction

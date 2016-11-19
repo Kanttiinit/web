@@ -5,7 +5,7 @@ import css from '../styles/Contact.scss'
 import PageContainer from './PageContainer'
 import Text from './Text'
 
-export default class Contact extends React.Component {
+export default class Contact extends React.PureComponent {
   constructor() {
     super()
     this.state = {sending: false, sent: false}

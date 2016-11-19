@@ -11,6 +11,8 @@
   position: fixed;
   width: 100%;
   z-index: 10;
+  color: $gray;
+
 
   @media (max-width: $break-small) {
     background-color: $body_background;
@@ -62,8 +64,12 @@
   }
 }
 
-.icon {
-  color: $gray;
+a.icon {
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
 
   &:hover, &:focus {
     outline: none;
@@ -76,8 +82,14 @@
     border-radius: 12px;
   }
 
-  &.expanded {
-    color: $accent_color;
+  span {
+    margin: 0 0.5rem;
+  }
+
+  @media (max-width: $break-small) {
+    span {
+      display: none;
+    }
   }
 }
 

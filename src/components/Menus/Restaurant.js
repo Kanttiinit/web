@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Walk from 'react-icons/lib/md/directions-walk'
 import Bike from 'react-icons/lib/md/directions-bike'
-import Map from 'react-icons/lib/io/more'
+import Map from 'react-icons/lib/fa/plus'
 import Star from 'react-icons/lib/io/star'
 import Heart from 'react-icons/lib/io/heart'
 import c from 'classnames'
@@ -11,7 +11,6 @@ import moment from 'moment'
 import times from 'lodash/times'
 import random from 'lodash/random'
 
-import Tooltip from '../Tooltip'
 import Text from '../Text'
 import css from '../../styles/Restaurant.scss'
 import {setRestaurantStarred} from '../../store/actions/preferences'
@@ -41,7 +40,7 @@ export class Placeholder extends React.Component {
       <div className={css.container + ' ' + css.placeholder}>
         <div className={css.header} style={{width: random(30, 70) + '%'}}></div>
         <div className={css.body}>
-          {times(6, i => <div key={i} className={css.course} style={{width: random(40, 100) + '%'}}></div>)}
+          {times(10, i => <div key={i} className={css.course} style={{width: random(40, 100) + '%'}}></div>)}
         </div>
       </div>
     )

@@ -9,7 +9,7 @@ import {selectLang} from '../store/selectors'
 import Footer from './Footer'
 import Modal from './Modal'
 
-class App extends React.Component {
+class App extends React.PureComponent {
   componentWillReceiveProps(props) {
     // if app has initialized or lang has changed, fetch all resources
     if (props.lang !== this.props.lang) {

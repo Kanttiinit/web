@@ -19,6 +19,13 @@
     user-select: none;
   }
 
+  hr {
+    height: 1px;
+    border: none;
+    background: rgba(255, 255, 255, 0.25);
+    margin: 1rem 0;
+  }
+
   .show-mobile {
     display: none;
 

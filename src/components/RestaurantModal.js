@@ -41,6 +41,39 @@ const fitBounds = (restaurantPoint, userPoint) => map => {
   }
 }
 
+const OpeningHours = ({openingHours}) => (
+  <div className={css.openingHoursContainer}>
+    {getOpeningHourString(openingHours).map(hours =>
+      <div key={hours.startDay} className={css.openingHours}>
+        <span className={css.day}>
+          <Text id="ddd" moment={moment().weekday(hours.startDay)} />
+          {hours.endDay &&
+          <span>
+            &nbsp;&ndash;&nbsp;
+            <Text id="ddd" moment={moment().weekday(hours.endDay)} />
+          </span>
+          }
+        </span>
+        <span className={css.hours}>{hours.hour.replace('-', '–') || <Text id="closed" />}</span>
+      </div>
+    )}
+  </div>
+)
+
+const Meta = ({restaurant}) => (
+  <div className={css.meta}>
+    <a href={`https://maps.google.com/?q=${encodeURIComponent(restaurant.address)}`} target="_blank">
+      <Pin className="inline-icon" />
+      {restaurant.address}
+    </a>
+    <a
+      href={restaurant.url} target="_blank">
+      <Home className="inline-icon" />
+      {restaurant.url.replace(/https?\:\/\//, '').replace(/\/$/, '')}
+    </a>
+  </div>
+)
+
 const RestaurantModal = ({restaurant, location}) => {
   if (!restaurant) {
     return null
@@ -79,33 +112,10 @@ const RestaurantModal = ({restaurant, location}) => {
         }/>
       <div className={css.info}>
         <h1>{restaurant.name}</h1>
-        <div className={css.meta}>
-          <a href={`https://maps.google.com/?q=${encodeURIComponent(restaurant.address)}`} target="_blank">
-            <Pin className="inline-icon" />
-            {restaurant.address}
-          </a>
-          <a
-            href={restaurant.url} target="_blank">
-            <Home className="inline-icon" />
-            {restaurant.url.replace(/https?\:\/\//, '').replace(/\/$/, '')}
-          </a>
-        </div>
-        <div className={css.openingHoursContainer}>
-          {getOpeningHourString(restaurant.openingHours).map(hours =>
-            <div key={hours.startDay} className={css.openingHours}>
-              <span className={css.day}>
-                <Text id="ddd" moment={moment().weekday(hours.startDay)} />
-                {hours.endDay &&
-                <span>
-                  &nbsp;&ndash;&nbsp;
-                  <Text id="ddd" moment={moment().weekday(hours.endDay)} />
-                </span>
-                }
-              </span>
-              <span className={css.hours}>{hours.hour.replace('-', '–') || <Text id="closed" />}</span>
-            </div>
-          )}
-        </div>
+        <Meta restaurant={restaurant} />
+        <OpeningHours openingHours={restaurant.openingHours} />
+        <hr />
+        <Text id="menus" element="h2" />
       </div>
     </div>
   )

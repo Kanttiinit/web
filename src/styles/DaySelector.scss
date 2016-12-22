@@ -1,8 +1,7 @@
 @import 'constants';
 
 .container {
-  background: white;
-  box-shadow: 0 0.1rem 0.2rem -0.1rem rgba(0, 0, 0, 0.4);
+  background: linear-gradient(to bottom, #ffffff 0%, #f9f9f9 100%);
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -12,11 +11,11 @@
   width: 100%;
   z-index: 10;
   color: $gray;
+  border-bottom: 1px solid #ededed;
 
 
   @media (max-width: $break-small) {
     background-color: $body_background;
-    border-bottom: 1px solid #ededed;
     justify-content: flex-start;
     padding: 0 0.5em;
   }
@@ -36,26 +35,32 @@
     border: none;
     background: transparent;
     display: inline-block;
-    border-bottom: solid 0px $accent_color;
     text-transform: uppercase;
     font-size: 0.75rem;
-    padding: 1em 0.6em 0.75em;
-    margin: 0 0.25em;
+    border-radius: 0.5em;
+    margin: 0.5em 0.25em;
     color: $gray;
+    padding: 0.75em 1em;
+    transition: background 0.2s;
 
     &:focus {
       outline: none;
-      color: $accent_color_light;
+      color: black;
+      background: $light_gray;
+    }
+
+    &:hover {
+      background: $light_gray;
     }
 
     &.selected {
-      color: $accent_color;
+      color: black;
       border-bottom-width: 0.25em;
+      background: $light_gray;
     }
 
     @media (min-width: $break_large) {
       font-size: 0.8rem;
-      padding: 1em 1em 0.75em;
     }
 
     @media (max-width: $break-small) {

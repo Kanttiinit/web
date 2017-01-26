@@ -165,6 +165,10 @@ export default {
     fi: 'kilometriä',
     en: 'kilometers'
   },
+  closeModal: {
+    fi: 'paina sulkeaksesi',
+    en: 'press here to close'
+  },
   favorites: {
     fi: 'Suosikit',
     en: 'Favorites'
@@ -172,6 +176,10 @@ export default {
   order: {
     fi: 'Järjestys',
     en: 'Order'
+  },
+  homepage: {
+    fi: 'Kotisivu',
+    en: 'Homepage'
   },
   ORDER_AUTOMATIC: {
     fi: 'Automaattinen',

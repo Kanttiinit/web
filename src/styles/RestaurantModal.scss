@@ -1,7 +1,21 @@
 @import 'constants';
 
 .container {
-  height: 70vh;
+
+  margin: 0;
+
+  @media (min-width: $break_large) {
+    height: 70vh;
+  }
+
+  @media (max-width: $break_small) {
+    height: 100vh;
+    width: 100vw;
+    h1 {
+      font-size: 1.8em;
+    }
+  }
+
   display: flex;
   flex-direction: column;
   font-size: 0.8rem;
@@ -17,7 +31,7 @@
 .map {
   border-top: 1px solid $light_gray;
   border-bottom: 1px solid $light_gray;
-  flex: 2;
+  flex: 1;
 }
 
 .menus {
@@ -34,11 +48,10 @@
   color: $text_color_light;
   font-weight: 400;
 
-
 }
 
 .meta {
-  max-width: 20em;
+  // flex: 1;
   // margin-bottom: 1em;
 }
 
@@ -47,7 +60,6 @@
   display: block;
   margin-top: 0.2rem;
   opacity: 0.6;
-  white-space: nowrap;
 
   &:hover {
     opacity: 0.8;

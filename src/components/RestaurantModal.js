@@ -69,7 +69,7 @@ const Meta = ({restaurant}) => (
     <a
       href={restaurant.url} target="_blank">
       <Home className="inline-icon" />
-      {restaurant.url.replace(/https?\:\/\//, '').replace(/\/$/, '')}
+      <Text id="homepage" />
     </a>
   </div>
 )

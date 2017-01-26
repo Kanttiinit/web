@@ -15,10 +15,6 @@ import Text from '../Text'
 
 const DaySelector = ({ dayOffset, setDayOffset, user, isLoggedIn }) => (
   <div className={css.container}>
-    <Link to="/select-area" className={css.icon}>
-      <Map size={24} />
-      <Text id="selectArea" />
-    </Link>
     <div className={css.days}>
       {times(6, i =>
       <button
@@ -30,6 +26,10 @@ const DaySelector = ({ dayOffset, setDayOffset, user, isLoggedIn }) => (
       </button>
       )}
     </div>
+    <Link to="/select-area" className={css.icon}>
+      <Text id="selectArea" />
+      <Map size={24} />
+    </Link>
     <Link to="/settings" className={css.icon}>
       <Text id="settings" />
       {isLoggedIn ? <img src={user.photo} /> : <Account size={24} />}

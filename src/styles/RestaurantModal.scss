@@ -5,26 +5,41 @@
   display: flex;
   flex-direction: column;
   font-size: 0.8rem;
+  background-color: white;
 
   h1, h2 {
+    color: $accent_color_dark;
     font-weight: 300;
     margin: 0;
   }
 }
 
 .map {
-  flex: 1;
+  border-top: 1px solid $light_gray;
+  border-bottom: 1px solid $light_gray;
+  flex: 2;
+}
+
+.menus {
+  padding: 1em;
+  flex: 2;
 }
 
 .info {
-  padding: 1em;
-  box-sizing: border-box;
-  color: white;
-  background: $accent_color;
+  padding: 2em 2em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  color: $text_color_light;
+  font-weight: 400;
+
+
 }
 
 .meta {
-  margin-bottom: 1em;
+  max-width: 20em;
+  // margin-bottom: 1em;
 }
 
 .meta a {

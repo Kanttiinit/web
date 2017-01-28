@@ -1,9 +1,11 @@
 import React from 'react'
 import {Provider, connect} from 'react-redux'
+import {Provider as MobXProvider} from 'mobx-react'
 import key from 'keymaster'
 import http from '../utils/http'
 import GA from 'react-ga'
 import {Router, Route, IndexRoute, browserHistory} from 'react-router'
+import langStore from '../store/langStore'
 
 import Menus from './Menus'
 import PrivacyPolicy from './PrivacyPolicy'
@@ -82,7 +84,9 @@ const AppRouter = connect(state => ({
 
 // export app wrapped in store provider
 export default () => (
-  <Provider store={store}>
-    <AppRouter />
-  </Provider>
+  <MobXProvider langStore={langStore}>
+    <Provider store={store}>
+      <AppRouter />
+    </Provider>
+  </MobXProvider>
 )

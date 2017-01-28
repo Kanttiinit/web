@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import GoogleMapLoader from 'react-google-maps/lib/GoogleMapLoader'
 import GoogleMap from 'react-google-maps/lib/GoogleMap'

@@ -1,35 +1,10 @@
-import {createStore, combineReducers, compose, applyMiddleware} from 'redux'
-import thunk from 'redux-thunk'
-import promiseMiddleware from 'redux-promise-middleware'
-import {autoRehydrate, persistStore} from 'redux-persist'
-import localForage from 'localforage'
+// @flow
+import DataStore from './DataStore'
+import ModalStore from './ModalStore'
+import PreferenceStore from './PreferenceStore'
+import UIState from './UIState'
 
-import asyncReducers from './reducers/async'
-import valueReducer from './reducers/value'
-import preferencesReducer from './reducers/preferences'
-
-const reducer = combineReducers({
-  ...asyncReducers,
-  value: valueReducer,
-  preferences: preferencesReducer
-})
-
-const enhancer = compose(
-   autoRehydrate(),
-   applyMiddleware(thunk, promiseMiddleware()),
-   window.devToolsExtension ? window.devToolsExtension() : f => f
-)
-
-const store = createStore(reducer, enhancer)
-
-persistStore(store, {
-  whitelist: ['preferences'],
-  storage: localForage
-}, () => {
-  store.dispatch({
-    type: 'SET_VALUE_INIT',
-    payload: {initializing: false}
-  })
-})
-
-export default store
+export const preferenceStore = new PreferenceStore()
+export const uiState = new UIState()
+export const dataStore = new DataStore(preferenceStore, uiState)
+export const modalStore = new ModalStore()

@@ -21,7 +21,7 @@ export default {
       return r.json()
     })
   },
-  get(url: string, authorize: boolean) {
+  get(url: string, authorize?: boolean) {
     return this.fetch('GET', url, undefined, authorize)
   },
   post(url: string, data: Object) {

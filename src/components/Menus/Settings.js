@@ -7,6 +7,7 @@ import {observer} from 'mobx-react'
 
 import {preferenceStore, dataStore} from '../../store'
 import {orders} from '../../store/PreferenceStore'
+import type {Order} from '../../store/PreferenceStore'
 import http from '../../utils/http'
 import css from '../../styles/Settings.scss'
 import Text from '../Text'
@@ -29,15 +30,15 @@ class LanguageSelector extends React.PureComponent {
           {label: 'English', value: 'en'}
         ]}
         selected={preferenceStore.lang}
-        onChange={lang => preferenceStore.lang = lang} />
+        onChange={lang => {preferenceStore.lang = lang}} />
     )
   }
 }
 
 @observer
 export default class Settings extends React.PureComponent {
-  setOrder = (value: any) => preferenceStore.order = value
-  setUseLocation = (value: boolean) => preferenceStore.useLocation = value
+  setOrder = (value: Order) => {preferenceStore.order = value}
+  setUseLocation = (value: boolean) => {preferenceStore.useLocation = value}
   render() {
     return (
       <div className={css.container}>

@@ -5,7 +5,7 @@ import css from '../styles/PageContainer.scss'
 
 type Props = {
   children?: any,
-  title: string,
+  title: string | React.Element<*>,
   className?: string
 };
 

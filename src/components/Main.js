@@ -26,7 +26,7 @@ window.isProduction = process.env.NODE_ENV === 'production'
 // keyboard shortcuts
 key('left,right', (event, handler) => {
   const offset = handler.shortcut === 'left' ? -1 : 1
-  uiState.setDayOffset(uiState.dayOffset + offset)
+  uiState.dayOffset = uiState.dayOffset + offset
 })
 
 // analytics setup

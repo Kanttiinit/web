@@ -3,17 +3,19 @@ import React from 'react'
 
 import css from '../styles/Radio.scss'
 
-export default class Radio<T> extends React.PureComponent {
-  props: {
-    options: Array<{
-      label: any,
-      value: T
-    }>,
-    selected: T,
-    onChange: (value: T) => void,
-    className?: string,
-    style?: Object
-  }
+type Props<T> = {
+  options: Array<{
+    label: any,
+    value: T
+  }>,
+  selected: T,
+  onChange: (value: T) => void,
+  className?: string,
+  style?: Object
+}
+
+export default class Radio<T> extends React.PureComponent<void, Props<T>, void> {
+  props: Props<T>
   render() {
     const {options, selected, onChange, className = '', style} = this.props
     return (

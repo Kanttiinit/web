@@ -1,11 +1,11 @@
 // @flow
-import {observable, action, computable} from 'mobx'
+import {autorun, observable, action, computable} from 'mobx'
 import moment from 'moment'
 
 const dateFormat = 'YYYY/MM/DD'
 
 export default class UIState {
-  @observable location: Location
+  @observable location: ?Coordinates
   @observable dateString: string
 
   @computable get dayOffset(): number {
@@ -16,7 +16,7 @@ export default class UIState {
     this.dateString = moment().add({days}).format(dateFormat)
   }
 
-  @action setLocation(location: Location) {
+  @action setLocation(location: Coordinates) {
     this.location = location
   }
 

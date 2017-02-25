@@ -1,5 +1,5 @@
 // @flow
-import {observable, computed} from 'mobx'
+import {autorun, observable, computed} from 'mobx'
 import orderBy from 'lodash/orderBy'
 import moment from 'moment'
 import get from 'lodash/get'
@@ -39,6 +39,7 @@ const orderRestaurants = (restaurants, orderType) => {
 }
 
 export default class DataStore {
+  locationWatchId: ?number
   @observable areas: Resource<AreaType> = new Resource('areas')
   @observable user: Resource<UserType> = new Resource('user', true)
   @observable favorites: Resource<FavoriteType> = new Resource('favorites')
@@ -51,6 +52,27 @@ export default class DataStore {
   constructor(preference: PreferenceStore, uiState: UIState) {
     this.preference = preference
     this.uiState = uiState
+
+    autorun(() => {
+      // start or stop watching for location
+      if (this.useLocation && !this.locationWatchId) {
+        this.locationWatchId = navigator.geolocation.watchPosition(({coords}) => {
+          this.uiState.location = coords
+        })
+      } else if (!this.useLocation) {
+        navigator.geolocation.clearWatch(this.locationWatchId)
+        this.locationWatchId = null
+        this.uiState.location = null
+      }
+    })
+
+    autorun(() => {
+      const lang = this.preference.lang
+      this.areas.fetch(lang)
+      this.favorites.fetch(lang)
+      this.menus.fetch(lang)
+      this.restaurants.fetch(lang)
+    })
   }
 
   @computed get selectedFavoriteIds(): Array<number> {

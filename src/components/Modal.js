@@ -2,12 +2,12 @@
 import React from 'react'
 import {browserHistory} from 'react-router'
 import key from 'keymaster'
-import {connect} from 'react-redux'
+import {inject, observer} from 'mobx-react'
 
 import Text from './Text'
 import css from '../styles/Modal.scss'
 
-class Modal extends React.PureComponent {
+export default class Modal extends React.PureComponent {
   componentDidMount() {
     key('esc', this.closeModal)
   }
@@ -23,9 +23,3 @@ class Modal extends React.PureComponent {
     )
   }
 }
-
-const mapState = state => ({
-  modal: state.value.modal,
-})
-
-export default connect(mapState)(Modal)

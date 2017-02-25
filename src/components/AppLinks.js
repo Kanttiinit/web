@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import {OutboundLink as Link} from 'react-ga'
 
@@ -6,7 +7,11 @@ import androidImg from '../assets/google_play.png'
 import telegramImg from '../assets/telegram.svg'
 import css from '../styles/AppLinks.scss'
 
-export const AppLinks = ({style}) => (
+type Props = {
+  style: Object
+}
+
+export const AppLinks = ({style}: Props) => (
   <div className={css.appLinks} style={style}>
     <Link eventLabel="Telegram Bot" to="https://telegram.me/KanttiinitBOT">
       <img src={telegramImg} />

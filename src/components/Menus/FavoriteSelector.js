@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
@@ -7,8 +8,6 @@ import Back from 'react-icons/lib/md/arrow-back'
 import {Link} from 'react-router'
 
 import css from '../../styles/FavoriteSelector.scss'
-import {setFavorites} from '../../store/actions/preferences'
-import {selectFavorites} from '../../store/selectors'
 
 const toggleFromFavorites = ({id}, favorites, setFavorites) => {
   const selectedIds = favorites.filter(f => f.isSelected).map(f => f.id)

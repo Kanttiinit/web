@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -7,10 +8,7 @@ import Map from 'react-icons/lib/md/map'
 import times from 'lodash/times'
 import {Link} from 'react-router'
 
-import Tooltip from '../Tooltip'
 import css from '../../styles/DaySelector.scss'
-import {setDayOffset} from '../../store/actions/values'
-import {isLoggedIn} from '../../store/selectors'
 import Text from '../Text'
 
 const DaySelector = ({ dayOffset, setDayOffset, user, isLoggedIn }) => (

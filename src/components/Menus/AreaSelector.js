@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import {connect} from 'react-redux'
 import sortBy from 'lodash/sortBy'
@@ -7,8 +8,6 @@ import {browserHistory} from 'react-router'
 
 import css from '../../styles/AreaSelector.scss'
 import Text from '../Text'
-import {openModal} from '../../store/actions/values'
-import {setSelectedArea} from '../../store/actions/preferences'
 
 const specialAreas = [
   {id: -2, name: <Text id="nearby" />, icon: <Map />},

@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import { connect } from 'react-redux'
 import Walk from 'react-icons/lib/md/directions-walk'
@@ -13,7 +14,6 @@ import random from 'lodash/random'
 
 import Text from '../Text'
 import css from '../../styles/Restaurant.scss'
-import {setRestaurantStarred} from '../../store/actions/preferences'
 
 const Distance = ({distance}) => {
   const kilometers = distance > 1500

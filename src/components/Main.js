@@ -1,11 +1,12 @@
 // @flow
+import 'babel-core/register'
+import 'babel-polyfill'
 import React from 'react'
-import {Provider} from 'mobx-react'
 import key from 'keymaster'
 import http from '../utils/http'
 import GA from 'react-ga'
 import {Router, Route, IndexRoute, browserHistory} from 'react-router'
-import {dataStore, modalStore, uiState} from '../store'
+import {dataStore, uiState} from '../store'
 
 import Menus from './Menus'
 import PrivacyPolicy from './PrivacyPolicy'
@@ -47,11 +48,11 @@ if (auth) {
 }
 
 const modalRouteProps = renderModal => ({
-  onEnter: state => modalStore.open(renderModal(state)),
-  onLeave: () => modalStore.close()
+  onEnter: state => uiState.openModal(renderModal(state)),
+  onLeave: () => uiState.closeModal()
 })
 
-const AppRouter = () => (
+export default () => (
   <Router history={browserHistory}>
     <Route
       onEnter={pageView}
@@ -70,11 +71,4 @@ const AppRouter = () => (
       <Route path="*" component={NotFound} />
     </Route>
   </Router>
-)
-
-// export app wrapped in store provider
-export default () => (
-  <Provider dataStore={dataStore}>
-    <AppRouter />
-  </Provider>
 )

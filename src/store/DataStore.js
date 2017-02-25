@@ -5,10 +5,10 @@ import moment from 'moment'
 import get from 'lodash/get'
 import haversine from 'haversine'
 
+import http from '../utils/http'
 import type PreferenceStore from './PreferenceStore'
 import type UIState from './UIState'
-import type {UserType, AreaType, FavoriteType, MenuType, RestaurantType} from './types'
-import Resource from './Resource'
+import type {UserType, AreaType, FavoriteType, FormattedFavoriteType, MenuType, RestaurantType} from './types'
 
 const STARRED = -1
 const NEARBY = -2
@@ -40,11 +40,11 @@ const orderRestaurants = (restaurants, orderType) => {
 
 export default class DataStore {
   locationWatchId: ?number
-  @observable areas: Resource<AreaType> = new Resource('areas')
-  @observable user: Resource<UserType> = new Resource('user', true)
-  @observable favorites: Resource<FavoriteType> = new Resource('favorites')
-  @observable menus: Resource<MenuType> = new Resource('menus')
-  @observable restaurants: Resource<RestaurantType> = new Resource('restaurants')
+  @observable areas: Array<AreaType> = []
+  @observable user: ?UserType = null
+  @observable favorites: Array<FavoriteType> = []
+  @observable menus: Array<MenuType> = []
+  @observable restaurants: Array<RestaurantType> = []
 
   preference: PreferenceStore
   uiState: UIState
@@ -55,46 +55,44 @@ export default class DataStore {
 
     autorun(() => {
       // start or stop watching for location
-      if (this.useLocation && !this.locationWatchId) {
+      if (this.preference.useLocation && !this.locationWatchId) {
         this.locationWatchId = navigator.geolocation.watchPosition(({coords}) => {
           this.uiState.location = coords
         })
-      } else if (!this.useLocation) {
+      } else if (!this.preference.useLocation) {
         navigator.geolocation.clearWatch(this.locationWatchId)
         this.locationWatchId = null
         this.uiState.location = null
       }
     })
 
-    autorun(() => {
+    autorun(async () => {
       const lang = this.preference.lang
-      this.areas.fetch(lang)
-      this.favorites.fetch(lang)
-      this.menus.fetch(lang)
-      this.restaurants.fetch(lang)
+      this.areas = await http.get('/areas')
+      this.favorites = await http.get('/favorites')
     })
   }
 
-  @computed get selectedFavoriteIds(): Array<number> {
+  @computed get selectedFavoriteIds(): Array<FavoriteType> {
     if (this.favorites.fulfilled) {
-      return this.favorites.data.filter(({id}) => this.preference.favorites.indexOf(id) > -1)
+      return this.favorites.filter(({id}) => this.preference.favorites.indexOf(id) > -1)
     }
     return []
   }
 
   @computed get selectedArea(): ?AreaType {
-    return this.areas.data.find(a => a.id === this.preference.selectedArea)
+    return this.areas.find(a => a.id === this.preference.selectedArea)
   }
 
-  @computed get favorites() {
-    return orderBy(this.favorites.data, ['name']).map(favorite => ({
+  @computed get formattedFavorites(): FormattedFavoriteType {
+    return orderBy(this.favorites, ['name']).map(favorite => ({
       ...favorite,
       isSelected: this.preference.favorites.indexOf(favorite.id) > -1
     }))
   }
 
   @computed get isLoggedIn(): boolean {
-    return this.user.fulfilled
+    return !!this.user
   }
 
   @computed get restaurants() {
@@ -102,7 +100,7 @@ export default class DataStore {
     const formattedRestaurants = this.restaurants.data
     .map(restaurant => {
       let favoriteCourses = 0
-      const courses = get(this.menus.data, [restaurant.id, day.format('YYYY-MM-DD')], [])
+      const courses = get(this.menus, [restaurant.id, day.format('YYYY-MM-DD')], [])
       .filter(course => course.title)
       .map(course => {
         const isFavorite = this.favorites.some(favorite => course.title.match(new RegExp(favorite.regexp, 'i')))

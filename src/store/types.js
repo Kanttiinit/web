@@ -1,7 +1,9 @@
 // @flow
 export type UserType = {
   name: string,
-  email: string
+  email: string,
+  photo: string,
+  displayName: string
 }
 
 export type RestaurantType = {
@@ -15,7 +17,13 @@ export type AreaType = {
 }
 
 export type FavoriteType = {
+  id: number,
+  title: string,
+  regexp: string
+}
 
+export type FormattedFavoriteType = FavoriteType & {
+  isSelected: boolean
 }
 
 export type MenuType = {

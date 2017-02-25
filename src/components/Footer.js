@@ -1,3 +1,4 @@
+// @flow
 import React from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
@@ -28,8 +29,4 @@ const Footer = ({user}) => (
   </footer>
 )
 
-const mapState = state => ({
-  user: state.data.user
-})
-
-export default connect(mapState)(Footer)
+export default Footer

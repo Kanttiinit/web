@@ -1,14 +1,23 @@
 // @flow
-import {autorun, observable, action, computable} from 'mobx'
+import React from 'react'
+import {observable, action, computed, isObservable} from 'mobx'
 import moment from 'moment'
+
+import trackAction from '../utils/trackAction'
 
 const dateFormat = 'YYYY/MM/DD'
 
 export default class UIState {
   @observable location: ?Coordinates
   @observable dateString: string
+  @observable modalOpened: boolean = false
+  modalElement: React.Element<*>
 
-  @computable get dayOffset(): number {
+  constructor() {
+    this.modalOpened = false
+  }
+
+  @computed get dayOffset(): number {
     return moment(this.dateString, dateFormat).diff(moment(), 'days')
   }
 
@@ -22,5 +31,16 @@ export default class UIState {
 
   @action setDateString(dateString: string) {
     this.dateString = dateString
+  }
+
+  @action openModal(element: React.Element<*>) {
+    trackAction('open modal')
+    this.modalElement = element
+    this.modalOpened = true
+  }
+
+  @action closeModal() {
+    trackAction('close modal')
+    this.modalOpened = false
   }
 }

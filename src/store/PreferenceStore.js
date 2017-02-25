@@ -1,8 +1,10 @@
 // @flow
 import {observable, action} from 'mobx'
 
-type Lang = 'fi' | 'en'
-type Order = 'ORDER_AUTOMATIC' | 'ORDER_ALPHABET' | 'ORDER_DISTANCE'
+export const orders = ['ORDER_AUTOMATIC', 'ORDER_ALPHABET', 'ORDER_DISTANCE']
+
+export type Lang = 'fi' | 'en'
+export type Order = 'ORDER_AUTOMATIC' | 'ORDER_ALPHABET' | 'ORDER_DISTANCE'
 
 export default class PreferenceStore {
   @observable lang: Lang = 'fi'

@@ -1,9 +1,9 @@
+// @flow
 import React from 'react'
 import {connect} from 'react-redux'
 import Error from 'react-icons/lib/md/error'
 import times from 'lodash/times'
 
-import {getFormattedRestaurants} from '../../store/selectors'
 import Text from '../Text'
 import css from '../../styles/RestaurantList.scss'
 import Restaurant, {Placeholder} from './Restaurant'

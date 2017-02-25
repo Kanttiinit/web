@@ -11,7 +11,7 @@ export default class App extends React.PureComponent {
     return (
       <div>
         <div className={css.container}>
-          
+          {children}
           <Footer path={location.pathname} />
         </div>
         <Modal />

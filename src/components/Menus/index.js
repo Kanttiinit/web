@@ -7,6 +7,6 @@ import RestaurantList from './RestaurantList'
 export default () => (
   <div>
     <DaySelector />
-    <RestaurantList />
+    {/* <RestaurantList /> */}
   </div>
 )

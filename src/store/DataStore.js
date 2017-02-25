@@ -46,20 +46,20 @@ export default class DataStore {
   @observable menus: Array<MenuType> = []
   @observable restaurants: Array<RestaurantType> = []
 
-  preference: PreferenceStore
+  preferences: PreferenceStore
   uiState: UIState
 
-  constructor(preference: PreferenceStore, uiState: UIState) {
-    this.preference = preference
+  constructor(preferenceStore: PreferenceStore, uiState: UIState) {
+    this.preferences = preferenceStore
     this.uiState = uiState
 
     autorun(() => {
       // start or stop watching for location
-      if (this.preference.useLocation && !this.locationWatchId) {
+      if (this.preferences.useLocation && !this.locationWatchId) {
         this.locationWatchId = navigator.geolocation.watchPosition(({coords}) => {
           this.uiState.location = coords
         })
-      } else if (!this.preference.useLocation) {
+      } else if (!this.preferences.useLocation) {
         navigator.geolocation.clearWatch(this.locationWatchId)
         this.locationWatchId = null
         this.uiState.location = null
@@ -67,7 +67,7 @@ export default class DataStore {
     })
 
     autorun(async () => {
-      const lang = this.preference.lang
+      const lang = this.preferences.lang
       this.areas = await http.get('/areas')
       this.favorites = await http.get('/favorites')
     })
@@ -75,24 +75,20 @@ export default class DataStore {
 
   @computed get selectedFavoriteIds(): Array<FavoriteType> {
     if (this.favorites.fulfilled) {
-      return this.favorites.filter(({id}) => this.preference.favorites.indexOf(id) > -1)
+      return this.favorites.filter(({id}) => this.preferences.favorites.indexOf(id) > -1)
     }
     return []
   }
 
   @computed get selectedArea(): ?AreaType {
-    return this.areas.find(a => a.id === this.preference.selectedArea)
+    return this.areas.find(a => a.id === this.preferences.selectedArea)
   }
 
   @computed get formattedFavorites(): FormattedFavoriteType {
     return orderBy(this.favorites, ['name']).map(favorite => ({
       ...favorite,
-      isSelected: this.preference.favorites.indexOf(favorite.id) > -1
+      isSelected: this.preferences.favorites.indexOf(favorite.id) > -1
     }))
-  }
-
-  @computed get isLoggedIn(): boolean {
-    return !!this.user
   }
 
   @computed get restaurants() {
@@ -120,19 +116,19 @@ export default class DataStore {
         noCourses: !courses.length,
         favoriteCourses: favoriteCourses > 0,
         isOpenNow: isOpenNow(restaurant, day),
-        isStarred: this.preference.starredRestaurants.includes(restaurant.id)
+        isStarred: this.preferences.starredRestaurants.includes(restaurant.id)
       }
     })
     .filter(restaurant => {
-      if (this.preference.selectedArea === STARRED) {
+      if (this.preferences.selectedArea === STARRED) {
         return restaurant.isStarred
-      } else if (this.preference.selectedArea === NEARBY) {
+      } else if (this.preferences.selectedArea === NEARBY) {
         return restaurant.distance < 1500
       }
       const selectedArea = this.selectedArea
       return selectedArea && selectedArea.restaurants && selectedArea.restaurants.some(r => r.id === restaurant.id)
     })
 
-    return orderRestaurants(formattedRestaurants, this.preference.order)
+    return orderRestaurants(formattedRestaurants, this.preferences.order)
   }
  }

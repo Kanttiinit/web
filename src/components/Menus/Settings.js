@@ -21,21 +21,6 @@ const Item = ({label, children}) => (
 )
 
 @observer
-class LanguageSelector extends React.PureComponent {
-  render() {
-    return (
-      <Radio
-        options={[
-          {label: 'Finnish', value: 'fi'},
-          {label: 'English', value: 'en'}
-        ]}
-        selected={preferenceStore.lang}
-        onChange={lang => {preferenceStore.lang = lang}} />
-    )
-  }
-}
-
-@observer
 export default class Settings extends React.PureComponent {
   setOrder = (value: Order) => {preferenceStore.order = value}
   setUseLocation = (value: boolean) => {preferenceStore.useLocation = value}
@@ -47,7 +32,13 @@ export default class Settings extends React.PureComponent {
           <Text id="favorites" className="button" element="button" />
         </Link>
         <Item label={<Text id="language" />}>
-          <LanguageSelector />
+          <Radio
+            options={[
+              {label: 'Finnish', value: 'fi'},
+              {label: 'English', value: 'en'}
+            ]}
+            selected={preferenceStore.lang}
+            onChange={lang => {preferenceStore.lang = lang}} />
         </Item>
         <Item label={<Text id="order" />}>
           <Radio

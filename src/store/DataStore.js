@@ -72,11 +72,22 @@ export default class DataStore {
       this.favorites = await http.get('/favorites')
       this.fetchUser()
     })
+
+    autorun(() => {
+      if (this.user) {
+        http.put('/me/preferences', this.preferences.preferences)
+      }
+    })
   }
 
   async fetchUser() {
-    const user = await http.get('/me', true)
-    this.user = user
+    try {
+      const user = await http.get('/me', true)
+      this.user = user
+      this.preferences.preferences = user.preferences
+    } catch (e) {
+      this.user = null
+    }
   }
 
   @computed get selectedFavoriteIds(): Array<FavoriteType> {

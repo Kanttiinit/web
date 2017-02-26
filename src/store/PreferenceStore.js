@@ -7,11 +7,19 @@ export const orders = ['ORDER_AUTOMATIC', 'ORDER_ALPHABET', 'ORDER_DISTANCE']
 export type Lang = 'fi' | 'en'
 export type Order = 'ORDER_AUTOMATIC' | 'ORDER_ALPHABET' | 'ORDER_DISTANCE'
 
-const toggleInArray = <T>(array: Array<T>, item: T) => {
+const toggleInArray = <T>(array: Array<T>, item: T): Array<T> => {
   if (array.indexOf(item) === -1) {
     return array.concat(item)
   } else {
     return without(array, item)
+  }
+}
+
+const safeParseJson = (input: string) => {
+  try {
+    return JSON.parse(input)
+  } catch (e) {
+    return {}
   }
 }
 
@@ -25,7 +33,7 @@ export default class PreferenceStore {
 
   constructor() {
     const state = localStorage.getItem('preferenceStore') || '{}'
-    const {lang, selectedArea, useLocation, order, favorites, starredRestaurants} = JSON.parse(state)
+    const {lang, selectedArea, useLocation, order, favorites, starredRestaurants} = safeParseJson(state)
     this.lang = lang || 'fi'
     this.selectedArea = selectedArea || 1
     this.useLocation = useLocation || false

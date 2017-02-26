@@ -5,6 +5,7 @@ import moment from 'moment'
 import get from 'lodash/get'
 import haversine from 'haversine'
 
+import Resource from './Resource'
 import http from '../utils/http'
 import type PreferenceStore from './PreferenceStore'
 import type UIState from './UIState'
@@ -40,11 +41,11 @@ const orderRestaurants = (restaurants, orderType) => {
 
 export default class DataStore {
   locationWatchId: ?number
-  @observable areas: Array<AreaType> = []
-  @observable user: ?UserType = null
-  @observable favorites: Array<FavoriteType> = []
-  @observable menus: Array<MenuType> = []
-  @observable restaurants: Array<RestaurantType> = []
+  @observable areas: Resource<Array<AreaType>> = new Resource([])
+  @observable user: Resource<?UserType> = new Resource(null)
+  @observable favorites: Resource<Array<FavoriteType>> = new Resource([])
+  @observable menus: Resource<Array<MenuType>> = new Resource([])
+  @observable restaurants: Resource<Array<RestaurantType>> = new Resource([])
 
   preferences: PreferenceStore
   uiState: UIState
@@ -68,41 +69,42 @@ export default class DataStore {
 
     autorun(async () => {
       const lang = this.preferences.lang
-      this.areas = await http.get('/areas')
-      this.favorites = await http.get('/favorites')
-      this.fetchUser()
+      this.areas.fetch(http.get('/areas'))
+      this.favorites.fetch(http.get('/favorites'))
     })
 
     autorun(() => {
-      if (this.user) {
+      if (this.user.fulfilled) {
         http.put('/me/preferences', this.preferences.preferences)
       }
     })
+
+    autorun(() => {
+      if (this.user.data) {
+        this.preferences.preferences = this.user.data.preferences
+      }
+    })
+
+    this.fetchUser()
   }
 
   async fetchUser() {
-    try {
-      const user = await http.get('/me', true)
-      this.user = user
-      this.preferences.preferences = user.preferences
-    } catch (e) {
-      this.user = null
-    }
+    this.user.fetch(http.get('/me', true))
   }
 
   @computed get selectedFavoriteIds(): Array<FavoriteType> {
     if (this.favorites.fulfilled) {
-      return this.favorites.filter(({id}) => this.preferences.favorites.indexOf(id) > -1)
+      return this.favorites.data.filter(({id}) => this.preferences.favorites.indexOf(id) > -1)
     }
     return []
   }
 
   @computed get selectedArea(): ?AreaType {
-    return this.areas.find(a => a.id === this.preferences.selectedArea)
+    return this.areas.data.find(a => a.id === this.preferences.selectedArea)
   }
 
   @computed get formattedFavorites(): Array<FormattedFavoriteType> {
-    return orderBy(this.favorites, ['name']).map(favorite => ({
+    return orderBy(this.favorites.data, ['name']).map(favorite => ({
       ...favorite,
       isSelected: this.preferences.favorites.indexOf(favorite.id) > -1
     }))
@@ -116,7 +118,7 @@ export default class DataStore {
       const courses = get(this.menus, [restaurant.id, day.format('YYYY-MM-DD')], [])
       .filter(course => course.title)
       .map(course => {
-        const isFavorite = this.favorites.some(favorite => course.title.match(new RegExp(favorite.regexp, 'i')))
+        const isFavorite = this.favorites.data.some(favorite => course.title.match(new RegExp(favorite.regexp, 'i')))
         if (isFavorite) {
           favoriteCourses++
         }

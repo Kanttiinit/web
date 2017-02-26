@@ -33,7 +33,7 @@ export default class DaySelector extends React.PureComponent {
         </Link>
         <Link to="/settings" className={css.icon}>
           <Text id="settings" />
-          {dataStore.user ? <img src={dataStore.user.photo} /> : <Account size={24} />}
+          {dataStore.user.data ? <img src={dataStore.user.data.photo} /> : <Account size={24} />}
         </Link>
       </div>
     )

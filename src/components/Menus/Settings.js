@@ -59,15 +59,15 @@ export default class Settings extends React.PureComponent {
             onChange={this.setUseLocation} />
         </Item>
         <Item label={<Text id="profile" />}>
-          {dataStore.user ?
+          {dataStore.user.data ?
           <div className={css.user}>
-            <img src={dataStore.user.photo} />
-            <p>{dataStore.user.displayName}<br /><small>{dataStore.user.email}</small></p>
+            <img src={dataStore.user.data.photo} />
+            <p>{dataStore.user.data.displayName}<br /><small>{dataStore.user.data.email}</small></p>
             <button
               className="button button-small"
               style={{marginLeft: '1em'}}
               onClick={() =>
-                http.get('/me/logout', true).then(() => dataStore.user = null)
+                http.get('/me/logout', true).then(() => dataStore.fetchUser())
               }>
                 <Text id="logout" />
               </button>

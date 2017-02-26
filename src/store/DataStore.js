@@ -1,5 +1,5 @@
 // @flow
-import {autorun, observable, computed} from 'mobx'
+import {observable, computed} from 'mobx'
 import orderBy from 'lodash/orderBy'
 import moment from 'moment'
 import get from 'lodash/get'
@@ -53,39 +53,6 @@ export default class DataStore {
   constructor(preferenceStore: PreferenceStore, uiState: UIState) {
     this.preferences = preferenceStore
     this.uiState = uiState
-
-    autorun(() => {
-      // start or stop watching for location
-      if (this.preferences.useLocation && !this.locationWatchId) {
-        this.locationWatchId = navigator.geolocation.watchPosition(({coords}) => {
-          this.uiState.location = coords
-        })
-      } else if (!this.preferences.useLocation) {
-        navigator.geolocation.clearWatch(this.locationWatchId)
-        this.locationWatchId = null
-        this.uiState.location = null
-      }
-    })
-
-    autorun(async () => {
-      const lang = this.preferences.lang
-      this.areas.fetch(http.get('/areas'))
-      this.favorites.fetch(http.get('/favorites'))
-    })
-
-    autorun(() => {
-      if (this.user.fulfilled) {
-        http.put('/me/preferences', this.preferences.preferences)
-      }
-    })
-
-    autorun(() => {
-      if (this.user.data) {
-        this.preferences.preferences = this.user.data.preferences
-      }
-    })
-
-    this.fetchUser()
   }
 
   async fetchUser() {

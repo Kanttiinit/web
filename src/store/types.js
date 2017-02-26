@@ -18,7 +18,7 @@ export type AreaType = {
 
 export type FavoriteType = {
   id: number,
-  title: string,
+  name: string,
   regexp: string
 }
 

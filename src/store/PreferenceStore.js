@@ -1,10 +1,19 @@
 // @flow
 import {observable, action} from 'mobx'
+import without from 'lodash/without'
 
 export const orders = ['ORDER_AUTOMATIC', 'ORDER_ALPHABET', 'ORDER_DISTANCE']
 
 export type Lang = 'fi' | 'en'
 export type Order = 'ORDER_AUTOMATIC' | 'ORDER_ALPHABET' | 'ORDER_DISTANCE'
+
+const toggleInArray = <T>(array: Array<T>, item: T) => {
+  if (array.indexOf(item) === -1) {
+    return array.concat(item)
+  } else {
+    return without(array, item)
+  }
+}
 
 export default class PreferenceStore {
   @observable lang: Lang = 'fi'
@@ -22,5 +31,9 @@ export default class PreferenceStore {
       // TODO: fix later
       this.starredRestaurants.slice(index, 1)
     }
+  }
+
+  @action toggleFavorite(favoriteId: number) {
+    this.favorites = toggleInArray(this.favorites, favoriteId)
   }
 }

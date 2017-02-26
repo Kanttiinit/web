@@ -84,7 +84,7 @@ export default class DataStore {
     return this.areas.find(a => a.id === this.preferences.selectedArea)
   }
 
-  @computed get formattedFavorites(): FormattedFavoriteType {
+  @computed get formattedFavorites(): Array<FormattedFavoriteType> {
     return orderBy(this.favorites, ['name']).map(favorite => ({
       ...favorite,
       isSelected: this.preferences.favorites.indexOf(favorite.id) > -1

@@ -1,5 +1,5 @@
 // @flow
-import {observable, action} from 'mobx'
+import {autorun, observable, action} from 'mobx'
 import without from 'lodash/without'
 
 export const orders = ['ORDER_AUTOMATIC', 'ORDER_ALPHABET', 'ORDER_DISTANCE']
@@ -16,12 +16,30 @@ const toggleInArray = <T>(array: Array<T>, item: T) => {
 }
 
 export default class PreferenceStore {
-  @observable lang: Lang = 'fi'
-  @observable selectedArea: number = 1
-  @observable useLocation: boolean = false
-  @observable order: Order = 'ORDER_AUTOMATIC'
-  @observable favorites: Array<number> = []
-  @observable starredRestaurants: Array<number> = []
+  @observable lang: Lang
+  @observable selectedArea: number
+  @observable useLocation: boolean
+  @observable order: Order
+  @observable favorites: Array<number>
+  @observable starredRestaurants: Array<number>
+
+  constructor() {
+    const state = localStorage.getItem('preferenceStore') || '{}'
+    const {lang, selectedArea, useLocation, order, favorites, starredRestaurants} = JSON.parse(state)
+    this.lang = lang || 'fi'
+    this.selectedArea = selectedArea || 1
+    this.useLocation = useLocation || false
+    this.order = order || 'ORDER_AUTOMATIC'
+    this.favorites = favorites || []
+    this.starredRestaurants = starredRestaurants || []
+
+    autorun(() => {
+      const {lang, selectedArea, useLocation, order, favorites, starredRestaurants} = this
+      localStorage.setItem('preferenceStore', JSON.stringify({
+        lang, selectedArea, useLocation, order, favorites, starredRestaurants
+      }))
+    })
+  }
 
   @action setRestaurantStarred(restaurantId: number, isStarred: boolean) {
     const index = this.starredRestaurants.indexOf(restaurantId)

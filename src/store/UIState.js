@@ -18,6 +18,10 @@ export default class UIState {
     this.modalOpened = false
   }
 
+  @action setDayOffset(dayOffset: number) {
+    this.dayOffset = Math.min(Math.max(0, dayOffset), 5)
+  }
+
   @computed get date(): number {
     return moment().add(this.dayOffset, 'day').format(dateFormat)
   }

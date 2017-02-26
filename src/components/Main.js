@@ -44,7 +44,7 @@ const pageView = ({location: prev}, {location: next}) => {
 const auth = parseAuth()
 if (auth) {
   http.post('/me/login', auth)
-  .then(() => dataStore.user.fetch())
+  .then(() => dataStore.fetchUser())
 }
 
 const modalRouteProps = renderModal => ({

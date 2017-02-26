@@ -70,7 +70,13 @@ export default class DataStore {
       const lang = this.preferences.lang
       this.areas = await http.get('/areas')
       this.favorites = await http.get('/favorites')
+      this.fetchUser()
     })
+  }
+
+  async fetchUser() {
+    const user = await http.get('/me', true)
+    this.user = user
   }
 
   @computed get selectedFavoriteIds(): Array<FavoriteType> {

@@ -76,7 +76,7 @@ export default class Settings extends React.PureComponent {
               className="button button-small"
               style={{marginLeft: '1em'}}
               onClick={() =>
-                http.get('/me/logout', true).then(() => fetchUser())
+                http.get('/me/logout', true).then(() => dataStore.user = null)
               }>
                 <Text id="logout" />
               </button>

@@ -77,7 +77,7 @@ export default class DataStore {
     }))
   }
 
-  @computed get restaurants() {
+  @computed get formattedRestaurants() {
     const day = moment().add(this.uiState.dayOffset, 'day')
     const formattedRestaurants = this.restaurants.data
     .map(restaurant => {

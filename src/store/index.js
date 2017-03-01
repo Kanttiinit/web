@@ -41,4 +41,16 @@ autorun(() => {
   }
 })
 
+autorun(() => {
+  if (preferenceStore.lang && dataStore.selectedArea) {
+    let query = `&ids=${dataStore.selectedArea.restaurants.join(',')}`
+    if (preferenceStore.selectedArea === -1) {
+      // TODO: implement
+    } else if (preferenceStore.selectedArea === -2) {
+      // TODO: implement
+    }
+    dataStore.restaurants.fetch(http.get(`/restaurants?lang=${preferenceStore.lang}${query}`))
+  }
+})
+
 dataStore.fetchUser()

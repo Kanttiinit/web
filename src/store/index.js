@@ -25,7 +25,7 @@ autorun(() => {
 
 autorun(() => {
   const lang = preferenceStore.lang
-  dataStore.areas.fetch(http.get(`/areas?lang=${lang}`))
+  dataStore.areas.fetch(http.get(`/areas?idsOnly=1&lang=${lang}`))
   dataStore.favorites.fetch(http.get(`/favorites?lang=${lang}`))
 })
 

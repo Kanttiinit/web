@@ -15,9 +15,9 @@ const toggleInArray = <T>(array: Array<T>, item: T): Array<T> => {
   }
 }
 
-const safeParseJson = (input: string) => {
+const safeParseJson = (input: ?string) => {
   try {
-    return JSON.parse(input)
+    return JSON.parse(input || '{}')
   } catch (e) {
     return {}
   }
@@ -32,7 +32,7 @@ export default class PreferenceStore {
   @observable starredRestaurants: Array<number>
 
   constructor() {
-    const state = localStorage.getItem('preferenceStore') || '{}'
+    const state = localStorage.getItem('preferenceStore')
     this.preferences = safeParseJson(state)
     autorun(() => {
       localStorage.setItem('preferenceStore', JSON.stringify(this.preferences))

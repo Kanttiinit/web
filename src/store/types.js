@@ -17,7 +17,7 @@ export type RestaurantType = {
 export type AreaType = {
   id: number,
   name: string,
-  restaurants: Array<RestaurantType>
+  restaurants: Array<number>
 }
 
 export type FavoriteType = {

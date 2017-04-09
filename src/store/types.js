@@ -12,7 +12,12 @@ export type UserType = {
 
 export type RestaurantType = {
   id: number,
-  openingHours: Array<string>
+  name: string,
+  longitude: number,
+  latitude: number,
+  openingHours: Array<string>,
+  address: string,
+  url: string
 }
 
 export type AreaType = {

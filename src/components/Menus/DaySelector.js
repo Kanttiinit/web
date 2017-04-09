@@ -2,12 +2,10 @@
 import React from 'react'
 import moment from 'moment'
 import {observer} from 'mobx-react'
-import Account from 'react-icons/lib/md/settings'
-import Map from 'react-icons/lib/md/map'
 import times from 'lodash/times'
 import {Link} from 'react-router'
 
-import {uiState, dataStore} from '../../store'
+import {uiState} from '../../store'
 import css from '../../styles/DaySelector.scss'
 import Text from '../Text'
 
@@ -29,11 +27,9 @@ export default class DaySelector extends React.PureComponent {
         </div>
         <Link to="/select-area" className={css.icon}>
           <Text id="selectArea" />
-          <Map size={24} />
         </Link>
         <Link to="/settings" className={css.icon}>
           <Text id="settings" />
-          {dataStore.user.data ? <img src={dataStore.user.data.photo} /> : <Account size={24} />}
         </Link>
       </div>
     )

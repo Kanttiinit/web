@@ -7,8 +7,11 @@ import moment from 'moment'
 import Pin from 'react-icons/lib/md/place'
 import Home from 'react-icons/lib/md/home'
 import findIndex from 'lodash/findIndex'
-import { connect } from 'react-redux'
+import {observer} from 'mobx-react'
 
+import http from '../utils/http'
+import {dataStore, uiState} from '../store'
+import type {RestaurantType} from '../store/types'
 import css from '../styles/RestaurantModal.scss'
 import Text from './Text'
 import mapStyle from './mapStyle.json'
@@ -67,38 +70,59 @@ const Meta = ({restaurant}) => (
       <Pin className="inline-icon" />
       {restaurant.address}
     </a>
-    <a
-      href={restaurant.url} target="_blank">
+    <a href={restaurant.url} target="_blank">
       <Home className="inline-icon" />
       <Text id="homepage" />
     </a>
   </div>
 )
 
-const RestaurantModal = ({restaurant, location}) => {
-  if (!restaurant) {
-    return null
+@observer
+export default class RestaurantModal extends React.PureComponent {
+  state: {restaurant: ?RestaurantType, notFound: boolean} = {restaurant: null, notFound: false}
+  async fetchRestaurant() {
+    let restaurant = dataStore.restaurants.data.find(r => r.id === Number(this.props.restaurantId))
+    if (!restaurant) {
+      const result = await http.get(`/restaurants?ids=${this.props.restaurantId}`)
+      if (result.length) {
+        restaurant = result[0]
+      } else {
+        this.setState({notFound: true})
+      }
+    }
+    this.setState({restaurant})
   }
-  const restaurantPoint = {
-    lat: restaurant.latitude,
-    lng: restaurant.longitude
+  componentDidMount() {
+    this.fetchRestaurant()
   }
-  const userPoint = location ? {
-    lat: location.latitude,
-    lng: location.longitude
-  } : undefined
-  return (
-    <div className={css.container}>
-      <div className={css.info}>
-        <div>
-          <h1>{restaurant.name}</h1>
-          <Meta restaurant={restaurant} />
+  render() {
+    const {restaurant, notFound} = this.state
+    if (notFound) {
+      return <p>Ravintolaa ei löytynyt!</p>
+    }
+    if (!restaurant) {
+      return null
+    }
+    const restaurantPoint = {
+      lat: restaurant.latitude,
+      lng: restaurant.longitude
+    }
+    const userPoint = uiState.location ? {
+      lat: uiState.location.latitude,
+      lng: uiState.location.longitude
+    } : undefined
+    return (
+      <div className={css.container}>
+        <div className={css.info}>
+          <div>
+            <h1>{restaurant.name}</h1>
+            <Meta restaurant={restaurant} />
+          </div>
+          <OpeningHours openingHours={restaurant.openingHours} />
         </div>
-        <OpeningHours openingHours={restaurant.openingHours} />
-      </div>
-      <GoogleMapLoader
-        containerElement={<div className={css.map} />}
-        googleMapElement={
+        <GoogleMapLoader
+          containerElement={<div className={css.map} />}
+          googleMapElement={
           <GoogleMap
             ref={fitBounds(restaurantPoint, userPoint)}
             defaultOptions={mapOptions}
@@ -117,17 +141,8 @@ const RestaurantModal = ({restaurant, location}) => {
                 position={userPoint} />
             }
           </GoogleMap>
-        } />
-      {false ? <div className={css.menus}>
-        <Text id="menus" element="h2" />
-      </div> : null}
-    </div>
-  )
+          } />
+      </div>
+    )
+  }
 }
-
-const mapState = (state, props) => ({
-  location: state.value.location,
-  restaurant: (state.data.restaurants || []).find(({id}) => id === props.restaurantId)
-})
-
-export default connect(mapState)(RestaurantModal)

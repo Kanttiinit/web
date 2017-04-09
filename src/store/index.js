@@ -46,7 +46,7 @@ autorun(() => {
   if (preferenceStore.lang && dataStore.selectedArea) {
     query = `&ids=${dataStore.selectedArea.restaurants.join(',')}`
   } else if (preferenceStore.selectedArea < 0) {
-    if (preferenceStore.selectedArea === -1) {
+    if (preferenceStore.selectedArea === -1 && preferenceStore.starredRestaurants.length) {
       query = `&ids=${preferenceStore.starredRestaurants.join(',')}`
     } else if (preferenceStore.selectedArea === -2 && uiState.location) {
       const {latitude, longitude} = uiState.location

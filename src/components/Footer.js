@@ -22,14 +22,16 @@ export default class Footer extends React.PureComponent {
           <a href="/admin" target="_blank">Admin</a>}
         </nav>
         <AppLinks style={{marginTop: '2rem'}} />
-        <Link to="/" style={{margin: '2rem 0 2rem', display: 'block'}}>
+        <div className={css.bottomRow}>
           <div className={css.logo}>
             <img src={logo} />
-            <h1>Kanttiinit{window.isBeta && <sup>BETA</sup>}</h1>
+            <div>
+              <h1>Kanttiinit{window.isBeta && <sup>BETA</sup>}</h1>
+              <Text id="slogan" />
+            </div>
           </div>
-          <Text id="slogan" element="p" />
-        </Link>
-        <a href="https://github.com/Kanttiinit" target="_blank">{version}</a>
+          <a href="https://github.com/Kanttiinit/web" target="_blank">{version}</a>
+        </div>
       </footer>
     )
   }

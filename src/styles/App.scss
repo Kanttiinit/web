@@ -4,6 +4,9 @@
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 :global {

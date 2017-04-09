@@ -3,9 +3,9 @@
 .container {
   text-align: center;
   color: $gray;
-  margin: 3rem 0;
   font-size: 0.8rem;
   letter-spacing: 0.05rem;
+  padding: 2em 1em 1em;
 
   @media (max-width: $break-small) {
     margin: 1rem 0;
@@ -42,7 +42,8 @@
 .logo {
   display: flex;
   align-items: center;
-  justify-content: center;
+  margin-bottom: 0.5em;
+  text-align: left;
 
   h1 {
     margin: 0;
@@ -53,7 +54,13 @@
   }
 
   img {
-    height: 2rem;
+    height: 3rem;
     margin-right: 1rem;
   }
+}
+
+.bottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }

@@ -53,4 +53,11 @@ autorun(() => {
   }
 })
 
+autorun(() => {
+  if (dataStore.restaurants.fulfilled) {
+    const restaurantIds = dataStore.restaurants.data.map(restaurant => restaurant.id)
+    dataStore.menus.fetch(http.get(`/menus?lang=${preferenceStore.lang}&restaurants=${restaurantIds}`))
+  }
+})
+
 dataStore.fetchUser()

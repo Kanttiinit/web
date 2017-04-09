@@ -42,13 +42,19 @@ autorun(() => {
 })
 
 autorun(() => {
+  let query
   if (preferenceStore.lang && dataStore.selectedArea) {
-    let query = `&ids=${dataStore.selectedArea.restaurants.join(',')}`
+    query = `&ids=${dataStore.selectedArea.restaurants.join(',')}`
+  } else if (preferenceStore.selectedArea < 0) {
     if (preferenceStore.selectedArea === -1) {
-      // TODO: implement
-    } else if (preferenceStore.selectedArea === -2) {
-      // TODO: implement
+      query = `&ids=${preferenceStore.starredRestaurants.join(',')}`
+    } else if (preferenceStore.selectedArea === -2 && uiState.location) {
+      const {latitude, longitude} = uiState.location
+      query = `&location=${latitude},${longitude}`
     }
+  }
+
+  if (query) {
     dataStore.restaurants.fetch(http.get(`/restaurants?lang=${preferenceStore.lang}${query}`))
   }
 })

@@ -193,5 +193,9 @@ export default {
   ORDER_DISTANCE: {
     fi: 'Etäisyys',
     en: 'Distance'
+  },
+  locating: {
+    fi: 'Etsitään sijaintia',
+    en: 'Locating'
   }
 }

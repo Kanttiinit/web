@@ -77,7 +77,7 @@ export default class DataStore {
     }))
   }
 
-  @computed get formattedRestaurants() {
+  @computed get formattedRestaurants(): Array<RestaurantType> {
     const day = moment().add(this.uiState.dayOffset, 'day')
     const formattedRestaurants = this.restaurants.data
     .map(restaurant => {
@@ -112,7 +112,7 @@ export default class DataStore {
         return restaurant.distance < 1500
       }
       const selectedArea = this.selectedArea
-      return selectedArea && selectedArea.restaurants && selectedArea.restaurants.some(r => r.id === restaurant.id)
+      return selectedArea && selectedArea.restaurants && selectedArea.restaurants.some(r => r === restaurant.id)
     })
 
     return orderRestaurants(formattedRestaurants, this.preferences.order)

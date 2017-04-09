@@ -59,8 +59,7 @@ export default class PreferenceStore {
     if (isStarred && index === -1) {
       this.starredRestaurants.push(restaurantId)
     } else if (!isStarred && index > -1) {
-      // TODO: fix later
-      this.starredRestaurants.slice(index, 1)
+      this.starredRestaurants.splice(index, 1)
     }
   }
 

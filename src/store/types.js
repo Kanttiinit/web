@@ -11,7 +11,8 @@ export type UserType = {
 }
 
 export type RestaurantType = {
-  id: number
+  id: number,
+  openingHours: Array<string>
 }
 
 export type AreaType = {
@@ -32,4 +33,9 @@ export type FormattedFavoriteType = FavoriteType & {
 
 export type MenuType = {
 
+}
+
+export type CourseType = {
+  title: string,
+  properties: Array<string>
 }

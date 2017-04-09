@@ -7,14 +7,12 @@ import haversine from 'haversine'
 
 import Resource from './Resource'
 import http from '../utils/http'
+import {uiState} from './index'
 import type PreferenceStore from './PreferenceStore'
 import type UIState from './UIState'
-import type {UserType, AreaType, FavoriteType, FormattedFavoriteType, MenuType, RestaurantType} from './types'
+import type {UserType, AreaType, FavoriteType, FormattedFavoriteType, MenuType, RestaurantType, CourseType} from './types'
 
-const STARRED = -1
-const NEARBY = -2
-
-const isOpenNow = (restaurant, day) => {
+const isOpenNow = (restaurant: RestaurantType, day) => {
   const weekday = day.weekday()
   if (!restaurant.openingHours[weekday]) {
     return false
@@ -40,7 +38,6 @@ const orderRestaurants = (restaurants, orderType) => {
 }
 
 export default class DataStore {
-  locationWatchId: ?number
   @observable areas: Resource<Array<AreaType>> = new Resource([])
   @observable user: Resource<?UserType> = new Resource(null)
   @observable favorites: Resource<Array<FavoriteType>> = new Resource([])
@@ -59,11 +56,15 @@ export default class DataStore {
     this.user.fetch(http.get('/me', true))
   }
 
-  @computed get selectedFavoriteIds(): Array<FavoriteType> {
+  @computed get selectedFavorites(): Array<FavoriteType> {
     if (this.favorites.fulfilled) {
       return this.favorites.data.filter(({id}) => this.preferences.favorites.indexOf(id) > -1)
     }
     return []
+  }
+
+  isFavorite(course: CourseType) {
+    return this.selectedFavorites.some(favorite => course.title.match(new RegExp(favorite.regexp, 'i')))
   }
 
   @computed get selectedArea(): ?AreaType {
@@ -82,10 +83,10 @@ export default class DataStore {
     const formattedRestaurants = this.restaurants.data
     .map(restaurant => {
       let favoriteCourses = 0
-      const courses = get(this.menus, [restaurant.id, day.format('YYYY-MM-DD')], [])
+      const courses = get(this.menus.data, [restaurant.id, day.format('YYYY-MM-DD')], [])
       .filter(course => course.title)
       .map(course => {
-        const isFavorite = this.favorites.data.some(favorite => course.title.match(new RegExp(favorite.regexp, 'i')))
+        const isFavorite = this.isFavorite(course)
         if (isFavorite) {
           favoriteCourses++
         }
@@ -94,7 +95,7 @@ export default class DataStore {
           isFavorite
         }
       })
-      const distance = location && haversine(location, restaurant, {unit: 'meter'})
+      const distance = uiState.location && haversine(uiState.location, restaurant, {unit: 'meter'})
       return {
         ...restaurant,
         courses,
@@ -104,15 +105,6 @@ export default class DataStore {
         isOpenNow: isOpenNow(restaurant, day),
         isStarred: this.preferences.starredRestaurants.includes(restaurant.id)
       }
-    })
-    .filter(restaurant => {
-      if (this.preferences.selectedArea === STARRED) {
-        return restaurant.isStarred
-      } else if (this.preferences.selectedArea === NEARBY) {
-        return restaurant.distance < 1500
-      }
-      const selectedArea = this.selectedArea
-      return selectedArea && selectedArea.restaurants && selectedArea.restaurants.some(r => r === restaurant.id)
     })
 
     return orderRestaurants(formattedRestaurants, this.preferences.order)

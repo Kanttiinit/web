@@ -24,10 +24,10 @@ export default class RestaurantList extends React.PureComponent {
             <Text id="emptyRestaurants" />
           </div>
         : restaurants.map(restaurant =>
-        {/*<Restaurant
+        <Restaurant
           key={restaurant.id}
           restaurant={restaurant}
-          dayOffset={dayOffset} />*/}
+          dayOffset={dayOffset} />
         )}
       </div>
     )

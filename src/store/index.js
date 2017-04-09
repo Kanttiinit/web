@@ -12,7 +12,7 @@ export const dataStore = new DataStore(preferenceStore, uiState)
 let locationWatchId
 autorun(() => {
   // start or stop watching for location
-  if (preferenceStore.useLocation && !this.locationWatchId) {
+  if (preferenceStore.useLocation && !locationWatchId) {
     locationWatchId = navigator.geolocation.watchPosition(({coords}) => {
       uiState.location = coords
     })
@@ -56,7 +56,7 @@ autorun(() => {
 autorun(() => {
   if (dataStore.restaurants.fulfilled) {
     const restaurantIds = dataStore.restaurants.data.map(restaurant => restaurant.id)
-    dataStore.menus.fetch(http.get(`/menus?lang=${preferenceStore.lang}&restaurants=${restaurantIds}`))
+    dataStore.menus.fetch(http.get(`/menus?lang=${preferenceStore.lang}&restaurants=${restaurantIds.join(',')}`))
   }
 })
 

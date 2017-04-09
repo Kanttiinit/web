@@ -6,6 +6,7 @@ import Bike from 'react-icons/lib/md/directions-bike'
 import Map from 'react-icons/lib/fa/plus'
 import Star from 'react-icons/lib/io/star'
 import Heart from 'react-icons/lib/io/heart'
+import Location from 'react-icons/lib/io/pin'
 import c from 'classnames'
 import {Link} from 'react-router'
 import moment from 'moment'
@@ -20,14 +21,16 @@ const Distance = ({distance}) => {
   const kilometers = distance > 1500
   return (
     <div className={css.meta}>
-      {kilometers
+      {!distance ? <Location className="inline-icon" />
+      : kilometers
       ? <Bike className="inline-icon" />
       : <Walk className="inline-icon" />}
-      {kilometers
+      {!distance ? <Text id="locating" />
+      : kilometers
       ? parseFloat(distance / 1000).toFixed(1)
       : Math.round(distance)}
       &nbsp;
-      <Text id={kilometers ? 'kilometers' : 'meters'} />
+      {distance && <Text id={kilometers ? 'kilometers' : 'meters'} />}
     </div>
   )
 }
@@ -66,7 +69,7 @@ export default class Restaurant extends React.PureComponent {
         <div className={css.header}>
           <h2>
             {restaurant.name}
-            {!!restaurant.distance &&
+            {preferenceStore.useLocation &&
             <Distance distance={restaurant.distance} />
             }
           </h2>

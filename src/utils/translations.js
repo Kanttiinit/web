@@ -195,7 +195,7 @@ export default {
     en: 'Distance'
   },
   locating: {
-    fi: 'Etsitään sijaintia',
+    fi: 'Haetaan sijaintia',
     en: 'Locating'
   }
 }

@@ -4,6 +4,8 @@ import moment from 'moment'
 import {observer} from 'mobx-react'
 import times from 'lodash/times'
 import {Link} from 'react-router'
+import AreaIcon from 'react-icons/lib/md/map'
+import SettingsIcon from 'react-icons/lib/md/settings'
 
 import {uiState} from '../../store'
 import css from '../../styles/DaySelector.scss'
@@ -26,9 +28,11 @@ export default class DaySelector extends React.PureComponent {
           )}
         </div>
         <Link to="/select-area" className={css.icon}>
+          <AreaIcon size={18} />
           <Text id="selectArea" />
         </Link>
         <Link to="/settings" className={css.icon}>
+          <SettingsIcon size={18} />
           <Text id="settings" />
         </Link>
       </div>

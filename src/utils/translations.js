@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import {Link} from 'react-router'
 
 const privacyFi = (
   <div>
@@ -195,7 +196,11 @@ export default {
     en: 'Distance'
   },
   locating: {
-    fi: 'Haetaan sijaintia',
-    en: 'Locating'
+    fi: 'Haetaan sijaintia...',
+    en: 'Locating...'
+  },
+  turnOnLocation: {
+    fi: <span>Laita sijainti päälle <Link to="/settings">asetuksista.</Link></span>,
+    en: <span>Turn on location <Link to="/settings">in the settings.</Link></span>
   }
 }

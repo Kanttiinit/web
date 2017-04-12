@@ -3,8 +3,6 @@ import React from 'react'
 import {observer} from 'mobx-react'
 import Walk from 'react-icons/lib/md/directions-walk'
 import Bike from 'react-icons/lib/md/directions-bike'
-import Map from 'react-icons/lib/fa/plus'
-import Star from 'react-icons/lib/io/star'
 import Heart from 'react-icons/lib/io/heart'
 import Location from 'react-icons/lib/io/pin'
 import c from 'classnames'
@@ -96,13 +94,10 @@ export default class Restaurant extends React.PureComponent {
             onClick={this.toggleStar}
             style={{color: restaurant.isStarred ? '#e6c100' : undefined}}
             className={css.actionIcon}>
-            <Star className="inline-icon" />
             <Text id={restaurant.isStarred ? 'removeStar' : 'addStar'} />
           </a>
           &nbsp;
           <Link className={css.actionIcon} to={`/restaurant/${restaurant.id}`}>
-            <Map className="inline-icon" />
-            &nbsp;
             <Text id="moreInfo" />
           </Link>
         </div>

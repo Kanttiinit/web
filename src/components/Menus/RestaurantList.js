@@ -17,8 +17,12 @@ export default class RestaurantList extends React.PureComponent {
     const restaurants = dataStore.formattedRestaurants
     if (loading) {
       return times(6, i => <Placeholder key={i} />)
-    } else if (preferenceStore.selectedArea === -2 && !uiState.location) {
-      return <Text id="locating" />
+    } else if (preferenceStore.selectedArea === -2) {
+      if (!preferenceStore.useLocation) {
+        return <Text id="turnOnLocation" element="p" className="notice" />
+      } else if (!uiState.location) {
+        return <Text id="locating" element="p" className="notice" />
+      }
     } else if (!restaurants.length) {
       return (
         <div className={css.emptyText}>

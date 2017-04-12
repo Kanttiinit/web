@@ -5,11 +5,7 @@
   color: $gray;
   font-size: 0.8rem;
   letter-spacing: 0.05rem;
-  padding: 2em 1em 1em;
-
-  @media (max-width: $break-small) {
-    margin: 1rem 0;
-  }
+  padding: 1rem;
 
   nav {
     a {
@@ -31,9 +27,9 @@
       }
 
       @media (max-width: $break-small) {
-        display: block;
-        margin: 0.3rem 0;
         border-bottom: none;
+        display: block;
+        margin: 0.5rem;
       }
     }
   }
@@ -42,7 +38,6 @@
 .logo {
   display: flex;
   align-items: center;
-  margin-bottom: 0.5em;
   text-align: left;
 
   h1 {
@@ -56,6 +51,10 @@
   img {
     height: 3rem;
     margin-right: 1rem;
+
+    @media (max-width: $break-small) {
+      display: none;
+    }
   }
 }
 

@@ -6,13 +6,14 @@ import {observer} from 'mobx-react'
 
 import {dataStore, preferenceStore} from '../../store'
 import css from '../../styles/FavoriteSelector.scss'
+import PageContainer from '../PageContainer'
+import Text from '../Text'
 
 @observer
 export default class FavoriteSelector extends React.PureComponent {
   render() {
     return (
-      <div className={css.modal}>
-        <h1>Suosikit</h1>
+      <PageContainer title={<Text id="favorites" />}>
         <div className={css.container}>
           {dataStore.formattedFavorites.map(favorite =>
           <button
@@ -27,7 +28,7 @@ export default class FavoriteSelector extends React.PureComponent {
           </button>
           )}
         </div>
-      </div>
+      </PageContainer>
     )
   }
 }

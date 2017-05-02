@@ -1,25 +1,18 @@
 @import 'constants';
 
 .container {
-
   margin: 0;
-
-  @media (min-width: $break_large) {
-    height: 70vh;
-  }
-
-  @media (max-width: $break_small) {
-    height: 100vh;
-    width: 100vw;
-    h1 {
-      font-size: 1.8em;
-    }
-  }
-
   display: flex;
   flex-direction: column;
   font-size: 0.8rem;
   background-color: white;
+  height: 100%;
+
+  @media (max-width: $break_small) {
+    h1 {
+      font-size: 1.8em;
+    }
+  }
 
   h1, h2 {
     color: $accent_color_dark;
@@ -32,6 +25,7 @@
   border-top: 1px solid $light_gray;
   border-bottom: 1px solid $light_gray;
   flex: 1;
+  min-height: 20rem;
 }
 
 .menus {
@@ -40,7 +34,7 @@
 }
 
 .info {
-  padding: 2em 2em;
+  padding: 2em;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -48,11 +42,6 @@
   color: $text_color_light;
   font-weight: 400;
 
-}
-
-.meta {
-  // flex: 1;
-  // margin-bottom: 1em;
 }
 
 .meta a {

@@ -12,10 +12,11 @@ import http from '../../utils/http'
 import css from '../../styles/Settings.scss'
 import Text from '../Text'
 import Radio from '../Radio'
+import PageContainer from '../PageContainer'
 
 const Item = ({label, children}) => (
   <div className="settings-item">
-    <h2>{label}</h2>
+    <h2 className={css.sectionHeader}>{label}</h2>
     {children}
   </div>
 )
@@ -26,8 +27,7 @@ export default class Settings extends React.PureComponent {
   setUseLocation = (value: boolean) => {preferenceStore.useLocation = value}
   render() {
     return (
-      <div className={css.container}>
-        <h1><Text id="settings" /></h1>
+      <PageContainer title={<Text id="settings" />}>
         <Link className={css.favorites} to="/settings/favorites">
           <Text id="favorites" className="button" element="button" />
         </Link>
@@ -87,7 +87,7 @@ export default class Settings extends React.PureComponent {
           </div>
           }
         </Item>
-      </div>
+      </PageContainer>
     )
   }
 }

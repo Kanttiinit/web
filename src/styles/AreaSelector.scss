@@ -1,27 +1,10 @@
 @import "constants";
 
-.modal {
-  background: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0.4em;
-  @media (min-width: $break_large) {
-    padding: 2em;
-  }
-
-}
-
-.title {
-  font-size: 1.5em;
-  margin-bottom: 2rem;
-}
-
 .container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
 
   @media (max-width: $break_small) {
     justify-content: space-around;
@@ -29,12 +12,10 @@
 }
 
 .area {
-  opacity: 0.5;
-  transition: opacity 0.2s;
+  border-radius: 0.5rem;
 
   &.selected, &:hover {
-    opacity: 1;
-    color: $accent_color;
+    background: $extra_light_gray;
   }
 
   .map {
@@ -43,7 +24,7 @@
     width: 1em;
     border-radius: 25%;
     display: block;
-    margin: 0 0 0.5rem;
+    margin: 0 0 1rem;
 
     @media (min-width: $break_large) {
       height: 5rem;
@@ -59,7 +40,7 @@
     font-size: 4em;
     height: 5rem;
     width: 5rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
   }
 
   button {
@@ -71,6 +52,7 @@
     color: inherit;
     width: 8em;
     padding: 1em 0;
+    font-weight: normal;
   }
 
 }

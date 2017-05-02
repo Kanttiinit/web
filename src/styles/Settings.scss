@@ -1,26 +1,19 @@
 @import 'constants';
-
-.container {
-  background: white;
-  padding: 1rem;
-
+  
+.favorites {
   @media (max-width: $break-small) {
-    font-size: 0.8em;
-
-    .favorites {
-      button {
-        font-size: 0.8em;
-      }
+    button {
+      font-size: 0.8em;
     }
   }
+}
 
-  h2 {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    font-weight: 500;
-    color: $dark_gray;
-    margin-top: 2em;
-  }
+.sectionHeader {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: $dark_gray;
+  margin-top: 2em;
 }
 
 .user {

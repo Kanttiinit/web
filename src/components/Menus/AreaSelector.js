@@ -9,6 +9,7 @@ import {browserHistory} from 'react-router'
 import {dataStore, preferenceStore} from '../../store'
 import css from '../../styles/AreaSelector.scss'
 import Text from '../Text'
+import PageContainer from '../PageContainer'
 
 const specialAreas = [
   {id: -2, name: <Text id="nearby" />, icon: <Map />},
@@ -26,8 +27,7 @@ export default class AreaSelector extends React.PureComponent {
   }
   render() {
     return (
-      <div className={css.modal}>
-        <Text id="selectArea" className={css.title} />
+      <PageContainer title={<Text id="selectArea" />}>
         <div className={css.container}>
           {this.getAreas().map(area =>
           <div key={area.id} className={css.area + (preferenceStore.selectedArea === area.id ? ' ' + css.selected : '')}>
@@ -43,7 +43,7 @@ export default class AreaSelector extends React.PureComponent {
           </div>
           )}
         </div>
-      </div>
+      </PageContainer>
     )
   }
 }

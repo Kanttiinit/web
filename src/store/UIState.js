@@ -13,13 +13,14 @@ export default class UIState {
   @observable modalOpened: boolean = false
   @observable dayOffset: number = 0
   modalElement: React.Element<*>
+  maxDayOffset = 5
 
   constructor() {
     this.modalOpened = false
   }
 
   @action setDayOffset(dayOffset: number) {
-    this.dayOffset = Math.min(Math.max(0, dayOffset), 5)
+    this.dayOffset = Math.min(Math.max(0, dayOffset), this.maxDayOffset)
   }
 
   @computed get date(): number {

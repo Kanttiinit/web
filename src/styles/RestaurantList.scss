@@ -20,31 +20,6 @@
   }
 }
 
-$arrow-size: 150px;
-
-.arrow {
-  position: absolute;
-  top: calc(50% - #{$arrow-size / 2});
-  background: rgba(0, 0, 0, 0.53);
-  height: $arrow-size;
-  width: $arrow-size / 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
-  color: white;
-
-  &.right {
-    right: 0;
-    border-radius: $arrow-size / 2 0 0 $arrow-size / 2;
-  }
-
-  &.left {
-    border-radius: 0 $arrow-size / 2 $arrow-size / 2 0;
-    left: 0;
-  }
-}
-
 .emptyText {
   font-weight: 500;
   text-transform: uppercase;

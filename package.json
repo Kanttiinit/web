@@ -53,7 +53,7 @@
     "webpack-dev-server": "^1.14.1"
   },
   "scripts": {
-    "run": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js  --hot --inline",
+    "develop": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js  --hot --inline",
     "build": "node node_modules/.bin/webpack",
     "postinstall": "npm rebuild node-sass && npm run build",
     "start": "node index.js"

@@ -21,7 +21,6 @@ import parseAuth from '../utils/parseAuth'
 import App from './App'
 
 window.isBeta = location.hostname === 'beta.kanttiinit.fi' || location.hostname === 'localhost'
-window.isProduction = process.env.NODE_ENV === 'production'
 
 // keyboard shortcuts
 key('left,right', (event, handler) => {
@@ -31,7 +30,7 @@ key('left,right', (event, handler) => {
 
 // analytics setup
 GA.initialize('UA-85003235-1', {
-  debug: !window.isProduction
+  debug: !isProduction
 })
 
 const pageView = ({location: prev}, {location: next}) => {

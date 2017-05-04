@@ -11,7 +11,7 @@
     "autoprefixer": "^6.4.0",
     "axios": "^0.16.1",
     "babel-core": "^6.11.4",
-    "babel-loader": "6.4.1",
+    "babel-loader": "^7.0.0",
     "babel-plugin-transform-async-to-generator": "^6.22.0",
     "babel-plugin-transform-class-properties": "^6.22.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
@@ -49,8 +49,8 @@
     "react-swipeable": "^3.9.2",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.17.0",
-    "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1"
+    "webpack": "^2.5.0",
+    "webpack-dev-server": "^2.4.5"
   },
   "scripts": {
     "develop": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js  --hot --inline",

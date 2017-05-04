@@ -21,6 +21,12 @@ const mapOptions = {
   styles: mapStyle
 }
 
+type OpeningHoursType = {|
+  startDay: number,
+  endDay?: number,
+  hour: string
+|}
+
 function getOpeningHourString(hours) {
   return hours.reduce((open, hour, i) => {
     if (hour) {
@@ -31,7 +37,7 @@ function getOpeningHourString(hours) {
         open.push({ startDay: i, hour })
     }
     return open
-  }, [])
+  }, ([]: Array<OpeningHoursType>))
 }
 
 const fitBounds = (restaurantPoint, userPoint) => map => {
@@ -98,7 +104,7 @@ const Map = withGoogleMap(props =>
         position={props.userPoint} />
     }
   </GoogleMap>
-);
+)
 
 @observer
 export default class RestaurantModal extends React.PureComponent {

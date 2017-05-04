@@ -16,7 +16,7 @@ autorun(() => {
     locationWatchId = navigator.geolocation.watchPosition(({coords}) => {
       uiState.location = coords
     })
-  } else if (!preferenceStore.useLocation) {
+  } else if (!preferenceStore.useLocation && locationWatchId) {
     navigator.geolocation.clearWatch(locationWatchId)
     locationWatchId = null
     uiState.location = null

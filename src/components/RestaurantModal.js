@@ -77,13 +77,20 @@ const Meta = ({restaurant}) => (
   </div>
 )
 
+type Props = {
+  restaurantId: number
+}
+
 @observer
 export default class RestaurantModal extends React.PureComponent {
+  props: Props
   state: {restaurant: ?RestaurantType, notFound: boolean} = {restaurant: null, notFound: false}
-  async fetchRestaurant() {
-    let restaurant = dataStore.restaurants.data.find(r => r.id === Number(this.props.restaurantId))
+
+  async fetchRestaurant(restaurantId: number) {
+    let restaurant = dataStore.restaurants.data.find(r => r.id === Number(restaurantId))
+    console.log(restaurant)
     if (!restaurant) {
-      const result = await http.get(`/restaurants?ids=${this.props.restaurantId}`)
+      const result = await http.get(`/restaurants?ids=${restaurantId}`)
       if (result.length) {
         restaurant = result[0]
       } else {
@@ -92,9 +99,17 @@ export default class RestaurantModal extends React.PureComponent {
     }
     this.setState({restaurant})
   }
-  componentDidMount() {
-    this.fetchRestaurant()
+
+  componentWillReceiveProps(props: Props) {
+    if (props.restaurantId !== this.props.restaurantId) {
+      this.fetchRestaurant(props.restaurantId)
+    }
   }
+
+  componentDidMount() {
+    this.fetchRestaurant(this.props.restaurantId)
+  }
+
   render() {
     const {restaurant, notFound} = this.state
     if (notFound) {

@@ -1,22 +1,14 @@
 // @flow
-import React from 'react'
 import {observable, action, computed} from 'mobx'
 import moment from 'moment'
-
-import trackAction from '../utils/trackAction'
 
 const dateFormat = 'YYYY/MM/DD'
 
 export default class UIState {
   @observable location: ?Coordinates
   @observable dateString: string
-  @observable modalOpened: boolean = false
   @observable dayOffset: number = 0
   maxDayOffset = 5
-
-  constructor() {
-    this.modalOpened = false
-  }
 
   @action setDayOffset(dayOffset: number) {
     this.dayOffset = Math.min(Math.max(0, dayOffset), this.maxDayOffset)
@@ -36,15 +28,5 @@ export default class UIState {
 
   @action setDateString(dateString: string) {
     this.dateString = dateString
-  }
-
-  @action openModal() {
-    trackAction('open modal')
-    this.modalOpened = true
-  }
-
-  @action closeModal() {
-    trackAction('close modal')
-    this.modalOpened = false
   }
 }

@@ -1,9 +1,7 @@
 // @flow
 import React from 'react'
 import { render } from 'react-dom'
-import Main from './components/Main'
+import {BrowserRouter} from 'react-router-dom'
+import App from './components/App'
 
-render(
-  <Main/>,
-  document.getElementById('root')
-)
+render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'))

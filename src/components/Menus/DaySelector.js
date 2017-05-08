@@ -3,7 +3,7 @@ import React from 'react'
 import moment from 'moment'
 import {observer} from 'mobx-react'
 import times from 'lodash/times'
-import {Link} from 'react-router'
+import {Link} from 'react-router-dom'
 import AreaIcon from 'react-icons/lib/md/map'
 import SettingsIcon from 'react-icons/lib/md/settings'
 

@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import {Link} from 'react-router'
+import {NavLink} from 'react-router-dom'
 import {observer} from 'mobx-react'
 
 import {dataStore} from '../store'
@@ -19,10 +19,10 @@ export default class Footer extends React.PureComponent {
           <div className={css.logo}>
             <img src={logo} />
             <nav>
-              <Link to="/contact" activeClassName={css.current}><Text id="contact" /></Link>
-              <Link to="/privacy-policy" activeClassName={css.current}><Text id="privacyPolicy" /></Link>
+              <NavLink to="/contact" activeClassName={css.current}><Text id="contact" /></NavLink>
+              <NavLink to="/privacy-policy" activeClassName={css.current}><Text id="privacyPolicy" /></NavLink>
               <a href="https://beta.kanttiinit.fi/" target="_blank">Beta</a>
-              {dataStore.user && dataStore.user.admin &&
+              {dataStore.user.data && dataStore.user.data.admin &&
               <a href="/admin" target="_blank">Admin</a>}
             </nav>
           </div>

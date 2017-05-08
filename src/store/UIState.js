@@ -12,7 +12,6 @@ export default class UIState {
   @observable dateString: string
   @observable modalOpened: boolean = false
   @observable dayOffset: number = 0
-  modalElement: React.Element<*>
   maxDayOffset = 5
 
   constructor() {
@@ -39,9 +38,8 @@ export default class UIState {
     this.dateString = dateString
   }
 
-  @action openModal(element: React.Element<*>) {
+  @action openModal() {
     trackAction('open modal')
-    this.modalElement = element
     this.modalOpened = true
   }
 

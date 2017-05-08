@@ -2,7 +2,7 @@
 import React from 'react'
 import Facebook from 'react-icons/lib/fa/facebook-official'
 import Google from 'react-icons/lib/fa/google'
-import {Link} from 'react-router'
+import {Link} from 'react-router-dom'
 import {observer} from 'mobx-react'
 
 import {preferenceStore, dataStore} from '../../store'

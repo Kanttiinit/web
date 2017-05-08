@@ -4,7 +4,7 @@ import {observer} from 'mobx-react'
 import sortBy from 'lodash/sortBy'
 import Star from 'react-icons/lib/io/star'
 import Map from 'react-icons/lib/md/map'
-import {browserHistory} from 'react-router'
+import {withRouter} from 'react-router-dom'
 
 import {dataStore, preferenceStore} from '../../store'
 import css from '../../styles/AreaSelector.scss'
@@ -17,10 +17,10 @@ const specialAreas = [
 ]
 
 @observer
-export default class AreaSelector extends React.PureComponent {
+class AreaSelector extends React.PureComponent {
   selectArea(areaId: number) {
     preferenceStore.selectedArea = areaId
-    browserHistory.replace('/')
+    this.props.history.replace('/')
   }
   getAreas() {
     return specialAreas.concat(sortBy(dataStore.areas.data, 'name'))
@@ -47,3 +47,5 @@ export default class AreaSelector extends React.PureComponent {
     )
   }
 }
+
+export default withRouter(AreaSelector)

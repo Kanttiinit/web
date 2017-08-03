@@ -4,7 +4,6 @@ import {Link} from 'react-router-dom'
 
 const privacyFi = (
   <div>
-    <p>Kun laitat sijainnin päälle, Kanttiinit kerää sijaintidataa nimettömästi ruuhkatilanteen selvittämiseksi.</p>
     <p>Jos kirjaudut sisään käyttäen Facebook tai Google tiliäsi, Kanttiinit tallentaa nimesi ja sähköpostiosoitteesi.</p>
     <p>Kanttiinit ei jaa mitään dataa kolmansille osapuolille.</p>
   </div>
@@ -12,7 +11,6 @@ const privacyFi = (
 
 const privacyEn = (
   <div>
-    <p>When you enable location, Kanttiinit will collect anonymous location data to analyze restaurant traffic.</p>
     <p>If you log in using your Facebook or Google account, Kanttiinit will save your name and e-mail address.</p>
     <p>Kanttiinit will not share your data with third parties.</p>
   </div>

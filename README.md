@@ -2,7 +2,7 @@
 
 ## Local development
 
-After cloning the repo run `yarn install` (`or npm install`) to install all dependencies.
+After cloning the repo run `npm install` to install all dependencies.
 
 The (Webpack) development server can be started with `npm run run` after which it will be available at `http://localhost:8080/`. However, the Webpack development server might act a bit buggy sometimes. If you encounter problems with it, the server can also be started separately with `npm start` and running `webpack -w` in a separate terminal window.
 

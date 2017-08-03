@@ -138,12 +138,12 @@ export default {
     en: 'No restaurants'
   },
   addStar: {
-    fi: 'Tähti',
-    en: 'Star'
+    fi: 'Nosta',
+    en: 'Pin'
   },
   removeStar: {
-    fi: 'Poista tähti',
-    en: 'Unstar'
+    fi: 'Poista nosto',
+    en: 'Unpin'
   },
   moreInfo: {
     fi: 'Tiedot',

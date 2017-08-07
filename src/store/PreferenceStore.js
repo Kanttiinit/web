@@ -54,6 +54,10 @@ export default class PreferenceStore {
     return {lang, selectedArea, useLocation, order, favorites, starredRestaurants}
   }
 
+  @action toggleLanguage() {
+    this.lang = this.lang === 'fi' ? 'en' : 'fi'
+  }
+
   @action setRestaurantStarred(restaurantId: number, isStarred: boolean) {
     const index = this.starredRestaurants.indexOf(restaurantId)
     if (isStarred && index === -1) {

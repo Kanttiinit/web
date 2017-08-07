@@ -81,7 +81,7 @@ a.icon {
   font-size: 0.8rem;
   display: flex;
   align-items: center;
-  margin: 0 0.5em;
+  margin: 0 1em;
 
   &:link, &:visited {
     color: inherit;
@@ -90,16 +90,6 @@ a.icon {
   &:hover, &:focus {
     outline: none;
     color: $accent_color;
-  }
-
-  img {
-    width: 24px;
-    height: 24px;
-    border-radius: 12px;
-  }
-
-  span {
-    margin: 0 0.5rem;
   }
 
   svg {

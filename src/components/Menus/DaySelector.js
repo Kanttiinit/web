@@ -6,13 +6,19 @@ import times from 'lodash/times'
 import {Link} from 'react-router-dom'
 import AreaIcon from 'react-icons/lib/md/map'
 import SettingsIcon from 'react-icons/lib/md/settings'
+import FI from '../../assets/fi.png'
+import EN from '../../assets/en.png'
 
-import {uiState} from '../../store'
+import {uiState, preferenceStore} from '../../store'
 import css from '../../styles/DaySelector.scss'
 import Text from '../Text'
 
 @observer
 export default class DaySelector extends React.PureComponent {
+  toggleLanguage = () => {
+    preferenceStore.toggleLanguage()
+  }
+
   render() {
     return (
       <div className={css.container}>
@@ -36,6 +42,9 @@ export default class DaySelector extends React.PureComponent {
             <SettingsIcon size={18} />
             <Text id="settings" />
           </Link>
+          <a className={css.icon} onClick={this.toggleLanguage}>
+            <img height={18} src={preferenceStore.lang === 'fi' ? FI : EN} />
+          </a>
         </div>
       </div>
     )

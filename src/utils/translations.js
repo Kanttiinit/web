@@ -146,7 +146,7 @@ export default {
     en: 'Unpin'
   },
   moreInfo: {
-    fi: 'Tiedot',
+    fi: 'Lisätietoja',
     en: 'Details'
   },
   starred: {

@@ -27,7 +27,6 @@
     "file-loader": "^0.11.1",
     "haversine": "^1.0.1",
     "immutable": "^3.8.1",
-    "isomorphic-fetch": "^2.2.1",
     "json-loader": "^0.5.4",
     "keymaster": "^1.6.2",
     "lodash": "^4.15.0",
@@ -47,7 +46,8 @@
     "react-swipeable": "^4.0.0",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.17.0",
-    "webpack": "^2.5.0"
+    "webpack": "^2.5.0",
+    "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
     "develop": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js  --hot --inline",

@@ -1,5 +1,5 @@
 // @flow
-import 'isomorphic-fetch'
+import 'whatwg-fetch'
 
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 

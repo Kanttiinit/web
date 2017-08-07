@@ -41,7 +41,7 @@ export default class DataStore {
   @observable areas: Resource<Array<AreaType>> = new Resource([])
   @observable user: Resource<?UserType> = new Resource(null)
   @observable favorites: Resource<Array<FavoriteType>> = new Resource([])
-  @observable menus: Resource<Array<MenuType>> = new Resource([])
+  @observable menus: Resource<Array<MenuType>> = new Resource({})
   @observable restaurants: Resource<Array<RestaurantType>> = new Resource([])
 
   preferences: PreferenceStore

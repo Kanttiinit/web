@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import 'isomorphic-fetch'
 
 import css from '../styles/Contact.scss'
 import PageContainer from './PageContainer'
@@ -38,7 +37,7 @@ export default class Contact extends React.PureComponent {
       this.setState({sending: false, error: true})
     }
   }
-  
+
   componentDidMount() {
     this.refs.email.focus()
   }

@@ -14,6 +14,9 @@ const isProduction = process.env.NODE_ENV === 'production'
 const plugins = [
   new webpack.DefinePlugin({
     isProduction,
+    'process.env': {
+      NODE_ENV: JSON.stringify('production')
+    },
     version: JSON.stringify(pkg.version),
     apiBase: JSON.stringify(process.env.API_BASE || 'https://kitchen.kanttiinit.fi')
   })

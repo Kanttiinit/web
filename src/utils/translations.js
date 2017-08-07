@@ -150,8 +150,8 @@ export default {
     en: 'Details'
   },
   starred: {
-    fi: 'Nostetut',
-    en: 'Pinned'
+    fi: 'Tähdellä merkityt',
+    en: 'Starred'
   },
   nearby: {
     fi: 'Lähellä',

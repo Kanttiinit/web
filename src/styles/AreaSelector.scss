@@ -23,7 +23,6 @@
     height: 1em;
     width: 1em;
     border-radius: 25%;
-    display: block;
     margin: 0 0 1rem;
 
     @media (min-width: $break_large) {
@@ -41,18 +40,16 @@
     height: 5rem;
     width: 5rem;
     margin-bottom: 1rem;
+    display: inline-block;
   }
 
   button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     background-color: transparent;
     color: inherit;
     width: 8em;
     padding: 1em 0;
     font-weight: normal;
+    text-align: center;
   }
 
 }

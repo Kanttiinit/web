@@ -38,6 +38,7 @@ class AreaSelector extends React.PureComponent {
               {area.icon
               ? <div className={css.icon}>{area.icon}</div>
               : <img className={css.map} src={area.mapImageUrl} />}
+              <br />
               {area.name}
             </button>
           </div>

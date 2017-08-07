@@ -5,6 +5,8 @@ import Walk from 'react-icons/lib/md/directions-walk'
 import Bike from 'react-icons/lib/md/directions-bike'
 import Heart from 'react-icons/lib/io/heart'
 import Location from 'react-icons/lib/io/pin'
+import Star from 'react-icons/lib/md/star'
+import More from 'react-icons/lib/md/more'
 import c from 'classnames'
 import {Link} from 'react-router-dom'
 import moment from 'moment'
@@ -94,11 +96,11 @@ export default class Restaurant extends React.PureComponent {
             onClick={this.toggleStar}
             style={{color: restaurant.isStarred ? '#e6c100' : undefined}}
             className={css.actionIcon}>
-            <Text id={restaurant.isStarred ? 'removeStar' : 'addStar'} />
+            <Star size={18} />
           </a>
           &nbsp;
           <Link className={css.actionIcon} to={`/restaurant/${restaurant.id}`}>
-            <Text id="moreInfo" />
+            <More size={18} />
           </Link>
         </div>
       </div>

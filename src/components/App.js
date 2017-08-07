@@ -2,7 +2,6 @@
 import 'babel-core/register'
 import 'babel-polyfill'
 import React from 'react'
-import Swipeable from 'react-swipeable'
 import classnames from 'classnames'
 import Left from 'react-icons/lib/md/arrow-back'
 import Right from 'react-icons/lib/md/arrow-forward'
@@ -89,11 +88,7 @@ class App extends React.PureComponent {
     const {location} = this.props
     const {leftArrowVisible, rightArrowVisible} = this.state
     return (
-      <Swipeable
-        onSwipingLeft={this.swiping('right')}
-        onSwipingRight={this.swiping('left')}
-        onSwipedLeft={() => this.swiped(1)}
-        onSwipedRight={() => this.swiped(-1)}>
+      <div>
         <Arrow
           visible={leftArrowVisible}
           direction="left" />
@@ -130,7 +125,7 @@ class App extends React.PureComponent {
             <Modal><NotFound /></Modal>
           </Route>
         </Switch>
-      </Swipeable>
+      </div>
     )
   }
 }

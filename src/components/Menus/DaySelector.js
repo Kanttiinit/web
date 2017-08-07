@@ -30,7 +30,7 @@ export default class DaySelector extends React.PureComponent {
               ref={e => i === uiState.dayOffset && e && e.focus()}
               className={i === uiState.dayOffset ? css.selected : ''}
               onClick={() => uiState.dayOffset = i}>
-              <Text moment={moment().add(i, 'day')} id="dd DD.MM." />
+              <Text moment={moment().add(i, 'day')} id="dd D.M." />
             </button>
             )}
           </div>

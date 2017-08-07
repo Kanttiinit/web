@@ -45,8 +45,8 @@
     "react-router-dom": "^4.1.1",
     "react-swipeable": "^4.0.0",
     "sass-loader": "^6.0.3",
-    "style-loader": "^0.17.0",
-    "webpack": "^2.5.0",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.4.1",
     "whatwg-fetch": "^2.0.3"
   },
   "scripts": {

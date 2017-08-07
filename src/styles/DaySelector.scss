@@ -3,8 +3,6 @@
 .container {
   background: linear-gradient(to bottom, #ffffff 0%, #f9f9f9 100%);
   box-sizing: border-box;
-  display: flex;
-  align-items: center;
   padding: 0 0.5em;
   position: fixed;
   width: 100%;
@@ -17,6 +15,13 @@
     justify-content: flex-start;
     padding: 0.2em;
   }
+}
+
+.centered {
+  max-width: 95em;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
 }
 
 .days {
@@ -34,11 +39,15 @@
     display: inline-block;
     text-transform: uppercase;
     font-size: 0.75rem;
-    border-radius: 0.5em;
+    border-radius: 0.25em;
     margin: 0.5em 0.25em;
     color: $dark_gray;
     padding: 0.75em 1em;
     transition: background 0.2s;
+
+    &:first-child {
+      margin-left: 0;
+    }
 
     &:focus {
       outline: none;
@@ -53,7 +62,7 @@
     &.selected {
       color: black;
       border-bottom-width: 0.25em;
-      background: $light_gray;
+      background: $semi_light_gray;
     }
 
     @media (min-width: $break_large) {

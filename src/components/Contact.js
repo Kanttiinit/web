@@ -16,6 +16,7 @@ export default class Contact extends React.PureComponent {
     sent: false,
     error: false
   };
+
   onSubmit = async (event: Event) => {
     event.preventDefault()
     this.setState({sending: true})
@@ -37,14 +38,16 @@ export default class Contact extends React.PureComponent {
       this.setState({sending: false, error: true})
     }
   }
+  
   componentDidMount() {
     this.refs.email.focus()
   }
+
   render() {
     const {sending, sent} = this.state
     return (
       <PageContainer title={<Text id="contact" />}>
-        {sent && <p><Text id="thanksForFeedback" /></p>}
+        {sent && <Text element="p" id="thanksForFeedback" />}
         <form className={css.container} onSubmit={this.onSubmit}>
           <label htmlFor="email"><Text id="email" /></label>
           <input type="email" id="email" ref="email" required />

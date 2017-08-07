@@ -7,10 +7,12 @@ export default class Resource<T> {
   @observable error: ?string = null
   @observable data: T
   defaultData: T
+  
   constructor(defaultData: T) {
     this.data = defaultData
     this.defaultData = defaultData
   }
+
   async fetch(promise: Promise<T>) {
     this.pending = true
     this.error = null

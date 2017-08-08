@@ -10,7 +10,7 @@ import http from '../utils/http'
 import {uiState} from './index'
 import type PreferenceStore from './PreferenceStore'
 import type UIState from './UIState'
-import type {UserType, AreaType, FavoriteType, FormattedFavoriteType, MenuType, RestaurantType, CourseType} from './types'
+import type {AreaType, FavoriteType, FormattedFavoriteType, MenuType, RestaurantType, CourseType} from './types'
 
 const isOpenNow = (restaurant: RestaurantType, day) => {
   const weekday = day.weekday()
@@ -39,9 +39,8 @@ const orderRestaurants = (restaurants, orderType) => {
 
 export default class DataStore {
   @observable areas: Resource<Array<AreaType>> = new Resource([])
-  @observable user: Resource<?UserType> = new Resource(null)
   @observable favorites: Resource<Array<FavoriteType>> = new Resource([])
-  @observable menus: Resource<Array<MenuType>> = new Resource({})
+  @observable menus: Resource<MenuType> = new Resource({})
   @observable restaurants: Resource<Array<RestaurantType>> = new Resource([])
 
   preferences: PreferenceStore
@@ -50,10 +49,6 @@ export default class DataStore {
   constructor(preferenceStore: PreferenceStore, uiState: UIState) {
     this.preferences = preferenceStore
     this.uiState = uiState
-  }
-
-  async fetchUser() {
-    this.user.fetch(http.get('/me', true))
   }
 
   @computed get selectedFavorites(): Array<FavoriteType> {

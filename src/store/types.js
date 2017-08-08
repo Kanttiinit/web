@@ -2,14 +2,6 @@
 
 export type PreferencesType = {}
 
-export type UserType = {
-  name: string,
-  email: string,
-  photo: string,
-  displayName: string,
-  preferences: PreferencesType
-}
-
 export type RestaurantType = {
   id: number,
   name: string,

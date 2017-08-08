@@ -109,10 +109,6 @@ export default {
     fi: 'Valitse alue',
     en: 'Select area'
   },
-  profile: {
-    fi: 'Profiili',
-    en: 'Profile'
-  },
   logout: {
     fi: 'Kirjaudu ulos',
     en: 'Log out'

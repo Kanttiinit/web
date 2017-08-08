@@ -30,18 +30,6 @@ autorun(() => {
 })
 
 autorun(() => {
-  if (dataStore.user.fulfilled) {
-    http.put('/me/preferences', preferenceStore.preferences)
-  }
-})
-
-autorun(() => {
-  if (dataStore.user.data) {
-    preferenceStore.preferences = dataStore.user.data.preferences
-  }
-})
-
-autorun(() => {
   let query
   if (preferenceStore.lang && dataStore.selectedArea) {
     query = `&ids=${dataStore.selectedArea.restaurants.join(',')}`
@@ -65,5 +53,3 @@ autorun(() => {
     dataStore.menus.fetch(http.get(`/menus?lang=${preferenceStore.lang}&restaurants=${restaurantIds.join(',')}`))
   }
 })
-
-dataStore.fetchUser()

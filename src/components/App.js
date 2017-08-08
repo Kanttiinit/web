@@ -9,8 +9,7 @@ import {withRouter, Switch, Route} from 'react-router-dom'
 import GA from 'react-ga'
 import key from 'keymaster'
 
-import http from '../utils/http'
-import {uiState, dataStore} from '../store'
+import {uiState} from '../store'
 import css from '../styles/App.scss'
 import Footer from './Footer'
 import Modal from './Modal'
@@ -37,6 +36,7 @@ class App extends React.PureComponent {
     rightArrowVisible: false,
     leftArrowVisible: false
   };
+
   swiped = (direction: number) => {
     uiState.setDayOffset(uiState.dayOffset + direction)
     this.setState({
@@ -44,6 +44,7 @@ class App extends React.PureComponent {
       leftArrowVisible: false
     })
   }
+
   swiping = (direction: string) => (event: Event, amount: number) => {
     const canGoLeft = uiState.dayOffset > 0 || direction === 'right'
     const canGoRight = uiState.dayOffset !== uiState.maxDayOffset
@@ -51,32 +52,18 @@ class App extends React.PureComponent {
       this.setState({[direction + 'ArrowVisible']: Math.min(1, amount / 100)})
     }
   }
-  async parseAuth() {
-    const {hash, search} = window.location
-    const accessTokenRegexp = /#access_token\=([^&]+)/
-    const accessTokenMatch = hash.match(accessTokenRegexp)
-    if (accessTokenMatch) {
-      const provider = search.match(/\?facebook/) ? 'facebook' : 'google'
-      this.props.history.push(location.pathname)
-      await http.post('/me/login', {
-        provider,
-        token: accessTokenMatch[1]
-      })
-      await dataStore.fetchUser()
-    }
-  }
+
   componentWillMount() {
     key('left,right', (event, handler) => {
       const offset = handler.shortcut === 'left' ? -1 : 1
       uiState.setDayOffset(uiState.dayOffset + offset)
     })
 
-    this.parseAuth()
-
     GA.initialize('UA-85003235-1', {
       debug: !isProduction
     })
   }
+
   componentWillReceiveProps(props) {
     if (props.location.pathname !== this.props.location.pathname) {
       const pathname = props.location.pathname
@@ -84,6 +71,7 @@ class App extends React.PureComponent {
       GA.pageview(pathname)
     }
   }
+
   render() {
     const {location} = this.props
     const {leftArrowVisible, rightArrowVisible} = this.state

@@ -16,41 +16,6 @@
   margin-top: 2em;
 }
 
-.user {
-  display: flex;
-  align-items: center;
-
-  img {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 1.5rem;
-    margin-right: 1rem;
-  }
-
-  small {
-    color: $dark_gray;
-  }
-}
-
-.loginButtons {
-  button {
-    font-size: 0.8em;
-    border: none;
-    padding: 1em;
-    font-family: inherit;
-    text-transform: uppercase;
-    font-weight: 500;
-    color: white;
-    margin-bottom: 1em;
-    border-radius: 0.2em;
-    display: block;
-
-    span {
-      margin-left: 0.5em;
-    }
-  }
-}
-
 .item {
   margin-bottom: 2rem;
 }

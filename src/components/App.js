@@ -2,9 +2,9 @@
 import 'babel-core/register'
 import 'babel-polyfill'
 import React from 'react'
-import classnames from 'classnames'
-import Left from 'react-icons/lib/md/arrow-back'
-import Right from 'react-icons/lib/md/arrow-forward'
+// import classnames from 'classnames'
+// import Left from 'react-icons/lib/md/arrow-back'
+// import Right from 'react-icons/lib/md/arrow-forward'
 import {withRouter, Switch, Route} from 'react-router-dom'
 import GA from 'react-ga'
 import key from 'keymaster'
@@ -25,32 +25,32 @@ import RestaurantModal from './RestaurantModal'
 
 window.isBeta = location.hostname === 'beta.kanttiinit.fi' || location.hostname === 'localhost'
 
-const Arrow = ({direction, visible}) => (
-  <div
-    className={classnames(css.arrow, visible && css.arrowVisible, direction === 'right' ? css.right : css.left)}>
-    {direction === 'right' ? <Right /> : <Left />}
-  </div>
-)
+// const Arrow = ({direction, visible}) => (
+//   <div
+//     className={classnames(css.arrow, visible && css.arrowVisible, direction === 'right' ? css.right : css.left)}>
+//     {direction === 'right' ? <Right /> : <Left />}
+//   </div>
+// )
 
 class App extends React.PureComponent {
   state = {
     rightArrowVisible: false,
     leftArrowVisible: false
   };
-  swiped = (direction: number) => {
-    uiState.setDayOffset(uiState.dayOffset + direction)
-    this.setState({
-      rightArrowVisible: false,
-      leftArrowVisible: false
-    })
-  }
-  swiping = (direction: string) => (event: Event, amount: number) => {
-    const canGoLeft = uiState.dayOffset > 0 || direction === 'right'
-    const canGoRight = uiState.dayOffset !== uiState.maxDayOffset
-    if (direction === 'left' && canGoLeft || direction === 'right' && canGoRight) {
-      this.setState({[direction + 'ArrowVisible']: Math.min(1, amount / 100)})
-    }
-  }
+  // swiped = (direction: number) => {
+  //   uiState.setDayOffset(uiState.dayOffset + direction)
+  //   this.setState({
+  //     rightArrowVisible: false,
+  //     leftArrowVisible: false
+  //   })
+  // }
+  // swiping = (direction: string) => (event: Event, amount: number) => {
+  //   const canGoLeft = uiState.dayOffset > 0 || direction === 'right'
+  //   const canGoRight = uiState.dayOffset !== uiState.maxDayOffset
+  //   if (direction === 'left' && canGoLeft || direction === 'right' && canGoRight) {
+  //     this.setState({[direction + 'ArrowVisible']: Math.min(1, amount / 100)})
+  //   }
+  // }
   async parseAuth() {
     const {hash, search} = window.location
     const accessTokenRegexp = /#access_token\=([^&]+)/
@@ -86,19 +86,13 @@ class App extends React.PureComponent {
   }
   render() {
     const {location} = this.props
-    const {leftArrowVisible, rightArrowVisible} = this.state
+    // const {leftArrowVisible, rightArrowVisible} = this.state
     return (
       <div>
-        <Arrow
-          visible={leftArrowVisible}
-          direction="left" />
         <div className={css.container}>
           <Menus />
           <Footer path={location.pathname} />
         </div>
-        <Arrow
-          visible={rightArrowVisible}
-          direction="right" />
         <Switch>
           <Route exact path="/" />
           <Route path="/settings/favorites">

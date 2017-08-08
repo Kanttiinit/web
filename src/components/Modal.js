@@ -1,23 +1,32 @@
+// @flow
 import React from 'react'
-import {browserHistory} from 'react-router'
-import {connect} from 'react-redux'
+import key from 'keymaster'
+import {observer} from 'mobx-react'
+import classnames from 'classnames'
+import {withRouter} from 'react-router-dom'
 
+import Text from './Text'
 import css from '../styles/Modal.scss'
 
-class Modal extends React.Component {
+@observer
+class Modal extends React.PureComponent {
+  componentDidMount() {
+    key('esc', this.closeModal)
+  }
+  closeModal = () => this.props.history.replace('/')
   render() {
-    const {modal} = this.props
     return (
-      <div className={css.container + (modal.open ? ' ' + css.open : '')}>
-        <div className={css.overlay} onClick={() => browserHistory.push('/')}></div>
-        <div className={css.content}>{modal.component}</div>
+      <div className={classnames(css.container,  css.open)}>
+        <div className={css.overlay} onClick={this.closeModal}></div>
+        <div className={css.content}>
+        {this.props.children}
+        </div>
+        <div className={css.closeText} onClick={this.closeModal}>
+          <Text id="closeModal" />
+        </div>
       </div>
     )
   }
 }
 
-const mapState = state => ({
-  modal: state.value.modal,
-})
-
-export default connect(mapState)(Modal)
+export default withRouter(Modal)

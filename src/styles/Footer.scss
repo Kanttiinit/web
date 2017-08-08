@@ -3,13 +3,9 @@
 .container {
   text-align: center;
   color: $gray;
-  margin: 3rem 0;
   font-size: 0.8rem;
   letter-spacing: 0.05rem;
-
-  @media (max-width: $break-small) {
-    margin: 1rem 0;
-  }
+  padding: 1rem;
 
   nav {
     a {
@@ -31,9 +27,9 @@
       }
 
       @media (max-width: $break-small) {
-        display: block;
-        margin: 0.3rem 0;
         border-bottom: none;
+        display: block;
+        margin: 0.5rem;
       }
     }
   }
@@ -42,7 +38,7 @@
 .logo {
   display: flex;
   align-items: center;
-  justify-content: center;
+  text-align: left;
 
   h1 {
     margin: 0;
@@ -53,7 +49,17 @@
   }
 
   img {
-    height: 2rem;
+    height: 3rem;
     margin-right: 1rem;
+
+    @media (max-width: $break-small) {
+      display: none;
+    }
   }
+}
+
+.bottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }

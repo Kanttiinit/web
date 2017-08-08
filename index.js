@@ -1,11 +1,12 @@
-const express = require('express');
+// @flow
+const express = require('express')
 
 express()
 .use((req, res, next) => {
   if (req.headers.host.slice(0, 4) === 'www.') {
-    res.redirect(301, `${req.protocol}://${req.headers.host.slice(4)}${req.originalUrl}`);
+    res.redirect(301, `${req.protocol}://${req.headers.host.slice(4)}${req.originalUrl}`)
   } else {
-    next();
+    next()
   }
 })
 .use(require('compression')())
@@ -13,4 +14,4 @@ express()
 .use(express.static(__dirname + '/src/assets'))
 .get('/admin', (req, res) => res.sendFile(__dirname + '/dist/index_admin.html'))
 .get('*', (req, res) => res.sendFile(__dirname + '/dist/index.html'))
-.listen(process.env.PORT || 8080);
+.listen(process.env.PORT || 8080)

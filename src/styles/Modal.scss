@@ -1,6 +1,17 @@
 @import 'constants';
 
 .container {
+
+  @media (min-width: $break_large) {
+    padding: 0.5rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media (max-width: $break_small) {
+    flex-direction: column;
+  }
+
   position: fixed;
   top: 0;
   right: 0;
@@ -9,11 +20,9 @@
   z-index: 11;
   opacity: 0;
   pointer-events: none;
-  padding: 0.5rem;
   transition: opacity 0.1s;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  
 }
 
 .overlay {
@@ -23,6 +32,26 @@
   height: 100%;
   top: 0;
   left: 0;
+
+  @media (max-width: $break_small) {
+    background: $light_gray;
+  }
+}
+
+.closeText {
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  color: $gray;
+  font-weight: 300;
+  font-size: 0.9em;
+  height: 5rem;
+
+  @media (min-width: $break_large) {
+    display: none;
+  }
 }
 
 .content {
@@ -30,11 +59,13 @@
   position: relative;
   max-width: 40rem;
   border-radius: 0.2rem;
-  overflow: hidden;
-  box-shadow: 0rem 0.1rem 0.6rem -0.2rem rgba(0,0,0,0.3);
-  flex-grow: 1;
-  max-height: 90vh;
   overflow: auto;
+  box-shadow: 0rem 0.1rem 0.6rem -0.2rem rgba(0,0,0,0.3);
+  flex: 1;
+
+  @media (max-width: $break_large) {
+    max-width: 100%;
+  }
 }
 
 .open {

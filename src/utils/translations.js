@@ -1,8 +1,9 @@
+// @flow
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 const privacyFi = (
   <div>
-    <p>Kun laitat sijainnin päälle, Kanttiinit kerää sijaintidataa nimettömästi ruuhkatilanteen selvittämiseksi.</p>
     <p>Jos kirjaudut sisään käyttäen Facebook tai Google tiliäsi, Kanttiinit tallentaa nimesi ja sähköpostiosoitteesi.</p>
     <p>Kanttiinit ei jaa mitään dataa kolmansille osapuolille.</p>
   </div>
@@ -10,7 +11,6 @@ const privacyFi = (
 
 const privacyEn = (
   <div>
-    <p>When you enable location, Kanttiinit will collect anonymous location data to analyze restaurant traffic.</p>
     <p>If you log in using your Facebook or Google account, Kanttiinit will save your name and e-mail address.</p>
     <p>Kanttiinit will not share your data with third parties.</p>
   </div>
@@ -138,16 +138,16 @@ export default {
     en: 'No restaurants'
   },
   addStar: {
-    fi: 'Merkitse tähdellä',
-    en: 'Star'
+    fi: 'Nosta',
+    en: 'Pin'
   },
   removeStar: {
-    fi: 'Poista tähtimerkintä',
-    en: 'Unstar'
+    fi: 'Poista nosto',
+    en: 'Unpin'
   },
   moreInfo: {
-    fi: 'Lisätietoa',
-    en: 'More information'
+    fi: 'Lisätietoja',
+    en: 'Details'
   },
   starred: {
     fi: 'Tähdellä merkityt',
@@ -165,6 +165,10 @@ export default {
     fi: 'kilometriä',
     en: 'kilometers'
   },
+  closeModal: {
+    fi: 'paina sulkeaksesi',
+    en: 'press here to close'
+  },
   favorites: {
     fi: 'Suosikit',
     en: 'Favorites'
@@ -172,6 +176,10 @@ export default {
   order: {
     fi: 'Järjestys',
     en: 'Order'
+  },
+  homepage: {
+    fi: 'Kotisivu',
+    en: 'Homepage'
   },
   ORDER_AUTOMATIC: {
     fi: 'Automaattinen',
@@ -184,5 +192,13 @@ export default {
   ORDER_DISTANCE: {
     fi: 'Etäisyys',
     en: 'Distance'
+  },
+  locating: {
+    fi: 'Haetaan sijaintia...',
+    en: 'Locating...'
+  },
+  turnOnLocation: {
+    fi: <span>Laita sijainti päälle <Link to="/settings">asetuksista.</Link></span>,
+    en: <span>Turn on location <Link to="/settings">in the settings.</Link></span>
   }
 }

@@ -4,6 +4,7 @@ import {autorun} from 'mobx'
 import {observer} from 'mobx-react'
 import classnames from 'classnames'
 import Collapse from 'react-collapse'
+import CopyIcon from 'react-icons/lib/md/content-copy'
 
 import {uiState} from '../store'
 import CourseList from './CourseList'
@@ -12,7 +13,8 @@ import {getCourses} from '../utils/api'
 import css from '../styles/MenuViewer.scss'
 
 type Props = {|
-  restaurantId: number
+  restaurantId: number,
+  showCopyButton?: boolean
 |};
 
 @observer
@@ -28,6 +30,11 @@ export default class MenuViewer extends React.PureComponent {
     loading: false,
     error: null
   };
+
+  onCopy = () => {
+    this.refs.textarea.select()
+    document.execCommand('copy')
+  }
 
   componentDidMount() {
     this.removeAutorun = autorun(async () => {
@@ -47,6 +54,7 @@ export default class MenuViewer extends React.PureComponent {
 
   render() {
     const {courses, loading} = this.state
+    const {showCopyButton} = this.props
     return (
       <div className={css.container}>
         <DaySelector root={location.pathname} />
@@ -55,6 +63,15 @@ export default class MenuViewer extends React.PureComponent {
             className={classnames(css.courseList, loading && css.coursesLoading)}
             courses={courses} />
         </Collapse>
+        {showCopyButton &&
+          <div>
+            <textarea
+              ref="textarea"
+              style={{opacity: 0, position: 'absolute', pointerEvents: 'none'}}
+              value={courses.map(c => c.title + ' (' + c.properties.join(', ') + ')').join('\n')} />
+            <CopyIcon size={18} onClick={this.onCopy} />
+          </div>
+        }
       </div>
     )
   }

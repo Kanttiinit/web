@@ -166,7 +166,7 @@ export default class RestaurantModal extends React.PureComponent {
           </div>
           <OpeningHours openingHours={restaurant.openingHours} />
         </div>
-        <MenuViewer restaurantId={restaurant.id} />
+        <MenuViewer showCopyButton restaurantId={restaurant.id} />
         <Map
           containerElement={<div className={css.mapContainer} />}
           mapElement={<div className={css.map} />}

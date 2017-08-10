@@ -10,3 +10,7 @@ export const getCourses = async (restaurantId: number, day: moment.Moment) => {
     return restaurant.menus[0].courses
   }
 }
+
+export const getMenus = (restaurantIds: Array<number>, days: Array<moment.Moment>, lang: string) => {
+  return http.get(`/menus?lang=${lang}&restaurants=${restaurantIds.join(',')}&days=${days.map(day => day.format('YYYY-MM-DD')).join(',')}`)
+}

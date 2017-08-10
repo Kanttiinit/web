@@ -2,6 +2,7 @@
 import 'babel-core/register'
 import 'babel-polyfill'
 import React from 'react'
+import moment from 'moment'
 import {withRouter, Switch, Route} from 'react-router-dom'
 import GA from 'react-ga'
 import key from 'keymaster'
@@ -29,8 +30,12 @@ class App extends React.PureComponent {
 
   componentWillMount() {
     key('left,right', (event, handler) => {
+      const now = moment()
       const offset = handler.shortcut === 'left' ? -1 : 1
-      uiState.moveDayBy(offset)
+      const newDay = moment(uiState.day).add({day: offset})
+      if (now.isSameOrBefore(newDay, 'day') && newDay.isSameOrBefore(now.add({day: uiState.maxDayOffset}), 'day')) {
+        this.props.history.replace(uiState.getNewPath(newDay))
+      }
     })
 
     GA.initialize('UA-85003235-1', {

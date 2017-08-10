@@ -31,10 +31,6 @@ export default class UIState {
     return `${location.pathname}?day=${date.format(dateFormat)}`
   }
 
-  moveDayBy(offset: number) {
-    // TODO: implement
-  }
-
   @action setLocation(location: Coordinates) {
     this.location = location
   }

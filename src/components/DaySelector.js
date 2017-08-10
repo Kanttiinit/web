@@ -33,7 +33,7 @@ export default class DaySelector extends React.PureComponent {
               key={i}
               ref={active && this.focus}
               className={active ? css.selected : ''}
-              to={uiState.getNewPath(day)}>
+              to={{pathname: '/', search: `?day=${day.format('YYYY-MM-DD')}`}}>
               <Text moment={day} id="dd D.M." />
             </Link>
           )

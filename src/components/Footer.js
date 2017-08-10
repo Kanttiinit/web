@@ -19,8 +19,8 @@ export default class Footer extends React.PureComponent {
           <div className={css.logo}>
             <img src={logo} />
             <nav>
-              <NavLink to="/contact" activeClassName={css.current}><Text id="contact" /></NavLink>
-              <NavLink to="/privacy-policy" activeClassName={css.current}><Text id="privacyPolicy" /></NavLink>
+              <NavLink to={{pathname: '/contact', search: location.search}} activeClassName={css.current}><Text id="contact" /></NavLink>
+              <NavLink to={{pathname: '/privacy-policy', search: location.search}} activeClassName={css.current}><Text id="privacyPolicy" /></NavLink>
               {!window.isBeta && <a href="https://beta.kanttiinit.fi/" target="_blank">Beta</a>}
             </nav>
           </div>

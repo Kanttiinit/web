@@ -28,7 +28,7 @@ export default class Settings extends React.PureComponent {
   render() {
     return (
       <PageContainer title={<Text id="settings" />}>
-        <Link className={css.favorites} to="/settings/favorites">
+        <Link className={css.favorites} to={{pathname: '/settings/favorites', search: location.search}}>
           <Text id="favorites" className="button" element="button" />
         </Link>
         <Item label={<Text id="language" />}>

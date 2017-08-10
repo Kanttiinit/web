@@ -4,14 +4,12 @@ import {Link} from 'react-router-dom'
 
 const privacyFi = (
   <div>
-    <p>Jos kirjaudut sisään käyttäen Facebook tai Google tiliäsi, Kanttiinit tallentaa nimesi ja sähköpostiosoitteesi.</p>
     <p>Kanttiinit ei jaa mitään dataa kolmansille osapuolille.</p>
   </div>
 )
 
 const privacyEn = (
   <div>
-    <p>If you log in using your Facebook or Google account, Kanttiinit will save your name and e-mail address.</p>
     <p>Kanttiinit will not share your data with third parties.</p>
   </div>
 )

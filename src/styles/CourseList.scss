@@ -5,6 +5,7 @@
   margin-bottom: 0.2rem;
   display: flex;
   align-items: center;
+  user-select: initial;
   
   &:not(:last-child) {
     border-bottom: 1px solid #f5f5f5;

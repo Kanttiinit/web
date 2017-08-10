@@ -13,7 +13,7 @@ class Modal extends React.PureComponent {
   componentDidMount() {
     key('esc', this.closeModal)
   }
-  closeModal = () => this.props.history.goBack()
+  closeModal = () => this.props.history.replace('/' + location.search)
   render() {
     return (
       <div className={classnames(css.container,  css.open)}>

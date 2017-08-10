@@ -87,7 +87,9 @@ export default class Restaurant extends React.PureComponent {
             <Star size={18} />
           </a>
           &nbsp;
-          <Link className={css.actionIcon} to={`/restaurant/${restaurant.id}`}>
+          <Link
+            className={css.actionIcon}
+            to={{pathname: `/restaurant/${restaurant.id}`, search: location.search}}>
             <More size={18} />
           </Link>
         </div>

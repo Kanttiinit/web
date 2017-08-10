@@ -20,12 +20,6 @@
     padding: 1.25em 2em 1.25em 0;
     transition: color 0.2s;
 
-    @media (max-width: 95rem) {
-      &:first-child {
-        padding-left: 1em;
-      }
-    }
-
     &:first-child {
       margin-left: 0;
     }

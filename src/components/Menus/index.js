@@ -1,12 +1,12 @@
 // @flow
 import React from 'react'
 
-import DaySelector from './DaySelector'
+import TopBar from './TopBar'
 import RestaurantList from './RestaurantList'
 
 export default () => (
   <div>
-    <DaySelector />
+    <TopBar />
     <RestaurantList />
   </div>
 )

@@ -10,6 +10,7 @@ import {observer} from 'mobx-react'
 import http from '../utils/http'
 import {dataStore, uiState} from '../store'
 import type {RestaurantType} from '../store/types'
+import MenuViewer from './MenuViewer'
 import css from '../styles/RestaurantModal.scss'
 import Text from './Text'
 import mapStyle from './mapStyle.json'
@@ -109,7 +110,15 @@ const Map = withGoogleMap(props =>
 @observer
 export default class RestaurantModal extends React.PureComponent {
   props: Props
-  state: {restaurant: ?RestaurantType, notFound: boolean} = {restaurant: null, notFound: false}
+  state: {
+    restaurant: ?RestaurantType,
+    notFound: boolean,
+    day: moment.Moment
+  } = {
+    restaurant: null,
+    notFound: false,
+    day: moment()
+  }
 
   async fetchRestaurant(restaurantId: number) {
     let restaurant = dataStore.restaurants.data.find(r => r.id === Number(restaurantId))
@@ -124,6 +133,10 @@ export default class RestaurantModal extends React.PureComponent {
     this.setState({restaurant})
   }
 
+  onDayChange = (day: moment.Moment) => {
+    this.setState({day})
+  }
+
   componentWillReceiveProps(props: Props) {
     if (props.restaurantId !== this.props.restaurantId) {
       this.fetchRestaurant(props.restaurantId)
@@ -135,7 +148,7 @@ export default class RestaurantModal extends React.PureComponent {
   }
 
   render() {
-    const {restaurant, notFound} = this.state
+    const {restaurant, notFound, day} = this.state
     if (notFound) {
       return <p>Ravintolaa ei löytynyt!</p>
     }
@@ -159,6 +172,10 @@ export default class RestaurantModal extends React.PureComponent {
           </div>
           <OpeningHours openingHours={restaurant.openingHours} />
         </div>
+        <MenuViewer
+          onDayChange={this.onDayChange}
+          day={day}
+          restaurantId={restaurant.id} />
         <Map
           containerElement={<div className={css.mapContainer} />}
           mapElement={<div className={css.map} />}

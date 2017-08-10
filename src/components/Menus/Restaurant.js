@@ -13,7 +13,7 @@ import times from 'lodash/times'
 import random from 'lodash/random'
 
 import CourseList from '../CourseList'
-import {preferenceStore} from '../../store'
+import {preferenceStore, uiState} from '../../store'
 import Text from '../Text'
 import css from '../../styles/Restaurant.scss'
 
@@ -58,9 +58,9 @@ export default class Restaurant extends React.PureComponent {
     preferenceStore.setRestaurantStarred(restaurant.id, !restaurant.isStarred)
   }
   render() {
-    const {restaurant, dayOffset} = this.props
-    const dayOfWeek = moment().add(dayOffset, 'day').locale('fi').weekday()
-    const isClosed = dayOffset === 0 && !restaurant.isOpenNow
+    const {restaurant} = this.props
+    const dayOfWeek = uiState.day.locale('fi').weekday()
+    const isClosed = uiState.day.isSame(moment(), 'day') && !restaurant.isOpenNow
     return (
       <div className={c(css.container, {
         [css.empty]: restaurant.noCourses,

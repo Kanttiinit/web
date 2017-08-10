@@ -2,9 +2,6 @@
 import 'babel-core/register'
 import 'babel-polyfill'
 import React from 'react'
-import classnames from 'classnames'
-import Left from 'react-icons/lib/md/arrow-back'
-import Right from 'react-icons/lib/md/arrow-forward'
 import {withRouter, Switch, Route} from 'react-router-dom'
 import GA from 'react-ga'
 import key from 'keymaster'
@@ -24,39 +21,16 @@ import RestaurantModal from './RestaurantModal'
 
 window.isBeta = location.hostname === 'beta.kanttiinit.fi' || location.hostname === 'localhost'
 
-const Arrow = ({direction, visible}) => (
-  <div
-    className={classnames(css.arrow, visible && css.arrowVisible, direction === 'right' ? css.right : css.left)}>
-    {direction === 'right' ? <Right /> : <Left />}
-  </div>
-)
-
 class App extends React.PureComponent {
   state = {
     rightArrowVisible: false,
     leftArrowVisible: false
   };
 
-  swiped = (direction: number) => {
-    uiState.setDayOffset(uiState.dayOffset + direction)
-    this.setState({
-      rightArrowVisible: false,
-      leftArrowVisible: false
-    })
-  }
-
-  swiping = (direction: string) => (event: Event, amount: number) => {
-    const canGoLeft = uiState.dayOffset > 0 || direction === 'right'
-    const canGoRight = uiState.dayOffset !== uiState.maxDayOffset
-    if (direction === 'left' && canGoLeft || direction === 'right' && canGoRight) {
-      this.setState({[direction + 'ArrowVisible']: Math.min(1, amount / 100)})
-    }
-  }
-
   componentWillMount() {
     key('left,right', (event, handler) => {
       const offset = handler.shortcut === 'left' ? -1 : 1
-      uiState.setDayOffset(uiState.dayOffset + offset)
+      uiState.moveDayBy(offset)
     })
 
     GA.initialize('UA-85003235-1', {
@@ -65,6 +39,10 @@ class App extends React.PureComponent {
   }
 
   componentWillReceiveProps(props) {
+    if (props.location.search !== this.props.location.search) {
+      uiState.updateDay(location)
+    }
+
     if (props.location.pathname !== this.props.location.pathname) {
       const pathname = props.location.pathname
       GA.set({page: pathname})
@@ -72,21 +50,18 @@ class App extends React.PureComponent {
     }
   }
 
+  componentDidMount() {
+    uiState.updateDay(location)
+  }
+
   render() {
     const {location} = this.props
-    const {leftArrowVisible, rightArrowVisible} = this.state
     return (
       <div>
-        <Arrow
-          visible={leftArrowVisible}
-          direction="left" />
         <div className={css.container}>
           <Menus />
           <Footer path={location.pathname} />
         </div>
-        <Arrow
-          visible={rightArrowVisible}
-          direction="right" />
         <Switch>
           <Route exact path="/" />
           <Route path="/settings/favorites">

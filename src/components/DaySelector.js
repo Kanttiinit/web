@@ -1,31 +1,43 @@
 // @flow
 import React from 'react'
+import ReactDOM from 'react-dom'
+import {observer} from 'mobx-react'
+import {Link} from 'react-router-dom'
 import moment from 'moment'
 import times from 'lodash/times'
 
+import {uiState} from '../store'
 import css from '../styles/DaySelector.scss'
 import Text from './Text'
 
+@observer
 export default class DaySelector extends React.PureComponent {
-  props: {
-    dayOffset: number,
-    onChange: number => void
+  focus = (e: Element) => {
+    if (e) {
+      const node = ReactDOM.findDOMNode(e)
+      if (node instanceof HTMLElement) {
+        node.focus()
+      }
+    }
   }
 
   render() {
-    const {dayOffset, onChange} = this.props
-
+    const date = uiState.day
     return (
       <div className={css.days}>
-        {times(6, i =>
-        <button
-          key={i}
-          ref={e => i === dayOffset && e && e.focus()}
-          className={i === dayOffset ? css.selected : ''}
-          onClick={() => onChange(i)}>
-          <Text moment={moment().add(i, 'day')} id="dd D.M." />
-        </button>
-        )}
+        {times(6, i => {
+          const day = moment().add({day: i})
+          const active = date.isSame(day, 'day')
+          return (
+            <Link
+              key={i}
+              ref={active && this.focus}
+              className={active ? css.selected : ''}
+              to={uiState.getNewPath(day)}>
+              <Text moment={day} id="dd D.M." />
+            </Link>
+          )
+        })}
       </div>
     )
   }

@@ -1,21 +1,24 @@
 // @flow
 import React from 'react'
-import moment from 'moment'
+import {autorun} from 'mobx'
+import {observer} from 'mobx-react'
 import classnames from 'classnames'
 import Collapse from 'react-collapse'
 
+import {uiState} from '../store'
 import CourseList from './CourseList'
 import DaySelector from './DaySelector'
 import {getCourses} from '../utils/api'
 import css from '../styles/MenuViewer.scss'
 
 type Props = {|
-  restaurantId: number,
-  day: moment.Moment,
-  onDayChange: moment.Moment => void
+  restaurantId: number
 |};
 
+@observer
 export default class MenuViewer extends React.PureComponent {
+  removeAutorun: Function;
+  props: Props;
   state: {
     courses: Array<any>,
     loading: boolean,
@@ -26,39 +29,27 @@ export default class MenuViewer extends React.PureComponent {
     error: null
   };
 
-  updateMenu = async (props: Props) => {
-    if (props.restaurantId && props.day) {
+  componentDidMount() {
+    this.removeAutorun = autorun(async () => {
       try {
         this.setState({loading: true})
-        const courses = await getCourses(props.restaurantId, props.day)
+        const courses = await getCourses(this.props.restaurantId, uiState.day)
         this.setState({courses, loading: false, error: null})
       } catch (error) {
         this.setState({error, loading: false})
       }
-    }
+    })
   }
 
-  onDayChange = (offset: number) => {
-    const day = moment().add({day: offset})
-    this.props.onDayChange(day)
-  }
-
-  componentWillReceiveProps(props: Props) {
-    this.updateMenu(props)
-  }
-
-  componentDidMount() {
-    this.updateMenu(this.props)
+  componentWillUnmount() {
+    this.removeAutorun()
   }
 
   render() {
-    const {day} = this.props
     const {courses, loading} = this.state
     return (
       <div className={css.container}>
-        <DaySelector
-          onChange={this.onDayChange}
-          dayOffset={day.startOf('day').diff(moment().startOf('day'), 'days')} />
+        <DaySelector />
         <Collapse isOpened>
           <CourseList
             className={classnames(css.courseList, loading && css.coursesLoading)}

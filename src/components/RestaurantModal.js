@@ -112,12 +112,10 @@ export default class RestaurantModal extends React.PureComponent {
   props: Props
   state: {
     restaurant: ?RestaurantType,
-    notFound: boolean,
-    day: moment.Moment
+    notFound: boolean
   } = {
     restaurant: null,
-    notFound: false,
-    day: moment()
+    notFound: false
   }
 
   async fetchRestaurant(restaurantId: number) {
@@ -133,10 +131,6 @@ export default class RestaurantModal extends React.PureComponent {
     this.setState({restaurant})
   }
 
-  onDayChange = (day: moment.Moment) => {
-    this.setState({day})
-  }
-
   componentWillReceiveProps(props: Props) {
     if (props.restaurantId !== this.props.restaurantId) {
       this.fetchRestaurant(props.restaurantId)
@@ -148,7 +142,7 @@ export default class RestaurantModal extends React.PureComponent {
   }
 
   render() {
-    const {restaurant, notFound, day} = this.state
+    const {restaurant, notFound} = this.state
     if (notFound) {
       return <p>Ravintolaa ei löytynyt!</p>
     }
@@ -172,10 +166,7 @@ export default class RestaurantModal extends React.PureComponent {
           </div>
           <OpeningHours openingHours={restaurant.openingHours} />
         </div>
-        <MenuViewer
-          onDayChange={this.onDayChange}
-          day={day}
-          restaurantId={restaurant.id} />
+        <MenuViewer restaurantId={restaurant.id} />
         <Map
           containerElement={<div className={css.mapContainer} />}
           mapElement={<div className={css.map} />}

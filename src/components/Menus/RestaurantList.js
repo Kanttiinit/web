@@ -13,7 +13,6 @@ import Restaurant, {Placeholder} from './Restaurant'
 export default class RestaurantList extends React.PureComponent {
   renderContent() {
     const loading = dataStore.menus.pending || dataStore.restaurants.pending || dataStore.areas.pending
-    const dayOffset = uiState.dayOffset
     const restaurants = dataStore.formattedRestaurants
     if (loading) {
       return times(8, i => <Placeholder key={i} />)
@@ -34,8 +33,7 @@ export default class RestaurantList extends React.PureComponent {
     return restaurants.map(restaurant =>
       <Restaurant
         key={restaurant.id}
-        restaurant={restaurant}
-        dayOffset={dayOffset} />
+        restaurant={restaurant} />
     )
   }
 

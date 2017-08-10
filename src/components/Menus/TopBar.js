@@ -8,7 +8,7 @@ import FI from '../../assets/fi.png'
 import EN from '../../assets/en.png'
 
 import DaySelector from '../DaySelector'
-import {uiState, preferenceStore} from '../../store'
+import {preferenceStore} from '../../store'
 import css from '../../styles/TopBar.scss'
 import Text from '../Text'
 
@@ -18,17 +18,11 @@ export default class TopBar extends React.PureComponent {
     preferenceStore.toggleLanguage()
   }
 
-  onDayOffsetChange = (offset: number) => {
-    uiState.dayOffset = offset
-  }
-
   render() {
     return (
       <div className={css.container}>
         <div className={css.centered}>
-          <DaySelector
-            dayOffset={uiState.dayOffset}
-            onChange={this.onDayOffsetChange} />
+          <DaySelector />
           <Link to="/select-area" className={css.icon}>
             <AreaIcon size={18} />
             <Text id="selectArea" />

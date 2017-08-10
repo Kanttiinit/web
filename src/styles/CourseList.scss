@@ -1,0 +1,39 @@
+@import 'constants';
+
+.course {
+  padding-bottom: 0.2rem;
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  
+  &:not(:last-child) {
+    border-bottom: 1px solid #f5f5f5;
+  }
+}
+
+.icon {
+  margin-right: 0.5em;
+}
+
+.title {
+  flex: 1;
+}
+
+.props {
+  font-size: 0.7rem;
+  font-weight: 200;
+  display: inline;
+  color: $text_color_light;
+}
+
+.favoriteCourse {
+  color: #B71C1C;
+}
+
+.emptyText {
+  font-size: 1rem;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}

@@ -30,15 +30,11 @@
   border-bottom: 1px solid $light_gray;
   min-height: 20rem;
   height: 100%;
-}
-
-.menus {
-  padding: 1em;
-  flex: 2;
+  margin-top: 1rem;
 }
 
 .info {
-  padding: 2em;
+  padding: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

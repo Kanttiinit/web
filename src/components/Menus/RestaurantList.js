@@ -16,7 +16,7 @@ export default class RestaurantList extends React.PureComponent {
     const dayOffset = uiState.dayOffset
     const restaurants = dataStore.formattedRestaurants
     if (loading) {
-      return times(6, i => <Placeholder key={i} />)
+      return times(8, i => <Placeholder key={i} />)
     } else if (preferenceStore.selectedArea === -2) {
       if (!preferenceStore.useLocation) {
         return <Text id="turnOnLocation" element="p" className="notice" />

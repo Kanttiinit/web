@@ -1,9 +1,13 @@
 // @flow
 import React from 'react'
 import moment from 'moment'
+import classnames from 'classnames'
+import Collapse from 'react-collapse'
 
+import CourseList from './CourseList'
 import DaySelector from './DaySelector'
 import {getCourses} from '../utils/api'
+import css from '../styles/MenuViewer.scss'
 
 type Props = {|
   restaurantId: number,
@@ -51,13 +55,15 @@ export default class MenuViewer extends React.PureComponent {
     const {day} = this.props
     const {courses, loading} = this.state
     return (
-      <div>
+      <div className={css.container}>
         <DaySelector
           onChange={this.onDayChange}
           dayOffset={day.startOf('day').diff(moment().startOf('day'), 'days')} />
-        {loading ? <p>Loading...</p> : courses.map(course =>
-          <div>{course.title}</div>
-        )}
+        <Collapse isOpened>
+          <CourseList
+            className={classnames(css.courseList, loading && css.coursesLoading)}
+            courses={courses} />
+        </Collapse>
       </div>
     )
   }

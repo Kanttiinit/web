@@ -80,44 +80,6 @@
   margin-bottom: 0.5rem;
 }
 
-.emptyText {
-  font-size: 1rem;
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-}
-
-.course {
-  padding-bottom: 0.2rem;
-  margin-bottom: 0.2rem;
-  display: flex;
-  align-items: center;
-
-  .icon {
-    margin-right: 0.5em;
-  }
-
-  .title {
-    flex: 1;
-  }
-
-  .props {
-    font-size: 0.7rem;
-    font-weight: 200;
-    display: inline;
-    color: $text_color_light;
-  }
-
-  &:not(:last-child) {
-    border-bottom: 1px solid #f5f5f5;
-  }
-}
-
-.favoriteCourse {
-  color: #B71C1C;
-}
-
 .empty {
 
   .header h2 {

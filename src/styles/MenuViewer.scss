@@ -1,0 +1,11 @@
+.container {
+  padding: 0 1rem;
+}
+
+.courseList {
+  transition: opacity 0.2s;
+}
+
+.coursesLoading {
+  opacity: 0.5;
+}

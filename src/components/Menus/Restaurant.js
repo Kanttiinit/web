@@ -3,7 +3,6 @@ import React from 'react'
 import {observer} from 'mobx-react'
 import Walk from 'react-icons/lib/md/directions-walk'
 import Bike from 'react-icons/lib/md/directions-bike'
-import Heart from 'react-icons/lib/io/heart'
 import Location from 'react-icons/lib/io/pin'
 import Star from 'react-icons/lib/md/star'
 import More from 'react-icons/lib/md/more'
@@ -13,6 +12,7 @@ import moment from 'moment'
 import times from 'lodash/times'
 import random from 'lodash/random'
 
+import CourseList from '../CourseList'
 import {preferenceStore} from '../../store'
 import Text from '../Text'
 import css from '../../styles/Restaurant.scss'
@@ -78,19 +78,7 @@ export default class Restaurant extends React.PureComponent {
             {isClosed && <Text id="restaurantClosed" style={{display: 'block'}} element="small" />}
           </div>
         </div>
-        <div className={css.body}>
-          {restaurant.noCourses ?
-            <Text id="noMenu" element="span" className={css.emptyText} />
-            : restaurant.courses.map((course, i) => 
-            <div
-              className={c(css.course, course.isFavorite && css.favoriteCourse)}
-              key={i}>
-              {course.isFavorite && <Heart className={`inline-icon ${css.icon}`} />}
-              <span className={css.title}>{course.title}</span>
-              <span className={css.props}>{course.properties.join(' ')}</span>
-            </div>
-          )}
-        </div>
+        <CourseList className={css.body} courses={restaurant.courses} />
         <div className={css.restaurantActions}>
           <a
             onClick={this.toggleStar}

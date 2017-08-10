@@ -21,6 +21,11 @@ export default class UIState {
     this.date = day ? moment(day) : null
   }
 
+  isDateInRange(date: moment.Moment) {
+    const now = moment()
+    return now.isSameOrBefore(date, 'day') && date.isSameOrBefore(now.add({day: this.maxDayOffset}), 'day')
+  }
+
   getNewPath(date: moment.Moment) {
     const regexp = /day\=[^\&$]+/
     if (date.isSame(moment(), 'day')) {

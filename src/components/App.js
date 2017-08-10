@@ -30,10 +30,9 @@ class App extends React.PureComponent {
 
   componentWillMount() {
     key('left,right', (event, handler) => {
-      const now = moment()
       const offset = handler.shortcut === 'left' ? -1 : 1
       const newDay = moment(uiState.day).add({day: offset})
-      if (now.isSameOrBefore(newDay, 'day') && newDay.isSameOrBefore(now.add({day: uiState.maxDayOffset}), 'day')) {
+      if (uiState.isDateInRange(newDay)) {
         this.props.history.replace(uiState.getNewPath(newDay))
       }
     })

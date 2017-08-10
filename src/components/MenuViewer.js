@@ -49,7 +49,7 @@ export default class MenuViewer extends React.PureComponent {
     const {courses, loading} = this.state
     return (
       <div className={css.container}>
-        <DaySelector />
+        <DaySelector root={location.pathname} />
         <Collapse isOpened>
           <CourseList
             className={classnames(css.courseList, loading && css.coursesLoading)}

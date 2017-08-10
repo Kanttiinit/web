@@ -22,7 +22,7 @@ export default class TopBar extends React.PureComponent {
     return (
       <div className={css.container}>
         <div className={css.centered}>
-          <DaySelector />
+          <DaySelector root="/" />
           <Link to={{pathname: '/select-area', search: location.search}} className={css.icon}>
             <AreaIcon size={18} />
             <Text id="selectArea" />

@@ -1,5 +1,18 @@
-.container {
-  padding: 0 1rem;
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.copyButton {
+  cursor: pointer;
+
+  textarea {
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+    width: 1px;
+    height: 1px;
+  }
 }
 
 .courseList {

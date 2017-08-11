@@ -9,6 +9,7 @@ import {observer} from 'mobx-react'
 
 import http from '../utils/http'
 import {dataStore, uiState} from '../store'
+import PageContainer from './PageContainer'
 import type {RestaurantType} from '../store/types'
 import MenuViewer from './MenuViewer'
 import css from '../styles/RestaurantModal.scss'
@@ -158,12 +159,9 @@ export default class RestaurantModal extends React.PureComponent {
       lng: uiState.location.longitude
     } : undefined
     return (
-      <div className={css.container}>
+      <PageContainer title={restaurant.name}>
         <div className={css.info}>
-          <div>
-            <h1>{restaurant.name}</h1>
-            <Meta restaurant={restaurant} />
-          </div>
+          <Meta restaurant={restaurant} />
           <OpeningHours openingHours={restaurant.openingHours} />
         </div>
         <MenuViewer showCopyButton restaurantId={restaurant.id} />
@@ -173,7 +171,7 @@ export default class RestaurantModal extends React.PureComponent {
           restaurant={restaurant}
           restaurantPoint={restaurantPoint}
           userPoint={userPoint} />
-      </div>
+      </PageContainer>
     )
   }
 }

@@ -57,21 +57,24 @@ export default class MenuViewer extends React.PureComponent {
     const {showCopyButton} = this.props
     return (
       <div className={css.container}>
-        <DaySelector root={location.pathname} />
+        <div className={css.header}>
+          <DaySelector root={location.pathname} />
+          {showCopyButton &&
+            <div className={css.copyButton}>
+              <textarea
+                ref="textarea"
+                value={courses.map(c => `${c.title} (${c.properties.join(', ')})`).join('\n')} />
+              <CopyIcon
+                size={18}
+                onClick={this.onCopy} />
+            </div>
+          }
+        </div>
         <Collapse isOpened>
           <CourseList
             className={classnames(css.courseList, loading && css.coursesLoading)}
             courses={courses} />
         </Collapse>
-        {showCopyButton &&
-          <div>
-            <textarea
-              ref="textarea"
-              style={{opacity: 0, position: 'absolute', pointerEvents: 'none'}}
-              value={courses.map(c => c.title + ' (' + c.properties.join(', ') + ')').join('\n')} />
-            <CopyIcon size={18} onClick={this.onCopy} />
-          </div>
-        }
       </div>
     )
   }

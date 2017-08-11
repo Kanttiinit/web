@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import {withRouter} from 'react-router-dom'
 import {observer} from 'mobx-react'
 import {Link} from 'react-router-dom'
 import AreaIcon from 'react-icons/lib/md/map'
@@ -13,21 +14,22 @@ import css from '../../styles/TopBar.scss'
 import Text from '../Text'
 
 @observer
-export default class TopBar extends React.PureComponent {
+export default withRouter(class TopBar extends React.PureComponent {
   toggleLanguage = () => {
     preferenceStore.toggleLanguage()
   }
 
   render() {
+    const {search} = this.props.location
     return (
       <div className={css.container}>
         <div className={css.centered}>
           <DaySelector root="/" />
-          <Link to={{pathname: '/select-area', search: location.search}} className={css.icon}>
+          <Link to={{pathname: '/select-area', search}} className={css.icon}>
             <AreaIcon size={18} />
             <Text id="selectArea" />
           </Link>
-          <Link to={{pathname: '/settings', search: location.search}} className={css.icon}>
+          <Link to={{pathname: '/settings', search}} className={css.icon}>
             <SettingsIcon size={18} />
             <Text id="settings" />
           </Link>
@@ -38,4 +40,4 @@ export default class TopBar extends React.PureComponent {
       </div>
     )
   }
-}
+})

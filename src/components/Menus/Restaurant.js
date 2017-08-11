@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import {observer} from 'mobx-react'
+import {withRouter} from 'react-router-dom'
 import Walk from 'react-icons/lib/md/directions-walk'
 import Bike from 'react-icons/lib/md/directions-bike'
 import Location from 'react-icons/lib/io/pin'
@@ -52,7 +53,7 @@ export class Placeholder extends React.Component {
 }
 
 @observer
-export default class Restaurant extends React.PureComponent {
+export default withRouter(class Restaurant extends React.PureComponent {
   toggleStar = () => {
     const {restaurant} = this.props
     preferenceStore.setRestaurantStarred(restaurant.id, !restaurant.isStarred)
@@ -89,11 +90,11 @@ export default class Restaurant extends React.PureComponent {
           &nbsp;
           <Link
             className={css.actionIcon}
-            to={{pathname: `/restaurant/${restaurant.id}`, search: location.search}}>
+            to={{pathname: `/restaurant/${restaurant.id}`, search: this.props.location.search}}>
             <More size={18} />
           </Link>
         </div>
       </div>
     )
   }
-}
+})

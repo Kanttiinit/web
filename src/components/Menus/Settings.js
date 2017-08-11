@@ -1,14 +1,11 @@
 // @flow
 import React from 'react'
-import Facebook from 'react-icons/lib/fa/facebook-official'
-import Google from 'react-icons/lib/fa/google'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import {observer} from 'mobx-react'
 
-import {preferenceStore, dataStore} from '../../store'
+import {preferenceStore} from '../../store'
 import {orders} from '../../store/PreferenceStore'
 import type {Order} from '../../store/PreferenceStore'
-import http from '../../utils/http'
 import css from '../../styles/Settings.scss'
 import Text from '../Text'
 import Radio from '../Radio'
@@ -22,13 +19,13 @@ const Item = ({label, children}) => (
 )
 
 @observer
-export default class Settings extends React.PureComponent {
+export default withRouter(class Settings extends React.PureComponent {
   setOrder = (value: Order) => {preferenceStore.order = value}
   setUseLocation = (value: boolean) => {preferenceStore.useLocation = value}
   render() {
     return (
       <PageContainer title={<Text id="settings" />}>
-        <Link className={css.favorites} to={{pathname: '/settings/favorites', search: location.search}}>
+        <Link className={css.favorites} to={{pathname: '/settings/favorites', search: this.props.location.search}}>
           <Text id="favorites" className="button" element="button" />
         </Link>
         <Item label={<Text id="language" />}>
@@ -61,4 +58,4 @@ export default class Settings extends React.PureComponent {
       </PageContainer>
     )
   }
-}
+})

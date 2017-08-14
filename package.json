@@ -51,6 +51,7 @@
   },
   "scripts": {
     "develop": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js  --hot --inline",
+    "watch": "webpack -w",
     "postinstall": "node node_modules/.bin/webpack",
     "start": "node index.js"
   },

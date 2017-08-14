@@ -1,36 +1,64 @@
+import 'babel-core/register'
+import 'babel-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import http from '../src/utils/http'
 import AdminInterface from './AdminInterface'
 import models from './models'
 
-class BaseView extends React.Component {
-  constructor() {
-    super()
-    this.state = {}
-  }
-  updateMenus() {
+class BaseView extends React.PureComponent {
+  state = {};
+
+  updateMenus = async () => {
     this.setState({updatingRestaurants: true})
-    http.post('/admin/update-restaurants')
-    .then(() => this.setState({updatingRestaurants: false}))
+    await http.post('/admin/update-restaurants')
+    this.setState({updatingRestaurants: false})
   }
-  changeModel(model = this.state.currentModel) {
-    http.get('/admin/' + model.name.toLowerCase(), true)
-    .then(response => {
+
+  changeModel = async (model = this.state.currentModel) => {
+    try {
+      const response = await http.get('/admin/' + model.name.toLowerCase(), true)
       this.setState({
         currentModel: model,
-        items: response
+        items: response,
+        unauthorized: false
       })
-    })
-    .catch(() => this.setState({unauthorized: true}))
+    } catch (e) {
+      this.setState({unauthorized: true})
+    }
   }
+
   componentDidMount() {
     this.changeModel(models[0])
   }
+
+  login = async (e) => {
+    e.preventDefault()
+    const password = e.target.elements[0].value
+    try {
+      await http.post('/admin/login', {password})
+      this.changeModel(models[0])
+    } catch (e) {
+      alert(e.message)
+    }
+  }
+
+  logout = async () => {
+    await http.post('/admin/logout')
+    this.changeModel(models[0])
+  }
+
   render() {
     const {currentModel, items, unauthorized} = this.state
     if (unauthorized) {
-      return <p>Unauthorized.</p>
+      return (
+        <form className="form-inline" onSubmit={this.login}>
+          <br />
+          <input className="form-control" placeholder="Password" type="password" />
+          &nbsp;
+          <button className="btn btn-primary">Log in</button>
+        </form>
+      )
     }
     return (
       <div>
@@ -43,7 +71,18 @@ class BaseView extends React.Component {
           )}
         </ul>
         <div style={{position: 'absolute', top: 0, right: 0, padding: '0.5em'}}>
-          <button className="btn btn-primary btn-sm" disabled={this.state.updatingRestaurants} onClick={this.updateMenus.bind(this)}>{this.state.updatingRestaurants ? 'Updating...' : 'Update menus'}</button>
+          <button
+            className="btn btn-primary btn-sm"
+            disabled={this.state.updatingRestaurants}
+            onClick={this.updateMenus.bind(this)}>
+            {this.state.updatingRestaurants ? 'Updating...' : 'Update menus'}
+          </button>
+          &nbsp;
+          <button
+            className="btn btn-warning btn-sm"
+            onClick={this.logout}>
+            Log out
+          </button>
         </div>
         <AdminInterface onUpdate={() => this.changeModel()} model={currentModel} items={items} />
       </div>

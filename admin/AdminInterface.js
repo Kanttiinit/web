@@ -33,8 +33,11 @@ export default class AdminInterface extends React.PureComponent {
   onEditorChange = editorContent => this.setState({editorContent})
 
   openEditor = (item, editing) => {
+    const cleaned = {...item}
+    delete cleaned.createdAt
+    delete cleaned.updatedAt
     this.setState({
-      editorContent: JSON.stringify(item, null, '  '),
+      editorContent: JSON.stringify(cleaned, null, '  '),
       mode: editing ? 'editing' : 'creating'
     })
   }

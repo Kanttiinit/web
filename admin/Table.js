@@ -11,6 +11,10 @@ export default class Table extends React.PureComponent {
     const {headers, data, renderItem, sortBy} = this.props
     const {field = sortBy, desc} = this.state
 
+    if (!data.length) {
+      return <p>Nothing here!</p>
+    }
+
     return (
       <table className="table table-striped table-hover">
         <thead>

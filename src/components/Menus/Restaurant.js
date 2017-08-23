@@ -7,6 +7,7 @@ import Bike from 'react-icons/lib/md/directions-bike'
 import Location from 'react-icons/lib/io/pin'
 import Star from 'react-icons/lib/md/star'
 import More from 'react-icons/lib/md/more'
+import Flag from 'react-icons/lib/md/flag'
 import c from 'classnames'
 import {Link} from 'react-router-dom'
 import moment from 'moment'
@@ -62,6 +63,7 @@ export default withRouter(class Restaurant extends React.PureComponent {
     const {restaurant} = this.props
     const dayOfWeek = uiState.day.locale('fi').weekday()
     const isClosed = uiState.day.isSame(moment(), 'day') && !restaurant.isOpenNow
+    const {search} = this.props.location
     return (
       <div className={c(css.container, {
         [css.empty]: restaurant.noCourses,
@@ -81,18 +83,25 @@ export default withRouter(class Restaurant extends React.PureComponent {
         </div>
         <CourseList className={css.body} courses={restaurant.courses} />
         <div className={css.restaurantActions}>
-          <a
-            onClick={this.toggleStar}
-            style={{color: restaurant.isStarred ? '#e6c100' : undefined}}
-            className={css.actionIcon}>
-            <Star size={18} />
-          </a>
-          &nbsp;
           <Link
             className={css.actionIcon}
-            to={{pathname: `/restaurant/${restaurant.id}`, search: this.props.location.search}}>
-            <More size={18} />
+            to={{pathname: `/report/${restaurant.id}`, search}}>
+            <Flag size={18} />
           </Link>
+          <div style={{marginLeft: 'auto'}}>
+            <a
+              onClick={this.toggleStar}
+              style={{color: restaurant.isStarred ? '#e6c100' : undefined}}
+              className={css.actionIcon}>
+              <Star size={18} />
+            </a>
+            &nbsp;
+            <Link
+              className={css.actionIcon}
+              to={{pathname: `/restaurant/${restaurant.id}`, search}}>
+              <More size={18} />
+            </Link>
+          </div>
         </div>
       </div>
     )

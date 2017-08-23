@@ -107,18 +107,6 @@ export default {
     fi: 'Valitse alue',
     en: 'Select area'
   },
-  logout: {
-    fi: 'Kirjaudu ulos',
-    en: 'Log out'
-  },
-  facebookLogin: {
-    fi: 'Kirjaudu sisään Facebookilla',
-    en: 'Facebook login'
-  },
-  googleLogin: {
-    fi: 'Kirjaudu sisään Googlella',
-    en: 'Google login'
-  },
   save: {
     fi: 'Tallenna',
     en: 'Save'
@@ -194,5 +182,25 @@ export default {
   turnOnLocation: {
     fi: <span>Laita sijainti päälle <Link to="/settings">asetuksista.</Link></span>,
     en: <span>Turn on location <Link to="/settings">in the settings.</Link></span>
+  },
+  reportDataTitle: {
+    fi: 'Ilmoita virheellisestä tiedosta',
+    en: 'Report incorrect data'
+  },
+  reportLabel: {
+    fi: 'Mikä tieto on väärin?',
+    en: 'What seems to be incorrect?'
+  },
+  reportEmail: {
+    fi: 'Sähköpostiosoitteesi (valinnainen)',
+    en: 'Your e-mail address (optional)'
+  },
+  report: {
+    fi: 'Ilmoita',
+    en: 'Report'
+  },
+  reporting: {
+    fi: 'Lähetetään...',
+    en: 'Reporting...'
   }
 }

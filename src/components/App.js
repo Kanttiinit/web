@@ -19,6 +19,7 @@ import Settings from './Menus/Settings'
 import AreaSelector from './Menus/AreaSelector'
 import FavoriteSelector from './Menus/FavoriteSelector'
 import RestaurantModal from './RestaurantModal'
+import ReportModal from './ReportModal'
 
 window.isBeta = location.hostname === 'beta.kanttiinit.fi' || location.hostname === 'localhost'
 
@@ -85,7 +86,16 @@ class App extends React.PureComponent {
           </Route>
           <Route path="/restaurant/:id">
             {({match}) =>
-            <Modal><RestaurantModal restaurantId={match.params.id} /></Modal>
+            <Modal>
+              <RestaurantModal restaurantId={match.params.id} />
+            </Modal>
+            }
+          </Route>
+          <Route path="/report/:restaurantId">
+            {({match}) =>
+            <Modal>
+              <ReportModal restaurantId={match.params.restaurantId} />
+            </Modal>
             }
           </Route>
           <Route path="*">

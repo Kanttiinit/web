@@ -102,10 +102,15 @@
   font-size: 0.75em;
   text-transform: uppercase;
   font-weight: 500;
+  display: flex;
 
   .actionIcon {
     margin-right: 1ch;
     color: inherit;
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 }
 

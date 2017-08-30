@@ -1,5 +1,17 @@
 @import 'constants';
 
+.courseGroup {
+  &:not(:last-child) {
+    margin-bottom: 0.5rem;
+  }
+}
+
+.courseGroupTitle {
+  display: block;
+  color: $dark_gray;
+  margin-bottom: 0.2rem;
+}
+
 .course {
   padding-bottom: 0.2rem;
   margin-bottom: 0.2rem;

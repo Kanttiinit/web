@@ -3,6 +3,7 @@ import React from 'react'
 import Heart from 'react-icons/lib/io/heart'
 import c from 'classnames'
 import _ from 'lodash'
+import moize from 'moize'
 
 import type {CourseType} from '../store/types'
 import Text from './Text'
@@ -13,14 +14,15 @@ const prefixer = (title: string) => {
   return split.length > 1 ? _.get(split, ['0'], '') : ''
 }
 
-const groupByPrefix = (courses: Array<CourseType>): Array<any> =>
-  _.groupBy(courses, c => prefixer(c.title))
-
-const courseGroups = (courses: Array<CourseType>) => 
-  _.values(_.mapValues(groupByPrefix(courses), (group, groupKey) => ({
+const courseGroups = (courses: Array<CourseType>) => {
+  const grouped = _.groupBy(courses, c => prefixer(c.title))
+  return _.values(_.mapValues(grouped, (group, groupKey) => ({
     key: groupKey,
     courses: group.map(c => ({ ...c, title: c.title.replace(groupKey + ': ', '') }))
   })))
+}
+
+const moizedGroups = moize(courseGroups)
 
 const Course = ({course}: {course: CourseType}) => (
   <div
@@ -42,7 +44,7 @@ export default class CourseList extends React.PureComponent {
     return (
       <div {...props}>
         {!courses.length && <Text id="noMenu" element="span" className={css.emptyText} />}
-        {courseGroups(courses).map(group => (
+        {moizedGroups(courses).map(group => (
           <div className={css.courseGroup}>
             <span className={css.courseGroupTitle}>{ _.capitalize(group.key) }</span>
             {group.courses.map((c, i) => <Course key={i} course={c} />)}

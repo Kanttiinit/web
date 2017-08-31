@@ -202,5 +202,9 @@ export default {
   reporting: {
     fi: 'Lähetetään...',
     en: 'Reporting...'
+  },
+  otherClients: {
+    fi: 'Muut käyttöliittymät',
+    en: 'Other clients'
   }
 }

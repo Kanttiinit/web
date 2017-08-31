@@ -20,6 +20,7 @@ import AreaSelector from './Menus/AreaSelector'
 import FavoriteSelector from './Menus/FavoriteSelector'
 import RestaurantModal from './RestaurantModal'
 import ReportModal from './ReportModal'
+import Clients from './Clients'
 
 window.isBeta = location.hostname === 'beta.kanttiinit.fi' || location.hostname === 'localhost'
 
@@ -83,6 +84,9 @@ class App extends React.PureComponent {
           </Route>
           <Route path="/select-area">
             <Modal><AreaSelector /></Modal>
+          </Route>
+          <Route path="/clients">
+            <Modal><Clients /></Modal>
           </Route>
           <Route path="/restaurant/:id">
             {({match}) =>

@@ -1,6 +1,7 @@
 // @flow
 import {observable, action} from 'mobx'
 import moment from 'moment'
+import haversine from 'haversine'
 
 const dateFormat = 'YYYY-MM-DD'
 
@@ -37,6 +38,12 @@ export default class UIState {
   }
 
   @action setLocation(location: Coordinates) {
+    if (this.location) {
+      const distance = haversine(this.location, location, {unit: 'meter'})
+      if (distance < 400) {
+        return
+      }
+    }
     this.location = location
   }
 }

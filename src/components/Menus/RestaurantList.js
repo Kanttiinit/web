@@ -3,6 +3,7 @@ import React from 'react'
 import {observer} from 'mobx-react'
 import Error from 'react-icons/lib/md/error'
 import times from 'lodash/times'
+import locating from '../../assets/locating.svg'
 
 import {dataStore, uiState, preferenceStore} from '../../store'
 import Text from '../Text'
@@ -20,7 +21,12 @@ export default class RestaurantList extends React.PureComponent {
       if (!preferenceStore.useLocation) {
         return <Text id="turnOnLocation" element="p" className="notice" />
       } else if (!uiState.location) {
-        return <Text id="locating" element="p" className="notice" />
+        return (
+          <div>
+            <img src={locating} />
+            <Text id="locating" element="p" className="notice" />
+          </div>
+        )
       }
     } else if (!restaurants.length) {
       return (

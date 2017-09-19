@@ -10,6 +10,7 @@ import css from '../../styles/Settings.scss'
 import Text from '../Text'
 import Radio from '../Radio'
 import PageContainer from '../PageContainer'
+import FavoriteSelector from './FavoriteSelector'
 
 const Item = ({label, children}) => (
   <div className="settings-item">
@@ -25,9 +26,6 @@ export default withRouter(class Settings extends React.PureComponent {
   render() {
     return (
       <PageContainer title={<Text id="settings" />}>
-        <Link className={css.favorites} to={{pathname: '/settings/favorites', search: this.props.location.search}}>
-          <Text id="favorites" className="button" element="button" />
-        </Link>
         <Item label={<Text id="language" />}>
           <Radio
             options={[
@@ -54,6 +52,9 @@ export default withRouter(class Settings extends React.PureComponent {
             ]}
             selected={preferenceStore.useLocation}
             onChange={this.setUseLocation} />
+        </Item>
+        <Item label={<Text id="favorites" />}>
+          <FavoriteSelector />
         </Item>
       </PageContainer>
     )

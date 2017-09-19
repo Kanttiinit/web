@@ -50,7 +50,7 @@
     font-weight: 400;
     margin: 0;
     max-width: 60%;
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 
   .meta {
@@ -60,7 +60,7 @@
 
   @media (max-width: $break-small) {
     h2 {
-      font-size: 1rem;
+      font-size: 1.1rem;
     }
 
     .meta {
@@ -75,7 +75,6 @@
   flex: 1;
   min-height: 5rem;
   font-size: 0.9em;
-  font-weight: 300;
   color: #464646;
   margin-bottom: 0.5rem;
 }

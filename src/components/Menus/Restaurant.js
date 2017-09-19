@@ -14,6 +14,7 @@ import moment from 'moment'
 import times from 'lodash/times'
 import random from 'lodash/random'
 
+import Colon from '../Colon'
 import CourseList from '../CourseList'
 import {preferenceStore, uiState} from '../../store'
 import Text from '../Text'
@@ -77,7 +78,9 @@ export default withRouter(class Restaurant extends React.PureComponent {
             }
           </h2>
           <div className={css.meta} style={{textAlign: 'right'}}>
-            {restaurant.openingHours[dayOfWeek] && restaurant.openingHours[dayOfWeek].replace('-', '–')}
+            {restaurant.openingHours[dayOfWeek] &&
+              <Colon>{restaurant.openingHours[dayOfWeek].replace('-', '–')}</Colon>
+            }
             {isClosed && <Text id="restaurantClosed" style={{display: 'block'}} element="small" />}
           </div>
         </div>

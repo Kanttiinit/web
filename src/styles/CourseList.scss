@@ -19,6 +19,7 @@
   display: flex;
   align-items: center;
   user-select: initial;
+  font-weight: 300;
   
   &:not(:last-child) {
     border-bottom: 1px solid #f5f5f5;
@@ -35,7 +36,7 @@
 
 .props {
   font-size: 0.7rem;
-  font-weight: 200;
+  font-weight: 300;
   display: inline;
   color: $text_color_light;
 }

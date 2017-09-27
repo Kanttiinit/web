@@ -4,6 +4,7 @@ import {autorun} from 'mobx'
 import {observer} from 'mobx-react'
 import classnames from 'classnames'
 import CopyIcon from 'react-icons/lib/md/content-copy'
+import LinkIcon from 'react-icons/lib/md/link'
 
 import {uiState} from '../store'
 import CourseList from './CourseList'
@@ -31,9 +32,17 @@ export default class MenuViewer extends React.PureComponent {
     error: null
   }
 
-  onCopy = () => {
-    this.refs.textarea.select()
+  onCopy = (target: string) => {
+    const textArea = document.createElement('textarea')
+    if (target === 'courses') {
+      textArea.value = this.state.courses.map(c => `${c.title} (${c.properties.join(', ')})`).join('\n')
+    } else  if (target === 'url') {
+      textArea.value = location.href
+    }
+    document.body.appendChild(textArea)
+    textArea.select()
     document.execCommand('copy')
+    textArea.remove()
   }
 
   componentDidMount() {
@@ -60,13 +69,13 @@ export default class MenuViewer extends React.PureComponent {
         <div className={css.header}>
           <DaySelector root={location.pathname} />
           {showCopyButton &&
-            <div className={css.copyButton}>
-              <textarea
-                ref="textarea"
-                value={courses.map(c => `${c.title} (${c.properties.join(', ')})`).join('\n')} />
+            <div className={css.copyButtons}>
+              <LinkIcon
+                size={18}
+                onClick={() => this.onCopy('url')} />
               <CopyIcon
                 size={18}
-                onClick={this.onCopy} />
+                onClick={() => this.onCopy('courses')} />
             </div>
           }
         </div>

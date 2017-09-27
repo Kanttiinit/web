@@ -9,7 +9,11 @@
   border-bottom: 1px solid $light_gray;
   min-height: 20rem;
   height: 100%;
-  margin-top: 1rem;
+  margin: 1rem -1rem -1rem -1rem;
+
+  @media (max-width: $break_small) {
+    display: none;
+  }
 }
 
 .info {
@@ -19,15 +23,18 @@
   justify-content: space-between;
   align-items: center;
   color: $text_color_light;
-  font-size: 0.9rem;
-  margin-top: -1rem;
+  font-size: 0.8rem;
+  line-height: 1.5em;
+
+  @media (max-width: $break_small) {
+    font-size: 0.7em;
+    align-items: flex-start;
+  }
 }
 
 .meta a {
   text-transform: uppercase;
   display: block;
-  margin-top: 0.2rem;
-  opacity: 0.6;
 
   &:hover {
     opacity: 0.8;
@@ -36,6 +43,8 @@
 
 .openingHoursContainer {
   display: table;
+  position: relative;
+  z-index: 1;
 }
 
 .openingHours {

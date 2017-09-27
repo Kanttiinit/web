@@ -3,7 +3,6 @@ import React from 'react'
 import {autorun} from 'mobx'
 import {observer} from 'mobx-react'
 import classnames from 'classnames'
-import Collapse from 'react-collapse'
 import CopyIcon from 'react-icons/lib/md/content-copy'
 
 import {uiState} from '../store'
@@ -14,8 +13,9 @@ import css from '../styles/MenuViewer.scss'
 
 type Props = {|
   restaurantId: number,
-  showCopyButton?: boolean
-|};
+  showCopyButton?: boolean,
+  maxHeight?: number
+|}
 
 @observer
 export default class MenuViewer extends React.PureComponent {
@@ -29,7 +29,7 @@ export default class MenuViewer extends React.PureComponent {
     courses: [],
     loading: false,
     error: null
-  };
+  }
 
   onCopy = () => {
     this.refs.textarea.select()
@@ -70,11 +70,9 @@ export default class MenuViewer extends React.PureComponent {
             </div>
           }
         </div>
-        <Collapse isOpened>
-          <CourseList
-            className={classnames(css.courseList, loading && css.coursesLoading)}
-            courses={courses} />
-        </Collapse>
+        <CourseList
+          className={classnames(css.courseList, loading && css.coursesLoading)}
+          courses={courses} />
       </div>
     )
   }

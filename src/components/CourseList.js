@@ -48,7 +48,7 @@ export default class CourseList extends React.PureComponent {
       <div {...props}>
         {!courses.length && <Text id="noMenu" element="span" className={css.emptyText} />}
         {moizedGroups(courses).map(group => (
-          <div className={css.courseGroup}>
+          <div key={group.key} className={css.courseGroup}>
             <span className={css.courseGroupTitle}>{ capitalize(group.key) }</span>
             {group.courses.map((c, i) => <Course key={i} course={c} />)}
           </div>

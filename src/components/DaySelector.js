@@ -37,7 +37,7 @@ class DayLink extends React.PureComponent {
 }
 
 @observer
-export default class DaySelector extends React.PureComponent {
+export default class DaySelector extends React.Component {
   props: {|
     root: string
   |}

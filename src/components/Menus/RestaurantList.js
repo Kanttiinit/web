@@ -11,7 +11,7 @@ import css from '../../styles/RestaurantList.scss'
 import Restaurant, {Placeholder} from './Restaurant'
 
 @observer
-export default class RestaurantList extends React.PureComponent {
+export default class RestaurantList extends React.Component {
   renderContent() {
     const loading = dataStore.menus.pending || dataStore.restaurants.pending || dataStore.areas.pending
     const restaurants = dataStore.formattedRestaurants

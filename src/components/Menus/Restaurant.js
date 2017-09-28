@@ -55,7 +55,7 @@ export class Placeholder extends React.Component {
 }
 
 @observer
-export default withRouter(class Restaurant extends React.PureComponent {
+export default withRouter(class Restaurant extends React.Component {
   toggleStar = () => {
     const {restaurant} = this.props
     preferenceStore.setRestaurantStarred(restaurant.id, !restaurant.isStarred)

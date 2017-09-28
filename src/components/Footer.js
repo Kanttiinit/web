@@ -9,7 +9,7 @@ import css from '../styles/Footer.scss'
 import Text from './Text'
 
 @observer
-export default withRouter(class Footer extends React.PureComponent {
+export default withRouter(class Footer extends React.Component {
   render() {
     const {search} = this.props.location
     return (

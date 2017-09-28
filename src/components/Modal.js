@@ -9,7 +9,7 @@ import Text from './Text'
 import css from '../styles/Modal.scss'
 
 @observer
-class Modal extends React.PureComponent {
+class Modal extends React.Component {
   componentDidMount() {
     key('esc', this.closeModal)
   }

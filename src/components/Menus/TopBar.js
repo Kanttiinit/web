@@ -14,7 +14,7 @@ import css from '../../styles/TopBar.scss'
 import Text from '../Text'
 
 @observer
-export default withRouter(class TopBar extends React.PureComponent {
+export default withRouter(class TopBar extends React.Component {
   toggleLanguage = () => {
     preferenceStore.toggleLanguage()
   }

@@ -20,7 +20,7 @@ const Item = ({label, children}) => (
 )
 
 @observer
-export default withRouter(class Settings extends React.PureComponent {
+export default withRouter(class Settings extends React.Component {
   setOrder = (value: Order) => {preferenceStore.order = value}
   setUseLocation = (value: boolean) => {preferenceStore.useLocation = value}
   render() {

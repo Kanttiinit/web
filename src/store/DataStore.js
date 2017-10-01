@@ -28,11 +28,11 @@ const orderRestaurants = (restaurants, orderType) => {
     orders: ['desc', 'desc', 'asc', 'desc', 'asc']
   }
   if (orderType === 'ORDER_ALPHABET') {
-    order.properties = ['isStarred', 'name']
-    order.orders = ['desc', 'asc']
+    order.properties = ['isStarred', 'noCourses', 'name']
+    order.orders = ['desc', 'asc', 'asc']
   } else if (orderType === 'ORDER_DISTANCE') {
-    order.properties = ['isStarred', 'distance']
-    order.orders = ['desc', 'asc']
+    order.properties = ['isStarred', 'noCourses', 'distance']
+    order.orders = ['desc', 'asc', 'asc']
   }
   return orderBy(restaurants, order.properties, order.orders)
 }

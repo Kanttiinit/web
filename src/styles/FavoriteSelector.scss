@@ -9,11 +9,15 @@
     align-items: center;
     justify-content: center;
     margin: 0.2em;
-    background: $light_gray;
-    color: $dark_gray;
+    color: $hearty;
     text-align: left;
     display: flex;
     flex-grow: 1;
+    background: transparent;
+    border: 1px solid $hearty;
+    border-radius: 1rem;
+    text-transform: lowercase;
+    padding: 0.4rem;
 
     :global(.inline-icon) {
       flex-shrink: 0;
@@ -25,7 +29,8 @@
     }
 
     &.selected {
-      color: $red;
+      background: $hearty;
+      color: white;
     }
   }
 }

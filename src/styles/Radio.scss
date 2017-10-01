@@ -9,7 +9,6 @@
   }
 
   button {
-    border: solid $accent_color;
     color: $accent_color;
     border-width: 1px 0 1px 1px;
     background: transparent;
@@ -31,6 +30,7 @@
 
     &.selected {
       background: $accent_color;
+      border-radius: 1rem;
       color: white;
     }
 
@@ -38,15 +38,6 @@
       background: lighten($accent_color, 5%);
       color: white;
       outline: none;
-    }
-
-    &:first-child {
-      border-radius: $small_border_radius 0 0 $small_border_radius;
-    }
-
-    &:last-child {
-      border-radius: 0 $small_border_radius $small_border_radius 0;
-      border-right-width: 1px;
     }
   }
 }

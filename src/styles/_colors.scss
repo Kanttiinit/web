@@ -1,4 +1,6 @@
-$accent_color: #009688;
+$accent_green: #009688;
+$accent_blue: #2196F3;
+$accent_color: $accent_blue;
 $accent_color_hover: lighten($accent_color, 5%);
 $accent_color_light: lighten($accent_color, 3%);
 $accent_color_dark: darken($accent_color, 5%);

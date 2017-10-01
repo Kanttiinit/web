@@ -45,7 +45,7 @@ export class Placeholder extends React.Component {
   render() {
     return (
       <div className={css.container + ' ' + css.placeholder}>
-        <div className={css.header} style={{width: random(30, 70) + '%'}}></div>
+        <div className={css.header} style={{width: random(30, 40) + '%'}}></div>
         <div className={css.body}>
           {times(10, i => <div key={i} className={css.course} style={{width: random(40, 100) + '%'}}></div>)}
         </div>
@@ -81,7 +81,7 @@ export default withRouter(class Restaurant extends React.Component {
             {restaurant.openingHours[dayOfWeek] &&
               <Colon>{restaurant.openingHours[dayOfWeek].replace('-', '–')}</Colon>
             }
-            {isClosed && <Text id="restaurantClosed" style={{display: 'block'}} element="small" />}
+            {isClosed && <Text id="restaurantClosed" className={css.closedText} element="small" />}
           </div>
         </div>
         <CourseList className={css.body} courses={restaurant.courses} />

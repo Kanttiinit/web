@@ -10,13 +10,13 @@
 
   button {
     color: $accent_color;
-    border-width: 1px 0 1px 1px;
     background: transparent;
     font-family: inherit;
     font-weight: 500;
     text-transform: uppercase;
     transition: background 0.1s, color 0.1s;
     margin: 0;
+    border-radius: 1rem;
 
     @media (max-width: $break-small) {
       font-size: 0.7rem;
@@ -30,7 +30,6 @@
 
     &.selected {
       background: $accent_color;
-      border-radius: 1rem;
       color: white;
     }
 

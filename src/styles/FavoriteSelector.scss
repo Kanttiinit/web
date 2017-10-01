@@ -17,6 +17,7 @@
     border: 1px solid $hearty;
     border-radius: 1rem;
     text-transform: lowercase;
+    transition: background 0.1s, color 0.1s;
     padding: 0.4rem;
 
     :global(.inline-icon) {
@@ -24,8 +25,7 @@
     }
 
     &:focus {
-      color: $accent_color;
-      background: $light_gray;
+      background: initial;
     }
 
     &.selected {

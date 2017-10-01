@@ -1,0 +1,45 @@
+@import '_constants';
+
+$bezier: cubic-bezier(0.645, 0.045, 0.355, 1.000);
+
+.blob {
+    cursor: pointer;
+    position: absolute;
+    background: #fdfdfd;
+    box-sizing: border-box;
+    top: 0;
+    border-radius: 30px;
+    margin: 0.1em;
+    width: 2em;
+    height: 2em;
+    transition: all .3s $bezier;
+}
+
+.toggle {
+    position: relative;
+    display: inline-block;
+    border: 2px solid #aaa;
+    background: #aaa;
+    border-radius: 20px;
+    padding: 10px 0;
+    min-width: 4em;
+    min-height: 1em;
+    transition: all .3s $bezier;
+}
+
+.toggleOn {
+    &:after {
+        @extend .blob;
+        margin-left: 1.9em;
+        content: '';
+    }
+    background: $accent_color;
+    border-color: $accent_color;
+}
+
+.toggleOff {
+    &:after {
+        @extend .blob;
+        content: '';
+    }
+}

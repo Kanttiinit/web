@@ -9,6 +9,7 @@ import type {Order} from '../../store/PreferenceStore'
 import css from '../../styles/Settings.scss'
 import Text from '../Text'
 import Radio from '../Radio'
+import Toggle from '../Toggle'
 import PageContainer from '../PageContainer'
 import FavoriteSelector from './FavoriteSelector'
 
@@ -45,13 +46,10 @@ export default withRouter(class Settings extends React.Component {
             onChange={this.setOrder} />
         </Item>
         <Item label={<Text id="useLocation" />}>
-          <Radio
-            options={[
-              {label: <Text id="yes" />, value: true},
-              {label: <Text id="no" />, value: false}
-            ]}
+          <Toggle
             selected={preferenceStore.useLocation}
-            onChange={this.setUseLocation} />
+            onChange={this.setUseLocation}
+            />
         </Item>
         <Item label={<Text id="favorites" />}>
           <FavoriteSelector />

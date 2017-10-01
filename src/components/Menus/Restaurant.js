@@ -23,7 +23,7 @@ import css from '../../styles/Restaurant.scss'
 const Distance = ({distance}) => {
   const kilometers = distance > 1500
   return (
-    <div className={css.meta}>
+    <div className={css.meta + ' ' + css.location}>
       {!distance ? <Location className="inline-icon" />
       : kilometers
       ? <Bike className="inline-icon" />

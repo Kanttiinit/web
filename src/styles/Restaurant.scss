@@ -18,9 +18,10 @@
   }
 
   @media (max-width: $break-small) {
-    padding: 0.5rem;
-    margin: 0.25rem;
     width: initial;
+    box-shadow: none;
+    margin: 0.25rem 0;
+    border-color: #E6E6E6;
   }
 }
 

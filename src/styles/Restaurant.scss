@@ -3,13 +3,11 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: 0.75rem;
+  padding: 1.4rem 1rem;
   background-color: white;
-  border-radius: $small_border_radius;
-  border: $subtle_border;
-  border-color: transparent;
-  border-top: none;
-  box-shadow: 0px 1px 2px 0px rgba(50, 50, 50, 0.3);
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  box-shadow: 0px 1px 2px 0px rgba(50, 50, 50, 0.1);
   user-select: auto;
   box-sizing: border-box;
   width: calc(25% - 0.5rem);
@@ -27,12 +25,17 @@
 }
 
 .placeholder {
+  opacity: 0.5;
+  
   .header {
+    border-radius: 0.1rem;
     height: 1.5rem;
     background: $light_gray;
   }
 
   .course {
+    border-radius: 0.1rem;
+    margin: 0.1rem 0;
     background: $light_gray;
     height: 0.7rem;
     transition: width 0.2s;
@@ -41,21 +44,22 @@
 
 .header {
   display: flex;
-  margin-bottom: 1rem;
+  margin-bottom: 1.4rem;
   justify-content: space-between;
   align-items: center;
 
   h2 {
-    color: $accent_color_dark;
-    font-weight: 400;
+    color: #263238;
+    font-weight: 600;
     margin: 0;
     max-width: 60%;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
 
   .meta {
     color: $dark_gray;
     font-size: 0.8rem;
+    font-weight: 600;
   }
 
   @media (max-width: $break-small) {
@@ -94,6 +98,10 @@
   .header h2 {
     color: $text_color_light;
   }
+}
+
+.closedText {
+  font-size: 0.8rem;
 }
 
 .restaurantActions {

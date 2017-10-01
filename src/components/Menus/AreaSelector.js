@@ -12,8 +12,8 @@ import Text from '../Text'
 import PageContainer from '../PageContainer'
 
 const specialAreas = [
-  {id: -2, name: <Text id="nearby" />, icon: <Map />},
-  {id: -1, name: <Text id="starred" />, icon: <Star style={{marginLeft: '0.4rem'}} />}
+  {id: -2, name: <Text id="nearby" />, icon: <Map />, iconColor: '#424242'},
+  {id: -1, name: <Text id="starred" />, icon: <Star style={{marginLeft: '0.4rem'}} />, iconColor: '#FFA726'}
 ]
 
 @observer
@@ -36,7 +36,7 @@ class AreaSelector extends React.PureComponent {
               className={'button-text ' + (preferenceStore.selectedArea === area.id ? css.selected : '')}
               key={area.id}>
               {area.icon
-              ? <div className={css.icon}>{area.icon}</div>
+              ? <div className={css.icon} style={{color: area.iconColor}}>{area.icon}</div>
               : <img className={css.map} src={area.mapImageUrl} />}
               <br />
               {area.name}

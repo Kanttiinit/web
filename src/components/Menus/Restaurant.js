@@ -94,7 +94,7 @@ export default withRouter(class Restaurant extends React.Component {
           <div style={{marginLeft: 'auto'}}>
             <a
               onClick={this.toggleStar}
-              style={{color: restaurant.isStarred ? '#e6c100' : undefined}}
+              style={{color: restaurant.isStarred ? '#FFA726' : undefined}}
               className={css.actionIcon}>
               <Star size={18} />
             </a>

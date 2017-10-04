@@ -28,7 +28,7 @@ export default class UIState {
   }
 
   getNewPath(date: moment.Moment) {
-    const regexp = /day\=[^\&$]+/
+    const regexp = /day=[^&$]+/
     if (date.isSame(moment(), 'day')) {
       return location.pathname.replace(regexp, '')
     } else if (location.pathname.match(regexp)) {

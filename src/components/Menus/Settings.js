@@ -1,6 +1,6 @@
 // @flow
 import React from 'react'
-import {Link, withRouter} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 import {observer} from 'mobx-react'
 
 import {preferenceStore} from '../../store'

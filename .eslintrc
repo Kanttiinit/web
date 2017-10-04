@@ -1,4 +1,4 @@
-module.exports = {
+{
   "env": {
     "browser": true,
     "es6": true
@@ -16,6 +16,7 @@ module.exports = {
     "react"
   ],
   "globals": {
+    "isProduction": true,
     "process": true,
     "apiBase": true,
     "version": true,
@@ -24,7 +25,7 @@ module.exports = {
   },
   "rules": {
     "no-console": 0,
-    "indent": [
+    "indent-legacy": [
       "error",
       2,
       { "MemberExpression": 0, "SwitchCase": 1 }
@@ -41,4 +42,4 @@ module.exports = {
     "react/jsx-uses-vars": [2],
     "react/jsx-uses-react": [2]
   }
-};
+}

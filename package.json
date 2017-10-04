@@ -51,7 +51,9 @@
     "develop": "node node_modules/webpack-dev-server/bin/webpack-dev-server.js  --hot --inline",
     "watch": "webpack -w",
     "postinstall": "node node_modules/.bin/webpack",
-    "start": "node index.js"
+    "start": "node index.js",
+    "lint": "eslint src",
+    "flow": "flow"
   },
   "keywords": [
     "express",
@@ -62,9 +64,10 @@
   "author": "Jere Vaara, Max Huttunen",
   "license": "MIT",
   "devDependencies": {
-    "babel-eslint": "^7.2.3",
-    "eslint": "^3.6.0",
+    "babel-eslint": "^8.0.1",
+    "eslint": "^4.8.0",
     "eslint-plugin-react": "^7.4.0",
+    "flow-bin": "^0.56.0",
     "webpack-dev-server": "^2.9.1"
   }
 }

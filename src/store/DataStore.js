@@ -6,7 +6,6 @@ import get from 'lodash/get'
 import haversine from 'haversine'
 
 import Resource from './Resource'
-import http from '../utils/http'
 import {uiState} from './index'
 import type PreferenceStore from './PreferenceStore'
 import type UIState from './UIState'

@@ -3,10 +3,9 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding: 1rem 1rem;
+  padding: 0.8rem;
   background-color: white;
   border-radius: 4px;
-  border: 1px solid #ddd;
   box-shadow: 0px 1px 2px 0px rgba(50, 50, 50, 0.1);
   user-select: auto;
   box-sizing: border-box;
@@ -54,10 +53,10 @@
 
   h2 {
     color: #263238;
-    font-weight: 600;
+    font-weight: 500;
     margin: 0;
     max-width: 60%;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 
   .meta {

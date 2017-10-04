@@ -23,7 +23,7 @@
     "compression": "^1.7.1",
     "css-loader": "^0.28.7",
     "express": "^4.16.1",
-    "file-loader": "^0.11.1",
+    "file-loader": "^1.1.4",
     "haversine": "^1.0.1",
     "json-loader": "^0.5.4",
     "keymaster": "^1.6.2",
@@ -43,7 +43,7 @@
     "react-router-dom": "^4.2.2",
     "react-swipeable": "^4.0.0",
     "sass-loader": "^6.0.3",
-    "style-loader": "^0.18.2",
+    "style-loader": "^0.19.0",
     "webpack": "^3.6.0",
     "whatwg-fetch": "^2.0.3"
   },

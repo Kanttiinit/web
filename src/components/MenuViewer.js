@@ -19,7 +19,7 @@ type Props = {|
 |}
 
 @observer
-export default class MenuViewer extends React.PureComponent {
+export default class MenuViewer extends React.Component {
   removeAutorun: Function;
   props: Props;
   state: {

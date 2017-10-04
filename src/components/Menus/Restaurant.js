@@ -79,7 +79,7 @@ export default withRouter(class Restaurant extends React.Component {
           </h2>
           <div className={css.meta} style={{textAlign: 'right'}}>
             {restaurant.openingHours[dayOfWeek] &&
-              [<Colon>{restaurant.openingHours[dayOfWeek].replace('-', '–')}</Colon>, <br />]
+              [<Colon key="colon">{restaurant.openingHours[dayOfWeek].replace('-', '–')}</Colon>, <br key="lineBreak" />]
             }
             {isClosed && <Text id="restaurantClosed" className={css.closedText} element="small" />}
           </div>

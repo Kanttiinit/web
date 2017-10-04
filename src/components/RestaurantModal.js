@@ -109,7 +109,7 @@ const Map = withGoogleMap(props =>
 )
 
 @observer
-export default class RestaurantModal extends React.PureComponent {
+export default class RestaurantModal extends React.Component {
   props: Props
   state: {
     restaurant: ?RestaurantType,

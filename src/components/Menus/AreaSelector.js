@@ -17,7 +17,7 @@ const specialAreas = [
 ]
 
 @observer
-class AreaSelector extends React.PureComponent {
+class AreaSelector extends React.Component {
   selectArea(areaId: number) {
     preferenceStore.selectedArea = areaId
     this.props.history.replace('/')

@@ -10,7 +10,7 @@ import feedbackProvider from './feedbackProvider'
 
 export default feedbackProvider(
   @observer
-  class ReportModal extends React.PureComponent {
+  class ReportModal extends React.Component {
 
     onSubmit = (e: any) => {
       e.preventDefault()

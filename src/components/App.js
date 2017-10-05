@@ -76,13 +76,17 @@ class App extends React.PureComponent {
     GA.initialize('UA-85003235-1', {
       debug: !isProduction
     })
+    this.pageView(this.props)
   }
   componentWillReceiveProps(props) {
-    if (props.location.pathname !== this.props.location.pathname) {
-      const pathname = props.location.pathname
-      GA.set({page: pathname})
-      GA.pageview(pathname)
+    if (props.location.pathname !== this.props.location.pathname || props.location.search !== this.props.location.search) {
+      this.pageView(props)
     }
+  }
+  pageView(props) {
+    const pathname = props.location.pathname + props.location.search
+    GA.set({page: pathname})
+    GA.pageview(pathname)
   }
   render() {
     const {location} = this.props

@@ -2,6 +2,18 @@
 import React from 'react'
 import { render } from 'react-dom'
 import {BrowserRouter} from 'react-router-dom'
-import App from './components/App'
+import ErrorBoundary from 'react-error-boundary'
 
-render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'))
+import App from './components/App'
+import Text from './components/Text'
+import {reportError} from './utils/api'
+
+const Error = () => <Text component="p" id="errorDetails" />
+
+render(
+  <ErrorBoundary FallbackComponent={Error} onError={reportError}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </ErrorBoundary>
+, document.getElementById('root'))

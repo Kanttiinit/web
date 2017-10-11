@@ -15,10 +15,6 @@ const privacyEn = (
 )
 
 export default {
-  menus: {
-    fi: 'Ruokalistat',
-    en: 'Menus'
-  },
   noMenu: {
     fi: 'Ei ruokalistaa saatavilla',
     en: 'No menu available'
@@ -35,10 +31,6 @@ export default {
     fi: 'Ota yhteyttä',
     en: 'Contact'
   },
-  sourceCode: {
-    fi: 'Lähdekoodi',
-    en: 'Source Code'
-  },
   settings: {
     fi: 'Asetukset',
     en: 'Settings'
@@ -46,10 +38,6 @@ export default {
   privacyPolicyContent: {
     fi: privacyFi,
     en: privacyEn
-  },
-  slogan: {
-    fi: 'Opiskelijalounas vaivattomasti.',
-    en: 'Student lunch effortlessly.'
   },
   thanksForFeedback: {
     fi: 'Kiitos palautteestasi!',
@@ -75,18 +63,6 @@ export default {
     fi: 'suljettu',
     en: 'closed'
   },
-  androidTester: {
-    fi: 'Ryhdy Android-sovelluksen betatestaajaksi',
-    en: 'Become a tester on Android'
-  },
-  betaSite: {
-    fi: 'Kokeile sivun betaversiota',
-    en: 'Try the beta site'
-  },
-  area: {
-    fi: 'Alue',
-    en: 'Area'
-  },
   useLocation: {
     fi: 'Käytä sijaintia',
     en: 'Use location'
@@ -95,41 +71,13 @@ export default {
     fi: 'Kieli',
     en: 'Language'
   },
-  yes: {
-    fi: 'Kyllä',
-    en: 'Yes'
-  },
-  no: {
-    fi: 'Ei',
-    en: 'No'
-  },
   selectArea: {
     fi: 'Valitse alue',
     en: 'Select area'
   },
-  save: {
-    fi: 'Tallenna',
-    en: 'Save'
-  },
-  saving: {
-    fi: 'Tallennetaan...',
-    en: 'Saving...'
-  },
   emptyRestaurants: {
     fi: 'Ei ravintoloita',
     en: 'No restaurants'
-  },
-  addStar: {
-    fi: 'Nosta',
-    en: 'Pin'
-  },
-  removeStar: {
-    fi: 'Poista nosto',
-    en: 'Unpin'
-  },
-  moreInfo: {
-    fi: 'Lisätietoja',
-    en: 'Details'
   },
   starred: {
     fi: 'Tähdellä merkityt',

@@ -27,8 +27,11 @@ export const sendFeedback = (message: string) =>
     })
   })
 
-export const reportError = (error: Error, stack: string) =>
-  sendFeedback(`New UI error:
+export const reportError = async (error: Error, stack: string) => {
+  if (isProduction) {
+  return sendFeedback(`New UI error:
 ${error.message}
 ${stack}
 `)
+  }
+}

@@ -36,6 +36,7 @@
     "react": "^16.0.0",
     "react-ace": "^4.2.1",
     "react-dom": "^16.0.0",
+    "react-error-boundary": "^1.0.0",
     "react-ga": "^2.3.5",
     "react-google-maps": "^8.4.1",
     "react-hot-loader": "^3.0.0",

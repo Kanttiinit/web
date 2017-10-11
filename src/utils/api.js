@@ -14,3 +14,21 @@ export const getCourses = async (restaurantId: number, day: moment.Moment) => {
 export const getMenus = (restaurantIds: Array<number>, days: Array<moment.Moment>, lang: string) => {
   return http.get(`/menus?lang=${lang}&restaurants=${restaurantIds.join(',')}&days=${days.map(day => day.format('YYYY-MM-DD')).join(',')}`)
 }
+
+export const sendFeedback = (message: string) =>
+  fetch('https://bot.kanttiinit.fi/feedback', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      message
+    })
+  })
+
+export const reportError = (error: Error, stack: string) =>
+  sendFeedback(`New UI error:
+${error.message}
+${stack}
+`)

@@ -1,6 +1,8 @@
 // @flow
 import React from 'react'
 
+import {sendFeedback} from '../utils/api'
+
 export default (Component: any) => class extends React.PureComponent {
   state: {
     sending: boolean,
@@ -15,16 +17,7 @@ export default (Component: any) => class extends React.PureComponent {
   onSubmit = async (message: string) => {
     this.setState({sending: true})
     try {
-      await fetch('https://bot.kanttiinit.fi/feedback', {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          message
-        })
-      })
+      await sendFeedback(message)
       this.setState({sending: false, sent: true, error: null})
     } catch (error) {
       this.setState({sending: false, error})

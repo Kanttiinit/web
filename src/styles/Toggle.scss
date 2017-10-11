@@ -26,6 +26,7 @@ $bezier: cubic-bezier(0.645, 0.045, 0.355, 1.000);
     min-width: 4em;
     min-height: 1em;
     transition: all .3s $bezier;
+    outline: none;
 }
 
 .toggleOn {
@@ -36,11 +37,19 @@ $bezier: cubic-bezier(0.645, 0.045, 0.355, 1.000);
     }
     background: $accent_color;
     border-color: $accent_color;
+
+    &:focus {
+        background: darken($accent_color, 15%);
+    }
 }
 
 .toggleOff {
     &:after {
         @extend .blob;
         content: '';
+    }
+
+    &:focus {
+        background: darken(#aaa, 15%);
     }
 }

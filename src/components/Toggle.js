@@ -15,13 +15,13 @@ export default class Toggle<T> extends React.PureComponent<void, Props<T>, void>
     return (
       <div className={className}>
         <span
+          tabIndex={0}
           onClick={() => onChange(!selected)}
           className={
             css.toggle + (selected ? (' ' + css.toggleOn) : (' ' + css.toggleOff))
           }>
-    </span>
+        </span>
       </div>
     )
   }
 }
-

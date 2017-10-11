@@ -25,7 +25,7 @@
     }
 
     &:focus {
-      background: initial;
+      background: lighten($hearty, 50%);
     }
 
     &.selected {

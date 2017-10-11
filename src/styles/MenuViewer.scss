@@ -16,6 +16,7 @@
   transition: opacity 0.2s;
   overflow: auto;
   max-height: 25vh;
+  padding-right: 1ch;
 
   @media (max-width: $break_small) {
     max-height: 100%;

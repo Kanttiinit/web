@@ -21,6 +21,7 @@ import FavoriteSelector from '../FavoriteSelector'
 import RestaurantModal from '../RestaurantModal'
 import ReportModal from '../ReportModal'
 import Clients from '../Clients'
+import ChangeLog from '../ChangeLog'
 
 window.isBeta = location.hostname === 'beta.kanttiinit.fi' || location.hostname === 'localhost'
 
@@ -93,6 +94,9 @@ class App extends React.PureComponent {
           </Route>
           <Route path="/clients">
             <Modal><Clients /></Modal>
+          </Route>
+          <Route path="/change-log">
+            <Modal><ChangeLog /></Modal>
           </Route>
           <Route path="/restaurant/:id">
             {({match}) =>

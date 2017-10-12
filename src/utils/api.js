@@ -35,3 +35,13 @@ ${stack}
 `)
   }
 }
+
+export const getReleases = async () => {
+  const body = await fetch('https://api.github.com/repos/Kanttiinit/web/releases')
+  const json = await body.json()
+  return json.map(release => ({
+    name: release.name,
+    body: release.body,
+    publishedAt: moment(release.published_at)
+  }))
+}

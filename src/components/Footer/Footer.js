@@ -24,6 +24,9 @@ export default withRouter(class Footer extends React.Component {
               <NavLink to={{pathname: '/clients', search}}>
                 <Text id="otherClients" />
               </NavLink>
+              <NavLink to={{pathname: '/change-log', search}}>
+                Change log
+              </NavLink>
               <NavLink to={{pathname: '/privacy-policy', search}} activeClassName={css.current}>
                 <Text id="privacyPolicy" />
               </NavLink>

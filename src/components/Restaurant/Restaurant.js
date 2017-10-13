@@ -44,7 +44,7 @@ export default withRouter(class Restaurant extends React.Component {
   }
   render() {
     const {restaurant} = this.props
-    const dayOfWeek = uiState.day.locale('fi').weekday()
+    const dayOfWeek = uiState.day.isoWeekday() - 1
     const isClosed = uiState.day.isSame(moment(), 'day') && !restaurant.isOpenNow
     const {search} = this.props.location
     return (

@@ -12,7 +12,7 @@ import type UIState from './UIState'
 import type {AreaType, FavoriteType, FormattedFavoriteType, MenuType, RestaurantType, CourseType} from './types'
 
 const isOpenNow = (restaurant: RestaurantType, day) => {
-  const weekday = day.weekday()
+  const weekday = day.isoWeekday() - 1
   if (!restaurant.openingHours[weekday]) {
     return false
   }

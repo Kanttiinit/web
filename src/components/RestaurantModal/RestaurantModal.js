@@ -56,11 +56,11 @@ const OpeningHours = ({openingHours}) => (
     {getOpeningHourString(openingHours).map(hours =>
       <div key={hours.startDay} className={css.openingHours}>
         <span className={css.day}>
-          <Text id="ddd" moment={moment().weekday(hours.startDay)} />
+          <Text id="ddd" moment={moment().isoWeekday(hours.startDay + 1)} />
           {hours.endDay &&
             <span>
               &nbsp;&ndash;&nbsp;
-            <Text id="ddd" moment={moment().weekday(hours.endDay)} />
+            <Text id="ddd" moment={moment().isoWeekday(hours.endDay + 1)} />
             </span>
           }
         </span>

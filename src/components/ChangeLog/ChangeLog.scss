@@ -1,0 +1,17 @@
+@import "colors";
+
+.title {
+  font-weight: normal;
+  margin: 0.25em 0 0;
+  padding: 0;
+}
+
+.body {
+  margin-top: 0.5em;
+}
+
+.publishedAt {
+  font-size: 0.8em;
+  margin: 0;
+  color: $text_color_light;
+}

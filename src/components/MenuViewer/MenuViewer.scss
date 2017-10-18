@@ -1,0 +1,28 @@
+@import "constants";
+
+.header {
+  display: flex;
+  align-items: center;
+}
+
+.copyButtons {
+  svg {
+    cursor: pointer;
+    margin-left: 1rem;
+  }
+}
+
+.courseList {
+  transition: opacity 0.2s;
+  overflow: auto;
+  max-height: 25vh;
+  padding-right: 1ch;
+
+  @media (max-width: $break_small) {
+    max-height: 100%;
+  }
+}
+
+.coursesLoading {
+  opacity: 0.5;
+}

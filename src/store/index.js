@@ -4,6 +4,7 @@ import DataStore from './DataStore'
 import PreferenceStore from './PreferenceStore'
 import UIState from './UIState'
 import http from '../utils/http'
+import * as api from '../utils/api'
 
 export const preferenceStore = new PreferenceStore()
 export const uiState = new UIState()
@@ -14,7 +15,7 @@ autorun(() => {
   // start or stop watching for location
   if (preferenceStore.useLocation && !locationWatchId) {
     locationWatchId = navigator.geolocation.watchPosition(({coords}) => {
-      uiState.location = coords
+      uiState.setLocation(coords)
     })
   } else if (!preferenceStore.useLocation && locationWatchId) {
     navigator.geolocation.clearWatch(locationWatchId)
@@ -27,18 +28,6 @@ autorun(() => {
   const lang = preferenceStore.lang
   dataStore.areas.fetch(http.get(`/areas?idsOnly=1&lang=${lang}`))
   dataStore.favorites.fetch(http.get(`/favorites?lang=${lang}`))
-})
-
-autorun(() => {
-  if (dataStore.user.fulfilled) {
-    http.put('/me/preferences', preferenceStore.preferences)
-  }
-})
-
-autorun(() => {
-  if (dataStore.user.data) {
-    preferenceStore.preferences = dataStore.user.data.preferences
-  }
 })
 
 autorun(() => {
@@ -62,8 +51,7 @@ autorun(() => {
 autorun(() => {
   if (dataStore.restaurants.fulfilled) {
     const restaurantIds = dataStore.restaurants.data.map(restaurant => restaurant.id)
-    dataStore.menus.fetch(http.get(`/menus?lang=${preferenceStore.lang}&restaurants=${restaurantIds.join(',')}`))
+    const menus = api.getMenus(restaurantIds, [uiState.day], preferenceStore.lang)
+    dataStore.menus.fetch(menus)
   }
 })
-
-dataStore.fetchUser()

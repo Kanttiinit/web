@@ -1,0 +1,62 @@
+@import 'constants';
+
+.container {
+  background: linear-gradient(to bottom, #ffffff 0%, #f9f9f9 100%);
+  box-sizing: border-box;
+  padding: 0 0.5em;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+  color: $dark_gray;
+  border-bottom: 1px solid #ededed;
+
+  @media (max-width: $break-small) {
+    background-color: $body_background;
+    justify-content: flex-start;
+    padding: 0.2em;
+    padding-left: 1rem;
+  }
+}
+
+.centered {
+  max-width: 95em;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+}
+
+a.icon {
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  margin: 0 1em;
+
+  &:link, &:visited {
+    color: #9E9E9E;
+  }
+
+  &:hover, &:focus {
+    outline: none;
+    color: $accent_color;
+  }
+
+  svg {
+    display: none;
+  }
+
+  @media (max-width: $break-small) {
+    svg {
+      display: block;
+    }
+    span {
+      display: none;
+    }
+  }
+}
+
+.dropdown {
+  width: 14em;
+  vertical-align: middle;
+}

@@ -1,32 +1,49 @@
 // @flow
-import {observable, action, computed} from 'mobx'
+import {observable, action} from 'mobx'
 import moment from 'moment'
+import haversine from 'haversine'
 
-const dateFormat = 'YYYY/MM/DD'
+const dateFormat = 'YYYY-MM-DD'
 
 export default class UIState {
   @observable location: ?Coordinates
-  @observable dateString: string
-  @observable dayOffset: number = 0
+  @observable date: ?moment.Moment
   maxDayOffset = 5
 
-  @action setDayOffset(dayOffset: number) {
-    this.dayOffset = Math.min(Math.max(0, dayOffset), this.maxDayOffset)
+  get day(): moment.Moment {
+    if (this.date) {
+      return this.date
+    }
+    return moment()
   }
 
-  @computed get date(): number {
-    return moment().add(this.dayOffset, 'day').format(dateFormat)
+  updateDay(location: Location) {
+    const day = new URL(location.href).searchParams.get('day')
+    this.date = day ? moment(day) : null
   }
 
-  set date(date: string) {
-    this.dayOffset = moment(date, dateFormat).diff(moment(), 'days')
+  isDateInRange(date: moment.Moment) {
+    const now = moment()
+    return now.isSameOrBefore(date, 'day') && date.isSameOrBefore(now.add({day: this.maxDayOffset}), 'day')
+  }
+
+  getNewPath(date: moment.Moment) {
+    const regexp = /day=[^&$]+/
+    if (date.isSame(moment(), 'day')) {
+      return location.pathname.replace(regexp, '')
+    } else if (location.pathname.match(regexp)) {
+      return location.pathname.replace(regexp, `day=${date.format(dateFormat)}`)
+    }
+    return `${location.pathname}?day=${date.format(dateFormat)}`
   }
 
   @action setLocation(location: Coordinates) {
+    if (this.location) {
+      const distance = haversine(this.location, location, {unit: 'meter'})
+      if (distance < 400) {
+        return
+      }
+    }
     this.location = location
-  }
-
-  @action setDateString(dateString: string) {
-    this.dateString = dateString
   }
 }

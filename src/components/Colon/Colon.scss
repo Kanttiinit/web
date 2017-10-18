@@ -1,0 +1,11 @@
+.container {
+  span::after {
+    content: ":";
+    vertical-align: 1px;
+    margin-right: 1px;
+  }
+
+  span:last-child::after {
+    display: none;
+  }
+}

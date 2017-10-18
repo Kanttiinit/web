@@ -6,14 +6,13 @@ import get from 'lodash/get'
 import haversine from 'haversine'
 
 import Resource from './Resource'
-import http from '../utils/http'
 import {uiState} from './index'
 import type PreferenceStore from './PreferenceStore'
 import type UIState from './UIState'
-import type {UserType, AreaType, FavoriteType, FormattedFavoriteType, MenuType, RestaurantType, CourseType} from './types'
+import type {AreaType, FavoriteType, FormattedFavoriteType, MenuType, RestaurantType, CourseType} from './types'
 
 const isOpenNow = (restaurant: RestaurantType, day) => {
-  const weekday = day.weekday()
+  const weekday = day.isoWeekday() - 1
   if (!restaurant.openingHours[weekday]) {
     return false
   }
@@ -28,20 +27,19 @@ const orderRestaurants = (restaurants, orderType) => {
     orders: ['desc', 'desc', 'asc', 'desc', 'asc']
   }
   if (orderType === 'ORDER_ALPHABET') {
-    order.properties = ['isStarred', 'name']
-    order.orders = ['desc', 'asc']
+    order.properties = ['isStarred', 'noCourses', 'name']
+    order.orders = ['desc', 'asc', 'asc']
   } else if (orderType === 'ORDER_DISTANCE') {
-    order.properties = ['isStarred', 'distance']
-    order.orders = ['desc', 'asc']
+    order.properties = ['isStarred', 'noCourses', 'distance']
+    order.orders = ['desc', 'asc', 'asc']
   }
   return orderBy(restaurants, order.properties, order.orders)
 }
 
 export default class DataStore {
   @observable areas: Resource<Array<AreaType>> = new Resource([])
-  @observable user: Resource<?UserType> = new Resource(null)
   @observable favorites: Resource<Array<FavoriteType>> = new Resource([])
-  @observable menus: Resource<Array<MenuType>> = new Resource({})
+  @observable menus: Resource<MenuType> = new Resource({})
   @observable restaurants: Resource<Array<RestaurantType>> = new Resource([])
 
   preferences: PreferenceStore
@@ -50,10 +48,6 @@ export default class DataStore {
   constructor(preferenceStore: PreferenceStore, uiState: UIState) {
     this.preferences = preferenceStore
     this.uiState = uiState
-  }
-
-  async fetchUser() {
-    this.user.fetch(http.get('/me', true))
   }
 
   @computed get selectedFavorites(): Array<FavoriteType> {
@@ -79,7 +73,7 @@ export default class DataStore {
   }
 
   @computed get formattedRestaurants(): Array<RestaurantType> {
-    const day = moment().add(this.uiState.dayOffset, 'day')
+    const day = moment(this.uiState.day)
     const formattedRestaurants = this.restaurants.data
     .map(restaurant => {
       let favoriteCourses = 0

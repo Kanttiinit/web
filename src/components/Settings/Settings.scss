@@ -1,0 +1,21 @@
+@import 'constants';
+  
+.favorites {
+  @media (max-width: $break-small) {
+    button {
+      font-size: 0.8em;
+    }
+  }
+}
+
+.sectionHeader {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: $dark_gray;
+  margin-top: 2em;
+}
+
+.item {
+  margin-bottom: 2rem;
+}

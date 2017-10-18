@@ -15,7 +15,7 @@ const plugins = [
   new webpack.DefinePlugin({
     isProduction,
     'process.env': {
-      NODE_ENV: JSON.stringify('production')
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV)
     },
     version: JSON.stringify(pkg.version),
     apiBase: JSON.stringify(process.env.API_BASE || 'https://kitchen.kanttiinit.fi')
@@ -60,7 +60,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: ['react-hot-loader', 'babel-loader']
+        use: ['babel-loader']
       },
       {
         test: /\.scss$/,

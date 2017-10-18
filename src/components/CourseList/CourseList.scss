@@ -1,0 +1,54 @@
+@import 'constants';
+
+.courseGroup {
+  &:not(:last-child) {
+    margin-bottom: 0.6rem;
+  }
+}
+
+.courseGroupTitle {
+  display: block;
+  color: $dark_gray;
+  margin-bottom: 0.2rem;
+  font-size: 0.8em;
+}
+
+.course {
+  padding-bottom: 0.2rem;
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  user-select: initial;
+  font-size: 0.9rem;
+  
+  &:not(:last-child) {
+    border-bottom: 1px solid #f5f5f5;
+  }
+}
+
+.icon {
+  margin-right: 0.5em;
+}
+
+.title {
+  flex: 1;
+}
+
+.props {
+  font-size: 0.7rem;
+  font-weight: 300;
+  display: inline;
+  color: $text_color_light;
+}
+
+.favoriteCourse {
+  color: $hearty;
+}
+
+.emptyText {
+  font-size: 1rem;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+}

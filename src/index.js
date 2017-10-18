@@ -3,6 +3,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import {BrowserRouter} from 'react-router-dom'
 import ErrorBoundary from 'react-error-boundary'
+import 'url-polyfill'
 
 import App from './components/App'
 import Text from './components/Text'

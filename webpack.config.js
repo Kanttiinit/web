@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const autoprefixer = require('autoprefixer')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const pkg = require('./package.json')
 
 const PATHS = {
@@ -23,10 +24,7 @@ const plugins = [
 ]
 
 if (isProduction) {
-  plugins.push(new webpack.optimize.UglifyJsPlugin({
-    compress: { warnings: false }
-  }))
-  plugins.push(new webpack.optimize.DedupePlugin())
+  plugins.push(new UglifyJSPlugin())
 }
 
 module.exports = {

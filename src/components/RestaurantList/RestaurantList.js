@@ -15,7 +15,7 @@ export default class RestaurantList extends React.Component {
   renderContent() {
     const loading = dataStore.menus.pending || dataStore.restaurants.pending || dataStore.areas.pending
     const restaurants = dataStore.formattedRestaurants
-    if (loading && !restaurants.length) {
+    if (loading) {
       return times(8, i => <Placeholder key={i} />)
     } else if (preferenceStore.selectedArea === -2) {
       if (!preferenceStore.useLocation) {

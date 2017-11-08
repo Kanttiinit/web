@@ -21,9 +21,10 @@ export default class Clients extends React.PureComponent {
         </h3>
         <p>Command line interface built with Node.</p>
         <h3>
-          <a href="https://play.google.com/apps/testing/com.kanttiinit" target="_blank">Kanttiinit Android</a>
+          <a href="https://play.google.com/apps/testing/com.kanttiinit" target="_blank">Kanttiinit on iOS,</a>
+          <a href="https://play.google.com/apps/testing/com.kanttiinit" target="_blank"> Kanttiinit on Android</a>
         </h3>
-        <p>Android App, but not actively maintained anymore.</p>
+        <p>iOS and Android apps. Not actively maintained.</p>
       </PageContainer>
     )
   }   

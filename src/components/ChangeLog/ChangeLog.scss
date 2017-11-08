@@ -1,17 +1,28 @@
 @import "colors";
 
-.title {
-  font-weight: normal;
-  margin: 0.25em 0 0;
-  padding: 0;
+.release {
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+
+  &:last-child {
+    margin: 0;
+  }
+}
+
+.meta {
+  flex: 1;
+  margin-left: 1ch;
 }
 
 .body {
-  margin-top: 0.5em;
+  margin: 0;
 }
 
 .publishedAt {
-  font-size: 0.8em;
-  margin: 0;
+  font-size: 0.7em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin: 0 0 0;
   color: $text_color_light;
 }

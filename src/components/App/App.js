@@ -95,7 +95,7 @@ class App extends React.PureComponent {
           <Route path="/clients">
             <Modal><Clients /></Modal>
           </Route>
-          <Route path="/change-log">
+          <Route path="/updates">
             <Modal><ChangeLog /></Modal>
           </Route>
           <Route path="/restaurant/:id">

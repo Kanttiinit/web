@@ -162,5 +162,9 @@ export default {
   errorDetails: {
     fi: 'Tapahtui odottamaton virhe, joka on raportoitu kehjittäjille. Yritä myöhemmin uudestaan.',
     en: 'There was an unexcpected error which has been reported to the developers. Please try again later.'
+  },
+  updates: {
+    fi: 'Päivitykset',
+    en: 'Updates'
   }
 }

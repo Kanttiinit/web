@@ -1,14 +1,33 @@
 import React from 'react'
+import moment from 'moment'
+import SWUpdateIcon from 'react-icons/lib/md/system-update-alt'
+import UpdateIcon from 'react-icons/lib/md/change-history'
+import EditIcon from 'react-icons/lib/md/edit'
+import BugIcon from 'react-icons/lib/md/bug-report'
 
 import css from './ChangeLog.scss'
-import {getReleases} from '../../utils/api'
+import {getUpdates} from '../../utils/api'
 import PageContainer from '../PageContainer'
+import Text from '../Text'
+
+const getIcon = (release: any) => {
+  switch (release.type) {
+    case 'software-update':
+      return SWUpdateIcon
+    case 'information-update':
+      return EditIcon
+    case 'bugfix':
+      return BugIcon
+    default:
+      return UpdateIcon
+  }
+}
 
 export default class ChangeLog extends React.PureComponent {
-  state = {releases: null}
+  state = {updates: null}
 
   async updateReleases() {
-    this.setState({releases: await getReleases()})
+    this.setState({updates: await getUpdates()})
   }
 
   componentDidMount() {
@@ -16,23 +35,24 @@ export default class ChangeLog extends React.PureComponent {
   }
 
   renderRelease = (release: any) => {
+    const Icon = getIcon(release)
     return (
-      <div key={release.name}>
-        <h2 className={css.title}>{release.name}</h2>
-        <p className={css.publishedAt}>released {release.publishedAt.fromNow()}</p>
-        <p className={css.body}>
-          {release.body.split('\n').map(part => [part, <br key={0} />])}
-        </p>
+      <div className={css.release} key={release.id}>
+        <Icon size={26} />
+        <div className={css.meta}>
+          <p className={css.publishedAt}>{moment(release.createdAt).fromNow()}</p>
+          <p className={css.body}>{release.description}</p>
+        </div>
       </div>
     )
   }
 
   render() {
-    const {releases} = this.state
+    const {updates} = this.state
 
     return (
-      <PageContainer title="Change log">
-        {!releases ? <p>Loading...</p> : releases.map(this.renderRelease)}
+      <PageContainer title={<Text id="updates" />}>
+        {!updates ? <p>Loading...</p> : updates.map(this.renderRelease)}
       </PageContainer>
     )
   }

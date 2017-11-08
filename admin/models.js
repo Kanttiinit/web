@@ -53,5 +53,17 @@ export default [
       regexp: '',
       icon: ''
     }
+  },
+  {
+    name: 'Updates',
+    tableFields: [
+      {key: 'id', name: 'ID'},
+      {key: 'type', name: 'Type'},
+      {key: 'description', name: 'Description'}
+    ],
+    defaultFields: {
+      type: '',
+      description: ''
+    }
   }
-];
+]

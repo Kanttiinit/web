@@ -12,6 +12,7 @@ import Radio from '../Radio'
 import Toggle from '../Toggle'
 import PageContainer from '../PageContainer'
 import FavoriteSelector from '../FavoriteSelector'
+import PropertySelector from '../PropertySelector'
 
 const Item = ({label, children}) => (
   <div className="settings-item">
@@ -50,6 +51,9 @@ export default withRouter(class Settings extends React.Component {
             selected={preferenceStore.useLocation}
             onChange={this.setUseLocation}
             />
+        </Item>
+        <Item label="Erityisruokavaliot">
+          <PropertySelector />
         </Item>
         <Item label={<Text id="favorites" />}>
           <FavoriteSelector />

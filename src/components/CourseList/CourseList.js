@@ -29,7 +29,7 @@ const moizedGroups = memoize(courseGroups)
 
 const Course = ({course}: {course: CourseType}) => (
   <div
-    className={c(css.course, course.isFavorite && css.favoriteCourse)}>
+    className={c(css.course, course.isFavorite && css.favoriteCourse, course.matchesSpecialDiet && css.specialDiet)}>
     {course.isFavorite && <Heart className={`inline-icon ${css.icon}`} />}
     <span className={css.title}>{course.title}</span>
     <span className={css.props}>{course.properties.join(' ')}</span>

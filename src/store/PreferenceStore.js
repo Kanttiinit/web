@@ -73,6 +73,10 @@ export default class PreferenceStore {
     this.properties = toggleInArray(this.properties, property)
   }
 
+  isPropertySelected(property: string) {
+    return this.properties.some(p => p.toLowerCase() === property.toLowerCase())
+  }
+
   @action toggleFavorite(favoriteId: number) {
     this.favorites = toggleInArray(this.favorites, favoriteId)
   }

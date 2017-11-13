@@ -166,5 +166,9 @@ export default {
   updates: {
     fi: 'Päivitykset',
     en: 'Updates'
+  },
+  specialDiets: {
+    fi: 'Erityisruokavaliot',
+    en: 'Special diets'
   }
 }

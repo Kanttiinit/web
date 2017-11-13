@@ -52,7 +52,7 @@ export default withRouter(class Settings extends React.Component {
             onChange={this.setUseLocation}
             />
         </Item>
-        <Item label="Erityisruokavaliot">
+        <Item label={<Text id="specialDiets" />}>
           <PropertySelector />
         </Item>
         <Item label={<Text id="favorites" />}>

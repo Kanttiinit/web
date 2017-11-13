@@ -8,3 +8,32 @@ $subtle_border: 1px $extra_light_gray solid;
 
 $break-small: 767px;
 $break-large: 768px;
+
+@mixin rounded-button($color) {
+  align-items: center;
+  justify-content: center;
+  margin: 0.2em;
+  color: $color;
+  text-align: left;
+  display: flex;
+  flex-grow: 1;
+  background: transparent;
+  border: 1px solid $color;
+  border-radius: 1rem;
+  text-transform: none;
+  transition: background 0.1s, color 0.1s;
+  padding: 0.4rem;
+
+  :global(.inline-icon) {
+    flex-shrink: 0;
+  }
+
+  &:focus {
+    background: lighten($color, 50%);
+  }
+
+  &.selected {
+    background: $color;
+    color: white;
+  }
+}

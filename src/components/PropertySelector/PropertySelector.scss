@@ -1,0 +1,10 @@
+@import "constants";
+
+.container {
+  display: flex;
+  flex-wrap: auto;
+}
+
+.property {
+  @include rounded-button(#1bb518);
+}

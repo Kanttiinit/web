@@ -12,7 +12,7 @@ export default observer(() => (
     {dataStore.formattedFavorites.map(favorite =>
     <button
       key={favorite.id}
-      className={'button ' + (favorite.isSelected ? css.selected : '')}
+      className={'button ' + (favorite.isSelected ? css.selected : '') + ' ' + css.roundedButton}
       onClick={() => preferenceStore.toggleFavorite(favorite.id)}>
       {favorite.isSelected
       ? <Heart className="inline-icon" />

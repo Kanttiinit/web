@@ -30,6 +30,7 @@ export default class PreferenceStore {
   @observable order: Order
   @observable favorites: Array<number>
   @observable starredRestaurants: Array<number>
+  @observable properties: Array<string>  
 
   constructor() {
     const state = localStorage.getItem('preferenceStore')
@@ -40,18 +41,19 @@ export default class PreferenceStore {
   }
 
   set preferences(data: Object) {
-    const {lang, selectedArea, useLocation, order, favorites, starredRestaurants} = data
+    const {lang, selectedArea, useLocation, order, favorites, starredRestaurants, properties} = data
     this.lang = lang || 'fi'
     this.selectedArea = selectedArea || 1
     this.useLocation = useLocation || false
     this.order = order || 'ORDER_AUTOMATIC'
     this.favorites = favorites || []
     this.starredRestaurants = starredRestaurants || []
+    this.properties = properties || []
   }
 
   @computed get preferences(): Object {
-    const {lang, selectedArea, useLocation, order, favorites, starredRestaurants} = this
-    return {lang, selectedArea, useLocation, order, favorites, starredRestaurants}
+    const {lang, selectedArea, useLocation, order, favorites, starredRestaurants, properties} = this
+    return {lang, selectedArea, useLocation, order, favorites, starredRestaurants, properties}
   }
 
   @action toggleLanguage() {
@@ -65,6 +67,10 @@ export default class PreferenceStore {
     } else if (!isStarred && index > -1) {
       this.starredRestaurants.splice(index, 1)
     }
+  }
+
+  @action toggleProperty(property: string) {
+    this.properties = toggleInArray(this.properties, property)
   }
 
   @action toggleFavorite(favoriteId: number) {

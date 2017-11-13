@@ -6,5 +6,5 @@
 }
 
 .property {
-  @include rounded-button(#1bb518);
+  @include rounded-button($friendly);
 }

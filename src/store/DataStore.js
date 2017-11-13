@@ -86,7 +86,8 @@ export default class DataStore {
         }
         return {
           ...course,
-          isFavorite
+          isFavorite,
+          matchesSpecialDiet: course.properties.some(p => this.preferences.isPropertySelected(p)),
         }
       })
       const distance = uiState.location && haversine(uiState.location, restaurant, {unit: 'meter'})

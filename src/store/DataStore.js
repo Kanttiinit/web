@@ -7,7 +7,7 @@ import haversine from 'haversine'
 
 import Resource from './Resource'
 import {uiState} from './index'
-import type PreferenceStore from './PreferenceStore'
+import type PreferenceStore, {Order} from './PreferenceStore'
 import type UIState from './UIState'
 import type {AreaType, FavoriteType, FormattedFavoriteType, MenuType, RestaurantType, CourseType} from './types'
 
@@ -17,23 +17,27 @@ const isOpenNow = (restaurant: RestaurantType, day) => {
     return false
   }
   const [open, close] = restaurant.openingHours[weekday].split(' - ')
-  const now = moment()
+  const now = moment().add({hours: -3})
   return now.isAfter(moment(open, 'HH:mm')) && now.isBefore(moment(close, 'HH:mm'))
 }
 
-const orderRestaurants = (restaurants, orderType) => {
-  const order = {
-    properties: ['isStarred', 'isOpenNow', 'noCourses', 'favoriteCourses', 'distance'],
-    orders: ['desc', 'desc', 'asc', 'desc', 'asc']
-  }
+const getOrder = (orderType: Order, useLocation: boolean) => {
   if (orderType === 'ORDER_ALPHABET') {
-    order.properties = ['isStarred', 'noCourses', 'name']
-    order.orders = ['desc', 'asc', 'asc']
-  } else if (orderType === 'ORDER_DISTANCE') {
-    order.properties = ['isStarred', 'noCourses', 'distance']
-    order.orders = ['desc', 'asc', 'asc']
+    return {
+      properties: ['isStarred', 'noCourses', 'name'],
+      orders: ['desc', 'asc', 'asc']
+    }
+  } else if (orderType === 'ORDER_DISTANCE' && useLocation) {
+    return {
+      properties: ['isStarred', 'noCourses', 'distance', 'name'],
+      orders: ['desc', 'asc', 'asc', 'asc']
+    }
+  } else {
+    return {
+      properties: ['isStarred', 'isOpenNow', 'noCourses', 'favoriteCourses', 'distance', 'name'],
+      orders: ['desc', 'desc', 'asc', 'desc', 'asc', 'asc']
+    }
   }
-  return orderBy(restaurants, order.properties, order.orders)
 }
 
 export default class DataStore {
@@ -101,6 +105,7 @@ export default class DataStore {
       }
     })
 
-    return orderRestaurants(formattedRestaurants, this.preferences.order)
+    const order = getOrder(this.preferences.order, this.preferences.useLocation)
+    return orderBy(formattedRestaurants, order.properties, order.orders)
   }
  }

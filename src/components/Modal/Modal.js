@@ -19,13 +19,22 @@ const ModalError = () => (
 
 @observer
 class Modal extends React.Component {
+
   componentDidMount() {
     key('esc', this.closeModal)
+    document.body.style.overflow = 'hidden'
   }
+
+  componentWillUnmount() {
+    key.unbind('esc', this.closeModal)
+    document.body.style.overflow = 'initial'
+  }
+
   closeModal = () => this.props.history.replace('/' + location.search)
+
   render() {
     return (
-      <div className={classnames(css.container,  css.open)}>
+      <div className={classnames(css.container, css.open)}>
         <div className={css.overlay} onClick={this.closeModal}></div>
         <div className={css.content}>
           <ErrorBoundary onError={reportError} FallbackComponent={ModalError}>

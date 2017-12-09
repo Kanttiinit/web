@@ -2,9 +2,6 @@
 @import 'fonts';
 
 .container {
-  overflow: scroll;
-  -webkit-overflow-scrolling: touch;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -19,7 +16,6 @@
     font-family: 'Interface', sans-serif;
     margin: 0;
     background-color: $body_background;
-    overflow: hidden;
     user-select: none;
   }
 

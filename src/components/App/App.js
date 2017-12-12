@@ -5,7 +5,6 @@ import React from 'react'
 import moment from 'moment'
 import {withRouter, Switch, Route} from 'react-router-dom'
 import GA from 'react-ga'
-import key from 'keymaster'
 
 import {uiState} from '../../store'
 import css from './App.scss'
@@ -32,18 +31,27 @@ class App extends React.PureComponent {
   };
 
   componentWillMount() {
-    key('left,right', (event, handler) => {
-      const offset = handler.shortcut === 'left' ? -1 : 1
-      const newDay = moment(uiState.day).add({day: offset})
-      if (uiState.isDateInRange(newDay)) {
-        this.props.history.replace(uiState.getNewPath(newDay))
-      }
-    })
+    window.addEventListener('keydown', this.onKeyDown)
 
     GA.initialize('UA-85003235-1', {
       debug: !isProduction
     })
     this.pageView(this.props)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.onKeyDown)
+  }
+
+  onKeyDown = (e: KeyboardEvent) => {
+    e.preventDefault()
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      const offset = e.key === 'ArrowLeft' ? -1 : 1
+      const newDay = moment(uiState.day).add({day: offset})
+      if (uiState.isDateInRange(newDay)) {
+        this.props.history.replace(uiState.getNewPath(newDay))
+      }
+    }
   }
 
   componentWillReceiveProps(props) {

@@ -1,6 +1,5 @@
 // @flow
 import React from 'react'
-import key from 'keymaster'
 import {observer} from 'mobx-react'
 import classnames from 'classnames'
 import {withRouter} from 'react-router-dom'
@@ -21,13 +20,20 @@ const ModalError = () => (
 class Modal extends React.Component {
 
   componentDidMount() {
-    key('esc', this.closeModal)
+    window.addEventListener('keydown', this.onKeyDown)
     document.body.style.overflow = 'hidden'
   }
 
   componentWillUnmount() {
-    key.unbind('esc', this.closeModal)
+    window.removeEventListener('keydown', this.onKeyDown)
     document.body.style.overflow = 'initial'
+  }
+
+  onKeyDown = (e: KeyboardEvent) => {
+    e.preventDefault()
+    if (e.key === 'Escape') {
+      this.closeModal()
+    }
   }
 
   closeModal = () => this.props.history.replace('/' + location.search)

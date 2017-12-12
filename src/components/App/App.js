@@ -78,7 +78,7 @@ class App extends React.PureComponent {
   render() {
     const {location} = this.props
     return (
-      <div>
+      <React.Fragment>
         <div className={css.container}>
           <Menus />
           <Footer path={location.pathname} />
@@ -124,7 +124,7 @@ class App extends React.PureComponent {
             <Modal><NotFound /></Modal>
           </Route>
         </Switch>
-      </div>
+      </React.Fragment>
     )
   }
 }

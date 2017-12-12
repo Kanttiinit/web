@@ -2,7 +2,8 @@
 
 .container {
   display: flex;
-  flex-wrap: auto;
+  flex-wrap: wrap;
+  overflow: auto;
 }
 
 .property {

@@ -30,8 +30,8 @@ class Modal extends React.Component {
   }
 
   onKeyDown = (e: KeyboardEvent) => {
-    e.preventDefault()
     if (e.key === 'Escape') {
+      e.preventDefault()
       this.closeModal()
     }
   }

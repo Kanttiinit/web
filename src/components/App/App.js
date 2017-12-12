@@ -44,8 +44,8 @@ class App extends React.PureComponent {
   }
 
   onKeyDown = (e: KeyboardEvent) => {
-    e.preventDefault()
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+      e.preventDefault()
       const offset = e.key === 'ArrowLeft' ? -1 : 1
       const newDay = moment(uiState.day).add({day: offset})
       if (uiState.isDateInRange(newDay)) {

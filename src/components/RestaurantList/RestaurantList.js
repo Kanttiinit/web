@@ -22,10 +22,10 @@ export default class RestaurantList extends React.Component {
         return <Text id="turnOnLocation" element="p" className="notice" />
       } else if (!uiState.location) {
         return (
-          <React.Fragment>
+          <div>
             <img src={locating} />
             <Text id="locating" element="p" className="notice" />
-          </React.Fragment>
+          </div>
         )
       }
     } else if (!restaurants.length) {

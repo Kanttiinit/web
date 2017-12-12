@@ -2,7 +2,6 @@
 
 .container {
   display: flex;
-  justify-content: center;
   padding: 4rem 0 1.5rem;
 
   @media (max-width: $break-small) {

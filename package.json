@@ -1,6 +1,6 @@
 {
   "name": "kanttiinit-web",
-  "version": "8.8.3",
+  "version": "8.8.4",
   "description": "Kanttiinit.fi web client using react.",
   "main": "index.js",
   "engines": {

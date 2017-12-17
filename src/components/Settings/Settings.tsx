@@ -1,0 +1,71 @@
+
+import * as React from 'react'
+import {withRouter} from 'react-router-dom'
+import {observer} from 'mobx-react'
+
+import {preferenceStore} from '../../store'
+import {Lang} from '../../store/PreferenceStore'
+import {orders} from '../../store/PreferenceStore'
+import {Order} from '../../store/PreferenceStore'
+const css = require('./Settings.scss')
+import Text from '../Text'
+import Radio from '../Radio'
+import Toggle from '../Toggle'
+import PageContainer from '../PageContainer'
+import FavoriteSelector from '../FavoriteSelector'
+import PropertySelector from '../PropertySelector'
+
+const Item = ({label, children}) => (
+  <div className="settings-item">
+    <h2 className={css.sectionHeader}>{label}</h2>
+    {children}
+  </div>
+)
+
+export default withRouter(observer(class Settings extends React.Component {
+
+  setOrder = (value: Order) => {preferenceStore.order = value}
+
+  setUseLocation = (value: boolean) => {preferenceStore.useLocation = value}
+
+  setLang(lang: Lang) {
+    preferenceStore.lang = lang
+  }
+
+  render() {
+    return (
+      <PageContainer title={<Text id="settings" />}>
+        <Item label={<Text id="language" />}>
+          <Radio
+            options={[
+              {label: 'Finnish', value: Lang.FI},
+              {label: 'English', value: Lang.EN}
+            ]}
+            selected={preferenceStore.lang}
+            onChange={this.setLang} />
+        </Item>
+        <Item label={<Text id="order" />}>
+          <Radio
+            options={orders.map(order => ({
+              value: order,
+              label: <Text id={order} />
+            }))}
+            selected={preferenceStore.order}
+            onChange={this.setOrder} />
+        </Item>
+        <Item label={<Text id="useLocation" />}>
+          <Toggle
+            selected={preferenceStore.useLocation}
+            onChange={this.setUseLocation}
+            />
+        </Item>
+        <Item label={<Text id="specialDiets" />}>
+          <PropertySelector />
+        </Item>
+        <Item label={<Text id="favorites" />}>
+          <FavoriteSelector />
+        </Item>
+      </PageContainer>
+    )
+  }
+}))

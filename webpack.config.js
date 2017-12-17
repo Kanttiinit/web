@@ -5,7 +5,7 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const pkg = require('./package.json')
 
 const PATHS = {
-  app: './src/index.js',
+  app: './src/index.tsx',
   html: './src/index.html',
   dist: path.join(__dirname, './dist')
 }
@@ -14,12 +14,12 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 const plugins = [
   new webpack.DefinePlugin({
-    isProduction,
+    IS_PRODUCTION: isProduction,
     'process.env': {
       NODE_ENV: JSON.stringify(process.env.NODE_ENV)
     },
-    version: JSON.stringify(pkg.version),
-    apiBase: JSON.stringify(process.env.API_BASE || 'https://kitchen.kanttiinit.fi')
+    VERSION: JSON.stringify(pkg.version),
+    API_BASE: JSON.stringify(process.env.API_BASE || 'https://kitchen.kanttiinit.fi')
   })
 ]
 
@@ -30,7 +30,7 @@ if (isProduction) {
 module.exports = {
   entry: {
     app: [PATHS.app, PATHS.html],
-    admin: ['./admin/index.js', './admin/index_admin.html']
+    // admin: ['./admin/index.js', './admin/index_admin.html']
   },
   output: {
     path: PATHS.dist,
@@ -44,6 +44,9 @@ module.exports = {
       index: 'index.html'
     }
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js']
+  },
   module: {
     rules: [
       {
@@ -55,11 +58,7 @@ module.exports = {
           }
         }]
       },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: ['babel-loader']
-      },
+      { test: /\.tsx?$/, use: ['ts-loader'] },
       {
         test: /\.scss$/,
         use: [

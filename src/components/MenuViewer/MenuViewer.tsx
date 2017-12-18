@@ -5,7 +5,7 @@ import * as classnames from 'classnames'
 import * as CopyIcon from 'react-icons/lib/md/content-copy'
 import * as LinkIcon from 'react-icons/lib/md/link'
 
-import {uiState} from '../../store'
+import {uiState, preferenceStore} from '../../store'
 import CourseList from '../CourseList'
 import DaySelector from '../DaySelector'
 import {getCourses} from '../../utils/api'
@@ -48,7 +48,7 @@ export default class MenuViewer extends React.Component {
     this.removeAutorun = autorun(async () => {
       try {
         this.setState({loading: true})
-        const courses = await getCourses(this.props.restaurantId, uiState.day)
+        const courses = await getCourses(this.props.restaurantId, uiState.day, preferenceStore.lang)
         this.setState({courses, loading: false, error: null})
       } catch (error) {
         this.setState({error, loading: false})

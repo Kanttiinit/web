@@ -2,9 +2,10 @@ import * as moment from 'moment'
 import http from './http'
 
 import {isProduction} from './consts'
+import { Lang } from '../store/PreferenceStore';
 
-export const getCourses = async (restaurantId: number, day: moment.Moment) => {
-  const restaurant = await http.get(`/restaurants/${restaurantId}/menu?day=${day.format('YYYY-MM-DD')}`)
+export const getCourses = async (restaurantId: number, day: moment.Moment, lang: Lang) => {
+  const restaurant = await http.get(`/restaurants/${restaurantId}/menu?day=${day.format('YYYY-MM-DD')}&lang=${lang}`)
   if (!restaurant.menus.length) {
     return []
   } else {
@@ -40,3 +41,13 @@ ${stack}
 export const getUpdates = () => {
   return http.get('/updates')
 }
+
+export const getAreas = (lang: Lang) => http.get(`/areas?idsOnly=1&lang=${lang}`)
+
+export const getFavorites = (lang: Lang) => http.get(`/favorites?lang=${lang}`)
+
+export const getRestaurantsByIds = (ids: Array<number>, lang: Lang) =>
+  http.get(`/restaurants?lang=${lang}&ids=${ids.join(',')}`)
+
+export const getRestaurantsByLocation = (latitude: number, longitude: number, lang: Lang) =>
+  http.get(`/restaurants?lang=${lang}&location=${latitude},${longitude}`)

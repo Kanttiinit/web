@@ -2,7 +2,6 @@ import {autorun} from 'mobx'
 import DataStore from './DataStore'
 import PreferenceStore from './PreferenceStore'
 import UIState from './UIState'
-import http from '../utils/http'
 import * as api from '../utils/api'
 
 export const preferenceStore = new PreferenceStore()
@@ -25,25 +24,26 @@ autorun(() => {
 
 autorun(() => {
   const lang = preferenceStore.lang
-  dataStore.areas.fetch(http.get(`/areas?idsOnly=1&lang=${lang}`))
-  dataStore.favorites.fetch(http.get(`/favorites?lang=${lang}`))
+  dataStore.areas.fetch(api.getAreas(lang))
+  dataStore.favorites.fetch(api.getFavorites(lang))
 })
 
 autorun(() => {
-  let query
-  if (preferenceStore.lang && dataStore.selectedArea) {
-    query = `&ids=${dataStore.selectedArea.restaurants.join(',')}`
+  const lang = preferenceStore.lang
+  let promise
+  if (lang && dataStore.selectedArea) {
+    promise = api.getRestaurantsByIds(dataStore.selectedArea.restaurants, lang)
   } else if (preferenceStore.selectedArea < 0) {
     if (preferenceStore.selectedArea === -1 && preferenceStore.starredRestaurants.length) {
-      query = `&ids=${preferenceStore.starredRestaurants.join(',')}`
+      promise = api.getRestaurantsByIds(preferenceStore.starredRestaurants, lang)
     } else if (preferenceStore.selectedArea === -2 && uiState.location) {
       const {latitude, longitude} = uiState.location
-      query = `&location=${latitude},${longitude}`
+      promise = api.getRestaurantsByLocation(latitude, longitude, lang)
     }
   }
 
-  if (query) {
-    dataStore.restaurants.fetch(http.get(`/restaurants?lang=${preferenceStore.lang}${query}`))
+  if (promise) {
+    dataStore.restaurants.fetch(promise)
   }
 })
 

@@ -7,8 +7,8 @@ import * as Home from 'react-icons/lib/md/home'
 import {findIndex} from 'lodash'
 import {observer} from 'mobx-react'
 
-import http from '../../utils/http'
-import {dataStore, uiState} from '../../store'
+import * as api from '../../utils/api'
+import {dataStore, uiState, preferenceStore} from '../../store'
 import PageContainer from '../PageContainer'
 import {RestaurantType} from '../../store/types'
 import MenuViewer from '../MenuViewer'
@@ -122,7 +122,7 @@ export default class RestaurantModal extends React.Component {
   async fetchRestaurant(restaurantId: number) {
     let restaurant = dataStore.restaurants.data.find(r => r.id === Number(restaurantId))
     if (!restaurant) {
-      const result = await http.get(`/restaurants?ids=${restaurantId}`)
+      const result = await api.getRestaurantsByIds([restaurantId], preferenceStore.lang)
       if (result.length) {
         restaurant = result[0]
       } else {

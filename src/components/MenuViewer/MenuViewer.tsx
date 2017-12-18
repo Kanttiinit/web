@@ -9,6 +9,7 @@ import {uiState, preferenceStore} from '../../store'
 import CourseList from '../CourseList'
 import DaySelector from '../DaySelector'
 import {getCourses} from '../../utils/api'
+import { CourseType } from '../../store/types';
 const css = require('./MenuViewer.scss')
 
 type Props = {
@@ -22,7 +23,7 @@ export default class MenuViewer extends React.Component {
   removeAutorun: Function;
   props: Props;
   state: {
-    courses: Array<any>,
+    courses: Array<CourseType>,
     loading: boolean,
     error: Error | null
   } = {

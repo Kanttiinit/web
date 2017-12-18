@@ -31,7 +31,9 @@ export interface FormattedFavoriteType extends FavoriteType {
 }
 
 export interface MenuType {
-
+  [restaurantId: string]: {
+    [date: string]: Array<CourseType>
+  }
 }
 
 export interface CourseType {
@@ -39,4 +41,13 @@ export interface CourseType {
   properties: Array<string>,
   isFavorite: boolean,
   matchesSpecialDiet: boolean
+}
+
+export type ReleaseType = 'software-update' | 'information-update' | 'bugfix'
+
+export interface Release {
+  type: ReleaseType,
+  id: number,
+  createdAt: string,
+  description: string
 }

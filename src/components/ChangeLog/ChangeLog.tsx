@@ -9,8 +9,9 @@ const css = require('./ChangeLog.scss')
 import {getUpdates} from '../../utils/api'
 import PageContainer from '../PageContainer'
 import Text from '../Text'
+import { Release } from '../../store/types';
 
-const getIcon = (release: any) => {
+const getIcon = (release: Release) => {
   switch (release.type) {
     case 'software-update':
       return SWUpdateIcon
@@ -34,7 +35,7 @@ export default class ChangeLog extends React.PureComponent {
     this.updateReleases()
   }
 
-  renderRelease = (release: any) => {
+  renderRelease = (release: Release) => {
     const Icon = getIcon(release)
     return (
       <div className={css.release} key={release.id}>

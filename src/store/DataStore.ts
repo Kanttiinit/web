@@ -20,12 +20,12 @@ const isOpenNow = (restaurant: RestaurantType, day) => {
 }
 
 const getOrder = (orderType: Order, useLocation: boolean) => {
-  if (orderType === 'ORDER_ALPHABET') {
+  if (orderType === Order.ALPHABET) {
     return {
       properties: ['isStarred', 'noCourses', 'name'],
       orders: ['desc', 'asc', 'asc']
     }
-  } else if (orderType === 'ORDER_DISTANCE' && useLocation) {
+  } else if (orderType === Order.DISTANCE && useLocation) {
     return {
       properties: ['isStarred', 'noCourses', 'distance', 'name'],
       orders: ['desc', 'asc', 'asc', 'asc']

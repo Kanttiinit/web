@@ -1,16 +1,17 @@
 import {autorun, computed, observable, action} from 'mobx'
 import {without} from 'lodash'
 
-export const orders = ['ORDER_AUTOMATIC', 'ORDER_ALPHABET', 'ORDER_DISTANCE']
-
 export enum Lang {
   FI = 'fi', EN = 'en'
 }
+
 export enum Order {
   AUTOMATIC = 'ORDER_AUTOMATIC',
   ALPHABET = 'ORDER_ALPHABET',
   DISTANCE = 'ORDER_DISTANCE'
 }
+
+export const orders = [Order.AUTOMATIC, Order.ALPHABET, Order.DISTANCE]
 
 const toggleInArray = <T>(array: Array<T>, item: T): Array<T> => {
   if (array.indexOf(item) === -1) {

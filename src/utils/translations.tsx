@@ -1,17 +1,7 @@
 import * as React from 'react'
 import {Link} from 'react-router-dom'
 
-const privacyFi = (
-  <div>
-    <p>Kanttiinit ei jaa mitään dataa kolmansille osapuolille.</p>
-  </div>
-)
-
-const privacyEn = (
-  <div>
-    <p>Kanttiinit will not share your data with third parties.</p>
-  </div>
-)
+import {Order} from '../store/PreferenceStore'
 
 export default {
   noMenu: {
@@ -35,8 +25,16 @@ export default {
     en: 'Settings'
   },
   privacyPolicyContent: {
-    fi: privacyFi,
-    en: privacyEn
+    fi: (
+      <div>
+        <p>Kanttiinit ei jaa mitään dataa kolmansille osapuolille.</p>
+      </div>
+    ),
+    en: (
+      <div>
+        <p>Kanttiinit will not share your data with third parties.</p>
+      </div>
+    )
   },
   thanksForFeedback: {
     fi: 'Kiitos palautteestasi!',
@@ -110,15 +108,15 @@ export default {
     fi: 'Kotisivu',
     en: 'Homepage'
   },
-  ORDER_AUTOMATIC: {
+  [Order.AUTOMATIC]: {
     fi: 'Automaattinen',
     en: 'Automatic'
   },
-  ORDER_ALPHABET: {
+  [Order.ALPHABET]: {
     fi: 'Aakkos',
     en: 'Alphabet'
   },
-  ORDER_DISTANCE: {
+  [Order.DISTANCE]: {
     fi: 'Etäisyys',
     en: 'Distance'
   },

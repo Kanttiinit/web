@@ -4,8 +4,7 @@
   "description": "Kanttiinit.fi web client using react.",
   "main": "index.js",
   "engines": {
-    "node": "8.6.0",
-    "npm": "5.3.0"
+    "node": "9.3.0"
   },
   "dependencies": {
     "@types/classnames": "^2.2.3",

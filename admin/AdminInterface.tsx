@@ -1,14 +1,24 @@
-import React from 'react'
+import * as React from 'react'
 import http from '../src/utils/http'
 import Table from './Table'
 import Ace from 'react-ace'
-import get from 'lodash/get'
+import {get} from 'lodash'
 
 import 'brace/mode/json'
 import 'brace/theme/github'
+import { Model } from './models';
 
 export default class AdminInterface extends React.PureComponent {
-  state = {}
+  state: {
+    editorContent?: string,
+    mode?: 'editing'
+  } = {}
+
+  props: {
+    model: Model,
+    onUpdate(),
+    items: Array<any>
+  }
 
   getBasePath = () => '/admin/' + this.props.model.name.toLowerCase()
   
@@ -32,7 +42,7 @@ export default class AdminInterface extends React.PureComponent {
 
   onEditorChange = editorContent => this.setState({editorContent})
 
-  openEditor = (item, editing) => {
+  openEditor = (item, editing?) => {
     const cleaned = {...item}
     delete cleaned.createdAt
     delete cleaned.updatedAt

@@ -1,10 +1,17 @@
-import React from 'react'
-import orderBy from 'lodash/orderBy'
+import * as React from 'react'
+import {orderBy} from 'lodash'
 
 export default class Table extends React.PureComponent {
   state = {
     desc: false,
     field: undefined
+  }
+
+  props: {
+    sortBy: string,
+    headers: Array<{key: string, name: string}>,
+    data: Array<any>,
+    renderItem(any): any
   }
 
   render() {

@@ -1,3 +1,9 @@
+export interface Model {
+  name: string,
+  tableFields: Array<{key: string, name: string}>,
+  defaultFields: any
+}
+
 export default [
   {
     name: 'Areas',

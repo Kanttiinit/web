@@ -1,13 +1,16 @@
-import 'babel-core/register'
-import 'babel-polyfill'
-import React from 'react'
-import ReactDOM from 'react-dom'
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
 import http from '../src/utils/http'
 import AdminInterface from './AdminInterface'
-import models from './models'
+import models, { Model } from './models'
 
 class BaseView extends React.PureComponent {
-  state = {};
+  state: {
+    currentModel?: Model,
+    items?: Array<any>,
+    unauthorized?: boolean,
+    updatingRestaurants?: boolean
+  } = {};
 
   updateMenus = async () => {
     this.setState({updatingRestaurants: true})

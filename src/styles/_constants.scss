@@ -9,6 +9,17 @@ $subtle_border: 1px $extra_light_gray solid;
 $break-small: 767px;
 $break-large: 768px;
 
+@mixin rounded-button-container() {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: auto;
+
+  &:after {
+    content: '';
+    flex-grow: 1000000000;
+  }
+}
+
 @mixin rounded-button($color) {
   align-items: center;
   justify-content: center;

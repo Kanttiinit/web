@@ -1,9 +1,7 @@
 @import "constants";
 
 .container {
-  display: flex;
-  flex-wrap: wrap;
-  overflow: auto;
+  @include rounded-button-container();
 }
 
 .property {

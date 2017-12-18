@@ -3,6 +3,23 @@ import {Link} from 'react-router-dom'
 
 import {Order} from '../store/PreferenceStore'
 
+export const properties = [
+  {key: 'A*', name_en: 'contains allergens', name_fi: 'sisältää allergeeneja'},
+  {key: 'C*', name_en: 'contains celery', name_fi: 'sisältää selleriä'},
+  {key: 'E', name_en: 'egg-free', name_fi: 'ei sisällä kananmunaa'},
+  {key: 'G', name_en: 'gluten-free', name_fi: 'ei sisällä gluteenia'},
+  {key: 'H', name_en: 'healthier choice', name_fi: 'terveellisempi valinta'},
+  {key: 'L', name_en: 'lactose-free', name_fi: 'laktoositon'},
+  {key: 'LL', name_en: 'low in lactose', name_fi: 'vähälaktoosinen'},
+  {key: 'M', name_en: 'milk-free', name_fi: 'ei sisällä maitoa'},
+  {key: 'N*', name_en: 'contains nuts', name_fi: 'sisältää pähkinää'},
+  {key: 'O*', name_en: 'contains garlic', name_fi: 'sisältää valkosipulia'},
+  {key: 'S', name_en: 'soy-free', name_fi: 'ei sisällä soijaa'},
+  {key: 'S*', name_en: 'contains soy', name_fi: 'sisältää soijaa'},
+  {key: 'V', name_en: 'vegetarian', name_fi: 'vegetaarinen'},
+  {key: 'VV', name_en: 'vegan', name_fi: 'vegaani'}
+]
+
 export default {
   noMenu: {
     fi: 'Ei ruokalistaa saatavilla',

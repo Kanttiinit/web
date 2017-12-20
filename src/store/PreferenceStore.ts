@@ -1,6 +1,7 @@
 import {autorun, computed, observable, action} from 'mobx'
 import {without} from 'lodash'
 import { Lang, Order } from './types';
+import { properties } from '../utils/translations';
 
 const toggleInArray = <T>(array: Array<T>, item: T): Array<T> => {
   if (array.indexOf(item) === -1) {
@@ -46,7 +47,7 @@ export default class PreferenceStore {
     this.properties = properties || []
   }
 
-  @computed getPreferences() {
+  getPreferences() {
     const {lang, selectedArea, useLocation, order, favorites, starredRestaurants, properties} = this
     return {lang, selectedArea, useLocation, order, favorites, starredRestaurants, properties}
   }
@@ -68,8 +69,28 @@ export default class PreferenceStore {
     this.properties = toggleInArray(this.properties, property)
   }
 
-  isPropertySelected(property: string) {
-    return this.properties.some(p => p.toLowerCase() === property.toLowerCase())
+  getProperty(propertyKey: string) {
+    return properties.find(p => p.key === propertyKey)
+  }
+
+  isPropertySelected(propertyKey: string) {
+    return this.properties.some(p => p.toLowerCase() === propertyKey.toLowerCase())
+  }
+
+  isDesiredProperty(propertyKey: string) {
+    const property = this.getProperty(propertyKey)
+    if (property && property.desired) {
+      return this.isPropertySelected(propertyKey)
+    }
+    return false
+  }
+
+  isUndesiredProperty(propertyKey: string) {
+    const property = this.getProperty(propertyKey)
+    if (property && !property.desired) {
+      return this.isPropertySelected(propertyKey)
+    }
+    return false
   }
 
   @action toggleFavorite(favoriteId: number) {

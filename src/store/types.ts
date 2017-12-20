@@ -40,7 +40,8 @@ export interface CourseType {
   title: string,
   properties: Array<string>,
   isFavorite: boolean,
-  matchesSpecialDiet: boolean
+  highlight: boolean,
+  dim: boolean
 }
 
 export type ReleaseType = 'software-update' | 'information-update' | 'bugfix'

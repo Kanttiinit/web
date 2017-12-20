@@ -89,7 +89,8 @@ export default class DataStore {
         return {
           ...course,
           isFavorite,
-          matchesSpecialDiet: course.properties.some(p => this.preferences.isPropertySelected(p)),
+          highlight: course.properties.some(p => this.preferences.isDesiredProperty(p)),
+          dim: course.properties.some(p => this.preferences.isUndesiredProperty(p))
         }
       })
       const distance = uiState.location && haversine(uiState.location, restaurant, {unit: 'meter'})

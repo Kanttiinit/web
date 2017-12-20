@@ -4,6 +4,10 @@
   @include rounded-button-container();
 }
 
-.property {
+.desiredProperty {
   @include rounded-button($friendly);
+}
+
+.undesiredProperty {
+  @include rounded-button($dark_gray);
 }

@@ -45,9 +45,13 @@
   color: $hearty;
 }
 
-.specialDiet {
+.highlight {
   color: $friendly;
   font-weight: 500;
+}
+
+.dim {
+  opacity: 0.5;
 }
 
 .emptyText {

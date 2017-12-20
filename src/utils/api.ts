@@ -2,7 +2,7 @@ import * as moment from 'moment'
 import http from './http'
 
 import {isProduction} from './consts'
-import { Lang } from '../store/PreferenceStore';
+import { Lang } from '../store/types';
 
 export const getCourses = async (restaurantId: number, day: moment.Moment, lang: Lang) => {
   const restaurant = await http.get(`/restaurants/${restaurantId}/menu?day=${day.format('YYYY-MM-DD')}&lang=${lang}`)

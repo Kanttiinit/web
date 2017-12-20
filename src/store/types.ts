@@ -51,3 +51,11 @@ export interface Release {
   createdAt: string,
   description: string
 }
+
+export enum Lang { FI = 'fi', EN = 'en' }
+
+export enum Order {
+  AUTOMATIC = 'ORDER_AUTOMATIC',
+  ALPHABET = 'ORDER_ALPHABET',
+  DISTANCE = 'ORDER_DISTANCE'
+}

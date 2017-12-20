@@ -1,17 +1,6 @@
 import {autorun, computed, observable, action} from 'mobx'
 import {without} from 'lodash'
-
-export enum Lang {
-  FI = 'fi', EN = 'en'
-}
-
-export enum Order {
-  AUTOMATIC = 'ORDER_AUTOMATIC',
-  ALPHABET = 'ORDER_ALPHABET',
-  DISTANCE = 'ORDER_DISTANCE'
-}
-
-export const orders = [Order.AUTOMATIC, Order.ALPHABET, Order.DISTANCE]
+import { Lang, Order } from './types';
 
 const toggleInArray = <T>(array: Array<T>, item: T): Array<T> => {
   if (array.indexOf(item) === -1) {
@@ -29,16 +18,6 @@ const safeParseJson = (input: string) => {
   }
 }
 
-interface Preferences {
-  lang: Lang,
-  selectedArea: number,
-  useLocation: boolean,
-  order: Order,
-  favorites: Array<number>,
-  starredRestaurants: Array<number>,
-  properties: Array<string>  
-}
-
 export default class PreferenceStore {
   @observable lang: Lang
   @observable selectedArea: number
@@ -46,17 +25,17 @@ export default class PreferenceStore {
   @observable order: Order
   @observable favorites: Array<number>
   @observable starredRestaurants: Array<number>
-  @observable properties: Array<string>  
+  @observable properties: Array<string>
 
   constructor() {
     const state = localStorage.getItem('preferenceStore')
-    this.preferences = safeParseJson(state)
+    this.setPreferences(safeParseJson(state))
     autorun(() => {
-      localStorage.setItem('preferenceStore', JSON.stringify(this.preferences))
+      localStorage.setItem('preferenceStore', JSON.stringify(this.getPreferences()))
     })
   }
 
-  set preferences(data: Preferences) {
+  setPreferences(data: any) {
     const {lang, selectedArea, useLocation, order, favorites, starredRestaurants, properties} = data
     this.lang = lang || Lang.FI
     this.selectedArea = selectedArea || 1
@@ -67,7 +46,7 @@ export default class PreferenceStore {
     this.properties = properties || []
   }
 
-  @computed get preferences(): Preferences {
+  @computed getPreferences() {
     const {lang, selectedArea, useLocation, order, favorites, starredRestaurants, properties} = this
     return {lang, selectedArea, useLocation, order, favorites, starredRestaurants, properties}
   }

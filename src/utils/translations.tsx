@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {Link} from 'react-router-dom'
 
-import {Order} from '../store/PreferenceStore'
+import {Order} from '../store/types'
 
 export const properties = [
   {key: 'A*', name_en: 'contains allergens', name_fi: 'sisältää allergeeneja'},

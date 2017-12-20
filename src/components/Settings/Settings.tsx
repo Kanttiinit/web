@@ -4,9 +4,6 @@ import {withRouter} from 'react-router-dom'
 import {observer} from 'mobx-react'
 
 import {preferenceStore} from '../../store'
-import {Lang} from '../../store/PreferenceStore'
-import {orders} from '../../store/PreferenceStore'
-import {Order} from '../../store/PreferenceStore'
 const css = require('./Settings.scss')
 import Text from '../Text'
 import Radio from '../Radio'
@@ -14,6 +11,7 @@ import Toggle from '../Toggle'
 import PageContainer from '../PageContainer'
 import FavoriteSelector from '../FavoriteSelector'
 import PropertySelector from '../PropertySelector'
+import { Order, Lang } from '../../store/types';
 
 const Item = ({label, children}) => (
   <div className="settings-item">
@@ -21,6 +19,8 @@ const Item = ({label, children}) => (
     {children}
   </div>
 )
+
+const orders = [Order.AUTOMATIC, Order.ALPHABET, Order.DISTANCE]
 
 export default withRouter(observer(class Settings extends React.Component {
 

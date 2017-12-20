@@ -5,9 +5,9 @@ import * as haversine from 'haversine'
 
 import Resource from './Resource'
 import {uiState} from './index'
-import PreferenceStore, {Order} from './PreferenceStore'
+import PreferenceStore from './PreferenceStore'
 import UIState from './UIState'
-import {AreaType, FavoriteType, FormattedFavoriteType, MenuType, RestaurantType, CourseType} from './types'
+import {AreaType, Order, FavoriteType, FormattedFavoriteType, MenuType, RestaurantType, CourseType} from './types'
 
 const isOpenNow = (restaurant: RestaurantType, day) => {
   const weekday = day.isoWeekday() - 1

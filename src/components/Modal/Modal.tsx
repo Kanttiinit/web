@@ -7,6 +7,7 @@ import ErrorBoundary from 'react-error-boundary'
 import {reportError} from '../../utils/api'
 import PageContainer from '../PageContainer'
 import Text from '../Text'
+import { RouteComponentProps } from 'react-router';
 const css = require('./Modal.scss')
 
 const ModalError = () => (
@@ -15,12 +16,12 @@ const ModalError = () => (
   </PageContainer>
 )
 
+type Props = RouteComponentProps<any> & {
+  children: any
+}
+
 @observer
-class Modal extends React.Component {
-  props: {
-    history?: any,
-    children?: any
-  }
+class Modal extends React.Component<Props, {}> {
 
   componentDidMount() {
     window.addEventListener('keydown', this.onKeyDown)

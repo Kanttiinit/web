@@ -9,6 +9,7 @@ import * as Star from 'react-icons/lib/md/star'
 import * as More from 'react-icons/lib/md/more-vert'
 import * as Flag from 'react-icons/lib/md/flag'
 import * as c from 'classnames'
+import { RouteComponentProps } from 'react-router';
 import {Link} from 'react-router-dom'
 import * as moment from 'moment'
 
@@ -37,15 +38,17 @@ const Distance = ({distance}: {distance: number}) => {
   )
 }
 
-export default withRouter(observer(class Restaurant extends React.Component {
-  props: {
-    restaurant: RestaurantType,
-    location?: Location
-  }
+type Props = RouteComponentProps<any> & {
+  restaurant: RestaurantType
+}
+
+export default withRouter(observer(class Restaurant extends React.Component<Props, {}> {
+  
   toggleStar = () => {
     const {restaurant} = this.props
     preferenceStore.setRestaurantStarred(restaurant.id, !restaurant.isStarred)
   }
+  
   render() {
     const {restaurant} = this.props
     const dayOfWeek = uiState.day.isoWeekday() - 1

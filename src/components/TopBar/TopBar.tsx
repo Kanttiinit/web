@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {withRouter} from 'react-router-dom'
+import { RouteComponentProps } from 'react-router';
 import {observer} from 'mobx-react'
 import {Link} from 'react-router-dom'
 import * as AreaIcon from 'react-icons/lib/md/map'
@@ -13,9 +14,7 @@ const css = require('./TopBar.scss')
 import Text from '../Text'
 
 export default withRouter(observer(class TopBar extends React.Component {
-  props: {
-    location?: Location
-  }
+  props: RouteComponentProps<any>
 
   toggleLanguage = () => {
     preferenceStore.toggleLanguage()

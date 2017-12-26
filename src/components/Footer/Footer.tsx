@@ -1,6 +1,7 @@
 import * as React from 'react'
 import {NavLink} from 'react-router-dom'
 import {observer} from 'mobx-react'
+import { RouteComponentProps } from 'react-router';
 import {withRouter} from 'react-router-dom'
 
 import Text from '../Text'
@@ -9,9 +10,7 @@ const css = require('./Footer.scss')
 import {isBeta, version} from '../../utils/consts'
 
 export default withRouter(observer(class Footer extends React.Component {
-  props: {
-    location?: Location
-  }
+  props: RouteComponentProps<any>
   
   render() {
     const {search} = this.props.location

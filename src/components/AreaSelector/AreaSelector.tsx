@@ -3,6 +3,7 @@ import {observer} from 'mobx-react'
 import sortBy = require('lodash/sortBy')
 import * as Star from 'react-icons/lib/io/star'
 import * as Map from 'react-icons/lib/md/map'
+import { RouteComponentProps } from 'react-router';
 import {withRouter} from 'react-router-dom'
 
 import {dataStore, preferenceStore} from '../../store'
@@ -32,9 +33,7 @@ const Area = ({area, selectArea}) => (
 
 @observer
 class AreaSelector extends React.Component {
-  props: {
-    history?: any
-  }
+  props: RouteComponentProps<any>
 
   selectArea = (areaId: number) => {
     preferenceStore.selectedArea = areaId

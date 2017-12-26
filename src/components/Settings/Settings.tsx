@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import {withRouter} from 'react-router-dom'
 import {observer} from 'mobx-react'
@@ -12,6 +11,7 @@ import PageContainer from '../PageContainer'
 import FavoriteSelector from '../FavoriteSelector'
 import PropertySelector from '../PropertySelector'
 import { Order, Lang } from '../../store/types';
+import { RouteComponentProps } from 'react-router';
 
 const Item = ({label, children}) => (
   <div className="settings-item">
@@ -23,6 +23,8 @@ const Item = ({label, children}) => (
 const orders = [Order.AUTOMATIC, Order.ALPHABET, Order.DISTANCE]
 
 export default withRouter(observer(class Settings extends React.Component {
+
+  props: RouteComponentProps<any>
 
   setOrder = (value: Order) => {preferenceStore.order = value}
 

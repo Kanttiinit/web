@@ -19,6 +19,7 @@ import ReportModal from '../ReportModal'
 import Clients from '../Clients'
 import ChangeLog from '../ChangeLog'
 import {isProduction, isBeta} from '../../utils/consts'
+import { RouteComponentProps } from 'react-router';
 
 class App extends React.PureComponent {
   state = {
@@ -26,10 +27,7 @@ class App extends React.PureComponent {
     leftArrowVisible: false
   }
 
-  props: {
-    location?: Location,
-    history?: any
-  }
+  props: RouteComponentProps<any>
 
   componentWillMount() {
     window.addEventListener('keydown', this.onKeyDown)

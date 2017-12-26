@@ -4,7 +4,7 @@ import {withGoogleMap, Marker, GoogleMap} from 'react-google-maps'
 import * as moment from 'moment'
 import * as Pin from 'react-icons/lib/md/place'
 import * as Home from 'react-icons/lib/md/home'
-import {findIndex} from 'lodash'
+import findIndex = require('lodash/findIndex')
 import {observer} from 'mobx-react'
 
 import * as api from '../../utils/api'

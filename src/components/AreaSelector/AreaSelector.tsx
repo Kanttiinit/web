@@ -1,6 +1,6 @@
 import * as React from 'react'
 import {observer} from 'mobx-react'
-import {sortBy} from 'lodash'
+import sortBy = require('lodash/sortBy')
 import * as Star from 'react-icons/lib/io/star'
 import * as Map from 'react-icons/lib/md/map'
 import {withRouter} from 'react-router-dom'

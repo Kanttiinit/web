@@ -1,7 +1,11 @@
 import * as React from 'react'
 import * as Heart from 'react-icons/lib/io/heart'
 import * as c from 'classnames'
-import {memoize, groupBy, values, mapValues, capitalize} from 'lodash'
+import memoize = require('lodash/memoize')
+import groupBy = require('lodash/groupBy')
+import values = require('lodash/values')
+import mapValues = require('lodash/mapValues')
+import capitalize = require('lodash/capitalize')
 
 import {CourseType} from '../../store/types'
 import Text from '../Text'

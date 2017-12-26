@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom'
 import {observer} from 'mobx-react'
 import {Link} from 'react-router-dom'
 import * as moment from 'moment'
-import {times} from 'lodash'
+import times = require('lodash/times')
 
 import {uiState} from '../../store'
 const css = require('./DaySelector.scss')

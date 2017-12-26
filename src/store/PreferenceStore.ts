@@ -1,5 +1,5 @@
 import {autorun, computed, observable, action} from 'mobx'
-import {without} from 'lodash'
+import without = require('lodash/without')
 import { Lang, Order } from './types';
 import { properties } from '../utils/translations';
 

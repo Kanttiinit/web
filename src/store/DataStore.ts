@@ -1,5 +1,6 @@
 import {observable, computed} from 'mobx'
-import {orderBy, get} from 'lodash'
+import orderBy = require('lodash/orderBy')
+import get = require('lodash/get')
 import * as moment from 'moment'
 import * as haversine from 'haversine'
 

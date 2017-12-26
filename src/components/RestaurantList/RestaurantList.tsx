@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {observer} from 'mobx-react'
 import * as Error from 'react-icons/lib/md/error'
-import {times} from 'lodash'
+import times = require('lodash/times')
 const locating = require('../../assets/locating.svg')
 
 import {dataStore, uiState, preferenceStore} from '../../store'

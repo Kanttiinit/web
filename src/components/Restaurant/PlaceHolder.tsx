@@ -1,5 +1,6 @@
 import * as React from 'react'
-import {times, random} from 'lodash'
+import times = require('lodash/times')
+import random = require('lodash/random')
 import * as classnames from 'classnames'
 
 const css = require('./Restaurant.scss')

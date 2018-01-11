@@ -4,18 +4,18 @@ import {Link} from 'react-router-dom'
 import {Order} from '../store/types'
 
 export const properties = [
-  {key: 'A*', desired: false, name_en: 'contains allergens', name_fi: 'sisältää allergeeneja'},
-  {key: 'C*', desired: false, name_en: 'contains celery', name_fi: 'sisältää selleriä'},
+  {key: 'A+', desired: false, name_en: 'contains allergens', name_fi: 'sisältää allergeeneja'},
+  {key: 'C+', desired: false, name_en: 'contains celery', name_fi: 'sisältää selleriä'},
   {key: 'E', desired: true, name_en: 'egg-free', name_fi: 'ei sisällä kananmunaa'},
   {key: 'G', desired: true, name_en: 'gluten-free', name_fi: 'gluteeniton'},
   {key: 'H', desired: true, name_en: 'healthier choice', name_fi: 'terveellisempi valinta'},
   {key: 'L', desired: true, name_en: 'lactose-free', name_fi: 'laktoositon'},
   {key: 'LL', desired: true, name_en: 'low in lactose', name_fi: 'vähälaktoosinen'},
   {key: 'M', desired: true, name_en: 'milk-free', name_fi: 'ei sisällä maitoa'},
-  {key: 'N*', desired: false, name_en: 'contains nuts', name_fi: 'sisältää pähkinää'},
-  {key: 'O*', desired: false, name_en: 'contains garlic', name_fi: 'sisältää valkosipulia'},
+  {key: 'N+', desired: false, name_en: 'contains nuts', name_fi: 'sisältää pähkinää'},
+  {key: 'O+', desired: false, name_en: 'contains garlic', name_fi: 'sisältää valkosipulia'},
   {key: 'S', desired: true, name_en: 'soy-free', name_fi: 'ei sisällä soijaa'},
-  {key: 'S*', desired: false, name_en: 'contains soy', name_fi: 'sisältää soijaa'},
+  {key: 'S+', desired: false, name_en: 'contains soy', name_fi: 'sisältää soijaa'},
   {key: 'V', desired: true, name_en: 'vegetarian', name_fi: 'vegetaarinen'},
   {key: 'VV', desired: true, name_en: 'vegan', name_fi: 'vegaani'}
 ]

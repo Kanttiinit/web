@@ -181,8 +181,16 @@ export default {
     fi: 'Päivitykset',
     en: 'Updates'
   },
-  specialDiets: {
-    fi: 'Erityisruokavaliot',
-    en: 'Special diets'
+  avoidDiets: {
+    fi: 'Himmennä',
+    en: 'Dim'
+  },
+  highlightDiets: {
+    fi: 'Korosta',
+    en: 'Highlight'
+  },
+  prioritize: {
+    fi: 'Priorisoi',
+    en: 'prioritize'
   }
 }

@@ -6,9 +6,11 @@ import {preferenceStore} from '../../store'
 import {properties} from '../../utils/translations'
 const css = require('./PropertySelector.scss')
 
-export default observer(() =>
+export default observer(({showDesiredProperties}) =>
   <div className={css.container}>
-    {properties.map(p =>
+    {properties
+    .filter(p => showDesiredProperties ? p.desired : !p.desired)
+    .map(p =>
       <button
         onClick={() => preferenceStore.toggleProperty(p.key)}
         className={classnames(

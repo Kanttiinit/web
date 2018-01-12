@@ -61,10 +61,13 @@ export default withRouter(observer(class Settings extends React.Component {
             onChange={this.setUseLocation}
             />
         </Item>
-        <Item label={<Text id="specialDiets" />}>
+        <Item label={<Text id="highlightDiets" />}>
+          <PropertySelector showDesiredProperties />
+        </Item>
+        <Item label={<Text id="avoidDiets" />}>
           <PropertySelector />
         </Item>
-        <Item label={<Text id="favorites" />}>
+        <Item label={<Text id="prioritize" />}>
           <FavoriteSelector />
         </Item>
       </PageContainer>

@@ -9,7 +9,7 @@ import Footer from '../Footer'
 import Modal from '../Modal'
 import Menus from '../Menus'
 import NotFound from '../NotFound'
-import PrivacyPolicy from '../PrivacyPolicy'
+import TermsOfService from '../TermsOfService'
 import Contact from '../Contact'
 import Settings from '../Settings'
 import AreaSelector from '../AreaSelector'
@@ -93,8 +93,8 @@ class App extends React.PureComponent {
           <Route path="/contact">
             <Modal><Contact /></Modal>
           </Route>
-          <Route path="/privacy-policy">
-            <Modal><PrivacyPolicy /></Modal>
+          <Route path="/terms-of-service">
+            <Modal><TermsOfService /></Modal>
           </Route>
           <Route path="/select-area">
             <Modal><AreaSelector /></Modal>

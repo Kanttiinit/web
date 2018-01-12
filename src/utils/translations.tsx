@@ -29,9 +29,9 @@ export default {
     fi: 'suljettu',
     en: 'closed'
   },
-  privacyPolicy: {
-    fi: 'Yksityisyyskäytäntö',
-    en: 'Privacy Policy'
+  termsOfService: {
+    fi: 'Käyttöehdot',
+    en: 'Terms Of Service'
   },
   contact: {
     fi: 'Ota yhteyttä',
@@ -41,15 +41,19 @@ export default {
     fi: 'Asetukset',
     en: 'Settings'
   },
-  privacyPolicyContent: {
+  termsOfServiceContent: {
     fi: (
       <div>
+        <p>Kanttiinit hakee kaikki ruokalistat suoraan ravintoloiden sivuilta, eikä ole itse vastuussa tietojen paikkansapitävyydestä. Muista varmistaa ruokien allergeenit paikan päällä ravintolassa.</p>
+        <p>Kanttiinit käyttää evästeitä kävijätilastojen keräämiseksi. Käyttämällä palvelua hyväksyt evästeiden käytön.</p>
         <p>Kanttiinit ei jaa mitään dataa kolmansille osapuolille.</p>
       </div>
     ),
     en: (
       <div>
-        <p>Kanttiinit will not share your data with third parties.</p>
+        <p>Kanttiinit retrieves all menus directly from the restaurants, and isn't directly responsible for the correctness of any information. Please verify information about allergens at the restaurants.</p>
+        <p>Kanttiinit uses cookies for collecting user statistics. By using the service you agree to the usage of cookies.</p>
+        <p>Kanttiinit will not share any data with third parties.</p>
       </div>
     )
   },

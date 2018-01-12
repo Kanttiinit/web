@@ -29,8 +29,8 @@ export default withRouter(observer(class Footer extends React.Component {
               <NavLink to={{pathname: '/updates', search}}>
                 <Text id="updates" />
               </NavLink>
-              <NavLink to={{pathname: '/privacy-policy', search}} activeClassName={css.current}>
-                <Text id="privacyPolicy" />
+              <NavLink to={{pathname: '/terms-of-service', search}} activeClassName={css.current}>
+                <Text id="termsOfService" />
               </NavLink>
               {!isBeta && <a href="https://beta.kanttiinit.fi/" target="_blank">Beta</a>}
             </nav>

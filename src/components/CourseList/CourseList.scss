@@ -42,6 +42,7 @@
 
   &>span {
     margin-left: 0.8ch;
+    cursor: pointer;
 
     &:hover {
       color: $accent_green;

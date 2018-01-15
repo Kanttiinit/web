@@ -7,6 +7,7 @@ import values = require('lodash/values')
 import mapValues = require('lodash/mapValues')
 import capitalize = require('lodash/capitalize')
 
+import Property from './Property'
 import {CourseType} from '../../store/types'
 import Text from '../Text'
 const css = require('./CourseList.scss')
@@ -36,7 +37,9 @@ const Course = ({course}: {course: CourseType}) => (
     )}>
     {course.isFavorite && <Heart className={`inline-icon ${css.icon}`} />}
     <span className={css.title}>{course.title}</span>
-    <span className={css.props}>{course.properties.join(' ')}</span>
+    <span className={css.props}>
+      {course.properties.map(p => <Property key={p} property={p} />)}
+    </span>
   </div>
 )
 

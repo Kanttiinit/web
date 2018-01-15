@@ -39,6 +39,14 @@
   font-weight: 300;
   display: inline;
   color: $text_color_light;
+
+  &>span {
+    margin-left: 0.8ch;
+
+    &:hover {
+      color: $accent_green;
+    }
+  }
 }
 
 .favoriteCourse {
@@ -60,4 +68,21 @@
   flex: 1;
   align-items: center;
   justify-content: center;
+}
+
+.tooltip {
+  opacity: 0;
+  position: absolute;
+  z-index: 999999;
+  background: $background;
+  font-size: 0.8rem;
+  padding: 0.5em;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  border: solid 1px $gray;
+  white-space: nowrap;
+
+  &.tooltipVisible {
+    opacity: 1;
+  }
 }

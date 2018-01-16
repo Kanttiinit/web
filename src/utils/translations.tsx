@@ -51,7 +51,7 @@ export default {
     ),
     en: (
       <div>
-        <p>Kanttiinit retrieves all menus directly from the restaurants, and isn't directly responsible for the correctness of any information. Please verify information about allergens at the restaurants.</p>
+        <p>Kanttiinit retrieves all menus directly from the restaurants, and isn't directly responsible for the correctness of any information. Please verify the information about allergens at the restaurants.</p>
         <p>Kanttiinit uses cookies for collecting user statistics. By using the service you agree to the usage of cookies.</p>
         <p>Kanttiinit will not share any data with third parties.</p>
       </div>

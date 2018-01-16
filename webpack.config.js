@@ -32,7 +32,7 @@ if (isProduction) {
 module.exports = {
   entry: {
     app: [PATHS.app, PATHS.html],
-    // admin: ['./admin/index.tsx', './admin/index_admin.html']
+    admin: ['./admin/index.tsx', './admin/index_admin.html']
   },
   output: {
     path: PATHS.dist,

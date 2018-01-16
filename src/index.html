@@ -19,9 +19,6 @@
   <meta property="og:locale:alternate" content="en" />
 </head>
 <body>
-  <div id="root"></div>
-  <script async src="/app.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFqW3NtbnzHaUcFn0yZ9RjzWKC8JaVcT0"></script>
   <noscript>
     <center>
       <h1>You don't have JavaScript!</h1>
@@ -29,5 +26,18 @@
       <p>If this is intentional, we've got a special version just for you: <a href="https://folio.kanttiinit.fi/">folio.kanttiinit.fi</a>.</p>
     </center>
   </noscript>
+  <div id="get-a-proper-browser">
+    Your browser is not supported by Kanttiinit.<br>
+    Please check out <a href="https://folio.kanttiinit.fi/">folio.kanttiinit.fi</a> for a stripped-down version.
+  </div>
+  <script>
+    if (!window.Promise) {
+      document.getElementById('get-a-proper-browser').style.display = 'block'
+    }
+  </script>
+
+  <div id="root"></div>
+  <script async src="/app.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFqW3NtbnzHaUcFn0yZ9RjzWKC8JaVcT0"></script>
 </body>
 </html>

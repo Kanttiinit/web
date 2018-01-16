@@ -40,11 +40,28 @@
   color: $text_color_light;
 
   &>span {
-    margin-left: 0.8ch;
+    padding: 0 0.4ch;
     cursor: pointer;
+    position: relative;
 
     &:hover {
       color: $accent_green;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+
+  .propertyClickTrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    @media (hover: none) {
+      display: none;
     }
   }
 }

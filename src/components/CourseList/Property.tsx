@@ -36,9 +36,11 @@ const hideTooltip = () => {
 
 export default ({property}) => (
   <span
-    onClick={() => preferenceStore.toggleProperty(property)}
     onMouseOver={e => showTooltip(e.target, property)}
     onMouseOut={hideTooltip}>
     {property}
+    <span
+      className={css.propertyClickTrap}
+      onClick={() => preferenceStore.toggleProperty(property)} />
   </span>
 )

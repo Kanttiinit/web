@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router';
 import {withRouter} from 'react-router-dom'
 
 import Text from '../Text'
-const logo = require('../../assets/logo.png')
+const logo = require('../../assets/logo_48.png')
 const css = require('./Footer.scss')
 import {isBeta, version} from '../../utils/consts'
 

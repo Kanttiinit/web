@@ -35,7 +35,7 @@ export default withRouter(observer(class TopBar extends React.Component {
             <Text id="settings" />
           </Link>
           <a className={css.icon} onClick={this.toggleLanguage}>
-            <img height={18} src={preferenceStore.lang === 'fi' ? FI : EN} />
+            <img height={18} alt={preferenceStore.lang.toUpperCase()} src={preferenceStore.lang === 'fi' ? FI : EN} />
           </a>
         </div>
       </div>

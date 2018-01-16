@@ -2,7 +2,6 @@ const webpack = require('webpack')
 const path = require('path')
 const autoprefixer = require('autoprefixer')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const pkg = require('./package.json')
 
 const PATHS = {
@@ -21,8 +20,7 @@ const plugins = [
     },
     VERSION: JSON.stringify(pkg.version),
     API_BASE: JSON.stringify(process.env.API_BASE || 'https://kitchen.kanttiinit.fi')
-  }),
-  new ExtractTextPlugin('styles.css')
+  })
 ]
 
 if (isProduction) {
@@ -63,30 +61,28 @@ module.exports = {
       { test: /\.tsx?$/, use: ['ts-loader'] },
       {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              query: {
-                modules: true,
-                localIdentName: '[name]__[local]__[hash:base64:5]'
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: () => ([autoprefixer({ browsers: ['last 2 versions'] })])
-              }
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                includePaths: [path.resolve(__dirname, './src/styles')]
-              }
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            query: {
+              modules: true,
+              localIdentName: '[name]__[local]__[hash:base64:5]'
             }
-          ]
-        })
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => ([autoprefixer({ browsers: ['last 2 versions'] })])
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              includePaths: [path.resolve(__dirname, './src/styles')]
+            }
+          }
+        ]
       },
       {
         test: /\.css$/,

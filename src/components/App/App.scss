@@ -9,15 +9,11 @@
 }
 
 :global {
-  * {
-    user-select: inherit;
-  }
 
   body {
     font-family: 'Interface', sans-serif;
     margin: 0;
     background-color: $body_background;
-    user-select: none;
   }
 
   hr {

@@ -9,6 +9,7 @@
   z-index: 10;
   color: $dark_gray;
   border-bottom: 1px solid #ededed;
+  user-select: none;
 
   @media (max-width: $break-small) {
     background-color: $body_background;

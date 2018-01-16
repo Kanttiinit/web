@@ -51,7 +51,6 @@ export default class CourseList extends React.PureComponent {
 
   render() {
     const {courses, ...props} = this.props
-
     return (
       <div {...props}>
         {!courses.length && <Text id="noMenu" element="span" className={css.emptyText} />}

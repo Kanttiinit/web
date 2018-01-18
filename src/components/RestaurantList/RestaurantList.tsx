@@ -19,9 +19,9 @@ export default class RestaurantList extends React.Component {
     } else if (preferenceStore.selectedArea === -2) {
       if (!preferenceStore.useLocation) {
         return <Text id="turnOnLocation" element="p" className="notice" />
-      } else if (!uiState.location) {
+      } else if (!uiState.location || true) {
         return (
-          <div>
+          <div className={css.locating}>
             <img src={locating} />
             <Text id="locating" element="p" className="notice" />
           </div>

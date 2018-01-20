@@ -14,6 +14,10 @@ autorun(() => {
   if (preferenceStore.useLocation && !locationWatchId) {
     locationWatchId = navigator.geolocation.watchPosition(({coords}) => {
       uiState.setLocation(coords)
+    }, error => {
+      switch (error.code) {
+        case 1: preferenceStore.useLocation = false
+      }
     })
   } else if (!preferenceStore.useLocation && locationWatchId) {
     navigator.geolocation.clearWatch(locationWatchId)

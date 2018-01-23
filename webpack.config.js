@@ -30,6 +30,7 @@ if (isProduction) {
 module.exports = {
   entry: {
     app: [PATHS.app, PATHS.html],
+    worker: ['./src/worker'],
     admin: ['./admin/index.tsx', './admin/index_admin.html']
   },
   output: {

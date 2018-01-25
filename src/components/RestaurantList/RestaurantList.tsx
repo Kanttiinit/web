@@ -6,6 +6,7 @@ const locating = require('../../assets/locating.svg')
 
 import {dataStore, uiState, preferenceStore} from '../../store'
 import Text from '../Text'
+import NetworkStatus from '../NetworkStatus'
 const css = require('./RestaurantList.scss')
 import Restaurant, {Placeholder} from '../Restaurant'
 
@@ -45,6 +46,7 @@ export default class RestaurantList extends React.Component {
   render() {
     return (
       <div className={css.container}>
+        <NetworkStatus />
         {this.renderContent()}
       </div>
     )

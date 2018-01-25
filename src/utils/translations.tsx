@@ -196,5 +196,9 @@ export default {
   prioritize: {
     fi: 'Priorisoi',
     en: 'prioritize'
+  },
+  offline: {
+    fi: 'Olet offline-tilassa.',
+    en: 'You are currently offline.'
   }
 }

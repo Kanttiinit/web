@@ -45,9 +45,11 @@ export default class RestaurantList extends React.Component {
 
   render() {
     return (
-      <div className={css.container}>
+      <div className={css.wrapper}>
         <NetworkStatus />
-        {this.renderContent()}
+        <div className={css.container}>
+          {this.renderContent()}
+        </div>
       </div>
     )
   }

@@ -198,7 +198,7 @@ export default {
     en: 'prioritize'
   },
   offline: {
-    fi: 'Olet offline-tilassa.',
+    fi: 'Ei verkkoyhteyttä.',
     en: 'You are currently offline.'
   }
 }

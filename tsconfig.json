@@ -4,7 +4,7 @@
     "target": "es5",
     "module": "commonjs",
     "sourceMap": true,
-    "lib": ["es2015", "webworker", "dom"],
+    "lib": ["es2015", "dom"],
     "experimentalDecorators": true
   }
 }

@@ -1,6 +1,6 @@
 import {version} from '../utils/consts'
 
-const worker = (self as any) as ServiceWorkerGlobalScope
+const worker = (self as any)
 
 const CACHE_NAME = `cache-${version}`
 const urlsToCache = [
@@ -38,11 +38,11 @@ const install = async () => {
   await cache.addAll(urlsToCache)
 }
 
-worker.addEventListener('install', (event: ExtendableEvent) => {
+worker.addEventListener('install', (event: any) => {
   worker.skipWaiting()
   event.waitUntil(install())
 })
 
-worker.addEventListener('fetch', (event: FetchEvent) => {
+worker.addEventListener('fetch', (event: any) => {
   event.respondWith(resolve(event.request))
 })

@@ -76,7 +76,7 @@ export default class DataStore {
   }
 
   @computed get formattedRestaurants(): Array<RestaurantType> {
-    const day = moment(this.uiState.day)
+    const day = moment(this.uiState.selectedDay)
     const formattedRestaurants = this.restaurants.data
     .map(restaurant => {
       let favoriteCourses = 0

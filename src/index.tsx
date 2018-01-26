@@ -4,7 +4,7 @@ import {BrowserRouter} from 'react-router-dom'
 import ErrorBoundary from 'react-error-boundary'
 import 'url-polyfill'
 
-import './utils/updateChecker'
+import './utils/globalHooks'
 import './worker/registerWorker'
 import App from './components/App'
 import Text from './components/Text'

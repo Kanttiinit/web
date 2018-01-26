@@ -49,7 +49,7 @@ export default class MenuViewer extends React.Component {
     this.removeAutorun = autorun(async () => {
       try {
         this.setState({loading: true})
-        const courses = await getCourses(this.props.restaurantId, uiState.day, preferenceStore.lang)
+        const courses = await getCourses(this.props.restaurantId, uiState.selectedDay, preferenceStore.lang)
         this.setState({courses, loading: false, error: null})
       } catch (error) {
         this.setState({error, loading: false})

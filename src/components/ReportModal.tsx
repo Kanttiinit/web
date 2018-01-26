@@ -22,7 +22,7 @@ export default feedbackProvider(observer(
 
 ✉️ E-mail: ${emailField.value || 'anonymous'}
 🏢 Restaurant ID: ${this.props.restaurantId}
-📅 Day: ${uiState.day.format('DD/MM/YYYY')}
+📅 Day: ${uiState.selectedDay.format('DD/MM/YYYY')}
 🗺 Language: ${preferenceStore.lang}`
       )
     }

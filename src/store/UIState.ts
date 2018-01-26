@@ -1,19 +1,29 @@
 import {observable, action} from 'mobx'
 import * as moment from 'moment'
 import * as haversine from 'haversine'
+import times = require('lodash/times')
 
 const dateFormat = 'YYYY-MM-DD'
 
 export default class UIState {
   @observable location: Coordinates | null
+  @observable displayedDays: Array<moment.Moment> = []
   @observable date: moment.Moment | null
   maxDayOffset = 5
 
-  get day(): moment.Moment {
+  constructor() {
+    this.updateDisplayedDays()
+  }
+
+  get selectedDay(): moment.Moment {
     if (this.date) {
       return this.date
     }
     return moment()
+  }
+
+  updateDisplayedDays() {
+    this.displayedDays = times(6, i => moment().add({day: i}))
   }
 
   updateDay(location: Location) {

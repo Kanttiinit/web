@@ -3,7 +3,6 @@ import * as ReactDOM from 'react-dom'
 import {observer} from 'mobx-react'
 import {Link} from 'react-router-dom'
 import * as moment from 'moment'
-import times = require('lodash/times')
 
 import {uiState} from '../../store'
 const css = require('./DaySelector.scss')
@@ -48,18 +47,18 @@ export default class DaySelector extends React.Component {
   }
 
   render() {
-    const date = uiState.day
+    const selectedDay = uiState.selectedDay
     return (
       <div className={css.days}>
-        {!uiState.isDateInRange(date) &&
-          <DayLink day={date} selectedDay={date} />
+        {!uiState.isDateInRange(selectedDay) &&
+          <DayLink day={selectedDay} selectedDay={selectedDay} />
         }
-        {times(6, i =>
+        {uiState.displayedDays.map(day =>
           <DayLink
-            key={i}
+            key={day.format('YYYY-MM-DD')}
             root={this.props.root}
-            selectedDay={date}
-            day={moment().add({day: i})} />
+            selectedDay={selectedDay}
+            day={day} />
         )}
       </div>
     )

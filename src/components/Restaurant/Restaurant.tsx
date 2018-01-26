@@ -51,8 +51,8 @@ export default withRouter(observer(class Restaurant extends React.Component<Prop
   
   render() {
     const {restaurant} = this.props
-    const dayOfWeek = uiState.day.isoWeekday() - 1
-    const isClosed = uiState.day.isSame(moment(), 'day') && !restaurant.isOpenNow
+    const dayOfWeek = uiState.selectedDay.isoWeekday() - 1
+    const isClosed = uiState.selectedDay.isSame(moment(), 'day') && !restaurant.isOpenNow
     const {search} = this.props.location
     return (
       <div className={c(css.container, {

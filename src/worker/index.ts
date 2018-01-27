@@ -32,6 +32,9 @@ const resolve = async (request: Request) => {
 }
 
 const install = async () => {
+  // purge all caches
+  await Promise.all((await caches.keys()).map(name => caches.delete(name)))
+
   const cache = await getCache()
   await cache.addAll(urlsToCache)
   return worker.skipWaiting()

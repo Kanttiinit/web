@@ -1,8 +1,6 @@
-import {version} from '../utils/consts'
-
 const worker = (self as any)
 
-const CACHE_NAME = `cache-${version}`
+const CACHE_NAME = 'cache'
 const urlsToCache = [
   '/',
   '/app.js',
@@ -36,10 +34,10 @@ const resolve = async (request: Request) => {
 const install = async () => {
   const cache = await getCache()
   await cache.addAll(urlsToCache)
+  return worker.skipWaiting()
 }
 
 worker.addEventListener('install', (event: any) => {
-  worker.skipWaiting()
   event.waitUntil(install())
 })
 

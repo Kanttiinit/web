@@ -1,17 +1,16 @@
 import * as React from 'react'
-import http from '../src/utils/http'
-import Table from './Table'
-import Ace from 'react-ace'
+import {Table, Column, Cell, TableLoadingOption} from '@blueprintjs/table'
 import {get} from 'lodash'
+import {Button, Intent, Dialog} from '@blueprintjs/core'
+require('@blueprintjs/table/lib/css/table.css')
 
-import 'brace/mode/json'
-import 'brace/theme/github'
+import GenericEditor from './GenericEditor'
 import { Model } from './models';
 
 export default class AdminInterface extends React.PureComponent {
   state: {
-    editorContent?: string,
-    mode?: 'editing'
+    mode?: 'editing' | 'creating',
+    item?: any
   } = {}
 
   props: {
@@ -19,122 +18,46 @@ export default class AdminInterface extends React.PureComponent {
     onUpdate(),
     items: Array<any>
   }
-
-  getBasePath = () => '/admin/' + this.props.model.name.toLowerCase()
   
-  create = () => this.openEditor(this.props.model.defaultFields)
+  openCreateDialog = () => this.setState({mode: 'creating'})
 
-  save = async () => {
-    const item = JSON.parse(this.state.editorContent)
+  openEditDialog = item => this.setState({mode: 'editing', item})
 
-    if (this.state.mode === 'editing') {
-      await http.put(this.getBasePath() + '/' + item.id, item)
-    } else {
-      await http.post(this.getBasePath(), item)
-    }
+  hideDialog = () => this.setState({mode: undefined})
 
-    this.setState({mode: undefined})
-    this.props.onUpdate()
-    alert('Item saved!')
-  }
+  renderCell = (rowIndex, columnIndex) => <Cell>{get(this.props.items[rowIndex], this.props.model.tableFields[columnIndex].key)}</Cell>  
 
-  cancel = () => this.setState({mode: undefined})
-
-  onEditorChange = editorContent => this.setState({editorContent})
-
-  openEditor = (item, editing?) => {
-    const cleaned = {...item}
-    delete cleaned.createdAt
-    delete cleaned.updatedAt
-    this.setState({
-      editorContent: JSON.stringify(cleaned, null, '  '),
-      mode: editing ? 'editing' : 'creating'
-    })
-  }
-
-  delete = async item => {
-    if (confirm('Are you sure?')) {
-      await http.delete(this.getBasePath() + '/' + item.id)
-      this.props.onUpdate()
-      alert('Item deleted!')
-    }
-  }
-
-  renderItem = item => {
-    return (
-      <tr key={item.id}>
-        {this.props.model.tableFields.map(({key}) =>
-        <td key={key}>{get(item, key)}</td>
-        )}
-        <td>
-          &nbsp;
-          <button
-            onClick={() => this.openEditor(item, true)}
-            className="btn btn-xs btn-warning">
-            Edit
-          </button>
-          &nbsp;
-          <button
-            onClick={() => this.delete(item)}
-            className="btn btn-xs btn-danger">
-            Delete
-          </button>
-        </td>
-      </tr>
-    )
-  }
+  renderActions = (rowIndex) => <Cell interactive><a href="#" onClick={() => this.openEditDialog(this.props.items[rowIndex])}>Edit</a></Cell>
 
   render() {
     const {model, items} = this.props
-    const {mode, editorContent} = this.state
-
-    if (!items) {
-      return <p>Loading...</p>
-    }
+    const {mode, item} = this.state
 
     return (
-      <div>
-        {!mode ?
-        <button
-          className="btn btn-primary"
+      <React.Fragment>
+        <Dialog isOpen={!!mode} onClose={this.hideDialog}>
+          <GenericEditor
+            model={model}
+            mode={mode}
+            item={item}
+            onSuccess={console.log}
+            onCancel={this.hideDialog} />
+        </Dialog>
+        <Button
+          intent={Intent.PRIMARY}
           style={{margin: '1em 0'}}
-          onClick={this.create}>
+          onClick={this.openCreateDialog}>
           Create
-        </button>
-        :
-        <div className="panel panel-primary" style={{margin: '1em 0'}}>
-          <div className="panel-heading">
-            {mode === 'editing' ? 'Editing' : 'Creating'}
-          </div>
-          <div className="panel-body">
-            <Ace
-              width='100%'
-              height='400px'
-              onChange={this.onEditorChange}
-              value={editorContent}
-              theme="github"
-              mode="json" />
-            <br />
-            <button
-              onClick={this.save}
-              className="btn btn-primary">
-              {mode === 'editing' ? 'Update' : 'Create'}
-            </button>
-            &nbsp;
-            <button
-              onClick={this.cancel}
-              className="btn btn-warning">
-              Cancel
-            </button>
-          </div>
-        </div>
-        }
+        </Button>
         <Table
-          sortBy="name"
-          headers={model.tableFields}
-          renderItem={this.renderItem}
-          data={items} />
-      </div>
+          columnWidths={model ? model.tableFields.map(f => f.width).concat(100) : []}
+          numRows={items ? items.length : 20}
+          loadingOptions={items ? [] : [TableLoadingOption.CELLS]}>
+          {model && model.tableFields.map(header =>
+          <Column key={header.key} name={header.name} cellRenderer={this.renderCell} />
+          ).concat(<Column key="actions" name="Actions" cellRenderer={this.renderActions} />)}
+        </Table>
+      </React.Fragment>
     )
   }
 }

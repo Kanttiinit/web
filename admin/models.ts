@@ -1,6 +1,6 @@
 export interface Model {
   name: string,
-  tableFields: Array<{key: string, name: string}>,
+  tableFields: Array<{key: string, name: string, width?: number}>,
   defaultFields: any
 }
 
@@ -8,8 +8,8 @@ export default [
   {
     name: 'Areas',
     tableFields: [
-      {key: 'id', name: 'ID'},
-      {key: 'name_i18n.fi', name: 'Name'}
+      {key: 'id', name: 'ID', width: 50},
+      {key: 'name_i18n.fi', name: 'Name', width: 200}
     ],
     defaultFields: {
       name_i18n: {
@@ -25,9 +25,11 @@ export default [
   {
     name: 'Restaurants',
     tableFields: [
-      {key: 'id', name: 'ID'},
-      {key: 'AreaId', name: 'Area ID'},
-      {key: 'name_i18n.fi', name: 'Name'}
+      {key: 'id', name: 'ID', width: 50},
+      {key: 'AreaId', name: 'Area ID', width: 50},
+      {key: 'name_i18n.fi', name: 'Name', width: 200},
+      {key: 'address', name: 'Address', width: 200},
+      {key: 'url', name: 'URL', width: 200}
     ],
     defaultFields: {
       name_i18n: {
@@ -47,9 +49,9 @@ export default [
   {
     name: 'Favorites',
     tableFields: [
-      {key: 'id', name: 'ID'},
-      {key: 'name_i18n.fi', name: 'Name'},
-      {key: 'regexp', name: 'Regular Expression'}
+      {key: 'id', name: 'ID', width: 50},
+      {key: 'name_i18n.fi', name: 'Name', width: 100},
+      {key: 'regexp', name: 'Regular Expression', width: 300}
     ],
     defaultFields: {
       name_i18n: {

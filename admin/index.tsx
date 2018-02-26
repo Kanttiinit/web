@@ -3,6 +3,8 @@ import * as ReactDOM from 'react-dom'
 import http from '../src/utils/http'
 import AdminInterface from './AdminInterface'
 import models, { Model } from './models'
+import { Tab, Tabs, Button, InputGroup, ControlGroup, ButtonGroup, Intent } from '@blueprintjs/core'
+require('@blueprintjs/core/lib/css/blueprint.css')
 
 class BaseView extends React.PureComponent {
   state: {
@@ -55,40 +57,36 @@ class BaseView extends React.PureComponent {
     const {currentModel, items, unauthorized} = this.state
     if (unauthorized) {
       return (
-        <form className="form-inline" onSubmit={this.login}>
-          <br />
-          <input className="form-control" placeholder="Password" type="password" />
-          &nbsp;
-          <button className="btn btn-primary">Log in</button>
+        <form onSubmit={this.login}>
+          <ControlGroup>
+            <InputGroup type="password" placeholder="Password" />
+            <Button intent={Intent.PRIMARY}>Log in</Button>
+          </ControlGroup>
         </form>
       )
     }
     return (
-      <div>
-        <br />
-        <ul className="nav nav-tabs">
+      <React.Fragment>
+        <Tabs id="nav">
           {models.map(m =>
-            <li key={m.name} className={m === currentModel ? 'active' : ''}>
-            <a href="#" onClick={this.changeModel.bind(this, m)}>{m.name}</a>
-            </li>
+            <Tab key={m.name} id={m.name}>
+              <a href="#" onClick={this.changeModel.bind(this, m)}>{m.name}</a>
+            </Tab>
           )}
-        </ul>
-        <div style={{position: 'absolute', top: 0, right: 0, padding: '0.5em'}}>
-          <button
-            className="btn btn-primary btn-sm"
+        </Tabs>
+        <ButtonGroup style={{position: 'absolute', top: 0, right: 0, padding: '0.5em'}}>
+          <Button
+            intent={Intent.PRIMARY}
             disabled={this.state.updatingRestaurants}
             onClick={this.updateMenus.bind(this)}>
             {this.state.updatingRestaurants ? 'Updating...' : 'Update menus'}
-          </button>
-          &nbsp;
-          <button
-            className="btn btn-warning btn-sm"
-            onClick={this.logout}>
+          </Button>
+          <Button intent={Intent.WARNING} onClick={this.logout}>
             Log out
-          </button>
-        </div>
+          </Button>
+        </ButtonGroup>
         <AdminInterface onUpdate={() => this.changeModel()} model={currentModel} items={items} />
-      </div>
+      </React.Fragment>
     )
   }
 }

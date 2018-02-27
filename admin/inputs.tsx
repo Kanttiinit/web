@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {InputGroup, Button, Intent, Switch, ButtonGroup} from '@blueprintjs/core'
+import {withGoogleMap, Marker, GoogleMap} from 'react-google-maps'
 import * as moment from 'moment'
 
 type InputProps = {
@@ -152,6 +153,30 @@ const NumericInput = ({value, setValue, name}) =>
     value={value}
     type="number" />
 
+const Map = withGoogleMap((props: any) =>
+  <GoogleMap
+    defaultCenter={new google.maps.LatLng(props.latitude, props.longitude)}
+    defaultZoom={14}>
+    <Marker
+      draggable
+      onDragEnd={({latLng}) => props.onChange(latLng.lat(), latLng.lng())}
+      position={new google.maps.LatLng(props.latitude, props.longitude)} />
+  </GoogleMap>
+)
+
+const LocationInput = (props: InputProps) => (
+  <React.Fragment>
+    <NumericInput {...props} />
+    <Map
+      mapElement={<div style={{height: 200}} />}
+      containerElement={<div />}
+      latitude={60.123}
+      longitude={props.value}
+      onChange={(lat, lon) => props.setValue('latitude', lat) || props.setValue('longitude', lon)}
+      {...props} />
+  </React.Fragment>
+)
+
 export default {
   openingHours: OpeningHoursInput,
   url: UrlInput,
@@ -160,7 +185,7 @@ export default {
   regexp: RegExpInput,
   hidden: BooleanInput,
   latitude: NumericInput,
-  longitude: NumericInput,
+  longitude: LocationInput,
   locationRadius: NumericInput,
   _: ({value, name, setValue}) =>
     <input

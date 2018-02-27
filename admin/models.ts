@@ -1,5 +1,6 @@
 export interface Model {
   name: string,
+  key: string,
   tableFields: Array<{key: string, name: string, width?: number}>,
   defaultFields: any
 }
@@ -7,6 +8,7 @@ export interface Model {
 export default [
   {
     name: 'Areas',
+    key: 'areas',
     tableFields: [
       {key: 'id', name: 'ID', width: 50},
       {key: 'name_i18n.fi', name: 'Name', width: 200}
@@ -24,6 +26,7 @@ export default [
   },
   {
     name: 'Restaurants',
+    key: 'restaurants',
     tableFields: [
       {key: 'id', name: 'ID', width: 50},
       {key: 'AreaId', name: 'Area ID', width: 50},
@@ -48,6 +51,7 @@ export default [
   },
   {
     name: 'Favorites',
+    key: 'favorites',
     tableFields: [
       {key: 'id', name: 'ID', width: 50},
       {key: 'name_i18n.fi', name: 'Name', width: 100},
@@ -64,6 +68,7 @@ export default [
   },
   {
     name: 'Updates',
+    key: 'updates',
     tableFields: [
       {key: 'id', name: 'ID'},
       {key: 'type', name: 'Type'},
@@ -74,4 +79,4 @@ export default [
       description: ''
     }
   }
-]
+] as Array<Model>

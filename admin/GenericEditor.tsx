@@ -1,13 +1,12 @@
 import * as React from 'react'
-import {Label, Toaster, InputGroup, ControlGroup, ButtonGroup, Button, Intent} from '@blueprintjs/core'
+import {Label, InputGroup, ControlGroup, ButtonGroup, Button, Intent} from '@blueprintjs/core'
 import {get, startCase, flatten} from 'lodash'
 import {set} from 'lodash/fp'
 
 import http from '../src/utils/http'
 import { Model } from './models'
 import inputs from './inputs'
-
-const toaster = Toaster.create()
+import toaster from './toaster'
 
 export default class GenericEditor extends React.PureComponent {
   props: {

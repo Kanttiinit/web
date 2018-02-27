@@ -1,9 +1,10 @@
 import * as React from 'react'
 import {Table, Column, Cell, ColumnHeaderCell, TableLoadingOption} from '@blueprintjs/table'
-import {get, orderBy} from 'lodash'
 import {Button, Intent, Menu, MenuItem, Dialog} from '@blueprintjs/core'
+import {get, orderBy} from 'lodash/fp'
 require('@blueprintjs/table/lib/css/table.css')
 
+import http from '../src/utils/http'
 import GenericEditor from './GenericEditor'
 import { Model } from './models';
 
@@ -13,16 +14,18 @@ export default class AdminInterface extends React.PureComponent {
     item?: any,
     sortedColumn?: number,
     sortDirection: 'asc' | 'desc',
-    sortedItems: Array<any>
+    sortedItems: Array<any>,
+    items: Array<any>,
+    loading: boolean
   } = {
     sortDirection: 'asc',
-    sortedItems: []
+    sortedItems: [],
+    items: [],
+    loading: false
   }
 
   props: {
-    model: Model,
-    onUpdate(),
-    items: Array<any>
+    model: Model
   }
   
   openCreateDialog = () => this.setState({mode: 'creating'})
@@ -31,13 +34,16 @@ export default class AdminInterface extends React.PureComponent {
 
   hideDialog = () => this.setState({mode: undefined})
 
-  renderCell = (rowIndex, columnIndex) => <Cell>{get(this.state.sortedItems[rowIndex], this.props.model.tableFields[columnIndex].key)}</Cell>
+  renderCell = (rowIndex, columnIndex) =>
+    <Cell>
+      {get(this.props.model.tableFields[columnIndex].key, this.state.sortedItems[rowIndex])}
+    </Cell>
 
-  getSortIndicator = columnIndex  => columnIndex === this.state.sortedColumn ? (this.state.sortDirection === 'asc' ? '︎︎⬆' : '⬇︎') : ''
+  getSortIndicator = columnIndex  => columnIndex === this.state.sortedColumn ? (this.state.sortDirection === 'asc' ? '︎︎↑' : '↓') : ''
 
   renderHeaderCell = columnIndex =>
     <ColumnHeaderCell
-      name={this.props.model.tableFields[columnIndex].name + this.getSortIndicator(columnIndex)}
+      name={this.props.model.tableFields[columnIndex].name + ' ' +  this.getSortIndicator(columnIndex)}
       menuIcon="chevron-down"
       menuRenderer={this.renderHeaderMenu} />
 
@@ -64,30 +70,38 @@ export default class AdminInterface extends React.PureComponent {
 
   onEditorSuccess = () => {
     this.hideDialog()
-    this.props.onUpdate()
+    this.fetchItems()
   }
 
   sortItems = (props = this.props, state = this.state) => {
     const {sortedColumn, sortDirection} = state
-    if (props.model) {
-      const sortedItems = !!sortedColumn
-        ? orderBy(props.items, props.model.tableFields[sortedColumn].key, sortDirection)
-        : props.items;
-      this.setState({sortedItems})
-    }
+    const sortedItems = !!sortedColumn
+      ? orderBy(props.model.tableFields[sortedColumn].key, sortDirection, state.items)
+      : state.items
+    this.setState({sortedItems})
+  }
+
+  fetchItems = async (props = this.props) => {
+    this.setState({loading: true, items: []})
+    const items = await http.get('/admin/' + props.model.key, true)
+    this.setState({items, loading: false}, this.sortItems)
   }
 
   componentWillReceiveProps(props, state) {
-    this.sortItems(props, state)
+    if (props.model.key !== this.props.model.key) {
+      this.setState({sortedColumn: undefined, sortDirection: 'asc'}, () => {
+        this.fetchItems(props)
+      })
+    }
   }
 
   componentDidMount() {
-    this.sortItems()
+    this.fetchItems()
   }
 
   render() {
-    const {model, items} = this.props
-    const {mode, item} = this.state
+    const {model} = this.props
+    const {mode, items, item, loading} = this.state
 
     return (
       <React.Fragment>
@@ -106,10 +120,10 @@ export default class AdminInterface extends React.PureComponent {
           Create
         </Button>
         <Table
-          columnWidths={model ? model.tableFields.map(f => f.width).concat(100) : []}
-          numRows={items ? items.length : 20}
-          loadingOptions={items ? [] : [TableLoadingOption.CELLS]}>
-          {model && model.tableFields.map(header =>
+          columnWidths={model.tableFields.map(f => f.width).concat(100)}
+          numRows={loading ? 20 : items.length}
+          loadingOptions={loading ? [TableLoadingOption.CELLS] : []}>
+          {model.tableFields.map(header =>
           <Column
             key={header.key}
             columnHeaderCellRenderer={this.renderHeaderCell}

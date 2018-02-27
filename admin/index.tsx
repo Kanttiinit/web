@@ -1,18 +1,21 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import { Tab, Tabs, Button, InputGroup, ControlGroup, ButtonGroup, Intent, Callout } from '@blueprintjs/core'
+import { withRouter, Link, BrowserRouter, Switch, Route } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router'
+require('@blueprintjs/core/lib/css/blueprint.css')
+
 import http from '../src/utils/http'
 import AdminInterface from './AdminInterface'
 import models, { Model } from './models'
-import { Tab, Tabs, Button, InputGroup, ControlGroup, ButtonGroup, Intent } from '@blueprintjs/core'
-require('@blueprintjs/core/lib/css/blueprint.css')
+import toaster from './toaster'
 
-class BaseView extends React.PureComponent {
+const BaseView = withRouter(class extends React.PureComponent {
   state: {
-    currentModel?: Model,
-    items?: Array<any>,
-    unauthorized?: boolean,
     updatingRestaurants?: boolean
   } = {};
+
+  props: RouteComponentProps<any>
 
   updateMenus = async () => {
     this.setState({updatingRestaurants: true})
@@ -20,21 +23,19 @@ class BaseView extends React.PureComponent {
     this.setState({updatingRestaurants: false})
   }
 
-  changeModel = async (model = this.state.currentModel) => {
+  checkAuth = async () => {
     try {
-      const response = await http.get('/admin/' + model.name.toLowerCase(), true)
-      this.setState({
-        currentModel: model,
-        items: response,
-        unauthorized: false
-      })
+      await http.get('/admin/logged-in', true)
+      if (!this.props.location.pathname.includes('/model/')) {
+        this.props.history.replace('/admin/model/areas')
+      }
     } catch (e) {
-      this.setState({unauthorized: true})
+      this.props.history.replace('/admin/login')
     }
   }
 
   componentDidMount() {
-    this.changeModel(models[0])
+    this.checkAuth()
   }
 
   login = async (e) => {
@@ -42,35 +43,28 @@ class BaseView extends React.PureComponent {
     const password = e.target.elements[0].value
     try {
       await http.post('/admin/login', {password})
-      this.changeModel(models[0])
+      toaster.clear()
+      this.checkAuth()
     } catch (e) {
-      alert(e.message)
+      toaster.show({message: e.message, intent: Intent.DANGER})
     }
   }
 
   logout = async () => {
     await http.post('/admin/logout')
-    this.changeModel(models[0])
+    this.checkAuth()
+    toaster.show({message: 'Goodbye!', intent: Intent.SUCCESS})
   }
 
-  render() {
-    const {currentModel, items, unauthorized} = this.state
-    if (unauthorized) {
-      return (
-        <form onSubmit={this.login}>
-          <ControlGroup>
-            <InputGroup type="password" placeholder="Password" />
-            <Button intent={Intent.PRIMARY}>Log in</Button>
-          </ControlGroup>
-        </form>
-      )
-    }
+  renderModel = ({match}) => {
+    const model = models.find(model => model.key === match.params.model)
+
     return (
       <React.Fragment>
-        <Tabs id="nav">
+        <Tabs selectedTabId={model ? model.key : 'none'} id="nav">
           {models.map(m =>
-            <Tab key={m.name} id={m.name}>
-              <a href="#" onClick={this.changeModel.bind(this, m)}>{m.name}</a>
+            <Tab key={m.key} id={m.key}>
+              <Link to={`/admin/model/${m.key}`}>{m.name}</Link>
             </Tab>
           )}
         </Tabs>
@@ -85,10 +79,29 @@ class BaseView extends React.PureComponent {
             Log out
           </Button>
         </ButtonGroup>
-        <AdminInterface onUpdate={() => this.changeModel()} model={currentModel} items={items} />
+        {model
+          ? <AdminInterface model={model} />
+          : <Callout intent={Intent.WARNING}>No such model "{match.params.model}".</Callout>
+        }
       </React.Fragment>
     )
   }
-}
 
-ReactDOM.render(<BaseView />, document.querySelector('.container'))
+  render() {
+    return (
+      <Switch>
+        <Route path="/admin/login">
+          <form onSubmit={this.login} style={{position: 'absolute', top: '50%', left: '50%', transform: 'translateY(-50%) translateX(-50%)'}}>
+            <ControlGroup>
+              <InputGroup type="password" placeholder="Password" />
+              <Button type="submit" intent={Intent.PRIMARY}>Log in</Button>
+            </ControlGroup>
+          </form>
+        </Route>
+        <Route path="/admin/model/:model" component={this.renderModel} />
+      </Switch>
+    )
+  }
+})
+
+ReactDOM.render(<BrowserRouter><BaseView /></BrowserRouter>, document.querySelector('.container'))

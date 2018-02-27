@@ -13,7 +13,7 @@ express()
 .use(require('compression')())
 .use(express.static('dist'))
 .use(express.static(__dirname + '/src/assets'))
-.get('/admin', (req, res) => res.sendFile(__dirname + '/dist/index_admin.html'))
+.get('/admin*', (req, res) => res.sendFile(__dirname + '/dist/index_admin.html'))
 .get('/check-update', (req, res) => {
   try {
     res.json({updateAvailable: semver.gt(pkg.version, req.query.version)})

@@ -26,7 +26,7 @@ export default class GenericEditor extends React.PureComponent {
   }
 
   updateItem(props) {
-    this.setState({item: props.item})
+    this.setState({item: props.item || {}})
   }
 
   getBasePath = () => '/admin/' + this.props.model.name.toLowerCase()
@@ -44,14 +44,14 @@ export default class GenericEditor extends React.PureComponent {
 
     this.setState({mode: undefined})
     this.props.onSuccess()
-    toaster.show({message: 'Item has been saved.', intent: Intent.SUCCESS})
+    toaster.show({message: 'The item has been saved.', intent: Intent.SUCCESS})
   }
 
   delete = async () => {
     if (confirm('Are you sure?')) {
       await http.delete(this.getBasePath() + '/' + this.props.item.id)
       this.props.onSuccess()
-      toaster.show({message: 'Item has been deleted.', intent: Intent.SUCCESS})
+      toaster.show({message: 'The item has been deleted.', intent: Intent.SUCCESS})
     }
   }
 

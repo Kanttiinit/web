@@ -1,7 +1,7 @@
 import * as React from 'react'
-import {Table, Column, Cell, TableLoadingOption} from '@blueprintjs/table'
-import {get} from 'lodash'
-import {Button, Intent, Dialog} from '@blueprintjs/core'
+import {Table, Column, Cell, ColumnHeaderCell, TableLoadingOption} from '@blueprintjs/table'
+import {get, orderBy} from 'lodash'
+import {Button, Intent, Menu, MenuItem, Dialog} from '@blueprintjs/core'
 require('@blueprintjs/table/lib/css/table.css')
 
 import GenericEditor from './GenericEditor'
@@ -10,8 +10,14 @@ import { Model } from './models';
 export default class AdminInterface extends React.PureComponent {
   state: {
     mode?: 'editing' | 'creating',
-    item?: any
-  } = {}
+    item?: any,
+    sortedColumn?: number,
+    sortDirection: 'asc' | 'desc',
+    sortedItems: Array<any>
+  } = {
+    sortDirection: 'asc',
+    sortedItems: []
+  }
 
   props: {
     model: Model,
@@ -25,9 +31,59 @@ export default class AdminInterface extends React.PureComponent {
 
   hideDialog = () => this.setState({mode: undefined})
 
-  renderCell = (rowIndex, columnIndex) => <Cell>{get(this.props.items[rowIndex], this.props.model.tableFields[columnIndex].key)}</Cell>  
+  renderCell = (rowIndex, columnIndex) => <Cell>{get(this.state.sortedItems[rowIndex], this.props.model.tableFields[columnIndex].key)}</Cell>
 
-  renderActions = (rowIndex) => <Cell interactive><a href="#" onClick={() => this.openEditDialog(this.props.items[rowIndex])}>Edit</a></Cell>
+  getSortIndicator = columnIndex  => columnIndex === this.state.sortedColumn ? (this.state.sortDirection === 'asc' ? '︎︎⬆' : '⬇︎') : ''
+
+  renderHeaderCell = columnIndex =>
+    <ColumnHeaderCell
+      name={this.props.model.tableFields[columnIndex].name + this.getSortIndicator(columnIndex)}
+      menuIcon="chevron-down"
+      menuRenderer={this.renderHeaderMenu} />
+
+  sortAscending = columnIndex =>
+    this.setState({sortedColumn: columnIndex, sortDirection: 'asc'}, this.sortItems)
+
+  sortDescending = columnIndex =>
+    this.setState({sortedColumn: columnIndex, sortDirection: 'desc'}, this.sortItems)
+
+  renderHeaderMenu = columnIndex =>
+    <Menu>
+      <MenuItem onClick={() => this.sortAscending(columnIndex)} icon="sort-asc" text="Sort ascending" />
+      <MenuItem onClick={() => this.sortDescending(columnIndex)} icon="sort-desc" text="Sort descending" />
+    </Menu>
+
+  renderActions = (rowIndex) =>
+    <Cell interactive>
+      <a
+        href="#"
+        onClick={() => this.openEditDialog(this.state.sortedItems[rowIndex])}>
+        Edit
+      </a>
+    </Cell>
+
+  onEditorSuccess = () => {
+    this.hideDialog()
+    this.props.onUpdate()
+  }
+
+  sortItems = (props = this.props, state = this.state) => {
+    const {sortedColumn, sortDirection} = state
+    if (props.model) {
+      const sortedItems = !!sortedColumn
+        ? orderBy(props.items, props.model.tableFields[sortedColumn].key, sortDirection)
+        : props.items;
+      this.setState({sortedItems})
+    }
+  }
+
+  componentWillReceiveProps(props, state) {
+    this.sortItems(props, state)
+  }
+
+  componentDidMount() {
+    this.sortItems()
+  }
 
   render() {
     const {model, items} = this.props
@@ -40,7 +96,7 @@ export default class AdminInterface extends React.PureComponent {
             model={model}
             mode={mode}
             item={item}
-            onSuccess={console.log}
+            onSuccess={this.onEditorSuccess}
             onCancel={this.hideDialog} />
         </Dialog>
         <Button
@@ -54,7 +110,10 @@ export default class AdminInterface extends React.PureComponent {
           numRows={items ? items.length : 20}
           loadingOptions={items ? [] : [TableLoadingOption.CELLS]}>
           {model && model.tableFields.map(header =>
-          <Column key={header.key} name={header.name} cellRenderer={this.renderCell} />
+          <Column
+            key={header.key}
+            columnHeaderCellRenderer={this.renderHeaderCell}
+            cellRenderer={this.renderCell} />
           ).concat(<Column key="actions" name="Actions" cellRenderer={this.renderActions} />)}
         </Table>
       </React.Fragment>

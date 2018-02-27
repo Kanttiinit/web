@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {InputGroup, NumericInput, Button, Intent} from '@blueprintjs/core'
+import {InputGroup, Button, Intent, Switch, ButtonGroup} from '@blueprintjs/core'
 import * as moment from 'moment'
 
 type InputProps = {
@@ -8,42 +8,82 @@ type InputProps = {
   name: string
 }
 
-const setInArray = (arr, i, j, value) => {
-  const a = arr.concat([])
-  if (!a[i]) a[i] = []
-  a[i][j] = Number(value)
-  return a
+class OpeningHoursInput extends React.PureComponent {
+  props: InputProps
+  
+  set = (i, j, value) => {
+    const arr = [...this.props.value]
+    if (!arr[i]) {
+      arr[i] = []
+    }
+
+    arr[i][j] = Number(value)
+
+    if (arr[i][0] === 0 && arr[i][1] === 0) {
+      arr[i] = null
+    }
+    this.setValue(arr)
+  }
+
+  copyFrom = which => {
+    const arr = [...this.props.value]
+    arr[which] = arr[which - 1]
+    if (Array.isArray(arr[which])) {
+      arr[which] = [...arr[which]]
+    }
+    this.setValue(arr)
+  }
+
+  clear = i => {
+    const arr = [...this.props.value]
+    arr[i] = null
+    this.setValue(arr)
+  }
+
+  setValue = value => this.props.setValue(this.props.name, value)
+
+  render() {
+    const {value = [], name, setValue} = this.props
+
+    return (
+      <React.Fragment>
+        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((weekday, i) =>
+        <div key={i} style={{display: 'flex', alignItems: 'center'}}>
+          <span style={{width: '4ch', marginRight: '1ch', textAlign: 'right'}}>{weekday}</span>
+          <InputGroup
+            onChange={e => this.set(i, 0, e.target.value)}
+            size={5}
+            value={(value[i] || [])[0] || ''} />
+          <span style={{margin: '0 1ch'}}>to</span>
+          <InputGroup
+            onChange={e => this.set(i, 1, e.target.value)}
+            size={5}
+            value={(value[i] || [])[1] || ''} />
+          <ButtonGroup minimal style={{marginLeft: '1ch'}}>
+            <Button
+              className="pt-small"
+              onClick={() => this.clear(i)}
+              icon="delete" />
+            {i > 0 &&
+            <Button
+              className="pt-small"
+              onClick={() => this.copyFrom(i)}
+              icon="duplicate" />}
+          </ButtonGroup>
+        </div>
+        )}
+      </React.Fragment>
+    )
+  }
 }
 
-const OpeningHoursInput = ({value = [], name, setValue}) => {
-  return (
-    <React.Fragment>
-      {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((weekday, i) =>
-      <div style={{display: 'flex', alignItems: 'center'}}>
-        <span style={{width: '4ch', marginRight: '1ch', textAlign: 'right'}}>{weekday}</span>
-        <InputGroup
-          onChange={e => setValue(name, setInArray(value, i, 0, e.target.value))}
-          size={5}
-          value={(value[i] || [])[0] || ''} />
-        <span style={{margin: '0 1ch'}}>to</span>
-        <InputGroup
-          onChange={e => setValue(name, setInArray(value, i, 1, e.target.value))}
-          size={5}
-          value={(value[i] || [])[1] || ''} />
-      </div>
-      )}
-    </React.Fragment>
-  )
-}
-
-const UrlInput = ({value, setValue, name}) => (
+const UrlInput = ({value, setValue, name}) =>
   <InputGroup
     onChange={e => setValue(name, e.target.value)}
     value={value}
     leftIcon="link"
     rightElement={<a target="_blank" href={value}><Button>Open</Button></a>}
     type="text" />
-)
 
 const MenuUrlInput = ({value, setValue, name}) => {
   const now = moment()
@@ -69,14 +109,13 @@ const geocode = (address, setValue) => () => {
   })
 }
 
-const AddressInput = ({value, setValue, name}) => (
+const AddressInput = ({value, setValue, name}) =>
   <InputGroup
     onChange={e => setValue(name, e.target.value)}
     value={value}
     leftIcon="geolocation"
     rightElement={<Button onClick={geocode(value, setValue)}>Geocode</Button>}
     type="text" />
-)
 
 class RegExpInput extends React.PureComponent {
   props: InputProps
@@ -104,12 +143,14 @@ class RegExpInput extends React.PureComponent {
   }
 }
 
-const NumberInput = ({value, setValue, name}) => (
-  <NumericInput
-    onChange={e => setValue(name, e.target.value)}
-    leftIcon="numbered-list"
-    value={value} />
-)
+const BooleanInput = ({value, setValue, name}) =>
+  <Switch checked={value} onChange={(e: any) => setValue(name, e.target.checked)} />
+
+const NumericInput = ({value, setValue, name}) =>
+  <InputGroup
+    onChange={e => setValue(name, Number(e.target.value))}
+    value={value}
+    type="number" />
 
 export default {
   openingHours: OpeningHoursInput,
@@ -117,6 +158,10 @@ export default {
   address: AddressInput,
   menuUrl: MenuUrlInput,
   regexp: RegExpInput,
+  hidden: BooleanInput,
+  latitude: NumericInput,
+  longitude: NumericInput,
+  locationRadius: NumericInput,
   _: ({value, name, setValue}) =>
     <input
       onChange={e => setValue(name, e.target.value)}

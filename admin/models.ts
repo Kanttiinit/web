@@ -18,10 +18,11 @@ export default [
         fi: '',
         en: ''
       },
-      image: '',
+      imageUrl: '',
       locationRadius: 0,
       latitude: 60.000000,
       longitude: 24.000000,
+      hidden: false
     }
   },
   {
@@ -45,8 +46,9 @@ export default [
       latitude: 60.000000,
       longitude: 24.000000,
       address: '',
-      openingHours: [],
-      AreaId: 0
+      openingHours: [null, null, null, null, null, null, null],
+      AreaId: 0,
+      hidden: false
     }
   },
   {

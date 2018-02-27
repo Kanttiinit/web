@@ -25,7 +25,10 @@ export default class GenericEditor extends React.PureComponent {
   }
 
   updateItem(props) {
-    this.setState({item: props.item || {}})
+    const item = {...props.model.defaultFields, ...props.item}
+    delete item.createdAt
+    delete item.updatedAt
+    this.setState({item})
   }
 
   getBasePath = () => '/admin/' + this.props.model.name.toLowerCase()

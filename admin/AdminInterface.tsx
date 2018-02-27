@@ -28,7 +28,7 @@ export default class AdminInterface extends React.PureComponent {
     model: Model
   }
   
-  openCreateDialog = () => this.setState({mode: 'creating'})
+  openCreateDialog = () => this.setState({mode: 'creating', item: undefined})
 
   openEditDialog = item => this.setState({mode: 'editing', item})
 

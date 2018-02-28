@@ -18,7 +18,7 @@ const getCache = async () => cache || (cache = await caches.open(CACHE_NAME))
 
 const resolve = async (request: Request) => {
   const cache = await getCache()
-  if (request.url.match(/^https:\/\/kitchen\.kanttiinit\.fi/)) {
+  if (request.url.match(/^https:\/\/kitchen\.kanttiinit\.fi/) && !request.url.match('/admin/')) {
     try {
       const response = await fetch(request)
       cache.put(request, response.clone())

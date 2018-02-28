@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {Label, InputGroup, ControlGroup, ButtonGroup, Button, Intent} from '@blueprintjs/core'
+import {Label, InputGroup, ControlGroup, ButtonGroup, Button, Intent, FormGroup} from '@blueprintjs/core'
 import {get, startCase, flatten} from 'lodash'
 import {set} from 'lodash/fp'
 
@@ -7,6 +7,7 @@ import http from '../src/utils/http'
 import { Model } from './models'
 import inputs from './inputs'
 import toaster from './toaster'
+import {Field} from './models'
 
 export default class GenericEditor extends React.PureComponent {
   props: {
@@ -67,32 +68,30 @@ export default class GenericEditor extends React.PureComponent {
     this.updateItem(this.props)
   }
 
+  renderField = (field: Field) => {
+    const {item} = this.state
+    const InputComponent = inputs[field.type] || inputs._
+    const value = 'fields' in field ? field.fields.map(f => get(item, f.path)) : get(item, field.path)
+    return (
+      <React.Fragment>
+        <Label text={field.title}>
+          <InputComponent
+            field={field}
+            value={value}
+            setValue={this.setValue} />
+        </Label>
+      </React.Fragment>
+    )
+  }
+
   render() {
     const {model, mode, onCancel} = this.props
-    const {item} = this.state
-
-    const fields = flatten(
-      Object.keys(model.defaultFields).map(field => {
-        if (field.endsWith('_i18n')) {
-          return Object.keys(model.defaultFields[field]).map(f => `${field}.${f}`)
-        }
-        return field
-      })
-    )
-    .map(key => ({key, title: startCase(key.replace('i18n', '')), input: inputs[key] || inputs._}))
 
     return (
       <div className="pt-dialog-body">
         <h3>{mode === 'editing' ? 'Edit ' : 'Create new '}{model.name}</h3>
         <form onSubmit={this.save}>
-          {fields.map(field =>
-          <Label key={field.key} text={field.title}>
-            <field.input
-              name={field.key}
-              value={get(item, field.key)}
-              setValue={this.setValue} />
-          </Label>
-          )}
+          {model.fields.map(this.renderField)}
           <ButtonGroup>
             <Button type="submit" intent={Intent.PRIMARY}>{mode === 'creating' ? 'Create' : 'Save'}</Button>
             {mode === 'editing' && <Button onClick={this.delete} intent={Intent.DANGER}>Delete</Button>}

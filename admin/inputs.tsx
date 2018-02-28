@@ -1,12 +1,20 @@
 import * as React from 'react'
-import {InputGroup, Button, Intent, Switch, ButtonGroup} from '@blueprintjs/core'
+import {InputGroup, Button, Intent, Switch, ButtonGroup, Label} from '@blueprintjs/core'
 import {withGoogleMap, Marker, GoogleMap} from 'react-google-maps'
 import * as moment from 'moment'
 
+import {ModelField, FieldGroup} from './models'
+
 type InputProps = {
   value: any,
-  setValue(name: string, value: any),
-  name: string
+  field: ModelField,
+  setValue(path: string, value: any),
+}
+
+type GroupInputProps = {
+  value: Array<any>,
+  field: FieldGroup,
+  setValue(path: string, value: any),
 }
 
 class OpeningHoursInput extends React.PureComponent {
@@ -41,10 +49,10 @@ class OpeningHoursInput extends React.PureComponent {
     this.setValue(arr)
   }
 
-  setValue = value => this.props.setValue(this.props.name, value)
+  setValue = value => this.props.setValue(this.props.field.path, value)
 
   render() {
-    const {value = [], name, setValue} = this.props
+    const {value = [], setValue} = this.props
 
     return (
       <React.Fragment>
@@ -78,20 +86,20 @@ class OpeningHoursInput extends React.PureComponent {
   }
 }
 
-const UrlInput = ({value, setValue, name}) =>
+const UrlInput = ({value, setValue, field}: InputProps) =>
   <InputGroup
-    onChange={e => setValue(name, e.target.value)}
+    onChange={e => setValue(field.path, e.target.value)}
     value={value}
     leftIcon="link"
     rightElement={<a target="_blank" href={value}><Button>Open</Button></a>}
     type="text" />
 
-const MenuUrlInput = ({value, setValue, name}) => {
+const MenuUrlInput = ({value, setValue, field}: InputProps) => {
   const now = moment()
   const link = value && value.replace('%year%', now.format('YYYY')).replace('%month%', now.format('MM')).replace('%day%', now.format('DD'))
   return (
     <InputGroup
-      onChange={e => setValue(name, e.target.value)}
+      onChange={e => setValue(field.path, e.target.value)}
       value={value}
       leftIcon="link"
       rightElement={<a target="_blank" href={link}><Button>Open</Button></a>}
@@ -110,9 +118,9 @@ const geocode = (address, setValue) => () => {
   })
 }
 
-const AddressInput = ({value, setValue, name}) =>
+const AddressInput = ({value, setValue, field}: InputProps) =>
   <InputGroup
-    onChange={e => setValue(name, e.target.value)}
+    onChange={e => setValue(field.path, e.target.value)}
     value={value}
     leftIcon="geolocation"
     rightElement={<Button onClick={geocode(value, setValue)}>Geocode</Button>}
@@ -123,13 +131,13 @@ class RegExpInput extends React.PureComponent {
   state = {test: ''}
 
   render() {
-    const {name, value, setValue} = this.props
+    const {field, value, setValue} = this.props
     const {test} = this.state
     const match = !!test.match(new RegExp(value))
     return (
       <React.Fragment>
         <InputGroup
-          onChange={e => setValue(name, e.target.value)}
+          onChange={e => setValue(field.path, e.target.value)}
           value={value}
           leftIcon="code"
           type="text" />
@@ -144,12 +152,12 @@ class RegExpInput extends React.PureComponent {
   }
 }
 
-const BooleanInput = ({value, setValue, name}) =>
-  <Switch checked={value} onChange={(e: any) => setValue(name, e.target.checked)} />
+const BooleanInput = ({value, setValue, field}: InputProps) =>
+  <Switch checked={value} onChange={(e: any) => setValue(field.path, e.target.checked)} />
 
-const NumericInput = ({value, setValue, name}) =>
+const NumericInput = ({value, setValue, field}: InputProps) =>
   <InputGroup
-    onChange={e => setValue(name, Number(e.target.value))}
+    onChange={e => setValue(field.path, Number(e.target.value))}
     value={value}
     type="number" />
 
@@ -164,33 +172,56 @@ const Map = withGoogleMap((props: any) =>
   </GoogleMap>
 )
 
-const LocationInput = (props: InputProps) => (
+const LocationInput = (props: GroupInputProps) => (
   <React.Fragment>
-    <NumericInput {...props} />
+    <Label text="Latitude" className="pt-inline">
+      <NumericInput
+        setValue={v => props.setValue('latitude', v)}
+        value={props.value[0]}
+        field={props.field.fields[0]} />
+    </Label>
+    <Label text="Longitude" className="pt-inline">
+      <NumericInput
+        setValue={v => props.setValue('longitude', v)}
+        value={props.value[1]}
+        field={props.field.fields[1]} />
+    </Label>
     <Map
       mapElement={<div style={{height: 200}} />}
       containerElement={<div />}
-      latitude={60.123}
-      longitude={props.value}
+      latitude={props.value[0]}
+      longitude={props.value[1]}
       onChange={(lat, lon) => props.setValue('latitude', lat) || props.setValue('longitude', lon)}
       {...props} />
   </React.Fragment>
 )
 
-export default {
+const TranslatedInput = (props: GroupInputProps) => (
+  <React.Fragment>
+    {props.field.fields.map((field, i) =>
+      <Label key={field.path} text={field.title} className="pt-inline">
+      {React.createElement(inputs[field.type] || inputs._, {value: props.value[i], setValue: props.setValue, field})}
+      </Label>
+    )}
+  </React.Fragment>
+)
+
+const inputs: any = {
   openingHours: OpeningHoursInput,
   url: UrlInput,
   address: AddressInput,
   menuUrl: MenuUrlInput,
-  regexp: RegExpInput,
-  hidden: BooleanInput,
-  latitude: NumericInput,
-  longitude: LocationInput,
-  locationRadius: NumericInput,
-  _: ({value, name, setValue}) =>
+  regExp: RegExpInput,
+  boolean: BooleanInput,
+  location: LocationInput,
+  number: NumericInput,
+  translated: TranslatedInput,
+  _: ({value, field, setValue}: InputProps) =>
     <input
-      onChange={e => setValue(name, e.target.value)}
+      onChange={e => setValue(field.path, e.target.value)}
       value={value}
       type="text"
       className="pt-input pt-fill" />
 }
+
+export default inputs

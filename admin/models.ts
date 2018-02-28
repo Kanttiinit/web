@@ -1,11 +1,26 @@
+export interface ModelField {
+  type?: 'menuUrl' | 'url' | 'number' | 'boolean' | 'address' | 'openingHours' | 'regExp',
+  path: string,
+  title: string,
+  default?: any
+}
+
+export interface FieldGroup {
+  type: 'translated' | 'location',
+  title: string,
+  fields: Array<ModelField>
+}
+
+export type Field = ModelField | FieldGroup
+
 export interface Model {
   name: string,
   key: string,
   tableFields: Array<{key: string, name: string, width?: number}>,
-  defaultFields: any
+  fields: Array<Field>
 }
 
-export default [
+const models: Array<Model> = [
   {
     name: 'Areas',
     key: 'areas',
@@ -13,17 +28,42 @@ export default [
       {key: 'id', name: 'ID', width: 50},
       {key: 'name_i18n.fi', name: 'Name', width: 200}
     ],
-    defaultFields: {
-      name_i18n: {
-        fi: '',
-        en: ''
+    fields: [
+      {
+        type: 'translated',
+        title: 'Name',
+        fields: [
+          {path: 'name_i18n.fi', title: 'Finnish'},
+          {path: 'name_i18n.en', title: 'English'}
+        ]
       },
-      imageUrl: '',
-      locationRadius: 0,
-      latitude: 60.000000,
-      longitude: 24.000000,
-      hidden: false
-    }
+      {
+        type: 'menuUrl',
+        title: 'Image URL',
+        path: 'imageUrl',
+        default: '' 
+      },
+      {
+        type: 'number',
+        title: 'Location Radius',
+        path: 'locationRadius',
+        default: 2
+      },
+      {
+        type: 'location',
+        title: 'Location',
+        fields: [
+          {path: 'latitude', title: 'Latitude', type: 'number'},
+          {path: 'longitude', title: 'Longitude', type: 'number'}
+        ]
+      },
+      {
+        type: 'boolean',
+        path: 'hidden',
+        title: 'Hidden',
+        default: false
+      }
+    ]
   },
   {
     name: 'Restaurants',
@@ -35,21 +75,31 @@ export default [
       {key: 'address', name: 'Address', width: 200},
       {key: 'url', name: 'URL', width: 200}
     ],
-    defaultFields: {
-      name_i18n: {
-        fi: '',
-        en: ''
+    fields: [
+      {
+        type: 'translated',
+        title: 'Name',
+        fields: [
+          {path: 'name_i18n.fi', title: 'Finnish'},
+          {path: 'name_i18n.en', title: 'English'}
+        ]
       },
-      type: '',
-      url: '',
-      menuUrl: '',
-      latitude: 60.000000,
-      longitude: 24.000000,
-      address: '',
-      openingHours: [null, null, null, null, null, null, null],
-      AreaId: 0,
-      hidden: false
-    }
+      {path: 'type', title: 'Type'},
+      {path: 'url', title: 'URL', type: 'url'},
+      {path: 'menuUrl', title: 'Menu URL', type: 'menuUrl'},
+      {
+        type: 'location',
+        title: 'Location',
+        fields: [
+          {path: 'latitude', title: 'Latitude', type: 'number'},
+          {path: 'longitude', title: 'Longitude', type: 'number'}
+        ]
+      },
+      {path: 'address', title: 'Address', type: 'address'},
+      {path: 'openingHours', title: 'Opening Hours', type: 'openingHours', default: [null, null, null, null, null, null, null]},
+      {path: 'AreaId', title: 'Area ID', type: 'number'},      
+      {path: 'hidden', title: 'Hidden', type: 'boolean'}
+    ]
   },
   {
     name: 'Favorites',
@@ -59,14 +109,18 @@ export default [
       {key: 'name_i18n.fi', name: 'Name', width: 100},
       {key: 'regexp', name: 'Regular Expression', width: 300}
     ],
-    defaultFields: {
-      name_i18n: {
-        fi: '',
-        en: ''
+    fields: [
+      {
+        type: 'translated',
+        title: 'Name',
+        fields: [
+          {path: 'name_i18n.fi', title: 'Finnish'},
+          {path: 'name_i18n.en', title: 'English'}
+        ]
       },
-      regexp: '',
-      icon: ''
-    }
+      {type: 'regExp', path: 'regexp', title: 'Regular Expression'},
+      {path: 'icon', title: 'Icon'}
+    ]
   },
   {
     name: 'Updates',
@@ -76,9 +130,11 @@ export default [
       {key: 'type', name: 'Type'},
       {key: 'description', name: 'Description'}
     ],
-    defaultFields: {
-      type: '',
-      description: ''
-    }
+    fields: [
+      {path: 'type', title: 'Type'},
+      {path: 'description', title: 'Description'}
+    ]
   }
-] as Array<Model>
+]
+
+export default models

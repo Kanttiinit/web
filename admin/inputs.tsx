@@ -89,7 +89,7 @@ class OpeningHoursInput extends React.PureComponent {
 const UrlInput = ({value, setValue, field}: InputProps) =>
   <InputGroup
     onChange={e => setValue(field.path, e.target.value)}
-    value={value}
+    value={value || ''}
     leftIcon="link"
     rightElement={<a target="_blank" href={value}><Button>Open</Button></a>}
     type="text" />
@@ -100,7 +100,7 @@ const MenuUrlInput = ({value, setValue, field}: InputProps) => {
   return (
     <InputGroup
       onChange={e => setValue(field.path, e.target.value)}
-      value={value}
+      value={value || ''}
       leftIcon="link"
       rightElement={<a target="_blank" href={link}><Button>Open</Button></a>}
       type="text" />
@@ -121,7 +121,7 @@ const geocode = (address, setValue) => () => {
 const AddressInput = ({value, setValue, field}: InputProps) =>
   <InputGroup
     onChange={e => setValue(field.path, e.target.value)}
-    value={value}
+    value={value || ''}
     leftIcon="geolocation"
     rightElement={<Button onClick={geocode(value, setValue)}>Geocode</Button>}
     type="text" />
@@ -138,7 +138,7 @@ class RegExpInput extends React.PureComponent {
       <React.Fragment>
         <InputGroup
           onChange={e => setValue(field.path, e.target.value)}
-          value={value}
+          value={value || ''}
           leftIcon="code"
           type="text" />
         <InputGroup
@@ -153,12 +153,14 @@ class RegExpInput extends React.PureComponent {
 }
 
 const BooleanInput = ({value, setValue, field}: InputProps) =>
-  <Switch checked={value} onChange={(e: any) => setValue(field.path, e.target.checked)} />
+  <Switch
+    checked={value || false}
+    onChange={(e: any) => setValue(field.path, e.target.checked)} />
 
 const NumericInput = ({value, setValue, field}: InputProps) =>
   <InputGroup
     onChange={e => setValue(field.path, Number(e.target.value))}
-    value={value}
+    value={value || ''}
     type="number" />
 
 const Map = withGoogleMap((props: any) =>
@@ -217,11 +219,10 @@ const inputs: any = {
   number: NumericInput,
   translated: TranslatedInput,
   _: ({value, field, setValue}: InputProps) =>
-    <input
+    <InputGroup
       onChange={e => setValue(field.path, e.target.value)}
-      value={value}
-      type="text"
-      className="pt-input pt-fill" />
+      value={value || ''}
+      type="text" />
 }
 
 export default inputs

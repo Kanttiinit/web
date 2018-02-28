@@ -68,12 +68,12 @@ export default class GenericEditor extends React.PureComponent {
     this.updateItem(this.props)
   }
 
-  renderField = (field: Field) => {
+  renderField = (field: Field, i) => {
     const {item} = this.state
     const InputComponent = inputs[field.type] || inputs._
     const value = 'fields' in field ? field.fields.map(f => get(item, f.path)) : get(item, field.path)
     return (
-      <React.Fragment>
+      <React.Fragment key={i}>
         <Label text={field.title}>
           <InputComponent
             field={field}

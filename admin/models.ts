@@ -1,5 +1,5 @@
 export interface ModelField {
-  type?: 'menuUrl' | 'url' | 'number' | 'boolean' | 'address' | 'openingHours' | 'regExp',
+  type?: 'menuUrl' | 'updateType' | 'url' | 'number' | 'boolean' | 'address' | 'openingHours' | 'regExp',
   path: string,
   title: string,
   default?: any
@@ -36,12 +36,6 @@ const models: Array<Model> = [
           {path: 'name_i18n.fi', title: 'Finnish'},
           {path: 'name_i18n.en', title: 'English'}
         ]
-      },
-      {
-        type: 'menuUrl',
-        title: 'Image URL',
-        path: 'imageUrl',
-        default: '' 
       },
       {
         type: 'number',
@@ -84,7 +78,6 @@ const models: Array<Model> = [
           {path: 'name_i18n.en', title: 'English'}
         ]
       },
-      {path: 'type', title: 'Type'},
       {path: 'url', title: 'URL', type: 'url'},
       {path: 'menuUrl', title: 'Menu URL', type: 'menuUrl'},
       {
@@ -118,20 +111,19 @@ const models: Array<Model> = [
           {path: 'name_i18n.en', title: 'English'}
         ]
       },
-      {type: 'regExp', path: 'regexp', title: 'Regular Expression'},
-      {path: 'icon', title: 'Icon'}
+      {type: 'regExp', path: 'regexp', title: 'Regular Expression'}
     ]
   },
   {
     name: 'Updates',
     key: 'updates',
     tableFields: [
-      {key: 'id', name: 'ID'},
+      {key: 'id', name: 'ID', width: 50},
       {key: 'type', name: 'Type'},
-      {key: 'description', name: 'Description'}
+      {key: 'description', name: 'Description', width: 300}
     ],
     fields: [
-      {path: 'type', title: 'Type'},
+      {path: 'type', title: 'Type', type: 'updateType'},
       {path: 'description', title: 'Description'}
     ]
   }

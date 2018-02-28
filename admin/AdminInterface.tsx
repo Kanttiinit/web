@@ -1,7 +1,8 @@
 import * as React from 'react'
 import {Table, Column, Cell, ColumnHeaderCell, TableLoadingOption} from '@blueprintjs/table'
 import {Button, Intent, Menu, MenuItem, Dialog} from '@blueprintjs/core'
-import {get, orderBy} from 'lodash/fp'
+import * as get from 'lodash/fp/get'
+import * as orderBy from 'lodash/fp/orderBy'
 require('@blueprintjs/table/lib/css/table.css')
 
 import http from '../src/utils/http'

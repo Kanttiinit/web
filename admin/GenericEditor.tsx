@@ -1,7 +1,7 @@
 import * as React from 'react'
-import {Label, InputGroup, ControlGroup, ButtonGroup, Button, Intent, FormGroup} from '@blueprintjs/core'
-import {get, startCase, flatten} from 'lodash'
-import {set} from 'lodash/fp'
+import {FormGroup, ButtonGroup, Button, Intent, Callout} from '@blueprintjs/core'
+import * as get from 'lodash/fp/get'
+import * as set from 'lodash/fp/set'
 
 import http from '../src/utils/http'
 import { Model } from './models'
@@ -71,16 +71,16 @@ export default class GenericEditor extends React.PureComponent {
   renderField = (field: Field, i) => {
     const {item} = this.state
     const InputComponent = inputs[field.type] || inputs._
-    const value = 'fields' in field ? field.fields.map(f => get(item, f.path)) : get(item, field.path)
+    const value = 'fields' in field ? field.fields.map(f => get(f.path, item)) : get(field.path, item)
     return (
-      <React.Fragment key={i}>
-        <Label text={field.title}>
+      <Callout style={{marginBottom: '1em'}} key={i}>
+        <FormGroup label={<strong>{field.title}</strong>}>
           <InputComponent
             field={field}
             value={value}
             setValue={this.setValue} />
-        </Label>
-      </React.Fragment>
+        </FormGroup>
+      </Callout>
     )
   }
 

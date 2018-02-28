@@ -107,24 +107,34 @@ const MenuUrlInput = ({value, setValue, field}: InputProps) => {
   )
 }
 
-const geocode = (address, setValue) => () => {
-  const geocoder = new google.maps.Geocoder()
-  geocoder.geocode({address}, (results, status) => {
-    if (results.length) {
-      const {geometry} = results[0]
-      setValue('latitude', geometry.location.lat())
-      setValue('longitude', geometry.location.lng())
-    }
-  })
+class AddressInput extends React.PureComponent {
+  props: InputProps
+
+  geocode = (address, setValue) => () => {
+    const geocoder = new google.maps.Geocoder()
+    geocoder.geocode({address}, (results, status) => {
+      if (results.length) {
+        const {geometry} = results[0]
+        setValue('latitude', geometry.location.lat())
+        setValue('longitude', geometry.location.lng())
+      }
+    })
+  }
+
+  render() {
+    const {value, setValue, field} = this.props
+
+    return (
+      <InputGroup
+        onChange={e => setValue(field.path, e.target.value)}
+        value={value || ''}
+        leftIcon="geolocation"
+        rightElement={<Button onClick={this.geocode(value, setValue)}>Geocode</Button>}
+        type="text" />
+    )
+  }
 }
 
-const AddressInput = ({value, setValue, field}: InputProps) =>
-  <InputGroup
-    onChange={e => setValue(field.path, e.target.value)}
-    value={value || ''}
-    leftIcon="geolocation"
-    rightElement={<Button onClick={geocode(value, setValue)}>Geocode</Button>}
-    type="text" />
 
 class RegExpInput extends React.PureComponent {
   props: InputProps
@@ -208,6 +218,15 @@ const TranslatedInput = (props: GroupInputProps) => (
   </React.Fragment>
 )
 
+const UpdateTypeSelect = (props: InputProps) =>
+  <div className="pt-select">
+    <select value={props.value} onChange={e => props.setValue(props.field.path, e.target.value)}>
+      <option value="software-update">Software update</option>
+      <option value="information-update">Information update</option>
+      <option value="bugfix">Bug fix</option>
+    </select>
+  </div>
+
 const inputs: any = {
   openingHours: OpeningHoursInput,
   url: UrlInput,
@@ -218,6 +237,7 @@ const inputs: any = {
   location: LocationInput,
   number: NumericInput,
   translated: TranslatedInput,
+  updateType: UpdateTypeSelect,
   _: ({value, field, setValue}: InputProps) =>
     <InputGroup
       onChange={e => setValue(field.path, e.target.value)}

@@ -6,7 +6,7 @@ import { RouteComponentProps } from 'react-router'
 require('@blueprintjs/core/lib/css/blueprint.css')
 
 import http from '../src/utils/http'
-import AdminInterface from './AdminInterface'
+import DataTable from './DataTable'
 import models, { Model } from './models'
 import toaster from './toaster'
 
@@ -80,7 +80,7 @@ const BaseView = withRouter(class extends React.PureComponent {
           </Button>
         </ButtonGroup>
         {model
-          ? <AdminInterface model={model} />
+          ? <DataTable model={model} />
           : <Callout intent={Intent.WARNING}>No such model "{match.params.model}".</Callout>
         }
       </React.Fragment>

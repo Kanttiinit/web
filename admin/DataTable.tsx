@@ -4,17 +4,16 @@ import * as get from 'lodash/fp/get'
 import * as orderBy from 'lodash/fp/orderBy'
 
 import * as api from './api'
-import GenericEditor from './GenericEditor'
+import Editor from './Editor'
 import { Model } from './models'
 
 const tdStyle = {
   whiteSpace: 'nowrap',
-  overflow: 'hidden',
   maxWidth: '300px',
   textOverflow: 'ellipsis'
 }
 
-export default class AdminInterface extends React.PureComponent {
+export default class DataTable extends React.PureComponent {
   state: {
     mode?: 'editing' | 'creating',
     item?: any,
@@ -98,7 +97,7 @@ export default class AdminInterface extends React.PureComponent {
     return (
       <React.Fragment>
         <Dialog isOpen={!!mode} onClose={this.hideDialog}>
-          <GenericEditor
+          <Editor
             model={model}
             mode={mode}
             item={item}
@@ -112,7 +111,7 @@ export default class AdminInterface extends React.PureComponent {
           Create
         </Button>
         {loading ? <Spinner /> :
-        <table className="pt-html-table pt-fill pt-small pt-interactive pt-html-table-striped">
+        <table className="pt-html-table pt-small pt-interactive pt-html-table-striped">
           <thead>
             <tr>
               {model.tableFields.map(field =>

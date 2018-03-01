@@ -9,7 +9,7 @@ import inputs from './inputs'
 import toaster from './toaster'
 import {Field} from './models'
 
-export default class GenericEditor extends React.PureComponent {
+export default class Editor extends React.PureComponent {
   props: {
     mode: 'creating' | 'editing',
     onSuccess: () => void,

@@ -16,17 +16,19 @@ export type Field = ModelField | FieldGroup
 export interface Model {
   name: string,
   key: string,
-  tableFields: Array<{key: string, name: string, width?: number}>,
-  fields: Array<Field>
+  tableFields: Array<{key: string, name: string}>,
+  fields: Array<Field>,
+  defaultSort?: string
 }
 
 const models: Array<Model> = [
   {
     name: 'Areas',
     key: 'areas',
+    defaultSort: 'name_i18n.fi',
     tableFields: [
-      {key: 'id', name: 'ID', width: 50},
-      {key: 'name_i18n.fi', name: 'Name', width: 200}
+      {key: 'id', name: 'ID'},
+      {key: 'name_i18n.fi', name: 'Name'}
     ],
     fields: [
       {
@@ -62,12 +64,13 @@ const models: Array<Model> = [
   {
     name: 'Restaurants',
     key: 'restaurants',
+    defaultSort: 'name_i18n.fi',
     tableFields: [
-      {key: 'id', name: 'ID', width: 50},
-      {key: 'AreaId', name: 'Area ID', width: 50},
-      {key: 'name_i18n.fi', name: 'Name', width: 200},
-      {key: 'address', name: 'Address', width: 200},
-      {key: 'url', name: 'URL', width: 200}
+      {key: 'id', name: 'ID'},
+      {key: 'AreaId', name: 'Area ID'},
+      {key: 'name_i18n.fi', name: 'Name'},
+      {key: 'address', name: 'Address'},
+      {key: 'url', name: 'URL'}
     ],
     fields: [
       {
@@ -97,10 +100,11 @@ const models: Array<Model> = [
   {
     name: 'Favorites',
     key: 'favorites',
+    defaultSort: 'name_i18n.fi',
     tableFields: [
-      {key: 'id', name: 'ID', width: 50},
-      {key: 'name_i18n.fi', name: 'Name', width: 100},
-      {key: 'regexp', name: 'Regular Expression', width: 300}
+      {key: 'id', name: 'ID'},
+      {key: 'name_i18n.fi', name: 'Name'},
+      {key: 'regexp', name: 'Regular Expression'}
     ],
     fields: [
       {
@@ -117,10 +121,11 @@ const models: Array<Model> = [
   {
     name: 'Updates',
     key: 'updates',
+    defaultSort: 'createdAt',
     tableFields: [
-      {key: 'id', name: 'ID', width: 50},
+      {key: 'id', name: 'ID'},
       {key: 'type', name: 'Type'},
-      {key: 'description', name: 'Description', width: 300}
+      {key: 'description', name: 'Description'}
     ],
     fields: [
       {path: 'type', title: 'Type', type: 'updateType'},

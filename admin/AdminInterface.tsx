@@ -1,19 +1,24 @@
 import * as React from 'react'
-import {Table, Column, Cell, ColumnHeaderCell, TableLoadingOption} from '@blueprintjs/table'
-import {Button, Intent, Menu, MenuItem, Dialog} from '@blueprintjs/core'
+import {Button, Intent, Menu, MenuItem, Dialog, Spinner} from '@blueprintjs/core'
 import * as get from 'lodash/fp/get'
 import * as orderBy from 'lodash/fp/orderBy'
-require('@blueprintjs/table/lib/css/table.css')
 
 import http from '../src/utils/http'
 import GenericEditor from './GenericEditor'
-import { Model } from './models';
+import { Model } from './models'
+
+const tdStyle = {
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  maxWidth: '300px',
+  textOverflow: 'ellipsis'
+}
 
 export default class AdminInterface extends React.PureComponent {
   state: {
     mode?: 'editing' | 'creating',
     item?: any,
-    sortedColumn?: number,
+    sortedColumn?: string,
     sortDirection: 'asc' | 'desc',
     sortedItems: Array<any>,
     items: Array<any>,
@@ -35,74 +40,61 @@ export default class AdminInterface extends React.PureComponent {
 
   hideDialog = () => this.setState({mode: undefined})
 
-  renderCell = (rowIndex, columnIndex) =>
-    <Cell>
-      {get(this.props.model.tableFields[columnIndex].key, this.state.sortedItems[rowIndex])}
-    </Cell>
+  getSortIndicator = sortedColumn => sortedColumn === this.state.sortedColumn ? (this.state.sortDirection === 'asc' ? '︎︎↑' : '↓') : ''
 
-  getSortIndicator = columnIndex  => columnIndex === this.state.sortedColumn ? (this.state.sortDirection === 'asc' ? '︎︎↑' : '↓') : ''
-
-  renderHeaderCell = columnIndex =>
-    <ColumnHeaderCell
-      name={this.props.model.tableFields[columnIndex].name + ' ' +  this.getSortIndicator(columnIndex)}
-      menuIcon="chevron-down"
-      menuRenderer={this.renderHeaderMenu} />
-
-  sortAscending = columnIndex =>
-    this.setState({sortedColumn: columnIndex, sortDirection: 'asc'}, this.sortItems)
-
-  sortDescending = columnIndex =>
-    this.setState({sortedColumn: columnIndex, sortDirection: 'desc'}, this.sortItems)
-
-  renderHeaderMenu = columnIndex =>
-    <Menu>
-      <MenuItem onClick={() => this.sortAscending(columnIndex)} icon="sort-asc" text="Sort ascending" />
-      <MenuItem onClick={() => this.sortDescending(columnIndex)} icon="sort-desc" text="Sort descending" />
-    </Menu>
-
-  renderActions = (rowIndex) =>
-    <Cell interactive>
-      <a
-        href="#"
-        onClick={() => this.openEditDialog(this.state.sortedItems[rowIndex])}>
-        Edit
-      </a>
-    </Cell>
+  changeSort = columnKey => {
+    const {sortedColumn, sortDirection} = this.state
+    if (sortedColumn === columnKey) {
+      this.setState({sortDirection: sortDirection === 'asc' ? 'desc' : 'asc'})
+    } else {
+      this.setState({sortedColumn: columnKey, sortDirection: 'asc'})
+    }
+  }
 
   onEditorSuccess = () => {
     this.hideDialog()
     this.fetchItems()
   }
 
-  sortItems = (props = this.props, state = this.state) => {
+  sortItems = (state = this.state) => {
     const {sortedColumn, sortDirection} = state
     const sortedItems = !!sortedColumn
-      ? orderBy(props.model.tableFields[sortedColumn].key, sortDirection, state.items)
+      ? orderBy(sortedColumn, sortDirection, state.items)
       : state.items
     this.setState({sortedItems})
+  }
+
+  resetSort(props = this.props) {
+    this.setState({sortedColumn: props.model.defaultSort, sortDirection: 'asc'})
   }
 
   fetchItems = async (props = this.props) => {
     this.setState({loading: true, items: []})
     const items = await http.get('/admin/' + props.model.key, true)
-    this.setState({items, loading: false}, this.sortItems)
+    this.setState({items, loading: false})
   }
 
   componentWillReceiveProps(props, state) {
     if (props.model.key !== this.props.model.key) {
-      this.setState({sortedColumn: undefined, sortDirection: 'asc'}, () => {
-        this.fetchItems(props)
-      })
+      this.resetSort(props)
+      this.fetchItems(props)
+    }
+  }
+
+  componentWillUpdate(props, state) {
+    if (state.sortDirection !== this.state.sortDirection || state.sortedColumn !== this.state.sortedColumn || state.items !== this.state.items) {
+      this.sortItems(state)
     }
   }
 
   componentDidMount() {
+    this.resetSort()
     this.fetchItems()
   }
 
   render() {
     const {model} = this.props
-    const {mode, items, item, loading} = this.state
+    const {mode, items, sortedItems, item, loading} = this.state
 
     return (
       <React.Fragment>
@@ -120,17 +112,27 @@ export default class AdminInterface extends React.PureComponent {
           onClick={this.openCreateDialog}>
           Create
         </Button>
-        <Table
-          columnWidths={model.tableFields.map(f => f.width).concat(100)}
-          numRows={loading ? 20 : items.length}
-          loadingOptions={loading ? [TableLoadingOption.CELLS] : []}>
-          {model.tableFields.map(header =>
-          <Column
-            key={header.key}
-            columnHeaderCellRenderer={this.renderHeaderCell}
-            cellRenderer={this.renderCell} />
-          ).concat(<Column key="actions" name="Actions" cellRenderer={this.renderActions} />)}
-        </Table>
+        {loading ? <Spinner /> :
+        <table className="pt-html-table pt-fill pt-small pt-interactive pt-html-table-striped">
+          <thead>
+            <tr>
+              {model.tableFields.map(field =>
+              <th key={field.key} style={{cursor: 'pointer'}} onClick={() => this.changeSort(field.key)}>
+                {field.name}&nbsp;{this.getSortIndicator(field.key)}
+              </th>
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {sortedItems.map((item, i) =>
+            <tr onClick={() => this.openEditDialog(item)} key={i}>
+              {model.tableFields.map(field =>
+              <td style={tdStyle} key={field.key}>{get(field.key, item)}</td>
+              )}
+            </tr>
+            )}
+          </tbody>
+        </table>}
       </React.Fragment>
     )
   }

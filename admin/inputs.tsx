@@ -7,6 +7,7 @@ import * as get from 'lodash/fp/get'
 import * as api from './api'
 import models from './models'
 import {ModelField, FieldGroup, RelationField} from './models'
+import toaster from './toaster';
 
 type InputProps = {
   value: any,
@@ -113,26 +114,33 @@ const MenuUrlInput = ({value, setValue, field}: InputProps) => {
 class AddressInput extends React.PureComponent {
   props: InputProps
 
+  state: {loading: boolean} = {loading: false}
+
   geocode = (address, setValue) => () => {
     const geocoder = new google.maps.Geocoder()
+    this.setState({loading: true})
     geocoder.geocode({address}, (results, status) => {
       if (results.length) {
         const {geometry} = results[0]
         setValue('latitude', geometry.location.lat())
         setValue('longitude', geometry.location.lng())
+      } else {
+        toaster.show({message: 'There was an error geocoding.', intent: Intent.WARNING})
       }
+      this.setState({loading: false})
     })
   }
 
   render() {
     const {value, setValue, field} = this.props
+    const {loading} = this.state
 
     return (
       <InputGroup
         onChange={e => setValue(field.path, e.target.value)}
         value={value || ''}
         leftIcon="geolocation"
-        rightElement={<Button onClick={this.geocode(value, setValue)}>Geocode</Button>}
+        rightElement={<Button disabled={loading} onClick={this.geocode(value, setValue)}>Geocode</Button>}
         type="text" />
     )
   }

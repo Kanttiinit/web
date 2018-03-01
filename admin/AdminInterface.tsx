@@ -3,7 +3,7 @@ import {Button, Intent, Menu, MenuItem, Dialog, Spinner} from '@blueprintjs/core
 import * as get from 'lodash/fp/get'
 import * as orderBy from 'lodash/fp/orderBy'
 
-import http from '../src/utils/http'
+import * as api from './api'
 import GenericEditor from './GenericEditor'
 import { Model } from './models'
 
@@ -70,8 +70,7 @@ export default class AdminInterface extends React.PureComponent {
 
   fetchItems = async (props = this.props) => {
     this.setState({loading: true, items: []})
-    const items = await http.get('/admin/' + props.model.key, true)
-    this.setState({items, loading: false})
+    this.setState({loading: false, items: await api.fetchItems(props.model)})
   }
 
   componentWillReceiveProps(props, state) {

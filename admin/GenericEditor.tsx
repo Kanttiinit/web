@@ -3,7 +3,7 @@ import {FormGroup, ButtonGroup, Button, Intent, Callout} from '@blueprintjs/core
 import * as get from 'lodash/fp/get'
 import * as set from 'lodash/fp/set'
 
-import http from '../src/utils/http'
+import * as api from './api'
 import { Model } from './models'
 import inputs from './inputs'
 import toaster from './toaster'
@@ -32,17 +32,15 @@ export default class GenericEditor extends React.PureComponent {
     this.setState({item})
   }
 
-  getBasePath = () => '/admin/' + this.props.model.name.toLowerCase()
-
   save = async e => {
     e.preventDefault()
 
     const {item} = this.state
 
     if (this.props.mode === 'editing') {
-      await http.put(this.getBasePath() + '/' + item.id, item)
+      await api.editItem(this.props.model, item)
     } else {
-      await http.post(this.getBasePath(), item)
+      await api.createItem(this.props.model, item)
     }
 
     this.setState({mode: undefined})
@@ -52,7 +50,7 @@ export default class GenericEditor extends React.PureComponent {
 
   delete = async () => {
     if (confirm('Are you sure?')) {
-      await http.delete(this.getBasePath() + '/' + this.props.item.id)
+      await api.deleteItem(this.props.model, this.props.item)
       this.props.onSuccess()
       toaster.show({message: 'The item has been deleted.', intent: Intent.SUCCESS})
     }

@@ -2,8 +2,11 @@ import * as React from 'react'
 import {InputGroup, Button, Intent, Switch, ButtonGroup, Label} from '@blueprintjs/core'
 import {withGoogleMap, Marker, GoogleMap} from 'react-google-maps'
 import * as moment from 'moment'
+import * as get from 'lodash/fp/get'
 
-import {ModelField, FieldGroup} from './models'
+import * as api from './api'
+import models from './models'
+import {ModelField, FieldGroup, RelationField} from './models'
 
 type InputProps = {
   value: any,
@@ -227,6 +230,51 @@ const UpdateTypeSelect = (props: InputProps) =>
     </select>
   </div>
 
+class RelationInput extends React.PureComponent {
+  props: {
+    value: any,
+    field: RelationField,
+    setValue(path: string, value: any)
+  }
+
+  state: {
+    items?: Array<any>,
+    loading?: boolean
+  } = {
+    loading: true
+  }
+
+  async fetchItems() {
+    const model = models.find(m => m.key === this.props.field.relationKey)
+    this.setState({loading: true})
+    this.setState({
+      items: await api.fetchItems(model),
+      loading: false
+    })
+  }
+
+  componentDidMount() {
+    this.fetchItems()
+  }
+
+  render() {
+    const {value, field, setValue} = this.props
+    const {items, loading} = this.state
+    if (loading) {
+      return <span>Loading...</span>
+    }
+    return (
+      <div className="pt-select">
+        <select value={value} onChange={e => setValue(field.path, e.target.value)}>
+          {items.map(item =>
+          <option value={item.id}>{get(field.relationDisplayField, item)}</option>
+          )}
+        </select>
+      </div>
+    )
+  }
+}
+
 const inputs: any = {
   openingHours: OpeningHoursInput,
   url: UrlInput,
@@ -238,6 +286,7 @@ const inputs: any = {
   number: NumericInput,
   translated: TranslatedInput,
   updateType: UpdateTypeSelect,
+  relation: RelationInput,
   _: ({value, field, setValue}: InputProps) =>
     <InputGroup
       onChange={e => setValue(field.path, e.target.value)}

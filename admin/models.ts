@@ -11,7 +11,15 @@ export interface FieldGroup {
   fields: Array<ModelField>
 }
 
-export type Field = ModelField | FieldGroup
+export interface RelationField {
+  type: 'relation',
+  title: string,
+  path: string,
+  relationKey: string,
+  relationDisplayField: string
+}
+
+export type Field = ModelField | FieldGroup | RelationField
 
 export interface Model {
   name: string,
@@ -93,7 +101,7 @@ const models: Array<Model> = [
       },
       {path: 'address', title: 'Address', type: 'address'},
       {path: 'openingHours', title: 'Opening Hours', type: 'openingHours', default: [null, null, null, null, null, null, null]},
-      {path: 'AreaId', title: 'Area ID', type: 'number'},      
+      {path: 'AreaId', title: 'Area ID', type: 'relation', relationKey: 'areas', relationDisplayField: 'name_i18n.fi'},
       {path: 'hidden', title: 'Hidden', type: 'boolean'}
     ]
   },

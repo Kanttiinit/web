@@ -25,7 +25,7 @@ class OpeningHoursInput extends React.PureComponent {
   props: InputProps
   
   set = (i, j, value) => {
-    const arr = [...this.props.value]
+    const arr = this.props.value ? [...this.props.value] : this.props.field.default;
     if (!arr[i]) {
       arr[i] = []
     }
@@ -184,28 +184,34 @@ const NumericInput = ({value, setValue, field}: InputProps) =>
     value={value || ''}
     type="number" />
 
-const Map = withGoogleMap((props: any) =>
-  <GoogleMap
-    defaultCenter={new google.maps.LatLng(props.latitude, props.longitude)}
-    defaultZoom={14}>
-    <Marker
-      draggable
-      onDragEnd={({latLng}) => props.onChange(latLng.lat(), latLng.lng())}
-      position={new google.maps.LatLng(props.latitude, props.longitude)} />
-  </GoogleMap>
-)
+const Map = withGoogleMap((props: any) => {
+  const onChange = ({latLng}) => props.onChange(latLng.lat(), latLng.lng())
+  return (
+    <GoogleMap
+      onDblClick={onChange}
+      defaultCenter={new google.maps.LatLng(props.latitude || 60.1705, props.longitude || 24.9414)}
+      defaultZoom={14}>
+      {props.latitude && props.longitude &&
+      <Marker
+        draggable
+        onDragEnd={onChange}
+        position={new google.maps.LatLng(props.latitude, props.longitude)} />
+      }
+    </GoogleMap>
+  )
+})
 
 const LocationInput = (props: GroupInputProps) => (
   <React.Fragment>
     <Label text="Latitude" className="pt-inline">
       <NumericInput
-        setValue={v => props.setValue('latitude', v)}
+        setValue={(f, v) => props.setValue(f, v)}
         value={props.value[0]}
         field={props.field.fields[0]} />
     </Label>
     <Label text="Longitude" className="pt-inline">
       <NumericInput
-        setValue={v => props.setValue('longitude', v)}
+        setValue={(f, v) => props.setValue(f, v)}
         value={props.value[1]}
         field={props.field.fields[1]} />
     </Label>
@@ -214,8 +220,7 @@ const LocationInput = (props: GroupInputProps) => (
       containerElement={<div />}
       latitude={props.value[0]}
       longitude={props.value[1]}
-      onChange={(lat, lon) => props.setValue('latitude', lat) || props.setValue('longitude', lon)}
-      {...props} />
+      onChange={(lat, lon) => props.setValue('latitude', lat) || props.setValue('longitude', lon)} />
   </React.Fragment>
 )
 
@@ -275,7 +280,7 @@ class RelationInput extends React.PureComponent {
       <div className="pt-select">
         <select value={value} onChange={e => setValue(field.path, e.target.value)}>
           {items.map(item =>
-          <option value={item.id}>{get(field.relationDisplayField, item)}</option>
+          <option key={item.id} value={item.id}>{get(field.relationDisplayField, item)}</option>
           )}
         </select>
       </div>

@@ -1,1 +1,1 @@
-export {default} from './PropertySelector'
+export { default } from './PropertySelector';

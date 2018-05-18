@@ -1,1 +1,1 @@
-export {default} from './MenuViewer'
+export { default } from './MenuViewer';

@@ -1,1 +1,1 @@
-export {default} from './NetworkStatus'
+export { default } from './NetworkStatus';

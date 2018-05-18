@@ -1,1 +1,1 @@
-export {default} from './AreaSelector'
+export { default } from './AreaSelector';

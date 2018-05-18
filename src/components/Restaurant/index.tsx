@@ -1,2 +1,2 @@
-export {default} from './Restaurant'
-export {default as Placeholder} from './PlaceHolder'
+export { default } from './Restaurant';
+export { default as Placeholder } from './PlaceHolder';

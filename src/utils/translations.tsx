@@ -1,24 +1,74 @@
-import * as React from 'react'
-import {Link} from 'react-router-dom'
+import * as React from 'react';
+import { Link } from 'react-router-dom';
 
-import {Order} from '../store/types'
+import { Order } from '../store/types';
 
 export const properties = [
-  {key: 'A+', desired: false, name_en: 'contains allergens', name_fi: 'sisältää allergeeneja'},
-  {key: 'C+', desired: false, name_en: 'contains celery', name_fi: 'sisältää selleriä'},
-  {key: 'E', desired: true, name_en: 'egg-free', name_fi: 'ei sisällä kananmunaa'},
-  {key: 'G', desired: true, name_en: 'gluten-free', name_fi: 'gluteeniton'},
-  {key: 'H', desired: true, name_en: 'healthier choice', name_fi: 'terveellisempi valinta'},
-  {key: 'L', desired: true, name_en: 'lactose-free', name_fi: 'laktoositon'},
-  {key: 'LL', desired: true, name_en: 'low in lactose', name_fi: 'vähälaktoosinen'},
-  {key: 'M', desired: true, name_en: 'milk-free', name_fi: 'ei sisällä maitoa'},
-  {key: 'N+', desired: false, name_en: 'contains nuts', name_fi: 'sisältää pähkinää'},
-  {key: 'O+', desired: false, name_en: 'contains garlic', name_fi: 'sisältää valkosipulia'},
-  {key: 'S', desired: true, name_en: 'soy-free', name_fi: 'ei sisällä soijaa'},
-  {key: 'S+', desired: false, name_en: 'contains soy', name_fi: 'sisältää soijaa'},
-  {key: 'V', desired: true, name_en: 'vegetarian', name_fi: 'vegetaarinen'},
-  {key: 'VV', desired: true, name_en: 'vegan', name_fi: 'vegaani'}
-]
+  {
+    key: 'A+',
+    desired: false,
+    name_en: 'contains allergens',
+    name_fi: 'sisältää allergeeneja'
+  },
+  {
+    key: 'C+',
+    desired: false,
+    name_en: 'contains celery',
+    name_fi: 'sisältää selleriä'
+  },
+  {
+    key: 'E',
+    desired: true,
+    name_en: 'egg-free',
+    name_fi: 'ei sisällä kananmunaa'
+  },
+  { key: 'G', desired: true, name_en: 'gluten-free', name_fi: 'gluteeniton' },
+  {
+    key: 'H',
+    desired: true,
+    name_en: 'healthier choice',
+    name_fi: 'terveellisempi valinta'
+  },
+  { key: 'L', desired: true, name_en: 'lactose-free', name_fi: 'laktoositon' },
+  {
+    key: 'LL',
+    desired: true,
+    name_en: 'low in lactose',
+    name_fi: 'vähälaktoosinen'
+  },
+  {
+    key: 'M',
+    desired: true,
+    name_en: 'milk-free',
+    name_fi: 'ei sisällä maitoa'
+  },
+  {
+    key: 'N+',
+    desired: false,
+    name_en: 'contains nuts',
+    name_fi: 'sisältää pähkinää'
+  },
+  {
+    key: 'O+',
+    desired: false,
+    name_en: 'contains garlic',
+    name_fi: 'sisältää valkosipulia'
+  },
+  {
+    key: 'S',
+    desired: true,
+    name_en: 'soy-free',
+    name_fi: 'ei sisällä soijaa'
+  },
+  {
+    key: 'S+',
+    desired: false,
+    name_en: 'contains soy',
+    name_fi: 'sisältää soijaa'
+  },
+  { key: 'V', desired: true, name_en: 'vegetarian', name_fi: 'vegetaarinen' },
+  { key: 'VV', desired: true, name_en: 'vegan', name_fi: 'vegaani' }
+];
 
 export default {
   noMenu: {
@@ -44,15 +94,29 @@ export default {
   termsOfServiceContent: {
     fi: (
       <div>
-        <p>Kanttiinit hakee kaikki ruokalistat suoraan ravintoloiden sivuilta, eikä ole itse vastuussa tietojen paikkansapitävyydestä. Muista varmistaa ruokien allergeenit paikan päällä ravintolassa.</p>
-        <p>Kanttiinit käyttää evästeitä kävijätilastojen keräämiseksi. Käyttämällä palvelua hyväksyt evästeiden käytön.</p>
+        <p>
+          Kanttiinit hakee kaikki ruokalistat suoraan ravintoloiden sivuilta,
+          eikä ole itse vastuussa tietojen paikkansapitävyydestä. Muista
+          varmistaa ruokien allergeenit paikan päällä ravintolassa.
+        </p>
+        <p>
+          Kanttiinit käyttää evästeitä kävijätilastojen keräämiseksi.
+          Käyttämällä palvelua hyväksyt evästeiden käytön.
+        </p>
         <p>Kanttiinit ei jaa mitään dataa kolmansille osapuolille.</p>
       </div>
     ),
     en: (
       <div>
-        <p>Kanttiinit retrieves all menus directly from the restaurants, and isn't directly responsible for the correctness of any information. Please verify the information about allergens at the restaurants.</p>
-        <p>Kanttiinit uses cookies for collecting user statistics. By using the service you agree to the usage of cookies.</p>
+        <p>
+          Kanttiinit retrieves all menus directly from the restaurants, and
+          isn't directly responsible for the correctness of any information.
+          Please verify the information about allergens at the restaurants.
+        </p>
+        <p>
+          Kanttiinit uses cookies for collecting user statistics. By using the
+          service you agree to the usage of cookies.
+        </p>
         <p>Kanttiinit will not share any data with third parties.</p>
       </div>
     )
@@ -146,8 +210,16 @@ export default {
     en: 'Locating...'
   },
   turnOnLocation: {
-    fi: <span>Laita sijainti päälle <Link to="/settings">asetuksista.</Link></span>,
-    en: <span>Turn on location <Link to="/settings">in the settings.</Link></span>
+    fi: (
+      <span>
+        Laita sijainti päälle <Link to="/settings">asetuksista.</Link>
+      </span>
+    ),
+    en: (
+      <span>
+        Turn on location <Link to="/settings">in the settings.</Link>
+      </span>
+    )
   },
   reportDataTitle: {
     fi: 'Ilmoita virheellisestä tiedosta',
@@ -178,8 +250,10 @@ export default {
     en: 'Unexpected error'
   },
   errorDetails: {
-    fi: 'Tapahtui odottamaton virhe, joka on raportoitu kehjittäjille. Yritä myöhemmin uudestaan.',
-    en: 'There was an unexcpected error which has been reported to the developers. Please try again later.'
+    fi:
+      'Tapahtui odottamaton virhe, joka on raportoitu kehjittäjille. Yritä myöhemmin uudestaan.',
+    en:
+      'There was an unexcpected error which has been reported to the developers. Please try again later.'
   },
   updates: {
     fi: 'Päivitykset',
@@ -201,4 +275,4 @@ export default {
     fi: 'Ei verkkoyhteyttä.',
     en: 'You are currently offline.'
   }
-}
+};

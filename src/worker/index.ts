@@ -1,6 +1,6 @@
-const worker = (self as any)
+const worker = self as any;
 
-const CACHE_NAME = 'cache'
+const CACHE_NAME = 'cache';
 const urlsToCache = [
   '/',
   '/app.js',
@@ -11,39 +11,42 @@ const urlsToCache = [
   '/fonts/Interface-Regular.woff2',
   '/fonts/Interface-Medium.woff2',
   '/fonts/Interface-Bold.woff2'
-]
+];
 
-let cache: Cache
-const getCache = async () => cache || (cache = await caches.open(CACHE_NAME))
+let cache: Cache;
+const getCache = async () => cache || (cache = await caches.open(CACHE_NAME));
 
 const resolve = async (request: Request) => {
-  const cache = await getCache()
-  if (request.url.match(/^https:\/\/kitchen\.kanttiinit\.fi/) && !request.url.match('/admin/')) {
+  const cache = await getCache();
+  if (
+    request.url.match(/^https:\/\/kitchen\.kanttiinit\.fi/) &&
+    !request.url.match('/admin/')
+  ) {
     try {
-      const response = await fetch(request)
-      cache.put(request, response.clone())
-      return response
+      const response = await fetch(request);
+      cache.put(request, response.clone());
+      return response;
     } catch (e) {}
-    return caches.match(request)
+    return caches.match(request);
   } else if (request.url.match(/amazonaws.+\.(png|jpg)$/)) {
-    cache.add(request)
+    cache.add(request);
   }
-  return (await caches.match(request)) || fetch(request)
-}
+  return (await caches.match(request)) || fetch(request);
+};
 
 const install = async () => {
   // purge all caches
-  await Promise.all((await caches.keys()).map(name => caches.delete(name)))
+  await Promise.all((await caches.keys()).map(name => caches.delete(name)));
 
-  const cache = await getCache()
-  await cache.addAll(urlsToCache)
-  return worker.skipWaiting()
-}
+  const cache = await getCache();
+  await cache.addAll(urlsToCache);
+  return worker.skipWaiting();
+};
 
 worker.addEventListener('install', (event: any) => {
-  event.waitUntil(install())
-})
+  event.waitUntil(install());
+});
 
 worker.addEventListener('fetch', (event: any) => {
-  event.respondWith(resolve(event.request))
-})
+  event.respondWith(resolve(event.request));
+});

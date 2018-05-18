@@ -1,205 +1,260 @@
-import * as React from 'react'
-import {InputGroup, Button, Intent, Switch, ButtonGroup, Label} from '@blueprintjs/core'
-import {withGoogleMap, Marker, GoogleMap} from 'react-google-maps'
-import * as moment from 'moment'
-import get from 'lodash/fp/get'
+import * as React from 'react';
+import {
+  InputGroup,
+  Button,
+  Intent,
+  Switch,
+  ButtonGroup,
+  Label
+} from '@blueprintjs/core';
+import { withGoogleMap, Marker, GoogleMap } from 'react-google-maps';
+import * as moment from 'moment';
+import * as get from 'lodash/fp/get';
 
-import * as api from './api'
-import models from './models'
-import {ModelField, FieldGroup, RelationField} from './models'
+import * as api from './api';
+import models from './models';
+import { ModelField, FieldGroup, RelationField } from './models';
 import toaster from './toaster';
 
 type InputProps = {
-  value: any,
-  field: ModelField,
-  setValue(path: string, value: any),
-}
+  value: any;
+  field: ModelField;
+  setValue(path: string, value: any);
+};
 
 type GroupInputProps = {
-  value: Array<any>,
-  field: FieldGroup,
-  setValue(path: string, value: any),
-}
+  value: Array<any>;
+  field: FieldGroup;
+  setValue(path: string, value: any);
+};
 
 class OpeningHoursInput extends React.PureComponent {
-  props: InputProps
-  
+  props: InputProps;
+
   set = (i, j, value) => {
-    const arr = this.props.value ? [...this.props.value] : this.props.field.default;
+    const arr = this.props.value
+      ? [...this.props.value]
+      : this.props.field.default;
     if (!arr[i]) {
-      arr[i] = []
+      arr[i] = [];
     }
 
-    arr[i][j] = Number(value)
+    arr[i][j] = Number(value);
 
     if (arr[i][0] === 0 && arr[i][1] === 0) {
-      arr[i] = null
+      arr[i] = null;
     }
-    this.setValue(arr)
-  }
+    this.setValue(arr);
+  };
 
   copyFrom = which => {
-    const arr = [...this.props.value]
-    arr[which] = arr[which - 1]
+    const arr = [...this.props.value];
+    arr[which] = arr[which - 1];
     if (Array.isArray(arr[which])) {
-      arr[which] = [...arr[which]]
+      arr[which] = [...arr[which]];
     }
-    this.setValue(arr)
-  }
+    this.setValue(arr);
+  };
 
   clear = i => {
-    const arr = [...this.props.value]
-    arr[i] = null
-    this.setValue(arr)
-  }
+    const arr = [...this.props.value];
+    arr[i] = null;
+    this.setValue(arr);
+  };
 
-  setValue = value => this.props.setValue(this.props.field.path, value)
+  setValue = value => this.props.setValue(this.props.field.path, value);
 
   render() {
-    const {value = [], setValue} = this.props
+    const { value = [], setValue } = this.props;
 
     return (
       <React.Fragment>
-        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((weekday, i) =>
-        <div key={i} style={{display: 'flex', alignItems: 'center'}}>
-          <span style={{width: '4ch', marginRight: '1ch', textAlign: 'right'}}>{weekday}</span>
-          <InputGroup
-            onChange={e => this.set(i, 0, e.target.value)}
-            size={5}
-            value={(value[i] || [])[0] || ''} />
-          <span style={{margin: '0 1ch'}}>to</span>
-          <InputGroup
-            onChange={e => this.set(i, 1, e.target.value)}
-            size={5}
-            value={(value[i] || [])[1] || ''} />
-          <ButtonGroup minimal style={{marginLeft: '1ch'}}>
-            <Button
-              className="pt-small"
-              onClick={() => this.clear(i)}
-              icon="delete" />
-            {i > 0 &&
-            <Button
-              className="pt-small"
-              onClick={() => this.copyFrom(i)}
-              icon="duplicate" />}
-          </ButtonGroup>
-        </div>
-        )}
+        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((weekday, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
+            <span
+              style={{ width: '4ch', marginRight: '1ch', textAlign: 'right' }}
+            >
+              {weekday}
+            </span>
+            <InputGroup
+              onChange={e => this.set(i, 0, e.target.value)}
+              size={5}
+              value={(value[i] || [])[0] || ''}
+            />
+            <span style={{ margin: '0 1ch' }}>to</span>
+            <InputGroup
+              onChange={e => this.set(i, 1, e.target.value)}
+              size={5}
+              value={(value[i] || [])[1] || ''}
+            />
+            <ButtonGroup minimal style={{ marginLeft: '1ch' }}>
+              <Button
+                className="pt-small"
+                onClick={() => this.clear(i)}
+                icon="delete"
+              />
+              {i > 0 && (
+                <Button
+                  className="pt-small"
+                  onClick={() => this.copyFrom(i)}
+                  icon="duplicate"
+                />
+              )}
+            </ButtonGroup>
+          </div>
+        ))}
       </React.Fragment>
-    )
+    );
   }
 }
 
-const UrlInput = ({value, setValue, field}: InputProps) =>
+const UrlInput = ({ value, setValue, field }: InputProps) => (
   <InputGroup
     onChange={e => setValue(field.path, e.target.value)}
     value={value || ''}
     leftIcon="link"
-    rightElement={<a target="_blank" href={value}><Button>Open</Button></a>}
-    type="text" />
+    rightElement={
+      <a target="_blank" href={value}>
+        <Button>Open</Button>
+      </a>
+    }
+    type="text"
+  />
+);
 
-const MenuUrlInput = ({value, setValue, field}: InputProps) => {
-  const now = moment()
-  const link = value && value.replace('%year%', now.format('YYYY')).replace('%month%', now.format('MM')).replace('%day%', now.format('DD'))
+const MenuUrlInput = ({ value, setValue, field }: InputProps) => {
+  const now = moment();
+  const link =
+    value &&
+    value
+      .replace('%year%', now.format('YYYY'))
+      .replace('%month%', now.format('MM'))
+      .replace('%day%', now.format('DD'));
   return (
     <InputGroup
       onChange={e => setValue(field.path, e.target.value)}
       value={value || ''}
       leftIcon="link"
-      rightElement={<a target="_blank" href={link}><Button>Open</Button></a>}
-      type="text" />
-  )
-}
+      rightElement={
+        <a target="_blank" href={link}>
+          <Button>Open</Button>
+        </a>
+      }
+      type="text"
+    />
+  );
+};
 
 class AddressInput extends React.PureComponent {
-  props: InputProps
+  props: InputProps;
 
-  state: {loading: boolean} = {loading: false}
+  state: { loading: boolean } = { loading: false };
 
   geocode = (address, setValue) => () => {
-    const geocoder = new google.maps.Geocoder()
-    this.setState({loading: true})
-    geocoder.geocode({address}, (results, status) => {
+    const geocoder = new google.maps.Geocoder();
+    this.setState({ loading: true });
+    geocoder.geocode({ address }, (results, status) => {
       if (results.length) {
-        const {geometry} = results[0]
-        setValue('latitude', geometry.location.lat())
-        setValue('longitude', geometry.location.lng())
+        const { geometry } = results[0];
+        setValue('latitude', geometry.location.lat());
+        setValue('longitude', geometry.location.lng());
       } else {
-        toaster.show({message: 'There was an error geocoding.', intent: Intent.WARNING})
+        toaster.show({
+          message: 'There was an error geocoding.',
+          intent: Intent.WARNING
+        });
       }
-      this.setState({loading: false})
-    })
-  }
+      this.setState({ loading: false });
+    });
+  };
 
   render() {
-    const {value, setValue, field} = this.props
-    const {loading} = this.state
+    const { value, setValue, field } = this.props;
+    const { loading } = this.state;
 
     return (
       <InputGroup
         onChange={e => setValue(field.path, e.target.value)}
         value={value || ''}
         leftIcon="geolocation"
-        rightElement={<Button disabled={loading} onClick={this.geocode(value, setValue)}>Geocode</Button>}
-        type="text" />
-    )
+        rightElement={
+          <Button disabled={loading} onClick={this.geocode(value, setValue)}>
+            Geocode
+          </Button>
+        }
+        type="text"
+      />
+    );
   }
 }
 
-
 class RegExpInput extends React.PureComponent {
-  props: InputProps
-  state = {test: ''}
+  props: InputProps;
+  state = { test: '' };
 
   render() {
-    const {field, value, setValue} = this.props
-    const {test} = this.state
-    const match = !!test.match(new RegExp(value))
+    const { field, value, setValue } = this.props;
+    const { test } = this.state;
+    const match = !!test.match(new RegExp(value));
     return (
       <React.Fragment>
         <InputGroup
           onChange={e => setValue(field.path, e.target.value)}
           value={value || ''}
           leftIcon="code"
-          type="text" />
+          type="text"
+        />
         <InputGroup
           placeholder="Test value"
           value={test}
           intent={match ? Intent.SUCCESS : Intent.DANGER}
           leftIcon={match ? 'tick-circle' : 'error'}
-          onChange={e => this.setState({test: e.target.value})} />
+          onChange={e => this.setState({ test: e.target.value })}
+        />
       </React.Fragment>
-    )
+    );
   }
 }
 
-const BooleanInput = ({value, setValue, field}: InputProps) =>
+const BooleanInput = ({ value, setValue, field }: InputProps) => (
   <Switch
     checked={value || false}
-    onChange={(e: any) => setValue(field.path, e.target.checked)} />
+    onChange={(e: any) => setValue(field.path, e.target.checked)}
+  />
+);
 
-const NumericInput = ({value, setValue, field}: InputProps) =>
+const NumericInput = ({ value, setValue, field }: InputProps) => (
   <InputGroup
     onChange={e => setValue(field.path, Number(e.target.value))}
     value={value || ''}
-    type="number" />
+    type="number"
+  />
+);
 
 const Map = withGoogleMap((props: any) => {
-  const onChange = ({latLng}) => props.onChange(latLng.lat(), latLng.lng())
+  const onChange = ({ latLng }) => props.onChange(latLng.lat(), latLng.lng());
   return (
     <GoogleMap
       onDblClick={onChange}
-      defaultCenter={new google.maps.LatLng(props.latitude || 60.1705, props.longitude || 24.9414)}
-      defaultZoom={14}>
-      {props.latitude && props.longitude &&
-      <Marker
-        draggable
-        onDragEnd={onChange}
-        position={new google.maps.LatLng(props.latitude, props.longitude)} />
+      defaultCenter={
+        new google.maps.LatLng(
+          props.latitude || 60.1705,
+          props.longitude || 24.9414
+        )
       }
+      defaultZoom={14}
+    >
+      {props.latitude &&
+        props.longitude && (
+          <Marker
+            draggable
+            onDragEnd={onChange}
+            position={new google.maps.LatLng(props.latitude, props.longitude)}
+          />
+        )}
     </GoogleMap>
-  )
-})
+  );
+});
 
 const LocationInput = (props: GroupInputProps) => (
   <React.Fragment>
@@ -207,84 +262,102 @@ const LocationInput = (props: GroupInputProps) => (
       <NumericInput
         setValue={(f, v) => props.setValue(f, v)}
         value={props.value[0]}
-        field={props.field.fields[0]} />
+        field={props.field.fields[0]}
+      />
     </Label>
     <Label text="Longitude" className="pt-inline">
       <NumericInput
         setValue={(f, v) => props.setValue(f, v)}
         value={props.value[1]}
-        field={props.field.fields[1]} />
+        field={props.field.fields[1]}
+      />
     </Label>
     <Map
-      mapElement={<div style={{height: 200}} />}
+      mapElement={<div style={{ height: 200 }} />}
       containerElement={<div />}
       latitude={props.value[0]}
       longitude={props.value[1]}
-      onChange={(lat, lon) => props.setValue('latitude', lat) || props.setValue('longitude', lon)} />
+      onChange={(lat, lon) =>
+        props.setValue('latitude', lat) || props.setValue('longitude', lon)
+      }
+    />
   </React.Fragment>
-)
+);
 
 const TranslatedInput = (props: GroupInputProps) => (
   <React.Fragment>
-    {props.field.fields.map((field, i) =>
+    {props.field.fields.map((field, i) => (
       <Label key={field.path} text={field.title} className="pt-inline">
-      {React.createElement(inputs[field.type] || inputs._, {value: props.value[i], setValue: props.setValue, field})}
+        {React.createElement(inputs[field.type] || inputs._, {
+          value: props.value[i],
+          setValue: props.setValue,
+          field
+        })}
       </Label>
-    )}
+    ))}
   </React.Fragment>
-)
+);
 
-const UpdateTypeSelect = (props: InputProps) =>
+const UpdateTypeSelect = (props: InputProps) => (
   <div className="pt-select">
-    <select value={props.value} onChange={e => props.setValue(props.field.path, e.target.value)}>
+    <select
+      value={props.value}
+      onChange={e => props.setValue(props.field.path, e.target.value)}
+    >
       <option value="software-update">Software update</option>
       <option value="information-update">Information update</option>
       <option value="bugfix">Bug fix</option>
     </select>
   </div>
+);
 
 class RelationInput extends React.PureComponent {
   props: {
-    value: any,
-    field: RelationField,
-    setValue(path: string, value: any)
-  }
+    value: any;
+    field: RelationField;
+    setValue(path: string, value: any);
+  };
 
   state: {
-    items?: Array<any>,
-    loading?: boolean
+    items?: Array<any>;
+    loading?: boolean;
   } = {
     loading: true
-  }
+  };
 
   async fetchItems() {
-    const model = models.find(m => m.key === this.props.field.relationKey)
-    this.setState({loading: true})
+    const model = models.find(m => m.key === this.props.field.relationKey);
+    this.setState({ loading: true });
     this.setState({
       items: await api.fetchItems(model),
       loading: false
-    })
+    });
   }
 
   componentDidMount() {
-    this.fetchItems()
+    this.fetchItems();
   }
 
   render() {
-    const {value, field, setValue} = this.props
-    const {items, loading} = this.state
+    const { value, field, setValue } = this.props;
+    const { items, loading } = this.state;
     if (loading) {
-      return <span>Loading...</span>
+      return <span>Loading...</span>;
     }
     return (
       <div className="pt-select">
-        <select value={value} onChange={e => setValue(field.path, e.target.value)}>
-          {items.map(item =>
-          <option key={item.id} value={item.id}>{get(field.relationDisplayField, item)}</option>
-          )}
+        <select
+          value={value}
+          onChange={e => setValue(field.path, e.target.value)}
+        >
+          {items.map(item => (
+            <option key={item.id} value={item.id}>
+              {get(field.relationDisplayField, item)}
+            </option>
+          ))}
         </select>
       </div>
-    )
+    );
   }
 }
 
@@ -300,11 +373,13 @@ const inputs: any = {
   translated: TranslatedInput,
   updateType: UpdateTypeSelect,
   relation: RelationInput,
-  _: ({value, field, setValue}: InputProps) =>
+  _: ({ value, field, setValue }: InputProps) => (
     <InputGroup
       onChange={e => setValue(field.path, e.target.value)}
       value={value || ''}
-      type="text" />
-}
+      type="text"
+    />
+  )
+};
 
-export default inputs
+export default inputs;

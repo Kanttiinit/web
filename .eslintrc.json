@@ -5,15 +5,14 @@
   },
   "extends": "eslint:recommended",
   "parserOptions": {
+    "ecmaVersion": 6,
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
       "jsx": true
     },
     "sourceType": "module"
   },
-  "plugins": [
-    "react"
-  ],
+  "plugins": ["react"],
   "globals": {
     "isProduction": true,
     "process": true,
@@ -22,22 +21,13 @@
     "require": true,
     "__dirname": true
   },
+  "parser": "babel-eslint",
   "rules": {
     "no-console": 0,
-    "indent-legacy": [
-      "error",
-      2,
-      { "MemberExpression": 0, "SwitchCase": 1 }
-    ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [2, "never"],
+    "indent-legacy": ["error", 2, { "MemberExpression": 0, "SwitchCase": 1 }],
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "single"],
+    "semi": 2,
     "react/jsx-uses-vars": [2],
     "react/jsx-uses-react": [2]
   }

@@ -1,1 +1,1 @@
-export {default} from './DaySelector'
+export { default } from './DaySelector';

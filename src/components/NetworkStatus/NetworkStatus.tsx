@@ -17,12 +17,9 @@ export default class NetworkStatus extends React.PureComponent {
   };
 
   componentDidMount() {
-    this.updateNetworkStatus();
-  }
-
-  componentWillMount() {
     window.addEventListener('online', this.updateNetworkStatus);
     window.addEventListener('offline', this.updateNetworkStatus);
+    this.updateNetworkStatus();
   }
 
   componentWillUnmount() {

@@ -154,7 +154,7 @@ export default class RestaurantModal extends React.Component {
     this.setState({ restaurant });
   }
 
-  componentWillReceiveProps(props: Props) {
+  componentDidUpdate(props: Props) {
     if (props.restaurantId !== this.props.restaurantId) {
       this.fetchRestaurant(props.restaurantId);
     }

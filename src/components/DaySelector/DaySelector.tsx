@@ -8,63 +8,43 @@ import { uiState } from '../../store';
 const css = require('./DaySelector.scss');
 import Text from '../Text';
 
-const focus = (e: Link) => {
-  if (e) {
-    const node = ReactDOM.findDOMNode(e);
-    if (node instanceof HTMLElement) {
-      node.focus();
-    }
-  }
+type DayLinkProps = {
+  day: moment.Moment;
+  selectedDay: moment.Moment;
+  root?: string;
 };
 
-class DayLink extends React.PureComponent {
-  props: {
-    day: moment.Moment;
-    selectedDay: moment.Moment;
-    root?: string;
-  };
+const DayLink = ({ day, selectedDay, root }: DayLinkProps) => {
+  const search = moment().isSame(day, 'day')
+    ? ''
+    : `?day=${day.format('YYYY-MM-DD')}`;
+  const active = selectedDay.isSame(day, 'day');
 
-  render() {
-    const { day, selectedDay, root } = this.props;
-    const search = moment().isSame(day, 'day')
-      ? ''
-      : `?day=${day.format('YYYY-MM-DD')}`;
-    const active = selectedDay.isSame(day, 'day');
+  return (
+    <Link
+      className={active ? css.selected : ''}
+      to={{ pathname: root, search }}
+    >
+      <Text moment={day} id="dd D.M." />
+    </Link>
+  );
+};
 
-    return (
-      <Link
-        ref={active && focus}
-        className={active ? css.selected : ''}
-        to={{ pathname: root, search }}
-      >
-        <Text moment={day} id="dd D.M." />
-      </Link>
-    );
-  }
-}
-
-@observer
-export default class DaySelector extends React.Component {
-  props: {
-    root: string;
-  };
-
-  render() {
-    const selectedDay = uiState.selectedDay;
-    return (
-      <div className={css.days}>
-        {!uiState.isDateInRange(selectedDay) && (
-          <DayLink day={selectedDay} selectedDay={selectedDay} />
-        )}
-        {uiState.displayedDays.map(day => (
-          <DayLink
-            key={day.format('YYYY-MM-DD')}
-            root={this.props.root}
-            selectedDay={selectedDay}
-            day={day}
-          />
-        ))}
-      </div>
-    );
-  }
-}
+export default observer(({ root }: { root: string }) => {
+  const selectedDay = uiState.selectedDay;
+  return (
+    <div className={css.days}>
+      {!uiState.isDateInRange(selectedDay) && (
+        <DayLink day={selectedDay} selectedDay={selectedDay} />
+      )}
+      {uiState.displayedDays.map(day => (
+        <DayLink
+          key={day.format('YYYY-MM-DD')}
+          root={root}
+          selectedDay={selectedDay}
+          day={day}
+        />
+      ))}
+    </div>
+  );
+});

@@ -7,20 +7,18 @@ import feedbackProvider, { FeedbackProps } from '../feedbackProvider';
 
 export default feedbackProvider(
   class Contact extends React.PureComponent<FeedbackProps> {
-    refs: {
-      email: HTMLInputElement;
-      message: HTMLInputElement;
-    };
+    email = React.createRef();
+    message = React.createRef();
 
     onSubmit = (e: React.FormEvent<any>) => {
       e.preventDefault();
       this.props.onSubmitFeedback(
-        `Email: ${this.refs.email.value}\n"${this.refs.message.value}"`
+        `Email: ${this.email.current.value}\n"${this.message.current.value}"`
       );
     };
 
     componentDidMount() {
-      this.refs.email.focus();
+      this.email.current.focus();
     }
 
     render() {
@@ -34,11 +32,11 @@ export default feedbackProvider(
               <label htmlFor="email">
                 <Text id="email" />
               </label>
-              <input type="email" id="email" ref="email" required />
+              <input type="email" id="email" ref={this.email} required />
               <label htmlFor="message">
                 <Text id="message" />
               </label>
-              <textarea rows={10} id="message" ref="message" required />
+              <textarea rows={10} id="message" ref={this.message} required />
               <button disabled={sending} type="submit">
                 {sending ? <Text id="sending" /> : <Text id="send" />}
               </button>

@@ -58,23 +58,18 @@ interface Props {
   className?: string;
 }
 
-export default class CourseList extends React.PureComponent<Props> {
-  render() {
-    const { courses, ...props } = this.props;
-    return (
-      <div {...props}>
-        {!courses.length && (
-          <Text id="noMenu" element="span" className={css.emptyText} />
-        )}
-        {moizedGroups(courses).map(group => (
-          <div key={group.key} className={css.courseGroup}>
-            <span className={css.courseGroupTitle}>
-              {capitalize(group.key)}
-            </span>
-            {group.courses.map((c, i) => <Course key={i} course={c} />)}
-          </div>
-        ))}
+const CourseList = ({ courses, ...props }: Props) => (
+  <div {...props}>
+    {!courses.length && (
+      <Text id="noMenu" element="span" className={css.emptyText} />
+    )}
+    {moizedGroups(courses).map(group => (
+      <div key={group.key} className={css.courseGroup}>
+        <span className={css.courseGroupTitle}>{capitalize(group.key)}</span>
+        {group.courses.map((c, i) => <Course key={i} course={c} />)}
       </div>
-    );
-  }
-}
+    ))}
+  </div>
+);
+
+export default CourseList;

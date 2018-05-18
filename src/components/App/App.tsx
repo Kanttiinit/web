@@ -27,15 +27,6 @@ class App extends React.PureComponent<RouteComponentProps<any>> {
     leftArrowVisible: false
   };
 
-  componentWillMount() {
-    window.addEventListener('keydown', this.onKeyDown);
-
-    GA.initialize('UA-85003235-1', {
-      debug: !isProduction
-    });
-    this.pageView(this.props);
-  }
-
   componentWillUnmount() {
     window.removeEventListener('keydown', this.onKeyDown);
   }
@@ -51,7 +42,7 @@ class App extends React.PureComponent<RouteComponentProps<any>> {
     }
   };
 
-  componentWillReceiveProps(props) {
+  componentDidUpdate(props: RouteComponentProps<any>) {
     if (props.location.search !== this.props.location.search) {
       uiState.updateDay(location);
       this.pageView(props);
@@ -69,6 +60,13 @@ class App extends React.PureComponent<RouteComponentProps<any>> {
   }
 
   componentDidMount() {
+    window.addEventListener('keydown', this.onKeyDown);
+
+    GA.initialize('UA-85003235-1', {
+      debug: !isProduction
+    });
+    this.pageView(this.props);
+
     uiState.updateDay(location);
   }
 

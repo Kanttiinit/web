@@ -20,7 +20,15 @@ const Item = ({ label, children }) => (
   </div>
 );
 
-const orders = [Order.AUTOMATIC, Order.ALPHABET, Order.DISTANCE];
+const orders = [Order.AUTOMATIC, Order.ALPHABET, Order.DISTANCE].map(order => ({
+  value: order,
+  label: <Text id={order} />
+}));
+
+const languageOptions = [
+  { label: 'Finnish', value: Lang.FI },
+  { label: 'English', value: Lang.EN }
+];
 
 export default withRouter(
   observer(
@@ -44,20 +52,14 @@ export default withRouter(
           <PageContainer title={<Text id="settings" />}>
             <Item label={<Text id="language" />}>
               <Radio
-                options={[
-                  { label: 'Finnish', value: Lang.FI },
-                  { label: 'English', value: Lang.EN }
-                ]}
+                options={languageOptions}
                 selected={preferenceStore.lang}
                 onChange={this.setLang}
               />
             </Item>
             <Item label={<Text id="order" />}>
               <Radio
-                options={orders.map(order => ({
-                  value: order,
-                  label: <Text id={order} />
-                }))}
+                options={orders}
                 selected={preferenceStore.order}
                 onChange={this.setOrder}
               />

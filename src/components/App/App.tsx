@@ -7,7 +7,8 @@ import { uiState } from '../../store';
 const css = require('./App.scss');
 import Footer from '../Footer';
 import Modal from '../Modal';
-import Menus from '../Menus';
+import TopBar from '../TopBar';
+import RestaurantList from '../RestaurantList';
 import NotFound from '../NotFound';
 import TermsOfService from '../TermsOfService';
 import Contact from '../Contact';
@@ -74,7 +75,10 @@ class App extends React.PureComponent<RouteComponentProps<any>> {
     return (
       <React.Fragment>
         <div className={css.container}>
-          <Menus />
+          <div>
+            <TopBar />
+            <RestaurantList />
+          </div>
           <Footer />
         </div>
         <Switch>

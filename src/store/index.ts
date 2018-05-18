@@ -20,14 +20,15 @@ const updateRestaurants = () => {
   if (lang && dataStore.selectedArea) {
     promise = api.getRestaurantsByIds(dataStore.selectedArea.restaurants, lang);
   } else if (preferenceStore.selectedArea < 0) {
-    if (
-      preferenceStore.selectedArea === -1 &&
-      preferenceStore.starredRestaurants.length
-    ) {
-      promise = api.getRestaurantsByIds(
-        preferenceStore.starredRestaurants,
-        lang
-      );
+    if (preferenceStore.selectedArea === -1) {
+      if (preferenceStore.starredRestaurants.length) {
+        promise = api.getRestaurantsByIds(
+          preferenceStore.starredRestaurants,
+          lang
+        );
+      } else {
+        promise = Promise.resolve([]);
+      }
     } else if (preferenceStore.selectedArea === -2 && uiState.location) {
       const { latitude, longitude } = uiState.location;
       promise = api.getRestaurantsByLocation(latitude, longitude, lang);

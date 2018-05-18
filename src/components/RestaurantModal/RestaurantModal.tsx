@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import {withGoogleMap, Marker, GoogleMap} from 'react-google-maps'
 import MarkerWithLabel from "react-google-maps/lib/components/addons/MarkerWithLabel";
@@ -101,8 +100,10 @@ const Map = withGoogleMap((props: MapProps) =>
     defaultZoom={14}
     defaultCenter={props.restaurantPoint}>
     <MarkerWithLabel
-      label={props.restaurant.name}
-      position={props.restaurantPoint} />
+      labelAnchor={new google.maps.Point(0, 0)}
+      position={props.restaurantPoint}>
+      <span>{props.restaurant.name}</span>
+    </MarkerWithLabel>
     {location &&
       <Marker
         defaultIcon={{

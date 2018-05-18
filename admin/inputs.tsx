@@ -2,7 +2,7 @@ import * as React from 'react'
 import {InputGroup, Button, Intent, Switch, ButtonGroup, Label} from '@blueprintjs/core'
 import {withGoogleMap, Marker, GoogleMap} from 'react-google-maps'
 import * as moment from 'moment'
-import * as get from 'lodash/fp/get'
+import get from 'lodash/fp/get'
 
 import * as api from './api'
 import models from './models'

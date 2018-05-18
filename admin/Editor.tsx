@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {FormGroup, ButtonGroup, Button, Intent, Callout} from '@blueprintjs/core'
-import * as get from 'lodash/fp/get'
-import * as set from 'lodash/fp/set'
+import get from 'lodash/fp/get'
+import set from 'lodash/fp/set'
 
 import * as api from './api'
 import { Model } from './models'

@@ -46,8 +46,9 @@ module.exports = {
     }
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: ['.ts', '.tsx', '.js', '.scss']
   },
+  mode: process.env.NODE_ENV || 'development',
   module: {
     rules: [
       {
@@ -88,10 +89,6 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
-      },
-      {
-        test: /\.json$/,
-        use: 'json-loader'
       }
     ]
   },

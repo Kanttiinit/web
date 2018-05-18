@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {Button, Intent, Menu, MenuItem, Dialog, Spinner} from '@blueprintjs/core'
-import * as get from 'lodash/fp/get'
-import * as orderBy from 'lodash/fp/orderBy'
+import get from 'lodash/fp/get'
+import orderBy from 'lodash/fp/orderBy'
 
 import * as api from './api'
 import Editor from './Editor'

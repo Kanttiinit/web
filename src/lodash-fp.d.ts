@@ -13,3 +13,8 @@ declare module 'lodash/without';
 declare module 'lodash/fp/get';
 declare module 'lodash/fp/orderBy';
 declare module 'lodash/fp/set';
+
+declare module '*.scss' {
+  const classes: any;
+  export default classes;
+}

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { preferenceStore } from '../../store';
 import { properties } from '../../utils/translations';
-const css = require('./CourseList.scss');
+import css from './CourseList.scss';
 
 let tooltipTimeout;
 const tooltip = document.createElement('div');

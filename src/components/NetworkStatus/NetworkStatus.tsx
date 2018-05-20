@@ -3,7 +3,7 @@ import * as c from 'classnames';
 import * as ErrorIcon from 'react-icons/lib/md/error-outline';
 
 import Text from '../Text';
-const css = require('./NetworkStatus.scss');
+import css from './NetworkStatus.scss';
 
 export default class NetworkStatus extends React.PureComponent {
   state: {

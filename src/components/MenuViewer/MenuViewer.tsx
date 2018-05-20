@@ -10,7 +10,7 @@ import CourseList from '../CourseList';
 import DaySelector from '../DaySelector';
 import { getCourses } from '../../utils/api';
 import { CourseType } from '../../store/types';
-const css = require('./MenuViewer.scss');
+import css from './MenuViewer.scss';
 
 type Props = {
   restaurantId: number;

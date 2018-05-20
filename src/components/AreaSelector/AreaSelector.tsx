@@ -7,7 +7,7 @@ import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
 import { dataStore, preferenceStore } from '../../store';
-const css = require('./AreaSelector.scss');
+import css from './AreaSelector.scss';
 import Text from '../Text';
 import PageContainer from '../PageContainer';
 

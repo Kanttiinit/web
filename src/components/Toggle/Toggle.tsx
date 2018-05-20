@@ -1,5 +1,5 @@
 import * as React from 'react';
-const css = require('./Toggle.scss');
+import css from './Toggle.scss';
 
 type Props = {
   onChange: (value: boolean) => void;

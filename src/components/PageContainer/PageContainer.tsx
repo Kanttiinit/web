@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const css = require('./PageContainer.scss');
+import css from './PageContainer.scss';
 
 type Props = {
   children?: any;

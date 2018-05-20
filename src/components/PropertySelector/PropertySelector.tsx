@@ -4,7 +4,7 @@ import * as classnames from 'classnames';
 
 import { preferenceStore } from '../../store';
 import { properties } from '../../utils/translations';
-const css = require('./PropertySelector.scss');
+import css from './PropertySelector.scss';
 
 export default observer(({ showDesiredProperties }) => (
   <div className={css.container}>

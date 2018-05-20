@@ -16,7 +16,7 @@ import Colon from '../Colon';
 import CourseList from '../CourseList';
 import { preferenceStore, uiState } from '../../store';
 import Text from '../Text';
-const css = require('./Restaurant.scss');
+import css from './Restaurant.scss';
 import { RestaurantType } from '../../store/types';
 
 const Distance = ({ distance }: { distance: number }) => {

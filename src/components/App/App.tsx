@@ -4,7 +4,7 @@ import { withRouter, Switch, Route } from 'react-router-dom';
 import * as GA from 'react-ga';
 
 import { uiState } from '../../store';
-const css = require('./App.scss');
+import css from './App.scss';
 import Footer from '../Footer';
 import Modal from '../Modal';
 import TopBar from '../TopBar';

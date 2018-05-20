@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-const css = require('./Colon.scss');
+import css from './Colon.scss';
 
 const Colon = ({ children }: { children: string }) => {
   const parts = children.split(':');

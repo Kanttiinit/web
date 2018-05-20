@@ -1,11 +1,10 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
 import * as moment from 'moment';
 
 import { uiState } from '../../store';
-const css = require('./DaySelector.scss');
+import css from './DaySelector.scss';
 import Text from '../Text';
 
 type DayLinkProps = {

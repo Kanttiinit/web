@@ -4,7 +4,7 @@ import * as HeartOutline from 'react-icons/lib/md/favorite-outline';
 import { observer } from 'mobx-react';
 
 import { dataStore, preferenceStore } from '../../store';
-const css = require('./FavoriteSelector.scss');
+import css from './FavoriteSelector.scss';
 
 export default observer(() => (
   <div className={css.container}>

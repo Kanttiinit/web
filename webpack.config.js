@@ -1,30 +1,33 @@
-const webpack = require('webpack')
-const path = require('path')
-const autoprefixer = require('autoprefixer')
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-const pkg = require('./package.json')
+const webpack = require('webpack');
+const path = require('path');
+const autoprefixer = require('autoprefixer');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const pkg = require('./package.json');
 
 const PATHS = {
   app: './src/index.tsx',
   html: './src/index.html',
   dist: path.join(__dirname, './dist')
-}
+};
 
-const isProduction = process.env.NODE_ENV === 'production'
+const isProduction = process.env.NODE_ENV === 'production';
 
 const plugins = [
+  new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|en/),
   new webpack.DefinePlugin({
     IS_PRODUCTION: isProduction,
     'process.env': {
       NODE_ENV: JSON.stringify(process.env.NODE_ENV)
     },
     VERSION: JSON.stringify(pkg.version),
-    API_BASE: JSON.stringify(process.env.API_BASE || 'https://kitchen.kanttiinit.fi')
+    API_BASE: JSON.stringify(
+      process.env.API_BASE || 'https://kitchen.kanttiinit.fi'
+    )
   })
-]
+];
 
 if (isProduction) {
-  plugins.push(new UglifyJSPlugin())
+  plugins.push(new UglifyJSPlugin());
 }
 
 module.exports = {
@@ -53,12 +56,14 @@ module.exports = {
     rules: [
       {
         test: /\.(html|png|svg)$/,
-        use: [{
-          loader: 'file-loader',
-          query: {
-            name: '[name].[ext]'
+        use: [
+          {
+            loader: 'file-loader',
+            query: {
+              name: '[name].[ext]'
+            }
           }
-        }]
+        ]
       },
       { test: /\.tsx?$/, use: ['ts-loader'] },
       {
@@ -75,7 +80,7 @@ module.exports = {
           {
             loader: 'postcss-loader',
             options: {
-              plugins: () => ([autoprefixer({ browsers: ['last 2 versions'] })])
+              plugins: () => [autoprefixer({ browsers: ['last 2 versions'] })]
             }
           },
           {
@@ -93,4 +98,4 @@ module.exports = {
     ]
   },
   plugins: plugins
-}
+};

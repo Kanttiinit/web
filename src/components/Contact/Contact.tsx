@@ -7,8 +7,8 @@ import feedbackProvider, { FeedbackProps } from '../feedbackProvider';
 
 export default feedbackProvider(
   class Contact extends React.PureComponent<FeedbackProps> {
-    email = React.createRef();
-    message = React.createRef();
+    email = React.createRef<HTMLInputElement>();
+    message = React.createRef<HTMLTextAreaElement>();
 
     onSubmit = (e: React.FormEvent<any>) => {
       e.preventDefault();

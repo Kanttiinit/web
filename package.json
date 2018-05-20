@@ -11,7 +11,7 @@
     "@blueprintjs/table": "^2.0.0-rc.2",
     "@types/classnames": "^2.2.3",
     "@types/googlemaps": "^3.30.7",
-    "@types/lodash": "^4.14.104",
+    "@types/haversine": "^1.1.0",
     "@types/markerclustererplus": "^2.1.33",
     "@types/node": "^10.1.1",
     "@types/react": "^16.0.38",
@@ -75,7 +75,6 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/haversine": "^1.1.0",
     "babel-eslint": "^8.2.3",
     "eslint": "^4.18.1",
     "eslint-plugin-react": "^7.7.0",

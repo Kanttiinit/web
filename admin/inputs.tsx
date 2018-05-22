@@ -19,6 +19,7 @@ import * as api from './api';
 import models from './models';
 import { ModelField, FieldGroup, RelationField } from './models';
 import { withStyles } from '@material-ui/core';
+import { showMessage } from './index';
 
 declare var google: any;
 
@@ -186,7 +187,7 @@ class AddressInput extends React.PureComponent {
         setValue('latitude', geometry.location.lat());
         setValue('longitude', geometry.location.lng());
       } else {
-        window['showToast']('There was an error geocoding.');
+        showMessage('There was an error geocoding.');
       }
       this.setState({ loading: false });
     });

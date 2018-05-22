@@ -11,6 +11,7 @@ import * as api from './api';
 import { Model } from './models';
 import inputs from './inputs';
 import { Field } from './models';
+import { showMessage } from './index';
 
 type ExportedProps = {
   mode: 'creating' | 'editing';
@@ -52,14 +53,14 @@ class Editor extends React.PureComponent {
 
     this.setState({ mode: undefined });
     this.props.onSuccess();
-    window['showToast']('The item has been saved.');
+    showMessage('The item has been saved.');
   };
 
   delete = async () => {
     if (confirm('Are you sure?')) {
       await api.deleteItem(this.props.model, this.props.item);
       this.props.onSuccess();
-      window['showToast']('The item has been deleted.');
+      showMessage('The item has been deleted.');
     }
   };
 

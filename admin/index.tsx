@@ -13,6 +13,8 @@ import http from '../src/utils/http';
 import DataTable from './DataTable';
 import models from './models';
 
+export let showMessage;
+
 const BaseView = withRouter(
   class extends React.PureComponent {
     state: {
@@ -42,7 +44,7 @@ const BaseView = withRouter(
 
     componentDidMount() {
       this.checkAuth();
-      window['showToast'] = this.showMessage;
+      showMessage = this.showMessage;
     }
 
     login = async e => {

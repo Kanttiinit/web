@@ -5,18 +5,20 @@ import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
+import Snackbar from '@material-ui/core/Snackbar';
 import { withRouter, BrowserRouter, Switch, Route } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 
 import http from '../src/utils/http';
 import DataTable from './DataTable';
 import models from './models';
-import toaster from './toaster';
 
 const BaseView = withRouter(
   class extends React.PureComponent {
     state: {
       updatingRestaurants?: boolean;
+      message?: string;
+      messageVisible?: boolean;
     } = {};
 
     props: RouteComponentProps<any>;
@@ -40,6 +42,7 @@ const BaseView = withRouter(
 
     componentDidMount() {
       this.checkAuth();
+      window['showToast'] = this.showMessage;
     }
 
     login = async e => {
@@ -47,22 +50,27 @@ const BaseView = withRouter(
       const password = e.target.elements[0].value;
       try {
         await http.post('/admin/login', { password });
-        toaster.clear();
+        this.clearMessage();
         this.checkAuth();
       } catch (e) {
-        toaster.show({ message: e.message, intent: Intent.DANGER });
+        this.setState({ message: e.message, messageVisible: true });
       }
     };
 
     logout = async () => {
       await http.post('/admin/logout');
       this.checkAuth();
-      toaster.show({ message: 'Goodbye!', intent: Intent.SUCCESS });
+      this.setState({ message: 'Goodbye!', messageVisible: true });
     };
 
     tabChange = (event, value) => {
       this.props.history.push('/admin/model/' + value);
     };
+
+    showMessage = (message: string) =>
+      this.setState({ messageVisible: true, message });
+
+    clearMessage = () => this.setState({ messageVisible: false });
 
     renderModel = ({ match }) => {
       const model = models.find(model => model.key === match.params.model);
@@ -96,32 +104,42 @@ const BaseView = withRouter(
     };
 
     render() {
+      const { message, messageVisible } = this.state;
       return (
-        <Switch>
-          <Route path="/admin/login">
-            <form
-              onSubmit={this.login}
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translateY(-50%) translateX(-50%)'
-              }}
-            >
-              <TextField
-                type="password"
-                label="Password"
-                autoComplete="current-password"
-                margin="normal"
-              />
-              &nbsp;
-              <Button variant="raised" type="submit" color="primary">
-                Log in
-              </Button>
-            </form>
-          </Route>
-          <Route path="/admin/model/:model" component={this.renderModel} />
-        </Switch>
+        <React.Fragment>
+          <Switch>
+            <Route path="/admin/login">
+              <form
+                onSubmit={this.login}
+                style={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translateY(-50%) translateX(-50%)'
+                }}
+              >
+                <TextField
+                  type="password"
+                  label="Password"
+                  autoComplete="current-password"
+                  margin="normal"
+                />
+                &nbsp;
+                <Button variant="raised" type="submit" color="primary">
+                  Log in
+                </Button>
+              </form>
+            </Route>
+            <Route path="/admin/model/:model" component={this.renderModel} />
+          </Switch>
+          <Snackbar
+            autoHideDuration={4000}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            onClose={this.clearMessage}
+            message={<span>{message}</span>}
+            open={messageVisible}
+          />
+        </React.Fragment>
       );
     }
   }

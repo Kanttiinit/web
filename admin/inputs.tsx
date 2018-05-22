@@ -8,6 +8,8 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormGroup from '@material-ui/core/FormGroup';
 import Grid from '@material-ui/core/Grid';
 import { withGoogleMap, Marker, GoogleMap } from 'react-google-maps';
 import * as moment from 'moment';
@@ -16,8 +18,9 @@ import * as get from 'lodash/fp/get';
 import * as api from './api';
 import models from './models';
 import { ModelField, FieldGroup, RelationField } from './models';
-import toaster from './toaster';
 import { withStyles } from '@material-ui/core';
+
+declare var google: any;
 
 type InputProps = {
   value: any;
@@ -76,44 +79,47 @@ export const OpeningHoursInput = withStyles(theme => ({
       const { value = [], classes } = this.props;
 
       return (
-        <React.Fragment>
-          {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(
-            (weekday, i) => (
-              <Grid alignItems="center" key={i} container spacing={24}>
-                <Grid item xs={1} className={classes.text}>
-                  {weekday}
-                </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    fullWidth
-                    onChange={e => this.set(i, 0, e.target.value)}
-                    value={(value[i] || [])[0] || ''}
-                  />
-                </Grid>
-                <Grid item xs={1} className={classes.text}>
-                  to
-                </Grid>
-                <Grid item xs={3}>
-                  <TextField
-                    fullWidth
-                    onChange={e => this.set(i, 1, e.target.value)}
-                    value={(value[i] || [])[1] || ''}
-                  />
-                </Grid>
-                <Grid item xs={4}>
-                  <Button size="small" onClick={() => this.clear(i)}>
-                    Clear
-                  </Button>
-                  {i > 0 && (
-                    <Button size="small" onClick={() => this.copyFrom(i)}>
-                      Copy
+        <FormControl>
+          <FormLabel>Opening Hours</FormLabel>
+          <FormGroup>
+            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(
+              (weekday, i) => (
+                <Grid alignItems="center" key={i} container spacing={24}>
+                  <Grid item xs={1} className={classes.text}>
+                    {weekday}
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      fullWidth
+                      onChange={e => this.set(i, 0, e.target.value)}
+                      value={(value[i] || [])[0] || ''}
+                    />
+                  </Grid>
+                  <Grid item xs={1} className={classes.text}>
+                    to
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      fullWidth
+                      onChange={e => this.set(i, 1, e.target.value)}
+                      value={(value[i] || [])[1] || ''}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Button size="small" onClick={() => this.clear(i)}>
+                      Clear
                     </Button>
-                  )}
+                    {i > 0 && (
+                      <Button size="small" onClick={() => this.copyFrom(i)}>
+                        Copy
+                      </Button>
+                    )}
+                  </Grid>
                 </Grid>
-              </Grid>
-            )
-          )}
-        </React.Fragment>
+              )
+            )}
+          </FormGroup>
+        </FormControl>
       );
     }
   }
@@ -174,16 +180,13 @@ class AddressInput extends React.PureComponent {
   geocode = (address, setValue) => () => {
     const geocoder = new google.maps.Geocoder();
     this.setState({ loading: true });
-    geocoder.geocode({ address }, (results, status) => {
+    geocoder.geocode({ address }, results => {
       if (results.length) {
         const { geometry } = results[0];
         setValue('latitude', geometry.location.lat());
         setValue('longitude', geometry.location.lng());
       } else {
-        toaster.show({
-          message: 'There was an error geocoding.',
-          intent: Intent.WARNING
-        });
+        window['showToast']('There was an error geocoding.');
       }
       this.setState({ loading: false });
     });
@@ -304,44 +307,47 @@ const Map = withGoogleMap((props: any) => {
 });
 
 const LocationInput = (props: GroupInputProps) => (
-  <React.Fragment>
-    <Grid container spacing={24}>
-      <Grid item xs>
-        <NumericInput
-          setValue={(f, v) => props.setValue(f, v)}
-          value={props.value[0]}
-          field={props.field.fields[0]}
-        />
+  <FormControl fullWidth>
+    <FormLabel>{props.field.title}</FormLabel>
+    <FormGroup>
+      <Grid container spacing={24}>
+        <Grid item xs>
+          <NumericInput
+            setValue={(f, v) => props.setValue(f, v)}
+            value={props.value[0]}
+            field={props.field.fields[0]}
+          />
+        </Grid>
+        <Grid item xs>
+          <NumericInput
+            setValue={(f, v) => props.setValue(f, v)}
+            value={props.value[1]}
+            field={props.field.fields[1]}
+          />
+        </Grid>
       </Grid>
-      <Grid item xs>
-        <NumericInput
-          setValue={(f, v) => props.setValue(f, v)}
-          value={props.value[1]}
-          field={props.field.fields[1]}
-        />
-      </Grid>
-    </Grid>
-    <br />
-    <Map
-      mapElement={<div style={{ height: 200 }} />}
-      containerElement={<div />}
-      latitude={props.value[0]}
-      longitude={props.value[1]}
-      onChange={(lat, lon) =>
-        props.setValue('latitude', lat) || props.setValue('longitude', lon)
-      }
-    />
-  </React.Fragment>
+      <br />
+      <Map
+        mapElement={<div style={{ height: 200 }} />}
+        containerElement={<div />}
+        latitude={props.value[0]}
+        longitude={props.value[1]}
+        onChange={(lat, lon) =>
+          props.setValue('latitude', lat) || props.setValue('longitude', lon)
+        }
+      />
+    </FormGroup>
+  </FormControl>
 );
 
 const TranslatedInput = (props: GroupInputProps) => (
   <Grid container spacing={24}>
     {props.field.fields.map((field, i) => (
-      <Grid item md>
+      <Grid key={i} item md>
         {React.createElement(inputs[field.type] || inputs._, {
           value: props.value[i],
           setValue: props.setValue,
-          field
+          field: { ...field, title: `${props.field.title} in ${field.title}` }
         })}
       </Grid>
     ))}
@@ -352,7 +358,7 @@ const UpdateTypeSelect = (props: InputProps) => (
   <FormControl fullWidth>
     <InputLabel>{props.field.title}</InputLabel>
     <Select
-      value={props.value}
+      value={props.value || 'information-update'}
       onChange={e => props.setValue(props.field.path, e.target.value)}
     >
       <MenuItem value="software-update">Software update</MenuItem>
@@ -399,7 +405,7 @@ class RelationInput extends React.PureComponent {
       <FormControl fullWidth>
         <InputLabel>{field.title}</InputLabel>
         <Select
-          value={value}
+          value={value || (items.length ? items[0].id : '')}
           onChange={e => setValue(field.path, e.target.value)}
         >
           {items.map(item => (

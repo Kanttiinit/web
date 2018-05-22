@@ -12,122 +12,113 @@ import { Model } from './models';
 import inputs from './inputs';
 import { Field } from './models';
 
-const styles = theme => ({
-  margin: {
-    marginBottom: theme.spacing.unit * 2
+type ExportedProps = {
+  mode: 'creating' | 'editing';
+  onSuccess: () => void;
+  onCancel: () => void;
+  onError?: () => void;
+  item?: any;
+  model: Model;
+};
+
+class Editor extends React.PureComponent {
+  props: ExportedProps & {
+    classes: any;
+  };
+
+  state: {
+    item: any;
+  } = {
+    item: {}
+  };
+
+  updateItem(props) {
+    const item = { ...props.model.defaultFields, ...props.item };
+    delete item.createdAt;
+    delete item.updatedAt;
+    this.setState({ item });
   }
-});
 
-export default withStyles(styles)(
-  class Editor extends React.PureComponent {
-    props: {
-      mode: 'creating' | 'editing';
-      onSuccess: () => void;
-      onCancel: () => void;
-      onError?: () => void;
-      item?: any;
-      model: Model;
-      classes?: any;
-    };
+  save = async e => {
+    e.preventDefault();
 
-    state: {
-      item: any;
-    } = {
-      item: {}
-    };
+    const { item } = this.state;
 
-    updateItem(props) {
-      const item = { ...props.model.defaultFields, ...props.item };
-      delete item.createdAt;
-      delete item.updatedAt;
-      this.setState({ item });
+    if (this.props.mode === 'editing') {
+      await api.editItem(this.props.model, item);
+    } else {
+      await api.createItem(this.props.model, item);
     }
 
-    save = async e => {
-      e.preventDefault();
+    this.setState({ mode: undefined });
+    this.props.onSuccess();
+    window['showToast']('The item has been saved.');
+  };
 
-      const { item } = this.state;
-
-      if (this.props.mode === 'editing') {
-        await api.editItem(this.props.model, item);
-      } else {
-        await api.createItem(this.props.model, item);
-      }
-
-      this.setState({ mode: undefined });
+  delete = async () => {
+    if (confirm('Are you sure?')) {
+      await api.deleteItem(this.props.model, this.props.item);
       this.props.onSuccess();
-      toaster.show({
-        message: 'The item has been saved.',
-        intent: Intent.SUCCESS
-      });
-    };
-
-    delete = async () => {
-      if (confirm('Are you sure?')) {
-        await api.deleteItem(this.props.model, this.props.item);
-        this.props.onSuccess();
-        toaster.show({
-          message: 'The item has been deleted.',
-          intent: Intent.SUCCESS
-        });
-      }
-    };
-
-    setValue = (key, value) =>
-      this.setState({ item: set(key, value, this.state.item) });
-
-    componentWillReceiveProps(props) {
-      this.updateItem(props);
+      window['showToast']('The item has been deleted.');
     }
+  };
 
-    componentDidMount() {
-      this.updateItem(this.props);
-    }
+  setValue = (key, value) =>
+    this.setState({ item: set(key, value, this.state.item) });
 
-    renderField = (field: Field, i: number) => {
-      const { item } = this.state;
-      const { classes } = this.props;
-      const InputComponent = inputs[field.type] || inputs._;
-      const value =
-        'fields' in field
-          ? field.fields.map(f => get(f.path, item))
-          : get(field.path, item);
-      return (
-        <div key={i} className={classes.margin}>
-          <InputComponent
-            field={field}
-            value={value}
-            setValue={this.setValue}
-          />
-        </div>
-      );
-    };
-
-    render() {
-      const { model, mode, onCancel } = this.props;
-
-      return (
-        <React.Fragment>
-          <DialogTitle>
-            {mode === 'editing' ? 'Edit ' : 'Create new '}
-            {model.name}
-          </DialogTitle>
-          <form onSubmit={this.save}>
-            <DialogContent>{model.fields.map(this.renderField)}</DialogContent>
-            <DialogActions>
-              <Button type="submit" color="primary" variant="raised">
-                {mode === 'creating' ? 'Create' : 'Save'}
-              </Button>
-              {mode === 'editing' && (
-                <Button onClick={this.delete}>Delete</Button>
-              )}
-              <Button onClick={onCancel} color="secondary" variant="raised">
-                Cancel
-              </Button>
-            </DialogActions>
-          </form>
-        </React.Fragment>
-      );
-    }
+  componentWillReceiveProps(props) {
+    this.updateItem(props);
   }
-);
+
+  componentDidMount() {
+    this.updateItem(this.props);
+  }
+
+  renderField = (field: Field, i: number) => {
+    const { item } = this.state;
+    const { classes } = this.props;
+    const InputComponent = inputs[field.type] || inputs._;
+    const value =
+      'fields' in field
+        ? field.fields.map(f => get(f.path, item))
+        : get(field.path, item);
+    return (
+      <div key={i} className={classes.margin}>
+        <InputComponent field={field} value={value} setValue={this.setValue} />
+      </div>
+    );
+  };
+
+  render() {
+    const { model, mode, onCancel } = this.props;
+
+    return (
+      <React.Fragment>
+        <DialogTitle>
+          {mode === 'editing' ? 'Edit ' : 'Create new '}
+          {model.name}
+        </DialogTitle>
+        <form onSubmit={this.save}>
+          <DialogContent>{model.fields.map(this.renderField)}</DialogContent>
+          <DialogActions>
+            <Button type="submit" color="primary" variant="raised">
+              {mode === 'creating' ? 'Create' : 'Save'}
+            </Button>
+            {mode === 'editing' && (
+              <Button onClick={this.delete}>Delete</Button>
+            )}
+            <Button onClick={onCancel} color="secondary" variant="raised">
+              Cancel
+            </Button>
+          </DialogActions>
+        </form>
+      </React.Fragment>
+    );
+  }
+}
+
+export default withStyles(theme => ({
+  margin: {
+    marginBottom: theme.spacing.unit * 4
+  }
+}))(Editor) as any;

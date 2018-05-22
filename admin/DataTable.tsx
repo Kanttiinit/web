@@ -1,5 +1,14 @@
 import * as React from 'react';
-import { Button, Intent, Dialog, Spinner } from '@blueprintjs/core';
+import Dialog from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button';
+import Progress from '@material-ui/core/CircularProgress';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TableSortLabel from '@material-ui/core/TableSortLabel';
+import Paper from '@material-ui/core/Paper';
 import * as get from 'lodash/fp/get';
 import * as orderBy from 'lodash/fp/orderBy';
 
@@ -106,11 +115,18 @@ export default class DataTable extends React.PureComponent {
 
   render() {
     const { model } = this.props;
-    const { mode, sortedItems, item, loading } = this.state;
+    const {
+      mode,
+      sortedItems,
+      item,
+      loading,
+      sortDirection,
+      sortedColumn
+    } = this.state;
 
     return (
       <React.Fragment>
-        <Dialog isOpen={!!mode} onClose={this.hideDialog}>
+        <Dialog maxWidth="sm" fullWidth open={!!mode} onClose={this.hideDialog}>
           <Editor
             model={model}
             mode={mode}
@@ -120,41 +136,56 @@ export default class DataTable extends React.PureComponent {
           />
         </Dialog>
         <Button
-          intent={Intent.PRIMARY}
+          color="primary"
+          variant="raised"
           style={{ margin: '1em 0' }}
           onClick={this.openCreateDialog}
         >
           Create
         </Button>
         {loading ? (
-          <Spinner />
+          <Progress />
         ) : (
-          <table className="pt-html-table pt-small pt-interactive pt-html-table-striped">
-            <thead>
-              <tr>
-                {model.tableFields.map(field => (
-                  <th
-                    key={field.key}
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => this.changeSort(field.key)}
-                  >
-                    {field.name}&nbsp;{this.getSortIndicator(field.key)}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {sortedItems.map((item, i) => (
-                <tr onClick={() => this.openEditDialog(item)} key={i}>
-                  {model.tableFields.map(field => (
-                    <td style={tdStyle} key={field.key}>
-                      {get(field.key, item)}
-                    </td>
+          <Paper>
+            <div style={{ overflowX: 'auto' }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    {model.tableFields.map(field => (
+                      <TableCell key={field.key}>
+                        <TableSortLabel
+                          direction={sortDirection}
+                          onClick={() => this.changeSort(field.key)}
+                          active={sortedColumn === field.key}
+                        >
+                          {field.name}
+                        </TableSortLabel>
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {sortedItems.map((item, i) => (
+                    <TableRow
+                      hover
+                      onClick={() => this.openEditDialog(item)}
+                      key={i}
+                    >
+                      {model.tableFields.map(field => (
+                        <TableCell
+                          padding="dense"
+                          style={tdStyle}
+                          key={field.key}
+                        >
+                          {get(field.key, item)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
                   ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                </TableBody>
+              </Table>
+            </div>
+          </Paper>
         )}
       </React.Fragment>
     );

@@ -1,12 +1,14 @@
 import * as React from 'react';
-import {
-  InputGroup,
-  Button,
-  Intent,
-  Switch,
-  ButtonGroup,
-  Label
-} from '@blueprintjs/core';
+import Button from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
+import TextField from '@material-ui/core/TextField';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Grid from '@material-ui/core/Grid';
 import { withGoogleMap, Marker, GoogleMap } from 'react-google-maps';
 import * as moment from 'moment';
 import * as get from 'lodash/fp/get';
@@ -15,109 +17,123 @@ import * as api from './api';
 import models from './models';
 import { ModelField, FieldGroup, RelationField } from './models';
 import toaster from './toaster';
+import { withStyles } from '@material-ui/core';
 
 type InputProps = {
   value: any;
   field: ModelField;
-  setValue(path: string, value: any);
+  setValue(path: string, value: any): any;
 };
 
 type GroupInputProps = {
   value: Array<any>;
   field: FieldGroup;
-  setValue(path: string, value: any);
+  setValue(path: string, value: any): any;
 };
 
-class OpeningHoursInput extends React.PureComponent {
-  props: InputProps;
-
-  set = (i, j, value) => {
-    const arr = this.props.value
-      ? [...this.props.value]
-      : this.props.field.default;
-    if (!arr[i]) {
-      arr[i] = [];
-    }
-
-    arr[i][j] = Number(value);
-
-    if (arr[i][0] === 0 && arr[i][1] === 0) {
-      arr[i] = null;
-    }
-    this.setValue(arr);
-  };
-
-  copyFrom = which => {
-    const arr = [...this.props.value];
-    arr[which] = arr[which - 1];
-    if (Array.isArray(arr[which])) {
-      arr[which] = [...arr[which]];
-    }
-    this.setValue(arr);
-  };
-
-  clear = i => {
-    const arr = [...this.props.value];
-    arr[i] = null;
-    this.setValue(arr);
-  };
-
-  setValue = value => this.props.setValue(this.props.field.path, value);
-
-  render() {
-    const { value = [], setValue } = this.props;
-
-    return (
-      <React.Fragment>
-        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((weekday, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center' }}>
-            <span
-              style={{ width: '4ch', marginRight: '1ch', textAlign: 'right' }}
-            >
-              {weekday}
-            </span>
-            <InputGroup
-              onChange={e => this.set(i, 0, e.target.value)}
-              size={5}
-              value={(value[i] || [])[0] || ''}
-            />
-            <span style={{ margin: '0 1ch' }}>to</span>
-            <InputGroup
-              onChange={e => this.set(i, 1, e.target.value)}
-              size={5}
-              value={(value[i] || [])[1] || ''}
-            />
-            <ButtonGroup minimal style={{ marginLeft: '1ch' }}>
-              <Button
-                className="pt-small"
-                onClick={() => this.clear(i)}
-                icon="delete"
-              />
-              {i > 0 && (
-                <Button
-                  className="pt-small"
-                  onClick={() => this.copyFrom(i)}
-                  icon="duplicate"
-                />
-              )}
-            </ButtonGroup>
-          </div>
-        ))}
-      </React.Fragment>
-    );
+export const OpeningHoursInput = withStyles(theme => ({
+  text: {
+    ...theme.typography.button
   }
-}
+}))(
+  class OpeningHoursInput extends React.PureComponent {
+    props: InputProps & { classes: any };
+
+    set = (i, j, value) => {
+      const arr = this.props.value
+        ? [...this.props.value]
+        : this.props.field.default;
+      if (!arr[i]) {
+        arr[i] = [];
+      }
+
+      arr[i][j] = Number(value);
+
+      if (arr[i][0] === 0 && arr[i][1] === 0) {
+        arr[i] = null;
+      }
+      this.setValue(arr);
+    };
+
+    copyFrom = which => {
+      const arr = [...this.props.value];
+      arr[which] = arr[which - 1];
+      if (Array.isArray(arr[which])) {
+        arr[which] = [...arr[which]];
+      }
+      this.setValue(arr);
+    };
+
+    clear = i => {
+      const arr = [...this.props.value];
+      arr[i] = null;
+      this.setValue(arr);
+    };
+
+    setValue = value => this.props.setValue(this.props.field.path, value);
+
+    render() {
+      const { value = [], classes } = this.props;
+
+      return (
+        <React.Fragment>
+          {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(
+            (weekday, i) => (
+              <Grid alignItems="center" key={i} container spacing={24}>
+                <Grid item xs={1} className={classes.text}>
+                  {weekday}
+                </Grid>
+                <Grid item xs={3}>
+                  <TextField
+                    fullWidth
+                    onChange={e => this.set(i, 0, e.target.value)}
+                    value={(value[i] || [])[0] || ''}
+                  />
+                </Grid>
+                <Grid item xs={1} className={classes.text}>
+                  to
+                </Grid>
+                <Grid item xs={3}>
+                  <TextField
+                    fullWidth
+                    onChange={e => this.set(i, 1, e.target.value)}
+                    value={(value[i] || [])[1] || ''}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <Button size="small" onClick={() => this.clear(i)}>
+                    Clear
+                  </Button>
+                  {i > 0 && (
+                    <Button size="small" onClick={() => this.copyFrom(i)}>
+                      Copy
+                    </Button>
+                  )}
+                </Grid>
+              </Grid>
+            )
+          )}
+        </React.Fragment>
+      );
+    }
+  }
+);
 
 const UrlInput = ({ value, setValue, field }: InputProps) => (
-  <InputGroup
+  <TextField
+    fullWidth
+    label={field.title}
     onChange={e => setValue(field.path, e.target.value)}
     value={value || ''}
-    leftIcon="link"
-    rightElement={
-      <a target="_blank" href={value}>
-        <Button>Open</Button>
-      </a>
-    }
+    InputProps={{
+      endAdornment: (
+        <InputAdornment position="end">
+          <Button size="small" target="_blank" href={value}>
+            Open
+          </Button>
+        </InputAdornment>
+      )
+    }}
     type="text"
   />
 );
@@ -131,16 +147,21 @@ const MenuUrlInput = ({ value, setValue, field }: InputProps) => {
       .replace('%month%', now.format('MM'))
       .replace('%day%', now.format('DD'));
   return (
-    <InputGroup
+    <TextField
+      fullWidth
       onChange={e => setValue(field.path, e.target.value)}
       value={value || ''}
-      leftIcon="link"
-      rightElement={
-        <a target="_blank" href={link}>
-          <Button>Open</Button>
-        </a>
-      }
       type="text"
+      label={field.title}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <Button target="_blank" href={link} size="small">
+              Open
+            </Button>
+          </InputAdornment>
+        )
+      }}
     />
   );
 };
@@ -173,15 +194,24 @@ class AddressInput extends React.PureComponent {
     const { loading } = this.state;
 
     return (
-      <InputGroup
+      <TextField
+        fullWidth
         onChange={e => setValue(field.path, e.target.value)}
         value={value || ''}
-        leftIcon="geolocation"
-        rightElement={
-          <Button disabled={loading} onClick={this.geocode(value, setValue)}>
-            Geocode
-          </Button>
-        }
+        label={field.title}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <Button
+                size="small"
+                disabled={loading}
+                onClick={this.geocode(value, setValue)}
+              >
+                Geocode
+              </Button>
+            </InputAdornment>
+          )
+        }}
         type="text"
       />
     );
@@ -197,36 +227,53 @@ class RegExpInput extends React.PureComponent {
     const { test } = this.state;
     const match = !!test.match(new RegExp(value));
     return (
-      <React.Fragment>
-        <InputGroup
-          onChange={e => setValue(field.path, e.target.value)}
-          value={value || ''}
-          leftIcon="code"
-          type="text"
-        />
-        <InputGroup
-          placeholder="Test value"
-          value={test}
-          intent={match ? Intent.SUCCESS : Intent.DANGER}
-          leftIcon={match ? 'tick-circle' : 'error'}
-          onChange={e => this.setState({ test: e.target.value })}
-        />
-      </React.Fragment>
+      <Grid container spacing={24}>
+        <Grid item sm>
+          <TextField
+            fullWidth
+            label={field.title}
+            onChange={e => setValue(field.path, e.target.value)}
+            value={value || ''}
+            type="text"
+          />
+        </Grid>
+        <Grid item sm>
+          <TextField
+            fullWidth
+            label="Test value"
+            value={test}
+            error={!match}
+            onChange={e => this.setState({ test: e.target.value })}
+            helperText={
+              match
+                ? 'The regexp matches this value.'
+                : 'The regexp does not match this value.'
+            }
+          />
+        </Grid>
+      </Grid>
     );
   }
 }
 
 const BooleanInput = ({ value, setValue, field }: InputProps) => (
-  <Switch
-    checked={value || false}
-    onChange={(e: any) => setValue(field.path, e.target.checked)}
+  <FormControlLabel
+    control={
+      <Switch
+        checked={value || false}
+        onChange={(e: any) => setValue(field.path, e.target.checked)}
+      />
+    }
+    label={field.title}
   />
 );
 
 const NumericInput = ({ value, setValue, field }: InputProps) => (
-  <InputGroup
+  <TextField
+    fullWidth
     onChange={e => setValue(field.path, Number(e.target.value))}
     value={value || ''}
+    label={field.title}
     type="number"
   />
 );
@@ -258,20 +305,23 @@ const Map = withGoogleMap((props: any) => {
 
 const LocationInput = (props: GroupInputProps) => (
   <React.Fragment>
-    <Label text="Latitude" className="pt-inline">
-      <NumericInput
-        setValue={(f, v) => props.setValue(f, v)}
-        value={props.value[0]}
-        field={props.field.fields[0]}
-      />
-    </Label>
-    <Label text="Longitude" className="pt-inline">
-      <NumericInput
-        setValue={(f, v) => props.setValue(f, v)}
-        value={props.value[1]}
-        field={props.field.fields[1]}
-      />
-    </Label>
+    <Grid container spacing={24}>
+      <Grid item xs>
+        <NumericInput
+          setValue={(f, v) => props.setValue(f, v)}
+          value={props.value[0]}
+          field={props.field.fields[0]}
+        />
+      </Grid>
+      <Grid item xs>
+        <NumericInput
+          setValue={(f, v) => props.setValue(f, v)}
+          value={props.value[1]}
+          field={props.field.fields[1]}
+        />
+      </Grid>
+    </Grid>
+    <br />
     <Map
       mapElement={<div style={{ height: 200 }} />}
       containerElement={<div />}
@@ -285,37 +335,38 @@ const LocationInput = (props: GroupInputProps) => (
 );
 
 const TranslatedInput = (props: GroupInputProps) => (
-  <React.Fragment>
+  <Grid container spacing={24}>
     {props.field.fields.map((field, i) => (
-      <Label key={field.path} text={field.title} className="pt-inline">
+      <Grid item md>
         {React.createElement(inputs[field.type] || inputs._, {
           value: props.value[i],
           setValue: props.setValue,
           field
         })}
-      </Label>
+      </Grid>
     ))}
-  </React.Fragment>
+  </Grid>
 );
 
 const UpdateTypeSelect = (props: InputProps) => (
-  <div className="pt-select">
-    <select
+  <FormControl fullWidth>
+    <InputLabel>{props.field.title}</InputLabel>
+    <Select
       value={props.value}
       onChange={e => props.setValue(props.field.path, e.target.value)}
     >
-      <option value="software-update">Software update</option>
-      <option value="information-update">Information update</option>
-      <option value="bugfix">Bug fix</option>
-    </select>
-  </div>
+      <MenuItem value="software-update">Software update</MenuItem>
+      <MenuItem value="information-update">Information update</MenuItem>
+      <MenuItem value="bugfix">Bug fix</MenuItem>
+    </Select>
+  </FormControl>
 );
 
 class RelationInput extends React.PureComponent {
   props: {
     value: any;
     field: RelationField;
-    setValue(path: string, value: any);
+    setValue(path: string, value: any): any;
   };
 
   state: {
@@ -345,18 +396,19 @@ class RelationInput extends React.PureComponent {
       return <span>Loading...</span>;
     }
     return (
-      <div className="pt-select">
-        <select
+      <FormControl fullWidth>
+        <InputLabel>{field.title}</InputLabel>
+        <Select
           value={value}
           onChange={e => setValue(field.path, e.target.value)}
         >
           {items.map(item => (
-            <option key={item.id} value={item.id}>
+            <MenuItem key={item.id} value={item.id}>
               {get(field.relationDisplayField, item)}
-            </option>
+            </MenuItem>
           ))}
-        </select>
-      </div>
+        </Select>
+      </FormControl>
     );
   }
 }
@@ -374,7 +426,9 @@ const inputs: any = {
   updateType: UpdateTypeSelect,
   relation: RelationInput,
   _: ({ value, field, setValue }: InputProps) => (
-    <InputGroup
+    <TextField
+      fullWidth
+      label={field.title}
       onChange={e => setValue(field.path, e.target.value)}
       value={value || ''}
       type="text"

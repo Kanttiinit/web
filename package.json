@@ -7,8 +7,8 @@
     "node": "10.1.0"
   },
   "dependencies": {
-    "@blueprintjs/core": "^2.0.0-rc.2",
-    "@blueprintjs/table": "^2.0.0-rc.2",
+    "@material-ui/core": "^1.0.0",
+    "@material-ui/icons": "^1.0.0",
     "@types/classnames": "^2.2.3",
     "@types/googlemaps": "^3.30.7",
     "@types/haversine": "^1.1.0",

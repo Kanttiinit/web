@@ -5,7 +5,7 @@ import * as UpdateIcon from 'react-icons/lib/md/change-history';
 import * as EditIcon from 'react-icons/lib/md/edit';
 import * as BugIcon from 'react-icons/lib/md/bug-report';
 
-import css from './ChangeLog.scss';
+import * as css from './ChangeLog.scss';
 import { getUpdates } from '../../utils/api';
 import PageContainer from '../PageContainer';
 import Text from '../Text';

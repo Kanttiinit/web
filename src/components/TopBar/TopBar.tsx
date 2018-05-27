@@ -10,7 +10,7 @@ const EN = require('../../assets/en.png');
 
 import DaySelector from '../DaySelector';
 import { preferenceStore } from '../../store';
-import css from './TopBar.scss';
+import * as css from './TopBar.scss';
 import Text from '../Text';
 
 export default withRouter(

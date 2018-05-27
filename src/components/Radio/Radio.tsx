@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import css from './Radio.scss';
+import * as css from './Radio.scss';
 
 type Props = {
   options: Array<{

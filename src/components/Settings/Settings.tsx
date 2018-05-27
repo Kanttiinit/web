@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { observer } from 'mobx-react';
 
 import { preferenceStore } from '../../store';
-import css from './Settings.scss';
+import * as css from './Settings.scss';
 import Text from '../Text';
 import Radio from '../Radio';
 import Toggle from '../Toggle';

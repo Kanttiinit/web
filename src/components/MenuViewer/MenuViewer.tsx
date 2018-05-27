@@ -10,7 +10,7 @@ import CourseList from '../CourseList';
 import DaySelector from '../DaySelector';
 import { getCourses } from '../../utils/api';
 import { CourseType } from '../../store/types';
-import css from './MenuViewer.scss';
+import * as css from './MenuViewer.scss';
 
 type Props = {
   restaurantId: number;
@@ -71,7 +71,7 @@ export default class MenuViewer extends React.Component {
     const { courses, loading } = this.state;
     const { showCopyButton } = this.props;
     return (
-      <div className={css.container}>
+      <div>
         <div className={css.header}>
           <DaySelector root={location.pathname} />
           {showCopyButton && (

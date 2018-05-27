@@ -44,6 +44,7 @@
     "style-loader": "^0.21.0",
     "ts-loader": "^4.3.0",
     "typescript": "^2.7.2",
+    "typings-for-css-modules-loader": "^1.7.0",
     "uglifyjs-webpack-plugin": "^1.2.2",
     "url-polyfill": "^1.0.11",
     "webpack": "^4.8.3",

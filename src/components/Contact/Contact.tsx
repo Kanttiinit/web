@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import css from './Contact.scss';
+import * as css from './Contact.scss';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
 import feedbackProvider, { FeedbackProps } from '../feedbackProvider';

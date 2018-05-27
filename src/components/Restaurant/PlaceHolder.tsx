@@ -3,7 +3,7 @@ import * as times from 'lodash/times';
 import * as random from 'lodash/random';
 import * as classnames from 'classnames';
 
-import css from './Restaurant.scss';
+import * as css from './Restaurant.scss';
 
 export default class Placeholder extends React.Component {
   shouldComponentUpdate() {

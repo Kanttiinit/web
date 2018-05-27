@@ -71,12 +71,20 @@ module.exports = {
         use: [
           { loader: 'style-loader' },
           {
-            loader: 'css-loader',
-            query: {
+            loader: 'typings-for-css-modules-loader',
+            options: {
               modules: true,
+              namedExport: true,
               localIdentName: '[name]__[local]__[hash:base64:5]'
             }
           },
+          // {
+          //   loader: 'css-loader',
+          //   query: {
+          //     modules: true,
+          //     localIdentName: '[name]__[local]__[hash:base64:5]'
+          //   }
+          // },
           {
             loader: 'postcss-loader',
             options: {

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import * as moment from 'moment';
 
 import { uiState } from '../../store';
-import css from './DaySelector.scss';
+import * as css from './DaySelector.scss';
 import Text from '../Text';
 
 type DayLinkProps = {

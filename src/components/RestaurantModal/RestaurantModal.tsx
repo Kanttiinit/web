@@ -11,7 +11,7 @@ import { dataStore, uiState, preferenceStore } from '../../store';
 import PageContainer from '../PageContainer';
 import { RestaurantType } from '../../store/types';
 import MenuViewer from '../MenuViewer';
-import css from './RestaurantModal.scss';
+import * as css from './RestaurantModal.scss';
 import Text from '../Text';
 
 function getOpeningHourString(hours) {

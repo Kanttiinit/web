@@ -8,7 +8,7 @@ import { reportError } from '../../utils/api';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
 import { RouteComponentProps } from 'react-router';
-import css from './Modal.scss';
+import * as css from './Modal.scss';
 
 const ModalError = () => (
   <PageContainer title={<Text id="error" />}>

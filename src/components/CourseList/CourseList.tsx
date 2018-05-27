@@ -7,7 +7,7 @@ import * as capitalize from 'lodash/capitalize';
 import Property from './Property';
 import { CourseType } from '../../store/types';
 import Text from '../Text';
-import css from './CourseList.scss';
+import * as css from './CourseList.scss';
 
 const getCourseGroup = (course: CourseType) => {
   const split = course.title.split(':');

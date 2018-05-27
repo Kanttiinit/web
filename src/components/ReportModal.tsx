@@ -2,7 +2,7 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 
 import { uiState, preferenceStore } from '../store';
-import css from './Contact/Contact.scss';
+import * as css from './Contact/Contact.scss';
 import Text from './Text';
 import PageContainer from './PageContainer';
 import feedbackProvider, { FeedbackProps } from './feedbackProvider';

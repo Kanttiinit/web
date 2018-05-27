@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 
 import Text from '../Text';
 const logo = require('../../assets/logo_48.png');
-import css from './Footer.scss';
+import * as css from './Footer.scss';
 import { isBeta, version } from '../../utils/consts';
 
 export default withRouter((props: RouteComponentProps<any>) => {

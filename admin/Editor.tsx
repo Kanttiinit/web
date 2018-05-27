@@ -42,18 +42,21 @@ class Editor extends React.PureComponent {
 
   save = async e => {
     e.preventDefault();
+    try {
+      const { item } = this.state;
 
-    const { item } = this.state;
+      if (this.props.mode === 'editing') {
+        await api.editItem(this.props.model, item);
+      } else {
+        await api.createItem(this.props.model, item);
+      }
 
-    if (this.props.mode === 'editing') {
-      await api.editItem(this.props.model, item);
-    } else {
-      await api.createItem(this.props.model, item);
+      this.setState({ mode: undefined });
+      this.props.onSuccess();
+      showMessage('The item has been saved.');
+    } catch (e) {
+      showMessage('Error: ' + e.message);
     }
-
-    this.setState({ mode: undefined });
-    this.props.onSuccess();
-    showMessage('The item has been saved.');
   };
 
   delete = async () => {

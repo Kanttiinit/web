@@ -1,9 +1,18 @@
+export type OpeningHour = (
+  | {
+      closed: true;
+    }
+  | {
+      opens: string;
+      closes: string;
+    }) & { daysOfWeek: Array<number> };
+
 export interface RestaurantType {
   id: number;
   name: string;
   longitude: number;
   latitude: number;
-  openingHours: Array<string>;
+  openingHours: Array<OpeningHour>;
   address: string;
   url: string;
   isStarred: boolean;

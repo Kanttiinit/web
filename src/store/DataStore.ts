@@ -20,13 +20,16 @@ import {
 
 const isOpenNow = (restaurant: RestaurantType, day) => {
   const weekday = day.isoWeekday() - 1;
-  if (!restaurant.openingHours[weekday]) {
+  const hours = restaurant.openingHours.find(
+    h => h.daysOfWeek.indexOf(weekday) > -1
+  );
+  if (!hours || 'closed' in hours) {
     return false;
   }
-  const [open, close] = restaurant.openingHours[weekday].split(' - ');
   const now = moment();
   return (
-    now.isAfter(moment(open, 'HH:mm')) && now.isBefore(moment(close, 'HH:mm'))
+    now.isAfter(moment(hours.opens, 'HH:mm')) &&
+    now.isBefore(moment(hours.closes, 'HH:mm'))
   );
 };
 

@@ -64,6 +64,9 @@ export default withRouter(
         const isClosed =
           uiState.selectedDay.isSame(moment(), 'day') && !restaurant.isOpenNow;
         const { search } = this.props.location;
+        const openingHour = restaurant.openingHours.find(
+          hour => hour.daysOfWeek.indexOf(dayOfWeek) > -1
+        );
         return (
           <div
             className={c(css.container, {
@@ -79,12 +82,14 @@ export default withRouter(
                 )}
               </h2>
               <div className={css.meta} style={{ textAlign: 'right' }}>
-                {restaurant.openingHours[dayOfWeek] && [
-                  <Colon key="colon">
-                    {restaurant.openingHours[dayOfWeek].replace('-', '–')}
-                  </Colon>,
-                  <br key="lineBreak" />
-                ]}
+                {'closed' in openingHour ? null : (
+                  <React.Fragment>
+                    <Colon
+                      text={openingHour.opens + '–' + openingHour.closes}
+                    />
+                    <br />
+                  </React.Fragment>
+                )}
                 {isClosed && (
                   <Text
                     id="restaurantClosed"

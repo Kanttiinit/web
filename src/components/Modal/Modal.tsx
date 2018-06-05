@@ -2,9 +2,8 @@ import * as React from 'react';
 import { observer } from 'mobx-react';
 import * as classnames from 'classnames';
 import { withRouter } from 'react-router-dom';
-import ErrorBoundary from 'react-error-boundary';
+import { ErrorBoundary } from '../../index';
 
-import { reportError } from '../../utils/api';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
 import { RouteComponentProps } from 'react-router';
@@ -46,7 +45,7 @@ class Modal extends React.Component<Props, {}> {
       <div className={classnames(css.container, css.open)}>
         <div className={css.overlay} onClick={this.closeModal} />
         <div className={css.content}>
-          <ErrorBoundary onError={reportError} FallbackComponent={ModalError}>
+          <ErrorBoundary FallbackComponent={ModalError}>
             {this.props.children}
           </ErrorBoundary>
         </div>

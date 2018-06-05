@@ -45,15 +45,6 @@ export const sendFeedback = (message: string) =>
     })
   });
 
-export const reportError = async (error: Error, stack: string) => {
-  if (isProduction) {
-    return sendFeedback(`New UI error:
-${error.message}
-${stack}
-`);
-  }
-};
-
 export const getUpdates = () => {
   return http.get('/updates');
 };

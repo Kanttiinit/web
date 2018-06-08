@@ -19,6 +19,7 @@
     "@types/react-router": "^4.0.22",
     "@types/react-router-dom": "^4.2.4",
     "autoprefixer": "^8.0.0",
+    "balloon-css": "^0.5.0",
     "bugsnag-js": "^4.7.1",
     "bugsnag-react": "^1.1.1",
     "classnames": "^2.2.5",

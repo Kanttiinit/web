@@ -5,7 +5,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import { sortBy } from 'lodash';
+import * as sortBy from 'lodash/fp/sortBy';
 import { RestaurantType, Lang } from '../src/store/types';
 import * as api from '../src/utils/api';
 import { Route, withRouter } from 'react-router';
@@ -90,7 +90,7 @@ export default withRouter(
                   inputProps={{ id: 'select-restaurant' }}
                 >
                   <MenuItem value="">None</MenuItem>
-                  {sortBy(restaurants, 'name').map(restaurant => (
+                  {sortBy('name', restaurants).map(restaurant => (
                     <MenuItem key={restaurant.id} value={restaurant.id}>
                       {restaurant.name}
                     </MenuItem>

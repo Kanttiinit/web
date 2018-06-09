@@ -13,6 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import { withGoogleMap, Marker, GoogleMap } from 'react-google-maps';
 import * as moment from 'moment';
 import * as get from 'lodash/fp/get';
+import * as sortBy from 'lodash/fp/sortBy';
 
 import * as api from './api';
 import models from './models';
@@ -349,7 +350,7 @@ class RelationInput extends React.PureComponent {
           value={value || (items.length ? items[0].id : '')}
           onChange={e => setValue(field.path, e.target.value)}
         >
-          {items.map(item => (
+          {sortBy(field.relationDisplayField, items).map(item => (
             <MenuItem key={item.id} value={item.id}>
               {get(field.relationDisplayField, item)}
             </MenuItem>

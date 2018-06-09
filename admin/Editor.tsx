@@ -8,7 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import { withStyles } from '@material-ui/core/styles';
 
 import * as api from './api';
-import { Model } from './models';
+import { TableModel } from './models';
 import inputs from './inputs';
 import { Field } from './models';
 import { showMessage } from './index';
@@ -19,7 +19,7 @@ type ExportedProps = {
   onCancel: () => void;
   onError?: () => void;
   item?: any;
-  model: Model;
+  model: TableModel;
 };
 
 class Editor extends React.PureComponent {

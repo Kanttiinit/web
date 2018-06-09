@@ -8,7 +8,6 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Grid from '@material-ui/core/Grid';
 import { withGoogleMap, Marker, GoogleMap } from 'react-google-maps';
@@ -18,7 +17,6 @@ import * as get from 'lodash/fp/get';
 import * as api from './api';
 import models from './models';
 import { ModelField, FieldGroup, RelationField } from './models';
-import { withStyles } from '@material-ui/core';
 import { showMessage } from './index';
 
 declare var google: any;
@@ -34,97 +32,6 @@ type GroupInputProps = {
   field: FieldGroup;
   setValue(path: string, value: any): any;
 };
-
-export const OpeningHoursInput = withStyles(theme => ({
-  text: {
-    ...theme.typography.button
-  }
-}))(
-  class OpeningHoursInput extends React.PureComponent {
-    props: InputProps & { classes: any };
-
-    set = (i, j, value) => {
-      const arr = this.props.value
-        ? [...this.props.value]
-        : this.props.field.default;
-      if (!arr[i]) {
-        arr[i] = [];
-      }
-
-      arr[i][j] = Number(value);
-
-      if (arr[i][0] === 0 && arr[i][1] === 0) {
-        arr[i] = null;
-      }
-      this.setValue(arr);
-    };
-
-    copyFrom = which => {
-      const arr = [...this.props.value];
-      arr[which] = arr[which - 1];
-      if (Array.isArray(arr[which])) {
-        arr[which] = [...arr[which]];
-      }
-      this.setValue(arr);
-    };
-
-    clear = i => {
-      const arr = [...this.props.value];
-      arr[i] = null;
-      this.setValue(arr);
-    };
-
-    setValue = value => this.props.setValue(this.props.field.path, value);
-
-    render() {
-      const { value = [], classes } = this.props;
-
-      return (
-        <FormControl>
-          <FormLabel>Opening Hours</FormLabel>
-          <FormGroup>
-            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(
-              (weekday, i) => (
-                <Grid alignItems="center" key={i} container spacing={24}>
-                  <Grid item xs={1} className={classes.text}>
-                    {weekday}
-                  </Grid>
-                  <Grid item xs={3}>
-                    <TextField
-                      fullWidth
-                      onChange={e => this.set(i, 0, e.target.value)}
-                      value={(value[i] || [])[0] || ''}
-                    />
-                  </Grid>
-                  <Grid item xs={1} className={classes.text}>
-                    to
-                  </Grid>
-                  <Grid item xs={3}>
-                    <TextField
-                      fullWidth
-                      onChange={e => this.set(i, 1, e.target.value)}
-                      value={(value[i] || [])[1] || ''}
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Button size="small" onClick={() => this.clear(i)}>
-                      Clear
-                    </Button>
-                    {i > 0 && (
-                      <Button size="small" onClick={() => this.copyFrom(i)}>
-                        Copy
-                      </Button>
-                    )}
-                  </Grid>
-                </Grid>
-              )
-            )}
-          </FormGroup>
-        </FormControl>
-      );
-    }
-  }
-);
 
 const UrlInput = ({ value, setValue, field }: InputProps) => (
   <TextField
@@ -282,6 +189,16 @@ const NumericInput = ({ value, setValue, field }: InputProps) => (
   />
 );
 
+const DateInput = ({ value, setValue, field }: InputProps) => (
+  <TextField
+    fullWidth
+    onChange={e => setValue(field.path, e.target.value)}
+    value={value || ''}
+    label={field.title}
+    type="date"
+  />
+);
+
 const Map = withGoogleMap((props: any) => {
   const onChange = ({ latLng }) => props.onChange(latLng.lat(), latLng.lng());
   return (
@@ -309,7 +226,6 @@ const Map = withGoogleMap((props: any) => {
 
 const LocationInput = (props: GroupInputProps) => (
   <FormControl fullWidth>
-    <FormLabel>{props.field.title}</FormLabel>
     <FormGroup>
       <Grid container spacing={24}>
         <Grid item xs>
@@ -369,6 +285,30 @@ const UpdateTypeSelect = (props: InputProps) => (
   </FormControl>
 );
 
+const DayOfWeekSelect = (props: InputProps) => (
+  <FormControl fullWidth>
+    <InputLabel>{props.field.title}</InputLabel>
+    <Select
+      value={String(props.value) || '0'}
+      onChange={e => props.setValue(props.field.path, Number(e.target.value))}
+    >
+      {[
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday'
+      ].map((day, i) => (
+        <MenuItem key={i} value={String(i)}>
+          {day}
+        </MenuItem>
+      ))}
+    </Select>
+  </FormControl>
+);
+
 class RelationInput extends React.PureComponent {
   props: {
     value: any;
@@ -421,7 +361,6 @@ class RelationInput extends React.PureComponent {
 }
 
 const inputs: any = {
-  openingHours: OpeningHoursInput,
   url: UrlInput,
   address: AddressInput,
   menuUrl: MenuUrlInput,
@@ -432,6 +371,8 @@ const inputs: any = {
   translated: TranslatedInput,
   updateType: UpdateTypeSelect,
   relation: RelationInput,
+  date: DateInput,
+  dayOfWeek: DayOfWeekSelect,
   _: ({ value, field, setValue }: InputProps) => (
     <TextField
       fullWidth

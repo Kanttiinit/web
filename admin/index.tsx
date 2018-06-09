@@ -96,10 +96,12 @@ const BaseView = withRouter(
               Log out
             </Button>
           </div>
-          {model ? (
-            <DataTable model={model} />
-          ) : (
+          {!model ? (
             <Paper>No such model "{match.params.model}".</Paper>
+          ) : 'editor' in model ? (
+            <model.editor />
+          ) : (
+            <DataTable model={model} />
           )}
         </React.Fragment>
       );

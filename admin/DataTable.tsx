@@ -14,7 +14,7 @@ import * as orderBy from 'lodash/fp/orderBy';
 
 import * as api from './api';
 import Editor from './Editor';
-import { Model } from './models';
+import { TableModel } from './models';
 
 const tdStyle: any = {
   whiteSpace: 'nowrap',
@@ -39,7 +39,7 @@ export default class DataTable extends React.PureComponent {
   };
 
   props: {
-    model: Model;
+    model: TableModel;
   };
 
   openCreateDialog = () => this.setState({ mode: 'creating', item: undefined });

@@ -113,6 +113,21 @@ export default class DataTable extends React.PureComponent {
     this.fetchItems();
   }
 
+  renderValue(value: any) {
+    if (typeof value === 'string') {
+      if (value.startsWith('http')) {
+        return (
+          <a href={value} target="_blank">
+            {value}
+          </a>
+        );
+      }
+    } else if (typeof value === 'boolean') {
+      return value ? 'Yes' : 'No';
+    }
+    return value;
+  }
+
   render() {
     const { model } = this.props;
     const {
@@ -177,7 +192,7 @@ export default class DataTable extends React.PureComponent {
                           style={tdStyle}
                           key={field.key}
                         >
-                          {get(field.key, item)}
+                          {this.renderValue(get(field.key, item))}
                         </TableCell>
                       ))}
                     </TableRow>

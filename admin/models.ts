@@ -18,7 +18,7 @@ export interface ModelField {
   default?: any;
 }
 
-export interface FieldGroup {
+export interface ModelFieldGroup {
   type: 'translated' | 'location';
   title: string;
   fields: Array<ModelField>;
@@ -32,7 +32,7 @@ export interface RelationField {
   relationDisplayField: string;
 }
 
-export type Field = ModelField | FieldGroup | RelationField;
+export type Field = ModelField | ModelFieldGroup | RelationField;
 
 export interface TableModel {
   name: string;
@@ -57,7 +57,8 @@ const models: Array<Model> = [
     defaultSort: 'name_i18n.fi',
     tableFields: [
       { key: 'id', name: 'ID' },
-      { key: 'name_i18n.fi', name: 'Name' }
+      { key: 'name_i18n.fi', name: 'Name' },
+      { key: 'hidden', name: 'Hidden' }
     ],
     fields: [
       {
@@ -99,6 +100,7 @@ const models: Array<Model> = [
       { key: 'AreaId', name: 'Area ID' },
       { key: 'name_i18n.fi', name: 'Name' },
       { key: 'address', name: 'Address' },
+      { key: 'hidden', name: 'Hidden' },
       { key: 'url', name: 'URL' }
     ],
     fields: [

@@ -17,7 +17,7 @@ import * as sortBy from 'lodash/fp/sortBy';
 
 import * as api from './api';
 import models from './models';
-import { ModelField, FieldGroup, RelationField } from './models';
+import { ModelField, ModelFieldGroup, RelationField } from './models';
 import { showMessage } from './index';
 
 declare var google: any;
@@ -30,7 +30,7 @@ type InputProps = {
 
 type GroupInputProps = {
   value: Array<any>;
-  field: FieldGroup;
+  field: ModelFieldGroup;
   setValue(path: string, value: any): any;
 };
 

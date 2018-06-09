@@ -1,7 +1,6 @@
 import * as moment from 'moment';
 import http from './http';
 
-import { isProduction } from './consts';
 import { Lang } from '../store/types';
 
 export const getCourses = async (

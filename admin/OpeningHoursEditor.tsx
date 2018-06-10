@@ -1,202 +1,144 @@
 import * as React from 'react';
-import Progress from '@material-ui/core/CircularProgress';
-import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import { withStyles } from '@material-ui/core/styles';
-import * as sortBy from 'lodash/fp/sortBy';
-import { RestaurantType, Lang } from '../src/store/types';
-import * as api from '../src/utils/api';
-import http from '../src/utils/http';
-import { Route, withRouter } from 'react-router';
-import { RouteComponentProps } from 'react-router';
-import * as groupBy from 'lodash/fp/groupBy';
 import * as moment from 'moment';
 
-type ListState = {
-  openingHours?: Array<any>;
-  loading: boolean;
+import Button from '@material-ui/core/Button';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Grid from '@material-ui/core/Grid';
+import { DayOfWeekSelect, BooleanInput, DateInput, PlainField } from './inputs';
+
+type Props = {
+  mode: 'create' | 'edit';
+  onAction: (item?: any) => void;
+  item?: any;
 };
-
-const styles = theme => ({
-  gridItem: {
-    padding: theme.spacing.unit
-  },
-  gridContainer: {
-    marginTop: theme.spacing.unit
-  }
-});
-
-const OpeningHoursList = withStyles(styles)(
-  class extends React.PureComponent<any, ListState> {
-    state: ListState = { loading: false };
-
-    componentDidMount() {
-      this.fetchOpeningHours();
-    }
-
-    componentDidUpdate(prevProps) {
-      if (prevProps.restaurantId !== this.props.restaurantId) {
-        this.fetchOpeningHours();
-      }
-    }
-
-    fetchOpeningHours = async () => {
-      this.setState({ loading: true });
-      this.setState({
-        loading: false,
-        openingHours: await http.get(
-          `/admin/opening-hours/${this.props.restaurantId}`,
-          true
-        )
-      });
-    };
-
-    renderGrid() {
-      const { openingHours } = this.state;
-      const { classes } = this.props;
-      const groupedHours = groupBy('dayOfWeek', openingHours);
-      let row = 0;
-      let output = [];
-      while (true) {
-        let foundItems = 0;
-        output.push(
-          <Grid
-            className={classes.gridContainer}
-            key={row}
-            container
-            spacing={8}
-          >
-            {[0, 1, 2, 3, 4, 5, 6].map(day => {
-              const item = groupedHours[day] && groupedHours[day][row];
-              if (!item) {
-                return null;
-              }
-              foundItems++;
-              return (
-                <Grid md key={day} item>
-                  <Paper className={classes.gridItem} elevation={2}>
-                    <Typography variant="subheading">
-                      {moment(item.dayOfWeek + 1, 'E').format('ddd')}
-                      &nbsp;
-                      {item.closed ? (
-                        'Closed'
-                      ) : (
-                        <span>
-                          {item.opens} &ndash; {item.closes}
-                        </span>
-                      )}
-                    </Typography>
-                    <Typography color="textSecondary">
-                      {item.from} &ndash; {item.to || 'forever'}
-                    </Typography>
-                    {item.manualEntry && (
-                      <React.Fragment>
-                        <Button variant="outlined" color="primary" size="small">
-                          Edit
-                        </Button>
-                        &nbsp;
-                        <Button
-                          variant="outlined"
-                          color="secondary"
-                          size="small"
-                        >
-                          Delete
-                        </Button>
-                      </React.Fragment>
-                    )}
-                  </Paper>
-                </Grid>
-              );
-            })}
-          </Grid>
-        );
-        if (foundItems === 0) {
-          break;
-        }
-        row++;
-      }
-      return output;
-    }
-
-    render() {
-      if (this.state.loading) {
-        return <Progress />;
-      }
-
-      return this.renderGrid();
-    }
-  }
-);
 
 type State = {
-  restaurants?: Array<RestaurantType>;
+  item?: any;
 };
 
-export default withRouter(
-  class OpeningHoursEditor extends React.PureComponent<
-    RouteComponentProps<any>,
-    State
-  > {
-    state: State = {};
+export default class OpeningHourDialog extends React.PureComponent<
+  Props,
+  State
+> {
+  state: State = {};
 
-    componentDidMount() {
-      this.fetchRestaurants();
-    }
+  onSubmit = e => {
+    e.preventDefault();
+    this.props.onAction(this.state.item);
+  };
 
-    fetchRestaurants = async () => {
-      this.setState({
-        restaurants: await api.getRestaurantsByIds([], Lang.FI)
-      });
-    };
+  onCancel = () => this.props.onAction();
 
-    selectRestaurant = e => {
-      this.props.history.push(this.props.match.url + '/' + e.target.value);
-    };
+  setValue = (path: string, value: any) => {
+    this.setState(state => ({
+      item: { ...state.item, [path]: value }
+    }));
+  };
 
-    render() {
-      const { restaurants } = this.state;
-      const { match } = this.props;
+  init = () => {
+    const { mode, item } = this.props;
+    const edit = mode === 'edit';
 
-      if (!restaurants) {
-        return <Progress />;
+    this.setState({
+      item: {
+        opens: edit ? item.opens : '10:00',
+        closes: edit ? item.closes : '16:00',
+        closed: edit ? item.closed : false,
+        dayOfWeek: edit ? item.dayOfWeek : 0,
+        from: edit ? item.from : moment().format('YYYY-MM-DD'),
+        to: edit ? item.to : null
       }
+    });
+  };
 
-      return (
-        <Route path={match.path + '/:restaurantId'}>
-          {({ match }) => (
-            <React.Fragment>
-              <FormControl fullWidth>
-                <InputLabel htmlFor="select-restaurant">Restaurant</InputLabel>
-                <Select
-                  value={match ? Number(match.params.restaurantId) : ''}
-                  onChange={this.selectRestaurant}
-                  inputProps={{ id: 'select-restaurant' }}
-                >
-                  <MenuItem value="">None</MenuItem>
-                  {sortBy('name', restaurants).map(restaurant => (
-                    <MenuItem key={restaurant.id} value={restaurant.id}>
-                      {restaurant.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-                <FormHelperText>Select restaurant to edit.</FormHelperText>
-              </FormControl>
-              {match && (
-                <OpeningHoursList
-                  restaurantId={Number(match.params.restaurantId)}
-                />
-              )}
-            </React.Fragment>
-          )}
-        </Route>
-      );
+  componentDidUpdate(prevProps) {
+    if (prevProps.mode !== this.props.mode) {
+      this.init();
     }
   }
-);
+
+  componentDidMount() {
+    this.init();
+  }
+
+  render() {
+    const { mode } = this.props;
+    const { item } = this.state;
+
+    if (!item) {
+      return null;
+    }
+
+    return (
+      <form onSubmit={this.onSubmit}>
+        <DialogTitle>
+          {mode === 'edit' ? 'Edit opening hour' : 'Create opening hour'}
+        </DialogTitle>
+        <DialogContent>
+          <Grid container direction="column" spacing={24}>
+            <Grid item>
+              <DayOfWeekSelect
+                value={item.dayOfWeek}
+                field={{ title: 'Day of week', path: 'dayOfWeek' }}
+                setValue={this.setValue}
+              />
+            </Grid>
+            <Grid item container spacing={8} justify="center">
+              <Grid item md>
+                <BooleanInput
+                  value={item.closed}
+                  setValue={this.setValue}
+                  field={{ title: 'Closed', path: 'closed' }}
+                />
+              </Grid>
+              {!item.closed && (
+                <React.Fragment>
+                  <Grid item md>
+                    <PlainField
+                      field={{ title: 'Opens', path: 'opens' }}
+                      value={item.opens}
+                      setValue={this.setValue}
+                    />
+                  </Grid>
+                  <Grid item md>
+                    <PlainField
+                      field={{ title: 'Closes', path: 'closes' }}
+                      value={item.closes}
+                      setValue={this.setValue}
+                    />
+                  </Grid>
+                </React.Fragment>
+              )}
+            </Grid>
+            <Grid item container spacing={8}>
+              <Grid item md>
+                <DateInput
+                  value={item.from}
+                  setValue={this.setValue}
+                  field={{ title: 'Valid from', path: 'from', required: true }}
+                />
+              </Grid>
+              <Grid item md>
+                <DateInput
+                  value={item.to}
+                  setValue={this.setValue}
+                  field={{ title: 'Valid to', path: 'to' }}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions>
+          <Button color="primary" onClick={this.onCancel}>
+            Cancel
+          </Button>
+          <Button color="primary" type="submit">
+            Create
+          </Button>
+        </DialogActions>
+      </form>
+    );
+  }
+}

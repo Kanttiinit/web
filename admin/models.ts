@@ -1,5 +1,5 @@
 import * as React from 'react';
-import OpeningHoursEditor from './OpeningHoursEditor';
+import OpeningHoursPage from './OpeningHoursPage';
 
 export interface ModelField {
   type?:
@@ -16,6 +16,7 @@ export interface ModelField {
   path: string;
   title: string;
   default?: any;
+  required?: boolean;
 }
 
 export interface ModelFieldGroup {
@@ -136,7 +137,7 @@ const models: Array<Model> = [
   {
     name: 'Opening Hours',
     key: 'openinghours',
-    editor: OpeningHoursEditor
+    editor: OpeningHoursPage
   },
   {
     name: 'Favorites',

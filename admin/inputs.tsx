@@ -168,7 +168,7 @@ class RegExpInput extends React.PureComponent {
   }
 }
 
-const BooleanInput = ({ value, setValue, field }: InputProps) => (
+export const BooleanInput = ({ value, setValue, field }: InputProps) => (
   <FormControlLabel
     control={
       <Switch
@@ -190,13 +190,15 @@ const NumericInput = ({ value, setValue, field }: InputProps) => (
   />
 );
 
-const DateInput = ({ value, setValue, field }: InputProps) => (
+export const DateInput = ({ value, setValue, field }: InputProps) => (
   <TextField
     fullWidth
     onChange={e => setValue(field.path, e.target.value)}
     value={value || ''}
     label={field.title}
     type="date"
+    InputLabelProps={{ shrink: true }}
+    required={field.required}
   />
 );
 
@@ -286,7 +288,7 @@ const UpdateTypeSelect = (props: InputProps) => (
   </FormControl>
 );
 
-const DayOfWeekSelect = (props: InputProps) => (
+export const DayOfWeekSelect = (props: InputProps) => (
   <FormControl fullWidth>
     <InputLabel>{props.field.title}</InputLabel>
     <Select
@@ -361,6 +363,16 @@ class RelationInput extends React.PureComponent {
   }
 }
 
+export const PlainField = ({ value, field, setValue }: InputProps) => (
+  <TextField
+    fullWidth
+    label={field.title}
+    onChange={e => setValue(field.path, e.target.value)}
+    value={value || ''}
+    type="text"
+  />
+);
+
 const inputs: any = {
   url: UrlInput,
   address: AddressInput,
@@ -374,15 +386,7 @@ const inputs: any = {
   relation: RelationInput,
   date: DateInput,
   dayOfWeek: DayOfWeekSelect,
-  _: ({ value, field, setValue }: InputProps) => (
-    <TextField
-      fullWidth
-      label={field.title}
-      onChange={e => setValue(field.path, e.target.value)}
-      value={value || ''}
-      type="text"
-    />
-  )
+  _: PlainField
 };
 
 export default inputs;

@@ -1,4 +1,4 @@
-@import 'constants.scss';
+@import "constants.scss";
 
 .container {
   @include rounded-button-container();
@@ -9,5 +9,5 @@
 }
 
 .undesiredProperty {
-  @include rounded-button($dark_gray);
+  @include rounded-button($gray3);
 }

@@ -1,12 +1,12 @@
-@import 'constants.scss';
+@import "constants.scss";
 
 .container {
   display: flex;
   flex-direction: column;
   padding: 0.8rem;
-  background-color: white;
+  background-color: $gray8;
   border-radius: 4px;
-  border: solid 1px #e8e8e8;
+  border: solid 1px $gray6;
   box-shadow: 0px 1px 2px 0px rgba(50, 50, 50, 0.1);
   box-sizing: border-box;
   width: calc(25% - 0.5rem);
@@ -22,27 +22,28 @@
     margin: 0.25rem 0;
     border-left: none;
     border-right: none;
-    border-color: #E6E6E6;
+    border-color: $gray6;
     border-radius: 0;
   }
 }
 
 @keyframes progress {
   0% {
-      background-position: -200px 0;
+    background-position: -200px 0;
   }
   100% {
-      background-position: calc(200px + 100%) 0;
+    background-position: calc(200px + 100%) 0;
   }
 }
 
 .placeholder {
   opacity: 0.5;
-  
-  .header, .course {
+
+  .header,
+  .course {
     animation: progress 1.2s ease-in-out infinite;
-    background-color: $light_gray;
-    background-image: linear-gradient(90deg, $light_gray, white, $light_gray);
+    background-color: $gray7;
+    background-image: linear-gradient(90deg, $gray7, $gray7, $gray7);
     background-size: 200px 100%;
     background-repeat: no-repeat;
     border-radius: 4px;
@@ -71,7 +72,7 @@
   align-items: center;
 
   h2 {
-    color: #263238;
+    color: $gray1;
     font-weight: 500;
     margin: 0;
     max-width: 60%;
@@ -79,7 +80,7 @@
   }
 
   .meta {
-    color: $dark_gray;
+    color: $gray3;
     font-size: 0.8rem;
     font-weight: 600;
   }
@@ -105,7 +106,7 @@
   flex: 1;
   min-height: 5rem;
   font-size: 0.9em;
-  color: #464646;
+  color: $gray1;
   margin-bottom: 0.5rem;
 }
 
@@ -113,17 +114,17 @@
   opacity: 0.6;
 
   .header h2 {
-    color: $dark_gray;
+    color: $gray3;
   }
 
   .body {
-    color: $dark_gray;
+    color: $gray3;
   }
 }
 
 .shut {
   .header h2 {
-    color: #263238;
+    color: $gray1;
   }
 }
 
@@ -132,7 +133,7 @@
 }
 
 .restaurantActions {
-  color: $gray;
+  color: $gray5;
   font-size: 0.75em;
   text-transform: uppercase;
   font-weight: 500;
@@ -149,7 +150,8 @@
 }
 
 .actionIcon {
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     color: $accent_color;
   }
 }

@@ -1,5 +1,5 @@
-@import 'constants.scss';
-@import 'fonts.scss';
+@import "constants.scss";
+@import "fonts.scss";
 
 .container {
   display: flex;
@@ -9,11 +9,10 @@
 }
 
 :global {
-
   body {
-    font-family: 'Interface', sans-serif;
+    font-family: "Interface", sans-serif;
     margin: 0;
-    background-color: $body_background;
+    background-color: $gray7;
   }
 
   #get-a-proper-browser {
@@ -21,28 +20,10 @@
     padding: 1em;
   }
 
-  hr {
-    height: 1px;
-    border: none;
-    background: rgba(255, 255, 255, 0.25);
-    margin: 1rem 0;
-  }
-
-  .show-mobile {
-    display: none;
-
-    @media (max-width: $break-small) {
-      display: inline-block;
-    }
-  }
-
-  .hide-mobile {
-    @media (max-width: $break-small) {
-      display: none;
-    }
-  }
-
-  a:link, a:visited, a:active, a:hover {
+  a:link,
+  a:visited,
+  a:active,
+  a:hover {
     text-decoration: none;
     color: $accent_color;
   }
@@ -69,7 +50,7 @@
     min-width: 4rem;
     background: $accent_color;
     text-align: center;
-    color: white;
+    color: $gray7;
     outline: none;
 
     &:disabled {
@@ -97,7 +78,8 @@
     }
   }
 
-  a, button {
+  a,
+  button {
     cursor: pointer;
   }
 
@@ -129,20 +111,5 @@
   .inline-icon {
     vertical-align: -0.1rem !important;
     margin-right: 0.1rem;
-  }
-
-  .beta {
-    text-align: center;
-
-    button {
-      font-size: 1.25rem;
-      background: $accent_color;
-      color: white;
-      font-weight: 300;
-      border-radius: $small_border_radius;
-      border: none;
-      padding: 0.5em 1em;
-      margin: 1em;
-    }
   }
 }

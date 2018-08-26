@@ -1,8 +1,8 @@
-@import 'constants.scss';
+@import "constants.scss";
 
 .container {
   text-align: center;
-  color: $gray;
+  color: $gray5;
   font-size: 0.8rem;
   letter-spacing: 0.05rem;
   padding: 1rem;
@@ -10,7 +10,7 @@
 
   nav {
     a {
-      color: $dark_gray;
+      color: $gray3;
       text-transform: uppercase;
       margin: 0 0.5rem;
       text-decoration: none;

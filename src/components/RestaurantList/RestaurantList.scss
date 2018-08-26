@@ -1,4 +1,4 @@
-@import 'constants.scss';
+@import "constants.scss";
 
 .wrapper {
   padding: 4rem 0 1.5rem;
@@ -31,7 +31,7 @@
 .emptyText {
   font-weight: 500;
   text-transform: uppercase;
-  color: $text_color_superlight;
+  color: $gray4;
   margin: 2em 0 0;
   text-align: center;
 }

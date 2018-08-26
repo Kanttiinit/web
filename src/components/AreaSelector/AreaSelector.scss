@@ -1,4 +1,4 @@
-@import 'constants.scss';
+@import "constants.scss";
 
 .container {
   display: flex;
@@ -14,8 +14,9 @@
 .area {
   border-radius: 0.5rem;
 
-  &.selected, &:hover {
-    background: $extra_light_gray;
+  &.selected,
+  &:hover {
+    background: $gray7;
   }
 
   .map {

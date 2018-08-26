@@ -1,5 +1,5 @@
-@import 'constants.scss';
-  
+@import "constants.scss";
+
 .favorites {
   @media (max-width: $break-small) {
     button {
@@ -12,7 +12,7 @@
   font-size: 0.8rem;
   text-transform: uppercase;
   font-weight: 500;
-  color: $dark_gray;
+  color: $gray3;
   margin-top: 2em;
 }
 

@@ -1,29 +1,17 @@
 $accent_green: #009688;
-$accent_blue: #2196F3;
+$accent_blue: #2196f3;
 $accent_color: $accent_blue;
-$accent_color_hover: lighten($accent_color, 5%);
 $accent_color_light: lighten($accent_color, 3%);
 $accent_color_dark: darken($accent_color, 5%);
-$text_color: #222222;
-$text_color_light: #636363;
-$text_color_superlight: #a3a3a3;
-$text_color_dark: #000000;
 
-$gray: #bdbdbd;
-$dark_gray: #777;
-$almost_black: #404040;
-$light_gray: #f4f4f4;
-$extra_light_gray: #f1f1f1;
-$semi_light_gray: #e8e8e8;
-$background: #fff;
-$body_background: #f8f8f8;
-$hearty: #D81B60;
+$gray1: #464646;
+$gray2: #636363;
+$gray3: #777;
+$gray4: #a3a3a3;
+$gray5: #bdbdbd;
+$gray6: #ebebeb;
+$gray7: #f1f1f1;
+$gray8: #fefefe;
+
+$hearty: #d81b60;
 $friendly: #1bb518;
-
-$button_color: $accent_color;
-$button_color_pressed: $accent_color_dark;
-$button_color_hover: $accent_color_hover;
-
-$container_background_color: $light_gray;
-
-$red: #D50000;

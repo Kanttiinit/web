@@ -1,4 +1,4 @@
-@import 'constants.scss';
+@import "constants.scss";
 
 .container {
   white-space: nowrap;
@@ -30,12 +30,12 @@
 
     &.selected {
       background: $accent_color;
-      color: white;
+      color: $gray7;
     }
 
     &:focus {
       background: lighten($accent_color, 5%);
-      color: white;
+      color: $gray7;
       outline: none;
     }
   }

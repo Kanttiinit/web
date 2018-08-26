@@ -1,12 +1,12 @@
-@import 'constants.scss'; 
+@import "constants.scss";
 
 .mapContainer {
   flex: 1;
 }
 
 .map {
-  border-top: 1px solid $light_gray;
-  border-bottom: 1px solid $light_gray;
+  border-top: 1px solid $gray7;
+  border-bottom: 1px solid $gray7;
   min-height: 20rem;
   height: 100%;
   margin: 1rem -1rem -1rem -1rem;
@@ -22,7 +22,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  color: $text_color_light;
+  color: $gray2;
   font-size: 0.8rem;
   line-height: 1.5em;
 
@@ -50,7 +50,8 @@
 .openingHours {
   display: table-row;
 
-  .day, .hours {
+  .day,
+  .hours {
     display: table-cell;
   }
 

@@ -1,4 +1,4 @@
-@import 'constants.scss';
+@import "constants.scss";
 
 .container {
   font-size: 1.15rem;
@@ -10,13 +10,14 @@
     font-size: 1rem;
     margin-bottom: 0.5rem;
     display: block;
-    color: $dark_gray;
+    color: $gray3;
   }
 
-  input, textarea {
+  input,
+  textarea {
     font-size: inherit;
     font-family: inherit;
-    border: solid 0.15rem $gray;
+    border: solid 0.15rem $gray5;
     padding: 1rem;
     display: block;
     width: 100%;
@@ -37,7 +38,7 @@
     background: $accent_color;
     text-transform: uppercase;
     font-size: inherit;
-    color: white;
+    color: $gray7;
 
     &:focus {
       outline: none;
@@ -45,7 +46,7 @@
     }
 
     &:disabled {
-      background: $gray;
+      background: $gray5;
     }
   }
 }

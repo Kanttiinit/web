@@ -1,7 +1,6 @@
-@import 'constants.scss';
+@import "constants.scss";
 
 .container {
-
   @media (min-width: $break_large) {
     padding: 0.5rem;
     align-items: center;
@@ -22,7 +21,6 @@
   pointer-events: none;
   transition: opacity 0.1s;
   display: flex;
-  
 }
 
 .overlay {
@@ -34,7 +32,7 @@
   left: 0;
 
   @media (max-width: $break_small) {
-    background: $light_gray;
+    background: $gray7;
   }
 }
 
@@ -44,7 +42,7 @@
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
-  color: $gray;
+  color: $gray5;
   font-weight: 300;
   font-size: 0.9em;
   height: 5rem;
@@ -60,7 +58,7 @@
   max-width: 40rem;
   border-radius: 0.2rem;
   overflow: auto;
-  box-shadow: 0rem 0.1rem 0.6rem -0.2rem rgba(0,0,0,0.3);
+  box-shadow: 0rem 0.1rem 0.6rem -0.2rem rgba(0, 0, 0, 0.3);
   flex: 1;
 
   @media (max-width: $break_large) {

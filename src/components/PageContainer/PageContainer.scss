@@ -1,7 +1,7 @@
-@import 'constants.scss';
+@import "constants.scss";
 
 .container {
-  background: white;
+  background: $gray8;
   padding: 0.5rem 1rem 1rem;
   border: $subtle_border;
   height: 100%;
@@ -12,10 +12,8 @@
     margin-top: 0;
     margin-bottom: 0.5rem;
     font-weight: normal;
-    border-bottom: solid 1px $light_gray;
     padding: 0.5rem 0 0.5rem 0;
     top: 0;
-    background: white;
     z-index: 1000;
   }
 }

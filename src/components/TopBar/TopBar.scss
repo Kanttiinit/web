@@ -19,6 +19,10 @@
   }
 }
 
+:global(.dark) .container {
+  background: linear-gradient(to bottom, var(--gray6) 0%, var(--gray7) 100%);
+}
+
 .centered {
   max-width: 94.2rem;
   display: flex;

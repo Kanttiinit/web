@@ -13,10 +13,11 @@
 
 .area {
   border-radius: 0.5rem;
+  color: var(--gray1);
 
   &.selected,
   &:hover {
-    background: var(--gray6);
+    background: var(--gray5);
   }
 
   .map {

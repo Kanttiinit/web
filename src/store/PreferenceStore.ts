@@ -23,6 +23,7 @@ export default class PreferenceStore {
   @observable lang: Lang;
   @observable selectedArea: number;
   @observable useLocation: boolean;
+  @observable darkMode: boolean;
   @observable order: Order;
   @observable favorites: Array<number>;
   @observable starredRestaurants: Array<number>;
@@ -32,10 +33,13 @@ export default class PreferenceStore {
     const state = localStorage.getItem('preferenceStore');
     this.setPreferences(safeParseJson(state));
     autorun(() => {
-      localStorage.setItem(
-        'preferenceStore',
-        JSON.stringify(this.getPreferences())
-      );
+      const preferences = this.getPreferences();
+      if (preferences.darkMode) {
+        document.body.classList.add('dark');
+      } else {
+        document.body.classList.remove('dark');
+      }
+      localStorage.setItem('preferenceStore', JSON.stringify(preferences));
     });
   }
 
@@ -47,7 +51,8 @@ export default class PreferenceStore {
       order,
       favorites,
       starredRestaurants,
-      properties
+      properties,
+      darkMode
     } = data;
     this.lang = lang || Lang.FI;
     this.selectedArea = selectedArea || 1;
@@ -56,6 +61,7 @@ export default class PreferenceStore {
     this.favorites = favorites || [];
     this.starredRestaurants = starredRestaurants || [];
     this.properties = properties || [];
+    this.darkMode = darkMode || false;
   }
 
   getPreferences() {
@@ -66,7 +72,8 @@ export default class PreferenceStore {
       order,
       favorites,
       starredRestaurants,
-      properties
+      properties,
+      darkMode
     } = this;
     return {
       lang,
@@ -75,7 +82,8 @@ export default class PreferenceStore {
       order,
       favorites,
       starredRestaurants,
-      properties
+      properties,
+      darkMode
     };
   }
 

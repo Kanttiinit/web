@@ -274,5 +274,9 @@ export default {
   offline: {
     fi: 'Ei verkkoyhteyttä.',
     en: 'You are currently offline.'
+  },
+  darkMode: {
+    fi: 'Tumma teema',
+    en: 'Dark mode'
   }
 };

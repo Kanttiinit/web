@@ -59,6 +59,10 @@
   }
 }
 
+:global(.dark) .logo {
+  filter: grayscale(0.6);
+}
+
 .bottomRow {
   display: flex;
   justify-content: space-between;

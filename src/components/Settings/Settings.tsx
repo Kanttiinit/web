@@ -43,6 +43,10 @@ export default withRouter(
         preferenceStore.useLocation = value;
       };
 
+      setDarkMode = (value: boolean) => {
+        preferenceStore.darkMode = value;
+      };
+
       setLang(lang: Lang) {
         preferenceStore.lang = lang;
       }
@@ -55,6 +59,12 @@ export default withRouter(
                 options={languageOptions}
                 selected={preferenceStore.lang}
                 onChange={this.setLang}
+              />
+            </Item>
+            <Item label={<Text id="darkMode" />}>
+              <Toggle
+                selected={preferenceStore.darkMode}
+                onChange={this.setDarkMode}
               />
             </Item>
             <Item label={<Text id="order" />}>

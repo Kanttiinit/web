@@ -48,7 +48,8 @@ export default class OpeningHourDialog extends React.PureComponent<
         closed: edit ? item.closed : false,
         dayOfWeek: edit ? item.dayOfWeek : 0,
         from: edit ? item.from : moment().format('YYYY-MM-DD'),
-        to: edit ? item.to : null
+        to: edit ? item.to : null,
+        id: edit ? item.id : undefined
       }
     });
   };
@@ -135,7 +136,7 @@ export default class OpeningHourDialog extends React.PureComponent<
             Cancel
           </Button>
           <Button color="primary" type="submit">
-            Create
+            {mode === 'edit' ? 'Save' : 'Create'}
           </Button>
         </DialogActions>
       </form>

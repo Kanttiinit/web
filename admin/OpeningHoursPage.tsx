@@ -23,6 +23,7 @@ import * as groupBy from 'lodash/fp/groupBy';
 import * as moment from 'moment';
 
 import OpeningHoursEditor from './OpeningHoursEditor';
+import { showMessage } from '.';
 
 type ListState = {
   openingHours?: Array<any>;
@@ -70,15 +71,23 @@ class OpeningHoursList extends React.PureComponent<any, ListState> {
 
   handleModalAction = async (item: any) => {
     if (item) {
-      if (this.state.modalMode === 'create') {
-        await http.post('/admin/openinghours', {
-          ...item,
-          RestaurantId: this.props.restaurantId
-        });
+      try {
+        if (this.state.modalMode === 'create') {
+          await http.post('/admin/openinghours', {
+            ...item,
+            RestaurantId: this.props.restaurantId
+          });
+        } else {
+          await http.put(`/admin/openinghours/${item.id}`, item);
+        }
+        this.closeModal();
         await this.fetchOpeningHours();
+      } catch (e) {
+        showMessage(e.message);
       }
+    } else {
+      this.closeModal();
     }
-    this.closeModal();
   };
 
   editItem = item => {

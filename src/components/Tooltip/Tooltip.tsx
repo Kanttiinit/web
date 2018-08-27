@@ -1,24 +1,18 @@
 import * as React from 'react';
-import 'balloon-css/balloon.css';
+
+import * as styles from './Tooltip.scss';
 
 type Props = {
   children: React.ReactNode;
   text: string;
   position?: 'up' | 'left' | 'right' | 'down';
-  size?: 'fit' | 'small' | 'medium' | 'large' | 'xlarge';
 };
 
-const Tooltip = ({
-  text,
-  children,
-  position = 'down',
-  size = 'fit'
-}: Props) => (
+const Tooltip = ({ text, children, position = 'down' }: Props) => (
   <span
-    data-balloon-blunt
-    data-balloon={text}
-    data-balloon-pos={position}
-    data-balloon-length={size}
+    className={styles.tooltip}
+    data-title={text}
+    data-tooltip-pos={position}
   >
     {children}
   </span>

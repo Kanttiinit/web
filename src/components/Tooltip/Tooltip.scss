@@ -1,0 +1,27 @@
+@import "constants.scss";
+
+.tooltip {
+  position: relative;
+
+  &:after {
+    content: attr(data-title);
+    position: absolute;
+    background: $gray2;
+    color: $gray8;
+    padding: 0.25rem 0.5rem;
+    z-index: 99999;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.1s;
+    transition-delay: 0.1s;
+    transform: translate(-100%, 1.5rem);
+    border-radius: 0.25rem;
+  }
+
+  &:hover {
+    &:after {
+      opacity: 1;
+    }
+  }
+}

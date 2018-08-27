@@ -9,7 +9,7 @@ export default ({ property }) => {
   const prop = properties.find(p => p.key === property);
   const propName = prop ? prop['name_' + preferenceStore.lang] : '';
   return (
-    <Tooltip text={propName} size="small">
+    <Tooltip text={propName}>
       {property}
       <span
         className={css.propertyClickTrap}

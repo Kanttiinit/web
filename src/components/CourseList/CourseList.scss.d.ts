@@ -9,5 +9,3 @@ export const favoriteCourse: string;
 export const highlight: string;
 export const dim: string;
 export const emptyText: string;
-export const tooltip: string;
-export const tooltipVisible: string;

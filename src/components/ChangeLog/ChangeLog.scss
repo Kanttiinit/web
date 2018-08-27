@@ -1,5 +1,3 @@
-@import "colors.scss";
-
 .release {
   margin-bottom: 1em;
   display: flex;
@@ -24,5 +22,5 @@
   text-transform: uppercase;
   font-weight: 500;
   margin: 0 0 0;
-  color: $gray2;
+  color: var(--gray2);
 }

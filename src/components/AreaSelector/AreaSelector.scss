@@ -16,7 +16,7 @@
 
   &.selected,
   &:hover {
-    background: $gray7;
+    background: var(--gray6);
   }
 
   .map {

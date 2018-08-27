@@ -5,7 +5,7 @@ $bezier: cubic-bezier(0.645, 0.045, 0.355, 1);
 .blob {
   cursor: pointer;
   position: absolute;
-  background: $gray7;
+  background: var(--gray6);
   box-sizing: border-box;
   top: 50%;
   border-radius: 30px;
@@ -19,8 +19,8 @@ $bezier: cubic-bezier(0.645, 0.045, 0.355, 1);
 .toggle {
   position: relative;
   display: inline-block;
-  border: 2px solid $gray4;
-  background: $gray4;
+  border: 2px solid var(--gray3);
+  background: var(--gray3);
   border-radius: 20px;
   padding: 10px 0;
   min-width: 4em;
@@ -35,11 +35,11 @@ $bezier: cubic-bezier(0.645, 0.045, 0.355, 1);
     margin-left: 1.9em;
     content: "";
   }
-  background: $accent_color;
-  border-color: $accent_color;
+  background: var(--accent_color);
+  border-color: var(--accent_color);
 
   &:focus {
-    background: darken($accent_color, 15%);
+    filter: brightness(85%);
   }
 }
 
@@ -50,6 +50,6 @@ $bezier: cubic-bezier(0.645, 0.045, 0.355, 1);
   }
 
   &:focus {
-    background: $gray2;
+    background: var(--gray2);
   }
 }

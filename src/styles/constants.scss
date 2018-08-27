@@ -1,10 +1,8 @@
-@import "colors.scss";
-
 $border_radius: 4px;
 $small_border_radius: 0.2rem;
 
 $margin: 4px 3px 4px 3px;
-$subtle_border: 1px $gray7 solid;
+$subtle_border: 1px var(--gray6) solid;
 
 $break-small: 767px;
 $break-large: 768px;
@@ -40,11 +38,11 @@ $break-large: 768px;
   }
 
   &:focus {
-    background: lighten($color, 50%);
+    filter: brightness(85%);
   }
 
   &.selected {
     background: $color;
-    color: $gray7;
+    color: var(--gray6);
   }
 }

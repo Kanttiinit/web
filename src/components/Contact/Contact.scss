@@ -10,14 +10,14 @@
     font-size: 1rem;
     margin-bottom: 0.5rem;
     display: block;
-    color: $gray3;
+    color: var(--gray3);
   }
 
   input,
   textarea {
     font-size: inherit;
     font-family: inherit;
-    border: solid 0.15rem $gray5;
+    border: solid 0.15rem var(--gray4);
     padding: 1rem;
     display: block;
     width: 100%;
@@ -26,27 +26,7 @@
 
     &:focus {
       outline: none;
-      border-color: $accent_color;
-    }
-  }
-
-  button {
-    border: none;
-    padding: 1rem 1.5rem;
-    margin: 0;
-    font-family: inherit;
-    background: $accent_color;
-    text-transform: uppercase;
-    font-size: inherit;
-    color: $gray7;
-
-    &:focus {
-      outline: none;
-      background: $accent_color_light;
-    }
-
-    &:disabled {
-      background: $gray5;
+      border-color: var(--accent_color);
     }
   }
 }

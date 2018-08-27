@@ -8,7 +8,7 @@
 
 .courseGroupTitle {
   display: block;
-  color: $gray3;
+  color: var(--gray3);
   margin-bottom: 0.2rem;
   font-size: 0.8em;
 }
@@ -21,7 +21,7 @@
   font-size: 0.9rem;
 
   &:not(:last-child) {
-    border-bottom: 1px solid $gray7;
+    border-bottom: 1px solid var(--gray6);
   }
 }
 
@@ -31,13 +31,14 @@
 
 .title {
   flex: 1;
+  color: var(--gray1);
 }
 
 .props {
   font-size: 0.7rem;
   font-weight: 300;
   display: inline;
-  color: $gray2;
+  color: var(--gray2);
 
   & > span {
     padding: 0 0.4ch;
@@ -45,7 +46,7 @@
     position: relative;
 
     &:hover {
-      color: $accent_green;
+      color: var(--accent_color);
     }
 
     &:last-child {
@@ -67,16 +68,16 @@
 }
 
 .favoriteCourse {
-  color: $hearty;
+  color: var(--hearty);
 }
 
 .highlight {
-  color: $friendly;
+  color: var(--friendly);
   font-weight: 500;
 }
 
 .dim {
-  color: $gray5;
+  color: var(--gray4);
 }
 
 .emptyText {

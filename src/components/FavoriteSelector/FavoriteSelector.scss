@@ -1,9 +1,9 @@
-@import 'constants.scss';
+@import "constants.scss";
 
 .container {
   @include rounded-button-container();
 }
 
 .roundedButton {
-  @include rounded-button($hearty);
+  @include rounded-button(var(--hearty));
 }

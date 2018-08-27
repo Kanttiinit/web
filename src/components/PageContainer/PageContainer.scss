@@ -1,7 +1,7 @@
 @import "constants.scss";
 
 .container {
-  background: $gray8;
+  background: var(--gray7);
   padding: 0.5rem 1rem 1rem;
   border: $subtle_border;
   height: 100%;

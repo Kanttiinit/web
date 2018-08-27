@@ -2,7 +2,7 @@
 
 .container {
   text-align: center;
-  color: $gray5;
+  color: var(--gray4);
   font-size: 0.8rem;
   letter-spacing: 0.05rem;
   padding: 1rem;
@@ -10,7 +10,7 @@
 
   nav {
     a {
-      color: $gray3;
+      color: var(--gray3);
       text-transform: uppercase;
       margin: 0 0.5rem;
       text-decoration: none;
@@ -19,12 +19,12 @@
       padding-bottom: 0.25rem;
 
       &.current {
-        border-color: fade_out($accent_color, 0.5);
-        color: $accent_color;
+        border-color: var(--accent_color);
+        color: var(--accent_color);
       }
 
       &:hover {
-        color: $accent_color;
+        color: var(--accent_color);
       }
 
       @media (max-width: $break-small) {

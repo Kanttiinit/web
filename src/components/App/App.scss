@@ -12,7 +12,35 @@
   body {
     font-family: "Interface", sans-serif;
     margin: 0;
-    background-color: $gray7;
+    background-color: var(--gray6);
+
+    --accent_color: #2196f3;
+
+    --gray1: #464646;
+    --gray2: #636363;
+    --gray3: #777;
+    --gray4: #bdbdbd;
+    --gray5: #ebebeb;
+    --gray6: #f8f8f8;
+    --gray7: #fefefe;
+
+    --hearty: #d81b60;
+    --friendly: #1bb518;
+
+    &.dark {
+      --accent_color: #8dccff;
+
+      --gray7: #212121;
+      --gray6: #313131;
+      --gray5: #383838;
+      --gray4: #525252;
+      --gray3: #8a8a8a;
+      --gray2: #bdbdbd;
+      --gray1: #d4d4d4;
+
+      --hearty: #c15c81;
+      --friendly: #4a9448;
+    }
   }
 
   #get-a-proper-browser {
@@ -25,7 +53,7 @@
   a:active,
   a:hover {
     text-decoration: none;
-    color: $accent_color;
+    color: var(--accent_color);
   }
 
   button {
@@ -48,9 +76,9 @@
     border-radius: 0.2em;
     display: inline-block;
     min-width: 4rem;
-    background: $accent_color;
+    background: var(--accent_color);
     text-align: center;
-    color: $gray7;
+    color: var(--gray6);
     outline: none;
 
     &:disabled {
@@ -59,22 +87,12 @@
     }
 
     &:focus {
-      background: $accent_color_light;
+      filter: brightness(110%);
     }
 
     &-small {
       font-size: 0.7rem;
       padding: 0.5em 0.7em;
-    }
-
-    &-light {
-      background: transparent;
-      color: $accent_color;
-
-      &:focus {
-        color: $accent_color_dark;
-        background: transparent;
-      }
     }
   }
 
@@ -94,6 +112,7 @@
     margin: 1em 0;
     font-weight: 300;
     letter-spacing: 0.02em;
+    color: var(--gray1);
 
     &:first-child {
       margin-top: 0;

@@ -1,18 +1,18 @@
 @import "constants.scss";
 
 .container {
-  background: linear-gradient(to bottom, $gray8 0%, $gray7 100%);
+  background: linear-gradient(to bottom, var(--gray7) 0%, var(--gray6) 100%);
   box-sizing: border-box;
   padding: 0 0.5em;
   position: fixed;
   width: 100%;
   z-index: 10;
-  color: $gray3;
-  border-bottom: 1px solid $gray6;
+  color: var(--gray3);
+  border-bottom: 1px solid var(--gray5);
   user-select: none;
 
   @media (max-width: $break-small) {
-    background-color: $gray7;
+    background-color: var(--gray6);
     justify-content: flex-start;
     padding: 0.2em;
     padding-left: 1rem;
@@ -36,13 +36,13 @@ a.icon {
 
   &:link,
   &:visited {
-    color: $gray4;
+    color: var(--gray3);
   }
 
   &:hover,
   &:focus {
     outline: none;
-    color: $accent_color;
+    color: var(--accent_color);
   }
 
   svg {

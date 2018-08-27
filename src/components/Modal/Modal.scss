@@ -32,7 +32,7 @@
   left: 0;
 
   @media (max-width: $break_small) {
-    background: $gray7;
+    background: var(--gray6);
   }
 }
 
@@ -42,7 +42,7 @@
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
-  color: $gray5;
+  color: var(--gray4);
   font-weight: 300;
   font-size: 0.9em;
   height: 5rem;

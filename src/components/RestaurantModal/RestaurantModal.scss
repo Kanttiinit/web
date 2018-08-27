@@ -5,8 +5,8 @@
 }
 
 .map {
-  border-top: 1px solid $gray7;
-  border-bottom: 1px solid $gray7;
+  border-top: 1px solid var(--gray6);
+  border-bottom: 1px solid var(--gray6);
   min-height: 20rem;
   height: 100%;
   margin: 1rem -1rem -1rem -1rem;
@@ -22,7 +22,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  color: $gray2;
+  color: var(--gray2);
   font-size: 0.8rem;
   line-height: 1.5em;
 

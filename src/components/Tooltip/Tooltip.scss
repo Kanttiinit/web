@@ -6,8 +6,8 @@
   &:after {
     content: attr(data-title);
     position: absolute;
-    background: $gray2;
-    color: $gray8;
+    background: var(--gray2);
+    color: var(--gray7);
     padding: 0.25rem 0.5rem;
     z-index: 99999;
     white-space: nowrap;

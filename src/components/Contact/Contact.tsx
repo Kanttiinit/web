@@ -37,7 +37,7 @@ export default feedbackProvider(
                 <Text id="message" />
               </label>
               <textarea rows={10} id="message" ref={this.message} required />
-              <button disabled={sending} type="submit">
+              <button className="button" disabled={sending} type="submit">
                 {sending ? <Text id="sending" /> : <Text id="send" />}
               </button>
             </form>

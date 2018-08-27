@@ -9,7 +9,7 @@
   }
 
   button {
-    color: $accent_color;
+    color: var(--accent_color);
     background: transparent;
     font-family: inherit;
     font-weight: 500;
@@ -29,13 +29,13 @@
     }
 
     &.selected {
-      background: $accent_color;
-      color: $gray7;
+      background: var(--accent_color);
+      color: var(--gray6);
     }
 
     &:focus {
-      background: lighten($accent_color, 5%);
-      color: $gray7;
+      filter: brightness(105%);
+      color: var(--gray6);
       outline: none;
     }
   }

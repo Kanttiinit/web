@@ -5,9 +5,9 @@
 }
 
 .desiredProperty {
-  @include rounded-button($friendly);
+  @include rounded-button(var(--friendly));
 }
 
 .undesiredProperty {
-  @include rounded-button($gray3);
+  @include rounded-button(var(--gray3));
 }

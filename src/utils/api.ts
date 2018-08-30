@@ -54,7 +54,7 @@ export const getAreas = (lang: Lang) =>
 export const getFavorites = (lang: Lang) => http.get(`/favorites?lang=${lang}`);
 
 export const getRestaurantsByIds = (ids: Array<number>, lang: Lang) =>
-  http.get(`/restaurants?lang=${lang}&ids=${ids.join(',')}&newOpeningHours=1`);
+  http.get(`/restaurants?lang=${lang}&ids=${ids.join(',')}`);
 
 export const getRestaurantsByLocation = (
   latitude: number,

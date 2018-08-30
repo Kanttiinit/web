@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as moment from 'moment';
 import * as Pin from 'react-icons/lib/md/place';
 import * as Home from 'react-icons/lib/md/home';
+import * as findIndex from 'lodash/findIndex';
 import { observer } from 'mobx-react';
 
 import Map from './GoogleMap';
@@ -13,33 +14,32 @@ import MenuViewer from '../MenuViewer';
 import * as css from './RestaurantModal.scss';
 import Text from '../Text';
 
+function getOpeningHourString(hours) {
+  return hours.reduce((open, hour, i) => {
+    if (hour) {
+      const existingIndex = findIndex(open, ['hour', hour]);
+      if (existingIndex > -1) open[existingIndex].endDay = i;
+      else open.push({ startDay: i, hour });
+    }
+    return open;
+  }, []);
+}
+
 const OpeningHours = ({ openingHours }) => (
   <div className={css.openingHoursContainer}>
-    {openingHours.map((hours, i) => (
-      <div key={i} className={css.openingHours}>
+    {getOpeningHourString(openingHours).map(hours => (
+      <div key={hours.startDay} className={css.openingHours}>
         <span className={css.day}>
-          <Text
-            id="ddd"
-            moment={moment().isoWeekday(hours.daysOfWeek[0] + 1)}
-          />
-          {hours.daysOfWeek.length > 1 && (
+          <Text id="ddd" moment={moment().isoWeekday(hours.startDay + 1)} />
+          {hours.endDay && (
             <span>
               &nbsp;&ndash;&nbsp;
-              <Text
-                id="ddd"
-                moment={moment().isoWeekday(
-                  hours.daysOfWeek[hours.daysOfWeek.length - 1] + 1
-                )}
-              />
+              <Text id="ddd" moment={moment().isoWeekday(hours.endDay + 1)} />
             </span>
           )}
         </span>
         <span className={css.hours}>
-          {hours.closed ? (
-            <Text id="closed" />
-          ) : (
-            `${hours.opens} – ${hours.closes}`
-          )}
+          {hours.hour.replace('-', '–') || <Text id="closed" />}
         </span>
       </div>
     ))}

@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import * as css from './Colon.scss';
 
-const Colon = ({ text }: { text: string }) => {
-  const parts = text.split(':');
+const Colon = ({ children }: { children: string }) => {
+  const parts = children.split(':');
   return (
     <span className={css.container}>
       {parts.map((part, i) => <span key={i}>{part}</span>)}

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import OpeningHoursPage from './OpeningHoursPage';
 
 export interface ModelField {
   type?:
@@ -12,7 +11,8 @@ export interface ModelField {
     | 'regExp'
     | 'date'
     | 'text'
-    | 'dayOfWeek';
+    | 'dayOfWeek'
+    | 'openingHours';
   path: string;
   title: string;
   default?: any;
@@ -113,6 +113,12 @@ const models: Array<Model> = [
           { path: 'name_i18n.en', title: 'English' }
         ]
       },
+      {
+        path: 'openingHours',
+        title: 'Opening Hours',
+        type: 'openingHours',
+        default: [null, null, null, null, null, null, null]
+      },
       { path: 'url', title: 'URL', type: 'url' },
       { path: 'menuUrl', title: 'Menu URL', type: 'menuUrl' },
       {
@@ -133,11 +139,6 @@ const models: Array<Model> = [
       },
       { path: 'hidden', title: 'Hidden', type: 'boolean' }
     ]
-  },
-  {
-    name: 'Opening Hours',
-    key: 'openinghours',
-    editor: OpeningHoursPage
   },
   {
     name: 'Favorites',

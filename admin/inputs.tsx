@@ -10,6 +10,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import Grid from '@material-ui/core/Grid';
+import Input from '@material-ui/core/Input';
+import MaskedInput from 'react-text-mask';
 import { withGoogleMap, Marker, GoogleMap } from 'react-google-maps';
 import * as moment from 'moment';
 import * as get from 'lodash/fp/get';
@@ -373,6 +375,92 @@ export const PlainField = ({ value, field, setValue }: InputProps) => (
   />
 );
 
+type OpeningHoursEditorState = {
+  hours: Array<[number, number] | null>;
+};
+
+class OpeningHoursEditor extends React.PureComponent<
+  InputProps,
+  OpeningHoursEditorState
+> {
+  state: OpeningHoursEditorState = { hours: [] };
+  static getDerivedStateFromProps(props, state) {
+    if (!state.hours.length || state.hours.every(h => h === null)) {
+      return { hours: props.value || props.field.default };
+    }
+    return null;
+  }
+
+  onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const target = event.target;
+    const [open, close] = target.value.split(' – ');
+    this.setState(state => {
+      const hours = [...state.hours];
+      if (open === 'XX:XX' && close === 'XX:XX') {
+        hours[Number(target.name)] = null;
+      } else if (!open.includes('X') && !close.includes('X')) {
+        hours[Number(target.name)] = [
+          Number(open.replace(':', '')),
+          Number(close.replace(':', ''))
+        ];
+      } else {
+        return null;
+      }
+      this.props.setValue(this.props.field.path, hours);
+      return { hours };
+    });
+  };
+
+  serializeHours = (hours: [number, number] | null) =>
+    hours ? `${hours[0]} - ${hours[1]}` : '';
+
+  render() {
+    const { hours } = this.state;
+    return (
+      <div>
+        {(hours || this.props.field.default).map((hours, i) => (
+          <FormControl margin="dense" key={i}>
+            <InputLabel shrink htmlFor={`hours${i}`}>
+              {moment()
+              .isoWeekday(i + 1)
+              .format('ddd')}
+            </InputLabel>
+            <Input
+              id={`hours${i}`}
+              onChange={this.onChange}
+              name={String(i)}
+              value={this.serializeHours(hours)}
+              inputComponent={({ inputRef, ...props }) => (
+                <MaskedInput
+                  {...props}
+                  ref={inputRef}
+                  mask={[
+                    /[0-9]{1,2}/,
+                    /[0-9]{1,2}/,
+                    ':',
+                    /[0-9]{1,2}/,
+                    /[0-9]{1,2}/,
+                    ' ',
+                    '–',
+                    ' ',
+                    /[0-9]{1,2}/,
+                    /[0-9]{1,2}/,
+                    ':',
+                    /[0-9]{1,2}/,
+                    /[0-9]{1,2}/
+                  ]}
+                  showMask
+                  placeholderChar="X"
+                />
+              )}
+            />
+          </FormControl>
+        ))}
+      </div>
+    );
+  }
+}
+
 const inputs: any = {
   url: UrlInput,
   address: AddressInput,
@@ -386,6 +474,7 @@ const inputs: any = {
   relation: RelationInput,
   date: DateInput,
   dayOfWeek: DayOfWeekSelect,
+  openingHours: OpeningHoursEditor,
   _: PlainField
 };
 

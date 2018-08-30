@@ -1,9 +1,11 @@
 import * as React from 'react';
 import * as moment from 'moment';
-import * as SWUpdateIcon from 'react-icons/lib/md/system-update-alt';
-import * as UpdateIcon from 'react-icons/lib/md/change-history';
-import * as EditIcon from 'react-icons/lib/md/edit';
-import * as BugIcon from 'react-icons/lib/md/bug-report';
+import {
+  MdSystemUpdateAlt,
+  MdChangeHistory,
+  MdModeEdit,
+  MdBugReport
+} from 'react-icons/md';
 
 import * as css from './ChangeLog.scss';
 import { getUpdates } from '../../utils/api';
@@ -14,13 +16,13 @@ import { Release } from '../../store/types';
 const getIcon = (release: Release) => {
   switch (release.type) {
     case 'software-update':
-      return SWUpdateIcon;
+      return MdSystemUpdateAlt;
     case 'information-update':
-      return EditIcon;
+      return MdChangeHistory;
     case 'bugfix':
-      return BugIcon;
+      return MdBugReport;
     default:
-      return UpdateIcon;
+      return MdModeEdit;
   }
 };
 

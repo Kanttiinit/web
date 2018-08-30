@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
-import * as Walk from 'react-icons/lib/md/directions-walk';
-import * as Bike from 'react-icons/lib/md/directions-bike';
-import * as Location from 'react-icons/lib/io/pin';
-import * as Star from 'react-icons/lib/md/star';
-import * as More from 'react-icons/lib/md/more-vert';
-import * as Flag from 'react-icons/lib/md/flag';
+import {
+  MdDirectionsWalk,
+  MdDirectionsBike,
+  MdStar,
+  MdMoreVert,
+  MdFlag,
+  MdPlace
+} from 'react-icons/md';
+
 import * as c from 'classnames';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -24,11 +27,11 @@ const Distance = ({ distance }: { distance: number }) => {
   return (
     <div className={css.meta + ' ' + css.location}>
       {!distance ? (
-        <Location className="inline-icon" />
+        <MdPlace className="inline-icon" />
       ) : kilometers ? (
-        <Bike className="inline-icon" />
+        <MdDirectionsBike className="inline-icon" />
       ) : (
-        <Walk className="inline-icon" />
+        <MdDirectionsWalk className="inline-icon" />
       )}
       {!distance ? (
         <Text id="locating" />
@@ -100,7 +103,7 @@ export default withRouter(
                 className={css.actionIcon}
                 to={{ pathname: `/report/${restaurant.id}`, search }}
               >
-                <Flag size={18} />
+                <MdFlag size={18} />
               </Link>
               <div style={{ marginLeft: 'auto' }}>
                 <a
@@ -110,14 +113,14 @@ export default withRouter(
                   }}
                   className={css.actionIcon}
                 >
-                  <Star size={18} />
+                  <MdStar size={18} />
                 </a>
                 &nbsp;
                 <Link
                   className={css.actionIcon}
                   to={{ pathname: `/restaurant/${restaurant.id}`, search }}
                 >
-                  <More size={18} />
+                  <MdMoreVert size={18} />
                 </Link>
               </div>
             </div>

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import * as moment from 'moment';
-import * as Pin from 'react-icons/lib/md/place';
-import * as Home from 'react-icons/lib/md/home';
+import { MdPlace, MdHome } from 'react-icons/md';
 import * as findIndex from 'lodash/findIndex';
 import { observer } from 'mobx-react';
 
@@ -54,11 +53,11 @@ const Meta = ({ restaurant }) => (
       )}`}
       target="_blank"
     >
-      <Pin className="inline-icon" />
+      <MdPlace className="inline-icon" />
       {restaurant.address}
     </a>
     <a href={restaurant.url} target="_blank">
-      <Home className="inline-icon" />
+      <MdHome className="inline-icon" />
       <Text id="homepage" />
     </a>
   </div>

@@ -3,8 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
-import * as AreaIcon from 'react-icons/lib/md/map';
-import * as SettingsIcon from 'react-icons/lib/md/settings';
+import { MdMap, MdSettings } from 'react-icons/md';
 const FI = require('../../assets/fi.png');
 const EN = require('../../assets/en.png');
 
@@ -32,11 +31,11 @@ export default withRouter(
                 to={{ pathname: '/select-area', search }}
                 className={css.icon}
               >
-                <AreaIcon size={18} />
+                <MdMap size={18} />
                 <Text id="selectArea" />
               </Link>
               <Link to={{ pathname: '/settings', search }} className={css.icon}>
-                <SettingsIcon size={18} />
+                <MdSettings size={18} />
                 <Text id="settings" />
               </Link>
               <a className={css.icon} onClick={this.toggleLanguage}>

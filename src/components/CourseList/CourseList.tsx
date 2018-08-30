@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Heart from 'react-icons/lib/io/heart';
+import { MdFavorite } from 'react-icons/md';
 import * as c from 'classnames';
 import * as memoize from 'lodash/memoize';
 import * as capitalize from 'lodash/capitalize';
@@ -45,7 +45,7 @@ const Course = ({ course }: { course: CourseType }) => (
       course.dim && css.dim
     )}
   >
-    {course.isFavorite && <Heart className={`inline-icon ${css.icon}`} />}
+    {course.isFavorite && <MdFavorite className={`inline-icon ${css.icon}`} />}
     <span className={css.title}>{course.title}</span>
     <span className={css.props}>
       {course.properties.map(p => <Property key={p} property={p} />)}

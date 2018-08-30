@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as c from 'classnames';
-import * as ErrorIcon from 'react-icons/lib/md/error-outline';
+import { MdErrorOutline } from 'react-icons/md';
 
 import Text from '../Text';
 import * as css from './NetworkStatus.scss';
@@ -32,7 +32,7 @@ export default class NetworkStatus extends React.PureComponent {
 
     return (
       <div className={c(css.offline, !online && css.active)}>
-        <ErrorIcon />&nbsp;<Text id="offline" />
+        <MdErrorOutline />&nbsp;<Text id="offline" />
       </div>
     );
   }

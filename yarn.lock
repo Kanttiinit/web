@@ -4868,9 +4868,9 @@ mobx-react@^5.1.2:
     hoist-non-react-statics "^2.5.0"
     react-lifecycles-compat "^3.0.2"
 
-mobx@^4.2.1:
-  version "4.4.0"
-  resolved "https://registry.yarnpkg.com/mobx/-/mobx-4.4.0.tgz#7fd1b7879cac642988acc0e6e2351e93e3970d12"
+mobx@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/mobx/-/mobx-5.1.0.tgz#ae772ca8eb0c1dd93341ffce375f44a80050014d"
 
 moment@^2.20.1:
   version "2.22.2"
@@ -6062,15 +6062,9 @@ react-google-maps@^9.4.5:
     scriptjs "^2.5.8"
     warning "^3.0.0"
 
-react-icon-base@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/react-icon-base/-/react-icon-base-2.1.0.tgz#a196e33fdf1e7aaa1fda3aefbb68bdad9e82a79d"
-
-react-icons@^2.2.7:
-  version "2.2.7"
-  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-2.2.7.tgz#d7860826b258557510dac10680abea5ca23cf650"
-  dependencies:
-    react-icon-base "2.1.0"
+react-icons@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-3.0.5.tgz#9f22a319a48b562e052af2255a3dda8ded363d1c"
 
 react-jss@^8.1.0:
   version "8.6.1"
@@ -7368,9 +7362,9 @@ typescript-eslint-parser@^15.0.0:
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-typescript@^2.7.2:
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
+typescript@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.0.3.tgz#4853b3e275ecdaa27f78fda46dc273a7eb7fc1c8"
 
 typings-for-css-modules-loader@^1.7.0:
   version "1.7.0"

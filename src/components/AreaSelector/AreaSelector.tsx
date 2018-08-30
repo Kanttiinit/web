@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import * as sortBy from 'lodash/sortBy';
-import * as Star from 'react-icons/lib/io/star';
-import * as Map from 'react-icons/lib/md/map';
+import { MdMap, MdStar } from 'react-icons/md';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 
@@ -12,11 +11,11 @@ import Text from '../Text';
 import PageContainer from '../PageContainer';
 
 const specialAreas = [
-  { id: -2, name: <Text id="nearby" />, icon: <Map />, iconColor: '#424242' },
+  { id: -2, name: <Text id="nearby" />, icon: <MdMap />, iconColor: '#424242' },
   {
     id: -1,
     name: <Text id="starred" />,
-    icon: <Star style={{ marginLeft: '0.4rem' }} />,
+    icon: <MdStar style={{ marginLeft: '0.4rem' }} />,
     iconColor: '#FFA726'
   }
 ];

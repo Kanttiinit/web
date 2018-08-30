@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import * as Error from 'react-icons/lib/md/error';
+import { MdError } from 'react-icons/md';
 import * as times from 'lodash/times';
 const locating = require('../../assets/locating.svg');
 
@@ -34,7 +34,7 @@ export default class RestaurantList extends React.Component {
     } else if (!restaurants.length) {
       return (
         <div className={css.emptyText}>
-          <Error className="inline-icon" />&nbsp;
+          <MdError className="inline-icon" />&nbsp;
           <Text id="emptyRestaurants" />
         </div>
       );

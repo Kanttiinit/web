@@ -2,8 +2,7 @@ import * as React from 'react';
 import { autorun } from 'mobx';
 import { observer } from 'mobx-react';
 import * as classnames from 'classnames';
-import * as CopyIcon from 'react-icons/lib/md/content-copy';
-import * as LinkIcon from 'react-icons/lib/md/link';
+import { MdContentCopy, MdLink } from 'react-icons/md';
 
 import { uiState, preferenceStore } from '../../store';
 import CourseList from '../CourseList';
@@ -76,8 +75,8 @@ export default class MenuViewer extends React.Component {
           <DaySelector root={location.pathname} />
           {showCopyButton && (
             <div className={css.copyButtons}>
-              <LinkIcon size={18} onClick={() => this.onCopy('url')} />
-              <CopyIcon size={18} onClick={() => this.onCopy('courses')} />
+              <MdLink size={18} onClick={() => this.onCopy('url')} />
+              <MdContentCopy size={18} onClick={() => this.onCopy('courses')} />
             </div>
           )}
         </div>

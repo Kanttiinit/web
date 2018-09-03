@@ -17,7 +17,8 @@ const plugins = [
   new webpack.DefinePlugin({
     IS_PRODUCTION: isProduction,
     'process.env': {
-      NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+      NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      BUGSNAG_API_KEY: JSON.stringify(process.env.BUGSNAG_API_KEY)
     },
     VERSION: JSON.stringify(pkg.version),
     API_BASE: JSON.stringify(

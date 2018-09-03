@@ -10,7 +10,7 @@
     font-size: 1rem;
     margin-bottom: 0.5rem;
     display: block;
-    color: var(--gray3);
+    color: var(--gray2);
   }
 
   input,
@@ -23,10 +23,28 @@
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 1rem;
+    background: var(--gray7);
+    color: var(--gray1);
 
     &:focus {
       outline: none;
       border-color: var(--accent_color);
+    }
+  }
+
+  button {
+    text-transform: uppercase;
+    font-family: inherit;
+    font-size: 0.8rem;
+    background: var(--gray5);
+    color: var(--gray1);
+    border: none;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+
+    &:hover,
+    &:focus {
+      background: var(--gray6);
     }
   }
 }

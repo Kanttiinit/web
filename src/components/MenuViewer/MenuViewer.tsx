@@ -2,7 +2,7 @@ import * as React from 'react';
 import { autorun } from 'mobx';
 import { observer } from 'mobx-react';
 import * as classnames from 'classnames';
-import { MdContentCopy, MdLink } from 'react-icons/md';
+import { MdContentCopy, MdLink, MdShare } from 'react-icons/md';
 
 import { uiState, preferenceStore } from '../../store';
 import CourseList from '../CourseList';
@@ -10,6 +10,7 @@ import DaySelector from '../DaySelector';
 import { getCourses } from '../../utils/api';
 import { CourseType } from '../../store/types';
 import * as css from './MenuViewer.scss';
+import Tooltip from '../Tooltip';
 
 type Props = {
   restaurantId: number;
@@ -46,6 +47,13 @@ export default class MenuViewer extends React.Component {
     textArea.remove();
   };
 
+  share = () => {
+    (navigator as any).share({
+      title: 'Kanttiinit.fi',
+      url: location.href
+    });
+  };
+
   componentDidMount() {
     this.removeAutorun = autorun(async () => {
       try {
@@ -75,8 +83,20 @@ export default class MenuViewer extends React.Component {
           <DaySelector root={location.pathname} />
           {showCopyButton && (
             <div className={css.copyButtons}>
-              <MdLink size={18} onClick={() => this.onCopy('url')} />
-              <MdContentCopy size={18} onClick={() => this.onCopy('courses')} />
+              {'share' in navigator && (
+                <Tooltip translationKey="shareURL">
+                  <MdShare size={18} onClick={this.share} />
+                </Tooltip>
+              )}
+              <Tooltip translationKey="copyURLToClipboard">
+                <MdLink size={18} onClick={() => this.onCopy('url')} />
+              </Tooltip>
+              <Tooltip translationKey="copyMenuToClipboard">
+                <MdContentCopy
+                  size={18}
+                  onClick={() => this.onCopy('courses')}
+                />
+              </Tooltip>
             </div>
           )}
         </div>

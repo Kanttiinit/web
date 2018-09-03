@@ -5,6 +5,7 @@
 
   &:after {
     content: attr(data-title);
+    font-size: 0.8rem;
     position: absolute;
     background: var(--gray2);
     color: var(--gray7);

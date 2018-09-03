@@ -2,6 +2,7 @@
   margin-bottom: 1em;
   display: flex;
   align-items: center;
+  color: var(--gray2);
 
   &:last-child {
     margin: 0;
@@ -22,5 +23,5 @@
   text-transform: uppercase;
   font-weight: 500;
   margin: 0 0 0;
-  color: var(--gray2);
+  color: var(--gray2) !important;
 }

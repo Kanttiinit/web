@@ -1,4 +1,4 @@
-@import 'constants.scss';
+@import "constants.scss";
 
 .header {
   display: flex;
@@ -9,6 +9,7 @@
   svg {
     cursor: pointer;
     margin-left: 1rem;
+    color: var(--gray1);
   }
 }
 

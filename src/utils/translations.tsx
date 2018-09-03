@@ -278,5 +278,17 @@ export default {
   darkMode: {
     fi: 'Tumma teema',
     en: 'Dark mode'
+  },
+  copyURLToClipboard: {
+    fi: 'Kopioi linkki leikepöydälle',
+    en: 'Copy link to clipboard'
+  },
+  copyMenuToClipboard: {
+    fi: 'Kopioi ruokalista leikepöydälle',
+    en: 'Copy menu to clipboard'
+  },
+  shareURL: {
+    fi: 'Jaa linkki',
+    en: 'Share link'
   }
 };

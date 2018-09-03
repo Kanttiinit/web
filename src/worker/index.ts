@@ -1,6 +1,8 @@
+import { version } from '../utils/consts';
+
 const worker = self as any;
 
-const CACHE_NAME = 'cache';
+const CACHE_NAME = `cache-${version}`;
 const urlsToCache = [
   '/',
   '/app.js',
@@ -35,16 +37,24 @@ const resolve = async (request: Request) => {
 };
 
 const install = async () => {
-  // purge all caches
-  await Promise.all((await caches.keys()).map(name => caches.delete(name)));
-
   const cache = await getCache();
   await cache.addAll(urlsToCache);
   return worker.skipWaiting();
 };
 
+const removeOldCaches = async () => {
+  const cacheKeys = await caches.keys();
+  await Promise.all(
+    cacheKeys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
+  );
+};
+
 worker.addEventListener('install', (event: any) => {
   event.waitUntil(install());
+});
+
+worker.addEventListener('activate', (event: any) => {
+  event.waitUntil(removeOldCaches());
 });
 
 worker.addEventListener('fetch', (event: any) => {

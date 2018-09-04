@@ -19,7 +19,7 @@ import RestaurantModal from '../RestaurantModal';
 import ReportModal from '../ReportModal';
 import Clients from '../Clients';
 import ChangeLog from '../ChangeLog';
-import { isProduction } from '../../utils/consts';
+import { isProduction, version } from '../../utils/consts';
 import { RouteComponentProps } from 'react-router';
 
 class App extends React.PureComponent<RouteComponentProps<any>> {
@@ -46,17 +46,17 @@ class App extends React.PureComponent<RouteComponentProps<any>> {
   componentDidUpdate(props: RouteComponentProps<any>) {
     if (props.location.search !== this.props.location.search) {
       uiState.updateDay(location);
-      this.pageView(props);
+      this.pageView();
     }
 
     if (props.location.pathname !== this.props.location.pathname) {
-      this.pageView(props);
+      this.pageView();
     }
   }
 
-  pageView(props) {
-    const pathname = props.location.pathname + props.location.search;
-    GA.set({ page: pathname });
+  pageView() {
+    const pathname = this.props.location.pathname + this.props.location.search;
+    GA.set({ page: pathname, 'App Version': version });
     GA.pageview(pathname);
   }
 
@@ -66,7 +66,7 @@ class App extends React.PureComponent<RouteComponentProps<any>> {
     GA.initialize('UA-85003235-1', {
       debug: !isProduction
     });
-    this.pageView(this.props);
+    this.pageView();
 
     uiState.updateDay(location);
   }

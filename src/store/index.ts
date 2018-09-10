@@ -8,6 +8,8 @@ export const preferenceStore = new PreferenceStore();
 export const uiState = new UIState();
 export const dataStore = new DataStore(preferenceStore, uiState);
 
+dataStore.updates.fetch(api.getUpdates());
+
 const updateAreasAndFavorites = () => {
   const lang = preferenceStore.lang;
   dataStore.areas.fetch(api.getAreas(lang));

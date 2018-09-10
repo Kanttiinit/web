@@ -1,4 +1,4 @@
-.release {
+.update {
   margin-bottom: 1em;
   display: flex;
   align-items: center;
@@ -7,6 +7,11 @@
   &:last-child {
     margin: 0;
   }
+}
+
+.unseen {
+  border-left: 2px var(--accent_color) solid;
+  padding-left: 1rem;
 }
 
 .meta {

@@ -3,12 +3,12 @@ import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
-import { MdMap, MdSettings } from 'react-icons/md';
+import { MdMap, MdSettings, MdFiberNew } from 'react-icons/md';
 const FI = require('../../assets/fi.png');
 const EN = require('../../assets/en.png');
 
 import DaySelector from '../DaySelector';
-import { preferenceStore } from '../../store';
+import { preferenceStore, dataStore } from '../../store';
 import * as css from './TopBar.scss';
 import Text from '../Text';
 
@@ -27,6 +27,11 @@ export default withRouter(
           <div className={css.container}>
             <div className={css.centered}>
               <DaySelector root="/" />
+              {dataStore.unseenUpdates.length > 0 && (
+                <Link to={{ pathname: '/news', search }}>
+                  <MdFiberNew className={css.newsIcon} size={24} />
+                </Link>
+              )}
               <Link
                 to={{ pathname: '/select-area', search }}
                 className={css.icon}

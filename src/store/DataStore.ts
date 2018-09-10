@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import * as haversine from 'haversine';
 
 import Resource from './Resource';
-import { uiState } from './index';
+import { uiState, preferenceStore } from './index';
 import PreferenceStore from './PreferenceStore';
 import UIState from './UIState';
 import {
@@ -15,7 +15,8 @@ import {
   FormattedFavoriteType,
   MenuType,
   RestaurantType,
-  CourseType
+  CourseType,
+  Update
 } from './types';
 
 const isOpenNow = (restaurant: RestaurantType, day) => {
@@ -57,10 +58,16 @@ const getOrder = (orderType: Order, useLocation: boolean) => {
 };
 
 export default class DataStore {
-  @observable areas: Resource<Array<AreaType>> = new Resource([]);
-  @observable favorites: Resource<Array<FavoriteType>> = new Resource([]);
-  @observable menus: Resource<MenuType> = new Resource({});
-  @observable restaurants: Resource<Array<RestaurantType>> = new Resource([]);
+  @observable
+  areas: Resource<Array<AreaType>> = new Resource([]);
+  @observable
+  favorites: Resource<Array<FavoriteType>> = new Resource([]);
+  @observable
+  menus: Resource<MenuType> = new Resource({});
+  @observable
+  restaurants: Resource<Array<RestaurantType>> = new Resource([]);
+  @observable
+  updates: Resource<Array<Update>> = new Resource([]);
 
   preferences: PreferenceStore;
   uiState: UIState;
@@ -83,6 +90,19 @@ export default class DataStore {
   isFavorite(course: CourseType) {
     return this.selectedFavorites.some(
       favorite => !!course.title.match(new RegExp(favorite.regexp, 'i'))
+    );
+  }
+
+  @computed
+  get unseenUpdates(): Array<Update> {
+    if (!preferenceStore.updatesLastSeenAt) {
+      return [];
+    }
+    return this.updates.data.filter(
+      update =>
+        moment(update.createdAt)
+        .toDate()
+        .getTime() > this.preferences.updatesLastSeenAt
     );
   }
 

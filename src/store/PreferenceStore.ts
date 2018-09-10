@@ -1,4 +1,4 @@
-import { autorun, computed, observable, action } from 'mobx';
+import { autorun, observable, action } from 'mobx';
 import * as without from 'lodash/without';
 import { Lang, Order } from './types';
 import { properties } from '../utils/translations';
@@ -20,14 +20,24 @@ const safeParseJson = (input: string) => {
 };
 
 export default class PreferenceStore {
-  @observable lang: Lang;
-  @observable selectedArea: number;
-  @observable useLocation: boolean;
-  @observable darkMode: boolean;
-  @observable order: Order;
-  @observable favorites: Array<number>;
-  @observable starredRestaurants: Array<number>;
-  @observable properties: Array<string>;
+  @observable
+  lang: Lang;
+  @observable
+  selectedArea: number;
+  @observable
+  useLocation: boolean;
+  @observable
+  darkMode: boolean;
+  @observable
+  order: Order;
+  @observable
+  favorites: Array<number>;
+  @observable
+  starredRestaurants: Array<number>;
+  @observable
+  properties: Array<string>;
+  @observable
+  updatesLastSeenAt: number;
 
   constructor() {
     const state = localStorage.getItem('preferenceStore');
@@ -52,7 +62,8 @@ export default class PreferenceStore {
       favorites,
       starredRestaurants,
       properties,
-      darkMode
+      darkMode,
+      updatesLastSeenAt
     } = data;
     this.lang = lang || Lang.FI;
     this.selectedArea = selectedArea || 1;
@@ -62,6 +73,7 @@ export default class PreferenceStore {
     this.starredRestaurants = starredRestaurants || [];
     this.properties = properties || [];
     this.darkMode = darkMode || false;
+    this.updatesLastSeenAt = updatesLastSeenAt || null;
   }
 
   getPreferences() {
@@ -73,7 +85,8 @@ export default class PreferenceStore {
       favorites,
       starredRestaurants,
       properties,
-      darkMode
+      darkMode,
+      updatesLastSeenAt
     } = this;
     return {
       lang,
@@ -83,7 +96,8 @@ export default class PreferenceStore {
       favorites,
       starredRestaurants,
       properties,
-      darkMode
+      darkMode,
+      updatesLastSeenAt
     };
   }
 

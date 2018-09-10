@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import http from './http';
 
-import { Lang } from '../store/types';
+import { Lang, Update } from '../store/types';
 
 export const getCourses = async (
   restaurantId: number,
@@ -44,7 +44,7 @@ export const sendFeedback = (message: string) =>
     })
   });
 
-export const getUpdates = () => {
+export const getUpdates = (): Promise<Array<Update>> => {
   return http.get('/updates');
 };
 

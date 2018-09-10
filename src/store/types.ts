@@ -44,10 +44,10 @@ export interface CourseType {
   dim: boolean;
 }
 
-export type ReleaseType = 'software-update' | 'information-update' | 'bugfix';
+export type UpdateType = 'software-update' | 'information-update' | 'bugfix';
 
-export interface Release {
-  type: ReleaseType;
+export interface Update {
+  type: UpdateType;
   id: number;
   createdAt: string;
   description: string;

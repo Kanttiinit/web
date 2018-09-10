@@ -256,8 +256,8 @@ export default {
       'There was an unexcpected error which has been reported to the developers. Please try again later.'
   },
   updates: {
-    fi: 'Päivitykset',
-    en: 'Updates'
+    fi: 'Uutiset',
+    en: 'News'
   },
   avoidDiets: {
     fi: 'Himmennä',

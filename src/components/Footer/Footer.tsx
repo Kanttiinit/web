@@ -29,7 +29,7 @@ export default withRouter((props: RouteComponentProps<any>) => {
               <Text id="otherClients" />
             </NavLink>
             <NavLink
-              to={{ pathname: '/updates', search }}
+              to={{ pathname: '/news', search }}
               activeClassName={css.current}
             >
               <Text id="updates" />

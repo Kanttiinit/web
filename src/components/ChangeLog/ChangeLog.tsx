@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as classnames from 'classnames';
 import * as moment from 'moment';
 import {
   MdSystemUpdateAlt,
@@ -8,13 +9,14 @@ import {
 } from 'react-icons/md';
 
 import * as css from './ChangeLog.scss';
-import { getUpdates } from '../../utils/api';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
-import { Release } from '../../store/types';
+import { Update } from '../../store/types';
+import { preferenceStore, dataStore } from '../../store';
+import { observer } from 'mobx-react';
 
-const getIcon = (release: Release) => {
-  switch (release.type) {
+const getIcon = (update: Update) => {
+  switch (update.type) {
     case 'software-update':
       return MdSystemUpdateAlt;
     case 'information-update':
@@ -26,38 +28,40 @@ const getIcon = (release: Release) => {
   }
 };
 
-export default class ChangeLog extends React.PureComponent {
-  state = { updates: null };
-
-  async updateReleases() {
-    this.setState({ updates: await getUpdates() });
+@observer
+export default class ChangeLog extends React.Component {
+  componentWillUnmount() {
+    preferenceStore.updatesLastSeenAt = Date.now();
   }
-
-  componentDidMount() {
-    this.updateReleases();
-  }
-
-  renderRelease = (release: Release) => {
-    const Icon = getIcon(release);
-    return (
-      <div className={css.release} key={release.id}>
-        <Icon size={26} />
-        <div className={css.meta}>
-          <p className={css.publishedAt}>
-            {moment(release.createdAt).fromNow()}
-          </p>
-          <p className={css.body}>{release.description}</p>
-        </div>
-      </div>
-    );
-  };
 
   render() {
-    const { updates } = this.state;
-
+    const unseenUpdates = dataStore.unseenUpdates;
     return (
       <PageContainer title={<Text id="updates" />}>
-        {!updates ? <p>Loading...</p> : updates.map(this.renderRelease)}
+        {dataStore.updates.pending ? (
+          <p>Loading...</p>
+        ) : (
+          dataStore.updates.data.map(update => {
+            const Icon = getIcon(update);
+            return (
+              <div
+                className={classnames(
+                  css.update,
+                  unseenUpdates.some(u => u.id === update.id) && css.unseen
+                )}
+                key={update.id}
+              >
+                <Icon size={26} />
+                <div className={css.meta}>
+                  <p className={css.publishedAt}>
+                    {moment(update.createdAt).fromNow()}
+                  </p>
+                  <p className={css.body}>{update.description}</p>
+                </div>
+              </div>
+            );
+          })
+        )}
       </PageContainer>
     );
   }

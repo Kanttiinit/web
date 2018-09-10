@@ -113,7 +113,7 @@ class App extends React.PureComponent<RouteComponentProps<any>> {
               <Clients />
             </Modal>
           </Route>
-          <Route path="/updates">
+          <Route path="/news">
             <Modal>
               <ChangeLog />
             </Modal>

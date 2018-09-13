@@ -13,7 +13,6 @@ const PATHS = {
 const isProduction = process.env.NODE_ENV === 'production';
 
 const plugins = [
-  new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /fi|en/),
   new webpack.DefinePlugin({
     IS_PRODUCTION: isProduction,
     'process.env': {
@@ -50,7 +49,7 @@ module.exports = {
     }
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.scss']
+    extensions: ['.mjs', '.ts', '.tsx', '.js', '.scss']
   },
   mode: process.env.NODE_ENV || 'development',
   module: {
@@ -66,7 +65,7 @@ module.exports = {
           }
         ]
       },
-      { test: /\.tsx?$/, use: ['ts-loader'] },
+      { test: /\.tsx?$/, use: ['ts-loader'], exclude: /node_modules/ },
       {
         test: /\.scss$/,
         use: [
@@ -79,13 +78,6 @@ module.exports = {
               localIdentName: '[name]__[local]__[hash:base64:5]'
             }
           },
-          // {
-          //   loader: 'css-loader',
-          //   query: {
-          //     modules: true,
-          //     localIdentName: '[name]__[local]__[hash:base64:5]'
-          //   }
-          // },
           {
             loader: 'postcss-loader',
             options: {

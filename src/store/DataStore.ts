@@ -1,8 +1,12 @@
 import { observable, computed } from 'mobx';
 import * as orderBy from 'lodash/orderBy';
 import * as get from 'lodash/get';
-import * as moment from 'moment';
 import * as haversine from 'haversine';
+import * as parse from 'date-fns/parse';
+import * as isAfter from 'date-fns/is_after';
+import * as isBefore from 'date-fns/is_before';
+import * as format from 'date-fns/format';
+import * as getIsoDay from 'date-fns/get_iso_day';
 
 import Resource from './Resource';
 import { uiState, preferenceStore } from './index';
@@ -19,16 +23,14 @@ import {
   Update
 } from './types';
 
-const isOpenNow = (restaurant: RestaurantType, day) => {
-  const weekday = day.isoWeekday() - 1;
+const isOpenNow = (restaurant: RestaurantType, day: Date) => {
+  const weekday = getIsoDay(day) - 1;
   if (!restaurant.openingHours[weekday]) {
     return false;
   }
   const [open, close] = restaurant.openingHours[weekday].split(' - ');
-  const now = moment();
-  return (
-    now.isAfter(moment(open, 'HH:mm')) && now.isBefore(moment(close, 'HH:mm'))
-  );
+  const now = new Date();
+  return isAfter(now, parse(open)) && isBefore(now, parse(close));
 };
 
 const getOrder = (orderType: Order, useLocation: boolean) => {
@@ -100,9 +102,7 @@ export default class DataStore {
     }
     return this.updates.data.filter(
       update =>
-        moment(update.createdAt)
-        .toDate()
-        .getTime() > this.preferences.updatesLastSeenAt
+        parse(update.createdAt).getTime() > this.preferences.updatesLastSeenAt
     );
   }
 
@@ -121,12 +121,12 @@ export default class DataStore {
 
   @computed
   get formattedRestaurants(): Array<RestaurantType> {
-    const day = moment(this.uiState.selectedDay);
+    const day = this.uiState.selectedDay;
     const formattedRestaurants = this.restaurants.data.map(restaurant => {
       let favoriteCourses = 0;
       const courses = get(
         this.menus.data,
-        [restaurant.id, day.format('YYYY-MM-DD')],
+        [restaurant.id, format(day, 'YYYY-MM-DD')],
         []
       )
         .filter(course => course.title)

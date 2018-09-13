@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
+import * as format from 'date-fns/format';
 
 import { uiState, preferenceStore } from '../store';
 import * as css from './Contact/Contact.scss';
@@ -22,7 +23,7 @@ export default feedbackProvider(
 
 ✉️ E-mail: ${emailField.value || 'anonymous'}
 🏢 Restaurant ID: ${this.props.restaurantId}
-📅 Day: ${uiState.selectedDay.format('DD/MM/YYYY')}
+📅 Day: ${format(uiState.selectedDay, 'DD/MM/YYYY')}
 🗺 Language: ${preferenceStore.lang}`
         );
       };

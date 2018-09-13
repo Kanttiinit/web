@@ -1,15 +1,16 @@
-import * as moment from 'moment';
 import http from './http';
+import * as format from 'date-fns/format';
 
 import { Lang, Update } from '../store/types';
 
 export const getCourses = async (
   restaurantId: number,
-  day: moment.Moment,
+  day: Date,
   lang: Lang
 ) => {
   const restaurant = await http.get(
-    `/restaurants/${restaurantId}/menu?day=${day.format(
+    `/restaurants/${restaurantId}/menu?day=${format(
+      day,
       'YYYY-MM-DD'
     )}&lang=${lang}`
   );
@@ -22,12 +23,12 @@ export const getCourses = async (
 
 export const getMenus = (
   restaurantIds: Array<number>,
-  days: Array<moment.Moment>,
+  days: Array<Date>,
   lang: string
 ) => {
   return http.get(
     `/menus?lang=${lang}&restaurants=${restaurantIds.join(',')}&days=${days
-    .map(day => day.format('YYYY-MM-DD'))
+    .map(day => format(day, 'YYYY-MM-DD'))
     .join(',')}`
   );
 };

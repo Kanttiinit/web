@@ -1,7 +1,7 @@
 import * as React from 'react';
-import * as moment from 'moment';
 import { withRouter, Switch, Route } from 'react-router-dom';
 import * as GA from 'react-ga';
+import * as addDays from 'date-fns/add_days';
 
 import { uiState } from '../../store';
 import * as css from './App.scss';
@@ -36,7 +36,7 @@ class App extends React.PureComponent<RouteComponentProps<any>> {
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
       e.preventDefault();
       const offset = e.key === 'ArrowLeft' ? -1 : 1;
-      const newDay = moment(uiState.selectedDay).add({ day: offset });
+      const newDay = addDays(uiState.selectedDay, offset);
       if (uiState.isDateInRange(newDay)) {
         this.props.history.replace(uiState.getNewPath(newDay));
       }

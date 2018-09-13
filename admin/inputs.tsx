@@ -13,9 +13,10 @@ import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
 import MaskedInput from 'react-text-mask';
 import { withGoogleMap, Marker, GoogleMap } from 'react-google-maps';
-import * as moment from 'moment';
 import * as get from 'lodash/fp/get';
 import * as sortBy from 'lodash/fp/sortBy';
+import * as setIsoDay from 'date-fns/set_iso_day';
+import * as format from 'date-fns/format';
 
 import * as api from './api';
 import models from './models';
@@ -56,13 +57,13 @@ const UrlInput = ({ value, setValue, field }: InputProps) => (
 );
 
 const MenuUrlInput = ({ value, setValue, field }: InputProps) => {
-  const now = moment();
+  const now = new Date();
   const link =
     value &&
     value
-      .replace('%year%', now.format('YYYY'))
-      .replace('%month%', now.format('MM'))
-      .replace('%day%', now.format('DD'));
+      .replace('%year%', format(now, 'YYYY'))
+      .replace('%month%', format(now, 'MM'))
+      .replace('%day%', format(now, 'DD'));
   return (
     <TextField
       fullWidth
@@ -421,9 +422,7 @@ class OpeningHoursEditor extends React.PureComponent<
         {(hours || this.props.field.default).map((hours, i) => (
           <FormControl margin="dense" key={i}>
             <InputLabel shrink htmlFor={`hours${i}`}>
-              {moment()
-              .isoWeekday(i + 1)
-              .format('ddd')}
+              {format(setIsoDay(new Date(), i + 1), 'ddd')}
             </InputLabel>
             <Input
               id={`hours${i}`}

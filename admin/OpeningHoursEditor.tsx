@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as moment from 'moment';
+import * as format from 'date-fns/format';
 
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -47,7 +47,7 @@ export default class OpeningHourDialog extends React.PureComponent<
         closes: edit ? item.closes : '16:00',
         closed: edit ? item.closed : false,
         dayOfWeek: edit ? item.dayOfWeek : 0,
-        from: edit ? item.from : moment().format('YYYY-MM-DD'),
+        from: edit ? item.from : format(new Date(), 'YYYY-MM-DD'),
         to: edit ? item.to : null,
         id: edit ? item.id : undefined
       }

@@ -17,7 +17,7 @@ let bugsnagClient;
 if (useBugSnag) {
   bugsnagClient = bugsnag(process.env.BUGSNAG_API_KEY);
 }
-const ErrorMessage = () => <Text component="p" id="errorDetails" />;
+const ErrorMessage = () => <Text element="p" id="errorDetails" />;
 
 export const ErrorBoundary = useBugSnag
   ? bugsnagClient.use(createPlugin(React))

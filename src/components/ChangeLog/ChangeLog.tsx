@@ -1,9 +1,8 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
-import * as moment from 'moment';
 import { Collapse } from 'react-collapse';
 import { MdKeyboardArrowDown } from 'react-icons/md';
-
+import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import * as css from './ChangeLog.scss';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
@@ -69,7 +68,7 @@ export default class ChangeLog extends React.Component<any, State> {
                 <MdKeyboardArrowDown className={css.icon} size={30} />
                 <div className={css.meta}>
                   <p className={css.publishedAt}>
-                    {moment(update.createdAt).fromNow()}
+                    {distanceInWordsToNow(update.createdAt)}
                   </p>
                   <h3 className={css.title}>{update.title}</h3>
                   <Collapse

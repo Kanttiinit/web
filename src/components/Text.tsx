@@ -1,15 +1,29 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
-import 'moment/locale/fi';
-import 'moment/locale/en-gb';
+import * as fiLocale from 'date-fns/locale/fi';
+import * as enLocale from 'date-fns/locale/en';
+import * as format from 'date-fns/format';
 
 import { preferenceStore } from '../store';
 import translations from '../utils/translations';
 
-export default observer(props => {
-  const { id, moment, element = 'span', children, ...rest } = props;
+const locales = {
+  fi: fiLocale,
+  en: enLocale
+};
+
+type Props = {
+  id: string;
+  date?: Date;
+  element?: string;
+  children?: any;
+  className?: any;
+};
+
+export default observer((props: Props) => {
+  const { id, date, element = 'span', children, ...rest } = props;
   const { lang } = preferenceStore;
-  if (!moment) {
+  if (!date) {
     if (!translations[id]) {
       console.warn(`no translations for "${id}"`);
     } else if (!translations[id][lang]) {
@@ -18,6 +32,6 @@ export default observer(props => {
   }
   return React.createElement(element, rest, [
     children,
-    moment ? moment.locale(lang).format(id) : translations[id][lang]
+    date ? format(date, id, { locale: locales[lang] }) : translations[id][lang]
   ]);
 });

@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import * as isSameDay from 'date-fns/is_same_day';
 
 import { uiState } from '../store';
 import { version } from './consts';
@@ -20,7 +20,7 @@ window.addEventListener('focus', async () => {
   // update displayed days if first day is in past
   if (
     uiState.displayedDays.length &&
-    !uiState.displayedDays[0].isSame(moment(), 'day')
+    !isSameDay(new Date(), uiState.displayedDays[0])
   ) {
     uiState.updateDisplayedDays();
   }

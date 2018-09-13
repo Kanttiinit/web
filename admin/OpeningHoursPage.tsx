@@ -20,7 +20,6 @@ import http from '../src/utils/http';
 import { Route, withRouter } from 'react-router';
 import { RouteComponentProps } from 'react-router';
 import * as groupBy from 'lodash/fp/groupBy';
-import * as moment from 'moment';
 
 import OpeningHoursEditor from './OpeningHoursEditor';
 import { showMessage } from '.';
@@ -115,7 +114,8 @@ class OpeningHoursList extends React.PureComponent<any, ListState> {
         </Typography>
         <Typography color="textSecondary">
           From: {item.from}
-          <br />To: {item.to || 'forever'}
+          <br />
+          To: {item.to || 'forever'}
         </Typography>
         {item.manualEntry && (
           <React.Fragment>
@@ -187,7 +187,7 @@ class OpeningHoursList extends React.PureComponent<any, ListState> {
             <TableRow>
               {days.map(d => (
                 <TableCell padding="none" key={d}>
-                  {moment(d + 1, 'E').format('ddd')}
+                  {/* {moment(d + 1, 'E').format('ddd')} */}
                 </TableCell>
               ))}
             </TableRow>

@@ -9,11 +9,12 @@ import {
   MdFlag,
   MdPlace
 } from 'react-icons/md';
+import * as getIsoDay from 'date-fns/get_iso_day';
+import * as isSameDay from 'date-fns/is_same_day';
 
 import * as c from 'classnames';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
-import * as moment from 'moment';
 
 import Colon from '../Colon';
 import CourseList from '../CourseList';
@@ -63,9 +64,9 @@ export default withRouter(
 
       render() {
         const { restaurant } = this.props;
-        const dayOfWeek = uiState.selectedDay.isoWeekday() - 1;
+        const dayOfWeek = getIsoDay(uiState.selectedDay) - 1;
         const isClosed =
-          uiState.selectedDay.isSame(moment(), 'day') && !restaurant.isOpenNow;
+          isSameDay(uiState.selectedDay, new Date()) && !restaurant.isOpenNow;
         const { search } = this.props.location;
         return (
           <div

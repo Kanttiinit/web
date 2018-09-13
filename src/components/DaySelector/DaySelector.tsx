@@ -1,30 +1,31 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { Link } from 'react-router-dom';
-import * as moment from 'moment';
+import * as isSameDay from 'date-fns/is_same_day';
+import * as format from 'date-fns/format';
 
 import { uiState } from '../../store';
 import * as css from './DaySelector.scss';
 import Text from '../Text';
 
 type DayLinkProps = {
-  day: moment.Moment;
-  selectedDay: moment.Moment;
+  day: Date;
+  selectedDay: Date;
   root?: string;
 };
 
 const DayLink = ({ day, selectedDay, root }: DayLinkProps) => {
-  const search = moment().isSame(day, 'day')
+  const search = isSameDay(day, new Date())
     ? ''
-    : `?day=${day.format('YYYY-MM-DD')}`;
-  const active = selectedDay.isSame(day, 'day');
+    : `?day=${format(day, 'YYYY-MM-DD')}`;
+  const active = isSameDay(selectedDay, day);
 
   return (
     <Link
       className={active ? css.selected : ''}
       to={{ pathname: root, search }}
     >
-      <Text moment={day} id="dd D.M." />
+      <Text date={day} id="dd D.M." />
     </Link>
   );
 };
@@ -38,7 +39,7 @@ export default observer(({ root }: { root: string }) => {
       )}
       {uiState.displayedDays.map(day => (
         <DayLink
-          key={day.format('YYYY-MM-DD')}
+          key={format(day, 'YYYY-MM-DD')}
           root={root}
           selectedDay={selectedDay}
           day={day}

@@ -11,7 +11,7 @@ import * as css from './Modal.scss';
 
 const ModalError = () => (
   <PageContainer title={<Text id="error" />}>
-    <Text id="errorDetails" component="p" />
+    <Text id="errorDetails" element="p" />
   </PageContainer>
 );
 

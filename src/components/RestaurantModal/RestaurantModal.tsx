@@ -1,8 +1,8 @@
 import * as React from 'react';
-import * as moment from 'moment';
 import { MdPlace, MdHome } from 'react-icons/md';
 import * as findIndex from 'lodash/findIndex';
 import { observer } from 'mobx-react';
+import * as setIsoDay from 'date-fns/set_iso_day';
 
 import Map from './GoogleMap';
 import * as api from '../../utils/api';
@@ -29,11 +29,11 @@ const OpeningHours = ({ openingHours }) => (
     {getOpeningHourString(openingHours).map(hours => (
       <div key={hours.startDay} className={css.openingHours}>
         <span className={css.day}>
-          <Text id="ddd" moment={moment().isoWeekday(hours.startDay + 1)} />
+          <Text id="ddd" date={setIsoDay(new Date(), hours.startDay + 1)} />
           {hours.endDay && (
             <span>
               &nbsp;&ndash;&nbsp;
-              <Text id="ddd" moment={moment().isoWeekday(hours.endDay + 1)} />
+              <Text id="ddd" date={setIsoDay(new Date(), hours.endDay + 1)} />
             </span>
           )}
         </span>

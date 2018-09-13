@@ -50,6 +50,7 @@ export interface Update {
   type: UpdateType;
   id: number;
   createdAt: string;
+  title: string;
   description: string;
 }
 

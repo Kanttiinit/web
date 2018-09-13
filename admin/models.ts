@@ -167,11 +167,13 @@ const models: Array<Model> = [
     defaultSort: 'createdAt',
     tableFields: [
       { key: 'id', name: 'ID' },
+      { key: 'createdAt', name: 'Created at' },
       { key: 'type', name: 'Type' },
-      { key: 'description', name: 'Description' }
+      { key: 'title', name: 'Title' }
     ],
     fields: [
       { path: 'type', title: 'Type', type: 'updateType' },
+      { path: 'title', title: 'Title' },
       { path: 'description', title: 'Description' }
     ]
   }

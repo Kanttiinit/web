@@ -27,7 +27,11 @@ const plugins = [
 ];
 
 if (isProduction) {
-  plugins.push(new UglifyJSPlugin());
+  plugins.push(
+    new UglifyJSPlugin({
+      sourceMap: true
+    })
+  );
 }
 
 module.exports = {

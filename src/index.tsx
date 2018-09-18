@@ -8,6 +8,7 @@ import 'url-polyfill';
 
 import './utils/globalHooks';
 import './worker/registerWorker';
+import * as consts from './utils/consts';
 import App from './components/App';
 import Text from './components/Text';
 
@@ -15,7 +16,14 @@ const useBugSnag = !!process.env.BUGSNAG_API_KEY;
 
 let bugsnagClient;
 if (useBugSnag) {
-  bugsnagClient = bugsnag(process.env.BUGSNAG_API_KEY);
+  bugsnagClient = bugsnag({
+    appVersion: consts.version,
+    apiKey: process.env.BUGSNAG_API_KEY
+  });
+
+  bugsnagClient.metadata = {
+    isBeta: consts.isBeta
+  };
 }
 const ErrorMessage = () => <Text element="p" id="errorDetails" />;
 

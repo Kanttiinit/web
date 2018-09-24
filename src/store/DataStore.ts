@@ -7,6 +7,8 @@ import * as isAfter from 'date-fns/is_after';
 import * as isBefore from 'date-fns/is_before';
 import * as format from 'date-fns/format';
 import * as getIsoDay from 'date-fns/get_iso_day';
+import * as setMinutes from 'date-fns/set_minutes';
+import * as setHours from 'date-fns/set_hours';
 
 import Resource from './Resource';
 import { uiState, preferenceStore } from './index';
@@ -23,6 +25,11 @@ import {
   Update
 } from './types';
 
+const parseTimeOfDay = (input: string) => {
+  const parts = input.split(':');
+  return setHours(setMinutes(new Date(), Number(parts[1])), Number(parts[0]));
+};
+
 const isOpenNow = (restaurant: RestaurantType, day: Date) => {
   const weekday = getIsoDay(day) - 1;
   if (!restaurant.openingHours[weekday]) {
@@ -30,7 +37,9 @@ const isOpenNow = (restaurant: RestaurantType, day: Date) => {
   }
   const [open, close] = restaurant.openingHours[weekday].split(' - ');
   const now = new Date();
-  return isAfter(now, parse(open)) && isBefore(now, parse(close));
+  return (
+    isAfter(now, parseTimeOfDay(open)) && isBefore(now, parseTimeOfDay(close))
+  );
 };
 
 const getOrder = (orderType: Order, useLocation: boolean) => {

@@ -290,5 +290,9 @@ export default {
   shareURL: {
     fi: 'Jaa linkki',
     en: 'Share link'
+  },
+  restaurantNotFound: {
+    fi: 'Ravintolaa ei löytynyt.',
+    en: 'Restaurant not found.'
   }
 };

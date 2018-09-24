@@ -109,21 +109,11 @@ export default class RestaurantModal extends React.Component {
   render() {
     const { restaurant, notFound } = this.state;
     if (notFound) {
-      return <p>Ravintolaa ei löytynyt!</p>;
+      return <PageContainer title={<Text id="restaurantNotFound" />} />;
     }
     if (!restaurant) {
       return null;
     }
-    const restaurantPoint = {
-      lat: restaurant.latitude,
-      lng: restaurant.longitude
-    };
-    const userPoint = uiState.location
-      ? {
-        lat: uiState.location.latitude,
-        lng: uiState.location.longitude
-      }
-      : undefined;
     return (
       <PageContainer title={restaurant.name}>
         <div className={css.info}>
@@ -132,11 +122,13 @@ export default class RestaurantModal extends React.Component {
         </div>
         <MenuViewer showCopyButton restaurantId={restaurant.id} />
         <Map
-          containerElement={<div className={css.mapContainer} />}
-          mapElement={<div className={css.map} />}
           restaurant={restaurant}
-          restaurantPoint={restaurantPoint}
-          userPoint={userPoint}
+          restaurantPoint={[restaurant.latitude, restaurant.longitude]}
+          userPoint={
+            uiState.location
+              ? [uiState.location.latitude, uiState.location.longitude]
+              : undefined
+          }
         />
       </PageContainer>
     );

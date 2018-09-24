@@ -1,5 +1,5 @@
-export const mapContainer: string;
 export const map: string;
+export const restaurantPin: string;
 export const info: string;
 export const meta: string;
 export const openingHoursContainer: string;

@@ -12,18 +12,16 @@ import FormGroup from '@material-ui/core/FormGroup';
 import Grid from '@material-ui/core/Grid';
 import Input from '@material-ui/core/Input';
 import MaskedInput from 'react-text-mask';
-import { withGoogleMap, Marker, GoogleMap } from 'react-google-maps';
 import * as get from 'lodash/fp/get';
 import * as sortBy from 'lodash/fp/sortBy';
 import * as setIsoDay from 'date-fns/set_iso_day';
 import * as format from 'date-fns/format';
+import PigeonMap from 'pigeon-maps';
+import Marker from 'pigeon-marker';
 
 import * as api from './api';
 import models from './models';
 import { ModelField, ModelFieldGroup, RelationField } from './models';
-import { showMessage } from './index';
-
-declare var google: any;
 
 type InputProps = {
   value: any;
@@ -87,26 +85,8 @@ const MenuUrlInput = ({ value, setValue, field }: InputProps) => {
 class AddressInput extends React.PureComponent {
   props: InputProps;
 
-  state: { loading: boolean } = { loading: false };
-
-  geocode = (address, setValue) => () => {
-    const geocoder = new google.maps.Geocoder();
-    this.setState({ loading: true });
-    geocoder.geocode({ address }, results => {
-      if (results.length) {
-        const { geometry } = results[0];
-        setValue('latitude', geometry.location.lat());
-        setValue('longitude', geometry.location.lng());
-      } else {
-        showMessage('There was an error geocoding.');
-      }
-      this.setState({ loading: false });
-    });
-  };
-
   render() {
     const { value, setValue, field } = this.props;
-    const { loading } = this.state;
 
     return (
       <TextField
@@ -114,19 +94,6 @@ class AddressInput extends React.PureComponent {
         onChange={e => setValue(field.path, e.target.value)}
         value={value || ''}
         label={field.title}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <Button
-                size="small"
-                disabled={loading}
-                onClick={this.geocode(value, setValue)}
-              >
-                Geocode
-              </Button>
-            </InputAdornment>
-          )
-        }}
         type="text"
       />
     );
@@ -205,30 +172,21 @@ export const DateInput = ({ value, setValue, field }: InputProps) => (
   />
 );
 
-const Map = withGoogleMap((props: any) => {
-  const onChange = ({ latLng }) => props.onChange(latLng.lat(), latLng.lng());
+const Map = (props: any) => {
+  const onChange = ({ latLng }) => props.onChange(latLng[0], latLng[1]);
   return (
-    <GoogleMap
-      onDblClick={onChange}
-      defaultCenter={
-        new google.maps.LatLng(
-          props.latitude || 60.1705,
-          props.longitude || 24.9414
-        )
-      }
+    <PigeonMap
+      onClick={onChange}
+      defaultCenter={[props.latitude || 60.1705, props.longitude || 24.9414]}
       defaultZoom={14}
     >
       {props.latitude &&
         props.longitude && (
-          <Marker
-            draggable
-            onDragEnd={onChange}
-            position={new google.maps.LatLng(props.latitude, props.longitude)}
-          />
+          <Marker anchor={[props.latitude, props.longitude]} />
         )}
-    </GoogleMap>
+    </PigeonMap>
   );
-});
+};
 
 const LocationInput = (props: GroupInputProps) => (
   <FormControl fullWidth>
@@ -250,15 +208,15 @@ const LocationInput = (props: GroupInputProps) => (
         </Grid>
       </Grid>
       <br />
-      <Map
-        mapElement={<div style={{ height: 200 }} />}
-        containerElement={<div />}
-        latitude={props.value[0]}
-        longitude={props.value[1]}
-        onChange={(lat, lon) =>
-          props.setValue('latitude', lat) || props.setValue('longitude', lon)
-        }
-      />
+      <div style={{ height: 200 }}>
+        <Map
+          latitude={props.value[0]}
+          longitude={props.value[1]}
+          onChange={(lat, lon) =>
+            props.setValue('latitude', lat) || props.setValue('longitude', lon)
+          }
+        />
+      </div>
     </FormGroup>
   </FormControl>
 );

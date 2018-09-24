@@ -39,9 +39,6 @@ export interface MenuType {
 export interface CourseType {
   title: string;
   properties: Array<string>;
-  isFavorite: boolean;
-  highlight: boolean;
-  dim: boolean;
 }
 
 export type UpdateType = 'software-update' | 'information-update' | 'bugfix';

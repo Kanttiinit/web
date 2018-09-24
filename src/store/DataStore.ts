@@ -98,11 +98,11 @@ export default class DataStore {
     return [];
   }
 
-  isFavorite(course: CourseType) {
+  isFavorite = (course: CourseType) => {
     return this.selectedFavorites.some(
       favorite => !!course.title.match(new RegExp(favorite.regexp, 'i'))
     );
-  }
+  };
 
   @computed
   get unseenUpdates(): Array<Update> {
@@ -132,29 +132,11 @@ export default class DataStore {
   get formattedRestaurants(): Array<RestaurantType> {
     const day = this.uiState.selectedDay;
     const formattedRestaurants = this.restaurants.data.map(restaurant => {
-      let favoriteCourses = 0;
       const courses = get(
         this.menus.data,
         [restaurant.id, format(day, 'YYYY-MM-DD')],
         []
-      )
-        .filter(course => course.title)
-        .map(course => {
-          const isFavorite = this.isFavorite(course);
-          if (isFavorite) {
-            favoriteCourses++;
-          }
-          return {
-            ...course,
-            isFavorite,
-            highlight: course.properties.some(p =>
-              this.preferences.isDesiredProperty(p)
-            ),
-            dim: course.properties.some(p =>
-              this.preferences.isUndesiredProperty(p)
-            )
-          };
-        });
+      ).filter(course => course.title);
       const distance =
         uiState.location &&
         haversine(uiState.location, restaurant, { unit: 'meter' });
@@ -163,7 +145,7 @@ export default class DataStore {
         courses,
         distance,
         noCourses: !courses.length,
-        favoriteCourses: favoriteCourses > 0,
+        favoriteCourses: courses.some(this.isFavorite),
         isOpenNow: isOpenNow(restaurant, day),
         isStarred:
           this.preferences.starredRestaurants.indexOf(restaurant.id) > -1

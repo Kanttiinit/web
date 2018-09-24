@@ -8,6 +8,8 @@ import Property from './Property';
 import { CourseType } from '../../store/types';
 import Text from '../Text';
 import * as css from './CourseList.scss';
+import { dataStore, preferenceStore } from '../../store';
+import { observer } from 'mobx-react';
 
 const getCourseGroup = (course: CourseType) => {
   const split = course.title.split(':');
@@ -36,22 +38,33 @@ const courseGroups = (courses: Array<CourseType>) => {
 
 const moizedGroups = memoize(courseGroups);
 
-const Course = ({ course }: { course: CourseType }) => (
-  <div
-    className={c(
-      css.course,
-      course.isFavorite && css.favoriteCourse,
-      course.highlight && css.highlight,
-      course.dim && css.dim
-    )}
-  >
-    {course.isFavorite && <MdFavorite className={`inline-icon ${css.icon}`} />}
-    <span className={css.title}>{course.title}</span>
-    <span className={css.props}>
-      {course.properties.map(p => <Property key={p} property={p} />)}
-    </span>
-  </div>
-);
+const Course = observer(({ course }: { course: CourseType }) => {
+  const isFavorite = dataStore.isFavorite(course);
+  const highlight = course.properties.some(p =>
+    preferenceStore.isDesiredProperty(p)
+  );
+  const dim = course.properties.some(p =>
+    preferenceStore.isUndesiredProperty(p)
+  );
+  return (
+    <div
+      className={c(
+        css.course,
+        isFavorite && css.favoriteCourse,
+        highlight && css.highlight,
+        dim && css.dim
+      )}
+    >
+      {isFavorite && <MdFavorite className={`inline-icon ${css.icon}`} />}
+      <span className={css.title}>{course.title}</span>
+      <span className={css.props}>
+        {course.properties.map(p => (
+          <Property key={p} property={p} />
+        ))}
+      </span>
+    </div>
+  );
+});
 
 interface Props {
   courses: Array<CourseType>;
@@ -66,7 +79,9 @@ const CourseList = ({ courses, ...props }: Props) => (
     {moizedGroups(courses).map(group => (
       <div key={group.key} className={css.courseGroup}>
         <span className={css.courseGroupTitle}>{capitalize(group.key)}</span>
-        {group.courses.map((c, i) => <Course key={i} course={c} />)}
+        {group.courses.map((c, i) => (
+          <Course key={i} course={c} />
+        ))}
       </div>
     ))}
   </div>

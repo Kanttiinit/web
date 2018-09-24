@@ -72,8 +72,8 @@ export const properties = [
 
 export default {
   noMenu: {
-    fi: 'Ei ruokalistaa saatavilla',
-    en: 'No menu available'
+    fi: 'Ruokalistaa ei ole saatavilla.',
+    en: 'No menu available.'
   },
   restaurantClosed: {
     fi: 'suljettu',
@@ -178,8 +178,8 @@ export default {
     en: 'kilometers'
   },
   closeModal: {
-    fi: 'paina sulkeaksesi',
-    en: 'press here to close'
+    fi: 'Sulje',
+    en: 'Close'
   },
   favorites: {
     fi: 'Suosikit',
@@ -206,7 +206,7 @@ export default {
     en: 'Distance'
   },
   locating: {
-    fi: 'Haetaan sijaintia...',
+    fi: 'Sijaintia haetaan...',
     en: 'Locating...'
   },
   turnOnLocation: {
@@ -222,7 +222,7 @@ export default {
     )
   },
   reportDataTitle: {
-    fi: 'Ilmoita virheellisestä tiedosta',
+    fi: 'Ilmoita virheellinen tieto',
     en: 'Report incorrect data'
   },
   reportLabel: {

@@ -17,9 +17,7 @@
   bottom: 0;
   left: 0;
   z-index: 11;
-  opacity: 0;
   pointer-events: none;
-  transition: opacity 0.1s;
   display: flex;
 }
 
@@ -30,6 +28,8 @@
   height: 100%;
   top: 0;
   left: 0;
+  transition: opacity 0.15s;
+  opacity: 0;
 
   @media (max-width: $break_small) {
     background: var(--gray6);
@@ -60,13 +60,32 @@
   overflow: auto;
   box-shadow: 0rem 0.1rem 0.6rem -0.2rem rgba(0, 0, 0, 0.3);
   flex: 1;
+  transition: opacity 0.3s;
+  opacity: 0;
 
   @media (max-width: $break_large) {
     max-width: 100%;
   }
 }
 
-.open {
-  opacity: 1;
+.enter {
+  .content {
+    opacity: 0;
+  }
+
+  .overlay {
+    opacity: 0;
+  }
+}
+
+.enterActive,
+.enterDone {
   pointer-events: auto;
+  .content {
+    opacity: 1;
+  }
+
+  .overlay {
+    opacity: 1;
+  }
 }

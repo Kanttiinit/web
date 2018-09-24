@@ -1,12 +1,12 @@
 import * as React from 'react';
+import { RouteComponentProps } from 'react-router';
 import { observer } from 'mobx-react';
-import * as classnames from 'classnames';
 import { withRouter } from 'react-router-dom';
-import { ErrorBoundary } from '../../index';
+import { CSSTransition } from 'react-transition-group';
 
+import { ErrorBoundary } from '../../index';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
-import { RouteComponentProps } from 'react-router';
 import * as css from './Modal.scss';
 
 const ModalError = () => (
@@ -15,20 +15,40 @@ const ModalError = () => (
   </PageContainer>
 );
 
+const classNames = {
+  enter: css.enter,
+  enterActive: css.enterActive,
+  enterDone: css.enterDone
+};
+
 type Props = RouteComponentProps<any> & {
   children: any;
+  open: boolean;
 };
 
 @observer
 class Modal extends React.Component<Props, {}> {
   componentDidMount() {
     window.addEventListener('keydown', this.onKeyDown);
-    document.body.style.overflow = 'hidden';
+    this.updateBodyScroll();
   }
 
   componentWillUnmount() {
     window.removeEventListener('keydown', this.onKeyDown);
-    document.body.style.overflow = 'initial';
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (prevProps.open !== this.props.open) {
+      this.updateBodyScroll();
+    }
+  }
+
+  updateBodyScroll() {
+    if (this.props.open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'initial';
+    }
   }
 
   onKeyDown = (e: KeyboardEvent) => {
@@ -42,17 +62,26 @@ class Modal extends React.Component<Props, {}> {
 
   render() {
     return (
-      <div className={classnames(css.container, css.open)}>
-        <div className={css.overlay} onClick={this.closeModal} />
-        <div className={css.content}>
-          <ErrorBoundary FallbackComponent={ModalError}>
-            {this.props.children}
-          </ErrorBoundary>
+      <CSSTransition
+        className={css.container}
+        classNames={classNames}
+        timeout={500}
+        in={this.props.open}
+        unmountOnExit
+        appear
+      >
+        <div>
+          <div className={css.overlay} onClick={this.closeModal} />
+          <div className={css.content}>
+            <ErrorBoundary FallbackComponent={ModalError}>
+              {this.props.children}
+            </ErrorBoundary>
+          </div>
+          <div className={css.closeText} onClick={this.closeModal}>
+            <Text id="closeModal" />
+          </div>
         </div>
-        <div className={css.closeText} onClick={this.closeModal}>
-          <Text id="closeModal" />
-        </div>
-      </div>
+      </CSSTransition>
     );
   }
 }

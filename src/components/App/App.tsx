@@ -81,63 +81,45 @@ class App extends React.PureComponent<RouteComponentProps<any>> {
           </div>
           <Footer />
         </div>
-        <Switch>
-          <Route exact path="/" />
-          <Route path="/settings/favorites">
-            <Modal>
+        <Modal open={this.props.location.pathname !== '/'}>
+          <Switch>
+            <Route exact path="/" render={null} />
+            <Route path="/settings/favorites">
               <FavoriteSelector />
-            </Modal>
-          </Route>
-          <Route path="/settings">
-            <Modal>
+            </Route>
+            <Route path="/settings">
               <Settings />
-            </Modal>
-          </Route>
-          <Route path="/contact">
-            <Modal>
+            </Route>
+            <Route path="/contact">
               <Contact />
-            </Modal>
-          </Route>
-          <Route path="/terms-of-service">
-            <Modal>
+            </Route>
+            <Route path="/terms-of-service">
               <TermsOfService />
-            </Modal>
-          </Route>
-          <Route path="/select-area">
-            <Modal>
+            </Route>
+            <Route path="/select-area">
               <AreaSelector />
-            </Modal>
-          </Route>
-          <Route path="/clients">
-            <Modal>
+            </Route>
+            <Route path="/clients">
               <Clients />
-            </Modal>
-          </Route>
-          <Route path="/news">
-            <Modal>
+            </Route>
+            <Route path="/news">
               <ChangeLog />
-            </Modal>
-          </Route>
-          <Route path="/restaurant/:id">
-            {({ match }) => (
-              <Modal>
+            </Route>
+            <Route path="/restaurant/:id">
+              {({ match }) => (
                 <RestaurantModal restaurantId={match.params.id} />
-              </Modal>
-            )}
-          </Route>
-          <Route path="/report/:restaurantId">
-            {({ match }) => (
-              <Modal>
+              )}
+            </Route>
+            <Route path="/report/:restaurantId">
+              {({ match }) => (
                 <ReportModal restaurantId={match.params.restaurantId} />
-              </Modal>
-            )}
-          </Route>
-          <Route path="*">
-            <Modal>
+              )}
+            </Route>
+            <Route path="*">
               <NotFound />
-            </Modal>
-          </Route>
-        </Switch>
+            </Route>
+          </Switch>
+        </Modal>
       </React.Fragment>
     );
   }

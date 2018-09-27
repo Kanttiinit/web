@@ -1,1 +1,6 @@
-export { default } from './Contact';
+import Loadable from 'react-loadable';
+
+export default Loadable({
+  loader: () => import('./Contact'),
+  loading: () => 'Loading...'
+});

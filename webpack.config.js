@@ -5,8 +5,6 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const pkg = require('./package.json');
 
 const PATHS = {
-  app: './src/index.tsx',
-  html: './src/index.html',
   dist: path.join(__dirname, './dist')
 };
 
@@ -36,14 +34,22 @@ if (isProduction) {
 
 module.exports = {
   entry: {
-    app: [PATHS.app, PATHS.html],
+    app: ['./src/index.tsx', './src/index.html'],
     worker: ['./src/worker'],
     admin: ['./admin/index.tsx', './admin/index_admin.html']
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        vendors: false
+      }
+    }
   },
   output: {
     path: PATHS.dist,
     publicPath: '/',
-    filename: '[name].js'
+    filename: '[name].js',
+    chunkFilename: '[chunkhash].chunk.js'
   },
   devtool: 'cheap-module-source-map',
   devServer: {

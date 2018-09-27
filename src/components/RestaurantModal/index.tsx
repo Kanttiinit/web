@@ -1,1 +1,6 @@
-export { default } from './RestaurantModal';
+import Loadable from 'react-loadable';
+
+export default Loadable({
+  loader: () => import('./RestaurantModal'),
+  loading: () => 'Loading...'
+});

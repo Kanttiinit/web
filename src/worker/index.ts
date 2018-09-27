@@ -3,27 +3,28 @@ import { version } from '../utils/consts';
 const worker = self as any;
 
 const CACHE_NAME = `cache-${version}`;
-const urlsToCache = [
-  '/',
-  '/app.js',
-  '/fi.png',
-  '/en.png',
-  '/logo_48.png',
-  '/locating.svg',
-  '/fonts/Interface-Regular.woff2',
-  '/fonts/Interface-Medium.woff2',
-  '/fonts/Interface-Bold.woff2'
-];
 
 let cache: Cache;
 const getCache = async () => cache || (cache = await caches.open(CACHE_NAME));
 
+const shouldCacheUrl = (url: string): boolean => {
+  if (url.match('/admin/')) {
+    return false;
+  }
+  if (url.match(/^https:\/\/kitchen\.kanttiinit\.fi/)) {
+    return true;
+  }
+  if (
+    url.match(/^https?\:\/\/(kanttiinit\.fi|localhost)/) &&
+    url.match(/\.(js|png|svg|woff2)$/)
+  ) {
+    return true;
+  }
+};
+
 const resolve = async (request: Request) => {
   const cache = await getCache();
-  if (
-    request.url.match(/^https:\/\/kitchen\.kanttiinit\.fi/) &&
-    !request.url.match('/admin/')
-  ) {
+  if (shouldCacheUrl(request.url)) {
     try {
       const response = await fetch(request);
       cache.put(request, response.clone());
@@ -37,8 +38,6 @@ const resolve = async (request: Request) => {
 };
 
 const install = async () => {
-  const cache = await getCache();
-  await cache.addAll(urlsToCache);
   return worker.skipWaiting();
 };
 

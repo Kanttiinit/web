@@ -1,1 +1,6 @@
-export { default } from './ChangeLog';
+import Loadable from 'react-loadable';
+
+export default Loadable({
+  loader: () => import('./ChangeLog'),
+  loading: () => 'Loading...'
+});

@@ -2,6 +2,11 @@
 @import "constants.scss";
 
 :global {
+  html,
+  body {
+    height: 100%;
+  }
+
   body {
     font-family: "Interface", sans-serif;
     margin: 0;
@@ -34,6 +39,10 @@
       --hearty: #c15c81;
       --friendly: #4a9448;
     }
+  }
+
+  #root {
+    height: 100%;
   }
 
   #get-a-proper-browser {

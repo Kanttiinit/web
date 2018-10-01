@@ -294,5 +294,9 @@ export default {
   restaurantNotFound: {
     fi: 'Ravintolaa ei löytynyt.',
     en: 'Restaurant not found.'
+  },
+  assetsLoading: {
+    fi: 'Ladataan...',
+    en: 'Loading...'
   }
 };

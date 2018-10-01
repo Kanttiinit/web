@@ -1,19 +1,17 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-
+import 'url-polyfill';
 import bugsnag from 'bugsnag-js';
 import createPlugin from 'bugsnag-react';
-
-import 'url-polyfill';
 
 import './utils/globalHooks';
 import './worker/registerWorker';
 import * as consts from './utils/consts';
 import App from './components/App';
 import Map from './components/Map';
-
 import Text from './components/Text';
+import './styles/global.scss';
 
 const useBugSnag = !!process.env.BUGSNAG_API_KEY;
 

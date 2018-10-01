@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+
 import bugsnag from 'bugsnag-js';
 import createPlugin from 'bugsnag-react';
 
@@ -10,6 +11,8 @@ import './utils/globalHooks';
 import './worker/registerWorker';
 import * as consts from './utils/consts';
 import App from './components/App';
+import Map from './components/Map';
+
 import Text from './components/Text';
 
 const useBugSnag = !!process.env.BUGSNAG_API_KEY;
@@ -34,7 +37,14 @@ export const ErrorBoundary = useBugSnag
 render(
   <ErrorBoundary FallbackComponent={ErrorMessage}>
     <BrowserRouter>
-      <App />
+      <Switch>
+        <Route path="/map">
+          <Map />
+        </Route>
+        <Route>
+          <App />
+        </Route>
+      </Switch>
     </BrowserRouter>
   </ErrorBoundary>,
   document.getElementById('root')

@@ -4,7 +4,7 @@ import * as findIndex from 'lodash/findIndex';
 import { observer } from 'mobx-react';
 import * as setIsoDay from 'date-fns/set_iso_day';
 
-import Map from './GoogleMap';
+import Map from './Map';
 import * as api from '../../utils/api';
 import { dataStore, uiState, preferenceStore } from '../../store';
 import PageContainer from '../PageContainer';

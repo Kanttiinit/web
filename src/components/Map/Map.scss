@@ -1,0 +1,21 @@
+@import "global.scss";
+
+.container {
+  width: 100vw;
+  height: 100vh;
+}
+
+.pin {
+  width: 13px;
+  height: 13px;
+  background: #2196f3;
+  border-radius: 50%;
+  border: solid 1px white;
+}
+
+:global {
+  body {
+    margin: 0;
+    padding: 0;
+  }
+}

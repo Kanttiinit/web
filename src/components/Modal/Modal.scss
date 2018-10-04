@@ -62,6 +62,7 @@
   flex: 1;
   transition: opacity 0.3s;
   opacity: 0;
+  max-height: 90vh;
 
   @media (max-width: $break_large) {
     max-width: 100%;

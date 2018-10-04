@@ -65,7 +65,7 @@ class Modal extends React.Component<Props, {}> {
       <CSSTransition
         className={css.container}
         classNames={classNames}
-        timeout={500}
+        timeout={200}
         in={this.props.open}
         unmountOnExit
         appear

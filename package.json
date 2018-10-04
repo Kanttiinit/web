@@ -1,7 +1,7 @@
 {
   "name": "kanttiinit-web",
   "version": "10.6.0",
-  "description": "Kanttiinit.fi web client using react.",
+  "description": "Kanttiinit.fi web client.",
   "main": "index.js",
   "engines": {
     "node": "^10.1.0"
@@ -67,12 +67,6 @@
     "lint": "eslint \"src/**\"",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [
-    "express",
-    "node",
-    "react",
-    "redux"
-  ],
   "author": "Jere Vaara, Max Huttunen",
   "repository": {
     "type": "github",

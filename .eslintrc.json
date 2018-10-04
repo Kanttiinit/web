@@ -14,10 +14,8 @@
   },
   "plugins": ["react"],
   "globals": {
-    "isProduction": true,
     "process": true,
-    "apiBase": true,
-    "version": true,
+    "NodeJS": true,
     "require": true,
     "__dirname": true
   },

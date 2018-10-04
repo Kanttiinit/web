@@ -8,7 +8,7 @@ import { observer } from 'mobx-react';
 type Props = {
   children: React.ReactNode;
   text?: string;
-  translationKey?: keyof (typeof translations);
+  translationKey?: keyof (typeof translations); // eslint-disable-line
   position?: 'up' | 'left' | 'right' | 'down';
 };
 

@@ -64,7 +64,7 @@
     "watch": "webpack -w",
     "install": "yarn build",
     "start": "node index.js",
-    "lint": "eslint src",
+    "lint": "eslint \"src/**\"",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [

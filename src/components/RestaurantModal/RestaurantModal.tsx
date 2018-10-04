@@ -67,70 +67,71 @@ type Props = {
   restaurantId: number;
 };
 
-@observer
-export default class RestaurantModal extends React.Component {
-  props: Props;
-  state: {
-    restaurant: RestaurantType | null;
-    notFound: boolean;
-  } = {
-    restaurant: null,
-    notFound: false
-  };
+export default observer(
+  class RestaurantModal extends React.Component {
+    props: Props;
+    state: {
+      restaurant: RestaurantType | null;
+      notFound: boolean;
+    } = {
+      restaurant: null,
+      notFound: false
+    };
 
-  async fetchRestaurant(restaurantId: number) {
-    let restaurant = dataStore.restaurants.data.find(
-      r => r.id === Number(restaurantId)
-    );
-    if (!restaurant) {
-      const result = await api.getRestaurantsByIds(
-        [restaurantId],
-        preferenceStore.lang
+    async fetchRestaurant(restaurantId: number) {
+      let restaurant = dataStore.restaurants.data.find(
+        r => r.id === Number(restaurantId)
       );
-      if (result.length) {
-        restaurant = result[0];
-      } else {
-        this.setState({ notFound: true });
+      if (!restaurant) {
+        const result = await api.getRestaurantsByIds(
+          [restaurantId],
+          preferenceStore.lang
+        );
+        if (result.length) {
+          restaurant = result[0];
+        } else {
+          this.setState({ notFound: true });
+        }
+      }
+      this.setState({ restaurant });
+    }
+
+    componentDidUpdate(props: Props) {
+      if (props.restaurantId !== this.props.restaurantId) {
+        this.fetchRestaurant(props.restaurantId);
       }
     }
-    this.setState({ restaurant });
-  }
 
-  componentDidUpdate(props: Props) {
-    if (props.restaurantId !== this.props.restaurantId) {
-      this.fetchRestaurant(props.restaurantId);
+    componentDidMount() {
+      this.fetchRestaurant(this.props.restaurantId);
+    }
+
+    render() {
+      const { restaurant, notFound } = this.state;
+      if (notFound) {
+        return <PageContainer title={<Text id="restaurantNotFound" />} />;
+      }
+      if (!restaurant) {
+        return null;
+      }
+      return (
+        <PageContainer title={restaurant.name}>
+          <div className={css.info}>
+            <Meta restaurant={restaurant} />
+            <OpeningHours openingHours={restaurant.openingHours} />
+          </div>
+          <MenuViewer showCopyButton restaurantId={restaurant.id} />
+          <Map
+            restaurant={restaurant}
+            restaurantPoint={[restaurant.latitude, restaurant.longitude]}
+            userPoint={
+              uiState.location
+                ? [uiState.location.latitude, uiState.location.longitude]
+                : undefined
+            }
+          />
+        </PageContainer>
+      );
     }
   }
-
-  componentDidMount() {
-    this.fetchRestaurant(this.props.restaurantId);
-  }
-
-  render() {
-    const { restaurant, notFound } = this.state;
-    if (notFound) {
-      return <PageContainer title={<Text id="restaurantNotFound" />} />;
-    }
-    if (!restaurant) {
-      return null;
-    }
-    return (
-      <PageContainer title={restaurant.name}>
-        <div className={css.info}>
-          <Meta restaurant={restaurant} />
-          <OpeningHours openingHours={restaurant.openingHours} />
-        </div>
-        <MenuViewer showCopyButton restaurantId={restaurant.id} />
-        <Map
-          restaurant={restaurant}
-          restaurantPoint={[restaurant.latitude, restaurant.longitude]}
-          userPoint={
-            uiState.location
-              ? [uiState.location.latitude, uiState.location.longitude]
-              : undefined
-          }
-        />
-      </PageContainer>
-    );
-  }
-}
+);

@@ -4,7 +4,7 @@ import Text from '../Text';
 import * as styles from './AssetsLoading.scss';
 
 export default class AssetsLoading extends React.PureComponent {
-  timeout;
+  timeout: NodeJS.Timer;
 
   state = {
     showError: false

@@ -14,7 +14,7 @@ export default class Placeholder extends React.Component {
       <div className={classnames(css.container, css.placeholder)}>
         <div className={css.header} style={{ width: random(30, 40) + '%' }} />
         <div className={css.body}>
-          {times(10, i => (
+          {times(10, (i: number) => (
             <div
               key={i}
               className={css.course}

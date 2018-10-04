@@ -122,10 +122,12 @@ export default class DataStore {
 
   @computed
   get formattedFavorites(): Array<FormattedFavoriteType> {
-    return orderBy(this.favorites.data, ['name']).map(favorite => ({
-      ...favorite,
-      isSelected: this.preferences.favorites.indexOf(favorite.id) > -1
-    }));
+    return orderBy(this.favorites.data, ['name']).map(
+      (favorite: FavoriteType) => ({
+        ...favorite,
+        isSelected: this.preferences.favorites.indexOf(favorite.id) > -1
+      })
+    );
   }
 
   @computed
@@ -136,7 +138,7 @@ export default class DataStore {
         this.menus.data,
         [restaurant.id, format(day, 'YYYY-MM-DD')],
         []
-      ).filter(course => course.title);
+      ).filter((course: CourseType) => course.title);
       const distance =
         uiState.location &&
         haversine(uiState.location, restaurant, { unit: 'meter' });

@@ -35,21 +35,13 @@ export interface RelationField {
 
 export type Field = ModelField | ModelFieldGroup | RelationField;
 
-export interface TableModel {
+export interface Model {
   name: string;
   key: string;
   tableFields: Array<{ key: string; name: string }>;
   fields: Array<Field>;
   defaultSort?: string;
 }
-
-export interface CustomModel {
-  name: string;
-  key: string;
-  editor: new (props: any) => React.Component;
-}
-
-export type Model = TableModel | CustomModel;
 
 const models: Array<Model> = [
   {

@@ -5,9 +5,9 @@ type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 export default {
   fetch(method: Method, url: string, body: Object, authorize: boolean) {
-    const options = {
+    const options: any = {
       method,
-      headers: {},
+      headers: [],
       body: undefined,
       credentials: undefined
     };
@@ -15,7 +15,7 @@ export default {
       options.credentials = 'include';
     }
     if (body) {
-      options.headers['Content-Type'] = 'application/json';
+      options.headers.push(['Content-Type', 'application/json']);
       options.body = JSON.stringify(body);
     }
     return fetch(apiBase + url, options).then(r => {

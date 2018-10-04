@@ -9,8 +9,16 @@ import { dataStore, preferenceStore } from '../../store';
 import * as css from './AreaSelector.scss';
 import Text from '../Text';
 import PageContainer from '../PageContainer';
+import { AreaType } from '../../store/types';
 
-const specialAreas = [
+type SpecialArea = {
+  id: -1 | -2;
+  name: React.ReactNode;
+  icon: React.ReactNode;
+  iconColor: string;
+};
+
+const specialAreas: Array<SpecialArea> = [
   { id: -2, name: <Text id="nearby" />, icon: <MdMap />, iconColor: '#424242' },
   {
     id: -1,
@@ -20,7 +28,13 @@ const specialAreas = [
   }
 ];
 
-const Area = ({ area, selectArea }) => (
+const Area = ({
+  area,
+  selectArea
+}: {
+  area: AreaType | SpecialArea;
+  selectArea: (id: number) => void;
+}) => (
   <div
     className={
       css.area +
@@ -34,7 +48,7 @@ const Area = ({ area, selectArea }) => (
         (preferenceStore.selectedArea === area.id ? css.selected : '')
       }
     >
-      {area.icon ? (
+      {'icon' in area ? (
         <div className={css.icon} style={{ color: area.iconColor }}>
           {area.icon}
         </div>
@@ -61,7 +75,7 @@ class AreaSelector extends React.Component<RouteComponentProps<any>> {
           {specialAreas.map(area => (
             <Area key={area.id} selectArea={this.selectArea} area={area} />
           ))}
-          {sortBy(dataStore.areas.data, 'name').map(area => (
+          {sortBy(dataStore.areas.data, 'name').map((area: AreaType) => (
             <Area key={area.id} selectArea={this.selectArea} area={area} />
           ))}
         </div>

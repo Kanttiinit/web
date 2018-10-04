@@ -8,7 +8,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import { withStyles } from '@material-ui/core/styles';
 
 import * as api from './api';
-import { TableModel } from './models';
+import { Model } from './models';
 import inputs from './inputs';
 import { Field } from './models';
 import { showMessage } from './index';
@@ -19,28 +19,28 @@ type ExportedProps = {
   onCancel: () => void;
   onError?: () => void;
   item?: any;
-  model: TableModel;
+  model: Model;
 };
 
-class Editor extends React.PureComponent {
-  props: ExportedProps & {
-    classes: any;
-  };
+type Props = ExportedProps & {
+  classes: any;
+};
 
+class Editor extends React.PureComponent<Props> {
   state: {
     item: any;
   } = {
     item: {}
   };
 
-  updateItem(props) {
-    const item = { ...props.model.defaultFields, ...props.item };
+  updateItem(props: Props) {
+    const item = { ...props.item };
     delete item.createdAt;
     delete item.updatedAt;
     this.setState({ item });
   }
 
-  save = async e => {
+  save = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       const { item } = this.state;
@@ -67,10 +67,10 @@ class Editor extends React.PureComponent {
     }
   };
 
-  setValue = (key, value) =>
+  setValue = (key: string | string[], value: any) =>
     this.setState({ item: set(key, value, this.state.item) });
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props: Props) {
     this.updateItem(props);
   }
 

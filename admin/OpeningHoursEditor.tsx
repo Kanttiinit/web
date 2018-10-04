@@ -24,7 +24,7 @@ export default class OpeningHourDialog extends React.PureComponent<
 > {
   state: State = {};
 
-  onSubmit = e => {
+  onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     this.props.onAction(this.state.item);
   };
@@ -54,7 +54,7 @@ export default class OpeningHourDialog extends React.PureComponent<
     });
   };
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (prevProps.mode !== this.props.mode) {
       this.init();
     }

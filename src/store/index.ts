@@ -56,7 +56,7 @@ const updateMenus = () => {
   }
 };
 
-let locationWatchId;
+let locationWatchId: number;
 autorun(() => {
   // start or stop watching for location
   if (preferenceStore.useLocation && !locationWatchId) {

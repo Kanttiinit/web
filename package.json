@@ -58,13 +58,14 @@
     "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
+    "build": "NODE_ENV='production' webpack",
     "develop": "npm-run-all --parallel start watch",
-    "develop-local": "API_BASE='http://localhost:3000' npm-run-all --parallel start watch",
+    "develop-local": "API_BASE='http://localhost:3000' yarn develop",
     "watch": "webpack -w",
-    "postinstall": "webpack",
+    "install": "yarn build",
     "start": "node index.js",
     "lint": "eslint src",
-    "check": "tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [
     "express",

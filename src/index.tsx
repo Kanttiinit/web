@@ -15,7 +15,7 @@ import './styles/global.scss';
 
 const useBugSnag = !!process.env.BUGSNAG_API_KEY;
 
-let bugsnagClient;
+let bugsnagClient: any;
 if (useBugSnag) {
   bugsnagClient = bugsnag({
     appVersion: consts.version,
@@ -30,7 +30,7 @@ const ErrorMessage = () => <Text element="p" id="errorDetails" />;
 
 export const ErrorBoundary = useBugSnag
   ? bugsnagClient.use(createPlugin(React))
-  : ({ children }) => children;
+  : ({ children }: { children: React.ReactNode }) => children;
 
 render(
   <ErrorBoundary FallbackComponent={ErrorMessage}>

@@ -13,7 +13,12 @@ import PropertySelector from '../PropertySelector';
 import { Order, Lang } from '../../store/types';
 import { RouteComponentProps } from 'react-router';
 
-const Item = ({ label, children }) => (
+type ItemProps = {
+  label: React.ReactNode;
+  children: React.ReactNode;
+};
+
+const Item = ({ label, children }: ItemProps) => (
   <div className="settings-item">
     <h2 className={css.sectionHeader}>{label}</h2>
     {children}

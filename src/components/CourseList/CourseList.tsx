@@ -11,21 +11,26 @@ import * as css from './CourseList.scss';
 import { dataStore, preferenceStore } from '../../store';
 import { observer } from 'mobx-react';
 
+type CourseGroup = { key: string; courses: Array<CourseType> };
+
 const getCourseGroup = (course: CourseType) => {
   const split = course.title.split(':');
   return split.length > 1 ? split[0] : '';
 };
 
 const courseGroups = (courses: Array<CourseType>) => {
-  const groups = courses.reduce((groups, course) => {
-    const group = getCourseGroup(course);
-    if (group in groups) {
-      groups[group].push(course);
-    } else {
-      groups[group] = [course];
-    }
-    return groups;
-  }, {});
+  const groups = courses.reduce(
+    (groups, course) => {
+      const group = getCourseGroup(course);
+      if (group in groups) {
+        groups[group].push(course);
+      } else {
+        groups[group] = [course];
+      }
+      return groups;
+    },
+    {} as { [key: string]: Array<CourseType> }
+  );
 
   return Object.keys(groups).map(groupKey => ({
     key: groupKey,
@@ -36,7 +41,7 @@ const courseGroups = (courses: Array<CourseType>) => {
   }));
 };
 
-const moizedGroups = memoize(courseGroups);
+const moizedGroups: typeof courseGroups = memoize(courseGroups);
 
 const Course = observer(({ course }: { course: CourseType }) => {
   const isFavorite = dataStore.isFavorite(course);
@@ -76,7 +81,7 @@ const CourseList = ({ courses, ...props }: Props) => (
     {!courses.length && (
       <Text id="noMenu" element="span" className={css.emptyText} />
     )}
-    {moizedGroups(courses).map(group => (
+    {moizedGroups(courses).map((group: CourseGroup) => (
       <div key={group.key} className={css.courseGroup}>
         <span className={css.courseGroupTitle}>{capitalize(group.key)}</span>
         {group.courses.map((c, i) => (

@@ -6,9 +6,14 @@ import http from '../../utils/http';
 
 import * as styles from './Map.scss';
 import Tooltip from '../Tooltip';
+import { RestaurantType } from '../../store/types';
 
-export default class Map extends React.PureComponent {
-  state = {
+type State = {
+  restaurants: Array<RestaurantType>;
+};
+
+export default class Map extends React.PureComponent<void, State> {
+  state: State = {
     restaurants: []
   };
 

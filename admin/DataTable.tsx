@@ -14,7 +14,7 @@ import * as orderBy from 'lodash/fp/orderBy';
 
 import * as api from './api';
 import Editor from './Editor';
-import { TableModel } from './models';
+import { Model } from './models';
 
 const tdStyle: any = {
   whiteSpace: 'nowrap',
@@ -22,16 +22,22 @@ const tdStyle: any = {
   textOverflow: 'ellipsis'
 };
 
-export default class DataTable extends React.PureComponent {
-  state: {
-    mode?: 'editing' | 'creating';
-    item?: any;
-    sortedColumn?: string;
-    sortDirection: 'asc' | 'desc';
-    sortedItems: Array<any>;
-    items: Array<any>;
-    loading: boolean;
-  } = {
+type Props = {
+  model: Model;
+};
+
+type State = {
+  mode?: 'editing' | 'creating';
+  item?: any;
+  sortedColumn?: string;
+  sortDirection: 'asc' | 'desc';
+  sortedItems: Array<any>;
+  items: Array<any>;
+  loading: boolean;
+};
+
+export default class DataTable extends React.PureComponent<Props, State> {
+  state: State = {
     sortDirection: 'asc',
     sortedItems: [],
     items: [],
@@ -39,23 +45,23 @@ export default class DataTable extends React.PureComponent {
   };
 
   props: {
-    model: TableModel;
+    model: Model;
   };
 
   openCreateDialog = () => this.setState({ mode: 'creating', item: undefined });
 
-  openEditDialog = item => this.setState({ mode: 'editing', item });
+  openEditDialog = (item: any) => this.setState({ mode: 'editing', item });
 
   hideDialog = () => this.setState({ mode: undefined });
 
-  getSortIndicator = sortedColumn =>
+  getSortIndicator = (sortedColumn: string) =>
     sortedColumn === this.state.sortedColumn
       ? this.state.sortDirection === 'asc'
         ? '︎︎↑'
         : '↓'
       : '';
 
-  changeSort = columnKey => {
+  changeSort = (columnKey: string) => {
     const { sortedColumn, sortDirection } = this.state;
     if (sortedColumn === columnKey) {
       this.setState({
@@ -79,26 +85,26 @@ export default class DataTable extends React.PureComponent {
     this.setState({ sortedItems });
   };
 
-  resetSort(props = this.props) {
+  resetSort(props: Props = this.props) {
     this.setState({
       sortedColumn: props.model.defaultSort,
       sortDirection: 'asc'
     });
   }
 
-  fetchItems = async (props = this.props) => {
+  fetchItems = async (props: Props = this.props) => {
     this.setState({ loading: true, items: [] });
     this.setState({ loading: false, items: await api.fetchItems(props.model) });
   };
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props: Props) {
     if (props.model.key !== this.props.model.key) {
       this.resetSort(props);
       this.fetchItems(props);
     }
   }
 
-  componentWillUpdate(props, state) {
+  componentWillUpdate(props: Props, state: State) {
     if (
       state.sortDirection !== this.state.sortDirection ||
       state.sortedColumn !== this.state.sortedColumn ||

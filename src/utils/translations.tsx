@@ -3,7 +3,14 @@ import { Link } from 'react-router-dom';
 
 import { Order } from '../store/types';
 
-export const properties = [
+type FormattedProperty = {
+  key: string;
+  desired: boolean;
+  name_en: string;
+  name_fi: string;
+};
+
+export const properties: Array<FormattedProperty> = [
   {
     key: 'A+',
     desired: false,
@@ -70,7 +77,12 @@ export const properties = [
   { key: 'VV', desired: true, name_en: 'vegan', name_fi: 'vegaani' }
 ];
 
-export default {
+type Translation = {
+  fi: React.ReactNode;
+  en: React.ReactNode;
+};
+
+const translations: { [key: string]: Translation } = {
   noMenu: {
     fi: 'Ruokalistaa ei ole saatavilla.',
     en: 'No menu available.'
@@ -300,3 +312,5 @@ export default {
     en: 'Loading...'
   }
 };
+
+export default translations;

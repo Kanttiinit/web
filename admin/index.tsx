@@ -13,7 +13,7 @@ import http from '../src/utils/http';
 import DataTable from './DataTable';
 import models from './models';
 
-export let showMessage;
+export let showMessage: (message: string) => void;
 
 const BaseView = withRouter(
   class extends React.PureComponent {
@@ -47,7 +47,7 @@ const BaseView = withRouter(
       showMessage = this.showMessage;
     }
 
-    login = async e => {
+    login = async (e: any) => {
       e.preventDefault();
       const password = e.target.elements[0].value;
       try {
@@ -65,7 +65,7 @@ const BaseView = withRouter(
       this.setState({ message: 'Goodbye!', messageVisible: true });
     };
 
-    tabChange = (event, value) => {
+    tabChange = (event: any, value: string) => {
       this.props.history.push('/admin/model/' + value);
     };
 
@@ -74,13 +74,15 @@ const BaseView = withRouter(
 
     clearMessage = () => this.setState({ messageVisible: false });
 
-    renderModel = ({ match }) => {
+    renderModel = ({ match }: { match: any }) => {
       const model = models.find(model => model.key === match.params.model);
 
       return (
         <React.Fragment>
           <Tabs value={model ? model.key : 'none'} onChange={this.tabChange}>
-            {models.map(m => <Tab key={m.key} value={m.key} label={m.name} />)}
+            {models.map(m => (
+              <Tab key={m.key} value={m.key} label={m.name} />
+            ))}
           </Tabs>
           <div
             style={{ position: 'absolute', top: 0, right: 0, padding: '0.5em' }}
@@ -97,9 +99,10 @@ const BaseView = withRouter(
             </Button>
           </div>
           {!model ? (
-            <Paper>No such model "{match.params.model}".</Paper>
-          ) : 'editor' in model ? (
-            <model.editor />
+            <Paper>
+              No such model "{match.params.model}
+              ".
+            </Paper>
           ) : (
             <DataTable model={model} />
           )}

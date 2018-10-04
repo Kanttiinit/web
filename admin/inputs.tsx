@@ -173,7 +173,8 @@ export const DateInput = ({ value, setValue, field }: InputProps) => (
 );
 
 const Map = (props: any) => {
-  const onChange = ({ latLng }) => props.onChange(latLng[0], latLng[1]);
+  const onChange = ({ latLng }: { latLng: [number, number] }) =>
+    props.onChange(latLng[0], latLng[1]);
   return (
     <PigeonMap
       onClick={onChange}
@@ -212,7 +213,7 @@ const LocationInput = (props: GroupInputProps) => (
         <Map
           latitude={props.value[0]}
           longitude={props.value[1]}
-          onChange={(lat, lon) =>
+          onChange={(lat: number, lon: number) =>
             props.setValue('latitude', lat) || props.setValue('longitude', lon)
           }
         />
@@ -313,7 +314,7 @@ class RelationInput extends React.PureComponent {
           value={value || (items.length ? items[0].id : '')}
           onChange={e => setValue(field.path, e.target.value)}
         >
-          {sortBy(field.relationDisplayField, items).map(item => (
+          {sortBy(field.relationDisplayField, items).map((item: any) => (
             <MenuItem key={item.id} value={item.id}>
               {get(field.relationDisplayField, item)}
             </MenuItem>
@@ -343,7 +344,10 @@ class OpeningHoursEditor extends React.PureComponent<
   OpeningHoursEditorState
 > {
   state: OpeningHoursEditorState = { hours: [] };
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(
+    props: InputProps,
+    state: OpeningHoursEditorState
+  ) {
     if (!state.hours.length || state.hours.every(h => h === null)) {
       return { hours: props.value || props.field.default };
     }
@@ -377,42 +381,44 @@ class OpeningHoursEditor extends React.PureComponent<
     const { hours } = this.state;
     return (
       <div>
-        {(hours || this.props.field.default).map((hours, i) => (
-          <FormControl margin="dense" key={i}>
-            <InputLabel shrink htmlFor={`hours${i}`}>
-              {format(setIsoDay(new Date(), i + 1), 'ddd')}
-            </InputLabel>
-            <Input
-              id={`hours${i}`}
-              onChange={this.onChange}
-              name={String(i)}
-              value={this.serializeHours(hours)}
-              inputComponent={({ inputRef, ...props }) => (
-                <MaskedInput
-                  {...props}
-                  ref={inputRef}
-                  mask={[
-                    /[0-9]{1,2}/,
-                    /[0-9]{1,2}/,
-                    ':',
-                    /[0-9]{1,2}/,
-                    /[0-9]{1,2}/,
-                    ' ',
-                    '–',
-                    ' ',
-                    /[0-9]{1,2}/,
-                    /[0-9]{1,2}/,
-                    ':',
-                    /[0-9]{1,2}/,
-                    /[0-9]{1,2}/
-                  ]}
-                  showMask
-                  placeholderChar="X"
-                />
-              )}
-            />
-          </FormControl>
-        ))}
+        {(hours || this.props.field.default).map(
+          (hours: [number, number], i: number) => (
+            <FormControl margin="dense" key={i}>
+              <InputLabel shrink htmlFor={`hours${i}`}>
+                {format(setIsoDay(new Date(), i + 1), 'ddd')}
+              </InputLabel>
+              <Input
+                id={`hours${i}`}
+                onChange={this.onChange}
+                name={String(i)}
+                value={this.serializeHours(hours)}
+                inputComponent={({ inputRef, ...props }) => (
+                  <MaskedInput
+                    {...props}
+                    ref={inputRef}
+                    mask={[
+                      /[0-9]{1,2}/,
+                      /[0-9]{1,2}/,
+                      ':',
+                      /[0-9]{1,2}/,
+                      /[0-9]{1,2}/,
+                      ' ',
+                      '–',
+                      ' ',
+                      /[0-9]{1,2}/,
+                      /[0-9]{1,2}/,
+                      ':',
+                      /[0-9]{1,2}/,
+                      /[0-9]{1,2}/
+                    ]}
+                    showMask
+                    placeholderChar="X"
+                  />
+                )}
+              />
+            </FormControl>
+          )
+        )}
       </div>
     );
   }

@@ -20,7 +20,7 @@ export default observer(({ showDesiredProperties }) => (
           )}
           key={p.key}
         >
-          {p[`name_${preferenceStore.lang}`]}
+          {preferenceStore.lang === 'fi' ? p.name_fi : p.name_en}
         </button>
       ))}
   </div>

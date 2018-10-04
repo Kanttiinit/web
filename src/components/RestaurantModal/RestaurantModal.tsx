@@ -13,7 +13,7 @@ import MenuViewer from '../MenuViewer';
 import * as css from './RestaurantModal.scss';
 import Text from '../Text';
 
-function getOpeningHourString(hours) {
+function getOpeningHourString(hours: Array<string>) {
   return hours.reduce((open, hour, i) => {
     if (hour) {
       const existingIndex = findIndex(open, ['hour', hour]);
@@ -24,7 +24,7 @@ function getOpeningHourString(hours) {
   }, []);
 }
 
-const OpeningHours = ({ openingHours }) => (
+const OpeningHours = ({ openingHours }: { openingHours: Array<string> }) => (
   <div className={css.openingHoursContainer}>
     {getOpeningHourString(openingHours).map(hours => (
       <div key={hours.startDay} className={css.openingHours}>
@@ -45,7 +45,7 @@ const OpeningHours = ({ openingHours }) => (
   </div>
 );
 
-const Meta = ({ restaurant }) => (
+const Meta = ({ restaurant }: { restaurant: RestaurantType }) => (
   <div className={css.meta}>
     <a
       href={`https://maps.google.com/?q=${encodeURIComponent(

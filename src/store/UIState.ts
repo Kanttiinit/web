@@ -31,7 +31,7 @@ export default class UIState {
   }
 
   updateDisplayedDays() {
-    this.displayedDays = times(6, i => addDays(new Date(), i));
+    this.displayedDays = times(6, (i: number) => addDays(new Date(), i));
   }
 
   updateDay(location: Location) {

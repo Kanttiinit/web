@@ -9,7 +9,7 @@ import Text from '../Text';
 import { Update } from '../../store/types';
 import { preferenceStore, dataStore } from '../../store';
 import { observer } from 'mobx-react';
-import { autorun } from 'mobx';
+import { autorun, IReactionDisposer } from 'mobx';
 
 type State = {
   visibleItems: Array<number>;
@@ -17,11 +17,11 @@ type State = {
 
 @observer
 export default class ChangeLog extends React.Component<any, State> {
-  state = {
+  state: State = {
     visibleItems: []
   };
 
-  cancelAutorun = null;
+  cancelAutorun: IReactionDisposer = null;
 
   toggleVisible = (update: Update) =>
     this.setState(state => {

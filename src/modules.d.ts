@@ -13,8 +13,17 @@ declare module 'lodash/without';
 declare module 'lodash/fp/get';
 declare module 'lodash/fp/orderBy';
 declare module 'lodash/fp/set';
+declare module 'lodash/fp/sortBy';
 
 declare module '*.scss' {
   const classes: any;
   export default classes;
 }
+
+declare module 'bugsnag-react';
+declare module 'pigeon-maps';
+declare module 'pigeon-overlay';
+declare module 'pigeon-marker';
+declare module 'react-collapse';
+declare module 'react-text-mask';
+declare module 'react-loadable';

@@ -6,6 +6,7 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "lib": ["es2016", "dom"],
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "noImplicitAny": true
   }
 }

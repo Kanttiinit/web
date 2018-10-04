@@ -19,7 +19,7 @@ export default class RestaurantList extends React.Component {
       dataStore.areas.pending;
     const restaurants = dataStore.formattedRestaurants;
     if (loading) {
-      return times(8, i => <Placeholder key={i} />);
+      return times(8, (i: number) => <Placeholder key={i} />);
     } else if (preferenceStore.selectedArea === -2) {
       if (!preferenceStore.useLocation) {
         return <Text id="turnOnLocation" element="p" className="notice" />;
@@ -34,7 +34,8 @@ export default class RestaurantList extends React.Component {
     } else if (!restaurants.length) {
       return (
         <div className={css.emptyText}>
-          <MdError className="inline-icon" />&nbsp;
+          <MdError className="inline-icon" />
+          &nbsp;
           <Text id="emptyRestaurants" />
         </div>
       );

@@ -11,9 +11,7 @@ import * as consts from './utils/consts';
 import App from './components/App';
 import Map from './components/Map';
 import Text from './components/Text';
-
-// needs to be required since it only contains global styles
-require('./styles/global.scss');
+import './styles/global.scss';
 
 const useBugSnag = !!process.env.BUGSNAG_API_KEY;
 

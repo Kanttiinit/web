@@ -1,4 +1,5 @@
 import * as React from 'react';
+import classnames from 'classnames';
 import Text from '../Text';
 
 import * as styles from './AssetsLoading.scss';
@@ -13,7 +14,7 @@ export default class AssetsLoading extends React.PureComponent {
   componentDidMount() {
     this.timeout = setTimeout(() => {
       this.setState({ showError: true });
-    }, 400);
+    }, 1000);
   }
 
   componentWillUnmount() {
@@ -21,11 +22,16 @@ export default class AssetsLoading extends React.PureComponent {
   }
 
   render() {
-    if (this.state.showError) {
-      return (
-        <Text element="div" className={styles.container} id="assetsLoading" />
-      );
-    }
-    return null;
+    console.log(this.state.showError);
+    return (
+      <div
+        className={classnames(
+          styles.container,
+          this.state.showError && styles.visible
+        )}
+      >
+        <Text element="p" id="assetsLoading" />
+      </div>
+    );
   }
 }

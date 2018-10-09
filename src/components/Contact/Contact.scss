@@ -1,50 +1,5 @@
 @import "constants.scss";
 
-.container {
-  font-size: 1.15rem;
-  margin-top: 1.5rem;
-
-  label {
-    text-transform: uppercase;
-    font-weight: 500;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    display: block;
-    color: var(--gray2);
-  }
-
-  input,
-  textarea {
-    font-size: inherit;
-    font-family: inherit;
-    border: solid 0.15rem var(--gray4);
-    padding: 1rem;
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    margin-bottom: 1rem;
-    background: var(--gray7);
-    color: var(--gray1);
-
-    &:focus {
-      outline: none;
-      border-color: var(--accent_color);
-    }
-  }
-
-  button {
-    text-transform: uppercase;
-    font-family: inherit;
-    font-size: 0.8rem;
-    background: var(--gray5);
-    color: var(--gray1);
-    border: none;
-    padding: 0.5rem 1rem;
-    font-weight: 600;
-
-    &:hover,
-    &:focus {
-      background: var(--gray6);
-    }
-  }
+.field {
+  margin-bottom: 1em !important;
 }

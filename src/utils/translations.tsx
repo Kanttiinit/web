@@ -246,7 +246,7 @@ const translations: { [key: string]: Translation } = {
     en: 'Your e-mail address (optional)'
   },
   report: {
-    fi: 'Ilmoita',
+    fi: 'Lähetä',
     en: 'Report'
   },
   reporting: {

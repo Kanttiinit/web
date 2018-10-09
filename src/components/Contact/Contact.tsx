@@ -1,4 +1,6 @@
 import * as React from 'react';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 import * as css from './Contact.scss';
 import PageContainer from '../PageContainer';
@@ -7,19 +9,11 @@ import feedbackProvider, { FeedbackProps } from '../feedbackProvider';
 
 export default feedbackProvider(
   class Contact extends React.PureComponent<FeedbackProps> {
-    email = React.createRef<HTMLInputElement>();
-    message = React.createRef<HTMLTextAreaElement>();
-
-    onSubmit = (e: React.FormEvent<any>) => {
+    onSubmit = (e: any) => {
       e.preventDefault();
-      this.props.onSubmitFeedback(
-        `Email: ${this.email.current.value}\n"${this.message.current.value}"`
-      );
+      const [, email, , message] = e.target.elements;
+      this.props.onSubmitFeedback(`Email: ${email.value}\n"${message.value}"`);
     };
-
-    componentDidMount() {
-      this.email.current.focus();
-    }
 
     render() {
       const { sending, sent } = this.props.feedbackState;
@@ -28,18 +22,36 @@ export default feedbackProvider(
           {sent ? (
             <Text element="p" id="thanksForFeedback" />
           ) : (
-            <form className={css.container} onSubmit={this.onSubmit}>
-              <label htmlFor="email">
-                <Text id="email" />
-              </label>
-              <input type="email" id="email" ref={this.email} required />
-              <label htmlFor="message">
-                <Text id="message" />
-              </label>
-              <textarea rows={10} id="message" ref={this.message} required />
-              <button className="button" disabled={sending} type="submit">
+            <form onSubmit={this.onSubmit}>
+              <TextField
+                className={css.field}
+                variant="outlined"
+                fullWidth
+                autoFocus
+                type="email"
+                id="email"
+                required
+                label="E-mail"
+                autoComplete="off"
+              />
+              <TextField
+                className={css.field}
+                variant="outlined"
+                fullWidth
+                multiline
+                id="message"
+                required
+                label="Message"
+                rows={10}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={sending}
+                type="submit"
+              >
                 {sending ? <Text id="sending" /> : <Text id="send" />}
-              </button>
+              </Button>
             </form>
           )}
         </PageContainer>

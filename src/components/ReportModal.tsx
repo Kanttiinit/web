@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import * as format from 'date-fns/format';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 import { uiState, preferenceStore } from '../store';
 import * as css from './Contact/Contact.scss';
@@ -15,7 +17,7 @@ export default feedbackProvider(
     class ReportModal extends React.Component<Props, any> {
       onSubmit = (e: any) => {
         e.preventDefault();
-        const [reportField, emailField] = e.target.elements;
+        const [, reportField, , emailField] = e.target.elements;
         this.props.onSubmitFeedback(
           `🤥 Incorrect data reported:
 
@@ -28,12 +30,6 @@ export default feedbackProvider(
         );
       };
 
-      reportRef = (e: HTMLElement) => {
-        if (e) {
-          e.focus();
-        }
-      };
-
       render() {
         const {
           feedbackState: { sending, sent }
@@ -44,18 +40,35 @@ export default feedbackProvider(
             {sent ? (
               <Text element="p" id="thanksForFeedback" />
             ) : (
-              <form onSubmit={this.onSubmit} className={css.container}>
-                <label htmlFor="report">
-                  <Text id="reportLabel" />
-                </label>
-                <textarea ref={this.reportRef} id="report" required rows={9} />
-                <label htmlFor="email">
-                  <Text id="reportEmail" />
-                </label>
-                <input type="email" id="email" />
-                <button disabled={sending}>
+              <form onSubmit={this.onSubmit}>
+                <TextField
+                  className={css.field}
+                  variant="outlined"
+                  fullWidth
+                  multiline
+                  id="report"
+                  required
+                  label={<Text id="reportLabel" />}
+                  rows={5}
+                  autoFocus
+                />
+                <TextField
+                  className={css.field}
+                  variant="outlined"
+                  fullWidth
+                  type="email"
+                  id="email"
+                  label={<Text id="reportEmail" />}
+                  autoComplete="off"
+                />
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  disabled={sending}
+                >
                   <Text id={sending ? 'reporting' : 'report'} />
-                </button>
+                </Button>
               </form>
             )}
           </PageContainer>

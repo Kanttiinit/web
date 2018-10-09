@@ -22,7 +22,6 @@ export default class AssetsLoading extends React.PureComponent {
   }
 
   render() {
-    console.log(this.state.showError);
     return (
       <div
         className={classnames(

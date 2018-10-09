@@ -4,11 +4,11 @@ import * as format from 'date-fns/format';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import { uiState, preferenceStore } from '../store';
-import * as css from './Contact/Contact.scss';
-import Text from './Text';
-import PageContainer from './PageContainer';
-import feedbackProvider, { FeedbackProps } from './feedbackProvider';
+import { uiState, preferenceStore } from '../../store';
+import * as css from '../Contact/Contact.scss';
+import Text from '../Text';
+import PageContainer from '../PageContainer';
+import feedbackProvider, { FeedbackProps } from '../feedbackProvider';
 
 type Props = FeedbackProps & { restaurantId: number };
 

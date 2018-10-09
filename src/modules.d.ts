@@ -27,3 +27,4 @@ declare module 'pigeon-marker';
 declare module 'react-collapse';
 declare module 'react-text-mask';
 declare module 'react-loadable';
+declare module 'snarkdown';

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
 import { Collapse } from 'react-collapse';
+import snarkdown from 'snarkdown';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import * as css from './ChangeLog.scss';
@@ -75,7 +76,12 @@ export default observer(
                       springConfig={{ stiffness: 300, damping: 20 }}
                       isOpened={isVisible}
                     >
-                      <p className={css.body}>{update.description}</p>
+                      <p
+                        className={css.body}
+                        dangerouslySetInnerHTML={{
+                          __html: snarkdown(update.description)
+                        }}
+                      />
                     </Collapse>
                   </div>
                 </div>

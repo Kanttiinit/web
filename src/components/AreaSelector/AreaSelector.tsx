@@ -9,6 +9,7 @@ import { dataStore, preferenceStore } from '../../store';
 import * as css from './AreaSelector.scss';
 import Text from '../Text';
 import { AreaType } from '../../store/types';
+import { MdDirectionsWalk, MdStar } from 'react-icons/md';
 
 type SpecialArea = {
   id: -1 | -2;
@@ -16,10 +17,23 @@ type SpecialArea = {
 };
 
 const specialAreas: Array<SpecialArea> = [
-  { id: -2, name: <Text id="nearby" /> },
+  {
+    id: -2,
+    name: (
+      <React.Fragment>
+        <MdDirectionsWalk className={css.areaIcon} />
+        <Text id="nearby" />
+      </React.Fragment>
+    )
+  },
   {
     id: -1,
-    name: <Text id="starred" />
+    name: (
+      <React.Fragment>
+        <MdStar className={css.areaIcon} />
+        <Text id="starred" />
+      </React.Fragment>
+    )
   }
 ];
 
@@ -30,13 +44,14 @@ const Area = ({
   area: AreaType | SpecialArea;
   selectArea: (id: number) => void;
 }) => (
-  <div
-    className={classnames(
-      css.area,
-      preferenceStore.selectedArea === area.id && css.selected
-    )}
-  >
-    <button onMouseUp={() => selectArea(area.id)} className="button-text">
+  <div className={css.area}>
+    <button
+      onMouseUp={() => selectArea(area.id)}
+      className={classnames(
+        'button-text',
+        preferenceStore.selectedArea === area.id && css.selected
+      )}
+    >
       {area.name}
     </button>
   </div>

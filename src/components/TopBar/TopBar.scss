@@ -83,9 +83,17 @@ a.icon {
   width: 20em;
   background: var(--gray7);
   padding: 1em;
-  box-shadow: 0px 7px 10px 0px rgba(50, 50, 50, 0.1);
+  box-shadow: 0px 7px 18px -1px rgba(50, 50, 50, 0.1);
   border-radius: 4px;
   border: solid 1px var(--gray5);
+  opacity: 0;
+  transition: opacity 75ms;
+  pointer-events: none;
+}
+
+.areaSelectorOpen {
+  opacity: 1;
+  pointer-events: all;
 }
 
 @media (max-width: $break-small) {

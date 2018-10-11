@@ -7,35 +7,35 @@
   justify-content: space-between;
   user-select: none;
   background: var(--gray7);
-
-  @media (max-width: $break_small) {
-    justify-content: space-around;
-  }
 }
 
 .area {
-  border-radius: 0.5rem;
-  color: var(--gray1);
   width: 50%;
   box-sizing: border-box;
-  outline: none;
-
-  &.selected,
-  &:hover {
-    background: var(--gray5);
-  }
 
   button {
     background-color: transparent;
     color: inherit;
     width: 100%;
     padding: 1em 0.5em;
-    font-weight: normal;
+    border-radius: 4px;
+    font-weight: inherit;
     text-align: center;
     outline: none;
+    color: var(--gray1);
 
+    &.selected {
+      color: var(--accent_color);
+    }
+
+    &:hover,
     &:focus {
       background: var(--gray5);
     }
   }
+}
+
+.areaIcon {
+  margin-right: 0.5ch;
+  vertical-align: -1px;
 }

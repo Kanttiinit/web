@@ -1,4 +1,5 @@
 import * as React from 'react';
+import classnames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import { observer } from 'mobx-react';
@@ -96,11 +97,14 @@ export default withRouter(
                   <MdMap size={18} />
                   <Text id="selectArea" />
                 </a>
-                {this.state.areaSelectorOpen && (
-                  <div className={css.areaSelector}>
-                    <AreaSelector onAreaSelected={this.toggleAreaSelector} />
-                  </div>
-                )}
+                <div
+                  className={classnames(
+                    css.areaSelector,
+                    this.state.areaSelectorOpen && css.areaSelectorOpen
+                  )}
+                >
+                  <AreaSelector onAreaSelected={this.toggleAreaSelector} />
+                </div>
               </ClickOutside>
               <Link to={{ pathname: '/settings', search }} className={css.icon}>
                 <MdSettings size={18} />

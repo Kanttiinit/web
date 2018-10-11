@@ -71,3 +71,32 @@ a.icon {
   width: 14em;
   vertical-align: middle;
 }
+
+.areaSelectorContainer {
+  position: relative;
+}
+
+.areaSelector {
+  position: absolute;
+  right: 0;
+  top: 32px;
+  width: 20em;
+  background: var(--gray7);
+  padding: 1em;
+  box-shadow: 0px 7px 10px 0px rgba(50, 50, 50, 0.1);
+  border-radius: 4px;
+  border: solid 1px var(--gray5);
+}
+
+@media (max-width: $break-small) {
+  .areaSelectorContainer {
+    position: initial;
+  }
+
+  .areaSelector {
+    top: 52px;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}

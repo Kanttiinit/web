@@ -15,7 +15,7 @@ const shouldCacheUrl = (url: string): boolean => {
     return true;
   }
   if (
-    url.match(/^https?\:\/\/(kanttiinit\.fi|localhost)/) &&
+    url.match(/^https?\:\/\/((beta\.)?kanttiinit\.fi|localhost)/) &&
     url.match(/\.(js|png|svg|woff2)$/)
   ) {
     return true;
@@ -31,13 +31,12 @@ const resolve = async (request: Request) => {
       return response;
     } catch (e) {}
     return caches.match(request);
-  } else if (request.url.match(/amazonaws.+\.(png|jpg)$/)) {
-    cache.add(request);
   }
   return (await caches.match(request)) || fetch(request);
 };
 
 const install = async () => {
+  await (await getCache()).addAll(['/']);
   return worker.skipWaiting();
 };
 

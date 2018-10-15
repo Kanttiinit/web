@@ -6,3 +6,4 @@ export const openingHoursContainer: string;
 export const openingHours: string;
 export const day: string;
 export const hours: string;
+export const mapLabel: string;

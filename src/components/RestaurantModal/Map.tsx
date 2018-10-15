@@ -20,7 +20,9 @@ class RestaurantMap extends React.PureComponent<Props> {
           <Overlay anchor={this.props.restaurantPoint} offset={[11, 24]}>
             <div className={styles.restaurantPin}>
               <MdLocationOn size={24} />
-              <span>{this.props.restaurant.name}</span>
+              <span className={styles.mapLabel}>
+                {this.props.restaurant.name}
+              </span>
             </div>
           </Overlay>
           {this.props.userPoint && (

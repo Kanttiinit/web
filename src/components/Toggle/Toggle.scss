@@ -39,7 +39,7 @@ $bezier: cubic-bezier(0.645, 0.045, 0.355, 1);
   border-color: var(--accent_color);
 
   &:focus {
-    filter: brightness(115%);
+    filter: brightness(120%);
   }
 }
 
@@ -50,6 +50,6 @@ $bezier: cubic-bezier(0.645, 0.045, 0.355, 1);
   }
 
   &:focus {
-    background: var(--gray2);
+    background: var(--gray1);
   }
 }

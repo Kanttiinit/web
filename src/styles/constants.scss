@@ -38,11 +38,15 @@ $break-large: 768px;
   }
 
   &:focus {
-    filter: brightness(85%);
+    background: var(--gray5);
   }
 
   &.selected {
     background: $color;
     color: var(--gray6);
+
+    &:focus {
+      filter: brightness(115%);
+    }
   }
 }

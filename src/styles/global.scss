@@ -88,10 +88,6 @@
       cursor: not-allowed;
     }
 
-    &:focus {
-      filter: brightness(110%);
-    }
-
     &-small {
       font-size: 0.7rem;
       padding: 0.5em 0.7em;

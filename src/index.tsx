@@ -12,6 +12,7 @@ import App from './components/App';
 import Map from './components/Map';
 import Text from './components/Text';
 import './styles/global.scss';
+import AssetsLoading from './components/AssetsLoading';
 
 const useBugSnag = !!process.env.BUGSNAG_API_KEY;
 
@@ -35,14 +36,16 @@ export const ErrorBoundary = useBugSnag
 render(
   <ErrorBoundary FallbackComponent={ErrorMessage}>
     <BrowserRouter>
-      <Switch>
-        <Route path="/map">
-          <Map />
-        </Route>
-        <Route>
-          <App />
-        </Route>
-      </Switch>
+      <React.Suspense fallback={<AssetsLoading />}>
+        <Switch>
+          <Route path="/map">
+            <Map />
+          </Route>
+          <Route>
+            <App />
+          </Route>
+        </Switch>
+      </React.Suspense>
     </BrowserRouter>
   </ErrorBoundary>,
   document.getElementById('root')

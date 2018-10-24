@@ -21,6 +21,7 @@ import Clients from '../Clients';
 import ChangeLog from '../ChangeLog';
 import { isProduction, version } from '../../utils/consts';
 import { RouteComponentProps } from 'react-router';
+import AssetsLoading from '../AssetsLoading';
 
 class App extends React.PureComponent<RouteComponentProps<any>> {
   state = {
@@ -82,43 +83,45 @@ class App extends React.PureComponent<RouteComponentProps<any>> {
           <Footer />
         </div>
         <Modal open={this.props.location.pathname !== '/'}>
-          <Switch>
-            <Route exact path="/" render={null} />
-            <Route path="/settings/favorites">
-              <FavoriteSelector />
-            </Route>
-            <Route path="/settings">
-              <Settings />
-            </Route>
-            <Route path="/contact">
-              <Contact />
-            </Route>
-            <Route path="/terms-of-service">
-              <TermsOfService />
-            </Route>
-            <Route path="/select-area">
-              <AreaSelector />
-            </Route>
-            <Route path="/clients">
-              <Clients />
-            </Route>
-            <Route path="/news">
-              <ChangeLog />
-            </Route>
-            <Route path="/restaurant/:id">
-              {({ match }) => (
-                <RestaurantModal restaurantId={match.params.id} />
-              )}
-            </Route>
-            <Route path="/report/:restaurantId">
-              {({ match }) => (
-                <ReportModal restaurantId={match.params.restaurantId} />
-              )}
-            </Route>
-            <Route path="*">
-              <NotFound />
-            </Route>
-          </Switch>
+          <React.Suspense fallback={<AssetsLoading />}>
+            <Switch>
+              <Route exact path="/" render={null} />
+              <Route path="/settings/favorites">
+                <FavoriteSelector />
+              </Route>
+              <Route path="/settings">
+                <Settings />
+              </Route>
+              <Route path="/contact">
+                <Contact />
+              </Route>
+              <Route path="/terms-of-service">
+                <TermsOfService />
+              </Route>
+              <Route path="/select-area">
+                <AreaSelector />
+              </Route>
+              <Route path="/clients">
+                <Clients />
+              </Route>
+              <Route path="/news">
+                <ChangeLog />
+              </Route>
+              <Route path="/restaurant/:id">
+                {({ match }) => (
+                  <RestaurantModal restaurantId={match.params.id} />
+                )}
+              </Route>
+              <Route path="/report/:restaurantId">
+                {({ match }) => (
+                  <ReportModal restaurantId={match.params.restaurantId} />
+                )}
+              </Route>
+              <Route path="*">
+                <NotFound />
+              </Route>
+            </Switch>
+          </React.Suspense>
         </Modal>
       </React.Fragment>
     );

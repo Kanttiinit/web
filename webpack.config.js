@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const autoprefixer = require('autoprefixer');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const pkg = require('./package.json');
 
 const PATHS = {
@@ -11,6 +12,7 @@ const PATHS = {
 const isProduction = process.env.NODE_ENV === 'production';
 
 const plugins = [
+  new CleanWebpackPlugin('dist'),
   new webpack.DefinePlugin({
     IS_PRODUCTION: isProduction,
     'process.env': {

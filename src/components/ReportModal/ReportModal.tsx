@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import * as format from 'date-fns/format';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import { uiState, preferenceStore } from '../../store';
 import * as css from '../Contact/Contact.scss';
@@ -36,42 +37,50 @@ export default feedbackProvider(
         } = this.props;
 
         return (
-          <PageContainer title={<Text id="reportDataTitle" />}>
-            {sent ? (
-              <Text element="p" id="thanksForFeedback" />
-            ) : (
-              <form onSubmit={this.onSubmit}>
-                <TextField
-                  className={css.field}
-                  variant="outlined"
-                  fullWidth
-                  multiline
-                  id="report"
-                  required
-                  label={<Text id="reportLabel" />}
-                  rows={5}
-                  autoFocus
-                />
-                <TextField
-                  className={css.field}
-                  variant="outlined"
-                  fullWidth
-                  type="email"
-                  id="email"
-                  label={<Text id="reportEmail" />}
-                  autoComplete="off"
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  disabled={sending}
-                >
-                  <Text id={sending ? 'reporting' : 'report'} />
-                </Button>
-              </form>
-            )}
-          </PageContainer>
+          <MuiThemeProvider
+            theme={createMuiTheme({
+              palette: {
+                type: preferenceStore.darkMode ? 'dark' : 'light'
+              }
+            })}
+          >
+            <PageContainer title={<Text id="reportDataTitle" />}>
+              {sent ? (
+                <Text element="p" id="thanksForFeedback" />
+              ) : (
+                <form onSubmit={this.onSubmit}>
+                  <TextField
+                    className={css.field}
+                    variant="filled"
+                    fullWidth
+                    multiline
+                    id="report"
+                    required
+                    label={<Text id="reportLabel" />}
+                    rows={5}
+                    autoFocus
+                  />
+                  <TextField
+                    className={css.field}
+                    variant="filled"
+                    fullWidth
+                    type="email"
+                    id="email"
+                    label={<Text id="reportEmail" />}
+                    autoComplete="off"
+                  />
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    disabled={sending}
+                  >
+                    <Text id={sending ? 'reporting' : 'report'} />
+                  </Button>
+                </form>
+              )}
+            </PageContainer>
+          </MuiThemeProvider>
         );
       }
     }

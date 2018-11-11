@@ -46,6 +46,8 @@
   font-weight: 300;
   font-size: 0.9em;
   height: 5rem;
+  transition: opacity 0.2s;
+  opacity: 0;
 
   @media (min-width: $break_large) {
     display: none;
@@ -77,6 +79,10 @@
   .overlay {
     opacity: 0;
   }
+
+  .closeText {
+    opacity: 0;
+  }
 }
 
 .enterActive,
@@ -87,6 +93,10 @@
   }
 
   .overlay {
+    opacity: 1;
+  }
+
+  .closeText {
     opacity: 1;
   }
 }

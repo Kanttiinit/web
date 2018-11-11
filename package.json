@@ -1,6 +1,6 @@
 {
   "name": "kanttiinit-web",
-  "version": "10.7.6",
+  "version": "10.7.7",
   "description": "Kanttiinit.fi web client.",
   "main": "index.js",
   "engines": {

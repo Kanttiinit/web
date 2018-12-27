@@ -1,13 +1,27 @@
 import * as React from 'react';
 
-import * as css from './Colon.scss';
+import styled from 'styled-components';
+
+const Container = styled.span`
+  span::after {
+    content: ':';
+    vertical-align: 1px;
+    margin-right: 1px;
+  }
+
+  span:last-child::after {
+    display: none;
+  }
+`;
 
 const Colon = ({ children }: { children: string }) => {
   const parts = children.split(':');
   return (
-    <span className={css.container}>
-      {parts.map((part, i) => <span key={i}>{part}</span>)}
-    </span>
+    <Container>
+      {parts.map((part, i) => (
+        <span key={i}>{part}</span>
+      ))}
+    </Container>
   );
 };
 

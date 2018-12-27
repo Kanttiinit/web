@@ -11,6 +11,7 @@ type Props = {
   text?: string;
   translationKey?: keyof (typeof translations); // eslint-disable-line
   position?: Popper.Position;
+  className?: string;
 };
 
 type State = {
@@ -60,6 +61,7 @@ class Tooltip extends React.Component<Props, State> {
           onMouseOver={this.open}
           onMouseOut={this.close}
           ref={this.saveAnchorRef}
+          className={this.props.className}
         >
           {this.props.children}
         </span>

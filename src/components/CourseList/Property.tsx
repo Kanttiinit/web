@@ -2,8 +2,34 @@ import * as React from 'react';
 
 import { preferenceStore } from '../../store';
 import { properties } from '../../utils/translations';
-import * as css from './CourseList.scss';
 import Tooltip from '../Tooltip';
+import styled from 'styled-components';
+
+const ClickTrap = styled.span`
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  @media (hover: none) {
+    display: none;
+  }
+`;
+
+const Container = styled(Tooltip)`
+  padding: 0 0.4ch;
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    color: var(--accent_color);
+  }
+
+  &:last-child {
+    padding-right: 0;
+  }
+`;
 
 export default ({ property }: { property: string }) => {
   const prop = properties.find(p => p.key === property);
@@ -13,12 +39,9 @@ export default ({ property }: { property: string }) => {
       : prop.name_en
     : '';
   return (
-    <Tooltip text={propName}>
+    <Container text={propName}>
       {property}
-      <span
-        className={css.propertyClickTrap}
-        onClick={() => preferenceStore.toggleProperty(property)}
-      />
-    </Tooltip>
+      <ClickTrap onClick={() => preferenceStore.toggleProperty(property)} />
+    </Container>
   );
 };

@@ -2,9 +2,9 @@ import * as React from 'react';
 import { withRouter, Switch, Route } from 'react-router-dom';
 import * as GA from 'react-ga';
 import * as addDays from 'date-fns/add_days';
+import styled, { ThemeProvider } from 'styled-components';
 
-import { uiState } from '../../store';
-import * as css from './App.scss';
+import { uiState, preferenceStore } from '../../store';
 import Footer from '../Footer';
 import Modal from '../Modal';
 import TopBar from '../TopBar';
@@ -22,6 +22,17 @@ import ChangeLog from '../ChangeLog';
 import { isProduction, version } from '../../utils/consts';
 import { RouteComponentProps } from 'react-router';
 import AssetsLoading from '../AssetsLoading';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+`;
+
+const themeConstants = {
+  breakSmall: '767px'
+};
 
 class App extends React.PureComponent<RouteComponentProps<any>> {
   state = {
@@ -74,56 +85,60 @@ class App extends React.PureComponent<RouteComponentProps<any>> {
 
   render() {
     return (
-      <React.Fragment>
-        <div className={css.container}>
-          <div>
-            <TopBar />
-            <RestaurantList />
-          </div>
-          <Footer />
-        </div>
-        <Modal open={this.props.location.pathname !== '/'}>
-          <React.Suspense fallback={<AssetsLoading />}>
-            <Switch>
-              <Route exact path="/" render={null} />
-              <Route path="/settings/favorites">
-                <FavoriteSelector />
-              </Route>
-              <Route path="/settings">
-                <Settings />
-              </Route>
-              <Route path="/contact">
-                <Contact />
-              </Route>
-              <Route path="/terms-of-service">
-                <TermsOfService />
-              </Route>
-              <Route path="/select-area">
-                <AreaSelector />
-              </Route>
-              <Route path="/clients">
-                <Clients />
-              </Route>
-              <Route path="/news">
-                <ChangeLog />
-              </Route>
-              <Route path="/restaurant/:id">
-                {({ match }) => (
-                  <RestaurantModal restaurantId={match.params.id} />
-                )}
-              </Route>
-              <Route path="/report/:restaurantId">
-                {({ match }) => (
-                  <ReportModal restaurantId={match.params.restaurantId} />
-                )}
-              </Route>
-              <Route path="*">
-                <NotFound />
-              </Route>
-            </Switch>
-          </React.Suspense>
-        </Modal>
-      </React.Fragment>
+      <ThemeProvider
+        theme={{ ...themeConstants, dark: preferenceStore.darkMode }}
+      >
+        <React.Fragment>
+          <Container>
+            <div>
+              <TopBar />
+              <RestaurantList />
+            </div>
+            <Footer />
+          </Container>
+          <Modal open={this.props.location.pathname !== '/'}>
+            <React.Suspense fallback={<AssetsLoading />}>
+              <Switch>
+                <Route exact path="/" render={null} />
+                <Route path="/settings/favorites">
+                  <FavoriteSelector />
+                </Route>
+                <Route path="/settings">
+                  <Settings />
+                </Route>
+                <Route path="/contact">
+                  <Contact />
+                </Route>
+                <Route path="/terms-of-service">
+                  <TermsOfService />
+                </Route>
+                <Route path="/select-area">
+                  <AreaSelector />
+                </Route>
+                <Route path="/clients">
+                  <Clients />
+                </Route>
+                <Route path="/news">
+                  <ChangeLog />
+                </Route>
+                <Route path="/restaurant/:id">
+                  {({ match }) => (
+                    <RestaurantModal restaurantId={match.params.id} />
+                  )}
+                </Route>
+                <Route path="/report/:restaurantId">
+                  {({ match }) => (
+                    <ReportModal restaurantId={match.params.restaurantId} />
+                  )}
+                </Route>
+                <Route path="*">
+                  <NotFound />
+                </Route>
+              </Switch>
+            </React.Suspense>
+          </Modal>
+        </React.Fragment>
+      </ThemeProvider>
     );
   }
 }

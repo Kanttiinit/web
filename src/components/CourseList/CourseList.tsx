@@ -1,15 +1,14 @@
 import * as React from 'react';
 import { MdFavorite } from 'react-icons/md';
-import * as c from 'classnames';
 import * as memoize from 'lodash/memoize';
 import * as capitalize from 'lodash/capitalize';
 
 import Property from './Property';
 import { CourseType } from '../../store/types';
 import Text from '../Text';
-import * as css from './CourseList.scss';
 import { dataStore, preferenceStore } from '../../store';
 import { observer } from 'mobx-react';
+import styled, { css } from 'styled-components';
 
 type CourseGroup = { key: string; courses: Array<CourseType> };
 
@@ -43,6 +42,47 @@ const courseGroups = (courses: Array<CourseType>) => {
 
 const moizedGroups: typeof courseGroups = memoize(courseGroups);
 
+const CourseTitle = styled.span<{ highlight: boolean; dimmed: boolean }>`
+  flex: 1;
+  color: var(--gray1);
+
+  ${props =>
+    props.highlight &&
+    css`
+      color: var(--friendly);
+      font-weight: 500;
+    `}
+
+  ${props => props.dimmed && 'color: var(--gray4);'}
+`;
+
+const PropertyContainer = styled.span`
+  font-size: 0.7rem;
+  font-weight: 300;
+  display: inline;
+  color: var(--gray2);
+`;
+
+const FavoriteIcon = styled(MdFavorite)`
+  margin-right: 0.5em;
+`;
+
+const CourseWrapper = styled.div<{
+  favorite: boolean;
+}>`
+  padding-bottom: 0.2rem;
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--gray6);
+  }
+
+  ${props => props.favorite && 'color: var(--hearty);'}
+`;
+
 const Course = observer(({ course }: { course: CourseType }) => {
   const isFavorite = dataStore.isFavorite(course);
   const highlight = course.properties.some(p =>
@@ -52,22 +92,17 @@ const Course = observer(({ course }: { course: CourseType }) => {
     preferenceStore.isUndesiredProperty(p)
   );
   return (
-    <div
-      className={c(
-        css.course,
-        isFavorite && css.favoriteCourse,
-        highlight && css.highlight,
-        dim && css.dim
-      )}
-    >
-      {isFavorite && <MdFavorite className={`inline-icon ${css.icon}`} />}
-      <span className={css.title}>{course.title}</span>
-      <span className={css.props}>
+    <CourseWrapper favorite={isFavorite}>
+      {isFavorite && <FavoriteIcon />}
+      <CourseTitle highlight={highlight} dimmed={dim}>
+        {course.title}
+      </CourseTitle>
+      <PropertyContainer>
         {course.properties.map(p => (
           <Property key={p} property={p} />
         ))}
-      </span>
-    </div>
+      </PropertyContainer>
+    </CourseWrapper>
   );
 });
 
@@ -76,18 +111,37 @@ interface Props {
   className?: string;
 }
 
+const Group = styled.div`
+  &:not(:last-child) {
+    margin-bottom: 0.6rem;
+  }
+`;
+
+const GroupTitle = styled.span`
+  display: block;
+  color: var(--gray3);
+  margin-bottom: 0.2rem;
+  font-size: 0.8em;
+`;
+
+const EmptyText = styled(Text).attrs({ id: 'noMenu', element: 'span' })`
+  font-size: 1rem;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
 const CourseList = ({ courses, ...props }: Props) => (
   <div {...props}>
-    {!courses.length && (
-      <Text id="noMenu" element="span" className={css.emptyText} />
-    )}
+    {!courses.length && <EmptyText />}
     {moizedGroups(courses).map((group: CourseGroup) => (
-      <div key={group.key} className={css.courseGroup}>
-        <span className={css.courseGroupTitle}>{capitalize(group.key)}</span>
+      <Group key={group.key}>
+        <GroupTitle>{capitalize(group.key)}</GroupTitle>
         {group.courses.map((c, i) => (
           <Course key={i} course={c} />
         ))}
-      </div>
+      </Group>
     ))}
   </div>
 );

@@ -11,6 +11,20 @@ import { getCourses } from '../../utils/api';
 import { CourseType } from '../../store/types';
 import * as css from './MenuViewer.scss';
 import Tooltip from '../Tooltip';
+import styled from 'styled-components';
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const ButtonContainer = styled.div`
+  svg {
+    cursor: pointer;
+    margin-left: 1rem;
+    color: var(--gray1);
+  }
+`;
 
 type Props = {
   restaurantId: number;
@@ -79,10 +93,10 @@ export default observer(
       const { showCopyButton } = this.props;
       return (
         <div>
-          <div className={css.header}>
+          <Header>
             <DaySelector root={location.pathname} />
             {showCopyButton && (
-              <div className={css.copyButtons}>
+              <ButtonContainer>
                 {'share' in navigator && (
                   <Tooltip translationKey="shareURL">
                     <MdShare size={18} onClick={this.share} />
@@ -97,9 +111,9 @@ export default observer(
                     onClick={() => this.onCopy('courses')}
                   />
                 </Tooltip>
-              </div>
+              </ButtonContainer>
             )}
-          </div>
+          </Header>
           <CourseList
             className={classnames(
               css.courseList,

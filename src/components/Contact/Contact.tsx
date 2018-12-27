@@ -2,12 +2,16 @@ import * as React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import styled from 'styled-components';
 
-import * as css from './Contact.scss';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
 import feedbackProvider, { FeedbackProps } from '../feedbackProvider';
 import { preferenceStore } from '../../store';
+
+const Field = styled(TextField)`
+  margin-bottom: 1em !important;
+`;
 
 export default feedbackProvider(
   class Contact extends React.PureComponent<FeedbackProps> {
@@ -32,8 +36,7 @@ export default feedbackProvider(
               <Text element="p" id="thanksForFeedback" />
             ) : (
               <form onSubmit={this.onSubmit}>
-                <TextField
-                  className={css.field}
+                <Field
                   variant="filled"
                   fullWidth
                   autoFocus
@@ -43,8 +46,7 @@ export default feedbackProvider(
                   label="E-mail"
                   autoComplete="off"
                 />
-                <TextField
-                  className={css.field}
+                <Field
                   variant="filled"
                   fullWidth
                   multiline

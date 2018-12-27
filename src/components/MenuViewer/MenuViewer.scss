@@ -1,18 +1,5 @@
 @import "constants.scss";
 
-.header {
-  display: flex;
-  align-items: center;
-}
-
-.copyButtons {
-  svg {
-    cursor: pointer;
-    margin-left: 1rem;
-    color: var(--gray1);
-  }
-}
-
 .courseList {
   transition: opacity 0.2s;
   overflow: auto;

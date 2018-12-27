@@ -1,14 +1,29 @@
 import * as React from 'react';
-import classnames from 'classnames';
 import Text from '../Text';
 
-import * as styles from './AssetsLoading.scss';
+import styled from 'styled-components';
+
+const Container = styled.div<{ showLoading: boolean }>`
+  width: 100%;
+  height: 100%;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 5em;
+  background: var(--gray7);
+
+  p {
+    transition: opacity 0.2s;
+    opacity: ${props => (props.showLoading ? 1 : 0)};
+  }
+`;
 
 export default class AssetsLoading extends React.PureComponent {
   timeout: NodeJS.Timer;
 
   state = {
-    showError: false
+    showLoading: false
   };
 
   componentDidMount() {
@@ -23,14 +38,9 @@ export default class AssetsLoading extends React.PureComponent {
 
   render() {
     return (
-      <div
-        className={classnames(
-          styles.container,
-          this.state.showError && styles.visible
-        )}
-      >
+      <Container showLoading={this.state.showLoading}>
         <Text element="p" id="assetsLoading" />
-      </div>
+      </Container>
     );
   }
 }

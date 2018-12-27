@@ -1,20 +1,65 @@
 import * as React from 'react';
-import * as classnames from 'classnames';
 import { Collapse } from 'react-collapse';
 import snarkdown from 'snarkdown';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
-import * as css from './ChangeLog.scss';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
 import { Update } from '../../store/types';
 import { preferenceStore, dataStore } from '../../store';
 import { observer } from 'mobx-react';
 import { autorun, IReactionDisposer } from 'mobx';
+import styled from 'styled-components';
 
 type State = {
   visibleItems: Array<number>;
 };
+
+const UpdateWrapper = styled.div`
+  margin-bottom: 0.5em;
+  display: flex;
+  color: var(--gray2);
+  padding: 0.5em;
+  border-radius: 0.2em;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--gray5);
+  }
+
+  &:last-child {
+    margin: 0;
+  }
+`;
+
+const UpdateContent = styled.div`
+  flex: 1;
+  margin-left: 1ch;
+`;
+
+const Body = styled.p<{ isVisible: boolean }>`
+  margin: 0;
+  line-height: 1.25em;
+  display: ${props => (props.isVisible ? 'block' : 'none')};
+`;
+
+const Title = styled.h3`
+  margin: 0 0 0.1em 0;
+`;
+
+const PublishedAt = styled.p`
+  font-size: 0.7em;
+  text-transform: uppercase;
+  font-weight: 500;
+  margin: 0 0 0;
+  color: var(--gray2) !important;
+`;
+
+const ArrowDownIcon = styled(MdKeyboardArrowDown)<{ isVisible: boolean }>`
+  margin-top: 0.4em;
+  transition: transform 0.3s;
+  ${props => props.isVisible && 'transform: rotateX(180deg);'}
+`;
 
 export default observer(
   class ChangeLog extends React.Component<any, State> {
@@ -61,30 +106,29 @@ export default observer(
                 id => update.id === id
               );
               return (
-                <div
+                <UpdateWrapper
                   onClick={() => this.toggleVisible(update)}
-                  className={classnames(css.update, isVisible && css.visible)}
                   key={update.id}
                 >
-                  <MdKeyboardArrowDown className={css.icon} size={30} />
-                  <div className={css.meta}>
-                    <p className={css.publishedAt}>
+                  <ArrowDownIcon isVisible={isVisible} size={30} />
+                  <UpdateContent>
+                    <PublishedAt>
                       {distanceInWordsToNow(update.createdAt)}
-                    </p>
-                    <h3 className={css.title}>{update.title}</h3>
+                    </PublishedAt>
+                    <Title>{update.title}</Title>
                     <Collapse
                       springConfig={{ stiffness: 300, damping: 20 }}
                       isOpened={isVisible}
                     >
-                      <p
-                        className={css.body}
+                      <Body
+                        isVisible={isVisible}
                         dangerouslySetInnerHTML={{
                           __html: snarkdown(update.description)
                         }}
                       />
                     </Collapse>
-                  </div>
-                </div>
+                  </UpdateContent>
+                </UpdateWrapper>
               );
             })
           )}

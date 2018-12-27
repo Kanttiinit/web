@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { withRouter } from 'react-router-dom';
 import { observer } from 'mobx-react';
+import { RouteComponentProps } from 'react-router';
+import styled from 'styled-components';
 
 import { preferenceStore } from '../../store';
-import * as css from './Settings.scss';
 import Text from '../Text';
 import Radio from '../Radio';
 import Toggle from '../Toggle';
@@ -11,18 +12,25 @@ import PageContainer from '../PageContainer';
 import FavoriteSelector from '../FavoriteSelector';
 import PropertySelector from '../PropertySelector';
 import { Order, Lang } from '../../store/types';
-import { RouteComponentProps } from 'react-router';
 
 type ItemProps = {
   label: React.ReactNode;
   children: React.ReactNode;
 };
 
+const ItemTitle = styled.h2`
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--gray3);
+  margin-top: 2em;
+`;
+
 const Item = ({ label, children }: ItemProps) => (
-  <div className="settings-item">
-    <h2 className={css.sectionHeader}>{label}</h2>
+  <React.Fragment>
+    <ItemTitle>{label}</ItemTitle>
     {children}
-  </div>
+  </React.Fragment>
 );
 
 const orders = [Order.AUTOMATIC, Order.ALPHABET, Order.DISTANCE].map(order => ({

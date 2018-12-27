@@ -31,7 +31,8 @@ const Container = styled.div`
 `;
 
 const themeConstants = {
-  breakSmall: '767px'
+  breakSmall: '767px',
+  breakLarge: '768px'
 };
 
 class App extends React.PureComponent<RouteComponentProps<any>> {

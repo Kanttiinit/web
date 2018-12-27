@@ -1,5 +1,4 @@
 import * as React from 'react';
-import classnames from 'classnames';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import { observer } from 'mobx-react';
@@ -11,9 +10,113 @@ const EN = require('../../assets/en.png');
 
 import DaySelector from '../DaySelector';
 import { preferenceStore, dataStore } from '../../store';
-import * as css from './TopBar.scss';
 import Text from '../Text';
 import AreaSelector from '../AreaSelector';
+import styled, { css } from 'styled-components';
+
+const Container = styled.div`
+  background: linear-gradient(to bottom, var(--gray7) 0%, var(--gray6) 100%);
+  box-sizing: border-box;
+  padding: 0 0.5em;
+  position: fixed;
+  width: 100%;
+  z-index: 10;
+  color: var(--gray3);
+  border-bottom: 1px solid var(--gray5);
+  user-select: none;
+
+  @media (max-width: ${props => props.theme.breakSmall}) {
+    background-color: var(--gray6);
+    justify-content: flex-start;
+    padding: 0.2em;
+    padding-left: 1rem;
+  }
+
+  ${props =>
+    props.theme.dark &&
+    'background: linear-gradient(to bottom, var(--gray6) 0%, var(--gray7) 100%);'}
+`;
+
+const Content = styled.div`
+  max-width: 94.2rem;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+`;
+
+const NewsIcon = styled(MdFiberNew)`
+  color: var(--accent_color);
+`;
+
+const AreaSelectorButton = styled(ClickOutside)`
+  position: relative;
+
+  @media (max-width: ${props => props.theme.breakSmall}) {
+    position: initial;
+  }
+`;
+
+const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
+  position: absolute;
+  right: 0;
+  top: 32px;
+  width: 20em;
+  background: var(--gray7);
+  padding: 1em;
+  box-shadow: 0px 7px 18px -1px rgba(50, 50, 50, 0.1);
+  border-radius: 4px;
+  border: solid 1px var(--gray5);
+  opacity: 0;
+  transition: opacity 75ms;
+  pointer-events: none;
+
+  ${props =>
+    props.isOpen &&
+    css`
+      opacity: 1;
+      pointer-events: all;
+    `}
+
+  @media (max-width: ${props => props.theme.breakSmall}) {
+    top: 52px;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+`;
+
+const IconLink = styled.a`
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  margin: 0 1em;
+
+  &:link,
+  &:visited {
+    color: var(--gray3);
+  }
+
+  &:hover,
+  &:focus {
+    outline: none;
+    color: var(--accent_color);
+  }
+
+  svg {
+    display: none;
+  }
+
+  @media (max-width: ${props => props.theme.breakSmall}) {
+    svg {
+      display: block;
+    }
+    span {
+      display: none;
+    }
+  }
+`;
 
 type State = {
   areaSelectorOpen: boolean;
@@ -77,48 +180,39 @@ export default withRouter(
       render() {
         const { search } = this.props.location;
         return (
-          <div className={css.container}>
-            <div className={css.centered}>
+          <Container>
+            <Content>
               <DaySelector root="/" />
               {dataStore.unseenUpdates.length > 0 && (
                 <Link to={{ pathname: '/news', search }}>
-                  <MdFiberNew className={css.newsIcon} size={24} />
+                  <NewsIcon size={24} />
                 </Link>
               )}
-              <ClickOutside
-                onClickOutside={this.closeAreaSelector}
-                className={css.areaSelectorContainer}
-              >
-                <a
-                  className={css.icon}
+              <AreaSelectorButton onClickOutside={this.closeAreaSelector}>
+                <IconLink
                   ref={this.setTouchListeners}
                   onMouseDown={this.toggleAreaSelector}
                 >
                   <MdMap size={18} />
                   <Text id="selectArea" />
-                </a>
-                <div
-                  className={classnames(
-                    css.areaSelector,
-                    this.state.areaSelectorOpen && css.areaSelectorOpen
-                  )}
-                >
+                </IconLink>
+                <AreaSelectorContainer isOpen={this.state.areaSelectorOpen}>
                   <AreaSelector onAreaSelected={this.toggleAreaSelector} />
-                </div>
-              </ClickOutside>
-              <Link to={{ pathname: '/settings', search }} className={css.icon}>
+                </AreaSelectorContainer>
+              </AreaSelectorButton>
+              <IconLink as={Link} to={{ pathname: '/settings', search }}>
                 <MdSettings size={18} />
                 <Text id="settings" />
-              </Link>
-              <a className={css.icon} onClick={this.toggleLanguage}>
+              </IconLink>
+              <IconLink onClick={this.toggleLanguage}>
                 <img
                   height={18}
                   alt={preferenceStore.lang.toUpperCase()}
                   src={preferenceStore.lang === 'fi' ? FI : EN}
                 />
-              </a>
-            </div>
-          </div>
+              </IconLink>
+            </Content>
+          </Container>
         );
       }
     }

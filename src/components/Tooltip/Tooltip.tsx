@@ -5,6 +5,20 @@ import * as ReactDOM from 'react-dom';
 import { preferenceStore } from '../../store';
 import translations from '../../utils/translations';
 import * as styles from './Tooltip.scss';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  font-size: 0.8rem;
+  position: absolute;
+  background: var(--gray2);
+  color: var(--gray7);
+  padding: 0.25rem 0.5rem;
+  margin: 1em;
+  z-index: 99999;
+  white-space: nowrap;
+  pointer-events: none;
+  border-radius: 0.25rem;
+`;
 
 type Props = {
   children: React.ReactNode;
@@ -67,9 +81,7 @@ class Tooltip extends React.Component<Props, State> {
         </span>
         {this.state.isOpen &&
           ReactDOM.createPortal(
-            <div className={styles.tooltip} ref={this.saveTooltipRef}>
-              {contents}
-            </div>,
+            <Container ref={this.saveTooltipRef}>{contents}</Container>,
             document.body
           )}
       </React.Fragment>

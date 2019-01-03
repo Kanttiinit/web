@@ -7,8 +7,53 @@ const locating = require('../../assets/locating.svg');
 import { dataStore, uiState, preferenceStore } from '../../store';
 import Text from '../Text';
 import NetworkStatus from '../NetworkStatus';
-import * as css from './RestaurantList.scss';
 import Restaurant, { Placeholder } from '../Restaurant';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  padding: 4rem 0 1.5rem;
+
+  @media (max-width: ${props => props.theme.breakSmall}) {
+    padding-top: 3.5rem;
+  }
+
+  @media (min-width: ${props => props.theme.breakLarge}) {
+    max-width: 95em;
+    margin: 0 auto;
+  }
+`;
+
+const ListContainer = styled.div`
+  display: flex;
+
+  @media (max-width: ${props => props.theme.breakSmall}) {
+    max-width: 100%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+
+  @media (min-width: ${props => props.theme.breakLarge}) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+`;
+
+const Locating = styled.div`
+  text-align: center;
+  flex: 1;
+
+  img {
+    max-width: 15rem;
+  }
+`;
+
+const EmptyTextContainer = styled.div`
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--gray3);
+  margin: 2em 0 0;
+  text-align: center;
+`;
 
 export default observer(
   class RestaurantList extends React.Component {
@@ -25,19 +70,19 @@ export default observer(
           return <Text id="turnOnLocation" element="p" className="notice" />;
         } else if (!uiState.location) {
           return (
-            <div className={css.locating}>
+            <Locating>
               <img src={locating} />
               <Text id="locating" element="p" className="notice" />
-            </div>
+            </Locating>
           );
         }
       } else if (!restaurants.length) {
         return (
-          <div className={css.emptyText}>
+          <EmptyTextContainer>
             <MdError className="inline-icon" />
             &nbsp;
             <Text id="emptyRestaurants" />
-          </div>
+          </EmptyTextContainer>
         );
       }
       return restaurants.map(restaurant => (
@@ -47,10 +92,10 @@ export default observer(
 
     render() {
       return (
-        <div className={css.wrapper}>
+        <Container>
           <NetworkStatus />
-          <div className={css.container}>{this.renderContent()}</div>
-        </div>
+          <ListContainer>{this.renderContent()}</ListContainer>
+        </Container>
       );
     }
   }

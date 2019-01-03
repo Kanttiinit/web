@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import { uiState, preferenceStore } from '../../store';
-import * as css from '../Contact/Contact.scss';
 import Text from '../Text';
 import PageContainer from '../PageContainer';
 import feedbackProvider, { FeedbackProps } from '../feedbackProvider';
@@ -50,7 +49,6 @@ export default feedbackProvider(
               ) : (
                 <form onSubmit={this.onSubmit}>
                   <TextField
-                    className={css.field}
                     variant="filled"
                     fullWidth
                     multiline
@@ -61,7 +59,6 @@ export default feedbackProvider(
                     autoFocus
                   />
                   <TextField
-                    className={css.field}
                     variant="filled"
                     fullWidth
                     type="email"

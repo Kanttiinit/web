@@ -3,19 +3,15 @@ import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 import { observer } from 'mobx-react';
 
 import { dataStore, preferenceStore } from '../../store';
-import * as css from './FavoriteSelector.scss';
+import { RoundedButtonContainer, RoundedButton } from '../Button/RoundedButton';
 
 export default observer(() => (
-  <div className={css.container}>
+  <RoundedButtonContainer>
     {dataStore.formattedFavorites.map(favorite => (
-      <button
+      <RoundedButton
+        color="var(--hearty)"
         key={favorite.id}
-        className={
-          'button ' +
-          (favorite.isSelected ? css.selected : '') +
-          ' ' +
-          css.roundedButton
-        }
+        selected={favorite.isSelected}
         onClick={() => preferenceStore.toggleFavorite(favorite.id)}
       >
         {favorite.isSelected ? (
@@ -25,7 +21,7 @@ export default observer(() => (
         )}
         &nbsp;
         {favorite.name}
-      </button>
+      </RoundedButton>
     ))}
-  </div>
+  </RoundedButtonContainer>
 ));

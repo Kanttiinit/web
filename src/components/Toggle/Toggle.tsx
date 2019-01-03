@@ -1,25 +1,61 @@
 import * as React from 'react';
-import * as css from './Toggle.scss';
+import styled from 'styled-components';
 
 type Props = {
-  onChange: (value: boolean) => void;
+  onChange: (selected: boolean) => void;
   selected: boolean;
-  className?: string;
-  style?: Object;
 };
 
-const Toggle = ({ selected, className, onChange }: Props) => {
-  return (
-    <div className={className}>
-      <span
-        tabIndex={0}
-        onClick={() => onChange(!selected)}
-        className={
-          css.toggle + (selected ? ' ' + css.toggleOn : ' ' + css.toggleOff)
-        }
-      />
-    </div>
-  );
-};
+const StyledToggle = styled.span<{ on: boolean }>`
+  position: relative;
+  display: inline-block;
+  border: 2px solid var(--gray3);
+  background: var(--gray3);
+  border-radius: 20px;
+  padding: 10px 0;
+  min-width: 4em;
+  min-height: 1em;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  outline: none;
+
+  &:focus {
+    background: var(--gray1);
+  }
+
+  &:after {
+    cursor: pointer;
+    position: absolute;
+    background: var(--gray6);
+    box-sizing: border-box;
+    top: 50%;
+    border-radius: 30px;
+    margin: 0.1em;
+    margin-top: -25%;
+    width: 2em;
+    height: 2em;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    content: '';
+    ${props => props.on && 'margin-left: 1.9em;'}
+  }
+
+  ${props =>
+    props.on &&
+    `
+      background: var(--accent_color);
+      border-color: var(--accent_color);
+
+      &:focus {
+        filter: brightness(120%);
+      }
+    `}
+`;
+
+const Toggle = ({ selected, onChange }: Props) => (
+  <StyledToggle
+    tabIndex={0}
+    on={selected}
+    onClick={() => onChange(!selected)}
+  />
+);
 
 export default Toggle;

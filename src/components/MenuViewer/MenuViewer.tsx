@@ -26,6 +26,19 @@ const ButtonContainer = styled.div`
   }
 `;
 
+const StyledCourseList = styled.div<{ loading: boolean }>`
+  transition: opacity 0.2s;
+  overflow: auto;
+  max-height: 25vh;
+  padding-right: 1ch;
+
+  ${props => props.loading && 'opacity: 0.5;'}
+
+  @media (max-width: ${props => props.theme.breakSmall}) {
+    max-height: 100%;
+  }
+`;
+
 type Props = {
   restaurantId: number;
   showCopyButton?: boolean;
@@ -114,13 +127,7 @@ export default observer(
               </ButtonContainer>
             )}
           </Header>
-          <CourseList
-            className={classnames(
-              css.courseList,
-              loading && css.coursesLoading
-            )}
-            courses={courses}
-          />
+          <StyledCourseList courses={courses} />
         </div>
       );
     }

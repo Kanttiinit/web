@@ -1,5 +1,5 @@
-import 'whatwg-fetch';
 import * as isSameDay from 'date-fns/is_same_day';
+import 'whatwg-fetch';
 
 import { uiState } from '../store';
 import { version } from './consts';

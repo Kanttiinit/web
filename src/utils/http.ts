@@ -4,12 +4,12 @@ import { apiBase } from './consts';
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 export default {
-  fetch(method: Method, url: string, body: Object, authorize: boolean) {
+  fetch(method: Method, url: string, body: any, authorize: boolean) {
     const options: any = {
-      method,
-      headers: [],
       body: undefined,
-      credentials: undefined
+      credentials: undefined,
+      headers: [],
+      method
     };
     if (authorize) {
       options.credentials = 'include';
@@ -28,13 +28,13 @@ export default {
   get(url: string, authorize?: boolean) {
     return this.fetch('GET', url, undefined, authorize);
   },
-  post(url: string, data?: Object) {
+  post(url: string, data?: any) {
     return this.fetch('POST', url, data, true);
   },
-  put(url: string, data?: Object) {
+  put(url: string, data?: any) {
     return this.fetch('PUT', url, data, true);
   },
-  delete(url: string, data?: Object) {
+  delete(url: string, data?: any) {
     return this.fetch('DELETE', url, data, true);
   }
 };

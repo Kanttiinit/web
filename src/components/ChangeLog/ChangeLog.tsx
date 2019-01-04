@@ -1,19 +1,20 @@
+import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import { autorun, IReactionDisposer } from 'mobx';
+import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Collapse } from 'react-collapse';
-import snarkdown from 'snarkdown';
 import { MdKeyboardArrowDown } from 'react-icons/md';
-import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
-import PageContainer from '../PageContainer';
-import Text from '../Text';
-import { Update } from '../../store/types';
-import { preferenceStore, dataStore } from '../../store';
-import { observer } from 'mobx-react';
-import { autorun, IReactionDisposer } from 'mobx';
+import snarkdown from 'snarkdown';
 import styled from 'styled-components';
 
-type State = {
-  visibleItems: Array<number>;
-};
+import { dataStore, preferenceStore } from '../../store';
+import { Update } from '../../store/types';
+import PageContainer from '../PageContainer';
+import Text from '../Text';
+
+interface State {
+  visibleItems: number[];
+}
 
 const UpdateWrapper = styled.div`
   margin-bottom: 0.5em;
@@ -80,7 +81,7 @@ export default observer(
             visibleItems: [...state.visibleItems, update.id]
           };
         }
-      });
+      })
 
     componentWillUnmount() {
       preferenceStore.updatesLastSeenAt = Date.now();

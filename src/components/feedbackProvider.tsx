@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { sendFeedback } from '../utils/api';
 import { ComponentType } from 'react';
+import { sendFeedback } from '../utils/api';
 
 interface State {
   sending: boolean;
@@ -17,9 +17,9 @@ export interface FeedbackProps {
 export default (Component: ComponentType<FeedbackProps>) =>
   class extends React.PureComponent<any, any> {
     state: State = {
+      error: null,
       sending: false,
-      sent: false,
-      error: null
+      sent: false
     };
 
     onSubmit = async (message: string) => {
@@ -30,7 +30,7 @@ export default (Component: ComponentType<FeedbackProps>) =>
       } catch (error) {
         this.setState({ sending: false, error });
       }
-    };
+    }
 
     render() {
       return (

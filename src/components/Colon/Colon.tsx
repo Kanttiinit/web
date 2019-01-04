@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 const Container = styled.span`
   span::after {
-    content: ':';
+    content: ":";
     vertical-align: 1px;
     margin-right: 1px;
   }

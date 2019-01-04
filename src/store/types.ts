@@ -3,7 +3,7 @@ export interface RestaurantType {
   name: string;
   longitude: number;
   latitude: number;
-  openingHours: Array<string>;
+  openingHours: string[];
   address: string;
   url: string;
   isStarred: boolean;
@@ -16,7 +16,7 @@ export interface RestaurantType {
 export interface AreaType {
   id: number;
   name: string;
-  restaurants: Array<number>;
+  restaurants: number[];
   mapImageUrl: string;
 }
 
@@ -32,13 +32,13 @@ export interface FormattedFavoriteType extends FavoriteType {
 
 export interface MenuType {
   [restaurantId: string]: {
-    [date: string]: Array<CourseType>;
+    [date: string]: CourseType[];
   };
 }
 
 export interface CourseType {
   title: string;
-  properties: Array<string>;
+  properties: string[];
 }
 
 export type UpdateType = 'software-update' | 'information-update' | 'bugfix';

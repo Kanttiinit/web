@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-type Props = {
+interface Props {
   children?: any;
   title: any;
   className?: string;
-};
+}
 
 const Container = styled.div`
   background: var(--gray7);

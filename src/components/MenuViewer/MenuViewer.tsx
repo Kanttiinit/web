@@ -1,15 +1,15 @@
-import * as React from 'react';
 import { autorun } from 'mobx';
 import { observer } from 'mobx-react';
+import * as React from 'react';
 import { MdContentCopy, MdLink, MdShare } from 'react-icons/md';
+import styled from 'styled-components';
 
-import { uiState, preferenceStore } from '../../store';
+import { preferenceStore, uiState } from '../../store';
+import { CourseType } from '../../store/types';
+import { getCourses } from '../../utils/api';
 import CourseList from '../CourseList';
 import DaySelector from '../DaySelector';
-import { getCourses } from '../../utils/api';
-import { CourseType } from '../../store/types';
 import Tooltip from '../Tooltip';
-import styled from 'styled-components';
 
 const Header = styled.div`
   display: flex;
@@ -37,24 +37,24 @@ const StyledCourseList = styled(CourseList)<{ loading: boolean }>`
   }
 `;
 
-type Props = {
+interface Props {
   restaurantId: number;
   showCopyButton?: boolean;
   maxHeight?: number;
-};
+}
 
 export default observer(
   class MenuViewer extends React.Component {
-    removeAutorun: Function;
+    removeAutorun: () => any;
     props: Props;
     state: {
-      courses: Array<CourseType>;
+      courses: CourseType[];
       loading: boolean;
       error: Error | null;
     } = {
       courses: [],
-      loading: false,
-      error: null
+      error: null,
+      loading: false
     };
 
     onCopy = (target: string) => {
@@ -70,14 +70,14 @@ export default observer(
       textArea.select();
       document.execCommand('copy');
       textArea.remove();
-    };
+    }
 
     share = () => {
       (navigator as any).share({
         title: 'Kanttiinit.fi',
         url: location.href
       });
-    };
+    }
 
     componentDidMount() {
       this.removeAutorun = autorun(async () => {

@@ -2,10 +2,9 @@ import { observer } from 'mobx-react';
 import Popper from 'popper.js';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import styled from 'styled-components';
 import { preferenceStore } from '../../store';
 import translations from '../../utils/translations';
-import * as styles from './Tooltip.scss';
-import styled from 'styled-components';
 
 const Container = styled.div`
   font-size: 0.8rem;
@@ -20,17 +19,17 @@ const Container = styled.div`
   border-radius: 0.25rem;
 `;
 
-type Props = {
+interface Props {
   children: React.ReactNode;
   text?: string;
   translationKey?: keyof (typeof translations); // eslint-disable-line
   position?: Popper.Position;
   className?: string;
-};
+}
 
-type State = {
+interface State {
   isOpen: boolean;
-};
+}
 
 @observer
 class Tooltip extends React.Component<Props, State> {
@@ -44,14 +43,14 @@ class Tooltip extends React.Component<Props, State> {
       this.anchor = e;
       this.updatePopper();
     }
-  };
+  }
 
   saveTooltipRef = (e: Element) => {
     if (e) {
       this.tooltip = e;
       this.updatePopper();
     }
-  };
+  }
 
   updatePopper = () => {
     if (this.anchor && this.tooltip) {
@@ -59,7 +58,7 @@ class Tooltip extends React.Component<Props, State> {
         placement: this.props.position || 'bottom-start'
       });
     }
-  };
+  }
 
   open = () => this.setState({ isOpen: true });
 

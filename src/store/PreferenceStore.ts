@@ -1,9 +1,9 @@
-import { autorun, observable, action } from 'mobx';
 import * as without from 'lodash/without';
+import { action, autorun, observable } from 'mobx';
+import * as translations from '../utils/translations';
 import { Lang, Order } from './types';
-import { properties } from '../utils/translations';
 
-const toggleInArray = <T>(array: Array<T>, item: T): Array<T> => {
+const toggleInArray = <T>(array: T[], item: T): T[] => {
   if (array.indexOf(item) === -1) {
     return array.concat(item);
   } else {
@@ -31,11 +31,11 @@ export default class PreferenceStore {
   @observable
   order: Order;
   @observable
-  favorites: Array<number>;
+  favorites: number[];
   @observable
-  starredRestaurants: Array<number>;
+  starredRestaurants: number[];
   @observable
-  properties: Array<string>;
+  properties: string[];
   @observable
   updatesLastSeenAt: number;
 
@@ -78,26 +78,26 @@ export default class PreferenceStore {
 
   getPreferences() {
     const {
-      lang,
-      selectedArea,
-      useLocation,
-      order,
-      favorites,
-      starredRestaurants,
-      properties,
       darkMode,
-      updatesLastSeenAt
+      favorites,
+      lang,
+      order,
+      properties,
+      selectedArea,
+      starredRestaurants,
+      updatesLastSeenAt,
+      useLocation
     } = this;
     return {
-      lang,
-      selectedArea,
-      useLocation,
-      order,
-      favorites,
-      starredRestaurants,
-      properties,
       darkMode,
-      updatesLastSeenAt
+      favorites,
+      lang,
+      order,
+      properties,
+      selectedArea,
+      starredRestaurants,
+      updatesLastSeenAt,
+      useLocation
     };
   }
 
@@ -122,7 +122,7 @@ export default class PreferenceStore {
   }
 
   getProperty(propertyKey: string) {
-    return properties.find(p => p.key === propertyKey);
+    return translations.properties.find(p => p.key === propertyKey);
   }
 
   isPropertySelected(propertyKey: string) {

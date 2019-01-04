@@ -1,9 +1,9 @@
 import * as React from 'react';
+import styled from 'styled-components';
 
 import { preferenceStore } from '../../store';
 import { properties } from '../../utils/translations';
 import Tooltip from '../Tooltip';
-import styled from 'styled-components';
 
 const ClickTrap = styled.span`
   position: absolute;

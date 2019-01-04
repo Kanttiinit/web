@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Text from '../Text';
-
 import styled from 'styled-components';
+
+import Text from '../Text';
 
 const Container = styled.div<{ showLoading: boolean }>`
   width: 100%;

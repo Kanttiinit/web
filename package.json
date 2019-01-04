@@ -68,7 +68,7 @@
     "watch": "webpack -w",
     "install": "yarn build",
     "start": "node index.js",
-    "lint": "eslint \"src/**\"",
+    "lint": "tslint \"src/**/*.ts*\"",
     "typecheck": "tsc --noEmit"
   },
   "author": "Jere Vaara, Max Huttunen",
@@ -78,12 +78,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "babel-eslint": "^9.0.0",
-    "eslint": "^5.4.0",
-    "eslint-plugin-react": "^7.7.0",
-    "eslint-plugin-typescript": "^0.12.0",
     "npm-run-all": "^4.1.2",
-    "typescript-eslint-parser": "^18.0.0",
+    "tslint": "^5.12.0",
     "webpack-dev-server": "^3.0.0"
   }
 }

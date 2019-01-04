@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
 
-type ButtonProps = {
+interface ButtonProps {
   type?: 'text';
   size?: 'small';
-};
+}
 
 const Button = styled.button<ButtonProps>`
   border: none;

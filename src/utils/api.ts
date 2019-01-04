@@ -1,5 +1,5 @@
-import http from './http';
 import * as format from 'date-fns/format';
+import http from './http';
 
 import { Lang, Update } from '../store/types';
 
@@ -22,30 +22,30 @@ export const getCourses = async (
 };
 
 export const getMenus = (
-  restaurantIds: Array<number>,
-  days: Array<Date>,
+  restaurantIds: number[],
+  days: Date[],
   lang: string
 ) => {
   return http.get(
     `/menus?lang=${lang}&restaurants=${restaurantIds.join(',')}&days=${days
-    .map(day => format(day, 'YYYY-MM-DD'))
-    .join(',')}`
+      .map(day => format(day, 'YYYY-MM-DD'))
+      .join(',')}`
   );
 };
 
 export const sendFeedback = (message: string) =>
   fetch('https://bot.kanttiinit.fi/feedback', {
-    method: 'POST',
+    body: JSON.stringify({
+      message
+    }),
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      message
-    })
+    method: 'POST'
   });
 
-export const getUpdates = (): Promise<Array<Update>> => {
+export const getUpdates = (): Promise<Update[]> => {
   return http.get('/updates');
 };
 
@@ -54,7 +54,7 @@ export const getAreas = (lang: Lang) =>
 
 export const getFavorites = (lang: Lang) => http.get(`/favorites?lang=${lang}`);
 
-export const getRestaurantsByIds = (ids: Array<number>, lang: Lang) =>
+export const getRestaurantsByIds = (ids: number[], lang: Lang) =>
   http.get(`/restaurants?lang=${lang}&ids=${ids.join(',')}`);
 
 export const getRestaurantsByLocation = (

@@ -1,28 +1,28 @@
-import * as React from 'react';
-import { withRouter, Switch, Route } from 'react-router-dom';
-import * as GA from 'react-ga';
 import * as addDays from 'date-fns/add_days';
+import { autorun } from 'mobx';
+import * as React from 'react';
+import * as GA from 'react-ga';
+import { RouteComponentProps } from 'react-router';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { uiState, preferenceStore } from '../../store';
+import { preferenceStore, uiState } from '../../store';
+import { isProduction, version } from '../../utils/consts';
+import AreaSelector from '../AreaSelector';
+import AssetsLoading from '../AssetsLoading';
+import ChangeLog from '../ChangeLog';
+import Clients from '../Clients';
+import Contact from '../Contact';
+import FavoriteSelector from '../FavoriteSelector';
 import Footer from '../Footer';
 import Modal from '../Modal';
-import TopBar from '../TopBar';
-import RestaurantList from '../RestaurantList';
 import NotFound from '../NotFound';
-import TermsOfService from '../TermsOfService';
-import Contact from '../Contact';
-import Settings from '../Settings';
-import AreaSelector from '../AreaSelector';
-import FavoriteSelector from '../FavoriteSelector';
-import RestaurantModal from '../RestaurantModal';
 import ReportModal from '../ReportModal';
-import Clients from '../Clients';
-import ChangeLog from '../ChangeLog';
-import { isProduction, version } from '../../utils/consts';
-import { RouteComponentProps } from 'react-router';
-import AssetsLoading from '../AssetsLoading';
-import { autorun } from 'mobx';
+import RestaurantList from '../RestaurantList';
+import RestaurantModal from '../RestaurantModal';
+import Settings from '../Settings';
+import TermsOfService from '../TermsOfService';
+import TopBar from '../TopBar';
 
 const Container = styled.div`
   display: flex;
@@ -32,15 +32,15 @@ const Container = styled.div`
 `;
 
 const themeConstants = {
-  breakSmall: '767px',
   breakLarge: '768px',
+  breakSmall: '767px',
   darkMode: preferenceStore.darkMode
 };
 
 class App extends React.PureComponent<RouteComponentProps<any>> {
   state = {
-    rightArrowVisible: false,
     leftArrowVisible: false,
+    rightArrowVisible: false,
     theme: themeConstants
   };
 
@@ -57,7 +57,7 @@ class App extends React.PureComponent<RouteComponentProps<any>> {
         this.props.history.replace(uiState.getNewPath(newDay));
       }
     }
-  };
+  }
 
   componentDidUpdate(props: RouteComponentProps<any>) {
     if (props.location.search !== this.props.location.search) {

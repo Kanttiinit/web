@@ -1,9 +1,9 @@
+import { observer } from 'mobx-react';
 import * as React from 'react';
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
-import { observer } from 'mobx-react';
 
 import { dataStore, preferenceStore } from '../../store';
-import { RoundedButtonContainer, RoundedButton } from '../Button/RoundedButton';
+import { RoundedButton, RoundedButtonContainer } from '../Button/RoundedButton';
 
 export default observer(() => (
   <RoundedButtonContainer>

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-type Props = {
+interface Props {
   onChange: (selected: boolean) => void;
   selected: boolean;
-};
+}
 
 const StyledToggle = styled.span<{ on: boolean }>`
   position: relative;
@@ -34,7 +34,7 @@ const StyledToggle = styled.span<{ on: boolean }>`
     width: 2em;
     height: 2em;
     transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-    content: '';
+    content: "";
     ${props => props.on && 'margin-left: 1.9em;'}
   }
 

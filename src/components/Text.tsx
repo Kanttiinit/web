@@ -1,24 +1,24 @@
-import * as React from 'react';
-import { observer } from 'mobx-react';
-import * as fiLocale from 'date-fns/locale/fi';
-import * as enLocale from 'date-fns/locale/en';
 import * as format from 'date-fns/format';
+import * as enLocale from 'date-fns/locale/en';
+import * as fiLocale from 'date-fns/locale/fi';
+import { observer } from 'mobx-react';
+import * as React from 'react';
 
 import { preferenceStore } from '../store';
 import translations from '../utils/translations';
 
 const locales = {
-  fi: fiLocale,
-  en: enLocale
+  en: enLocale,
+  fi: fiLocale
 };
 
-type Props = {
+interface Props {
   id: string;
   date?: Date;
   element?: string;
   children?: any;
   className?: any;
-};
+}
 
 export default observer((props: Props) => {
   const { id, date, element = 'span', children, ...rest } = props;

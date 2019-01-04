@@ -1,18 +1,18 @@
-import * as React from 'react';
-import { withRouter } from 'react-router-dom';
-import { RouteComponentProps } from 'react-router';
 import { observer } from 'mobx-react';
-import { Link } from 'react-router-dom';
-import { MdMap, MdSettings, MdFiberNew } from 'react-icons/md';
+import * as React from 'react';
 import ClickOutside from 'react-click-outside';
+import { MdFiberNew, MdMap, MdSettings } from 'react-icons/md';
+import { RouteComponentProps } from 'react-router';
+import { withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 const FI = require('../../assets/fi.png');
 const EN = require('../../assets/en.png');
 
-import DaySelector from '../DaySelector';
-import { preferenceStore, dataStore } from '../../store';
-import Text from '../Text';
-import AreaSelector from '../AreaSelector';
 import styled, { css } from 'styled-components';
+import { dataStore, preferenceStore } from '../../store';
+import AreaSelector from '../AreaSelector';
+import DaySelector from '../DaySelector';
+import Text from '../Text';
 
 const Container = styled.div`
   background: linear-gradient(to bottom, var(--gray7) 0%, var(--gray6) 100%);
@@ -125,9 +125,9 @@ const NativeIconLink = styled.a`
   ${iconLinkStyles}
 `;
 
-type State = {
+interface State {
   areaSelectorOpen: boolean;
-};
+}
 
 export default withRouter(
   observer(
@@ -138,18 +138,18 @@ export default withRouter(
 
       toggleLanguage = () => {
         preferenceStore.toggleLanguage();
-      };
+      }
 
       toggleAreaSelector = () => {
         this.setState(state => ({ areaSelectorOpen: !state.areaSelectorOpen }));
-      };
+      }
 
       closeAreaSelector = () => this.setState({ areaSelectorOpen: false });
 
       touchStart = (e: TouchEvent) => {
         e.preventDefault();
         this.toggleAreaSelector();
-      };
+      }
 
       touchMove = (event: TouchEvent) => {
         event.preventDefault();
@@ -160,7 +160,7 @@ export default withRouter(
         if (target instanceof HTMLButtonElement) {
           target.focus();
         }
-      };
+      }
 
       touchEnd = (event: TouchEvent) => {
         const endTarget = document.elementFromPoint(
@@ -174,7 +174,7 @@ export default withRouter(
             })
           );
         }
-      };
+      }
 
       setTouchListeners = (e: HTMLElement) => {
         if (e) {
@@ -182,7 +182,7 @@ export default withRouter(
           e.addEventListener('touchmove', this.touchMove, { passive: false });
           e.addEventListener('touchend', this.touchEnd);
         }
-      };
+      }
 
       render() {
         const { search } = this.props.location;

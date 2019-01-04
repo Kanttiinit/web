@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { observer } from 'mobx-react';
-import { MdError } from 'react-icons/md';
 import * as times from 'lodash/times';
+import { observer } from 'mobx-react';
+import * as React from 'react';
+import { MdError } from 'react-icons/md';
 const locating = require('../../assets/locating.svg');
 
-import { dataStore, uiState, preferenceStore } from '../../store';
-import Text from '../Text';
+import styled from 'styled-components';
+import { dataStore, preferenceStore, uiState } from '../../store';
 import NetworkStatus from '../NetworkStatus';
 import Restaurant, { Placeholder } from '../Restaurant';
-import styled from 'styled-components';
+import Text from '../Text';
 
 const Container = styled.div`
   padding: 4rem 0 1.5rem;

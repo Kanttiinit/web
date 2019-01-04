@@ -3,73 +3,74 @@ import { Link } from 'react-router-dom';
 
 import { Order } from '../store/types';
 
-type FormattedProperty = {
+interface FormattedProperty {
   key: string;
   desired: boolean;
   name_en: string;
   name_fi: string;
-};
+}
 
-export const properties: Array<FormattedProperty> = [
+/* tslint:disable:object-literal-sort-keys */
+export const properties: FormattedProperty[] = [
   {
-    key: 'A+',
     desired: false,
+    key: 'A+',
     name_en: 'contains allergens',
     name_fi: 'sisältää allergeeneja'
   },
   {
-    key: 'C+',
     desired: false,
+    key: 'C+',
     name_en: 'contains celery',
     name_fi: 'sisältää selleriä'
   },
   {
-    key: 'E',
     desired: true,
+    key: 'E',
     name_en: 'egg-free',
     name_fi: 'ei sisällä kananmunaa'
   },
   { key: 'G', desired: true, name_en: 'gluten-free', name_fi: 'gluteeniton' },
   {
-    key: 'H',
     desired: true,
+    key: 'H',
     name_en: 'healthier choice',
     name_fi: 'terveellisempi valinta'
   },
   { key: 'L', desired: true, name_en: 'lactose-free', name_fi: 'laktoositon' },
   {
-    key: 'LL',
     desired: true,
+    key: 'LL',
     name_en: 'low in lactose',
     name_fi: 'vähälaktoosinen'
   },
   {
-    key: 'M',
     desired: true,
+    key: 'M',
     name_en: 'milk-free',
     name_fi: 'ei sisällä maitoa'
   },
   {
-    key: 'N+',
     desired: false,
+    key: 'N+',
     name_en: 'contains nuts',
     name_fi: 'sisältää pähkinää'
   },
   {
-    key: 'O+',
     desired: false,
+    key: 'O+',
     name_en: 'contains garlic',
     name_fi: 'sisältää valkosipulia'
   },
   {
-    key: 'S',
     desired: true,
+    key: 'S',
     name_en: 'soy-free',
     name_fi: 'ei sisällä soijaa'
   },
   {
-    key: 'S+',
     desired: false,
+    key: 'S+',
     name_en: 'contains soy',
     name_fi: 'sisältää soijaa'
   },
@@ -77,47 +78,33 @@ export const properties: Array<FormattedProperty> = [
   { key: 'VV', desired: true, name_en: 'vegan', name_fi: 'vegaani' }
 ];
 
-type Translation = {
+interface Translation {
   fi: React.ReactNode;
   en: React.ReactNode;
-};
+}
 
 const translations: { [key: string]: Translation } = {
   noMenu: {
-    fi: 'Ruokalistaa ei ole saatavilla.',
-    en: 'No menu available.'
+    en: 'No menu available.',
+    fi: 'Ruokalistaa ei ole saatavilla.'
   },
   restaurantClosed: {
-    fi: 'suljettu',
-    en: 'closed'
+    en: 'closed',
+    fi: 'suljettu'
   },
   termsOfService: {
-    fi: 'Käyttöehdot',
-    en: 'Terms Of Service'
+    en: 'Terms Of Service',
+    fi: 'Käyttöehdot'
   },
   contact: {
-    fi: 'Ota yhteyttä',
-    en: 'Contact'
+    en: 'Contact',
+    fi: 'Ota yhteyttä'
   },
   settings: {
-    fi: 'Asetukset',
-    en: 'Settings'
+    en: 'Settings',
+    fi: 'Asetukset'
   },
   termsOfServiceContent: {
-    fi: (
-      <div>
-        <p>
-          Kanttiinit hakee kaikki ruokalistat suoraan ravintoloiden sivuilta,
-          eikä ole itse vastuussa tietojen paikkansapitävyydestä. Muista
-          varmistaa ruokien allergeenit paikan päällä ravintolassa.
-        </p>
-        <p>
-          Kanttiinit käyttää evästeitä kävijätilastojen keräämiseksi.
-          Käyttämällä palvelua hyväksyt evästeiden käytön.
-        </p>
-        <p>Kanttiinit ei jaa mitään dataa kolmansille osapuolille.</p>
-      </div>
-    ),
     en: (
       <div>
         <p>
@@ -130,6 +117,20 @@ const translations: { [key: string]: Translation } = {
           service you agree to the usage of cookies.
         </p>
         <p>Kanttiinit will not share any data with third parties.</p>
+      </div>
+    ),
+    fi: (
+      <div>
+        <p>
+          Kanttiinit hakee kaikki ruokalistat suoraan ravintoloiden sivuilta,
+          eikä ole itse vastuussa tietojen paikkansapitävyydestä. Muista
+          varmistaa ruokien allergeenit paikan päällä ravintolassa.
+        </p>
+        <p>
+          Kanttiinit käyttää evästeitä kävijätilastojen keräämiseksi.
+          Käyttämällä palvelua hyväksyt evästeiden käytön.
+        </p>
+        <p>Kanttiinit ei jaa mitään dataa kolmansille osapuolille.</p>
       </div>
     )
   },

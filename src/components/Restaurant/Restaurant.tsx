@@ -1,27 +1,26 @@
-import * as React from 'react';
-import { observer } from 'mobx-react';
-import { withRouter } from 'react-router-dom';
-import {
-  MdDirectionsWalk,
-  MdDirectionsBike,
-  MdStar,
-  MdMoreVert,
-  MdFlag,
-  MdPlace
-} from 'react-icons/md';
+import * as c from 'classnames';
 import * as getIsoDay from 'date-fns/get_iso_day';
 import * as isSameDay from 'date-fns/is_same_day';
-
-import * as c from 'classnames';
+import { observer } from 'mobx-react';
+import * as React from 'react';
+import {
+  MdDirectionsBike,
+  MdDirectionsWalk,
+  MdFlag,
+  MdMoreVert,
+  MdPlace,
+  MdStar
+} from 'react-icons/md';
 import { RouteComponentProps } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
+import { preferenceStore, uiState } from '../../store';
+import { RestaurantType } from '../../store/types';
 import Colon from '../Colon';
 import CourseList from '../CourseList';
-import { preferenceStore, uiState } from '../../store';
 import Text from '../Text';
 import * as css from './Restaurant.scss';
-import { RestaurantType } from '../../store/types';
 
 const Distance = ({ distance }: { distance: number }) => {
   const kilometers = distance > 1500;
@@ -60,7 +59,7 @@ export default withRouter(
           restaurant.id,
           !restaurant.isStarred
         );
-      };
+      }
 
       render() {
         const { restaurant } = this.props;

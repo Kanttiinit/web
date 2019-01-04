@@ -1,13 +1,13 @@
+import { observer } from 'mobx-react';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
-import { observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
+import styled from 'styled-components';
 
 import { ErrorBoundary } from '../../index';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
-import styled from 'styled-components';
 
 type TransitionState = 'entering' | 'entered' | 'exiting' | 'exited';
 
@@ -134,7 +134,7 @@ class Modal extends React.Component<Props, {}> {
       e.preventDefault();
       this.closeModal();
     }
-  };
+  }
 
   closeModal = () => this.props.history.replace('/' + location.search);
 

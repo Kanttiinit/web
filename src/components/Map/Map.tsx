@@ -1,16 +1,15 @@
-import * as React from 'react';
 import PigeonMap from 'pigeon-maps';
 import Overlay from 'pigeon-overlay';
+import * as React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import http from '../../utils/http';
-
-import Tooltip from '../Tooltip';
 import { RestaurantType } from '../../store/types';
+import http from '../../utils/http';
+import Tooltip from '../Tooltip';
 
-type State = {
-  restaurants: Array<RestaurantType>;
-};
+interface State {
+  restaurants: RestaurantType[];
+}
 
 const Container = styled.div`
   width: 100vw;
@@ -40,7 +39,7 @@ export default class Map extends React.PureComponent<void, State> {
   loadRestaurants = async () => {
     const restaurants = await http.get('/restaurants');
     this.setState({ restaurants });
-  };
+  }
 
   componentDidMount() {
     this.loadRestaurants();

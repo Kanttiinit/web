@@ -1,7 +1,7 @@
-import * as React from 'react';
-import * as times from 'lodash/times';
-import * as random from 'lodash/random';
 import * as classnames from 'classnames';
+import * as random from 'lodash/random';
+import * as times from 'lodash/times';
+import * as React from 'react';
 
 import * as css from './Restaurant.scss';
 

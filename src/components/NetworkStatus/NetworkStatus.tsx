@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { MdErrorOutline } from 'react-icons/md';
+import styled from 'styled-components';
 
 import Text from '../Text';
-import styled from 'styled-components';
 
 const Container = styled.div<{ online: boolean }>`
   background: rgb(255, 222, 148);
@@ -35,7 +35,7 @@ export default class NetworkStatus extends React.PureComponent {
 
   updateNetworkStatus = () => {
     this.setState({ online: navigator.onLine });
-  };
+  }
 
   componentDidMount() {
     window.addEventListener('online', this.updateNetworkStatus);

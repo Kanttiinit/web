@@ -23,13 +23,13 @@ const shouldCacheUrl = (url: string): boolean => {
 };
 
 const resolve = async (request: Request) => {
-  const cache = await getCache();
+  const cache = await getCache(); // tslint:disable-line
   if (shouldCacheUrl(request.url)) {
     try {
       const response = await fetch(request);
       cache.put(request, response.clone());
       return response;
-    } catch (e) {}
+    } catch (e) {} // tslint:disable-line
     return caches.match(request);
   }
   return (await caches.match(request)) || fetch(request);

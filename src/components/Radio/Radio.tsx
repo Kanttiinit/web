@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-type Props = {
+interface Props {
   options: Array<{
     label: any;
     value: string;
@@ -9,8 +9,8 @@ type Props = {
   selected: string;
   onChange: (value: string) => void;
   className?: string;
-  style?: Object;
-};
+  style?: any;
+}
 
 const Container = styled.div`
   white-space: nowrap;

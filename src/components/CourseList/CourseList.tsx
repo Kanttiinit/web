@@ -1,42 +1,45 @@
+import * as capitalize from 'lodash/capitalize';
+import * as memoize from 'lodash/memoize';
 import * as React from 'react';
 import { MdFavorite } from 'react-icons/md';
-import * as memoize from 'lodash/memoize';
-import * as capitalize from 'lodash/capitalize';
 
-import Property from './Property';
-import { CourseType } from '../../store/types';
-import Text from '../Text';
-import { dataStore, preferenceStore } from '../../store';
 import { observer } from 'mobx-react';
 import styled, { css } from 'styled-components';
+import { dataStore, preferenceStore } from '../../store';
+import { CourseType } from '../../store/types';
+import Text from '../Text';
+import Property from './Property';
 
-type CourseGroup = { key: string; courses: Array<CourseType> };
+interface CourseGroup {
+  key: string;
+  courses: CourseType[];
+}
 
 const getCourseGroup = (course: CourseType) => {
   const split = course.title.split(':');
   return split.length > 1 ? split[0] : '';
 };
 
-const courseGroups = (courses: Array<CourseType>) => {
+const courseGroups = (courses: CourseType[]) => {
   const groups = courses.reduce(
-    (groups, course) => {
+    (g, course) => {
       const group = getCourseGroup(course);
-      if (group in groups) {
-        groups[group].push(course);
+      if (group in g) {
+        g[group].push(course);
       } else {
-        groups[group] = [course];
+        g[group] = [course];
       }
-      return groups;
+      return g;
     },
-    {} as { [key: string]: Array<CourseType> }
+    {} as { [key: string]: CourseType[] }
   );
 
   return Object.keys(groups).map(groupKey => ({
-    key: groupKey,
     courses: groups[groupKey].map(c => ({
       ...c,
       title: c.title.replace(groupKey + ': ', '')
-    }))
+    })),
+    key: groupKey
   }));
 };
 
@@ -107,7 +110,7 @@ const Course = observer(({ course }: { course: CourseType }) => {
 });
 
 interface Props {
-  courses: Array<CourseType>;
+  courses: CourseType[];
   className?: string;
 }
 

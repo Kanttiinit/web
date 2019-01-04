@@ -1,22 +1,22 @@
-import * as React from 'react';
-import { withRouter } from 'react-router-dom';
 import { observer } from 'mobx-react';
+import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { preferenceStore } from '../../store';
-import Text from '../Text';
-import Radio from '../Radio';
-import Toggle from '../Toggle';
-import PageContainer from '../PageContainer';
+import { Lang, Order } from '../../store/types';
 import FavoriteSelector from '../FavoriteSelector';
+import PageContainer from '../PageContainer';
 import PropertySelector from '../PropertySelector';
-import { Order, Lang } from '../../store/types';
+import Radio from '../Radio';
+import Text from '../Text';
+import Toggle from '../Toggle';
 
-type ItemProps = {
+interface ItemProps {
   label: React.ReactNode;
   children: React.ReactNode;
-};
+}
 
 const ItemTitle = styled.h2`
   font-size: 0.8rem;
@@ -34,8 +34,8 @@ const Item = ({ label, children }: ItemProps) => (
 );
 
 const orders = [Order.AUTOMATIC, Order.ALPHABET, Order.DISTANCE].map(order => ({
-  value: order,
-  label: <Text id={order} />
+  label: <Text id={order} />,
+  value: order
 }));
 
 const languageOptions = [
@@ -50,15 +50,15 @@ export default withRouter(
 
       setOrder = (value: Order) => {
         preferenceStore.order = value;
-      };
+      }
 
       setUseLocation = (value: boolean) => {
         preferenceStore.useLocation = value;
-      };
+      }
 
       setDarkMode = (value: boolean) => {
         preferenceStore.darkMode = value;
-      };
+      }
 
       setLang(lang: Lang) {
         preferenceStore.lang = lang;

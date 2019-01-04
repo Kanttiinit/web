@@ -1,29 +1,29 @@
-import { observable, computed } from 'mobx';
-import * as orderBy from 'lodash/orderBy';
-import * as get from 'lodash/get';
-import * as haversine from 'haversine';
-import * as parse from 'date-fns/parse';
-import * as isAfter from 'date-fns/is_after';
-import * as isBefore from 'date-fns/is_before';
 import * as format from 'date-fns/format';
 import * as getIsoDay from 'date-fns/get_iso_day';
-import * as setMinutes from 'date-fns/set_minutes';
+import * as isAfter from 'date-fns/is_after';
+import * as isBefore from 'date-fns/is_before';
+import * as parse from 'date-fns/parse';
 import * as setHours from 'date-fns/set_hours';
+import * as setMinutes from 'date-fns/set_minutes';
+import * as haversine from 'haversine';
+import * as get from 'lodash/get';
+import * as orderBy from 'lodash/orderBy';
+import { computed, observable } from 'mobx';
 
-import Resource from './Resource';
-import { uiState, preferenceStore } from './index';
+import * as stores from './index';
 import PreferenceStore from './PreferenceStore';
-import UIState from './UIState';
+import Resource from './Resource';
 import {
   AreaType,
-  Order,
+  CourseType,
   FavoriteType,
   FormattedFavoriteType,
   MenuType,
+  Order,
   RestaurantType,
-  CourseType,
   Update
 } from './types';
+import UIState from './UIState';
 
 const parseTimeOfDay = (input: string) => {
   const parts = input.split(':');
@@ -45,16 +45,17 @@ const isOpenNow = (restaurant: RestaurantType, day: Date) => {
 const getOrder = (orderType: Order, useLocation: boolean) => {
   if (orderType === Order.ALPHABET) {
     return {
-      properties: ['isStarred', 'noCourses', 'name'],
-      orders: ['desc', 'asc', 'asc']
+      orders: ['desc', 'asc', 'asc'],
+      properties: ['isStarred', 'noCourses', 'name']
     };
   } else if (orderType === Order.DISTANCE && useLocation) {
     return {
-      properties: ['isStarred', 'noCourses', 'distance', 'name'],
-      orders: ['desc', 'asc', 'asc', 'asc']
+      orders: ['desc', 'asc', 'asc', 'asc'],
+      properties: ['isStarred', 'noCourses', 'distance', 'name']
     };
   } else {
     return {
+      orders: ['desc', 'desc', 'asc', 'desc', 'asc', 'asc'],
       properties: [
         'isStarred',
         'isOpenNow',
@@ -62,23 +63,22 @@ const getOrder = (orderType: Order, useLocation: boolean) => {
         'favoriteCourses',
         'distance',
         'name'
-      ],
-      orders: ['desc', 'desc', 'asc', 'desc', 'asc', 'asc']
+      ]
     };
   }
 };
 
 export default class DataStore {
   @observable
-  areas: Resource<Array<AreaType>> = new Resource([]);
+  areas: Resource<AreaType[]> = new Resource([]);
   @observable
-  favorites: Resource<Array<FavoriteType>> = new Resource([]);
+  favorites: Resource<FavoriteType[]> = new Resource([]);
   @observable
   menus: Resource<MenuType> = new Resource({});
   @observable
-  restaurants: Resource<Array<RestaurantType>> = new Resource([]);
+  restaurants: Resource<RestaurantType[]> = new Resource([]);
   @observable
-  updates: Resource<Array<Update>> = new Resource([]);
+  updates: Resource<Update[]> = new Resource([]);
 
   preferences: PreferenceStore;
   uiState: UIState;
@@ -89,7 +89,7 @@ export default class DataStore {
   }
 
   @computed
-  get selectedFavorites(): Array<FavoriteType> {
+  get selectedFavorites(): FavoriteType[] {
     if (this.favorites.fulfilled) {
       return this.favorites.data.filter(
         ({ id }) => this.preferences.favorites.indexOf(id) > -1
@@ -102,11 +102,11 @@ export default class DataStore {
     return this.selectedFavorites.some(
       favorite => !!course.title.match(new RegExp(favorite.regexp, 'i'))
     );
-  };
+  }
 
   @computed
-  get unseenUpdates(): Array<Update> {
-    if (!preferenceStore.updatesLastSeenAt) {
+  get unseenUpdates(): Update[] {
+    if (!stores.preferenceStore.updatesLastSeenAt) {
       return [];
     }
     return this.updates.data.filter(
@@ -121,7 +121,7 @@ export default class DataStore {
   }
 
   @computed
-  get formattedFavorites(): Array<FormattedFavoriteType> {
+  get formattedFavorites(): FormattedFavoriteType[] {
     return orderBy(this.favorites.data, ['name']).map(
       (favorite: FavoriteType) => ({
         ...favorite,
@@ -131,7 +131,7 @@ export default class DataStore {
   }
 
   @computed
-  get formattedRestaurants(): Array<RestaurantType> {
+  get formattedRestaurants(): RestaurantType[] {
     const day = this.uiState.selectedDay;
     const formattedRestaurants = this.restaurants.data.map(restaurant => {
       const courses = get(
@@ -140,17 +140,17 @@ export default class DataStore {
         []
       ).filter((course: CourseType) => course.title);
       const distance =
-        uiState.location &&
-        haversine(uiState.location, restaurant, { unit: 'meter' });
+        stores.uiState.location &&
+        haversine(stores.uiState.location, restaurant, { unit: 'meter' });
       return {
         ...restaurant,
         courses,
         distance,
-        noCourses: !courses.length,
         favoriteCourses: courses.some(this.isFavorite),
         isOpenNow: isOpenNow(restaurant, day),
         isStarred:
-          this.preferences.starredRestaurants.indexOf(restaurant.id) > -1
+          this.preferences.starredRestaurants.indexOf(restaurant.id) > -1,
+        noCourses: !courses.length
       };
     });
 

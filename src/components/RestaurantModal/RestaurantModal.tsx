@@ -1,30 +1,33 @@
-import * as React from 'react';
-import { MdPlace, MdHome } from 'react-icons/md';
+import * as setIsoDay from 'date-fns/set_iso_day';
 import * as findIndex from 'lodash/findIndex';
 import { observer } from 'mobx-react';
-import * as setIsoDay from 'date-fns/set_iso_day';
+import * as React from 'react';
+import { MdHome, MdPlace } from 'react-icons/md';
 
-import Map from './Map';
-import * as api from '../../utils/api';
-import { dataStore, uiState, preferenceStore } from '../../store';
-import PageContainer from '../PageContainer';
+import { dataStore, preferenceStore, uiState } from '../../store';
 import { RestaurantType } from '../../store/types';
+import * as api from '../../utils/api';
 import MenuViewer from '../MenuViewer';
-import * as css from './RestaurantModal.scss';
+import PageContainer from '../PageContainer';
 import Text from '../Text';
+import Map from './Map';
+import * as css from './RestaurantModal.scss';
 
-function getOpeningHourString(hours: Array<string>) {
+function getOpeningHourString(hours: string[]) {
   return hours.reduce((open, hour, i) => {
     if (hour) {
       const existingIndex = findIndex(open, ['hour', hour]);
-      if (existingIndex > -1) open[existingIndex].endDay = i;
-      else open.push({ startDay: i, hour });
+      if (existingIndex > -1) {
+        open[existingIndex].endDay = i;
+      } else {
+        open.push({ startDay: i, hour });
+      }
     }
     return open;
   }, []);
 }
 
-const OpeningHours = ({ openingHours }: { openingHours: Array<string> }) => (
+const OpeningHours = ({ openingHours }: { openingHours: string[] }) => (
   <div className={css.openingHoursContainer}>
     {getOpeningHourString(openingHours).map(hours => (
       <div key={hours.startDay} className={css.openingHours}>
@@ -63,9 +66,9 @@ const Meta = ({ restaurant }: { restaurant: RestaurantType }) => (
   </div>
 );
 
-type Props = {
+interface Props {
   restaurantId: number;
-};
+}
 
 export default observer(
   class RestaurantModal extends React.Component {
@@ -74,8 +77,8 @@ export default observer(
       restaurant: RestaurantType | null;
       notFound: boolean;
     } = {
-      restaurant: null,
-      notFound: false
+      notFound: false,
+      restaurant: null
     };
 
     async fetchRestaurant(restaurantId: number) {

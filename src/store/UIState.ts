@@ -1,12 +1,12 @@
-import { observable, action } from 'mobx';
+import * as addDays from 'date-fns/add_days';
+import * as format from 'date-fns/format';
+import * as isBefore from 'date-fns/is_before';
+import * as isSameDay from 'date-fns/is_same_day';
+import * as parse from 'date-fns/parse';
+import * as startOfDay from 'date-fns/start_of_day';
 import * as haversine from 'haversine';
 import * as times from 'lodash/times';
-import * as addDays from 'date-fns/add_days';
-import * as parse from 'date-fns/parse';
-import * as format from 'date-fns/format';
-import * as isSameDay from 'date-fns/is_same_day';
-import * as startOfDay from 'date-fns/start_of_day';
-import * as isBefore from 'date-fns/is_before';
+import { action, observable } from 'mobx';
 
 const dateFormat = 'YYYY-MM-DD';
 
@@ -14,7 +14,7 @@ export default class UIState {
   @observable
   location: Coordinates | null;
   @observable
-  displayedDays: Array<Date> = [];
+  displayedDays: Date[] = [];
   @observable
   date: Date | null;
   maxDayOffset = 5;

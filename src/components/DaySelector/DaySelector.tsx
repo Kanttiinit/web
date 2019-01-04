@@ -1,18 +1,18 @@
-import * as React from 'react';
-import { observer } from 'mobx-react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import * as isSameDay from 'date-fns/is_same_day';
 import * as format from 'date-fns/format';
+import * as isSameDay from 'date-fns/is_same_day';
+import { observer } from 'mobx-react';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { uiState } from '../../store';
 import Text from '../Text';
 
-type DayLinkProps = {
+interface DayLinkProps {
   day: Date;
   selectedDay: Date;
   root?: string;
-};
+}
 
 const Container = styled.div`
   flex: 1;
@@ -54,7 +54,7 @@ const StyledLink = styled(Link)<{ activeLink: boolean }>`
       `
       color: var(--gray1);
       font-weight: 600;
-    `}  
+    `}
 
     @media (min-width: ${props => props.theme.breakSmall}) {
       font-size: 0.8rem;

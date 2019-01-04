@@ -1,15 +1,15 @@
-import * as React from 'react';
-import { observer } from 'mobx-react';
 import * as sortBy from 'lodash/sortBy';
+import { observer } from 'mobx-react';
+import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-import { dataStore, preferenceStore } from '../../store';
-import Text from '../Text';
-import { AreaType } from '../../store/types';
 import { MdDirectionsWalk, MdStar } from 'react-icons/md';
+import { dataStore, preferenceStore } from '../../store';
+import { AreaType } from '../../store/types';
 import Button from '../Button';
+import Text from '../Text';
 
 const iconStyles = css`
   margin-right: 0.5ch;
@@ -24,12 +24,12 @@ const StarIcon = styled(MdStar)`
   ${iconStyles}
 `;
 
-type SpecialArea = {
+interface SpecialArea {
   id: -1 | -2;
   name: React.ReactNode;
-};
+}
 
-const specialAreas: Array<SpecialArea> = [
+const specialAreas: SpecialArea[] = [
   {
     id: -2,
     name: (
@@ -91,9 +91,9 @@ const Area = ({
   </AreaWrapper>
 );
 
-type Props = {
+interface Props {
   onAreaSelected?: () => void;
-};
+}
 
 const Container = styled.div`
   display: flex;
@@ -112,7 +112,7 @@ class AreaSelector extends React.Component<Props & RouteComponentProps<any>> {
     if (this.props.onAreaSelected) {
       this.props.onAreaSelected();
     }
-  };
+  }
 
   render() {
     return (

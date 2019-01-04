@@ -1,8 +1,8 @@
 import { autorun } from 'mobx';
+import * as api from '../utils/api';
 import DataStore from './DataStore';
 import PreferenceStore from './PreferenceStore';
 import UIState from './UIState';
-import * as api from '../utils/api';
 
 export const preferenceStore = new PreferenceStore();
 export const uiState = new UIState();

@@ -6,7 +6,7 @@ export const RoundedButtonContainer = styled.div`
   overflow: auto;
 
   &:after {
-    content: '';
+    content: "";
     flex-grow: 1000000000;
   }
 `;

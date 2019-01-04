@@ -4,6 +4,7 @@ import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 
 import { dataStore, preferenceStore } from '../../store';
 import { RoundedButton, RoundedButtonContainer } from '../Button/RoundedButton';
+import InlineIcon from '../InlineIcon';
 
 export default observer(() => (
   <RoundedButtonContainer>
@@ -14,11 +15,9 @@ export default observer(() => (
         selected={favorite.isSelected}
         onClick={() => preferenceStore.toggleFavorite(favorite.id)}
       >
-        {favorite.isSelected ? (
-          <MdFavorite className="inline-icon" />
-        ) : (
-          <MdFavoriteBorder className="inline-icon" />
-        )}
+        <InlineIcon>
+          {favorite.isSelected ? <MdFavorite /> : <MdFavoriteBorder />}
+        </InlineIcon>
         &nbsp;
         {favorite.name}
       </RoundedButton>

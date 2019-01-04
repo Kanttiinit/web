@@ -24,7 +24,9 @@ const Container = styled.div`
   }
 `;
 
-const StyledLink = styled(Link)<{ activeLink: boolean }>`
+const StyledLink = styled(({ activeLink, ...props }) => <Link {...props} />)<{
+  activeLink: boolean;
+}>`
   && {
     border: none;
     background: transparent;

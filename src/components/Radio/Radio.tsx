@@ -31,6 +31,7 @@ const Button = styled.button<{ selected: boolean }>`
   margin: 0;
   border-radius: 1rem;
   outline: none;
+  border: none;
 
   @media (max-width: ${props => props.theme.breakSmall}) {
     font-size: 0.7rem;

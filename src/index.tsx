@@ -9,7 +9,7 @@ import App from './components/App';
 import AssetsLoading from './components/AssetsLoading';
 import Map from './components/Map';
 import Text from './components/Text';
-import './styles/global.scss';
+import Global from './globalStyles';
 import * as consts from './utils/consts';
 import './utils/globalHooks';
 import './worker/registerWorker';
@@ -47,6 +47,7 @@ render(
         </Switch>
       </React.Suspense>
     </BrowserRouter>
+    <Global />
   </ErrorBoundary>,
   document.getElementById('root')
 );

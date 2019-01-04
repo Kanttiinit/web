@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { dataStore, preferenceStore, uiState } from '../../store';
 import { RestaurantType } from '../../store/types';
 import * as api from '../../utils/api';
+import InlineIcon from '../InlineIcon';
 import MenuViewer from '../MenuViewer';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
@@ -52,18 +53,25 @@ const MetaLink = styled.a`
   }
 `;
 
-const OpeningHoursContainer = styled.table`
+const OpeningHoursContainer = styled.div`
+  display: table;
   position: relative;
   z-index: 1;
 `;
 
-const OpeningHoursDay = styled.td`
+const OpeningHoursRow = styled.div`
+  display: table-row;
+`;
+
+const OpeningHoursDay = styled.div`
+  display: table-cell;
   text-transform: uppercase;
   opacity: 0.6;
   text-align: right;
 `;
 
-const OpeningHoursTime = styled.td`
+const OpeningHoursTime = styled.div`
+  display: table-cell;
   padding-left: 0.4em;
 `;
 
@@ -128,17 +136,21 @@ export default observer(
                 )}`}
                 target="_blank"
               >
-                <MdPlace className="inline-icon" />
+                <InlineIcon>
+                  <MdPlace />
+                </InlineIcon>
                 {restaurant.address}
               </MetaLink>
               <MetaLink href={restaurant.url} target="_blank">
-                <MdHome className="inline-icon" />
+                <InlineIcon>
+                  <MdHome />
+                </InlineIcon>
                 <Text id="homepage" />
               </MetaLink>
             </div>
             <OpeningHoursContainer>
               {getOpeningHourString(restaurant.openingHours).map(hours => (
-                <tr key={hours.startDay}>
+                <OpeningHoursRow key={hours.startDay}>
                   <OpeningHoursDay>
                     <Text
                       id="ddd"
@@ -157,7 +169,7 @@ export default observer(
                   <OpeningHoursTime>
                     {hours.hour.replace('-', '–') || <Text id="closed" />}
                   </OpeningHoursTime>
-                </tr>
+                </OpeningHoursRow>
               ))}
             </OpeningHoursContainer>
           </Info>

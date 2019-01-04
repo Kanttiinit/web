@@ -6,7 +6,9 @@ const locating = require('../../assets/locating.svg');
 
 import styled from 'styled-components';
 import { dataStore, preferenceStore, uiState } from '../../store';
+import InlineIcon from '../InlineIcon';
 import NetworkStatus from '../NetworkStatus';
+import Notice from '../Notice';
 import Restaurant, { Placeholder } from '../Restaurant';
 import Text from '../Text';
 
@@ -67,19 +69,21 @@ export default observer(
         return times(8, (i: number) => <Placeholder key={i} />);
       } else if (preferenceStore.selectedArea === -2) {
         if (!preferenceStore.useLocation) {
-          return <Text id="turnOnLocation" element="p" className="notice" />;
+          return <Text id="turnOnLocation" element={Notice} />;
         } else if (!uiState.location) {
           return (
             <Locating>
               <img src={locating} />
-              <Text id="locating" element="p" className="notice" />
+              <Text id="locating" element={Notice} />
             </Locating>
           );
         }
       } else if (!restaurants.length) {
         return (
           <EmptyTextContainer>
-            <MdError className="inline-icon" />
+            <InlineIcon>
+              <MdError />
+            </InlineIcon>
             &nbsp;
             <Text id="emptyRestaurants" />
           </EmptyTextContainer>

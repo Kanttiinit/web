@@ -19,6 +19,7 @@ import { preferenceStore, uiState } from '../../store';
 import { RestaurantType } from '../../store/types';
 import Colon from '../Colon';
 import CourseList from '../CourseList';
+import InlineIcon from '../InlineIcon';
 import Text from '../Text';
 import * as css from './Restaurant.scss';
 
@@ -26,13 +27,15 @@ const Distance = ({ distance }: { distance: number }) => {
   const kilometers = distance > 1500;
   return (
     <div className={css.meta + ' ' + css.location}>
-      {!distance ? (
-        <MdPlace className="inline-icon" />
-      ) : kilometers ? (
-        <MdDirectionsBike className="inline-icon" />
-      ) : (
-        <MdDirectionsWalk className="inline-icon" />
-      )}
+      <InlineIcon>
+        {!distance ? (
+          <MdPlace />
+        ) : kilometers ? (
+          <MdDirectionsBike />
+        ) : (
+          <MdDirectionsWalk />
+        )}
+      </InlineIcon>
       {!distance ? (
         <Text id="locating" />
       ) : kilometers ? (

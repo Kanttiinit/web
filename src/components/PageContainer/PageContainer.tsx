@@ -15,7 +15,26 @@ const Container = styled.div`
   overflow: auto;
   box-sizing: border-box;
 
-  h1:first-child {
+  p {
+    color: var(--gray1);
+  }
+`;
+
+const Title = styled.h1`
+  margin: 1em 0;
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--gray1);
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  @media (max-width: ${props => props.theme.breakSmall}) {
+    font-size: 1.2em;
+  }
+
+  &:first-child {
     margin-top: 0;
     margin-bottom: 0.5rem;
     font-weight: normal;
@@ -23,15 +42,11 @@ const Container = styled.div`
     top: 0;
     z-index: 1000;
   }
-
-  p {
-    color: var(--gray1);
-  }
 `;
 
 const PageContainer = ({ children, title, ...rest }: Props) => (
   <Container {...rest}>
-    {title && <h1>{title}</h1>}
+    {title && <Title>{title}</Title>}
     {children}
   </Container>
 );

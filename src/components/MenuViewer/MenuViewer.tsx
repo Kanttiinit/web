@@ -24,7 +24,9 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const StyledCourseList = styled(CourseList)<{ loading: boolean }>`
+const StyledCourseList = styled(({ loading, ...props }) => (
+  <CourseList {...props} />
+))<{ loading: boolean }>`
   transition: opacity 0.2s;
   overflow: auto;
   max-height: 25vh;

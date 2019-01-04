@@ -9,7 +9,7 @@ import Text from '../Text';
 import feedbackProvider, { FeedbackProps } from '../feedbackProvider';
 import { preferenceStore } from '../../store';
 
-const Field = styled(TextField)`
+const Field: any = styled(TextField)`
   margin-bottom: 1em !important;
 `;
 

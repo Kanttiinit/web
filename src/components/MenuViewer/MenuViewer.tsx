@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { autorun } from 'mobx';
 import { observer } from 'mobx-react';
-import * as classnames from 'classnames';
 import { MdContentCopy, MdLink, MdShare } from 'react-icons/md';
 
 import { uiState, preferenceStore } from '../../store';
@@ -9,7 +8,6 @@ import CourseList from '../CourseList';
 import DaySelector from '../DaySelector';
 import { getCourses } from '../../utils/api';
 import { CourseType } from '../../store/types';
-import * as css from './MenuViewer.scss';
 import Tooltip from '../Tooltip';
 import styled from 'styled-components';
 
@@ -26,7 +24,7 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const StyledCourseList = styled.div<{ loading: boolean }>`
+const StyledCourseList = styled(CourseList)<{ loading: boolean }>`
   transition: opacity 0.2s;
   overflow: auto;
   max-height: 25vh;
@@ -127,7 +125,7 @@ export default observer(
               </ButtonContainer>
             )}
           </Header>
-          <StyledCourseList courses={courses} />
+          <StyledCourseList loading={loading} courses={courses} />
         </div>
       );
     }

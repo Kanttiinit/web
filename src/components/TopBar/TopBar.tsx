@@ -85,7 +85,7 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-const IconLink = styled.a`
+const iconLinkStyles = css`
   text-transform: uppercase;
   font-weight: 500;
   font-size: 0.8rem;
@@ -116,6 +116,13 @@ const IconLink = styled.a`
       display: none;
     }
   }
+`;
+
+const IconLink = styled(Link)`
+  ${iconLinkStyles}
+`;
+const NativeIconLink = styled.a`
+  ${iconLinkStyles}
 `;
 
 type State = {
@@ -189,13 +196,13 @@ export default withRouter(
                 </Link>
               )}
               <AreaSelectorButton onClickOutside={this.closeAreaSelector}>
-                <IconLink
+                <NativeIconLink
                   ref={this.setTouchListeners}
                   onMouseDown={this.toggleAreaSelector}
                 >
                   <MdMap size={18} />
                   <Text id="selectArea" />
-                </IconLink>
+                </NativeIconLink>
                 <AreaSelectorContainer isOpen={this.state.areaSelectorOpen}>
                   <AreaSelector onAreaSelected={this.toggleAreaSelector} />
                 </AreaSelectorContainer>
@@ -204,13 +211,13 @@ export default withRouter(
                 <MdSettings size={18} />
                 <Text id="settings" />
               </IconLink>
-              <IconLink onClick={this.toggleLanguage}>
+              <NativeIconLink onClick={this.toggleLanguage}>
                 <img
                   height={18}
                   alt={preferenceStore.lang.toUpperCase()}
                   src={preferenceStore.lang === 'fi' ? FI : EN}
                 />
-              </IconLink>
+              </NativeIconLink>
             </Content>
           </Container>
         );

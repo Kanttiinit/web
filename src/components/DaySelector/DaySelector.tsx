@@ -25,7 +25,7 @@ const Container = styled.div`
 `;
 
 const StyledLink = styled(Link)<{ activeLink: boolean }>`
-  a& {
+  && {
     border: none;
     background: transparent;
     display: inline-block;

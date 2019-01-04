@@ -29,10 +29,7 @@ export const RoundedButton = styled.button<{
   border-radius: 1rem;
   transition: background 0.1s, color 0.1s;
   padding: 0.4rem;
-
-  & .inline-icon {
-    flex-shrink: 0;
-  }
+  outline: none;
 
   &:focus {
     background: var(--gray5);
@@ -46,6 +43,7 @@ export const RoundedButton = styled.button<{
 
       &:focus {
         filter: brightness(115%);
+        background: ${props.color};
       }
     `}
 `;

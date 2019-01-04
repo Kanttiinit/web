@@ -45,6 +45,7 @@ const StyledToggle = styled.span<{ on: boolean }>`
       border-color: var(--accent_color);
 
       &:focus {
+        background: var(--accent_color);
         filter: brightness(120%);
       }
     `}

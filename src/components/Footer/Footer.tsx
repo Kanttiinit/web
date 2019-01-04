@@ -20,8 +20,8 @@ const Footer = styled.footer`
   align-items: flex-end;
 `;
 
-const Navigation = styled.nav`
-  a {
+const StyledNavLink = styled(NavLink)`
+  && {
     color: var(--gray3);
     text-transform: uppercase;
     margin: 0 0.5rem;
@@ -70,25 +70,25 @@ export default withRouter((props: RouteComponentProps<any>) => {
     <Footer>
       <NavigationContainer>
         <LogoImage src={logo} />
-        <Navigation>
-          <NavLink to={{ pathname: '/contact', search }}>
+        <nav>
+          <StyledNavLink to={{ pathname: '/contact', search }}>
             <Text id="contact" />
-          </NavLink>
-          <NavLink to={{ pathname: '/clients', search }}>
+          </StyledNavLink>
+          <StyledNavLink to={{ pathname: '/clients', search }}>
             <Text id="otherClients" />
-          </NavLink>
-          <NavLink to={{ pathname: '/news', search }}>
+          </StyledNavLink>
+          <StyledNavLink to={{ pathname: '/news', search }}>
             <Text id="updates" />
-          </NavLink>
-          <NavLink to={{ pathname: '/terms-of-service', search }}>
+          </StyledNavLink>
+          <StyledNavLink to={{ pathname: '/terms-of-service', search }}>
             <Text id="termsOfService" />
-          </NavLink>
+          </StyledNavLink>
           {!isBeta && (
             <a href="https://beta.kanttiinit.fi/" target="_blank">
               Beta
             </a>
           )}
-        </Navigation>
+        </nav>
       </NavigationContainer>
       <a href="https://github.com/Kanttiinit/web" target="_blank">
         {version}

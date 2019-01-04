@@ -2,9 +2,33 @@ import Map from 'pigeon-maps';
 import Overlay from 'pigeon-overlay';
 import * as React from 'react';
 import { MdLocationOn } from 'react-icons/md';
+import styled from 'styled-components';
+
 import { RestaurantType } from '../../store/types';
 
-import * as styles from './RestaurantModal.scss';
+const Container = styled.div`
+  border-top: 1px solid var(--gray6);
+  border-bottom: 1px solid var(--gray6);
+  min-height: 20rem;
+  height: 20rem;
+  margin: 1rem -1rem -1rem -1rem;
+  overflow: hidden;
+
+  @media (max-width: ${props => props.theme.breakSmall}) {
+    display: none;
+  }
+`;
+
+const RestaurantPin = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const RestaurantLabel = styled.span`
+  font-weight: bold;
+  text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white,
+    1px 1px 0 white;
+`;
 
 interface Props {
   restaurantPoint: [number, number];
@@ -15,15 +39,13 @@ interface Props {
 class RestaurantMap extends React.PureComponent<Props> {
   render() {
     return (
-      <div className={styles.map}>
+      <Container>
         <Map defaultZoom={14} defaultCenter={this.props.restaurantPoint}>
           <Overlay anchor={this.props.restaurantPoint} offset={[11, 24]}>
-            <div className={styles.restaurantPin}>
+            <RestaurantPin>
               <MdLocationOn size={24} />
-              <span className={styles.mapLabel}>
-                {this.props.restaurant.name}
-              </span>
-            </div>
+              <RestaurantLabel>{this.props.restaurant.name}</RestaurantLabel>
+            </RestaurantPin>
           </Overlay>
           {this.props.userPoint && (
             <Overlay anchor={this.props.userPoint} offset={[12, 12]}>
@@ -36,7 +58,7 @@ class RestaurantMap extends React.PureComponent<Props> {
             </Overlay>
           )}
         </Map>
-      </div>
+      </Container>
     );
   }
 }

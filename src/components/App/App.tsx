@@ -22,6 +22,7 @@ import ChangeLog from '../ChangeLog';
 import { isProduction, version } from '../../utils/consts';
 import { RouteComponentProps } from 'react-router';
 import AssetsLoading from '../AssetsLoading';
+import { autorun } from 'mobx';
 
 const Container = styled.div`
   display: flex;
@@ -32,13 +33,15 @@ const Container = styled.div`
 
 const themeConstants = {
   breakSmall: '767px',
-  breakLarge: '768px'
+  breakLarge: '768px',
+  darkMode: preferenceStore.darkMode
 };
 
 class App extends React.PureComponent<RouteComponentProps<any>> {
   state = {
     rightArrowVisible: false,
-    leftArrowVisible: false
+    leftArrowVisible: false,
+    theme: themeConstants
   };
 
   componentWillUnmount() {
@@ -82,13 +85,17 @@ class App extends React.PureComponent<RouteComponentProps<any>> {
     this.pageView();
 
     uiState.updateDay(location);
+
+    autorun(() => {
+      this.setState({
+        theme: { ...themeConstants, dark: preferenceStore.darkMode }
+      });
+    });
   }
 
   render() {
     return (
-      <ThemeProvider
-        theme={{ ...themeConstants, dark: preferenceStore.darkMode }}
-      >
+      <ThemeProvider theme={this.state.theme}>
         <React.Fragment>
           <Container>
             <div>

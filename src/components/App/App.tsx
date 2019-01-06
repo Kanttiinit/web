@@ -39,8 +39,6 @@ const themeConstants = {
 
 class App extends React.PureComponent<RouteComponentProps<any>> {
   state = {
-    leftArrowVisible: false,
-    rightArrowVisible: false,
     theme: themeConstants
   };
 

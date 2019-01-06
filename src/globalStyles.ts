@@ -1,30 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
-  @font-face {
-    font-family: 'Interface';
-    font-style:  normal;
-    font-weight: 400;
-    src: url("/fonts/Interface-Regular.woff2") format("woff2"),
-         url("/fonts/Interface-Regular.woff") format("woff");
-  }
-
-  @font-face {
-    font-family: 'Interface';
-    font-style:  normal;
-    font-weight: 500;
-    src: url("/fonts/Interface-Medium.woff2") format("woff2"),
-         url("/fonts/Interface-Medium.woff") format("woff");
-  }
-
-  @font-face {
-    font-family: 'Interface';
-    font-style:  normal;
-    font-weight: 700;
-    src: url("/fonts/Interface-Bold.woff2") format("woff2"),
-         url("/fonts/Interface-Bold.woff") format("woff");
-  }
-
   html,
   body,
   #root {

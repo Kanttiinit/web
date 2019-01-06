@@ -140,7 +140,7 @@ class Modal extends React.Component<Props, {}> {
 
   render() {
     return (
-      <Transition timeout={200} in={this.props.open} unmountOnExit appear>
+      <Transition timeout={200} in={this.props.open} appear>
         {(state: TransitionState) => (
           <Container state={state}>
             <React.Fragment>

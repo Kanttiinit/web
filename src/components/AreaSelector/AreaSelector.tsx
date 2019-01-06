@@ -58,7 +58,8 @@ const AreaWrapper = styled.div`
 const AreaButton = styled(Button).attrs({ type: 'text' })<{
   selected: boolean;
 }>`
-  background-color: transparent;
+  background-color: ${props =>
+    props.selected ? 'var(--gray6)' : 'transparent'};
   color: inherit;
   width: 100%;
   padding: 1em 0.5em;

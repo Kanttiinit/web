@@ -105,7 +105,6 @@ const RestaurantMeta = styled.div`
   color: var(--gray3);
   font-size: 0.8rem;
   font-weight: 600;
-  text-align: right;
 
   @media (max-width: ${props => props.theme.breakSmall}) {
     font-size: 0.7rem;

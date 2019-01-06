@@ -55,6 +55,7 @@ export default feedbackProvider(
                     id="report"
                     required
                     label={<Text id="reportLabel" />}
+                    style={{ marginBottom: '1em' }}
                     rows={5}
                     autoFocus
                   />
@@ -63,6 +64,7 @@ export default feedbackProvider(
                     fullWidth
                     type="email"
                     id="email"
+                    style={{ marginBottom: '1em' }}
                     label={<Text id="reportEmail" />}
                     autoComplete="off"
                   />

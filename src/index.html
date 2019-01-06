@@ -23,12 +23,16 @@
     <meta property="og:locale" content="fi_FI" />
     <meta property="og:locale:alternate" content="en" />
     <meta name="theme-color" content="#009688" />
+    <link rel="preload" href="/fonts/Interface-Regular.woff2" as="font" />
+    <link rel="preload" href="/fonts/Interface-Medium.woff2" as="font" />
+    <link rel="preload" href="/fonts/Interface-Bold.woff2" as="font" />
     <style>
       @font-face {
         font-family: "Interface";
         font-style: normal;
         font-weight: 400;
-        src: url("/fonts/Interface-Regular.woff2") format("woff2"),
+        src: local("Interface"),
+          url("/fonts/Interface-Regular.woff2") format("woff2"),
           url("/fonts/Interface-Regular.woff") format("woff");
       }
 
@@ -36,7 +40,8 @@
         font-family: "Interface";
         font-style: normal;
         font-weight: 500;
-        src: url("/fonts/Interface-Medium.woff2") format("woff2"),
+        src: local("Interface"),
+          url("/fonts/Interface-Medium.woff2") format("woff2"),
           url("/fonts/Interface-Medium.woff") format("woff");
       }
 
@@ -44,7 +49,8 @@
         font-family: "Interface";
         font-style: normal;
         font-weight: 700;
-        src: url("/fonts/Interface-Bold.woff2") format("woff2"),
+        src: local("Interface"),
+          url("/fonts/Interface-Bold.woff2") format("woff2"),
           url("/fonts/Interface-Bold.woff") format("woff");
       }
     </style>

@@ -1,41 +1,37 @@
 import * as React from 'react';
 
+import styled from 'styled-components';
 import PageContainer from './PageContainer';
 import Text from './Text';
 
+const Link = styled.a`
+  font-size: 1.25em;
+`;
+
 const Clients = () => (
   <PageContainer title={<Text id="otherClients" />}>
-    <h3>
-      <a href="https://folio.kanttiinit.fi/">Kanttiinit Folio</a>
-    </h3>
-    <p>JavaScript-less version of Kanttiinit for people with tin foil hats.</p>
-    <h3>
-      <a href="https://telegram.me/KanttiinitBOT" target="_blank">
-        Kanttiinit Telegram
-      </a>
-    </h3>
-    <p>Chat bot for Telegram.</p>
-    <h3>
-      <a href="https://github.com/Kanttiinit/cli" target="_blank">
-        Kanttiinit CLI
-      </a>
-    </h3>
-    <p>Command line interface built with Node.</p>
-    <h3>
-      <a
-        href="https://play.google.com/apps/testing/com.kanttiinit"
-        target="_blank"
-      >
-        Kanttiinit on iOS,
-      </a>
-      <a
-        href="https://play.google.com/apps/testing/com.kanttiinit"
-        target="_blank"
-      >
-        {' '}
-        Kanttiinit on Android
-      </a>
-    </h3>
+    <Link href="https://folio.kanttiinit.fi/">folio.kanttiinit.fi</Link>
+    <p>JavaScript-less version of Kanttiinit.</p>
+    <Link href="https://github.com/Kanttiinit/cli" target="_blank">
+      CLI
+    </Link>
+    <p>
+      Command line interface written in C++ (to use it you must still build it
+      yourself).
+    </p>
+    <Link
+      href="https://itunes.apple.com/fi/app/kanttiinit/id1069903670?mt=8"
+      target="_blank"
+    >
+      iOS App
+    </Link>
+    ,{' '}
+    <Link
+      href="https://play.google.com/apps/testing/com.kanttiinit"
+      target="_blank"
+    >
+      Android App
+    </Link>
     <p>iOS and Android apps. Not actively maintained.</p>
   </PageContainer>
 );

@@ -1,11 +1,10 @@
 import * as format from 'date-fns/format';
 import * as isSameDay from 'date-fns/is_same_day';
-import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { uiState } from '../../store';
+import uiContext from '../../contexts/uiContext';
 import Text from '../Text';
 
 interface DayLinkProps {
@@ -81,14 +80,15 @@ const DayLink = ({ day, selectedDay, root }: DayLinkProps) => {
   );
 };
 
-export default observer(({ root }: { root: string }) => {
-  const selectedDay = uiState.selectedDay;
+export default ({ root }: { root: string }) => {
+  const ui = React.useContext(uiContext);
+  const selectedDay = ui.selectedDay;
   return (
     <Container>
-      {!uiState.isDateInRange(selectedDay) && (
+      {!ui.isDateInRange(selectedDay) && (
         <DayLink day={selectedDay} selectedDay={selectedDay} />
       )}
-      {uiState.displayedDays.map(day => (
+      {ui.displayedDays.map(day => (
         <DayLink
           key={format(day, 'YYYY-MM-DD')}
           root={root}
@@ -98,4 +98,4 @@ export default observer(({ root }: { root: string }) => {
       ))}
     </Container>
   );
-});
+};

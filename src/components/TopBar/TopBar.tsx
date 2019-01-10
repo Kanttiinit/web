@@ -1,4 +1,3 @@
-import { observer } from 'mobx-react';
 import * as React from 'react';
 import ClickOutside from 'react-click-outside';
 import { MdFiberNew, MdMap, MdSettings } from 'react-icons/md';
@@ -9,7 +8,8 @@ const FI = require('../../assets/fi.png');
 const EN = require('../../assets/en.png');
 
 import styled, { css } from 'styled-components';
-import { dataStore, preferenceStore } from '../../store';
+import { useUnseenUpdates } from '../../contexts/hooks';
+import preferenceContext from '../../contexts/preferencesContext';
 import AreaSelector from '../AreaSelector';
 import DaySelector from '../DaySelector';
 import Text from '../Text';
@@ -129,99 +129,103 @@ interface State {
   areaSelectorOpen: boolean;
 }
 
-export default withRouter(
-  observer(
-    class TopBar extends React.Component<RouteComponentProps<any>, State> {
-      state = {
-        areaSelectorOpen: false
-      };
+const TopBar = (props: RouteComponentProps<any>) => {
+  const unseenUpdates = useUnseenUpdates();
+  const preferences = React.useContext(preferenceContext);
+  const areaSelectorLink = React.useRef<HTMLAnchorElement | null>(null);
+  const [areaSelectorOpen, setAreaSelectorOpen] = React.useState(false);
+  const { search } = props.location;
 
-      toggleLanguage = () => {
-        preferenceStore.toggleLanguage();
-      }
+  const toggleAreaSelector = () => setAreaSelectorOpen(!areaSelectorOpen);
 
-      toggleAreaSelector = () => {
-        this.setState(state => ({ areaSelectorOpen: !state.areaSelectorOpen }));
-      }
+  const closeAreaSelector = () => setAreaSelectorOpen(false);
 
-      closeAreaSelector = () => this.setState({ areaSelectorOpen: false });
+  const toggleLanguage = () => preferences.toggleLang();
 
-      touchStart = (e: TouchEvent) => {
-        e.preventDefault();
-        this.toggleAreaSelector();
-      }
+  React.useEffect(
+    () => {
+      if (areaSelectorLink) {
+        const touchStart = (e: TouchEvent) => {
+          e.preventDefault();
+          toggleAreaSelector();
+        };
 
-      touchMove = (event: TouchEvent) => {
-        event.preventDefault();
-        const target = document.elementFromPoint(
-          event.touches[0].pageX,
-          event.touches[0].pageY
-        );
-        if (target instanceof HTMLButtonElement) {
-          target.focus();
-        }
-      }
-
-      touchEnd = (event: TouchEvent) => {
-        const endTarget = document.elementFromPoint(
-          event.changedTouches[0].pageX,
-          event.changedTouches[0].pageY
-        );
-        if (endTarget instanceof HTMLElement) {
-          endTarget.dispatchEvent(
-            new MouseEvent('mouseup', {
-              bubbles: true
-            })
+        const touchMove = (event: TouchEvent) => {
+          event.preventDefault();
+          const target = document.elementFromPoint(
+            event.touches[0].pageX,
+            event.touches[0].pageY
           );
-        }
-      }
+          if (target instanceof HTMLButtonElement) {
+            target.focus();
+          }
+        };
 
-      setTouchListeners = (e: HTMLElement) => {
-        if (e) {
-          e.addEventListener('touchstart', this.touchStart, { passive: false });
-          e.addEventListener('touchmove', this.touchMove, { passive: false });
-          e.addEventListener('touchend', this.touchEnd);
-        }
-      }
+        const touchEnd = (event: TouchEvent) => {
+          const endTarget = document.elementFromPoint(
+            event.changedTouches[0].pageX,
+            event.changedTouches[0].pageY
+          );
+          if (endTarget instanceof HTMLElement) {
+            endTarget.dispatchEvent(
+              new MouseEvent('mouseup', {
+                bubbles: true
+              })
+            );
+          }
+        };
 
-      render() {
-        const { search } = this.props.location;
-        return (
-          <Container>
-            <Content>
-              <DaySelector root="/" />
-              {dataStore.unseenUpdates.length > 0 && (
-                <Link to={{ pathname: '/news', search }}>
-                  <NewsIcon size={24} />
-                </Link>
-              )}
-              <AreaSelectorButton onClickOutside={this.closeAreaSelector}>
-                <NativeIconLink
-                  ref={this.setTouchListeners}
-                  onMouseDown={this.toggleAreaSelector}
-                >
-                  <MdMap size={18} />
-                  <Text id="selectArea" />
-                </NativeIconLink>
-                <AreaSelectorContainer isOpen={this.state.areaSelectorOpen}>
-                  <AreaSelector onAreaSelected={this.toggleAreaSelector} />
-                </AreaSelectorContainer>
-              </AreaSelectorButton>
-              <IconLink as={Link} to={{ pathname: '/settings', search }}>
-                <MdSettings size={18} />
-                <Text id="settings" />
-              </IconLink>
-              <NativeIconLink onClick={this.toggleLanguage}>
-                <img
-                  height={18}
-                  alt={preferenceStore.lang.toUpperCase()}
-                  src={preferenceStore.lang === 'fi' ? FI : EN}
-                />
-              </NativeIconLink>
-            </Content>
-          </Container>
-        );
+        const element = areaSelectorLink.current;
+
+        element.addEventListener('touchstart', touchStart, { passive: false });
+        element.addEventListener('touchmove', touchMove, { passive: false });
+        element.addEventListener('touchend', touchEnd);
+
+        return () => {
+          element.removeEventListener('touchstart', touchStart);
+          element.removeEventListener('touchmove', touchMove);
+          element.removeEventListener('touchend', touchEnd);
+        };
       }
-    }
-  )
-);
+    },
+    [areaSelectorLink.current]
+  );
+
+  return (
+    <Container>
+      <Content>
+        <DaySelector root="/" />
+        {unseenUpdates.length > 0 && (
+          <Link to={{ pathname: '/news', search }}>
+            <NewsIcon size={24} />
+          </Link>
+        )}
+        <AreaSelectorButton onClickOutside={closeAreaSelector}>
+          <NativeIconLink
+            ref={areaSelectorLink}
+            onMouseDown={toggleAreaSelector}
+          >
+            <MdMap size={18} />
+            <Text id="selectArea" />
+          </NativeIconLink>
+          <AreaSelectorContainer isOpen={areaSelectorOpen}>
+            <AreaSelector onAreaSelected={toggleAreaSelector} />
+          </AreaSelectorContainer>
+        </AreaSelectorButton>
+        <IconLink as={Link} to={{ pathname: '/settings', search }}>
+          <MdSettings size={18} />
+          <Text id="settings" />
+        </IconLink>
+        <NativeIconLink onClick={toggleLanguage}>
+          <img
+            height={18}
+            alt={preferences.lang.toUpperCase()}
+            src={preferences.lang === 'fi' ? FI : EN}
+          />
+        </NativeIconLink>
+      </Content>
+    </Container>
+  );
+};
+
+export default withRouter(TopBar);

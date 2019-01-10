@@ -1,7 +1,7 @@
 const webpack = require("webpack");
 const path = require("path");
 const autoprefixer = require("autoprefixer");
-const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const pkg = require("./package.json");
 
@@ -25,14 +25,6 @@ const plugins = [
     )
   })
 ];
-
-if (isProduction) {
-  plugins.push(
-    new UglifyJSPlugin({
-      sourceMap: true
-    })
-  );
-}
 
 module.exports = {
   entry: {
@@ -59,6 +51,13 @@ module.exports = {
     historyApiFallback: {
       index: "index.html"
     }
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        sourceMap: true
+      })
+    ]
   },
   resolve: {
     extensions: [".mjs", ".ts", ".tsx", ".js", ".scss"]

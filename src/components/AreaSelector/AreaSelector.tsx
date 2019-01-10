@@ -1,12 +1,12 @@
 import * as sortBy from 'lodash/sortBy';
-import { observer } from 'mobx-react';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import { MdDirectionsWalk, MdStar } from 'react-icons/md';
-import { dataStore, preferenceStore } from '../../store';
+import dataContext from '../../contexts/dataContext';
+import preferenceContext from '../../contexts/preferencesContext';
 import { AreaType } from '../../store/types';
 import Button from '../Button';
 import Text from '../Text';
@@ -77,15 +77,17 @@ const AreaButton = styled(Button).attrs({ type: 'text' })<{
 
 const Area = ({
   area,
-  selectArea
+  selectArea,
+  selectedAreaId
 }: {
   area: AreaType | SpecialArea;
+  selectedAreaId: number;
   selectArea: (id: number) => void;
 }) => (
   <AreaWrapper>
     <AreaButton
       onMouseUp={() => selectArea(area.id)}
-      selected={preferenceStore.selectedArea === area.id}
+      selected={selectedAreaId === area.id}
     >
       {area.name}
     </AreaButton>
@@ -105,28 +107,37 @@ const Container = styled.div`
   background: var(--gray7);
 `;
 
-@observer
-class AreaSelector extends React.Component<Props & RouteComponentProps<any>> {
-  selectArea = (areaId: number) => {
-    preferenceStore.selectedArea = areaId;
-    this.props.history.replace('/');
-    if (this.props.onAreaSelected) {
-      this.props.onAreaSelected();
-    }
-  }
+const AreaSelector = (props: Props & RouteComponentProps<any>) => {
+  const data = React.useContext(dataContext);
+  const preferences = React.useContext(preferenceContext);
 
-  render() {
-    return (
-      <Container>
-        {specialAreas.map(area => (
-          <Area key={area.id} selectArea={this.selectArea} area={area} />
-        ))}
-        {sortBy(dataStore.areas.data, 'name').map((area: AreaType) => (
-          <Area key={area.id} selectArea={this.selectArea} area={area} />
-        ))}
-      </Container>
-    );
-  }
-}
+  const selectArea = (areaId: number) => {
+    preferences.setSelectedArea(areaId);
+    if (props.onAreaSelected) {
+      props.onAreaSelected();
+    }
+  };
+
+  return (
+    <Container>
+      {specialAreas.map(area => (
+        <Area
+          key={area.id}
+          selectedAreaId={preferences.selectedArea}
+          selectArea={selectArea}
+          area={area}
+        />
+      ))}
+      {sortBy(data.areas.data, 'name').map((area: AreaType) => (
+        <Area
+          key={area.id}
+          selectedAreaId={preferences.selectedArea}
+          selectArea={selectArea}
+          area={area}
+        />
+      ))}
+    </Container>
+  );
+};
 
 export default withRouter(AreaSelector);

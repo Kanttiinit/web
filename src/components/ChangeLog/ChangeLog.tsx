@@ -1,13 +1,13 @@
 import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
-import { autorun, IReactionDisposer } from 'mobx';
-import { observer } from 'mobx-react';
 import * as React from 'react';
 import { Collapse } from 'react-collapse';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import snarkdown from 'snarkdown';
 import styled from 'styled-components';
 
-import { dataStore, preferenceStore } from '../../store';
+import dataContext from '../../contexts/dataContext';
+import { useUnseenUpdates } from '../../contexts/hooks';
+import preferenceContext from '../../contexts/preferencesContext';
 import { Update } from '../../store/types';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
@@ -62,79 +62,62 @@ const ArrowDownIcon = styled(MdKeyboardArrowDown)<{ isVisible: boolean }>`
   ${props => props.isVisible && 'transform: rotateX(180deg);'}
 `;
 
-export default observer(
-  class ChangeLog extends React.Component<any, State> {
-    state: State = {
-      visibleItems: []
-    };
+const ChangeLog = () => {
+  const data = React.useContext(dataContext);
+  const preferences = React.useContext(preferenceContext);
+  const unseenUpdates = useUnseenUpdates();
+  const [visibleItems, setVisibleItems] = React.useState(
+    unseenUpdates.map(update => update.id)
+  );
 
-    cancelAutorun: IReactionDisposer = null;
-
-    toggleVisible = (update: Update) =>
-      this.setState(state => {
-        if (state.visibleItems.indexOf(update.id) > -1) {
-          return {
-            visibleItems: state.visibleItems.filter(id => id !== update.id)
-          };
-        } else {
-          return {
-            visibleItems: [...state.visibleItems, update.id]
-          };
-        }
-      })
-
-    componentWillUnmount() {
-      preferenceStore.updatesLastSeenAt = Date.now();
-      this.cancelAutorun();
+  const toggleVisible = (update: Update) => {
+    if (visibleItems.indexOf(update.id) > -1) {
+      setVisibleItems(visibleItems.filter(id => id !== update.id));
+    } else {
+      setVisibleItems([...visibleItems, update.id]);
     }
+  };
 
-    componentDidMount() {
-      this.cancelAutorun = autorun(() => {
-        this.setState({
-          visibleItems: dataStore.unseenUpdates.map(update => update.id)
-        });
-      });
-    }
+  React.useEffect(() => {
+    preferences.setUpdatesLastSeenAt(Date.now());
+  }, []);
 
-    render() {
-      return (
-        <PageContainer title={<Text id="updates" />}>
-          {dataStore.updates.pending ? (
-            <p>Loading...</p>
-          ) : (
-            dataStore.updates.data.map(update => {
-              const isVisible = this.state.visibleItems.some(
-                id => update.id === id
-              );
-              return (
-                <UpdateWrapper
-                  onClick={() => this.toggleVisible(update)}
-                  key={update.id}
+  return (
+    <PageContainer title={<Text id="updates" />}>
+      {data.updates.pending ? (
+        <p>Loading...</p>
+      ) : (
+        data.updates.data.map(update => {
+          const isVisible = visibleItems.some(id => update.id === id);
+          return (
+            <UpdateWrapper
+              onClick={() => toggleVisible(update)}
+              key={update.id}
+            >
+              <ArrowDownIcon isVisible={isVisible} size={30} />
+              <UpdateContent>
+                <PublishedAt>
+                  {distanceInWordsToNow(update.createdAt)}
+                </PublishedAt>
+                <Title>{update.title}</Title>
+                <Collapse
+                  springConfig={{ stiffness: 300, damping: 20 }}
+                  isOpened={isVisible}
                 >
-                  <ArrowDownIcon isVisible={isVisible} size={30} />
-                  <UpdateContent>
-                    <PublishedAt>
-                      {distanceInWordsToNow(update.createdAt)}
-                    </PublishedAt>
-                    <Title>{update.title}</Title>
-                    <Collapse
-                      springConfig={{ stiffness: 300, damping: 20 }}
-                      isOpened={isVisible}
-                    >
-                      <Body
-                        isVisible={isVisible}
-                        dangerouslySetInnerHTML={{
-                          __html: snarkdown(update.description)
-                        }}
-                      />
-                    </Collapse>
-                  </UpdateContent>
-                </UpdateWrapper>
-              );
-            })
-          )}
-        </PageContainer>
-      );
-    }
-  }
-);
+                  <Body
+                    isVisible={isVisible}
+                    dangerouslySetInnerHTML={{
+                      __html: snarkdown(update.description)
+                    }}
+                  />
+                </Collapse>
+              </UpdateContent>
+            </UpdateWrapper>
+          );
+        })
+      )}
+    </PageContainer>
+  );
+};
+
+export default ChangeLog;

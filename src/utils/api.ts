@@ -1,7 +1,7 @@
 import * as format from 'date-fns/format';
 import http from './http';
 
-import { Lang, Update } from '../store/types';
+import { AreaType, Lang, Update } from '../store/types';
 
 export const getCourses = async (
   restaurantId: number,
@@ -49,7 +49,7 @@ export const getUpdates = (): Promise<Update[]> => {
   return http.get('/updates');
 };
 
-export const getAreas = (lang: Lang) =>
+export const getAreas = (lang: Lang): Promise<AreaType[]> =>
   http.get(`/areas?idsOnly=1&lang=${lang}`);
 
 export const getFavorites = (lang: Lang) => http.get(`/favorites?lang=${lang}`);

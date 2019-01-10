@@ -1,10 +1,7 @@
-import { observer } from 'mobx-react';
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { preferenceStore } from '../../store';
+import preferenceContext from '../../contexts/preferencesContext';
 import { Lang, Order } from '../../store/types';
 import FavoriteSelector from '../FavoriteSelector';
 import PageContainer from '../PageContainer';
@@ -43,68 +40,51 @@ const languageOptions = [
   { label: 'English', value: Lang.EN }
 ];
 
-export default withRouter(
-  observer(
-    class Settings extends React.Component {
-      props: RouteComponentProps<any>;
+const Settings = () => {
+  const preferences = React.useContext(preferenceContext);
 
-      setOrder = (value: Order) => {
-        preferenceStore.order = value;
-      }
+  const setOrder = (order: Order) => preferences.setOrder(order);
 
-      setUseLocation = (value: boolean) => {
-        preferenceStore.useLocation = value;
-      }
+  const setUseLocation = (location: boolean) =>
+    preferences.setUseLocation(location);
 
-      setDarkMode = (value: boolean) => {
-        preferenceStore.darkMode = value;
-      }
+  const setDarkMode = (darkMode: boolean) => preferences.setDarkMode(darkMode);
 
-      setLang(lang: Lang) {
-        preferenceStore.lang = lang;
-      }
+  const setLang = (lang: Lang) => preferences.setLang(lang);
 
-      render() {
-        return (
-          <PageContainer title={<Text id="settings" />}>
-            <Item label={<Text id="language" />}>
-              <Radio
-                options={languageOptions}
-                selected={preferenceStore.lang}
-                onChange={this.setLang}
-              />
-            </Item>
-            <Item label={<Text id="darkMode" />}>
-              <Toggle
-                selected={preferenceStore.darkMode}
-                onChange={this.setDarkMode}
-              />
-            </Item>
-            <Item label={<Text id="order" />}>
-              <Radio
-                options={orders}
-                selected={preferenceStore.order}
-                onChange={this.setOrder}
-              />
-            </Item>
-            <Item label={<Text id="useLocation" />}>
-              <Toggle
-                selected={preferenceStore.useLocation}
-                onChange={this.setUseLocation}
-              />
-            </Item>
-            <Item label={<Text id="highlightDiets" />}>
-              <PropertySelector showDesiredProperties />
-            </Item>
-            <Item label={<Text id="avoidDiets" />}>
-              <PropertySelector />
-            </Item>
-            <Item label={<Text id="prioritize" />}>
-              <FavoriteSelector />
-            </Item>
-          </PageContainer>
-        );
-      }
-    }
-  )
-);
+  return (
+    <PageContainer title={<Text id="settings" />}>
+      <Item label={<Text id="language" />}>
+        <Radio
+          options={languageOptions}
+          selected={preferences.lang}
+          onChange={setLang}
+        />
+      </Item>
+      <Item label={<Text id="darkMode" />}>
+        <Toggle selected={preferences.darkMode} onChange={setDarkMode} />
+      </Item>
+      <Item label={<Text id="order" />}>
+        <Radio
+          options={orders}
+          selected={preferences.order}
+          onChange={setOrder}
+        />
+      </Item>
+      <Item label={<Text id="useLocation" />}>
+        <Toggle selected={preferences.useLocation} onChange={setUseLocation} />
+      </Item>
+      <Item label={<Text id="highlightDiets" />}>
+        <PropertySelector showDesiredProperties />
+      </Item>
+      <Item label={<Text id="avoidDiets" />}>
+        <PropertySelector />
+      </Item>
+      <Item label={<Text id="prioritize" />}>
+        <FavoriteSelector />
+      </Item>
+    </PageContainer>
+  );
+};
+
+export default Settings;

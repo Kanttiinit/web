@@ -3,7 +3,7 @@ import * as enLocale from 'date-fns/locale/en';
 import * as fiLocale from 'date-fns/locale/fi';
 import * as React from 'react';
 
-import preferenceContext from '../contexts/preferencesContext';
+import langContext from '../contexts/langContext';
 import translations from '../utils/translations';
 
 const locales = {
@@ -21,7 +21,7 @@ interface Props {
 
 export default (props: Props) => {
   const { id, date, element = 'span', children, ...rest } = props;
-  const { lang } = React.useContext(preferenceContext);
+  const { lang } = React.useContext(langContext);
   if (!date) {
     if (!translations[id]) {
       console.warn(`no translations for "${id}"`);

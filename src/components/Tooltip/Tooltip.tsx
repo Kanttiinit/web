@@ -2,7 +2,8 @@ import Popper from 'popper.js';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import preferenceContext from '../../contexts/preferencesContext';
+
+import langContext from '../../contexts/langContext';
 import translations from '../../utils/translations';
 
 const Container = styled.div`
@@ -27,13 +28,12 @@ interface Props {
 }
 
 const Tooltip = (props: Props) => {
-  const preferences = React.useContext(preferenceContext);
+  const { lang } = React.useContext(langContext);
   const [isOpen, setIsOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLSpanElement>(null);
   const tooltipRef = React.useRef<HTMLDivElement>(null);
   const popper = React.useRef<Popper>(null);
-  const contents =
-    props.text || translations[props.translationKey][preferences.lang];
+  const contents = props.text || translations[props.translationKey][lang];
 
   const open = React.useCallback(() => setIsOpen(true), []);
 

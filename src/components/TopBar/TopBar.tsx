@@ -9,6 +9,7 @@ const EN = require('../../assets/en.png');
 
 import styled, { css } from 'styled-components';
 import { useUnseenUpdates } from '../../contexts/hooks';
+import langContext from '../../contexts/langContext';
 import preferenceContext from '../../contexts/preferencesContext';
 import AreaSelector from '../AreaSelector';
 import DaySelector from '../DaySelector';
@@ -128,6 +129,7 @@ const NativeIconLink = styled.a`
 const TopBar = (props: RouteComponentProps<any>) => {
   const unseenUpdates = useUnseenUpdates();
   const preferences = React.useContext(preferenceContext);
+  const { lang, toggleLang } = React.useContext(langContext);
   const areaSelectorLink = React.useRef<HTMLAnchorElement | null>(null);
   const [areaSelectorOpen, setAreaSelectorOpen] = React.useState(false);
   const { search } = props.location;
@@ -141,8 +143,6 @@ const TopBar = (props: RouteComponentProps<any>) => {
     () => setAreaSelectorOpen(false),
     []
   );
-
-  const toggleLanguage = React.useCallback(() => preferences.toggleLang(), []);
 
   React.useEffect(
     () => {
@@ -218,11 +218,11 @@ const TopBar = (props: RouteComponentProps<any>) => {
           <MdSettings size={18} />
           <Text id="settings" />
         </IconLink>
-        <NativeIconLink onClick={toggleLanguage}>
+        <NativeIconLink onClick={toggleLang}>
           <img
             height={18}
-            alt={preferences.lang.toUpperCase()}
-            src={preferences.lang === 'fi' ? FI : EN}
+            alt={lang.toUpperCase()}
+            src={lang === 'fi' ? FI : EN}
           />
         </NativeIconLink>
       </Content>

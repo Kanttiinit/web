@@ -20,6 +20,7 @@ import {
   RestaurantType
 } from '../store/types';
 import dataContext from './dataContext';
+import langContext from './langContext';
 import preferenceContext from './preferencesContext';
 import uiContext from './uiContext';
 
@@ -146,6 +147,7 @@ export const useFormattedRestaurants: () => RestaurantType[] = () => {
 };
 
 export const useAutoUpdates = () => {
+  const { lang } = React.useContext(langContext);
   const preferences = React.useContext(preferenceContext);
   const ui = React.useContext(uiContext);
   const data = React.useContext(dataContext);
@@ -159,16 +161,15 @@ export const useAutoUpdates = () => {
   // update areas and restaurants
   React.useEffect(
     () => {
-      data.setAreas(api.getAreas(preferences.lang));
-      data.setFavorites(api.getFavorites(preferences.lang));
+      data.setAreas(api.getAreas(lang));
+      data.setFavorites(api.getFavorites(lang));
     },
-    [preferences.lang]
+    [lang]
   );
 
   // update restaurants
   React.useEffect(
     () => {
-      const lang = preferences.lang;
       let promise;
       if (lang && selectedArea) {
         promise = api.getRestaurantsByIds(selectedArea.restaurants, lang);
@@ -192,7 +193,7 @@ export const useAutoUpdates = () => {
         data.setRestaurants(promise);
       }
     },
-    [selectedArea, preferences.lang]
+    [selectedArea, lang]
   );
 
   // update menus
@@ -202,15 +203,11 @@ export const useAutoUpdates = () => {
         const restaurantIds = data.restaurants.data.map(
           restaurant => restaurant.id
         );
-        const menus = api.getMenus(
-          restaurantIds,
-          [ui.selectedDay],
-          preferences.lang
-        );
+        const menus = api.getMenus(restaurantIds, [ui.selectedDay], lang);
         data.setMenus(menus);
       }
     },
-    [data.restaurants.data, ui.selectedDay, preferences.lang]
+    [data.restaurants.data, ui.selectedDay, lang]
   );
 
   // update location

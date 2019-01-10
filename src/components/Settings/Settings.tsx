@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import langContext from '../../contexts/langContext';
 import preferenceContext from '../../contexts/preferencesContext';
 import { Lang, Order } from '../../store/types';
 import FavoriteSelector from '../FavoriteSelector';
@@ -42,6 +43,7 @@ const languageOptions = [
 
 const Settings = () => {
   const preferences = React.useContext(preferenceContext);
+  const langState = React.useContext(langContext);
 
   const setOrder = React.useCallback(
     (order: Order) => preferences.setOrder(order),
@@ -59,7 +61,7 @@ const Settings = () => {
   );
 
   const setLang = React.useCallback(
-    (lang: Lang) => preferences.setLang(lang),
+    (lang: Lang) => langState.setLang(lang),
     []
   );
 
@@ -68,7 +70,7 @@ const Settings = () => {
       <Item label={<Text id="language" />}>
         <Radio
           options={languageOptions}
-          selected={preferences.lang}
+          selected={langState.lang}
           onChange={setLang}
         />
       </Item>

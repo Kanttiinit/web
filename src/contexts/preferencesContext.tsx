@@ -14,7 +14,6 @@ function toggleInArray<T>(array: T[], item: T): T[] {
 }
 
 interface PreferenceContext {
-  lang: Lang;
   selectedArea: number;
   useLocation: boolean;
   darkMode: boolean;
@@ -25,7 +24,6 @@ interface PreferenceContext {
   updatesLastSeenAt: number;
   setUseLocation: (state: boolean) => void;
   setDarkMode(state: boolean): void;
-  setLang(state: Lang): void;
   setOrder(state: Order): void;
   setRestaurantStarred(restaurantId: number, isStarred: boolean): void;
   setSelectedArea(areaId: number): void;
@@ -35,7 +33,6 @@ interface PreferenceContext {
   setUpdatesLastSeenAt(time: number): void;
   toggleFavorite(favoriteId: number): void;
   toggleProperty(property: string): void;
-  toggleLang(): void;
 }
 
 function getProperty(propertyKey: string) {
@@ -47,7 +44,6 @@ const preferenceContext = React.createContext<PreferenceContext>({} as any);
 export const PreferenceContextProvider = (props: {
   children: React.ReactNode;
 }) => {
-  const [lang, setLang] = usePersistedState('lang', Lang.FI);
   const [selectedArea, setSelectedArea] = usePersistedState('selectedArea', 1);
   const [useLocation, setUseLocation] = usePersistedState('location', false);
   const [order, setOrder] = usePersistedState('order', Order.AUTOMATIC);
@@ -78,10 +74,6 @@ export const PreferenceContextProvider = (props: {
     },
     [darkMode]
   );
-
-  const toggleLang = () => {
-    setLang(lang === Lang.FI ? Lang.EN : Lang.FI);
-  };
 
   function isPropertySelected(propertyKey: string) {
     return properties.some(p => p.toLowerCase() === propertyKey.toLowerCase());
@@ -130,12 +122,10 @@ export const PreferenceContextProvider = (props: {
         isDesiredProperty,
         isPropertySelected,
         isUndesiredProperty,
-        lang,
         order,
         properties,
         selectedArea,
         setDarkMode,
-        setLang,
         setOrder,
         setRestaurantStarred,
         setSelectedArea,
@@ -143,7 +133,6 @@ export const PreferenceContextProvider = (props: {
         setUseLocation,
         starredRestaurants,
         toggleFavorite,
-        toggleLang,
         toggleProperty,
         updatesLastSeenAt,
         useLocation

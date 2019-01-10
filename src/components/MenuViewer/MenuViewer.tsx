@@ -2,7 +2,7 @@ import * as React from 'react';
 import { MdContentCopy, MdLink, MdShare } from 'react-icons/md';
 import styled from 'styled-components';
 
-import preferenceContext from '../../contexts/preferencesContext';
+import langContext from '../../contexts/langContext';
 import uiContext from '../../contexts/uiContext';
 import { CourseType } from '../../store/types';
 import { getCourses } from '../../utils/api';
@@ -47,14 +47,12 @@ interface Props {
 
 const MenuViewer = (props: Props) => {
   const ui = React.useContext(uiContext);
-  const preferences = React.useContext(preferenceContext);
+  const { lang } = React.useContext(langContext);
   const [courses, setCourses] = useResource<CourseType[]>([]);
   const { showCopyButton } = props;
 
   React.useEffect(() => {
-    setCourses(
-      getCourses(props.restaurantId, ui.selectedDay, preferences.lang)
-    );
+    setCourses(getCourses(props.restaurantId, ui.selectedDay, lang));
   }, []);
 
   const onCopy = React.useCallback((target: string) => {

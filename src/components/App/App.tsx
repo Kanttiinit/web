@@ -7,6 +7,7 @@ import styled, { ThemeProvider } from 'styled-components';
 
 import { DataContextProvider } from '../../contexts/dataContext';
 import { useAutoUpdates } from '../../contexts/hooks';
+import { LangContextProvider } from '../../contexts/langContext';
 import preferenceContext, {
   PreferenceContextProvider
 } from '../../contexts/preferencesContext';
@@ -156,11 +157,13 @@ const App = (props: RouteComponentProps<any>) => {
 };
 
 export default withRouter(props => (
-  <UIStateProvider>
-    <PreferenceContextProvider>
-      <DataContextProvider>
-        <App {...props} />
-      </DataContextProvider>
-    </PreferenceContextProvider>
-  </UIStateProvider>
+  <LangContextProvider>
+    <UIStateProvider>
+      <PreferenceContextProvider>
+        <DataContextProvider>
+          <App {...props} />
+        </DataContextProvider>
+      </PreferenceContextProvider>
+    </UIStateProvider>
+  </LangContextProvider>
 ));

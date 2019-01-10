@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import * as format from 'date-fns/format';
 import * as React from 'react';
 
+import langContext from '../../contexts/langContext';
 import preferenceContext from '../../contexts/preferencesContext';
 import uiContext from '../../contexts/uiContext';
 import feedbackProvider, { FeedbackProps } from '../feedbackProvider';
@@ -14,6 +15,7 @@ type Props = FeedbackProps & { restaurantId: number };
 
 const ReportModal = (props: Props) => {
   const preferences = React.useContext(preferenceContext);
+  const { lang } = React.useContext(langContext);
   const ui = React.useContext(uiContext);
 
   const {
@@ -32,15 +34,10 @@ const ReportModal = (props: Props) => {
 ✉️ E-mail: ${emailField.value || 'anonymous'}
 🏢 Restaurant ID: ${props.restaurantId}
 📅 Day: ${format(ui.selectedDay, 'DD/MM/YYYY')}
-🗺 Language: ${preferences.lang}`
+🗺 Language: ${lang}`
       );
     },
-    [
-      props.onSubmitFeedback,
-      props.restaurantId,
-      ui.selectedDay,
-      preferences.lang
-    ]
+    [props.onSubmitFeedback, props.restaurantId, ui.selectedDay, lang]
   );
 
   return (

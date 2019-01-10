@@ -1,11 +1,13 @@
 import * as times from 'lodash/times';
-import { observer } from 'mobx-react';
 import * as React from 'react';
 import { MdError } from 'react-icons/md';
 const locating = require('../../assets/locating.svg');
 
 import styled from 'styled-components';
-import { dataStore, preferenceStore, uiState } from '../../store';
+import dataContext from '../../contexts/dataContext';
+import { useFormattedRestaurants } from '../../contexts/hooks';
+import preferenceContext from '../../contexts/preferencesContext';
+import uiContext from '../../contexts/uiContext';
 import InlineIcon from '../InlineIcon';
 import NetworkStatus from '../NetworkStatus';
 import Notice from '../Notice';
@@ -57,50 +59,48 @@ const EmptyTextContainer = styled.div`
   text-align: center;
 `;
 
-export default observer(
-  class RestaurantList extends React.Component {
-    renderContent() {
-      const loading =
-        dataStore.menus.pending ||
-        dataStore.restaurants.pending ||
-        dataStore.areas.pending;
-      const restaurants = dataStore.formattedRestaurants;
-      if (loading) {
-        return times(8, (i: number) => <Placeholder key={i} />);
-      } else if (preferenceStore.selectedArea === -2) {
-        if (!preferenceStore.useLocation) {
-          return <Text id="turnOnLocation" element={Notice} />;
-        } else if (!uiState.location) {
-          return (
-            <Locating>
-              <img src={locating} />
-              <Text id="locating" element={Notice} />
-            </Locating>
-          );
-        }
-      } else if (!restaurants.length) {
-        return (
-          <EmptyTextContainer>
-            <InlineIcon>
-              <MdError />
-            </InlineIcon>
-            &nbsp;
-            <Text id="emptyRestaurants" />
-          </EmptyTextContainer>
-        );
-      }
-      return restaurants.map(restaurant => (
-        <Restaurant key={restaurant.id} restaurant={restaurant} />
-      ));
-    }
+const ListContent = () => {
+  const data = React.useContext(dataContext);
+  const preferences = React.useContext(preferenceContext);
+  const ui = React.useContext(uiContext);
 
-    render() {
+  const loading =
+    data.menus.pending || data.restaurants.pending || data.areas.pending;
+  const restaurants = useFormattedRestaurants();
+  if (loading) {
+    return times(8, (i: number) => <Placeholder key={i} />);
+  } else if (preferences.selectedArea === -2) {
+    if (!preferences.useLocation) {
+      return <Text id="turnOnLocation" element={Notice} />;
+    } else if (!ui.location) {
       return (
-        <Container>
-          <NetworkStatus />
-          <ListContainer>{this.renderContent()}</ListContainer>
-        </Container>
+        <Locating>
+          <img src={locating} />
+          <Text id="locating" element={Notice} />
+        </Locating>
       );
     }
+  } else if (!restaurants.length) {
+    return (
+      <EmptyTextContainer>
+        <InlineIcon>
+          <MdError />
+        </InlineIcon>
+        &nbsp;
+        <Text id="emptyRestaurants" />
+      </EmptyTextContainer>
+    );
   }
+  return restaurants.map(restaurant => (
+    <Restaurant key={restaurant.id} restaurant={restaurant} />
+  ));
+};
+
+export default () => (
+  <Container>
+    <NetworkStatus />
+    <ListContainer>
+      <ListContent />
+    </ListContainer>
+  </Container>
 );

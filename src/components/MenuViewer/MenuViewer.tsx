@@ -1,12 +1,12 @@
-import { autorun } from 'mobx';
-import { observer } from 'mobx-react';
 import * as React from 'react';
 import { MdContentCopy, MdLink, MdShare } from 'react-icons/md';
 import styled from 'styled-components';
 
-import { preferenceStore, uiState } from '../../store';
+import preferenceContext from '../../contexts/preferencesContext';
+import uiContext from '../../contexts/uiContext';
 import { CourseType } from '../../store/types';
 import { getCourses } from '../../utils/api';
+import useResource from '../../utils/useResource';
 import CourseList from '../CourseList';
 import DaySelector from '../DaySelector';
 import Tooltip from '../Tooltip';
@@ -45,91 +45,63 @@ interface Props {
   maxHeight?: number;
 }
 
-export default observer(
-  class MenuViewer extends React.Component {
-    removeAutorun: () => any;
-    props: Props;
-    state: {
-      courses: CourseType[];
-      loading: boolean;
-      error: Error | null;
-    } = {
-      courses: [],
-      error: null,
-      loading: false
-    };
+const MenuViewer = (props: Props) => {
+  const ui = React.useContext(uiContext);
+  const preferences = React.useContext(preferenceContext);
+  const [courses, setCourses] = useResource<CourseType[]>([]);
+  const { showCopyButton } = props;
 
-    onCopy = (target: string) => {
-      const textArea = document.createElement('textarea');
-      if (target === 'courses') {
-        textArea.value = this.state.courses
-          .map(c => `${c.title} (${c.properties.join(', ')})`)
-          .join('\n');
-      } else if (target === 'url') {
-        textArea.value = location.href;
-      }
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand('copy');
-      textArea.remove();
+  React.useEffect(() => {
+    setCourses(
+      getCourses(props.restaurantId, ui.selectedDay, preferences.lang)
+    );
+  }, []);
+
+  const onCopy = (target: string) => {
+    const textArea = document.createElement('textarea');
+    if (target === 'courses') {
+      textArea.value = courses.data
+        .map(c => `${c.title} (${c.properties.join(', ')})`)
+        .join('\n');
+    } else if (target === 'url') {
+      textArea.value = location.href;
     }
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    textArea.remove();
+  };
 
-    share = () => {
-      (navigator as any).share({
-        title: 'Kanttiinit.fi',
-        url: location.href
-      });
-    }
+  const share = () => {
+    (navigator as any).share({
+      title: 'Kanttiinit.fi',
+      url: location.href
+    });
+  };
 
-    componentDidMount() {
-      this.removeAutorun = autorun(async () => {
-        try {
-          this.setState({ loading: true });
-          const courses = await getCourses(
-            this.props.restaurantId,
-            uiState.selectedDay,
-            preferenceStore.lang
-          );
-          this.setState({ courses, loading: false, error: null });
-        } catch (error) {
-          this.setState({ error, loading: false });
-        }
-      });
-    }
-
-    componentWillUnmount() {
-      this.removeAutorun();
-    }
-
-    render() {
-      const { courses, loading } = this.state;
-      const { showCopyButton } = this.props;
-      return (
-        <div>
-          <Header>
-            <DaySelector root={location.pathname} />
-            {showCopyButton && (
-              <ButtonContainer>
-                {'share' in navigator && (
-                  <Tooltip translationKey="shareURL">
-                    <MdShare size={18} onClick={this.share} />
-                  </Tooltip>
-                )}
-                <Tooltip translationKey="copyURLToClipboard">
-                  <MdLink size={18} onClick={() => this.onCopy('url')} />
-                </Tooltip>
-                <Tooltip translationKey="copyMenuToClipboard">
-                  <MdContentCopy
-                    size={18}
-                    onClick={() => this.onCopy('courses')}
-                  />
-                </Tooltip>
-              </ButtonContainer>
+  return (
+    <div>
+      <Header>
+        <DaySelector root={location.pathname} />
+        {showCopyButton && (
+          <ButtonContainer>
+            {'share' in navigator && (
+              <Tooltip translationKey="shareURL">
+                <MdShare size={18} onClick={share} />
+              </Tooltip>
             )}
-          </Header>
-          <StyledCourseList loading={loading} courses={courses} />
-        </div>
-      );
-    }
-  }
-);
+            <Tooltip translationKey="copyURLToClipboard">
+              <MdLink size={18} onClick={() => onCopy('url')} />
+            </Tooltip>
+            <Tooltip translationKey="copyMenuToClipboard">
+              <MdContentCopy size={18} onClick={() => onCopy('courses')} />
+            </Tooltip>
+          </ButtonContainer>
+        )}
+      </Header>
+      <StyledCourseList loading={courses.pending} courses={courses} />
+    </div>
+  );
+};
+
+export default MenuViewer;

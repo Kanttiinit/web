@@ -1,9 +1,8 @@
-import { observer } from 'mobx-react';
 import Popper from 'popper.js';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import { preferenceStore } from '../../store';
+import preferenceContext from '../../contexts/preferencesContext';
 import translations from '../../utils/translations';
 
 const Container = styled.div`
@@ -27,65 +26,49 @@ interface Props {
   className?: string;
 }
 
-interface State {
-  isOpen: boolean;
-}
+const Tooltip = (props: Props) => {
+  const preferences = React.useContext(preferenceContext);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const anchorRef = React.useRef<HTMLSpanElement>(null);
+  const tooltipRef = React.useRef<HTMLDivElement>(null);
+  const popper = React.useRef<Popper>(null);
+  const contents =
+    props.text || translations[props.translationKey][preferences.lang];
 
-@observer
-class Tooltip extends React.Component<Props, State> {
-  state = { isOpen: false };
-  anchor: Element;
-  tooltip: Element;
-  popper: Popper;
+  const open = () => setIsOpen(true);
 
-  saveAnchorRef = (e: Element) => {
-    if (e) {
-      this.anchor = e;
-      this.updatePopper();
-    }
-  }
+  const close = () => setIsOpen(false);
 
-  saveTooltipRef = (e: Element) => {
-    if (e) {
-      this.tooltip = e;
-      this.updatePopper();
-    }
-  }
+  React.useEffect(
+    () => {
+      if (anchorRef.current && tooltipRef.current) {
+        popper.current = new Popper(anchorRef.current, tooltipRef.current, {
+          placement: props.position || 'bottom-start'
+        });
 
-  updatePopper = () => {
-    if (this.anchor && this.tooltip) {
-      this.popper = new Popper(this.anchor, this.tooltip, {
-        placement: this.props.position || 'bottom-start'
-      });
-    }
-  }
+        return () => popper.current.destroy();
+      }
+    },
+    [tooltipRef.current, anchorRef.current]
+  );
 
-  open = () => this.setState({ isOpen: true });
-
-  close = () => this.setState({ isOpen: false });
-
-  render() {
-    const contents =
-      this.props.text ||
-      translations[this.props.translationKey][preferenceStore.lang];
-    return (
-      <React.Fragment>
-        <span
-          onMouseOver={this.open}
-          onMouseOut={this.close}
-          ref={this.saveAnchorRef}
-          className={this.props.className}
-        >
-          {this.props.children}
-        </span>
-        {this.state.isOpen &&
-          ReactDOM.createPortal(
-            <Container ref={this.saveTooltipRef}>{contents}</Container>,
-            document.body
-          )}
-      </React.Fragment>
-    );
-  }
-}
+  return (
+    <React.Fragment>
+      <span
+        onMouseOver={open}
+        onMouseOut={close}
+        ref={anchorRef}
+        className={props.className}
+      >
+        {props.children}
+      </span>
+      {isOpen &&
+        ReactDOM.createPortal(
+          <Container ref={tooltipRef}>{contents}</Container>,
+          document.body
+        )}
+    </React.Fragment>
+  );
+};
 
 export default Tooltip;

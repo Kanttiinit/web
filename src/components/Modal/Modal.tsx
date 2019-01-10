@@ -1,4 +1,3 @@
-import { observer } from 'mobx-react';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
@@ -104,61 +103,50 @@ type Props = RouteComponentProps<any> & {
   open: boolean;
 };
 
-@observer
-class Modal extends React.Component<Props, {}> {
-  componentDidMount() {
-    window.addEventListener('keydown', this.onKeyDown);
-    this.updateBodyScroll();
-  }
+const Modal = (props: Props) => {
+  const closeModal = () => props.history.replace('/' + location.search);
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.onKeyDown);
-  }
+  React.useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeModal();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
 
-  componentDidUpdate(prevProps: Props) {
-    if (prevProps.open !== this.props.open) {
-      this.updateBodyScroll();
-    }
-  }
+  React.useEffect(
+    () => {
+      if (props.open) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = 'initial';
+      }
+    },
+    [props.open]
+  );
 
-  updateBodyScroll() {
-    if (this.props.open) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'initial';
-    }
-  }
-
-  onKeyDown = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
-      e.preventDefault();
-      this.closeModal();
-    }
-  }
-
-  closeModal = () => this.props.history.replace('/' + location.search);
-
-  render() {
-    return (
-      <Transition timeout={200} in={this.props.open} appear>
-        {(state: TransitionState) => (
-          <Container state={state}>
-            <React.Fragment>
-              <Overlay state={state} onClick={this.closeModal} />
-              <Content state={state}>
-                <ErrorBoundary FallbackComponent={ModalError}>
-                  {this.props.children}
-                </ErrorBoundary>
-              </Content>
-              <CloseText state={state} onClick={this.closeModal}>
-                <Text id="closeModal" />
-              </CloseText>
-            </React.Fragment>
-          </Container>
-        )}
-      </Transition>
-    );
-  }
-}
+  return (
+    <Transition timeout={200} in={props.open} appear>
+      {(state: TransitionState) => (
+        <Container state={state}>
+          <React.Fragment>
+            <Overlay state={state} onClick={closeModal} />
+            <Content state={state}>
+              <ErrorBoundary FallbackComponent={ModalError}>
+                {props.children}
+              </ErrorBoundary>
+            </Content>
+            <CloseText state={state} onClick={closeModal}>
+              <Text id="closeModal" />
+            </CloseText>
+          </React.Fragment>
+        </Container>
+      )}
+    </Transition>
+  );
+};
 
 export default withRouter(Modal);

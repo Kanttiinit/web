@@ -2,10 +2,10 @@ import * as capitalize from 'lodash/capitalize';
 import * as memoize from 'lodash/memoize';
 import * as React from 'react';
 import { MdFavorite } from 'react-icons/md';
-
-import { observer } from 'mobx-react';
 import styled, { css } from 'styled-components';
-import { dataStore, preferenceStore } from '../../store';
+
+import { useIsFavorite } from '../../contexts/hooks';
+import preferenceContext from '../../contexts/preferencesContext';
 import { CourseType } from '../../store/types';
 import Text from '../Text';
 import Property from './Property';
@@ -86,14 +86,17 @@ const CourseWrapper = styled.div<{
   ${props => props.favorite && 'color: var(--hearty);'}
 `;
 
-const Course = observer(({ course }: { course: CourseType }) => {
-  const isFavorite = dataStore.isFavorite(course);
-  const highlight = course.properties.some(p =>
-    preferenceStore.isDesiredProperty(p)
+const Course = ({ course }: { course: CourseType }) => {
+  const isFavoriteFn = useIsFavorite();
+  const { isDesiredProperty, isUndesiredProperty } = React.useContext(
+    preferenceContext
   );
-  const dim = course.properties.some(p =>
-    preferenceStore.isUndesiredProperty(p)
-  );
+  const isFavorite = isFavoriteFn(course);
+
+  const highlight = course.properties.some(isDesiredProperty);
+
+  const dim = course.properties.some(isUndesiredProperty);
+
   return (
     <CourseWrapper favorite={isFavorite}>
       {isFavorite && <FavoriteIcon />}
@@ -107,7 +110,7 @@ const Course = observer(({ course }: { course: CourseType }) => {
       </PropertyContainer>
     </CourseWrapper>
   );
-});
+};
 
 interface Props {
   courses: CourseType[];

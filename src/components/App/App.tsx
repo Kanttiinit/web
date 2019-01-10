@@ -105,7 +105,7 @@ const App = (props: RouteComponentProps<any>) => {
         <Container>
           <div>
             <TopBar />
-            {/* <RestaurantList /> */}
+            <RestaurantList />
           </div>
           <Footer />
         </Container>

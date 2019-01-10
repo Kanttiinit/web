@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { preferenceStore } from '../../store';
+import preferenceContext from '../../contexts/preferencesContext';
 import { properties } from '../../utils/translations';
 import Tooltip from '../Tooltip';
 
@@ -32,16 +32,17 @@ const Container = styled(Tooltip)`
 `;
 
 export default ({ property }: { property: string }) => {
+  const preferences = React.useContext(preferenceContext);
   const prop = properties.find(p => p.key === property);
   const propName = prop
-    ? preferenceStore.lang === 'fi'
+    ? preferences.lang === 'fi'
       ? prop.name_fi
       : prop.name_en
     : '';
   return (
     <Container text={propName}>
       {property}
-      <ClickTrap onClick={() => preferenceStore.toggleProperty(property)} />
+      <ClickTrap onClick={() => preferences.toggleProperty(property)} />
     </Container>
   );
 };

@@ -15,6 +15,7 @@ import * as React from 'react';
 import {
   CourseType,
   FavoriteType,
+  FormattedFavoriteType,
   Order,
   RestaurantType
 } from '../store/types';
@@ -61,7 +62,7 @@ export const useSelectedArea = () => {
   return areas.data.find(a => a.id === preferences.selectedArea);
 };
 
-export const useFormattedFavorites = () => {
+export const useFormattedFavorites: () => FormattedFavoriteType[] = () => {
   const { favorites } = React.useContext(dataContext);
   const preferences = React.useContext(preferenceContext);
 
@@ -114,7 +115,7 @@ const getOrder = (orderType: Order, useLocation: boolean) => {
   }
 };
 
-export const useFormattedRestaurants = () => {
+export const useFormattedRestaurants: () => RestaurantType[] = () => {
   const ui = React.useContext(uiContext);
   const data = React.useContext(dataContext);
   const preferences = React.useContext(preferenceContext);

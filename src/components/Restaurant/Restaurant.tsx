@@ -1,6 +1,5 @@
 import * as getIsoDay from 'date-fns/get_iso_day';
 import * as isSameDay from 'date-fns/is_same_day';
-import { observer } from 'mobx-react';
 import * as React from 'react';
 import {
   MdDirectionsBike,
@@ -15,7 +14,8 @@ import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-import { preferenceStore, uiState } from '../../store';
+import preferenceContext from '../../contexts/preferencesContext';
+import uiContext from '../../contexts/uiContext';
 import { RestaurantType } from '../../store/types';
 import Colon from '../Colon';
 import CourseList from '../CourseList';
@@ -174,72 +174,66 @@ type Props = RouteComponentProps<any> & {
   restaurant: RestaurantType;
 };
 
-export default withRouter(
-  observer(
-    class Restaurant extends React.Component<Props, {}> {
-      toggleStar = () => {
-        const { restaurant } = this.props;
-        preferenceStore.setRestaurantStarred(
-          restaurant.id,
-          !restaurant.isStarred
-        );
-      }
+const Restaurant = (props: Props) => {
+  const ui = React.useContext(uiContext);
+  const preferences = React.useContext(preferenceContext);
+  const { restaurant } = props;
+  const { search } = props.location;
 
-      render() {
-        const { restaurant } = this.props;
-        const dayOfWeek = getIsoDay(uiState.selectedDay) - 1;
-        const isClosed =
-          isSameDay(uiState.selectedDay, new Date()) && !restaurant.isOpenNow;
-        const { search } = this.props.location;
-        return (
-          <Container noCourses={restaurant.noCourses}>
-            <Header>
-              <RestaurantName
-                noCourses={restaurant.noCourses}
-                isClosed={isClosed}
-              >
-                {restaurant.name}
-                {preferenceStore.useLocation && (
-                  <Distance distance={restaurant.distance} />
-                )}
-              </RestaurantName>
-              <RestaurantMeta>
-                {restaurant.openingHours[dayOfWeek] && (
-                  <React.Fragment>
-                    <Colon>
-                      {restaurant.openingHours[dayOfWeek].replace('-', '–')}
-                    </Colon>
-                    <br />
-                  </React.Fragment>
-                )}
-                {isClosed && <ClosedText />}
-              </RestaurantMeta>
-            </Header>
-            <StyledCourseList courses={restaurant.courses} />
-            <ActionsContainer>
-              <StyledActionLink
-                to={{ pathname: `/report/${restaurant.id}`, search }}
-              >
-                <MdFlag size={18} />
-              </StyledActionLink>
-              <RightActions>
-                <StyledNativeActionLink
-                  onClick={this.toggleStar}
-                  color={restaurant.isStarred ? '#FFA726' : undefined}
-                >
-                  <MdStar size={18} />
-                </StyledNativeActionLink>
-                &nbsp;
-                <StyledActionLink
-                  to={{ pathname: `/restaurant/${restaurant.id}`, search }}
-                >
-                  <MdMoreVert size={18} />
-                </StyledActionLink>
-              </RightActions>
-            </ActionsContainer>
-          </Container>
-        );
-      }
-    }
-  )
-);
+  const dayOfWeek = getIsoDay(ui.selectedDay) - 1;
+  const isClosed =
+    isSameDay(ui.selectedDay, new Date()) && !restaurant.isOpenNow;
+
+  const toggleStar = () => {
+    preferences.setRestaurantStarred(
+      props.restaurant.id,
+      !props.restaurant.isStarred
+    );
+  };
+
+  return (
+    <Container noCourses={restaurant.noCourses}>
+      <Header>
+        <RestaurantName noCourses={restaurant.noCourses} isClosed={isClosed}>
+          {restaurant.name}
+          {preferences.useLocation && (
+            <Distance distance={restaurant.distance} />
+          )}
+        </RestaurantName>
+        <RestaurantMeta>
+          {restaurant.openingHours[dayOfWeek] && (
+            <React.Fragment>
+              <Colon>
+                {restaurant.openingHours[dayOfWeek].replace('-', '–')}
+              </Colon>
+              <br />
+            </React.Fragment>
+          )}
+          {isClosed && <ClosedText />}
+        </RestaurantMeta>
+      </Header>
+      <StyledCourseList courses={restaurant.courses} />
+      <ActionsContainer>
+        <StyledActionLink to={{ pathname: `/report/${restaurant.id}`, search }}>
+          <MdFlag size={18} />
+        </StyledActionLink>
+        <RightActions>
+          <StyledNativeActionLink
+            onClick={toggleStar}
+            color={restaurant.isStarred ? '#FFA726' : undefined}
+          >
+            <MdStar size={18} />
+          </StyledNativeActionLink>
+          &nbsp;
+          <StyledActionLink
+            to={{ pathname: `/restaurant/${restaurant.id}`, search }}
+          >
+            <MdMoreVert size={18} />
+          </StyledActionLink>
+        </RightActions>
+      </ActionsContainer>
+    </Container>
+  );
+};
+
+export default withRouter(Restaurant);

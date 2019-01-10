@@ -9,9 +9,6 @@ import {
   MdPlace,
   MdStar
 } from 'react-icons/md';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import preferenceContext from '../../contexts/preferencesContext';
@@ -20,6 +17,7 @@ import { RestaurantType } from '../../store/types';
 import Colon from '../Colon';
 import CourseList from '../CourseList';
 import InlineIcon from '../InlineIcon';
+import Link from '../Link';
 import Text from '../Text';
 
 const Distance = ({ distance }: { distance: number }) => {
@@ -170,15 +168,14 @@ const ClosedText = styled(Text).attrs({
   font-size: 0.8rem;
 `;
 
-type Props = RouteComponentProps<any> & {
+interface Props {
   restaurant: RestaurantType;
-};
+}
 
 const Restaurant = (props: Props) => {
   const ui = React.useContext(uiContext);
   const preferences = React.useContext(preferenceContext);
   const { restaurant } = props;
-  const { search } = props.location;
 
   const dayOfWeek = getIsoDay(ui.selectedDay) - 1;
   const isClosed =
@@ -217,7 +214,7 @@ const Restaurant = (props: Props) => {
       </Header>
       <StyledCourseList courses={restaurant.courses} />
       <ActionsContainer>
-        <StyledActionLink to={{ pathname: `/report/${restaurant.id}`, search }}>
+        <StyledActionLink to={`/report/${restaurant.id}`}>
           <MdFlag size={18} />
         </StyledActionLink>
         <RightActions>
@@ -228,9 +225,7 @@ const Restaurant = (props: Props) => {
             <MdStar size={18} />
           </StyledNativeActionLink>
           &nbsp;
-          <StyledActionLink
-            to={{ pathname: `/restaurant/${restaurant.id}`, search }}
-          >
+          <StyledActionLink to={`/restaurant/${restaurant.id}`}>
             <MdMoreVert size={18} />
           </StyledActionLink>
         </RightActions>
@@ -239,4 +234,4 @@ const Restaurant = (props: Props) => {
   );
 };
 
-export default withRouter(Restaurant);
+export default React.memo(Restaurant);

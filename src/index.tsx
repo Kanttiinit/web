@@ -11,7 +11,6 @@ import Map from './components/Map';
 import Text from './components/Text';
 import Global from './globalStyles';
 import * as consts from './utils/consts';
-import './utils/globalHooks';
 import './worker/registerWorker';
 
 const useBugSnag = !!process.env.BUGSNAG_API_KEY;

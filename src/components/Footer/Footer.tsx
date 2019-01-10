@@ -1,12 +1,10 @@
 import * as React from 'react';
-import { RouteComponentProps } from 'react-router';
-import { NavLink } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Text from '../Text';
 const logo = require('../../assets/logo_48.png');
 import { isBeta, version } from '../../utils/consts';
+import Link from '../Link';
 
 const Footer = styled.footer`
   text-align: center;
@@ -20,7 +18,7 @@ const Footer = styled.footer`
   align-items: flex-end;
 `;
 
-const StyledNavLink = styled(NavLink)`
+const StyledNavLink = styled(Link)`
   && {
     color: var(--gray3);
     text-transform: uppercase;
@@ -64,35 +62,32 @@ const NavigationContainer = styled.div`
   text-align: left;
 `;
 
-export default withRouter((props: RouteComponentProps<any>) => {
-  const { search } = props.location;
-  return (
-    <Footer>
-      <NavigationContainer>
-        <LogoImage src={logo} />
-        <nav>
-          <StyledNavLink to={{ pathname: '/contact', search }}>
-            <Text id="contact" />
-          </StyledNavLink>
-          <StyledNavLink to={{ pathname: '/clients', search }}>
-            <Text id="otherClients" />
-          </StyledNavLink>
-          <StyledNavLink to={{ pathname: '/news', search }}>
-            <Text id="updates" />
-          </StyledNavLink>
-          <StyledNavLink to={{ pathname: '/terms-of-service', search }}>
-            <Text id="termsOfService" />
-          </StyledNavLink>
-          {!isBeta && (
-            <a href="https://beta.kanttiinit.fi/" target="_blank">
-              Beta
-            </a>
-          )}
-        </nav>
-      </NavigationContainer>
-      <a href="https://github.com/Kanttiinit/web" target="_blank">
-        {version}
-      </a>
-    </Footer>
-  );
-});
+export default () => (
+  <Footer>
+    <NavigationContainer>
+      <LogoImage src={logo} />
+      <nav>
+        <StyledNavLink to="/contact">
+          <Text id="contact" />
+        </StyledNavLink>
+        <StyledNavLink to="/clients">
+          <Text id="otherClients" />
+        </StyledNavLink>
+        <StyledNavLink to="/news">
+          <Text id="updates" />
+        </StyledNavLink>
+        <StyledNavLink to="/terms-of-service">
+          <Text id="termsOfService" />
+        </StyledNavLink>
+        {!isBeta && (
+          <a href="https://beta.kanttiinit.fi/" target="_blank">
+            Beta
+          </a>
+        )}
+      </nav>
+    </NavigationContainer>
+    <a href="https://github.com/Kanttiinit/web" target="_blank">
+      {version}
+    </a>
+  </Footer>
+);

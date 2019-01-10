@@ -1,18 +1,15 @@
 import * as React from 'react';
 import ClickOutside from 'react-click-outside';
 import { MdFiberNew, MdMap, MdSettings } from 'react-icons/md';
-import { RouteComponentProps } from 'react-router';
-import { withRouter } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 const FI = require('../../assets/fi.png');
 const EN = require('../../assets/en.png');
 
 import styled, { css } from 'styled-components';
 import { useUnseenUpdates } from '../../contexts/hooks';
 import langContext from '../../contexts/langContext';
-import preferenceContext from '../../contexts/preferencesContext';
 import AreaSelector from '../AreaSelector';
 import DaySelector from '../DaySelector';
+import Link from '../Link';
 import Text from '../Text';
 
 const Container = styled.div`
@@ -126,13 +123,11 @@ const NativeIconLink = styled.a`
   ${iconLinkStyles}
 `;
 
-const TopBar = (props: RouteComponentProps<any>) => {
+const TopBar = () => {
   const unseenUpdates = useUnseenUpdates();
-  const preferences = React.useContext(preferenceContext);
   const { lang, toggleLang } = React.useContext(langContext);
   const areaSelectorLink = React.useRef<HTMLAnchorElement | null>(null);
   const [areaSelectorOpen, setAreaSelectorOpen] = React.useState(false);
-  const { search } = props.location;
 
   const toggleAreaSelector = React.useCallback(
     () => setAreaSelectorOpen(!areaSelectorOpen),
@@ -198,7 +193,7 @@ const TopBar = (props: RouteComponentProps<any>) => {
       <Content>
         <DaySelector root="/" />
         {unseenUpdates.length > 0 && (
-          <Link to={{ pathname: '/news', search }}>
+          <Link to="/news">
             <NewsIcon size={24} />
           </Link>
         )}
@@ -214,7 +209,7 @@ const TopBar = (props: RouteComponentProps<any>) => {
             <AreaSelector onAreaSelected={toggleAreaSelector} />
           </AreaSelectorContainer>
         </AreaSelectorButton>
-        <IconLink as={Link} to={{ pathname: '/settings', search }}>
+        <IconLink as={Link} to="/settings">
           <MdSettings size={18} />
           <Text id="settings" />
         </IconLink>
@@ -230,4 +225,4 @@ const TopBar = (props: RouteComponentProps<any>) => {
   );
 };
 
-export default withRouter(TopBar);
+export default TopBar;

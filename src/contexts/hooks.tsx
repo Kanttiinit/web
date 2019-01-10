@@ -2,6 +2,7 @@ import * as format from 'date-fns/format';
 import * as getIsoDay from 'date-fns/get_iso_day';
 import * as isAfter from 'date-fns/is_after';
 import * as isBefore from 'date-fns/is_before';
+import * as isSameDay from 'date-fns/is_same_day';
 import * as parse from 'date-fns/parse';
 import * as setHours from 'date-fns/set_hours';
 import * as setMinutes from 'date-fns/set_minutes';
@@ -19,6 +20,7 @@ import {
   Order,
   RestaurantType
 } from '../store/types';
+import { version } from '../utils/consts';
 import dataContext from './dataContext';
 import langContext from './langContext';
 import preferenceContext from './preferencesContext';
@@ -237,4 +239,34 @@ export const useAutoUpdates = () => {
     },
     [preferences.useLocation]
   );
+
+  // update on window focus
+  React.useEffect(() => {
+    let lastUpdateCheck = Math.round(Date.now() / 1000);
+
+    const update = async () => {
+      // check for newer version and reload
+      const now = Math.round(Date.now() / 1000);
+      if (!lastUpdateCheck || now - lastUpdateCheck > 3600) {
+        lastUpdateCheck = now;
+        const response = await fetch(`/check-update?version=${version}`);
+        const json = await response.json();
+        if (json.updateAvailable) {
+          window.location.reload();
+        }
+      }
+
+      // update displayed days if first day is in past
+      if (
+        ui.displayedDays.length &&
+        !isSameDay(new Date(), ui.displayedDays[0])
+      ) {
+        ui.updateDisplayedDays();
+      }
+    };
+
+    window.addEventListener('focus', update);
+
+    return () => window.removeEventListener('focus', update);
+  }, []);
 };

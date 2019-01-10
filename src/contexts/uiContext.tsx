@@ -49,11 +49,11 @@ const uiContext = React.createContext<UIContextType>({} as any);
 export const UIStateProvider = (props: { children: React.ReactNode }) => {
   const [location, setLocation] = React.useState<Coordinates | null>(null);
   const [displayedDays, setDisplayedDays] = React.useState(getDisplayedDays());
-  const [date, setDate] = React.useState<Date>(null);
+  const [date, setDate] = React.useState(startOfDay(new Date()));
 
   const updateDay = (loc: Location) => {
     const day = new URL(loc.href).searchParams.get('day');
-    setDate(day ? startOfDay(parse(day)) : null);
+    setDate(day ? startOfDay(parse(day)) : startOfDay(new Date()));
   };
 
   const updateDisplayedDays = () => setDisplayedDays(getDisplayedDays());
@@ -65,7 +65,7 @@ export const UIStateProvider = (props: { children: React.ReactNode }) => {
         getNewPath,
         isDateInRange,
         location,
-        selectedDay: date || startOfDay(new Date()),
+        selectedDay: date,
         setLocation,
         updateDay,
         updateDisplayedDays

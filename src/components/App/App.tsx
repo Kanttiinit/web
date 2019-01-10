@@ -106,7 +106,7 @@ const App = (props: RouteComponentProps<any>) => {
       <React.Fragment>
         <Container>
           <div>
-            <TopBar />
+            <TopBar key={ui.selectedDay.toDateString()} />
             <RestaurantList />
           </div>
           <Footer />

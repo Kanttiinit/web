@@ -1,23 +1,27 @@
 import * as React from 'react';
 
-import preferenceContext from '../../contexts/preferencesContext';
+import langContext from '../../contexts/langContext';
+import propertyContext from '../../contexts/propertyContext';
 import { properties } from '../../utils/translations';
 import { RoundedButton, RoundedButtonContainer } from '../Button/RoundedButton';
 
 export default (props: { showDesiredProperties?: boolean }) => {
-  const preferences = React.useContext(preferenceContext);
+  const { lang } = React.useContext(langContext);
+  const { toggleProperty, isPropertySelected } = React.useContext(
+    propertyContext
+  );
   return (
     <RoundedButtonContainer>
       {properties
         .filter(p => (props.showDesiredProperties ? p.desired : !p.desired))
         .map(p => (
           <RoundedButton
-            onClick={() => preferences.toggleProperty(p.key)}
+            onClick={() => toggleProperty(p.key)}
             color={p.desired ? 'var(--friendly)' : 'var(--gray3)'}
-            selected={preferences.isPropertySelected(p.key)}
+            selected={isPropertySelected(p.key)}
             key={p.key}
           >
-            {preferences.lang === 'fi' ? p.name_fi : p.name_en}
+            {lang === 'fi' ? p.name_fi : p.name_en}
           </RoundedButton>
         ))}
     </RoundedButtonContainer>

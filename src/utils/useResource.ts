@@ -17,7 +17,7 @@ export default function useResource<T>(
     pending: false
   });
 
-  const setData = async (promise: Promise<T>) => {
+  const setData = React.useCallback(async (promise: Promise<T>) => {
     setState({
       ...state,
       error: null,
@@ -39,7 +39,7 @@ export default function useResource<T>(
         pending: false
       });
     }
-  };
+  }, []);
 
   return [state, setData];
 }

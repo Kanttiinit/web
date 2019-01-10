@@ -1,8 +1,7 @@
 import * as without from 'lodash/without';
 import * as React from 'react';
 
-import { Lang, Order } from '../store/types';
-import * as translations from '../utils/translations';
+import { Order } from '../store/types';
 import usePersistedState from '../utils/usePersistedState';
 
 function toggleInArray<T>(array: T[], item: T): T[] {
@@ -20,23 +19,14 @@ interface PreferenceContext {
   order: Order;
   favorites: number[];
   starredRestaurants: number[];
-  properties: string[];
   updatesLastSeenAt: number;
   setUseLocation: (state: boolean) => void;
   setDarkMode(state: boolean): void;
   setOrder(state: Order): void;
   setRestaurantStarred(restaurantId: number, isStarred: boolean): void;
   setSelectedArea(areaId: number): void;
-  isDesiredProperty(propertyKey: string): boolean;
-  isPropertySelected(propertyKey: string): boolean;
-  isUndesiredProperty(propertyKey: string): boolean;
   setUpdatesLastSeenAt(time: number): void;
   toggleFavorite(favoriteId: number): void;
-  toggleProperty(property: string): void;
-}
-
-function getProperty(propertyKey: string) {
-  return translations.properties.find(p => p.key === propertyKey);
 }
 
 const preferenceContext = React.createContext<PreferenceContext>({} as any);
@@ -54,10 +44,6 @@ export const PreferenceContextProvider = (props: {
   const [starredRestaurants, setStarredRestaurants] = usePersistedState<
     number[]
   >('starredRestaurants', []);
-  const [properties, setProperties] = usePersistedState<string[]>(
-    'properties',
-    []
-  );
   const [darkMode, setDarkMode] = usePersistedState('darkMode', false);
   const [updatesLastSeenAt, setUpdatesLastSeenAt] = usePersistedState(
     'updatesLastSeenAt',
@@ -75,32 +61,8 @@ export const PreferenceContextProvider = (props: {
     [darkMode]
   );
 
-  function isPropertySelected(propertyKey: string) {
-    return properties.some(p => p.toLowerCase() === propertyKey.toLowerCase());
-  }
-
-  function isDesiredProperty(propertyKey: string) {
-    const property = getProperty(propertyKey);
-    if (property && property.desired) {
-      return isPropertySelected(propertyKey);
-    }
-    return false;
-  }
-
-  function isUndesiredProperty(propertyKey: string) {
-    const property = getProperty(propertyKey);
-    if (property && !property.desired) {
-      return isPropertySelected(propertyKey);
-    }
-    return false;
-  }
-
   function toggleFavorite(favoriteId: number) {
     setFavorites(toggleInArray(favorites, favoriteId));
-  }
-
-  function toggleProperty(property: string) {
-    setProperties(toggleInArray(properties, property));
   }
 
   function setRestaurantStarred(restaurantId: number, isStarred: boolean) {
@@ -119,11 +81,7 @@ export const PreferenceContextProvider = (props: {
       value={{
         darkMode,
         favorites,
-        isDesiredProperty,
-        isPropertySelected,
-        isUndesiredProperty,
         order,
-        properties,
         selectedArea,
         setDarkMode,
         setOrder,
@@ -133,7 +91,6 @@ export const PreferenceContextProvider = (props: {
         setUseLocation,
         starredRestaurants,
         toggleFavorite,
-        toggleProperty,
         updatesLastSeenAt,
         useLocation
       }}

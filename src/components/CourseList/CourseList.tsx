@@ -5,7 +5,7 @@ import { MdFavorite } from 'react-icons/md';
 import styled, { css } from 'styled-components';
 
 import { useIsFavorite } from '../../contexts/hooks';
-import preferenceContext from '../../contexts/preferencesContext';
+import propertyContext from '../../contexts/propertyContext';
 import { CourseType } from '../../store/types';
 import Text from '../Text';
 import Property from './Property';
@@ -89,7 +89,7 @@ const CourseWrapper = styled.div<{
 const Course = ({ course }: { course: CourseType }) => {
   const isFavoriteFn = useIsFavorite();
   const { isDesiredProperty, isUndesiredProperty } = React.useContext(
-    preferenceContext
+    propertyContext
   );
   const isFavorite = isFavoriteFn(course);
 

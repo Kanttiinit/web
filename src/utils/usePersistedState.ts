@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export default function usePersistedState<T>(
   key: string,
@@ -14,11 +14,10 @@ export default function usePersistedState<T>(
     }
   }, []);
 
-  return [
-    value,
-    (v: T) => {
-      localStorage.setItem(key, JSON.stringify(v));
-      setValue(v);
-    }
-  ];
+  const setAndStoreValue = useCallback((v: T) => {
+    localStorage.setItem(key, JSON.stringify(v));
+    setValue(v);
+  }, []);
+
+  return [value, setAndStoreValue];
 }

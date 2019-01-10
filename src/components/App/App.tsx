@@ -11,6 +11,7 @@ import { LangContextProvider } from '../../contexts/langContext';
 import preferenceContext, {
   PreferenceContextProvider
 } from '../../contexts/preferencesContext';
+import { PropertyContextProvider } from '../../contexts/propertyContext';
 import uiContext, { UIStateProvider } from '../../contexts/uiContext';
 import { isProduction, version } from '../../utils/consts';
 import AreaSelector from '../AreaSelector';
@@ -157,13 +158,15 @@ const App = (props: RouteComponentProps<any>) => {
 };
 
 export default withRouter(props => (
-  <LangContextProvider>
-    <UIStateProvider>
-      <PreferenceContextProvider>
-        <DataContextProvider>
-          <App {...props} />
-        </DataContextProvider>
-      </PreferenceContextProvider>
-    </UIStateProvider>
-  </LangContextProvider>
+  <PropertyContextProvider>
+    <LangContextProvider>
+      <UIStateProvider>
+        <PreferenceContextProvider>
+          <DataContextProvider>
+            <App {...props} />
+          </DataContextProvider>
+        </PreferenceContextProvider>
+      </UIStateProvider>
+    </LangContextProvider>
+  </PropertyContextProvider>
 ));

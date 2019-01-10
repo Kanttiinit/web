@@ -17,11 +17,11 @@ const Contact = (props: FeedbackProps) => {
   const preferences = React.useContext(preferenceContext);
   const { sending, sent } = props.feedbackState;
 
-  const onSubmit = (e: any) => {
+  const onSubmit = React.useCallback((e: any) => {
     e.preventDefault();
     const [, email, , message] = e.target.elements;
     props.onSubmitFeedback(`Email: ${email.value}\n"${message.value}"`);
-  };
+  }, []);
 
   return (
     <MuiThemeProvider

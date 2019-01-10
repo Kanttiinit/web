@@ -111,12 +111,12 @@ const AreaSelector = (props: Props & RouteComponentProps<any>) => {
   const data = React.useContext(dataContext);
   const preferences = React.useContext(preferenceContext);
 
-  const selectArea = (areaId: number) => {
+  const selectArea = React.useCallback((areaId: number) => {
     preferences.setSelectedArea(areaId);
     if (props.onAreaSelected) {
       props.onAreaSelected();
     }
-  };
+  }, []);
 
   return (
     <Container>

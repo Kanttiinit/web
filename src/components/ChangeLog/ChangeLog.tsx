@@ -70,13 +70,16 @@ const ChangeLog = () => {
     unseenUpdates.map(update => update.id)
   );
 
-  const toggleVisible = (update: Update) => {
-    if (visibleItems.indexOf(update.id) > -1) {
-      setVisibleItems(visibleItems.filter(id => id !== update.id));
-    } else {
-      setVisibleItems([...visibleItems, update.id]);
-    }
-  };
+  const toggleVisible = React.useCallback(
+    (update: Update) => {
+      if (visibleItems.indexOf(update.id) > -1) {
+        setVisibleItems(visibleItems.filter(id => id !== update.id));
+      } else {
+        setVisibleItems([...visibleItems, update.id]);
+      }
+    },
+    [visibleItems]
+  );
 
   React.useEffect(() => {
     preferences.setUpdatesLastSeenAt(Date.now());

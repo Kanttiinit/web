@@ -125,10 +125,6 @@ const NativeIconLink = styled.a`
   ${iconLinkStyles}
 `;
 
-interface State {
-  areaSelectorOpen: boolean;
-}
-
 const TopBar = (props: RouteComponentProps<any>) => {
   const unseenUpdates = useUnseenUpdates();
   const preferences = React.useContext(preferenceContext);
@@ -136,11 +132,17 @@ const TopBar = (props: RouteComponentProps<any>) => {
   const [areaSelectorOpen, setAreaSelectorOpen] = React.useState(false);
   const { search } = props.location;
 
-  const toggleAreaSelector = () => setAreaSelectorOpen(!areaSelectorOpen);
+  const toggleAreaSelector = React.useCallback(
+    () => setAreaSelectorOpen(!areaSelectorOpen),
+    []
+  );
 
-  const closeAreaSelector = () => setAreaSelectorOpen(false);
+  const closeAreaSelector = React.useCallback(
+    () => setAreaSelectorOpen(false),
+    []
+  );
 
-  const toggleLanguage = () => preferences.toggleLang();
+  const toggleLanguage = React.useCallback(() => preferences.toggleLang(), []);
 
   React.useEffect(
     () => {

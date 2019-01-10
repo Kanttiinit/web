@@ -20,20 +20,28 @@ const ReportModal = (props: Props) => {
     feedbackState: { sending, sent }
   } = props;
 
-  const onSubmit = (e: any) => {
-    e.preventDefault();
-    const [, reportField, , emailField] = e.target.elements;
-    this.props.onSubmitFeedback(
-      `🤥 Incorrect data reported:
+  const onSubmit = React.useCallback(
+    (e: any) => {
+      e.preventDefault();
+      const [, reportField, , emailField] = e.target.elements;
+      props.onSubmitFeedback(
+        `🤥 Incorrect data reported:
 
 "${reportField.value}"
 
 ✉️ E-mail: ${emailField.value || 'anonymous'}
-🏢 Restaurant ID: ${this.props.restaurantId}
+🏢 Restaurant ID: ${props.restaurantId}
 📅 Day: ${format(ui.selectedDay, 'DD/MM/YYYY')}
 🗺 Language: ${preferences.lang}`
-    );
-  };
+      );
+    },
+    [
+      props.onSubmitFeedback,
+      props.restaurantId,
+      ui.selectedDay,
+      preferences.lang
+    ]
+  );
 
   return (
     <MuiThemeProvider

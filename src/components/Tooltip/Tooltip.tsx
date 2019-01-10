@@ -35,9 +35,9 @@ const Tooltip = (props: Props) => {
   const contents =
     props.text || translations[props.translationKey][preferences.lang];
 
-  const open = () => setIsOpen(true);
+  const open = React.useCallback(() => setIsOpen(true), []);
 
-  const close = () => setIsOpen(false);
+  const close = React.useCallback(() => setIsOpen(false), []);
 
   React.useEffect(
     () => {

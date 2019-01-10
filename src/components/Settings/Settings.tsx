@@ -43,14 +43,25 @@ const languageOptions = [
 const Settings = () => {
   const preferences = React.useContext(preferenceContext);
 
-  const setOrder = (order: Order) => preferences.setOrder(order);
+  const setOrder = React.useCallback(
+    (order: Order) => preferences.setOrder(order),
+    []
+  );
 
-  const setUseLocation = (location: boolean) =>
-    preferences.setUseLocation(location);
+  const setUseLocation = React.useCallback(
+    (location: boolean) => preferences.setUseLocation(location),
+    []
+  );
 
-  const setDarkMode = (darkMode: boolean) => preferences.setDarkMode(darkMode);
+  const setDarkMode = React.useCallback(
+    (darkMode: boolean) => preferences.setDarkMode(darkMode),
+    []
+  );
 
-  const setLang = (lang: Lang) => preferences.setLang(lang);
+  const setLang = React.useCallback(
+    (lang: Lang) => preferences.setLang(lang),
+    []
+  );
 
   return (
     <PageContainer title={<Text id="settings" />}>

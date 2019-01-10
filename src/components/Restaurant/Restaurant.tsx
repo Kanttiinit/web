@@ -184,12 +184,15 @@ const Restaurant = (props: Props) => {
   const isClosed =
     isSameDay(ui.selectedDay, new Date()) && !restaurant.isOpenNow;
 
-  const toggleStar = () => {
-    preferences.setRestaurantStarred(
-      props.restaurant.id,
-      !props.restaurant.isStarred
-    );
-  };
+  const toggleStar = React.useCallback(
+    () => {
+      preferences.setRestaurantStarred(
+        props.restaurant.id,
+        !props.restaurant.isStarred
+      );
+    },
+    [props.restaurant.id, props.restaurant.isStarred]
+  );
 
   return (
     <Container noCourses={restaurant.noCourses}>

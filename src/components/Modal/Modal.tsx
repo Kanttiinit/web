@@ -104,7 +104,10 @@ type Props = RouteComponentProps<any> & {
 };
 
 const Modal = (props: Props) => {
-  const closeModal = () => props.history.replace('/' + location.search);
+  const closeModal = React.useCallback(
+    () => props.history.replace('/' + props.location.search),
+    [props.location]
+  );
 
   React.useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {

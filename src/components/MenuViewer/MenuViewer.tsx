@@ -57,7 +57,7 @@ const MenuViewer = (props: Props) => {
     );
   }, []);
 
-  const onCopy = (target: string) => {
+  const onCopy = React.useCallback((target: string) => {
     const textArea = document.createElement('textarea');
     if (target === 'courses') {
       textArea.value = courses.data
@@ -70,14 +70,14 @@ const MenuViewer = (props: Props) => {
     textArea.select();
     document.execCommand('copy');
     textArea.remove();
-  };
+  }, []);
 
-  const share = () => {
+  const share = React.useCallback(() => {
     (navigator as any).share({
       title: 'Kanttiinit.fi',
       url: location.href
     });
-  };
+  }, []);
 
   return (
     <div>

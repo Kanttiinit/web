@@ -14,6 +14,8 @@ interface DataContext {
   menus: Resource<MenuType>;
   restaurants: Resource<RestaurantType[]>;
   updates: Resource<Update[]>;
+  markMenusPending(): void;
+  markRestaurantsPending(): void;
   setAreas(promise: Promise<AreaType[]>): any;
   setFavorites(promise: Promise<FavoriteType[]>): any;
   setMenus(promise: Promise<MenuType>): any;
@@ -26,17 +28,24 @@ const dataContext = React.createContext<DataContext>({} as any);
 export const DataContextProvider = (props: { children: React.ReactNode }) => {
   const [areas, setAreas] = useResource<AreaType[]>([]);
   const [favorites, setFavorites] = useResource<FavoriteType[]>([]);
-  const [menus, setMenus] = useResource<MenuType>({});
-  const [restaurants, setRestaurants] = useResource<RestaurantType[]>([]);
+  const [menus, setMenus, markMenusPending] = useResource<MenuType>({});
+  const [restaurants, setRestaurants, markRestaurantsPending] = useResource<
+    RestaurantType[]
+  >([]);
   const [updates, setUpdates] = useResource<Update[]>([]);
 
   const context = React.useMemo(
     () => ({
       areas,
       favorites,
+      markMenusPending,
+      markRestaurantsPending,
       menus,
       restaurants,
-      setAreas,
+      setAreas(areaFetcher: Promise<AreaType[]>) {
+        setAreas(areaFetcher);
+        markRestaurantsPending();
+      },
       setFavorites,
       setMenus,
       setRestaurants,

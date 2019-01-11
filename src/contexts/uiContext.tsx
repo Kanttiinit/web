@@ -10,7 +10,7 @@ import * as React from 'react';
 const maxDayOffset = 5;
 const dateFormat = 'YYYY-MM-DD';
 
-function isDateInRange(date: Date) {
+export function isDateInRange(date: Date) {
   const now = startOfDay(new Date());
   const end = addDays(now, maxDayOffset);
   return (
@@ -19,7 +19,7 @@ function isDateInRange(date: Date) {
   );
 }
 
-function getNewPath(date: Date) {
+export function getNewPath(date: Date) {
   const regexp = /day=[^&$]+/;
   if (isSameDay(date, new Date())) {
     return location.pathname.replace(regexp, '');
@@ -37,8 +37,6 @@ interface UIContextType {
   location: Coordinates | null;
   displayedDays: Date[];
   selectedDay: Date | null;
-  isDateInRange: typeof isDateInRange;
-  getNewPath: typeof getNewPath;
   setLocation(location: Coordinates | null): void;
   updateDay(location: Location): void;
   updateDisplayedDays(): void;
@@ -64,8 +62,6 @@ export const UIStateProvider = (props: { children: React.ReactNode }) => {
   const context = React.useMemo(
     () => ({
       displayedDays,
-      getNewPath,
-      isDateInRange,
       location,
       selectedDay: date,
       setLocation,

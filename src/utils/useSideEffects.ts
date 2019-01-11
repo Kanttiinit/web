@@ -9,6 +9,7 @@ import {
   preferenceContext,
   uiContext
 } from '../contexts';
+import { getNewPath, isDateInRange } from '../contexts/uiContext';
 import * as api from '../utils/api';
 import { isProduction, version } from './consts';
 import { useSelectedArea } from './hooks';
@@ -58,6 +59,7 @@ export default (location: any, history: any) => {
       }
 
       if (promise) {
+        data.markMenusPending();
         data.setRestaurants(promise);
       }
     },
@@ -154,8 +156,8 @@ export default (location: any, history: any) => {
           e.preventDefault();
           const offset = e.key === 'ArrowLeft' ? -1 : 1;
           const newDay = addDays(ui.selectedDay, offset);
-          if (ui.isDateInRange(newDay)) {
-            history.replace(ui.getNewPath(newDay));
+          if (isDateInRange(newDay)) {
+            history.replace(getNewPath(newDay));
           }
         }
       };
@@ -170,6 +172,7 @@ export default (location: any, history: any) => {
   useEffect(
     () => {
       ui.updateDay(window.location);
+      data.markMenusPending();
       pageView(location);
     },
     [location.search]

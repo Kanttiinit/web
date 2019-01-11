@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { uiContext } from '../../contexts';
+import { isDateInRange } from '../../contexts/uiContext';
 import Text from '../Text';
 
 interface DayLinkProps {
@@ -85,7 +86,7 @@ export default React.memo(({ root }: { root: string }) => {
   const selectedDay = ui.selectedDay;
   return (
     <Container>
-      {!ui.isDateInRange(selectedDay) && (
+      {!isDateInRange(selectedDay) && (
         <DayLink day={selectedDay} selectedDay={selectedDay} />
       )}
       {ui.displayedDays.map(day => (

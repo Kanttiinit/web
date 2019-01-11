@@ -9,6 +9,7 @@ import App from './components/App';
 import AssetsLoading from './components/AssetsLoading';
 import Map from './components/Map';
 import Text from './components/Text';
+import { LangContextProvider } from './contexts/langContext';
 import Global from './globalStyles';
 import * as consts from './utils/consts';
 import './worker/registerWorker';
@@ -33,20 +34,22 @@ export const ErrorBoundary = useBugSnag
   : ({ children }: { children: React.ReactNode }) => children;
 
 render(
-  <ErrorBoundary FallbackComponent={ErrorMessage}>
-    <BrowserRouter>
-      <React.Suspense fallback={<AssetsLoading />}>
-        <Switch>
-          <Route path="/map">
-            <Map />
-          </Route>
-          <Route>
-            <App />
-          </Route>
-        </Switch>
-      </React.Suspense>
-    </BrowserRouter>
-    <Global />
-  </ErrorBoundary>,
+  <LangContextProvider>
+    <ErrorBoundary FallbackComponent={ErrorMessage}>
+      <BrowserRouter>
+        <React.Suspense fallback={<AssetsLoading />}>
+          <Switch>
+            <Route path="/map">
+              <Map />
+            </Route>
+            <Route>
+              <App />
+            </Route>
+          </Switch>
+        </React.Suspense>
+      </BrowserRouter>
+      <Global />
+    </ErrorBoundary>
+  </LangContextProvider>,
   document.getElementById('root')
 );

@@ -12,10 +12,6 @@ import { Update } from '../../contexts/types';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
 
-interface State {
-  visibleItems: number[];
-}
-
 const UpdateWrapper = styled.div`
   margin-bottom: 0.5em;
   display: flex;
@@ -56,7 +52,9 @@ const PublishedAt = styled.p`
   color: var(--gray2) !important;
 `;
 
-const ArrowDownIcon = styled(MdKeyboardArrowDown)<{ isVisible: boolean }>`
+const ArrowDownIcon = styled(({ isVisible, ...props }) => (
+  <MdKeyboardArrowDown {...props} />
+))<{ isVisible: boolean }>`
   margin-top: 0.4em;
   transition: transform 0.3s;
   ${props => props.isVisible && 'transform: rotateX(180deg);'}

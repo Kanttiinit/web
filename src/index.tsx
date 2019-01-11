@@ -9,7 +9,7 @@ import App from './components/App';
 import AssetsLoading from './components/AssetsLoading';
 import Map from './components/Map';
 import Text from './components/Text';
-import { LangContextProvider } from './contexts/langContext';
+import { LangContextProvider } from './contexts';
 import Global from './globalStyles';
 import * as consts from './utils/consts';
 import './worker/registerWorker';

@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import langContext from '../../contexts/langContext';
-import propertyContext from '../../contexts/propertyContext';
+import { langContext, propertyContext } from '../../contexts';
 import { properties } from '../../utils/translations';
 import { RoundedButton, RoundedButtonContainer } from '../Button/RoundedButton';
 

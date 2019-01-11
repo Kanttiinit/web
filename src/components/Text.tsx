@@ -3,7 +3,7 @@ import * as enLocale from 'date-fns/locale/en';
 import * as fiLocale from 'date-fns/locale/fi';
 import * as React from 'react';
 
-import langContext from '../contexts/langContext';
+import { langContext } from '../contexts';
 import translations from '../utils/translations';
 
 const locales = {

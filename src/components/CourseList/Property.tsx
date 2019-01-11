@@ -1,8 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import langContext from '../../contexts/langContext';
-import propertyContext from '../../contexts/propertyContext';
+import { langContext, propertyContext } from '../../contexts';
 import { properties } from '../../utils/translations';
 import Tooltip from '../Tooltip';
 

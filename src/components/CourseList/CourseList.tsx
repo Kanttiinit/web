@@ -4,9 +4,9 @@ import * as React from 'react';
 import { MdFavorite } from 'react-icons/md';
 import styled, { css } from 'styled-components';
 
-import { useIsFavorite } from '../../contexts/hooks';
-import propertyContext from '../../contexts/propertyContext';
+import { propertyContext } from '../../contexts';
 import { CourseType } from '../../contexts/types';
+import { useIsFavorite } from '../../utils/hooks';
 import Text from '../Text';
 import Property from './Property';
 

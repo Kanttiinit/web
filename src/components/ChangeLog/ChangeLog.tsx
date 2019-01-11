@@ -5,10 +5,9 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import snarkdown from 'snarkdown';
 import styled from 'styled-components';
 
-import dataContext from '../../contexts/dataContext';
-import { useUnseenUpdates } from '../../contexts/hooks';
-import preferenceContext from '../../contexts/preferencesContext';
+import { dataContext, preferenceContext } from '../../contexts';
 import { Update } from '../../contexts/types';
+import { useUnseenUpdates } from '../../utils/hooks';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
 

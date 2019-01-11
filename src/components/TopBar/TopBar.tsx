@@ -5,8 +5,8 @@ const FI = require('../../assets/fi.png');
 const EN = require('../../assets/en.png');
 
 import styled, { css } from 'styled-components';
-import { useUnseenUpdates } from '../../contexts/hooks';
-import langContext from '../../contexts/langContext';
+import { langContext } from '../../contexts';
+import { useUnseenUpdates } from '../../utils/hooks';
 import AreaSelector from '../AreaSelector';
 import DaySelector from '../DaySelector';
 import Link from '../Link';

@@ -4,7 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import preferenceContext from '../../contexts/preferencesContext';
+import { preferenceContext } from '../../contexts';
 import feedbackProvider, { FeedbackProps } from '../feedbackProvider';
 import PageContainer from '../PageContainer';
 import Text from '../Text';

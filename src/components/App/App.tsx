@@ -2,12 +2,13 @@ import * as React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
-import { DataContextProvider } from '../../contexts/dataContext';
-import preferenceContext, {
-  PreferenceContextProvider
-} from '../../contexts/preferencesContext';
-import { PropertyContextProvider } from '../../contexts/propertyContext';
-import { UIStateProvider } from '../../contexts/uiContext';
+import { DataContextProvider } from '../../contexts';
+import {
+  preferenceContext,
+  PreferenceContextProvider,
+  PropertyContextProvider,
+  UIStateProvider
+} from '../../contexts';
 import useSideEffects from '../../utils/useSideEffects';
 import AreaSelector from '../AreaSelector';
 import AssetsLoading from '../AssetsLoading';

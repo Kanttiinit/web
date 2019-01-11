@@ -11,16 +11,14 @@ import * as orderBy from 'lodash/orderBy';
 
 import * as React from 'react';
 
-import dataContext from './dataContext';
-import preferenceContext from './preferencesContext';
+import { dataContext, preferenceContext, uiContext } from '../contexts';
 import {
   CourseType,
   FavoriteType,
   FormattedFavoriteType,
   Order,
   RestaurantType
-} from './types';
-import uiContext from './uiContext';
+} from '../contexts/types';
 
 export const useSelectedFavorites = () => {
   const { favorites } = React.useContext(dataContext);

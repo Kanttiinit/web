@@ -1,8 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import langContext from '../../contexts/langContext';
-import preferenceContext from '../../contexts/preferencesContext';
+import { langContext, preferenceContext } from '../../contexts';
 import { Lang, Order } from '../../contexts/types';
 import FavoriteSelector from '../FavoriteSelector';
 import PageContainer from '../PageContainer';

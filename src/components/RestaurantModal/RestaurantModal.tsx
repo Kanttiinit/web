@@ -4,10 +4,8 @@ import * as React from 'react';
 import { MdHome, MdPlace } from 'react-icons/md';
 import styled from 'styled-components';
 
-import dataContext from '../../contexts/dataContext';
-import langContext from '../../contexts/langContext';
+import { dataContext, langContext, uiContext } from '../../contexts';
 import { RestaurantType } from '../../contexts/types';
-import uiContext from '../../contexts/uiContext';
 import * as api from '../../utils/api';
 import InlineIcon from '../InlineIcon';
 import MenuViewer from '../MenuViewer';

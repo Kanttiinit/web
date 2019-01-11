@@ -5,8 +5,7 @@ import { withRouter } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 import { MdDirectionsWalk, MdStar } from 'react-icons/md';
-import dataContext from '../../contexts/dataContext';
-import preferenceContext from '../../contexts/preferencesContext';
+import { dataContext, preferenceContext } from '../../contexts';
 import { AreaType } from '../../contexts/types';
 import Button from '../Button';
 import Text from '../Text';

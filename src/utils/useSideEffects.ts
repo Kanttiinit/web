@@ -3,13 +3,15 @@ import * as isSameDay from 'date-fns/is_same_day';
 import { useContext, useEffect, useState } from 'react';
 import * as GA from 'react-ga';
 
-import dataContext from '../contexts/dataContext';
-import { useSelectedArea } from '../contexts/hooks';
-import langContext from '../contexts/langContext';
-import preferenceContext from '../contexts/preferencesContext';
-import uiContext from '../contexts/uiContext';
+import {
+  dataContext,
+  langContext,
+  preferenceContext,
+  uiContext
+} from '../contexts';
 import * as api from '../utils/api';
 import { isProduction, version } from './consts';
+import { useSelectedArea } from './hooks';
 
 function pageView(location: Location) {
   const pathname = location.pathname + location.search;

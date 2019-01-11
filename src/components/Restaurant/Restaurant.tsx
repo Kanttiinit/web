@@ -11,9 +11,8 @@ import {
 } from 'react-icons/md';
 import styled, { css } from 'styled-components';
 
-import preferenceContext from '../../contexts/preferencesContext';
+import { preferenceContext, uiContext } from '../../contexts';
 import { RestaurantType } from '../../contexts/types';
-import uiContext from '../../contexts/uiContext';
 import Colon from '../Colon';
 import CourseList from '../CourseList';
 import InlineIcon from '../InlineIcon';

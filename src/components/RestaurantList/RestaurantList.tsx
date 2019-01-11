@@ -4,10 +4,8 @@ import { MdError } from 'react-icons/md';
 const locating = require('../../assets/locating.svg');
 
 import styled from 'styled-components';
-import dataContext from '../../contexts/dataContext';
-import { useFormattedRestaurants } from '../../contexts/hooks';
-import preferenceContext from '../../contexts/preferencesContext';
-import uiContext from '../../contexts/uiContext';
+import { dataContext, preferenceContext, uiContext } from '../../contexts';
+import { useFormattedRestaurants } from '../../utils/hooks';
 import InlineIcon from '../InlineIcon';
 import NetworkStatus from '../NetworkStatus';
 import Notice from '../Notice';

@@ -41,7 +41,7 @@ const Tooltip = (props: Props) => {
 
   React.useEffect(
     () => {
-      if (anchorRef.current && tooltipRef.current) {
+      if (anchorRef.current && tooltipRef.current && isOpen) {
         popper.current = new Popper(anchorRef.current, tooltipRef.current, {
           placement: props.position || 'bottom-start'
         });

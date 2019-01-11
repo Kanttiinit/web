@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import Text from './Text';
-const logo = require('../../assets/logo_48.png');
+const logo = require('../assets/logo_48.png');
 import { isBeta, version } from '../utils/consts';
 import Link from './Link';
 

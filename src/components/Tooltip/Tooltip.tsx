@@ -35,9 +35,9 @@ const Tooltip = (props: Props) => {
   const popper = React.useRef<Popper>(null);
   const contents = props.text || translations[props.translationKey][lang];
 
-  const open = React.useCallback(() => setIsOpen(true), []);
+  const open = () => setIsOpen(true);
 
-  const close = React.useCallback(() => setIsOpen(false), []);
+  const close = () => setIsOpen(false);
 
   React.useEffect(
     () => {
@@ -45,11 +45,9 @@ const Tooltip = (props: Props) => {
         popper.current = new Popper(anchorRef.current, tooltipRef.current, {
           placement: props.position || 'bottom-start'
         });
-
-        return () => popper.current.destroy();
       }
     },
-    [tooltipRef.current, anchorRef.current]
+    [tooltipRef.current, anchorRef.current, isOpen]
   );
 
   return (

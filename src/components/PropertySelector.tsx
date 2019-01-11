@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { langContext, propertyContext } from '../../contexts';
-import { properties } from '../../utils/translations';
-import { RoundedButton, RoundedButtonContainer } from '../Button/RoundedButton';
+import { langContext, propertyContext } from '../contexts';
+import { properties } from '../utils/translations';
+import { RoundedButton, RoundedButtonContainer } from './RoundedButton';
 
 export default (props: { showDesiredProperties?: boolean }) => {
   const { lang } = React.useContext(langContext);

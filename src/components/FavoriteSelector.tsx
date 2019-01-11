@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 
-import { preferenceContext } from '../../contexts';
-import { useFormattedFavorites } from '../../utils/hooks';
-import { RoundedButton, RoundedButtonContainer } from '../Button/RoundedButton';
-import InlineIcon from '../InlineIcon';
+import { preferenceContext } from '../contexts';
+import { useFormattedFavorites } from '../utils/hooks';
+import InlineIcon from './InlineIcon';
+import { RoundedButton, RoundedButtonContainer } from './RoundedButton';
 
 export default () => {
   const preferences = React.useContext(preferenceContext);

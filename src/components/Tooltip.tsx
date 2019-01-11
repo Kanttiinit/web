@@ -3,8 +3,8 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import styled from 'styled-components';
 
-import { langContext } from '../../contexts';
-import translations from '../../utils/translations';
+import { langContext } from '../contexts';
+import translations from '../utils/translations';
 
 const Container = styled.div`
   font-size: 0.8rem;

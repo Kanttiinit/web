@@ -44,7 +44,7 @@ const Button = styled.button<{ selected: boolean }>`
   }
 
   &:focus {
-    background: var(--gray5);
+    background: var(--gray3);
   }
 
   ${props =>

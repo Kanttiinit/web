@@ -51,11 +51,14 @@ const MenuViewer = (props: Props) => {
   const [courses, setCourses] = useResource<CourseType[]>([]);
   const { showCopyButton } = props;
 
-  React.useEffect(() => {
-    setCourses(getCourses(props.restaurantId, ui.selectedDay, lang));
-  }, []);
+  React.useEffect(
+    () => {
+      setCourses(getCourses(props.restaurantId, ui.selectedDay, lang));
+    },
+    [props.restaurantId, ui.selectedDay]
+  );
 
-  const onCopy = React.useCallback((target: string) => {
+  const onCopy = (target: string) => {
     const textArea = document.createElement('textarea');
     if (target === 'courses') {
       textArea.value = courses.data
@@ -68,14 +71,14 @@ const MenuViewer = (props: Props) => {
     textArea.select();
     document.execCommand('copy');
     textArea.remove();
-  }, []);
+  };
 
-  const share = React.useCallback(() => {
+  const share = () => {
     (navigator as any).share({
       title: 'Kanttiinit.fi',
       url: location.href
     });
-  }, []);
+  };
 
   return (
     <div>
@@ -97,7 +100,7 @@ const MenuViewer = (props: Props) => {
           </ButtonContainer>
         )}
       </Header>
-      <StyledCourseList loading={courses.pending} courses={courses} />
+      <StyledCourseList loading={courses.pending} courses={courses.data} />
     </div>
   );
 };

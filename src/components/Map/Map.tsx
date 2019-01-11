@@ -5,11 +5,8 @@ import styled, { createGlobalStyle } from 'styled-components';
 
 import { RestaurantType } from '../../contexts/types';
 import http from '../../utils/http';
+import useResource from '../../utils/useResource';
 import Tooltip from '../Tooltip';
-
-interface State {
-  restaurants: RestaurantType[];
-}
 
 const Container = styled.div`
   width: 100vw;
@@ -31,38 +28,31 @@ const Global = createGlobalStyle`
   }
 `;
 
-export default class Map extends React.PureComponent<void, State> {
-  state: State = {
-    restaurants: []
-  };
+const Map = () => {
+  const [restaurants, setRestaurants] = useResource<RestaurantType[]>([]);
 
-  loadRestaurants = async () => {
-    const restaurants = await http.get('/restaurants');
-    this.setState({ restaurants });
-  }
+  React.useEffect(() => {
+    setRestaurants(http.get('/restaurants'));
+  }, []);
 
-  componentDidMount() {
-    this.loadRestaurants();
-  }
+  return (
+    <Container>
+      <PigeonMap defaultZoom={14} defaultCenter={[60.1680363, 24.9317823]}>
+        {restaurants.data.map(restaurant => (
+          <Overlay
+            key={restaurant.id}
+            offset={[6, 6]}
+            anchor={[restaurant.latitude, restaurant.longitude]}
+          >
+            <Tooltip text={restaurant.name}>
+              <Pin />
+            </Tooltip>
+          </Overlay>
+        ))}
+      </PigeonMap>
+      <Global />
+    </Container>
+  );
+};
 
-  render() {
-    return (
-      <Container>
-        <PigeonMap defaultZoom={14} defaultCenter={[60.1680363, 24.9317823]}>
-          {this.state.restaurants.map(restaurant => (
-            <Overlay
-              key={restaurant.id}
-              offset={[6, 6]}
-              anchor={[restaurant.latitude, restaurant.longitude]}
-            >
-              <Tooltip text={restaurant.name}>
-                <Pin />
-              </Tooltip>
-            </Overlay>
-          ))}
-        </PigeonMap>
-        <Global />
-      </Container>
-    );
-  }
-}
+export default Map;

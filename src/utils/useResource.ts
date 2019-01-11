@@ -17,29 +17,32 @@ export default function useResource<T>(
     pending: false
   });
 
-  const setData = React.useCallback(async (promise: Promise<T>) => {
-    setState({
-      ...state,
-      error: null,
-      fulfilled: false,
-      pending: true
-    });
-    try {
+  const setData = React.useCallback(
+    async (promise: Promise<T>) => {
       setState({
         ...state,
-        data: await promise,
-        fulfilled: true,
-        pending: false
+        error: null,
+        fulfilled: false,
+        pending: true
       });
-    } catch (e) {
-      setState({
-        ...state,
-        data: defaultData,
-        error: e.message,
-        pending: false
-      });
-    }
-  }, []);
+      try {
+        setState({
+          ...state,
+          data: await promise,
+          fulfilled: true,
+          pending: false
+        });
+      } catch (e) {
+        setState({
+          ...state,
+          data: defaultData,
+          error: e.message,
+          pending: false
+        });
+      }
+    },
+    [state]
+  );
 
   return [state, setData];
 }

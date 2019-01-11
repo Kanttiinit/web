@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Order } from '../store/types';
+import { Order } from '../contexts/types';
 
 interface FormattedProperty {
   key: string;

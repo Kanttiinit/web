@@ -34,45 +34,42 @@ export const PropertyContextProvider = (props: {
     []
   );
 
-  const isPropertySelected = React.useCallback(
-    (propertyKey: string) =>
-      properties.some(p => p.toLowerCase() === propertyKey.toLowerCase()),
-    [properties]
-  );
+  const isPropertySelected = (propertyKey: string) =>
+    properties.some(p => p.toLowerCase() === propertyKey.toLowerCase());
 
-  const isDesiredProperty = React.useCallback((propertyKey: string) => {
+  const isDesiredProperty = (propertyKey: string) => {
     const property = getProperty(propertyKey);
     if (property && property.desired) {
       return isPropertySelected(propertyKey);
     }
     return false;
-  }, []);
+  };
 
-  const isUndesiredProperty = React.useCallback((propertyKey: string) => {
+  const isUndesiredProperty = (propertyKey: string) => {
     const property = getProperty(propertyKey);
     if (property && !property.desired) {
       return isPropertySelected(propertyKey);
     }
     return false;
-  }, []);
+  };
 
-  const toggleProperty = React.useCallback(
-    (property: string) => {
-      setProperties(toggleInArray(properties, property));
-    },
+  const toggleProperty = (property: string) => {
+    setProperties(toggleInArray(properties, property));
+  };
+
+  const context = React.useMemo(
+    () => ({
+      isDesiredProperty,
+      isPropertySelected,
+      isUndesiredProperty,
+      properties,
+      toggleProperty
+    }),
     [properties]
   );
 
   return (
-    <propertyContext.Provider
-      value={{
-        isDesiredProperty,
-        isPropertySelected,
-        isUndesiredProperty,
-        properties,
-        toggleProperty
-      }}
-    >
+    <propertyContext.Provider value={context}>
       {props.children}
     </propertyContext.Provider>
   );

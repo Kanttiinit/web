@@ -1,7 +1,7 @@
 import * as format from 'date-fns/format';
 import http from './http';
 
-import { AreaType, Lang, Update } from '../store/types';
+import { AreaType, Lang, Update } from '../contexts/types';
 
 export const getCourses = async (
   restaurantId: number,

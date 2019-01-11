@@ -22,7 +22,7 @@ const Container = styled.div`
 interface Props {
   children: React.ReactNode;
   text?: string;
-  translationKey?: keyof (typeof translations); // eslint-disable-line
+  translationKey?: keyof (typeof translations);
   position?: Popper.Position;
   className?: string;
 }

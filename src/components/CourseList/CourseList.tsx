@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components';
 
 import { useIsFavorite } from '../../contexts/hooks';
 import propertyContext from '../../contexts/propertyContext';
-import { CourseType } from '../../store/types';
+import { CourseType } from '../../contexts/types';
 import Text from '../Text';
 import Property from './Property';
 

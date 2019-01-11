@@ -1,19 +1,16 @@
-import * as addDays from 'date-fns/add_days';
 import * as React from 'react';
-import * as GA from 'react-ga';
 import { RouteComponentProps } from 'react-router';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import styled, { ThemeProvider } from 'styled-components';
 
 import { DataContextProvider } from '../../contexts/dataContext';
-import { useAutoUpdates } from '../../contexts/hooks';
 import { LangContextProvider } from '../../contexts/langContext';
 import preferenceContext, {
   PreferenceContextProvider
 } from '../../contexts/preferencesContext';
 import { PropertyContextProvider } from '../../contexts/propertyContext';
 import uiContext, { UIStateProvider } from '../../contexts/uiContext';
-import { isProduction, version } from '../../utils/consts';
+import useSideEffects from '../../utils/useSideEffects';
 import AreaSelector from '../AreaSelector';
 import AssetsLoading from '../AssetsLoading';
 import ChangeLog from '../ChangeLog';
@@ -43,56 +40,14 @@ const themeConstants = {
   dark: false
 };
 
-function pageView(location: Location) {
-  const pathname = location.pathname + location.search;
-  GA.set({ page: pathname, 'App Version': version });
-  GA.pageview(pathname);
-}
+const SideEffects = withRouter(props => {
+  useSideEffects(props.location, props.history);
+  return <span />;
+});
 
-const App = (props: RouteComponentProps<any>) => {
-  useAutoUpdates();
+const App = () => {
   const [theme, setTheme] = React.useState(themeConstants);
   const preferences = React.useContext(preferenceContext);
-  const ui = React.useContext(uiContext);
-
-  React.useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-        e.preventDefault();
-        const offset = e.key === 'ArrowLeft' ? -1 : 1;
-        const newDay = addDays(ui.selectedDay, offset);
-        if (ui.isDateInRange(newDay)) {
-          props.history.replace(ui.getNewPath(newDay));
-        }
-      }
-    };
-
-    window.addEventListener('keydown', onKeyDown);
-
-    GA.initialize('UA-85003235-1', {
-      debug: !isProduction
-    });
-    pageView(location);
-
-    ui.updateDay(location);
-
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, []);
-
-  React.useEffect(
-    () => {
-      ui.updateDay(location);
-      pageView(location);
-    },
-    [props.location.search]
-  );
-
-  React.useEffect(
-    () => {
-      pageView(location);
-    },
-    [props.location.pathname]
-  );
 
   React.useEffect(
     () => {
@@ -106,12 +61,12 @@ const App = (props: RouteComponentProps<any>) => {
       <React.Fragment>
         <Container>
           <div>
-            <TopBar key={ui.selectedDay.toDateString()} />
+            <TopBar />
             <RestaurantList />
           </div>
           <Footer />
         </Container>
-        <Modal open={props.location.pathname !== '/'}>
+        <Modal>
           <React.Suspense fallback={<AssetsLoading />}>
             <Switch>
               <Route exact path="/" render={null} />
@@ -157,16 +112,17 @@ const App = (props: RouteComponentProps<any>) => {
   );
 };
 
-export default withRouter(props => (
+export default () => (
   <PropertyContextProvider>
     <LangContextProvider>
       <UIStateProvider>
         <PreferenceContextProvider>
           <DataContextProvider>
-            <App {...props} />
+            <App />
+            <SideEffects />
           </DataContextProvider>
         </PreferenceContextProvider>
       </UIStateProvider>
     </LangContextProvider>
   </PropertyContextProvider>
-));
+);

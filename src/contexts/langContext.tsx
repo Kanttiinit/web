@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import { Lang } from '../store/types';
 import usePersistedState from '../utils/usePersistedState';
+import { Lang } from './types';
 
 interface LangContext {
   lang: Lang;
@@ -21,8 +21,17 @@ export const LangContextProvider = (props: { children: React.ReactNode }) => {
     [lang]
   );
 
+  const context = React.useMemo(
+    () => ({
+      lang,
+      setLang,
+      toggleLang
+    }),
+    [lang]
+  );
+
   return (
-    <langContext.Provider value={{ toggleLang, lang, setLang }}>
+    <langContext.Provider value={context}>
       {props.children}
     </langContext.Provider>
   );

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import langContext from '../../contexts/langContext';
 import preferenceContext from '../../contexts/preferencesContext';
-import { Lang, Order } from '../../store/types';
+import { Lang, Order } from '../../contexts/types';
 import FavoriteSelector from '../FavoriteSelector';
 import PageContainer from '../PageContainer';
 import PropertySelector from '../PropertySelector';

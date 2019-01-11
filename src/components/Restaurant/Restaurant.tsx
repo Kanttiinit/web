@@ -12,8 +12,8 @@ import {
 import styled, { css } from 'styled-components';
 
 import preferenceContext from '../../contexts/preferencesContext';
+import { RestaurantType } from '../../contexts/types';
 import uiContext from '../../contexts/uiContext';
-import { RestaurantType } from '../../store/types';
 import Colon from '../Colon';
 import CourseList from '../CourseList';
 import InlineIcon from '../InlineIcon';
@@ -234,4 +234,4 @@ const Restaurant = (props: Props) => {
   );
 };
 
-export default React.memo(Restaurant);
+export default Restaurant;

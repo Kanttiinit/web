@@ -1,14 +1,11 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import { Transition } from 'react-transition-group';
 import styled from 'styled-components';
 
 import { ErrorBoundary } from '../../index';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
-
-type TransitionState = 'entering' | 'entered' | 'exiting' | 'exited';
 
 const ModalError = () => (
   <PageContainer title={<Text id="error" />}>
@@ -16,7 +13,7 @@ const ModalError = () => (
   </PageContainer>
 );
 
-const Container = styled.div<{ state: TransitionState }>`
+const Container = styled.div<{ open: boolean }>`
   @media (min-width: ${props => props.theme.breakLarge}) {
     padding: 0.5rem;
     align-items: center;
@@ -36,10 +33,10 @@ const Container = styled.div<{ state: TransitionState }>`
   pointer-events: none;
   display: flex;
 
-  ${props => props.state === 'entered' && 'pointer-events: auto;'}
+  ${props => props.open && 'pointer-events: auto;'}
 `;
 
-const Overlay = styled.div<{ state: TransitionState }>`
+const Overlay = styled.div<{ open: boolean }>`
   background: rgba(0, 0, 0, 0.55);
   position: absolute;
   width: 100%;
@@ -53,11 +50,10 @@ const Overlay = styled.div<{ state: TransitionState }>`
     background: var(--gray6);
   }
 
-  ${props => props.state === 'entering' && 'opacity: 0;'}
-  ${props => props.state === 'entered' && 'opacity: 1;'}
+  ${props => props.open && 'opacity: 1;'}
 `;
 
-const Content = styled.div<{ state: TransitionState }>`
+const Content = styled.div<{ open: boolean }>`
   z-index: 6;
   position: relative;
   max-width: 40rem;
@@ -73,11 +69,10 @@ const Content = styled.div<{ state: TransitionState }>`
     max-width: 100%;
   }
 
-  ${props => props.state === 'entering' && 'opacity: 0;'}
-  ${props => props.state === 'entered' && 'opacity: 1;'}
+  ${props => props.open && 'opacity: 1;'}
 `;
 
-const CloseText = styled.div<{ state: TransitionState }>`
+const CloseText = styled.div<{ open: boolean }>`
   z-index: 5;
   display: flex;
   align-items: center;
@@ -94,19 +89,26 @@ const CloseText = styled.div<{ state: TransitionState }>`
     display: none;
   }
 
-  ${props => props.state === 'entering' && 'opacity: 0;'}
-  ${props => props.state === 'entered' && 'opacity: 1;'}
+  ${props => props.open && 'opacity: 1;'}
 `;
 
 type Props = RouteComponentProps<any> & {
   children: any;
-  open: boolean;
 };
 
 const Modal = (props: Props) => {
+  const [open, setOpen] = React.useState(false);
+
   const closeModal = React.useCallback(
     () => props.history.replace('/' + props.location.search),
     [props.location]
+  );
+
+  React.useEffect(
+    () => {
+      setOpen(props.location.pathname !== '/');
+    },
+    [props.location.pathname]
   );
 
   React.useEffect(() => {
@@ -122,33 +124,29 @@ const Modal = (props: Props) => {
 
   React.useEffect(
     () => {
-      if (props.open) {
+      if (open) {
         document.body.style.overflow = 'hidden';
       } else {
         document.body.style.overflow = 'initial';
       }
     },
-    [props.open]
+    [open]
   );
 
   return (
-    <Transition timeout={200} in={props.open} appear>
-      {(state: TransitionState) => (
-        <Container state={state}>
-          <React.Fragment>
-            <Overlay state={state} onClick={closeModal} />
-            <Content state={state}>
-              <ErrorBoundary FallbackComponent={ModalError}>
-                {props.children}
-              </ErrorBoundary>
-            </Content>
-            <CloseText state={state} onClick={closeModal}>
-              <Text id="closeModal" />
-            </CloseText>
-          </React.Fragment>
-        </Container>
-      )}
-    </Transition>
+    <Container open={open}>
+      <React.Fragment>
+        <Overlay open={open} onClick={closeModal} />
+        <Content open={open}>
+          <ErrorBoundary FallbackComponent={ModalError}>
+            {props.children}
+          </ErrorBoundary>
+        </Content>
+        <CloseText open={open} onClick={closeModal}>
+          <Text id="closeModal" />
+        </CloseText>
+      </React.Fragment>
+    </Container>
   );
 };
 

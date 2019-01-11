@@ -80,7 +80,7 @@ const DayLink = ({ day, selectedDay, root }: DayLinkProps) => {
   );
 };
 
-export default ({ root }: { root: string }) => {
+export default React.memo(({ root }: { root: string }) => {
   const ui = React.useContext(uiContext);
   const selectedDay = ui.selectedDay;
   return (
@@ -98,4 +98,4 @@ export default ({ root }: { root: string }) => {
       ))}
     </Container>
   );
-};
+});

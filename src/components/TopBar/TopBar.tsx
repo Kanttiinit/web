@@ -129,15 +129,10 @@ const TopBar = () => {
   const areaSelectorLink = React.useRef<HTMLAnchorElement | null>(null);
   const [areaSelectorOpen, setAreaSelectorOpen] = React.useState(false);
 
-  const toggleAreaSelector = React.useCallback(
-    () => setAreaSelectorOpen(!areaSelectorOpen),
-    []
-  );
+  const toggleAreaSelector = () => setAreaSelectorOpen(!areaSelectorOpen);
 
-  const closeAreaSelector = React.useCallback(
-    () => setAreaSelectorOpen(false),
-    []
-  );
+  const closeAreaSelector = () =>
+    areaSelectorOpen && setAreaSelectorOpen(false);
 
   React.useEffect(
     () => {
@@ -187,7 +182,6 @@ const TopBar = () => {
     },
     [areaSelectorLink.current]
   );
-
   return (
     <Container>
       <Content>
@@ -225,4 +219,4 @@ const TopBar = () => {
   );
 };
 
-export default TopBar;
+export default React.memo(TopBar);

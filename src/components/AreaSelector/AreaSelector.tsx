@@ -7,7 +7,7 @@ import styled, { css } from 'styled-components';
 import { MdDirectionsWalk, MdStar } from 'react-icons/md';
 import dataContext from '../../contexts/dataContext';
 import preferenceContext from '../../contexts/preferencesContext';
-import { AreaType } from '../../store/types';
+import { AreaType } from '../../contexts/types';
 import Button from '../Button';
 import Text from '../Text';
 
@@ -111,12 +111,12 @@ const AreaSelector = (props: Props & RouteComponentProps<any>) => {
   const data = React.useContext(dataContext);
   const preferences = React.useContext(preferenceContext);
 
-  const selectArea = React.useCallback((areaId: number) => {
+  const selectArea = (areaId: number) => {
     preferences.setSelectedArea(areaId);
     if (props.onAreaSelected) {
       props.onAreaSelected();
     }
-  }, []);
+  };
 
   return (
     <Container>

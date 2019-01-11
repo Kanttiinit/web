@@ -4,7 +4,7 @@ import * as React from 'react';
 import { MdLocationOn } from 'react-icons/md';
 import styled from 'styled-components';
 
-import { RestaurantType } from '../../store/types';
+import { RestaurantType } from '../../contexts/types';
 
 const Container = styled.div`
   border-top: 1px solid var(--gray6);

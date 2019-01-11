@@ -1,12 +1,13 @@
 import * as setIsoDay from 'date-fns/set_iso_day';
 import * as findIndex from 'lodash/findIndex';
-import { observer } from 'mobx-react';
 import * as React from 'react';
 import { MdHome, MdPlace } from 'react-icons/md';
 import styled from 'styled-components';
 
-import { dataStore, preferenceStore, uiState } from '../../store';
-import { RestaurantType } from '../../store/types';
+import dataContext from '../../contexts/dataContext';
+import langContext from '../../contexts/langContext';
+import { RestaurantType } from '../../contexts/types';
+import uiContext from '../../contexts/uiContext';
 import * as api from '../../utils/api';
 import InlineIcon from '../InlineIcon';
 import MenuViewer from '../MenuViewer';
@@ -79,112 +80,100 @@ interface Props {
   restaurantId: number;
 }
 
-export default observer(
-  class RestaurantModal extends React.Component {
-    props: Props;
-    state: {
-      restaurant: RestaurantType | null;
-      notFound: boolean;
-    } = {
-      notFound: false,
-      restaurant: null
-    };
+const RestaurantModal = (props: Props) => {
+  const data = React.useContext(dataContext);
+  const { lang } = React.useContext(langContext);
+  const ui = React.useContext(uiContext);
+  const [restaurant, setRestaurant] = React.useState<RestaurantType>(null);
+  const [notFound, setNotFound] = React.useState(false);
 
-    async fetchRestaurant(restaurantId: number) {
-      let restaurant = dataStore.restaurants.data.find(
-        r => r.id === Number(restaurantId)
-      );
-      if (!restaurant) {
-        const result = await api.getRestaurantsByIds(
-          [restaurantId],
-          preferenceStore.lang
-        );
-        if (result.length) {
-          restaurant = result[0];
-        } else {
-          this.setState({ notFound: true });
-        }
-      }
-      this.setState({ restaurant });
-    }
-
-    componentDidUpdate(props: Props) {
-      if (props.restaurantId !== this.props.restaurantId) {
-        this.fetchRestaurant(props.restaurantId);
+  async function fetchRestaurant() {
+    let rest = data.restaurants.data.find(
+      r => r.id === Number(props.restaurantId)
+    );
+    if (!rest) {
+      const result = await api.getRestaurantsByIds([props.restaurantId], lang);
+      if (result.length) {
+        rest = result[0];
+      } else {
+        setNotFound(true);
       }
     }
+    setRestaurant(rest);
+  }
 
-    componentDidMount() {
-      this.fetchRestaurant(this.props.restaurantId);
-    }
+  React.useEffect(
+    () => {
+      fetchRestaurant();
+    },
+    [props.restaurantId]
+  );
 
-    render() {
-      const { restaurant, notFound } = this.state;
-      if (notFound) {
-        return <PageContainer title={<Text id="restaurantNotFound" />} />;
-      }
-      if (!restaurant) {
-        return null;
-      }
-      return (
-        <PageContainer title={restaurant.name}>
-          <Info>
-            <div>
-              <MetaLink
-                href={`https://maps.google.com/?q=${encodeURIComponent(
-                  restaurant.address
-                )}`}
-                target="_blank"
-              >
-                <InlineIcon>
-                  <MdPlace />
-                </InlineIcon>
-                {restaurant.address}
-              </MetaLink>
-              <MetaLink href={restaurant.url} target="_blank">
-                <InlineIcon>
-                  <MdHome />
-                </InlineIcon>
-                <Text id="homepage" />
-              </MetaLink>
-            </div>
-            <OpeningHoursContainer>
-              {getOpeningHourString(restaurant.openingHours).map(hours => (
-                <OpeningHoursRow key={hours.startDay}>
-                  <OpeningHoursDay>
+  if (notFound) {
+    return <PageContainer title={<Text id="restaurantNotFound" />} />;
+  }
+  if (!restaurant) {
+    return null;
+  }
+  return (
+    <PageContainer title={restaurant.name}>
+      <Info>
+        <div>
+          <MetaLink
+            href={`https://maps.google.com/?q=${encodeURIComponent(
+              restaurant.address
+            )}`}
+            target="_blank"
+          >
+            <InlineIcon>
+              <MdPlace />
+            </InlineIcon>
+            {restaurant.address}
+          </MetaLink>
+          <MetaLink href={restaurant.url} target="_blank">
+            <InlineIcon>
+              <MdHome />
+            </InlineIcon>
+            <Text id="homepage" />
+          </MetaLink>
+        </div>
+        <OpeningHoursContainer>
+          {getOpeningHourString(restaurant.openingHours).map(hours => (
+            <OpeningHoursRow key={hours.startDay}>
+              <OpeningHoursDay>
+                <Text
+                  id="ddd"
+                  date={setIsoDay(new Date(), hours.startDay + 1)}
+                />
+                {hours.endDay && (
+                  <span>
+                    &nbsp;&ndash;&nbsp;
                     <Text
                       id="ddd"
-                      date={setIsoDay(new Date(), hours.startDay + 1)}
+                      date={setIsoDay(new Date(), hours.endDay + 1)}
                     />
-                    {hours.endDay && (
-                      <span>
-                        &nbsp;&ndash;&nbsp;
-                        <Text
-                          id="ddd"
-                          date={setIsoDay(new Date(), hours.endDay + 1)}
-                        />
-                      </span>
-                    )}
-                  </OpeningHoursDay>
-                  <OpeningHoursTime>
-                    {hours.hour.replace('-', '–') || <Text id="closed" />}
-                  </OpeningHoursTime>
-                </OpeningHoursRow>
-              ))}
-            </OpeningHoursContainer>
-          </Info>
-          <MenuViewer showCopyButton restaurantId={restaurant.id} />
-          <Map
-            restaurant={restaurant}
-            restaurantPoint={[restaurant.latitude, restaurant.longitude]}
-            userPoint={
-              uiState.location
-                ? [uiState.location.latitude, uiState.location.longitude]
-                : undefined
-            }
-          />
-        </PageContainer>
-      );
-    }
-  }
-);
+                  </span>
+                )}
+              </OpeningHoursDay>
+              <OpeningHoursTime>
+                {hours.hour.replace('-', '–') || <Text id="closed" />}
+              </OpeningHoursTime>
+            </OpeningHoursRow>
+          ))}
+        </OpeningHoursContainer>
+      </Info>
+      <MenuViewer showCopyButton restaurantId={restaurant.id} />
+      <Map
+        restaurant={restaurant}
+        restaurantPoint={[restaurant.latitude, restaurant.longitude]}
+        userPoint={
+          ui.location
+            ? [ui.location.latitude, ui.location.longitude]
+            : undefined
+        }
+      />
+    </PageContainer>
+  );
+};
+
+export default RestaurantModal;

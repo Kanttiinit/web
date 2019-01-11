@@ -19,7 +19,7 @@ interface Props {
   className?: any;
 }
 
-export default (props: Props) => {
+export default React.memo((props: Props) => {
   const { id, date, element = 'span', children, ...rest } = props;
   const { lang } = React.useContext(langContext);
   if (!date) {
@@ -33,4 +33,4 @@ export default (props: Props) => {
     children,
     date ? format(date, id, { locale: locales[lang] }) : translations[id][lang]
   ]);
-};
+});

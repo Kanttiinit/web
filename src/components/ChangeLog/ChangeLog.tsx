@@ -8,7 +8,7 @@ import styled from 'styled-components';
 import dataContext from '../../contexts/dataContext';
 import { useUnseenUpdates } from '../../contexts/hooks';
 import preferenceContext from '../../contexts/preferencesContext';
-import { Update } from '../../store/types';
+import { Update } from '../../contexts/types';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
 

@@ -59,7 +59,7 @@ const EmptyTextContainer = styled.div`
   text-align: center;
 `;
 
-const ListContent = () => {
+const ListContent = React.memo(() => {
   const data = React.useContext(dataContext);
   const preferences = React.useContext(preferenceContext);
   const ui = React.useContext(uiContext);
@@ -67,6 +67,7 @@ const ListContent = () => {
   const loading =
     data.menus.pending || data.restaurants.pending || data.areas.pending;
   const restaurants = useFormattedRestaurants();
+
   if (loading) {
     return times(8, (i: number) => <Placeholder key={i} />);
   } else if (preferences.selectedArea === -2) {
@@ -94,7 +95,7 @@ const ListContent = () => {
   return restaurants.map(restaurant => (
     <Restaurant key={restaurant.id} restaurant={restaurant} />
   ));
-};
+});
 
 export default () => (
   <Container>

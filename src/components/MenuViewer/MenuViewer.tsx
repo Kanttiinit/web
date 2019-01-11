@@ -3,8 +3,8 @@ import { MdContentCopy, MdLink, MdShare } from 'react-icons/md';
 import styled from 'styled-components';
 
 import langContext from '../../contexts/langContext';
+import { CourseType } from '../../contexts/types';
 import uiContext from '../../contexts/uiContext';
-import { CourseType } from '../../store/types';
 import { getCourses } from '../../utils/api';
 import useResource from '../../utils/useResource';
 import CourseList from '../CourseList';

@@ -1,8 +1,8 @@
 import * as without from 'lodash/without';
 import * as React from 'react';
 
-import { Order } from '../store/types';
 import usePersistedState from '../utils/usePersistedState';
+import { Order } from './types';
 
 function toggleInArray<T>(array: T[], item: T): T[] {
   if (array.indexOf(item) === -1) {
@@ -76,25 +76,28 @@ export const PreferenceContextProvider = (props: {
     setStarredRestaurants(ids);
   }
 
+  const context = React.useMemo(
+    () => ({
+      darkMode,
+      favorites,
+      order,
+      selectedArea,
+      setDarkMode,
+      setOrder,
+      setRestaurantStarred,
+      setSelectedArea,
+      setUpdatesLastSeenAt,
+      setUseLocation,
+      starredRestaurants,
+      toggleFavorite,
+      updatesLastSeenAt,
+      useLocation
+    }),
+    [useLocation, selectedArea, darkMode, favorites, order, starredRestaurants]
+  );
+
   return (
-    <preferenceContext.Provider
-      value={{
-        darkMode,
-        favorites,
-        order,
-        selectedArea,
-        setDarkMode,
-        setOrder,
-        setRestaurantStarred,
-        setSelectedArea,
-        setUpdatesLastSeenAt,
-        setUseLocation,
-        starredRestaurants,
-        toggleFavorite,
-        updatesLastSeenAt,
-        useLocation
-      }}
-    >
+    <preferenceContext.Provider value={context}>
       {props.children}
     </preferenceContext.Provider>
   );

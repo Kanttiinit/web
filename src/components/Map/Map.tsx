@@ -3,7 +3,7 @@ import Overlay from 'pigeon-overlay';
 import * as React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import { RestaurantType } from '../../store/types';
+import { RestaurantType } from '../../contexts/types';
 import http from '../../utils/http';
 import Tooltip from '../Tooltip';
 

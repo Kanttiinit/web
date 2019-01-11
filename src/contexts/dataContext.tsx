@@ -1,12 +1,12 @@
 import * as React from 'react';
+import useResource, { Resource } from '../utils/useResource';
 import {
   AreaType,
   FavoriteType,
   MenuType,
   RestaurantType,
   Update
-} from '../store/types';
-import useResource, { Resource } from '../utils/useResource';
+} from './types';
 
 interface DataContext {
   areas: Resource<AreaType[]>;
@@ -30,21 +30,24 @@ export const DataContextProvider = (props: { children: React.ReactNode }) => {
   const [restaurants, setRestaurants] = useResource<RestaurantType[]>([]);
   const [updates, setUpdates] = useResource<Update[]>([]);
 
+  const context = React.useMemo(
+    () => ({
+      areas,
+      favorites,
+      menus,
+      restaurants,
+      setAreas,
+      setFavorites,
+      setMenus,
+      setRestaurants,
+      setUpdates,
+      updates
+    }),
+    [areas, favorites, menus, restaurants, updates]
+  );
+
   return (
-    <dataContext.Provider
-      value={{
-        areas,
-        favorites,
-        menus,
-        restaurants,
-        setAreas,
-        setFavorites,
-        setMenus,
-        setRestaurants,
-        setUpdates,
-        updates
-      }}
-    >
+    <dataContext.Provider value={context}>
       {props.children}
     </dataContext.Provider>
   );

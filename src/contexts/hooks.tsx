@@ -2,40 +2,41 @@ import * as format from 'date-fns/format';
 import * as getIsoDay from 'date-fns/get_iso_day';
 import * as isAfter from 'date-fns/is_after';
 import * as isBefore from 'date-fns/is_before';
-import * as isSameDay from 'date-fns/is_same_day';
 import * as parse from 'date-fns/parse';
 import * as setHours from 'date-fns/set_hours';
 import * as setMinutes from 'date-fns/set_minutes';
 import * as haversine from 'haversine';
 import * as get from 'lodash/get';
 import * as orderBy from 'lodash/orderBy';
-import * as api from '../utils/api';
 
 import * as React from 'react';
 
+import dataContext from './dataContext';
+import preferenceContext from './preferencesContext';
 import {
   CourseType,
   FavoriteType,
   FormattedFavoriteType,
   Order,
   RestaurantType
-} from '../store/types';
-import { version } from '../utils/consts';
-import dataContext from './dataContext';
-import langContext from './langContext';
-import preferenceContext from './preferencesContext';
+} from './types';
 import uiContext from './uiContext';
 
 export const useSelectedFavorites = () => {
   const { favorites } = React.useContext(dataContext);
   const preferences = React.useContext(preferenceContext);
 
-  if (favorites.fulfilled) {
-    return favorites.data.filter(
-      ({ id }) => preferences.favorites.indexOf(id) > -1
-    );
-  }
-  return [];
+  return React.useMemo(
+    () => {
+      if (favorites.fulfilled) {
+        return favorites.data.filter(
+          ({ id }) => preferences.favorites.indexOf(id) > -1
+        );
+      }
+      return [];
+    },
+    [favorites.data, preferences.favorites]
+  );
 };
 
 export const useIsFavorite = () => {
@@ -62,17 +63,27 @@ export const useSelectedArea = () => {
   const { areas } = React.useContext(dataContext);
   const preferences = React.useContext(preferenceContext);
 
-  return areas.data.find(a => a.id === preferences.selectedArea);
+  return React.useMemo(
+    () => areas.data.find(a => a.id === preferences.selectedArea),
+    [areas.data, preferences.selectedArea]
+  );
 };
 
 export const useFormattedFavorites: () => FormattedFavoriteType[] = () => {
   const { favorites } = React.useContext(dataContext);
   const preferences = React.useContext(preferenceContext);
 
-  return orderBy(favorites.data, ['name']).map((favorite: FavoriteType) => ({
-    ...favorite,
-    isSelected: preferences.favorites.indexOf(favorite.id) > -1
-  }));
+  return React.useMemo(
+    () => {
+      return orderBy(favorites.data, ['name']).map(
+        (favorite: FavoriteType) => ({
+          ...favorite,
+          isSelected: preferences.favorites.indexOf(favorite.id) > -1
+        })
+      );
+    },
+    [favorites.data, preferences.favorites]
+  );
 };
 
 const parseTimeOfDay = (input: string) => {
@@ -124,149 +135,41 @@ export const useFormattedRestaurants: () => RestaurantType[] = () => {
   const preferences = React.useContext(preferenceContext);
   const isFavorite = useIsFavorite();
 
-  const day = ui.selectedDay;
-  const restaurants = data.restaurants.data.map(restaurant => {
-    const courses = get(
+  const formattedRestaurants = React.useMemo(
+    () => {
+      const day = ui.selectedDay;
+      const restaurants = data.restaurants.data.map(restaurant => {
+        const courses = get(
+          data.menus.data,
+          [restaurant.id, format(day, 'YYYY-MM-DD')],
+          []
+        ).filter((course: CourseType) => course.title);
+        const distance =
+          ui.location && haversine(ui.location, restaurant, { unit: 'meter' });
+        return {
+          ...restaurant,
+          courses,
+          distance,
+          favoriteCourses: courses.some(isFavorite),
+          isOpenNow: isOpenNow(restaurant, day),
+          isStarred: preferences.starredRestaurants.indexOf(restaurant.id) > -1,
+          noCourses: !courses.length
+        };
+      });
+
+      const order = getOrder(preferences.order, preferences.useLocation);
+      return orderBy(restaurants, order.properties, order.orders);
+    },
+    [
+      ui.selectedDay,
+      ui.location,
+      data.restaurants.data,
       data.menus.data,
-      [restaurant.id, format(day, 'YYYY-MM-DD')],
-      []
-    ).filter((course: CourseType) => course.title);
-    const distance =
-      ui.location && haversine(ui.location, restaurant, { unit: 'meter' });
-    return {
-      ...restaurant,
-      courses,
-      distance,
-      favoriteCourses: courses.some(isFavorite),
-      isOpenNow: isOpenNow(restaurant, day),
-      isStarred: preferences.starredRestaurants.indexOf(restaurant.id) > -1,
-      noCourses: !courses.length
-    };
-  });
-
-  const order = getOrder(preferences.order, preferences.useLocation);
-  return orderBy(restaurants, order.properties, order.orders);
-};
-
-export const useAutoUpdates = () => {
-  const { lang } = React.useContext(langContext);
-  const preferences = React.useContext(preferenceContext);
-  const ui = React.useContext(uiContext);
-  const data = React.useContext(dataContext);
-  const selectedArea = useSelectedArea();
-
-  // fetch updates
-  React.useEffect(() => {
-    data.setUpdates(api.getUpdates());
-  }, []);
-
-  // update areas and restaurants
-  React.useEffect(
-    () => {
-      data.setAreas(api.getAreas(lang));
-      data.setFavorites(api.getFavorites(lang));
-    },
-    [lang]
+      preferences.starredRestaurants,
+      preferences.order,
+      preferences.useLocation
+    ]
   );
 
-  // update restaurants
-  React.useEffect(
-    () => {
-      let promise;
-      if (lang && selectedArea) {
-        promise = api.getRestaurantsByIds(selectedArea.restaurants, lang);
-      } else if (preferences.selectedArea < 0) {
-        if (preferences.selectedArea === -1) {
-          if (preferences.starredRestaurants.length) {
-            promise = api.getRestaurantsByIds(
-              preferences.starredRestaurants,
-              lang
-            );
-          } else {
-            promise = Promise.resolve([]);
-          }
-        } else if (preferences.selectedArea === -2 && ui.location) {
-          const { latitude, longitude } = ui.location;
-          promise = api.getRestaurantsByLocation(latitude, longitude, lang);
-        }
-      }
-
-      if (promise) {
-        data.setRestaurants(promise);
-      }
-    },
-    [selectedArea, lang]
-  );
-
-  // update menus
-  React.useEffect(
-    () => {
-      if (data.restaurants.fulfilled) {
-        const restaurantIds = data.restaurants.data.map(
-          restaurant => restaurant.id
-        );
-        const menus = api.getMenus(restaurantIds, [ui.selectedDay], lang);
-        data.setMenus(menus);
-      }
-    },
-    [data.restaurants.data, ui.selectedDay, lang]
-  );
-
-  // update location
-  const [locationWatchId, setLocationWatchId] = React.useState(null);
-  React.useEffect(
-    () => {
-      // start or stop watching for location
-      if (preferences.useLocation && !locationWatchId) {
-        setLocationWatchId(
-          navigator.geolocation.watchPosition(
-            ({ coords }) => {
-              ui.setLocation(coords);
-            },
-            error => {
-              switch (error.code) {
-                case 1:
-                  preferences.setUseLocation(false);
-              }
-            }
-          )
-        );
-      } else if (!preferences.useLocation && locationWatchId) {
-        navigator.geolocation.clearWatch(locationWatchId);
-        setLocationWatchId(null);
-        ui.setLocation(null);
-      }
-    },
-    [preferences.useLocation]
-  );
-
-  // update on window focus
-  React.useEffect(() => {
-    let lastUpdateCheck = Math.round(Date.now() / 1000);
-
-    const update = async () => {
-      // check for newer version and reload
-      const now = Math.round(Date.now() / 1000);
-      if (!lastUpdateCheck || now - lastUpdateCheck > 3600) {
-        lastUpdateCheck = now;
-        const response = await fetch(`/check-update?version=${version}`);
-        const json = await response.json();
-        if (json.updateAvailable) {
-          window.location.reload();
-        }
-      }
-
-      // update displayed days if first day is in past
-      if (
-        ui.displayedDays.length &&
-        !isSameDay(new Date(), ui.displayedDays[0])
-      ) {
-        ui.updateDisplayedDays();
-      }
-    };
-
-    window.addEventListener('focus', update);
-
-    return () => window.removeEventListener('focus', update);
-  }, []);
+  return formattedRestaurants;
 };

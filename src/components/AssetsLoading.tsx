@@ -19,28 +19,22 @@ const Container = styled.div<{ showLoading: boolean }>`
   }
 `;
 
-export default class AssetsLoading extends React.PureComponent {
-  timeout: NodeJS.Timer;
+const AssetsLoading = () => {
+  const [showLoading, setShowLoading] = React.useState(false);
 
-  state = {
-    showLoading: false
-  };
-
-  componentDidMount() {
-    this.timeout = setTimeout(() => {
-      this.setState({ showError: true });
+  React.useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowLoading(true);
     }, 1000);
-  }
 
-  componentWillUnmount() {
-    clearTimeout(this.timeout);
-  }
+    return () => clearTimeout(timeout);
+  }, []);
 
-  render() {
-    return (
-      <Container showLoading={this.state.showLoading}>
-        <Text element="p" id="assetsLoading" />
-      </Container>
-    );
-  }
-}
+  return (
+    <Container showLoading={showLoading}>
+      <Text element="p" id="assetsLoading" />
+    </Container>
+  );
+};
+
+export default AssetsLoading;

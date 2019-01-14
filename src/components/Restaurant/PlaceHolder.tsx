@@ -51,20 +51,13 @@ const Body = styled.div`
   ${courseListStyles}
 `;
 
-export default class Placeholder extends React.Component {
-  shouldComponentUpdate() {
-    return false;
-  }
-  render() {
-    return (
-      <PlaceholderContainer>
-        <Header width={random(30, 40)} />
-        <Body>
-          {times(10, (i: number) => (
-            <Course key={i} width={random(40, 100)} />
-          ))}
-        </Body>
-      </PlaceholderContainer>
-    );
-  }
-}
+export default React.memo(() => (
+  <PlaceholderContainer>
+    <Header width={random(30, 40)} />
+    <Body>
+      {times(10, (i: number) => (
+        <Course key={i} width={random(40, 100)} />
+      ))}
+    </Body>
+  </PlaceholderContainer>
+));

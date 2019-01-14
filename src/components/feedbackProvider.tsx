@@ -14,31 +14,26 @@ export interface FeedbackProps {
   feedbackState?: State;
 }
 
-export default (Component: ComponentType<FeedbackProps>) =>
-  class extends React.PureComponent<any, any> {
-    state: State = {
-      error: null,
-      sending: false,
-      sent: false
-    };
+export default (Component: ComponentType<FeedbackProps>) => (
+  props: FeedbackProps
+) => {
+  const [state, setState] = React.useState<State>({
+    error: null,
+    sending: false,
+    sent: false
+  });
 
-    onSubmit = async (message: string) => {
-      this.setState({ sending: true });
-      try {
-        await sendFeedback(message);
-        this.setState({ sending: false, sent: true, error: null });
-      } catch (error) {
-        this.setState({ sending: false, error });
-      }
-    }
-
-    render() {
-      return (
-        <Component
-          onSubmitFeedback={this.onSubmit}
-          feedbackState={this.state}
-          {...this.props}
-        />
-      );
+  const onSubmit = async (message: string) => {
+    setState({ ...state, sending: true });
+    try {
+      await sendFeedback(message);
+      setState({ ...state, sending: false, sent: true, error: null });
+    } catch (error) {
+      setState({ ...state, sending: false, error });
     }
   };
+
+  return (
+    <Component onSubmitFeedback={onSubmit} feedbackState={state} {...props} />
+  );
+};

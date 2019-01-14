@@ -163,6 +163,7 @@ export const useFormattedRestaurants: () => RestaurantType[] = () => {
       ui.location,
       data.restaurants.data,
       data.menus.data,
+      preferences.favorites,
       preferences.starredRestaurants,
       preferences.order,
       preferences.useLocation

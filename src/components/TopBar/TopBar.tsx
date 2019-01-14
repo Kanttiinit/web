@@ -203,7 +203,7 @@ const TopBar = () => {
             <AreaSelector onAreaSelected={toggleAreaSelector} />
           </AreaSelectorContainer>
         </AreaSelectorButton>
-        <IconLink as={Link} to="/settings">
+        <IconLink to="/settings">
           <MdSettings size={18} />
           <Text id="settings" />
         </IconLink>

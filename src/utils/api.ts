@@ -1,13 +1,21 @@
 import * as format from 'date-fns/format';
 import http from './http';
 
-import { AreaType, Lang, Update } from '../contexts/types';
+import {
+  AreaType,
+  CourseType,
+  FavoriteType,
+  Lang,
+  MenuType,
+  RestaurantType,
+  Update
+} from '../contexts/types';
 
 export const getCourses = async (
   restaurantId: number,
   day: Date,
   lang: Lang
-) => {
+): Promise<CourseType[]> => {
   const restaurant = await http.get(
     `/restaurants/${restaurantId}/menu?day=${format(
       day,
@@ -25,7 +33,7 @@ export const getMenus = (
   restaurantIds: number[],
   days: Date[],
   lang: string
-) => {
+): Promise<MenuType> => {
   return http.get(
     `/menus?lang=${lang}&restaurants=${restaurantIds.join(',')}&days=${days
       .map(day => format(day, 'YYYY-MM-DD'))
@@ -52,13 +60,18 @@ export const getUpdates = (): Promise<Update[]> => {
 export const getAreas = (lang: Lang): Promise<AreaType[]> =>
   http.get(`/areas?idsOnly=1&lang=${lang}`);
 
-export const getFavorites = (lang: Lang) => http.get(`/favorites?lang=${lang}`);
+export const getFavorites = (lang: Lang): Promise<FavoriteType[]> =>
+  http.get(`/favorites?lang=${lang}`);
 
-export const getRestaurantsByIds = (ids: number[], lang: Lang) =>
+export const getRestaurantsByIds = (
+  ids: number[],
+  lang: Lang
+): Promise<RestaurantType[]> =>
   http.get(`/restaurants?lang=${lang}&ids=${ids.join(',')}`);
 
 export const getRestaurantsByLocation = (
   latitude: number,
   longitude: number,
   lang: Lang
-) => http.get(`/restaurants?lang=${lang}&location=${latitude},${longitude}`);
+): Promise<RestaurantType[]> =>
+  http.get(`/restaurants?lang=${lang}&location=${latitude},${longitude}`);

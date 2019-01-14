@@ -26,7 +26,7 @@ interface DataContext {
 const dataContext = React.createContext<DataContext>({} as any);
 
 export const DataContextProvider = (props: { children: React.ReactNode }) => {
-  const [areas, setAreas] = useResource<AreaType[]>([]);
+  const [areas, setAreas] = useResource<AreaType[]>([], true);
   const [favorites, setFavorites] = useResource<FavoriteType[]>([]);
   const [menus, setMenus, markMenusPending] = useResource<MenuType>({});
   const [restaurants, setRestaurants, markRestaurantsPending] = useResource<

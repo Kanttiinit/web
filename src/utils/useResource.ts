@@ -8,13 +8,14 @@ export interface Resource<T> {
 }
 
 export default function useResource<T>(
-  defaultData: T
+  defaultData: T,
+  pendingByDefault: boolean = false
 ): [Resource<T>, ((promise: Promise<T>) => any), () => void] {
   const [state, setState] = React.useState<Resource<T>>({
     data: defaultData,
     error: null,
     fulfilled: false,
-    pending: false
+    pending: pendingByDefault
   });
 
   const setData = React.useCallback(

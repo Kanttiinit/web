@@ -14,18 +14,13 @@ const langContext = React.createContext<LangContext>({} as any);
 export const LangContextProvider = (props: { children: React.ReactNode }) => {
   const [lang, setLang] = usePersistedState('lang', Lang.FI);
 
-  const toggleLang = React.useCallback(
-    () => {
-      setLang(lang === Lang.FI ? Lang.EN : Lang.FI);
-    },
-    [lang]
-  );
-
   const context = React.useMemo(
     () => ({
       lang,
       setLang,
-      toggleLang
+      toggleLang() {
+        setLang(lang === Lang.FI ? Lang.EN : Lang.FI);
+      }
     }),
     [lang]
   );

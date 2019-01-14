@@ -49,24 +49,19 @@ export const UIStateProvider = (props: { children: React.ReactNode }) => {
   const [displayedDays, setDisplayedDays] = React.useState(getDisplayedDays());
   const [date, setDate] = React.useState(startOfDay(new Date()));
 
-  const updateDay = React.useCallback((loc: Location) => {
-    const day = new URL(loc.href).searchParams.get('day');
-    setDate(day ? startOfDay(parse(day)) : startOfDay(new Date()));
-  }, []);
-
-  const updateDisplayedDays = React.useCallback(
-    () => setDisplayedDays(getDisplayedDays()),
-    []
-  );
-
   const context = React.useMemo(
     () => ({
       displayedDays,
       location,
       selectedDay: date,
       setLocation,
-      updateDay,
-      updateDisplayedDays
+      updateDay(loc: Location) {
+        const day = new URL(loc.href).searchParams.get('day');
+        setDate(day ? startOfDay(parse(day)) : startOfDay(new Date()));
+      },
+      updateDisplayedDays() {
+        setDisplayedDays(getDisplayedDays());
+      }
     }),
     [location, displayedDays, date]
   );

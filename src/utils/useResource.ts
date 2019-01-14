@@ -44,9 +44,12 @@ export default function useResource<T>(
     [state]
   );
 
-  const markPending = React.useCallback(() => {
-    setState({ ...state, pending: true });
-  }, []);
+  const markPending = React.useCallback(
+    () => {
+      setState({ ...state, pending: true });
+    },
+    [state]
+  );
 
   return [state, setData, markPending];
 }

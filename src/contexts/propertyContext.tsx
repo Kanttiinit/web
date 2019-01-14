@@ -28,27 +28,23 @@ export const PropertyContextProvider = (props: {
   const isPropertySelected = (propertyKey: string) =>
     properties.some(p => p.toLowerCase() === propertyKey.toLowerCase());
 
-  const isDesiredProperty = (propertyKey: string) => {
-    const property = getProperty(propertyKey);
-    if (property && property.desired) {
-      return isPropertySelected(propertyKey);
-    }
-    return false;
-  };
-
-  const isUndesiredProperty = (propertyKey: string) => {
-    const property = getProperty(propertyKey);
-    if (property && !property.desired) {
-      return isPropertySelected(propertyKey);
-    }
-    return false;
-  };
-
   const context = React.useMemo(
     () => ({
-      isDesiredProperty,
+      isDesiredProperty(propertyKey: string) {
+        const property = getProperty(propertyKey);
+        if (property && property.desired) {
+          return isPropertySelected(propertyKey);
+        }
+        return false;
+      },
       isPropertySelected,
-      isUndesiredProperty,
+      isUndesiredProperty(propertyKey: string) {
+        const property = getProperty(propertyKey);
+        if (property && !property.desired) {
+          return isPropertySelected(propertyKey);
+        }
+        return false;
+      },
       properties,
       toggleProperty: propertiesActions.toggle
     }),

@@ -16,8 +16,7 @@ const Clients = () => (
       CLI
     </Link>
     <p>
-      Command line interface written in C++ (to use it you must still build it
-      yourself).
+      Command line interface written in C++ (no prebuilt binaries available yet).
     </p>
     <Link
       href="https://itunes.apple.com/fi/app/kanttiinit/id1069903670?mt=8"

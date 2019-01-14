@@ -14,6 +14,10 @@ import * as api from '../utils/api';
 import { isProduction, version } from './consts';
 import { useSelectedArea } from './hooks';
 
+GA.initialize('UA-85003235-1', {
+  debug: !isProduction
+});
+
 function pageView(location: Location) {
   const pathname = location.pathname + location.search;
   GA.set({ page: pathname, 'App Version': version });
@@ -141,11 +145,6 @@ export default (location: any, history: any) => {
   // initialize stuff
   useEffect(() => {
     data.setUpdates(api.getUpdates());
-
-    GA.initialize('UA-85003235-1', {
-      debug: !isProduction
-    });
-    pageView(location);
   }, []);
 
   // listen to left and right keys
@@ -173,7 +172,6 @@ export default (location: any, history: any) => {
     () => {
       ui.updateDay(window.location);
       data.markMenusPending();
-      pageView(location);
     },
     [location.search]
   );
@@ -182,6 +180,6 @@ export default (location: any, history: any) => {
     () => {
       pageView(location);
     },
-    [location.pathname]
+    [location.pathname, location.search]
   );
 };

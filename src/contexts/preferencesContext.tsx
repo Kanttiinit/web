@@ -61,11 +61,11 @@ export const PreferenceContextProvider = (props: {
     [darkMode]
   );
 
-  function toggleFavorite(favoriteId: number) {
+  const toggleFavorite = (favoriteId: number) => {
     setFavorites(toggleInArray(favorites, favoriteId));
-  }
+  };
 
-  function setRestaurantStarred(restaurantId: number, isStarred: boolean) {
+  const setRestaurantStarred = (restaurantId: number, isStarred: boolean) => {
     const ids = [...starredRestaurants];
     const index = ids.indexOf(restaurantId);
     if (isStarred && index === -1) {
@@ -74,7 +74,7 @@ export const PreferenceContextProvider = (props: {
       ids.splice(index, 1);
     }
     setStarredRestaurants(ids);
-  }
+  };
 
   const context = React.useMemo(
     () => ({

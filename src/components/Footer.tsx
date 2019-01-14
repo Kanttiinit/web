@@ -62,7 +62,7 @@ const NavigationContainer = styled.div`
   text-align: left;
 `;
 
-export default React.memo(() => (
+export default () => (
   <Footer>
     <NavigationContainer>
       <LogoImage src={logo} />
@@ -90,4 +90,4 @@ export default React.memo(() => (
       {version}
     </a>
   </Footer>
-));
+);

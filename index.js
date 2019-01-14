@@ -13,6 +13,9 @@ express()
 .use(require('compression')())
 .use(express.static('dist'))
 .use(express.static(__dirname + '/src/assets'))
+.get('/robots.txt', (req, res) => {
+  res.send('');
+})
 .get('/admin*', (req, res) => res.sendFile(__dirname + '/dist/index_admin.html'))
 .get('/check-update', (req, res) => {
   try {

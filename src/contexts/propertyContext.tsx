@@ -1,7 +1,7 @@
-import * as without from 'lodash/without';
 import * as React from 'react';
 
 import * as translations from '../utils/translations';
+import useArrayState from '../utils/useArrayState';
 import usePersistedState from '../utils/usePersistedState';
 
 interface PropertyContext {
@@ -14,14 +14,6 @@ interface PropertyContext {
 
 const propertyContext = React.createContext<PropertyContext>({} as any);
 
-function toggleInArray<T>(array: T[], item: T): T[] {
-  if (array.indexOf(item) === -1) {
-    return array.concat(item);
-  } else {
-    return without(array, item);
-  }
-}
-
 function getProperty(propertyKey: string) {
   return translations.properties.find(p => p.key === propertyKey);
 }
@@ -29,9 +21,8 @@ function getProperty(propertyKey: string) {
 export const PropertyContextProvider = (props: {
   children: React.ReactNode;
 }) => {
-  const [properties, setProperties] = usePersistedState<string[]>(
-    'properties',
-    []
+  const [properties, propertiesActions] = useArrayState(
+    usePersistedState<string[]>('properties', [])
   );
 
   const isPropertySelected = (propertyKey: string) =>
@@ -53,17 +44,13 @@ export const PropertyContextProvider = (props: {
     return false;
   };
 
-  const toggleProperty = (property: string) => {
-    setProperties(toggleInArray(properties, property));
-  };
-
   const context = React.useMemo(
     () => ({
       isDesiredProperty,
       isPropertySelected,
       isUndesiredProperty,
       properties,
-      toggleProperty
+      toggleProperty: propertiesActions.toggle
     }),
     [properties]
   );

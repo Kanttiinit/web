@@ -1,16 +1,8 @@
-import * as without from 'lodash/without';
 import * as React from 'react';
 
+import useArrayState from '../utils/useArrayState';
 import usePersistedState from '../utils/usePersistedState';
 import { Order } from './types';
-
-function toggleInArray<T>(array: T[], item: T): T[] {
-  if (array.indexOf(item) === -1) {
-    return array.concat(item);
-  } else {
-    return without(array, item);
-  }
-}
 
 interface PreferenceContext {
   selectedArea: number;
@@ -37,13 +29,12 @@ export const PreferenceContextProvider = (props: {
   const [selectedArea, setSelectedArea] = usePersistedState('selectedArea', 1);
   const [useLocation, setUseLocation] = usePersistedState('location', false);
   const [order, setOrder] = usePersistedState('order', Order.AUTOMATIC);
-  const [favorites, setFavorites] = usePersistedState<number[]>(
-    'favorites',
-    []
+  const [favorites, favoritesActions] = useArrayState(
+    usePersistedState<number[]>('favorites', [])
   );
-  const [starredRestaurants, setStarredRestaurants] = usePersistedState<
-    number[]
-  >('starredRestaurants', []);
+  const [starredRestaurants, starredRestaurantsActions] = useArrayState(
+    usePersistedState<number[]>('starredRestaurants', [])
+  );
   const [darkMode, setDarkMode] = usePersistedState('darkMode', false);
   const [updatesLastSeenAt, setUpdatesLastSeenAt] = usePersistedState(
     'updatesLastSeenAt',
@@ -61,21 +52,6 @@ export const PreferenceContextProvider = (props: {
     [darkMode]
   );
 
-  const toggleFavorite = (favoriteId: number) => {
-    setFavorites(toggleInArray(favorites, favoriteId));
-  };
-
-  const setRestaurantStarred = (restaurantId: number, isStarred: boolean) => {
-    const ids = [...starredRestaurants];
-    const index = ids.indexOf(restaurantId);
-    if (isStarred && index === -1) {
-      ids.push(restaurantId);
-    } else if (!isStarred && index > -1) {
-      ids.splice(index, 1);
-    }
-    setStarredRestaurants(ids);
-  };
-
   const context = React.useMemo(
     () => ({
       darkMode,
@@ -84,12 +60,12 @@ export const PreferenceContextProvider = (props: {
       selectedArea,
       setDarkMode,
       setOrder,
-      setRestaurantStarred,
+      setRestaurantStarred: starredRestaurantsActions.setItemInArray,
       setSelectedArea,
       setUpdatesLastSeenAt,
       setUseLocation,
       starredRestaurants,
-      toggleFavorite,
+      toggleFavorite: favoritesActions.toggle,
       updatesLastSeenAt,
       useLocation
     }),

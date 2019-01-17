@@ -13,7 +13,7 @@ export default feedbackProvider(
   class Contact extends React.PureComponent<FeedbackProps> {
     onSubmit = (e: any) => {
       e.preventDefault();
-      const [, email, , message] = e.target.elements;
+      const [email, message] = e.target.elements;
       this.props.onSubmitFeedback(`Email: ${email.value}\n"${message.value}"`);
     };
 

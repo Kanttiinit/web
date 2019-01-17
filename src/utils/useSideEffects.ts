@@ -43,32 +43,31 @@ export default (location: any, history: any) => {
   // update restaurants
   useEffect(
     () => {
-      let promise;
-      if (lang && selectedArea) {
-        promise = api.getRestaurantsByIds(selectedArea.restaurants, lang);
-      } else if (preferences.selectedArea < 0) {
-        if (preferences.selectedArea === -1) {
-          if (preferences.starredRestaurants.length) {
-            promise = api.getRestaurantsByIds(
-              preferences.starredRestaurants,
-              lang
-            );
-          } else {
-            promise = Promise.resolve([]);
-          }
-        } else if (preferences.selectedArea === -2 && ui.location) {
-          const { latitude, longitude } = ui.location;
-          promise = api.getRestaurantsByLocation(latitude, longitude, lang);
-        }
-      }
-
-      if (promise) {
+      if (selectedArea) {
         data.markMenusPending();
-        data.setRestaurants(promise);
+        data.setRestaurants(api.getRestaurantsByIds(selectedArea.restaurants, lang));
       }
     },
     [selectedArea, lang]
   );
+
+  useEffect(() => {
+    if (preferences.selectedArea === -1 && preferences.starredRestaurants.length) {
+      data.markMenusPending();
+      data.setRestaurants(api.getRestaurantsByIds(
+        preferences.starredRestaurants,
+        lang
+      ));
+    }
+  }, [preferences.selectedArea, preferences.starredRestaurants, lang]);
+
+  useEffect(() => {
+    if (preferences.selectedArea === -2 && ui.location) {
+       const { latitude, longitude } = ui.location;
+       data.markMenusPending();
+       data.setRestaurants(api.getRestaurantsByLocation(latitude, longitude, lang));
+   }
+  }, [preferences.selectedArea, preferences.starredRestaurants, ui.location]);
 
   // update menus
   useEffect(

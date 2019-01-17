@@ -59,11 +59,11 @@ export const useUnseenUpdates = () => {
 
 export const useSelectedArea = () => {
   const { areas } = React.useContext(dataContext);
-  const preferences = React.useContext(preferenceContext);
+  const {selectedArea} = React.useContext(preferenceContext);
 
   return React.useMemo(
-    () => areas.data.find(a => a.id === preferences.selectedArea),
-    [areas.data, preferences.selectedArea]
+    () => areas.data.find(a => a.id === selectedArea),
+    [areas.data, selectedArea]
   );
 };
 

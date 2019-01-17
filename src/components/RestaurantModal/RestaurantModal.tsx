@@ -43,12 +43,21 @@ const Info = styled.div`
   }
 `;
 
+const LinkContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
 const MetaLink = styled.a`
   text-transform: uppercase;
   display: block;
+  padding: 0.25em 0.5em;
+  border-radius: 0.25em;
+  margin: 0 0.5em 0.5em 0;
+  transition: background 0.2s;
 
-  &:hover {
-    opacity: 0.8;
+  &:hover, &:focus {
+    background: var(--gray5);
   }
 `;
 
@@ -116,7 +125,7 @@ const RestaurantModal = (props: Props) => {
   return (
     <PageContainer title={restaurant.name}>
       <Info>
-        <div>
+        <LinkContainer>
           <MetaLink
             href={`https://maps.google.com/?q=${encodeURIComponent(
               restaurant.address
@@ -134,7 +143,7 @@ const RestaurantModal = (props: Props) => {
             </InlineIcon>
             <Text id="homepage" />
           </MetaLink>
-        </div>
+        </LinkContainer>
         <OpeningHoursContainer>
           {getOpeningHourString(restaurant.openingHours).map(hours => (
             <OpeningHoursRow key={hours.startDay}>

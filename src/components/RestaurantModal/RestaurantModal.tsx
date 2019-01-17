@@ -29,7 +29,6 @@ function getOpeningHourString(hours: string[]) {
 
 const Info = styled.div`
   display: flex;
-  flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -46,6 +45,10 @@ const Info = styled.div`
 const LinkContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+
+  @media (max-width: ${props => props.theme.breakSmall}) {
+    flex-direction: column;
+  }
 `;
 
 const MetaLink = styled.a`
@@ -59,12 +62,21 @@ const MetaLink = styled.a`
   &:hover, &:focus {
     background: var(--gray5);
   }
+
+  svg {
+    margin-right: 0.5ch;
+  }
+
+  @media (max-width: ${props => props.theme.breakSmall}) {
+    padding: 0;
+  }
 `;
 
 const OpeningHoursContainer = styled.div`
   display: table;
   position: relative;
   z-index: 1;
+  white-space: nowrap;
 `;
 
 const OpeningHoursRow = styled.div`

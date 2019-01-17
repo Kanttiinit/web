@@ -19,7 +19,7 @@ const Contact = (props: FeedbackProps) => {
 
   const onSubmit = React.useCallback((e: any) => {
     e.preventDefault();
-    const [, email, , message] = e.target.elements;
+    const [email, message] = e.target.elements;
     props.onSubmitFeedback(`Email: ${email.value}\n"${message.value}"`);
   }, []);
 

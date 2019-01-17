@@ -45,29 +45,41 @@ export default (location: any, history: any) => {
     () => {
       if (selectedArea) {
         data.markMenusPending();
-        data.setRestaurants(api.getRestaurantsByIds(selectedArea.restaurants, lang));
+        data.setRestaurants(
+          api.getRestaurantsByIds(selectedArea.restaurants, lang)
+        );
       }
     },
     [selectedArea, lang]
   );
 
-  useEffect(() => {
-    if (preferences.selectedArea === -1 && preferences.starredRestaurants.length) {
-      data.markMenusPending();
-      data.setRestaurants(api.getRestaurantsByIds(
-        preferences.starredRestaurants,
-        lang
-      ));
-    }
-  }, [preferences.selectedArea, preferences.starredRestaurants, lang]);
+  useEffect(
+    () => {
+      if (
+        preferences.selectedArea === -1 &&
+        preferences.starredRestaurants.length
+      ) {
+        data.markMenusPending();
+        data.setRestaurants(
+          api.getRestaurantsByIds(preferences.starredRestaurants, lang)
+        );
+      }
+    },
+    [preferences.selectedArea, preferences.starredRestaurants, lang]
+  );
 
-  useEffect(() => {
-    if (preferences.selectedArea === -2 && ui.location) {
-       const { latitude, longitude } = ui.location;
-       data.markMenusPending();
-       data.setRestaurants(api.getRestaurantsByLocation(latitude, longitude, lang));
-   }
-  }, [preferences.selectedArea, preferences.starredRestaurants, ui.location]);
+  useEffect(
+    () => {
+      if (preferences.selectedArea === -2 && ui.location) {
+        const { latitude, longitude } = ui.location;
+        data.markMenusPending();
+        data.setRestaurants(
+          api.getRestaurantsByLocation(latitude, longitude, lang)
+        );
+      }
+    },
+    [preferences.selectedArea, preferences.starredRestaurants, ui.location]
+  );
 
   // update menus
   useEffect(
@@ -150,12 +162,14 @@ export default (location: any, history: any) => {
   useEffect(
     () => {
       const onKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-          e.preventDefault();
-          const offset = e.key === 'ArrowLeft' ? -1 : 1;
-          const newDay = addDays(ui.selectedDay, offset);
-          if (isDateInRange(newDay)) {
-            history.replace(getNewPath(newDay));
+        if (e.target instanceof HTMLElement && e.target.tagName !== 'INPUT') {
+          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            const offset = e.key === 'ArrowLeft' ? -1 : 1;
+            const newDay = addDays(ui.selectedDay, offset);
+            if (isDateInRange(newDay)) {
+              history.replace(getNewPath(newDay));
+            }
           }
         }
       };

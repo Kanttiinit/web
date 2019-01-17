@@ -235,8 +235,8 @@ const translations: { [key: string]: Translation } = {
     )
   },
   reportDataTitle: {
-    fi: 'Ilmoita virheellinen tieto',
-    en: 'Report incorrect data'
+    fi: 'Mikä tieto on väärin?',
+    en: 'Which information is incorrect?'
   },
   reportLabel: {
     fi: 'Mikä tieto on väärin?',
@@ -311,6 +311,22 @@ const translations: { [key: string]: Translation } = {
   assetsLoading: {
     fi: 'Ladataan...',
     en: 'Loading...'
+  },
+  openingHours: {
+    fi: 'Aukioloajat',
+    en: 'Opening hours'
+  },
+  somethingElse: {
+    fi: 'Jokin muu',
+    en: 'Something else'
+  },
+  suggest: {
+    fi: 'Ehdota',
+    en: 'Suggest'
+  },
+  copyFromPreviousDay: {
+    fi: 'Kopioi edelliseltä päivältä',
+    en: 'Copy from previous day'
   }
 };
 

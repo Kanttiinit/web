@@ -69,6 +69,11 @@ export const getRestaurantsByIds = (
 ): Promise<RestaurantType[]> =>
   http.get(`/restaurants?lang=${lang}&ids=${ids.join(',')}`);
 
+export const getRestaurant = async (id: number, lang: Lang) => {
+  const [restaurant] = await getRestaurantsByIds([id], lang);
+  return restaurant;
+};
+
 export const getRestaurantsByLocation = (
   latitude: number,
   longitude: number,

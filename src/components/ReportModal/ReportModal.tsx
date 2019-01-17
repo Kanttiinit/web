@@ -1,42 +1,75 @@
-import Button from '@material-ui/core/Button';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import * as format from 'date-fns/format';
 import * as React from 'react';
+import { MdAccessTime, MdQuestionAnswer } from 'react-icons/md';
+import styled from 'styled-components';
 
-import { langContext, preferenceContext, uiContext } from '../../contexts';
-import feedbackProvider, { FeedbackProps } from '../feedbackProvider';
+import { langContext, preferenceContext } from '../../contexts';
+import { RestaurantType } from '../../contexts/types';
+import { getRestaurant } from '../../utils/api';
+import useResource from '../../utils/useResource';
+import Button from '../Button';
+import InlineIcon from '../InlineIcon';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
+import OpeningHoursEditor from './OpeningHoursEditor';
 
-type Props = FeedbackProps & { restaurantId: number };
+interface Props {
+  restaurantId: number;
+}
+
+export interface FormProps {
+  restaurant: RestaurantType;
+  onEdit(edits: any): Promise<any>;
+}
+
+const ListItem = styled(Button).attrs({ type: 'text' })`
+  font-size: 1.25em;
+  display: flex;
+  align-items: center;
+  text-transform: initial;
+  padding: 0.5em 0.7em;
+  border-radius: 0.25em;
+  width: 100%;
+  transition: background 0.2s;
+  margin-bottom: 0.5em;
+  outline: none;
+
+  svg {
+    margin-right: 1ch;
+    opacity: 0.9;
+  }
+
+  &:hover {
+    background: var(--gray5);
+  }
+`;
+
+const reportForms = [
+  {
+    component: OpeningHoursEditor,
+    icon: <MdAccessTime />,
+    labelId: 'openingHours'
+  },
+  {
+    component: <span />,
+    icon: <MdQuestionAnswer />,
+    labelId: 'somethingElse'
+  }
+];
 
 const ReportModal = (props: Props) => {
+  const [activeForm, setActiveForm] = React.useState(null);
   const preferences = React.useContext(preferenceContext);
   const { lang } = React.useContext(langContext);
-  const ui = React.useContext(uiContext);
+  const [restaurant, setRestaurant] = useResource(null);
 
-  const {
-    feedbackState: { sending, sent }
-  } = props;
+  React.useEffect(() => {
+    setRestaurant(getRestaurant(props.restaurantId, lang));
+  }, []);
 
-  const onSubmit = React.useCallback(
-    (e: any) => {
-      e.preventDefault();
-      const [, reportField, , emailField] = e.target.elements;
-      props.onSubmitFeedback(
-        `🤥 Incorrect data reported:
-
-"${reportField.value}"
-
-✉️ E-mail: ${emailField.value || 'anonymous'}
-🏢 Restaurant ID: ${props.restaurantId}
-📅 Day: ${format(ui.selectedDay, 'DD/MM/YYYY')}
-🗺 Language: ${lang}`
-      );
-    },
-    [props.onSubmitFeedback, props.restaurantId, ui.selectedDay, lang]
-  );
+  if (restaurant.pending) {
+    return null;
+  }
 
   return (
     <MuiThemeProvider
@@ -46,44 +79,29 @@ const ReportModal = (props: Props) => {
         }
       })}
     >
-      <PageContainer title={<Text id="reportDataTitle" />}>
-        {sent ? (
-          <Text element="p" id="thanksForFeedback" />
+      <PageContainer
+        title={
+          <Text id={activeForm ? activeForm.labelId : 'reportDataTitle'} />
+        }
+      >
+        {activeForm ? (
+          <React.Fragment>
+            {React.createElement(activeForm.component, {
+              restaurant: restaurant.data
+            })}
+            <button onClick={() => setActiveForm(null)}>Go back</button>
+          </React.Fragment>
         ) : (
-          <form onSubmit={onSubmit}>
-            <TextField
-              variant="filled"
-              fullWidth
-              multiline
-              id="report"
-              required
-              label={<Text id="reportLabel" />}
-              style={{ marginBottom: '1em' }}
-              rows={5}
-              autoFocus
-            />
-            <TextField
-              variant="filled"
-              fullWidth
-              type="email"
-              id="email"
-              style={{ marginBottom: '1em' }}
-              label={<Text id="reportEmail" />}
-              autoComplete="off"
-            />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              disabled={sending}
-            >
-              <Text id={sending ? 'reporting' : 'report'} />
-            </Button>
-          </form>
+          reportForms.map(form => (
+            <ListItem key={form.labelId} onClick={() => setActiveForm(form)}>
+              <InlineIcon>{form.icon}</InlineIcon>
+              <Text id={form.labelId} />
+            </ListItem>
+          ))
         )}
       </PageContainer>
     </MuiThemeProvider>
   );
 };
 
-export default feedbackProvider(ReportModal);
+export default ReportModal;

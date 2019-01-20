@@ -18,6 +18,7 @@ import { FormProps } from './ReportModal';
 const InputGroup = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 0.5em;
 `;
 
 const getWeekDayLabel = (index: number, lang: Lang) =>
@@ -30,7 +31,7 @@ export default (props: FormProps) => {
 
   const [openingHours, setOpeningHours] = React.useState<
     Array<string[] | null[]>
-  >(null);
+  >([]);
 
   React.useEffect(
     () => {
@@ -68,10 +69,6 @@ export default (props: FormProps) => {
     setOpeningHours(hours);
   };
 
-  if (!openingHours) {
-    return null;
-  }
-
   return (
     <React.Fragment>
       {openingHours.map(([open, close], i) => {
@@ -86,7 +83,6 @@ export default (props: FormProps) => {
               fullWidth
               margin="dense"
               disabled={isClosed}
-              variant="filled"
               InputLabelProps={{
                 shrink: true
               }}
@@ -99,7 +95,6 @@ export default (props: FormProps) => {
               fullWidth
               margin="dense"
               disabled={isClosed}
-              variant="filled"
               InputLabelProps={{
                 shrink: true
               }}
@@ -118,8 +113,13 @@ export default (props: FormProps) => {
           </InputGroup>
         );
       })}
-      <Button variant="raised" color="primary">
-        <Text id="suggest" />
+      <br />
+      <Button variant="contained" color="primary">
+        <Text id="send" />
+      </Button>
+      {' '}
+      <Button variant="contained" onClick={props.goBack}>
+        <Text id="back" />
       </Button>
     </React.Fragment>
   );

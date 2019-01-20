@@ -4,7 +4,7 @@ import * as React from 'react';
 import {
   MdDirectionsBike,
   MdDirectionsWalk,
-  MdFlag,
+  MdEdit,
   MdMoreVert,
   MdPlace,
   MdStar
@@ -211,7 +211,7 @@ const Restaurant = (props: Props) => {
       <StyledCourseList courses={restaurant.courses} />
       <ActionsContainer>
         <StyledActionLink to={`/report/${restaurant.id}`}>
-          <MdFlag size={18} />
+          <MdEdit size={18} />
         </StyledActionLink>
         <RightActions>
           <StyledNativeActionLink

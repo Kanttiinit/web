@@ -320,13 +320,17 @@ const translations: { [key: string]: Translation } = {
     fi: 'Jokin muu',
     en: 'Something else'
   },
-  suggest: {
-    fi: 'Ehdota',
-    en: 'Suggest'
+  back: {
+    fi: 'Takaisin',
+    en: 'Back'
   },
   copyFromPreviousDay: {
     fi: 'Kopioi edelliseltä päivältä',
     en: 'Copy from previous day'
+  },
+  fixRestaurantInformation: {
+    fi: 'Korjaa ravintolan %restaurantName% tietoja',
+    en: 'Fix the information of %restaurantName%'
   }
 };
 

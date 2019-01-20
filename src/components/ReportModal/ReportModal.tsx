@@ -6,11 +6,13 @@ import styled from 'styled-components';
 import { langContext, preferenceContext } from '../../contexts';
 import { RestaurantType } from '../../contexts/types';
 import { getRestaurant } from '../../utils/api';
+import translations from '../../utils/translations';
 import useResource from '../../utils/useResource';
 import Button from '../Button';
 import InlineIcon from '../InlineIcon';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
+import MessageForm from './MessageForm';
 import OpeningHoursEditor from './OpeningHoursEditor';
 
 interface Props {
@@ -20,6 +22,7 @@ interface Props {
 export interface FormProps {
   restaurant: RestaurantType;
   onEdit(edits: any): Promise<any>;
+  goBack(): void;
 }
 
 const ListItem = styled(Button).attrs({ type: 'text' })`
@@ -51,7 +54,7 @@ const reportForms = [
     labelId: 'openingHours'
   },
   {
-    component: <span />,
+    component: MessageForm,
     icon: <MdQuestionAnswer />,
     labelId: 'somethingElse'
   }
@@ -61,11 +64,16 @@ const ReportModal = (props: Props) => {
   const [activeForm, setActiveForm] = React.useState(null);
   const preferences = React.useContext(preferenceContext);
   const { lang } = React.useContext(langContext);
-  const [restaurant, setRestaurant] = useResource(null);
+  const [restaurant, setRestaurant] = useResource<RestaurantType>(null);
 
   React.useEffect(() => {
     setRestaurant(getRestaurant(props.restaurantId, lang));
   }, []);
+
+  const title = restaurant.fulfilled ? translations.fixRestaurantInformation[lang].replace(
+    '%restaurantName%',
+    restaurant.data.name
+  ) : '';
 
   if (restaurant.pending) {
     return null;
@@ -79,17 +87,13 @@ const ReportModal = (props: Props) => {
         }
       })}
     >
-      <PageContainer
-        title={
-          <Text id={activeForm ? activeForm.labelId : 'reportDataTitle'} />
-        }
-      >
+      <PageContainer title={title}>
         {activeForm ? (
           <React.Fragment>
             {React.createElement(activeForm.component, {
+              goBack: () => setActiveForm(null),
               restaurant: restaurant.data
             })}
-            <button onClick={() => setActiveForm(null)}>Go back</button>
           </React.Fragment>
         ) : (
           reportForms.map(form => (

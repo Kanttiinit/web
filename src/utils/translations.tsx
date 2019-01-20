@@ -331,6 +331,10 @@ const translations: { [key: string]: Translation } = {
   fixRestaurantInformation: {
     fi: 'Korjaa ravintolan %restaurantName% tietoja',
     en: 'Fix the information of %restaurantName%'
+  },
+  location: {
+    fi: 'Sijainti',
+    en: 'Location'
   }
 };
 

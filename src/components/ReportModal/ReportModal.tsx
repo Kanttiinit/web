@@ -1,6 +1,6 @@
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import * as React from 'react';
-import { MdAccessTime, MdQuestionAnswer } from 'react-icons/md';
+import { MdAccessTime, MdPlace, MdQuestionAnswer } from 'react-icons/md';
 import styled from 'styled-components';
 
 import { langContext, preferenceContext } from '../../contexts';
@@ -12,6 +12,7 @@ import Button from '../Button';
 import InlineIcon from '../InlineIcon';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
+import LocationEditor from './LocationEditor';
 import MessageForm from './MessageForm';
 import OpeningHoursEditor from './OpeningHoursEditor';
 
@@ -53,6 +54,11 @@ const reportForms = [
     component: OpeningHoursEditor,
     icon: <MdAccessTime />,
     labelId: 'openingHours'
+  },
+  {
+    component: LocationEditor,
+    icon: <MdPlace />,
+    labelId: 'location'
   },
   {
     component: MessageForm,

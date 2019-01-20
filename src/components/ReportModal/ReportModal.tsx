@@ -21,8 +21,9 @@ interface Props {
 
 export interface FormProps {
   restaurant: RestaurantType;
-  onEdit(edits: any): Promise<any>;
+  isSending: boolean;
   goBack(): void;
+  send(request: Promise<{ uuid: string }>): void;
 }
 
 const ListItem = styled(Button).attrs({ type: 'text' })`
@@ -62,6 +63,9 @@ const reportForms = [
 
 const ReportModal = (props: Props) => {
   const [activeForm, setActiveForm] = React.useState(null);
+  const [error, setError] = React.useState<Error>(null);
+  const [done, setDone] = React.useState(false);
+  const [isSending, setIsSending] = React.useState(false);
   const preferences = React.useContext(preferenceContext);
   const { lang } = React.useContext(langContext);
   const [restaurant, setRestaurant] = useResource<RestaurantType>(null);
@@ -70,11 +74,25 @@ const ReportModal = (props: Props) => {
     setRestaurant(getRestaurant(props.restaurantId, lang));
   }, []);
 
+  const send: FormProps['send'] = async promise => {
+    setIsSending(true);
+    try {
+      await promise;
+      setDone(true);
+      if (error) {
+        setError(null);
+      }
+    } catch (e) {
+      setError(error);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   const title = restaurant.fulfilled
-    ? translations.fixRestaurantInformation[lang].toString().replace(
-        '%restaurantName%',
-        restaurant.data.name
-      )
+    ? translations.fixRestaurantInformation[lang]
+        .toString()
+        .replace('%restaurantName%', restaurant.data.name)
     : '';
 
   if (restaurant.pending) {
@@ -90,13 +108,15 @@ const ReportModal = (props: Props) => {
       })}
     >
       <PageContainer title={title}>
-        {activeForm ? (
-          <React.Fragment>
-            {React.createElement(activeForm.component, {
-              goBack: () => setActiveForm(null),
-              restaurant: restaurant.data
-            })}
-          </React.Fragment>
+        {done ? (
+          <Text id="thanksForFeedback" />
+        ) : activeForm ? (
+          React.createElement(activeForm.component, {
+            goBack: () => setActiveForm(null),
+            isSending,
+            restaurant: restaurant.data,
+            send
+          })
         ) : (
           reportForms.map(form => (
             <ListItem key={form.labelId} onClick={() => setActiveForm(form)}>

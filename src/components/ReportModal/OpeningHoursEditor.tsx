@@ -11,6 +11,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { langContext } from '../../contexts';
 import { Lang } from '../../contexts/types';
+import { createRestaurantChange } from '../../utils/api';
 import Text from '../Text';
 import Tooltip from '../Tooltip';
 import { FormProps } from './ReportModal';
@@ -69,20 +70,35 @@ export default (props: FormProps) => {
     setOpeningHours(hours);
   };
 
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    props.send(
+      createRestaurantChange(props.restaurant.id, {
+        openingHours: openingHours.map(hours =>
+          hours[0] === null ? null : hours
+        )
+      })
+    );
+  };
+
   return (
-    <React.Fragment>
+    <form onSubmit={onSubmit}>
       {openingHours.map(([open, close], i) => {
         const isClosed = open === null || close === null;
         const weekDayLabel = getWeekDayLabel(i, lang);
         return (
           <InputGroup key={i}>
-            <Checkbox onChange={createDayToggler(i)} checked={!isClosed} />
+            <Checkbox
+              disabled={props.isSending}
+              onChange={createDayToggler(i)}
+              checked={!isClosed}
+            />
             <TextField
               label={`${weekDayLabel} opens`}
               style={{ margin: 4 }}
               fullWidth
               margin="dense"
-              disabled={isClosed}
+              disabled={isClosed || props.isSending}
               InputLabelProps={{
                 shrink: true
               }}
@@ -94,7 +110,7 @@ export default (props: FormProps) => {
               style={{ margin: 4 }}
               fullWidth
               margin="dense"
-              disabled={isClosed}
+              disabled={isClosed || props.isSending}
               InputLabelProps={{
                 shrink: true
               }}
@@ -114,13 +130,17 @@ export default (props: FormProps) => {
         );
       })}
       <br />
-      <Button variant="contained" color="primary">
+      <Button
+        disabled={props.isSending}
+        type="submit"
+        variant="contained"
+        color="primary"
+      >
         <Text id="send" />
-      </Button>
-      {' '}
+      </Button>{' '}
       <Button variant="contained" onClick={props.goBack}>
         <Text id="back" />
       </Button>
-    </React.Fragment>
+    </form>
   );
 };

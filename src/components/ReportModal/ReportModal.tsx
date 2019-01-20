@@ -71,7 +71,7 @@ const ReportModal = (props: Props) => {
   }, []);
 
   const title = restaurant.fulfilled
-    ? translations.fixRestaurantInformation[lang].replace(
+    ? translations.fixRestaurantInformation[lang].toString().replace(
         '%restaurantName%',
         restaurant.data.name
       )

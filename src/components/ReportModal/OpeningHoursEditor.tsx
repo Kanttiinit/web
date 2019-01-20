@@ -75,7 +75,12 @@ export default (props: FormProps) => {
     props.send(
       createRestaurantChange(props.restaurant.id, {
         openingHours: openingHours.map(hours =>
-          hours[0] === null ? null : hours
+          hours[0] === null
+            ? null
+            : [
+                Number(hours[0].replace(':', '')),
+                Number(hours[1].replace(':', ''))
+              ]
         )
       })
     );

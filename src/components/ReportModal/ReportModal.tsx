@@ -70,10 +70,12 @@ const ReportModal = (props: Props) => {
     setRestaurant(getRestaurant(props.restaurantId, lang));
   }, []);
 
-  const title = restaurant.fulfilled ? translations.fixRestaurantInformation[lang].replace(
-    '%restaurantName%',
-    restaurant.data.name
-  ) : '';
+  const title = restaurant.fulfilled
+    ? translations.fixRestaurantInformation[lang].replace(
+        '%restaurantName%',
+        restaurant.data.name
+      )
+    : '';
 
   if (restaurant.pending) {
     return null;

@@ -54,7 +54,7 @@ const Tooltip = (props: Props) => {
     <React.Fragment>
       <span
         onMouseOver={open}
-        onMouseOut={close}
+        onMouseLeave={close}
         ref={anchorRef}
         className={props.className}
       >

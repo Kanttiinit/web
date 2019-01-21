@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import { langContext } from '../../contexts';
 import { Lang } from '../../contexts/types';
 import { createRestaurantChange } from '../../utils/api';
+import translations from '../../utils/translations';
 import Text from '../Text';
 import Tooltip from '../Tooltip';
 import { FormProps } from './ReportModal';
@@ -99,7 +100,7 @@ export default (props: FormProps) => {
               checked={!isClosed}
             />
             <TextField
-              label={`${weekDayLabel} opens`}
+              label={`${weekDayLabel}, ${translations.openingTime[lang]}`}
               style={{ margin: 4 }}
               fullWidth
               margin="dense"
@@ -107,11 +108,11 @@ export default (props: FormProps) => {
               InputLabelProps={{
                 shrink: true
               }}
-              value={isClosed ? 'closed' : open}
+              value={isClosed ? translations.closed[lang] : close}
               onChange={createDayTimeChanger(i, 0)}
             />
             <TextField
-              label={`${weekDayLabel} closes`}
+              label={`${weekDayLabel}, ${translations.closingTime[lang]}`}
               style={{ margin: 4 }}
               fullWidth
               margin="dense"
@@ -119,7 +120,7 @@ export default (props: FormProps) => {
               InputLabelProps={{
                 shrink: true
               }}
-              value={isClosed ? 'closed' : close}
+              value={isClosed ? translations.closed[lang] : close}
               onChange={createDayTimeChanger(i, 1)}
             />
             <Tooltip translationKey="copyFromPreviousDay">

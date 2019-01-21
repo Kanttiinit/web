@@ -78,12 +78,7 @@ export const properties: FormattedProperty[] = [
   { key: 'VV', desired: true, name_en: 'vegan', name_fi: 'vegaani' }
 ];
 
-interface Translation {
-  fi: React.ReactNode;
-  en: React.ReactNode;
-}
-
-const translations: { [key: string]: Translation } = {
+const translations = {
   noMenu: {
     en: 'No menu available.',
     fi: 'Ruokalistaa ei ole saatavilla.'
@@ -335,6 +330,14 @@ const translations: { [key: string]: Translation } = {
   location: {
     fi: 'Sijainti',
     en: 'Location'
+  },
+  openingTime: {
+    fi: 'aukeamisaika',
+    en: 'opening time'
+  },
+  closingTime: {
+    fi: 'sulkemisaika',
+    en: 'closing time'
   }
 };
 

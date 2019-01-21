@@ -12,8 +12,9 @@ const locales = {
 };
 
 interface Props {
-  id: string;
+  id?: keyof typeof translations;
   date?: Date;
+  dateFormat?: string;
   element?: string;
   children?: any;
   className?: any;
@@ -31,6 +32,8 @@ export default React.memo((props: Props) => {
   }
   return React.createElement(element, rest, [
     children,
-    date ? format(date, id, { locale: locales[lang] }) : translations[id][lang]
+    date
+      ? format(date, props.dateFormat, { locale: locales[lang] })
+      : translations[id][lang]
   ]);
 });

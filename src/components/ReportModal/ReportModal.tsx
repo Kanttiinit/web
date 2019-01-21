@@ -49,7 +49,13 @@ const ListItem = styled(Button).attrs({ type: 'text' })`
   }
 `;
 
-const reportForms = [
+interface ReportForm {
+  component: React.FC<FormProps>;
+  icon: JSX.Element;
+  labelId: keyof (typeof translations);
+}
+
+const reportForms: ReportForm[] = [
   {
     component: OpeningHoursEditor,
     icon: <MdAccessTime />,

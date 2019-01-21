@@ -76,7 +76,7 @@ const DayLink = ({ day, selectedDay, root }: DayLinkProps) => {
 
   return (
     <StyledLink activeLink={active} to={{ pathname: root, search }}>
-      <Text date={day} id="dd D.M." />
+      <Text date={day} dateFormat="dd D.M." />
     </StyledLink>
   );
 };

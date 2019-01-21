@@ -1,11 +1,14 @@
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Draggable from 'pigeon-draggable';
 import Map from 'pigeon-maps';
-import Overlay from 'pigeon-overlay';
 import * as React from 'react';
 import styled from 'styled-components';
 
+import { MdLocationOn } from 'react-icons/md';
+import { langContext } from '../../contexts';
 import { createRestaurantChange } from '../../utils/api';
+import translations from '../../utils/translations';
 import useInput from '../../utils/useInput';
 import Text from '../Text';
 import { FormProps } from './ReportModal';
@@ -23,9 +26,12 @@ const MapContainer = styled.div`
 `;
 
 export default (props: FormProps) => {
+  const { lang } = React.useContext(langContext);
   const [address, addressProps] = useInput(props.restaurant.address);
-  const [latitude, latitudeProps] = useInput(String(props.restaurant.latitude));
-  const [longitude, longitudeProps] = useInput(
+  const [latitude, latitudeProps, setLatitude] = useInput(
+    String(props.restaurant.latitude)
+  );
+  const [longitude, longitudeProps, setLongitude] = useInput(
     String(props.restaurant.longitude)
   );
 
@@ -43,10 +49,17 @@ export default (props: FormProps) => {
   return (
     <form onSubmit={onSubmit}>
       <MapContainer>
-        <Map
-          defaultZoom={14}
-          center={[Number(latitude), Number(longitude)]}
-        />
+        <Map defaultZoom={14} center={[Number(latitude), Number(longitude)]}>
+          <Draggable
+            anchor={[Number(latitude), Number(longitude)]}
+            offset={[12, 24]}
+            onDragEnd={(anchor: [number, number]) => (
+              setLatitude(String(anchor[0])), setLongitude(String(anchor[1]))
+            )}
+          >
+            <MdLocationOn style={{ display: 'block' }} size={24} />
+          </Draggable>
+        </Map>
       </MapContainer>
       <LatLngContainer>
         <TextField
@@ -63,7 +76,7 @@ export default (props: FormProps) => {
         />
       </LatLngContainer>
       <TextField
-        label="Address"
+        label={translations.address[lang]}
         style={{ margin: 4, marginBottom: 18 }}
         fullWidth
         {...addressProps}

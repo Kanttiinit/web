@@ -2984,6 +2984,10 @@ pify@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/pify/-/pify-3.0.0.tgz#e5a4acd2c101fdf3d9a4d07f0dbc4db49dd28176"
 
+pigeon-draggable@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/pigeon-draggable/-/pigeon-draggable-0.1.1.tgz#4d6316d83c8d1919826a3404236df9e4d73f33e8"
+
 pigeon-maps@^0.11.0:
   version "0.11.10"
   resolved "https://registry.yarnpkg.com/pigeon-maps/-/pigeon-maps-0.11.10.tgz#dca788415cc9399e94f1510df955e93aaecab475"

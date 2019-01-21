@@ -338,6 +338,10 @@ const translations = {
   closingTime: {
     fi: 'sulkemisaika',
     en: 'closing time'
+  },
+  address: {
+    fi: 'Osoite',
+    en: 'Address'
   }
 };
 

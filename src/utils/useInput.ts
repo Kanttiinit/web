@@ -4,7 +4,8 @@ export default function useInput(
   defaultValue: string
 ): [
   string,
-  { value: string; onChange(e: React.ChangeEvent<HTMLInputElement>): void }
+  { value: string; onChange(e: React.ChangeEvent<HTMLInputElement>): void },
+  (value: string) => void
 ] {
   const [value, setValue] = useState(defaultValue);
   const inputProps = useMemo(
@@ -16,5 +17,5 @@ export default function useInput(
     }),
     [value]
   );
-  return [value, inputProps];
+  return [value, inputProps, setValue];
 }

@@ -23,6 +23,7 @@ declare module '*.scss' {
 declare module 'bugsnag-react';
 declare module 'pigeon-maps';
 declare module 'pigeon-overlay';
+declare module 'pigeon-draggable';
 declare module 'pigeon-marker';
 declare module 'react-collapse';
 declare module 'react-text-mask';

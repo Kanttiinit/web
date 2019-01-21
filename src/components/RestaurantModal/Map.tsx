@@ -39,7 +39,7 @@ interface Props {
 const RestaurantMap = (props: Props) => (
   <Container>
     <Map defaultZoom={14} defaultCenter={props.restaurantPoint}>
-      <Overlay anchor={props.restaurantPoint} offset={[11, 24]}>
+      <Overlay anchor={props.restaurantPoint} offset={[12, 24]}>
         <RestaurantPin>
           <MdLocationOn size={24} />
           <RestaurantLabel>{props.restaurant.name}</RestaurantLabel>

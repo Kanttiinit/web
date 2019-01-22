@@ -11,7 +11,6 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { langContext } from '../../contexts';
 import { Lang } from '../../contexts/types';
-import { createRestaurantChange } from '../../utils/api';
 import translations from '../../utils/translations';
 import Text from '../Text';
 import Tooltip from '../Tooltip';
@@ -73,8 +72,7 @@ export default (props: FormProps) => {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    props.send(
-      createRestaurantChange(props.restaurant.id, {
+    props.sendChange({
         openingHours: openingHours.map(hours =>
           hours[0] === null
             ? null
@@ -83,8 +81,7 @@ export default (props: FormProps) => {
                 Number(hours[1].replace(':', ''))
               ]
         )
-      })
-    );
+      });
   };
 
   return (

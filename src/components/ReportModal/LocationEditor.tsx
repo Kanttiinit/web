@@ -7,7 +7,6 @@ import styled from 'styled-components';
 
 import { MdLocationOn } from 'react-icons/md';
 import { langContext } from '../../contexts';
-import { createRestaurantChange } from '../../utils/api';
 import translations from '../../utils/translations';
 import useInput from '../../utils/useInput';
 import Text from '../Text';
@@ -37,13 +36,11 @@ export default (props: FormProps) => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    props.send(
-      createRestaurantChange(props.restaurant.id, {
+    props.sendChange({
         address,
         latitude: Number(latitude),
         longitude: Number(longitude)
-      })
-    );
+      });
   };
 
   return (

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { langContext, preferenceContext } from '../../contexts';
 import { RestaurantType } from '../../contexts/types';
-import { getRestaurant } from '../../utils/api';
+import { createRestaurantChange, getRestaurant } from '../../utils/api';
 import translations from '../../utils/translations';
 import useResource from '../../utils/useResource';
 import Button from '../Button';
@@ -24,7 +24,7 @@ export interface FormProps {
   restaurant: RestaurantType;
   isSending: boolean;
   goBack(): void;
-  send(request: Promise<{ uuid: string }>): void;
+  sendChange(change: any): void;
 }
 
 const ListItem = styled(Button).attrs({ type: 'text' })`
@@ -86,10 +86,10 @@ const ReportModal = (props: Props) => {
     setRestaurant(getRestaurant(props.restaurantId, lang));
   }, []);
 
-  const send: FormProps['send'] = async promise => {
+  const send: FormProps['sendChange'] = async change => {
     setIsSending(true);
     try {
-      await promise;
+      await createRestaurantChange(restaurant.data.id, change);
       setDone(true);
       if (error) {
         setError(null);

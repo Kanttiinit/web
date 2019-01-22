@@ -86,7 +86,7 @@ const ReportModal = (props: Props) => {
     setRestaurant(getRestaurant(props.restaurantId, lang));
   }, []);
 
-  const send: FormProps['sendChange'] = async change => {
+  const sendChange: FormProps['sendChange'] = async change => {
     setIsSending(true);
     try {
       await createRestaurantChange(restaurant.data.id, change);
@@ -102,9 +102,10 @@ const ReportModal = (props: Props) => {
   };
 
   const title = restaurant.fulfilled
-    ? translations.fixRestaurantInformation[lang]
-        .toString()
-        .replace('%restaurantName%', restaurant.data.name)
+    ? translations.fixRestaurantInformation[lang].replace(
+        '%restaurantName%',
+        restaurant.data.name
+      )
     : '';
 
   if (restaurant.pending) {
@@ -127,7 +128,7 @@ const ReportModal = (props: Props) => {
             goBack: () => setActiveForm(null),
             isSending,
             restaurant: restaurant.data,
-            send
+            sendChange
           })
         ) : (
           reportForms.map(form => (

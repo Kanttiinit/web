@@ -28,30 +28,30 @@ export default (props: FormProps) => {
   const { lang } = React.useContext(langContext);
   const [address, addressProps] = useInput(props.restaurant.address);
   const [latitude, latitudeProps, setLatitude] = useInput(
-    String(props.restaurant.latitude)
+    props.restaurant.latitude
   );
   const [longitude, longitudeProps, setLongitude] = useInput(
-    String(props.restaurant.longitude)
+    props.restaurant.longitude
   );
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     props.sendChange({
       address,
-      latitude: Number(latitude),
-      longitude: Number(longitude),
+      latitude,
+      longitude
     });
   };
 
   return (
     <form onSubmit={onSubmit}>
       <MapContainer>
-        <Map defaultZoom={14} center={[Number(latitude), Number(longitude)]}>
+        <Map defaultZoom={14} center={[latitude, longitude]}>
           <Draggable
-            anchor={[Number(latitude), Number(longitude)]}
+            anchor={[latitude, longitude]}
             offset={[12, 24]}
             onDragEnd={(anchor: [number, number]) => (
-              setLatitude(String(anchor[0])), setLongitude(String(anchor[1]))
+              setLatitude(anchor[0]), setLongitude(anchor[1])
             )}
           >
             <MdLocationOn style={{ display: 'block' }} size={24} />
@@ -61,14 +61,18 @@ export default (props: FormProps) => {
       <LatLngContainer>
         <TextField
           label="Latitude"
+          type="number"
           style={{ margin: 4 }}
           fullWidth
+          disabled={props.isSending}
           {...latitudeProps}
         />
         <TextField
           label="Longitude"
+          type="number"
           style={{ margin: 4 }}
           fullWidth
+          disabled={props.isSending}
           {...longitudeProps}
         />
       </LatLngContainer>
@@ -76,12 +80,22 @@ export default (props: FormProps) => {
         label={translations.address[lang]}
         style={{ margin: 4, marginBottom: 18 }}
         fullWidth
+        disabled={props.isSending}
         {...addressProps}
       />
-      <Button type="submit" variant="contained" color="primary">
+      <Button
+        disabled={props.isSending}
+        type="submit"
+        variant="contained"
+        color="primary"
+      >
         <Text id="send" />
       </Button>{' '}
-      <Button variant="contained" onClick={props.goBack}>
+      <Button
+        disabled={props.isSending}
+        variant="contained"
+        onClick={props.goBack}
+      >
         <Text id="back" />
       </Button>
     </form>

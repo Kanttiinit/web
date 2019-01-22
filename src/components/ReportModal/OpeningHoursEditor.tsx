@@ -34,15 +34,12 @@ export default (props: FormProps) => {
     Array<string[] | null[]>
   >([]);
 
-  React.useEffect(
-    () => {
-      const parsedOpeningHours = props.restaurant.openingHours.map(hours =>
-        hours ? hours.split(' - ') : [null, null]
-      );
-      setOpeningHours(parsedOpeningHours);
-    },
-    [props.restaurant]
-  );
+  React.useEffect(() => {
+    const parsedOpeningHours = props.restaurant.openingHours.map(hours =>
+      hours ? hours.split(' - ') : [null, null]
+    );
+    setOpeningHours(parsedOpeningHours);
+  }, [props.restaurant]);
 
   const createDayToggler = (index: number) => (
     event: React.ChangeEvent<HTMLInputElement>
@@ -73,15 +70,15 @@ export default (props: FormProps) => {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     props.sendChange({
-        openingHours: openingHours.map(hours =>
-          hours[0] === null
-            ? null
-            : [
-                Number(hours[0].replace(':', '')),
-                Number(hours[1].replace(':', ''))
-              ]
-        )
-      });
+      openingHours: openingHours.map(hours =>
+        hours[0] === null
+          ? null
+          : [
+              Number(hours[0].replace(':', '')),
+              Number(hours[1].replace(':', ''))
+            ]
+      )
+    });
   };
 
   return (
@@ -101,11 +98,14 @@ export default (props: FormProps) => {
               style={{ margin: 4 }}
               fullWidth
               margin="dense"
+              inputProps={{
+                pattern: '[0-9]{1,}:[0-9]{2}'
+              }}
               disabled={isClosed || props.isSending}
               InputLabelProps={{
                 shrink: true
               }}
-              value={isClosed ? translations.closed[lang] : close}
+              value={isClosed ? translations.closed[lang] : open}
               onChange={createDayTimeChanger(i, 0)}
             />
             <TextField
@@ -113,6 +113,9 @@ export default (props: FormProps) => {
               style={{ margin: 4 }}
               fullWidth
               margin="dense"
+              inputProps={{
+                pattern: '[0-9]{1,}:[0-9]{2}'
+              }}
               disabled={isClosed || props.isSending}
               InputLabelProps={{
                 shrink: true

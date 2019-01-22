@@ -9,6 +9,7 @@
     "interface-name": false,
     "no-var-requires": false,
     "no-console": [true, "log"],
+    "max-line-length": [true, 80],
     "quotemark": [true, "single", "jsx-double"],
     "object-literal-key-quotes": [true, "as-needed"],
     "ordered-imports": [true, "grouped-imports"],

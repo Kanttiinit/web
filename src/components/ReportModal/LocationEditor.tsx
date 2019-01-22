@@ -37,10 +37,10 @@ export default (props: FormProps) => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     props.sendChange({
-        address,
-        latitude: Number(latitude),
-        longitude: Number(longitude)
-      });
+      address,
+      latitude: Number(latitude),
+      longitude: Number(longitude),
+    });
   };
 
   return (

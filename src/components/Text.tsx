@@ -21,7 +21,7 @@ interface Props {
 }
 
 export default React.memo((props: Props) => {
-  const { id, date, element = 'span', children, ...rest } = props;
+  const { id, date, dateFormat, element = 'span', children, ...rest } = props;
   const { lang } = React.useContext(langContext);
   if (!date) {
     if (!translations[id]) {
@@ -33,7 +33,7 @@ export default React.memo((props: Props) => {
   return React.createElement(element, rest, [
     children,
     date
-      ? format(date, props.dateFormat, { locale: locales[lang] })
+      ? format(date, dateFormat, { locale: locales[lang] })
       : translations[id][lang]
   ]);
 });

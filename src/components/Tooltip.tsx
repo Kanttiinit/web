@@ -39,16 +39,13 @@ const Tooltip = (props: Props) => {
 
   const close = () => setIsOpen(false);
 
-  React.useEffect(
-    () => {
-      if (anchorRef.current && tooltipRef.current && isOpen) {
-        popper.current = new Popper(anchorRef.current, tooltipRef.current, {
-          placement: props.position || 'bottom-start'
-        });
-      }
-    },
-    [tooltipRef.current, anchorRef.current, isOpen]
-  );
+  React.useLayoutEffect(() => {
+    if (anchorRef.current && tooltipRef.current && isOpen) {
+      popper.current = new Popper(anchorRef.current, tooltipRef.current, {
+        placement: props.position || 'bottom-start'
+      });
+    }
+  }, [tooltipRef.current, anchorRef.current, isOpen]);
 
   return (
     <React.Fragment>

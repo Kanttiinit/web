@@ -1,6 +1,6 @@
 import * as times from 'lodash/times';
 import * as React from 'react';
-import { MdError } from 'react-icons/md';
+import { MdWarning } from 'react-icons/md';
 const locating = require('../../assets/locating.svg');
 
 import styled from 'styled-components';
@@ -49,14 +49,6 @@ const Locating = styled.div`
   }
 `;
 
-const EmptyTextContainer = styled.div`
-  font-weight: 500;
-  text-transform: uppercase;
-  color: var(--gray3);
-  margin: 2em 0 0;
-  text-align: center;
-`;
-
 const ListContent = React.memo(() => {
   const data = React.useContext(dataContext);
   const preferences = React.useContext(preferenceContext);
@@ -70,24 +62,32 @@ const ListContent = React.memo(() => {
     return times(8, (i: number) => <Placeholder key={i} />);
   } else if (preferences.selectedArea === -2) {
     if (!preferences.useLocation) {
-      return <Text id="turnOnLocation" element={Notice} />;
+      return (
+        <Notice>
+          <InlineIcon>
+            <MdWarning />
+          </InlineIcon>{' '}
+          <Text id="turnOnLocation" />
+        </Notice>
+      );
     } else if (!ui.location) {
       return (
         <Locating>
           <img src={locating} />
-          <Text id="locating" element={Notice} />
+          <Notice>
+            <Text id="locating" />
+          </Notice>
         </Locating>
       );
     }
   } else if (!restaurants.length) {
     return (
-      <EmptyTextContainer>
+      <Notice>
         <InlineIcon>
-          <MdError />
-        </InlineIcon>
-        &nbsp;
+          <MdWarning />
+        </InlineIcon>{' '}
         <Text id="emptyRestaurants" />
-      </EmptyTextContainer>
+      </Notice>
     );
   }
   return restaurants.map(restaurant => (

@@ -166,8 +166,8 @@ const translations = {
     en: 'Select area'
   },
   emptyRestaurants: {
-    fi: 'Ei ravintoloita',
-    en: 'No restaurants'
+    fi: 'Ei ravintoloita.',
+    en: 'No restaurants.'
   },
   starred: {
     fi: 'Tähdellä merkityt',

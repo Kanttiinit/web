@@ -14,8 +14,8 @@ interface DataContext {
   menus: Resource<MenuType>;
   restaurants: Resource<RestaurantType[]>;
   updates: Resource<Update[]>;
-  markMenusPending(): void;
-  markRestaurantsPending(): void;
+  markMenusPending(pending?: boolean): void;
+  markRestaurantsPending(pending?: boolean): void;
   setAreas(promise: Promise<AreaType[]>): any;
   setFavorites(promise: Promise<FavoriteType[]>): any;
   setMenus(promise: Promise<MenuType>): any;

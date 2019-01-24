@@ -5,4 +5,5 @@ export default styled.p`
   font-weight: 300;
   opacity: 0.8;
   text-align: center;
+  width: 100%;
 `;

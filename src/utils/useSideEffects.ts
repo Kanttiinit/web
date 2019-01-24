@@ -32,96 +32,83 @@ export default (location: any, history: any) => {
   const selectedArea = useSelectedArea();
 
   // update areas and restaurants
-  useEffect(
-    () => {
-      data.setAreas(api.getAreas(lang));
-      data.setFavorites(api.getFavorites(lang));
-    },
-    [lang]
-  );
+  useEffect(() => {
+    data.setAreas(api.getAreas(lang));
+    data.setFavorites(api.getFavorites(lang));
+  }, [lang]);
 
   // update restaurants
-  useEffect(
-    () => {
-      if (selectedArea) {
-        data.markMenusPending();
-        data.setRestaurants(
-          api.getRestaurantsByIds(selectedArea.restaurants, lang)
-        );
-      }
-    },
-    [selectedArea, lang]
-  );
+  useEffect(() => {
+    if (selectedArea) {
+      data.markMenusPending();
+      data.setRestaurants(
+        api.getRestaurantsByIds(selectedArea.restaurants, lang)
+      );
+    }
+  }, [selectedArea, lang]);
 
-  useEffect(
-    () => {
-      if (
-        preferences.selectedArea === -1 &&
-        preferences.starredRestaurants.length
-      ) {
+  useEffect(() => {
+    if (preferences.selectedArea === -1) {
+      if (preferences.starredRestaurants.length) {
         data.markMenusPending();
         data.setRestaurants(
           api.getRestaurantsByIds(preferences.starredRestaurants, lang)
         );
+      } else {
+        data.setRestaurants(Promise.resolve([]));
       }
-    },
-    [preferences.selectedArea, preferences.starredRestaurants, lang]
-  );
+    }
+  }, [preferences.selectedArea, preferences.starredRestaurants, lang]);
 
-  useEffect(
-    () => {
-      if (preferences.selectedArea === -2 && ui.location) {
+  useEffect(() => {
+    if (preferences.selectedArea === -2) {
+      if (ui.location) {
         const { latitude, longitude } = ui.location;
         data.markMenusPending();
         data.setRestaurants(
           api.getRestaurantsByLocation(latitude, longitude, lang)
         );
+      } else {
+        data.setRestaurants(Promise.resolve([]));
       }
-    },
-    [preferences.selectedArea, preferences.starredRestaurants, ui.location]
-  );
+    }
+  }, [preferences.selectedArea, preferences.starredRestaurants, ui.location]);
 
   // update menus
-  useEffect(
-    () => {
-      if (data.restaurants.fulfilled) {
-        const restaurantIds = data.restaurants.data.map(
-          restaurant => restaurant.id
-        );
-        const menus = api.getMenus(restaurantIds, [ui.selectedDay], lang);
-        data.setMenus(menus);
-      }
-    },
-    [data.restaurants.data, ui.selectedDay, lang]
-  );
+  useEffect(() => {
+    if (data.restaurants.fulfilled) {
+      const restaurantIds = data.restaurants.data.map(
+        restaurant => restaurant.id
+      );
+      const menus = api.getMenus(restaurantIds, [ui.selectedDay], lang);
+      data.setMenus(menus);
+    }
+  }, [data.restaurants.data, ui.selectedDay, lang]);
 
   // update location
   const [locationWatchId, setLocationWatchId] = useState(null);
-  useEffect(
-    () => {
-      // start or stop watching for location
-      if (preferences.useLocation && !locationWatchId) {
-        setLocationWatchId(
-          navigator.geolocation.watchPosition(
-            ({ coords }) => {
-              ui.setLocation(coords);
-            },
-            error => {
-              switch (error.code) {
-                case 1:
-                  preferences.setUseLocation(false);
-              }
+  useEffect(() => {
+    // start or stop watching for location
+    if (preferences.useLocation && !locationWatchId) {
+      setLocationWatchId(
+        navigator.geolocation.watchPosition(
+          ({ coords }) => {
+            ui.setLocation(coords);
+          },
+          error => {
+            switch (error.code) {
+              case 1:
+                preferences.setUseLocation(false);
             }
-          )
-        );
-      } else if (!preferences.useLocation && locationWatchId) {
-        navigator.geolocation.clearWatch(locationWatchId);
-        setLocationWatchId(null);
-        ui.setLocation(null);
-      }
-    },
-    [preferences.useLocation]
-  );
+          }
+        )
+      );
+    } else if (!preferences.useLocation && locationWatchId) {
+      navigator.geolocation.clearWatch(locationWatchId);
+      setLocationWatchId(null);
+      ui.setLocation(null);
+    }
+  }, [preferences.useLocation]);
 
   // updates states on focus
   useEffect(() => {
@@ -159,40 +146,31 @@ export default (location: any, history: any) => {
   }, []);
 
   // listen to left and right keys
-  useEffect(
-    () => {
-      const onKeyDown = (e: KeyboardEvent) => {
-        if (e.target instanceof HTMLElement && e.target.tagName !== 'INPUT') {
-          if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-            e.preventDefault();
-            const offset = e.key === 'ArrowLeft' ? -1 : 1;
-            const newDay = addDays(ui.selectedDay, offset);
-            if (isDateInRange(newDay)) {
-              history.replace(getNewPath(newDay));
-            }
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.target instanceof HTMLElement && e.target.tagName !== 'INPUT') {
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          const offset = e.key === 'ArrowLeft' ? -1 : 1;
+          const newDay = addDays(ui.selectedDay, offset);
+          if (isDateInRange(newDay)) {
+            history.replace(getNewPath(newDay));
           }
         }
-      };
+      }
+    };
 
-      window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('keydown', onKeyDown);
 
-      return () => window.removeEventListener('keydown', onKeyDown);
-    },
-    [ui.selectedDay]
-  );
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [ui.selectedDay]);
 
-  useEffect(
-    () => {
-      ui.updateDay(window.location);
-      data.markMenusPending();
-    },
-    [location.search]
-  );
+  useEffect(() => {
+    ui.updateDay(window.location);
+    data.markMenusPending();
+  }, [location.search]);
 
-  useEffect(
-    () => {
-      pageView(location);
-    },
-    [location.pathname, location.search]
-  );
+  useEffect(() => {
+    pageView(location);
+  }, [location.pathname, location.search]);
 };

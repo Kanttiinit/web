@@ -105,7 +105,12 @@ const Course = ({ course }: { course: CourseType }) => {
       </CourseTitle>
       <PropertyContainer>
         {course.properties.map(p => (
-          <Property key={p} property={p} />
+          <Property
+            key={p}
+            highlighted={isDesiredProperty(p)}
+            dimmed={isUndesiredProperty(p)}
+            property={p}
+          />
         ))}
       </PropertyContainer>
     </CourseWrapper>

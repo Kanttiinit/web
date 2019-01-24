@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { langContext, propertyContext } from '../../contexts';
 import { properties } from '../../utils/translations';
@@ -17,10 +17,19 @@ const ClickTrap = styled.span`
   }
 `;
 
-const Container = styled(Tooltip)`
+const Container = styled(Tooltip)<{ dimmed: boolean; highlighted: boolean }>`
   padding: 0 0.4ch;
   cursor: pointer;
   position: relative;
+
+  ${props =>
+    props.highlighted &&
+    css`
+      color: var(--friendly);
+      font-weight: 500;
+    `}
+
+  ${props => props.dimmed && 'color: var(--gray4);'}
 
   &:hover {
     color: var(--accent_color);
@@ -31,13 +40,19 @@ const Container = styled(Tooltip)`
   }
 `;
 
-export default ({ property }: { property: string }) => {
+interface Props {
+  property: string;
+  highlighted: boolean;
+  dimmed: boolean;
+}
+
+export default ({ property, dimmed, highlighted }: Props) => {
   const { lang } = React.useContext(langContext);
   const { toggleProperty } = React.useContext(propertyContext);
   const prop = properties.find(p => p.key === property);
   const propName = prop ? (lang === 'fi' ? prop.name_fi : prop.name_en) : '';
   return (
-    <Container text={propName}>
+    <Container text={propName} dimmed={dimmed} highlighted={highlighted}>
       {property}
       <ClickTrap onClick={() => toggleProperty(property)} />
     </Container>

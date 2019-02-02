@@ -1,6 +1,11 @@
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import * as React from 'react';
-import { MdAccessTime, MdPlace, MdQuestionAnswer } from 'react-icons/md';
+import {
+  MdAccessTime,
+  MdError,
+  MdPlace,
+  MdQuestionAnswer
+} from 'react-icons/md';
 import styled from 'styled-components';
 
 import { langContext, preferenceContext } from '../../contexts';
@@ -46,6 +51,12 @@ const ListItem = styled(Button).attrs({ type: 'text' })`
 
   &:hover {
     background: var(--gray5);
+  }
+`;
+
+const ErrorMessage = styled.p`
+  && {
+    color: var(--hearty);
   }
 `;
 
@@ -96,7 +107,7 @@ const ReportModal = (props: Props) => {
         setError(null);
       }
     } catch (e) {
-      setError(error);
+      setError(e);
     } finally {
       setIsSending(false);
     }
@@ -125,12 +136,22 @@ const ReportModal = (props: Props) => {
         {done ? (
           <Text id="thanksForFeedback" />
         ) : activeForm ? (
-          React.createElement(activeForm.component, {
-            goBack: () => setActiveForm(null),
-            isSending,
-            restaurant: restaurant.data,
-            sendChange
-          })
+          <>
+            {React.createElement(activeForm.component, {
+              goBack: () => (setActiveForm(null), setError(null)),
+              isSending,
+              restaurant: restaurant.data,
+              sendChange
+            })}
+            {error && (
+              <ErrorMessage>
+                <InlineIcon>
+                  <MdError />
+                </InlineIcon>{' '}
+                {error.message}
+              </ErrorMessage>
+            )}
+          </>
         ) : (
           reportForms.map(form => (
             <ListItem key={form.labelId} onClick={() => setActiveForm(form)}>

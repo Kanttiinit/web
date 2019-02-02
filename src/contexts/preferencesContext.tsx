@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { langContext } from '.';
 import { getApprovedUpdates } from '../utils/api';
 import useArrayState from '../utils/useArrayState';
 import usePersistedState from '../utils/usePersistedState';
@@ -29,6 +30,7 @@ const preferenceContext = React.createContext<PreferenceContext>({} as any);
 export const PreferenceContextProvider = (props: {
   children: React.ReactNode;
 }) => {
+  const { setLang } = React.useContext(langContext);
   const [selectedArea, setSelectedArea] = usePersistedState('selectedArea', 1);
   const [useLocation, setUseLocation] = usePersistedState('location', false);
   const [order, setOrder] = usePersistedState('order', Order.AUTOMATIC);
@@ -53,6 +55,27 @@ export const PreferenceContextProvider = (props: {
       return [];
     }
   });
+
+  // migrate old preferences
+  React.useEffect(() => {
+    const oldPreferences = localStorage.getItem('preferenceStore');
+    if (oldPreferences) {
+      try {
+        const prefs = JSON.parse(oldPreferences);
+        setLang(prefs.lang);
+        setSelectedArea(prefs.selectedArea);
+        setUseLocation(prefs.useLocation);
+        setOrder(prefs.order);
+        favoritesActions.set(prefs.favorites);
+        starredRestaurantsActions.set(prefs.starredRestaurants);
+        setDarkMode(prefs.darkMode);
+        setUpdatesLastSeenAt(prefs.updatesLastSeenAt);
+        localStorage.removeItem('preferenceStore');
+      } catch (e) {
+        console.warn('Could not migrate preferences', e);
+      }
+    }
+  }, []);
 
   React.useEffect(() => {
     if (darkMode) {

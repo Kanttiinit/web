@@ -89,7 +89,8 @@ const ReportModal = (props: Props) => {
   const sendChange: FormProps['sendChange'] = async change => {
     setIsSending(true);
     try {
-      await createRestaurantChange(restaurant.data.id, change);
+      const response = await createRestaurantChange(restaurant.data.id, change);
+      preferences.addSuggestedUpdate(response.uuid);
       setDone(true);
       if (error) {
         setError(null);

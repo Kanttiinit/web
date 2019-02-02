@@ -1,6 +1,5 @@
 const webpack = require("webpack");
 const path = require("path");
-const autoprefixer = require("autoprefixer");
 const TerserPlugin = require("terser-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const pkg = require("./package.json");

@@ -1,7 +1,9 @@
 import * as React from 'react';
 
+import { getApprovedUpdates } from '../utils/api';
 import useArrayState from '../utils/useArrayState';
 import usePersistedState from '../utils/usePersistedState';
+import usePolledResource from '../utils/usePolledResource';
 import { Order } from './types';
 
 interface PreferenceContext {
@@ -13,6 +15,7 @@ interface PreferenceContext {
   starredRestaurants: number[];
   updatesLastSeenAt: number;
   setUseLocation: (state: boolean) => void;
+  addSuggestedUpdate(uuid: string): void;
   setDarkMode(state: boolean): void;
   setOrder(state: Order): void;
   setRestaurantStarred(restaurantId: number, isStarred: boolean): void;
@@ -40,20 +43,28 @@ export const PreferenceContextProvider = (props: {
     'updatesLastSeenAt',
     0
   );
-
-  React.useEffect(
-    () => {
-      if (darkMode) {
-        document.body.classList.add('dark');
-      } else {
-        document.body.classList.remove('dark');
-      }
-    },
-    [darkMode]
+  const [suggestedUpdates, suggestedUpdatesActions] = useArrayState(
+    usePersistedState<string[]>('suggestedUpdates', [])
   );
+  const approvedUpdates = usePolledResource(async () => {
+    if (suggestedUpdates.length) {
+      return getApprovedUpdates(suggestedUpdates);
+    } else {
+      return [];
+    }
+  });
+
+  React.useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }, [darkMode]);
 
   const context = React.useMemo(
     () => ({
+      addSuggestedUpdate: suggestedUpdatesActions.push,
       darkMode,
       favorites,
       order,

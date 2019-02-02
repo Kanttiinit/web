@@ -48,12 +48,9 @@ const App = () => {
   const [theme, setTheme] = React.useState(themeConstants);
   const preferences = React.useContext(preferenceContext);
 
-  React.useEffect(
-    () => {
-      setTheme({ ...theme, dark: preferences.darkMode });
-    },
-    [preferences.darkMode]
-  );
+  React.useEffect(() => {
+    setTheme({ ...theme, dark: preferences.darkMode });
+  }, [preferences.darkMode]);
 
   return (
     <ThemeProvider theme={theme}>

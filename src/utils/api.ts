@@ -81,12 +81,12 @@ export const getRestaurantsByLocation = (
 ): Promise<RestaurantType[]> =>
   http.get(`/restaurants?lang=${lang}&location=${latitude},${longitude}`);
 
-export const createRestaurantChange = (
-  restaurantId: number,
-  change: any
-) =>
+export const createRestaurantChange = (restaurantId: number, change: any) =>
   http.post('/changes', {
     change,
     modelFilter: { id: restaurantId },
     modelName: 'Restaurant'
   });
+
+export const getApprovedUpdates = (uuids: string[]) =>
+  http.get(`/changes/${uuids.join(',')}`);

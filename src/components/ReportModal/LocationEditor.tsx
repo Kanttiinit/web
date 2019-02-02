@@ -5,7 +5,6 @@ import Map from 'pigeon-maps';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { MdLocationOn } from 'react-icons/md';
 import { langContext } from '../../contexts';
 import translations from '../../utils/translations';
 import useInput from '../../utils/useInput';
@@ -22,6 +21,25 @@ const LatLngContainer = styled.div`
 
 const MapContainer = styled.div`
   height: 20rem;
+`;
+
+const CrossHair = styled.div`
+  width: 22px;
+  height: 22px;
+  border: solid 2px var(--hearty);
+  border-radius: 50%;
+
+  &::after {
+    content: ' ';
+    background: var(--hearty);
+    width: 4px;
+    height: 4px;
+    display: block;
+    position: absolute;
+    top: 11px;
+    left: 11px;
+    border-radius: 50%;
+  }
 `;
 
 export default (props: FormProps) => {
@@ -49,12 +67,12 @@ export default (props: FormProps) => {
         <Map defaultZoom={14} center={[latitude, longitude]}>
           <Draggable
             anchor={[latitude, longitude]}
-            offset={[12, 24]}
+            offset={[12, 12]}
             onDragEnd={(anchor: [number, number]) => (
               setLatitude(anchor[0]), setLongitude(anchor[1])
             )}
           >
-            <MdLocationOn style={{ display: 'block' }} size={24} />
+            <CrossHair />
           </Draggable>
         </Map>
       </MapContainer>

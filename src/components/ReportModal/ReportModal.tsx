@@ -30,6 +30,8 @@ export interface FormProps {
   isSending: boolean;
   goBack(): void;
   sendChange(change: any): void;
+  setError(error?: Error): void;
+  setDone(): void;
 }
 
 const ListItem = styled(Button).attrs({ type: 'text' })`
@@ -141,7 +143,9 @@ const ReportModal = (props: Props) => {
               goBack: () => (setActiveForm(null), setError(null)),
               isSending,
               restaurant: restaurant.data,
-              sendChange
+              sendChange,
+              setDone,
+              setError
             })}
             {error && (
               <ErrorMessage>

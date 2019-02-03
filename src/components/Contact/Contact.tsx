@@ -5,7 +5,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { preferenceContext } from '../../contexts';
-import feedbackProvider, { FeedbackProps } from '../feedbackProvider';
+import useFeedback from '../../utils/useFeedback';
 import PageContainer from '../PageContainer';
 import Text from '../Text';
 
@@ -13,15 +13,15 @@ const Field: any = styled(TextField)`
   margin-bottom: 1em !important;
 `;
 
-const Contact = (props: FeedbackProps) => {
+const Contact = () => {
   const preferences = React.useContext(preferenceContext);
-  const { sending, sent } = props.feedbackState;
+  const { sending, sent, send } = useFeedback();
 
-  const onSubmit = React.useCallback((e: any) => {
+  const onSubmit = (e: any) => {
     e.preventDefault();
     const [email, message] = e.target.elements;
-    props.onSubmitFeedback(`Email: ${email.value}\n"${message.value}"`);
-  }, []);
+    send(`Email: ${email.value}\n"${message.value}"`);
+  };
 
   return (
     <MuiThemeProvider
@@ -70,4 +70,4 @@ const Contact = (props: FeedbackProps) => {
   );
 };
 
-export default feedbackProvider(Contact);
+export default Contact;

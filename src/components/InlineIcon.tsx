@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 export default styled(
-  (props: { className?: string; children: React.ReactNode }) => {
+  (props: { className?: string; children: React.ReactElement<any, any> }) => {
     return React.cloneElement(React.Children.only(props.children), {
       className: props.className
     });

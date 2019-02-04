@@ -6,13 +6,18 @@ interface Props extends RouteComponentProps<any> {
   className?: string;
   style?: any;
   children: any;
+  'aria-label'?: any;
 }
 
-export default withRouter(({ to, children, location, className, style }: Props) => (
-  <Link
-    className={className}
-    style={style}
-    to={{ pathname: to, search: location.search }}>
-    {children}
-  </Link>
-));
+export default withRouter(
+  ({ to, children, location, className, style, ...rest }: Props) => (
+    <Link
+      className={className}
+      style={style}
+      to={{ pathname: to, search: location.search }}
+      aria-label={rest['aria-label']}
+    >
+      {children}
+    </Link>
+  )
+);

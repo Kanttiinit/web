@@ -99,9 +99,10 @@ const RestaurantName = styled.h2<{ noCourses?: boolean; isClosed?: boolean }>`
 `;
 
 const RestaurantMeta = styled.div`
-  color: var(--gray3);
+  color: var(--gray2);
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 500;
+  text-align: right;
 
   @media (max-width: ${props => props.theme.breakSmall}) {
     font-size: 0.7rem;
@@ -130,6 +131,7 @@ const actionLinkStyles = css`
 
   &:hover,
   &:focus {
+    outline: none;
     color: var(--accent_color);
   }
 `;
@@ -210,18 +212,30 @@ const Restaurant = (props: Props) => {
       </Header>
       <StyledCourseList courses={restaurant.courses} />
       <ActionsContainer>
-        <StyledActionLink to={`/report/${restaurant.id}`}>
+        <StyledActionLink
+          aria-label={`Fix information about ${restaurant.name}`}
+          to={`/report/${restaurant.id}`}
+        >
           <MdEdit size={18} />
         </StyledActionLink>
         <RightActions>
           <StyledNativeActionLink
+            aria-label={
+              restaurant.isStarred
+                ? `Star ${restaurant.name}`
+                : `Unstar ${restaurant.name}`
+            }
             onClick={toggleStar}
             color={restaurant.isStarred ? '#FFA726' : undefined}
+            tabIndex={0}
           >
             <MdStar size={18} />
           </StyledNativeActionLink>
           &nbsp;
-          <StyledActionLink to={`/restaurant/${restaurant.id}`}>
+          <StyledActionLink
+            aria-label={`More information about ${restaurant.name}`}
+            to={`/restaurant/${restaurant.id}`}
+          >
             <MdMoreVert size={18} />
           </StyledActionLink>
         </RightActions>

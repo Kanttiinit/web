@@ -37,6 +37,7 @@ const StyledLink = styled(({ activeLink, ...props }) => <Link {...props} />)<{
     color: var(--gray3);
     padding: 1.25em 2em 1.25em 0;
     transition: color 0.2s;
+    font-weight: 500;
 
     &:first-child {
       margin-left: 0;
@@ -44,7 +45,7 @@ const StyledLink = styled(({ activeLink, ...props }) => <Link {...props} />)<{
 
     &:focus {
       outline: none;
-      color: var(--gray1);
+      color: var(--accent_color);
     }
 
     &:hover {

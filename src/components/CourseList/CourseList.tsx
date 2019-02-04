@@ -130,9 +130,10 @@ const Group = styled.div`
 
 const GroupTitle = styled.span`
   display: block;
-  color: var(--gray3);
+  color: var(--gray2);
   margin-bottom: 0.2rem;
   font-size: 0.8em;
+  font-weight: 500;
 `;
 
 const EmptyText = styled(Text).attrs({ id: 'noMenu', element: 'span' })`

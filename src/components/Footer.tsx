@@ -20,13 +20,14 @@ const Footer = styled.footer`
 
 const StyledNavLink = styled(Link)`
   && {
-    color: var(--gray3);
+    color: var(--gray2);
     text-transform: uppercase;
     margin: 0 0.5rem;
     text-decoration: none;
     vertical-align: middle;
     border-bottom: solid 1px transparent;
     padding-bottom: 0.25rem;
+    font-weight: 500;
 
     &.current {
       border-color: var(--accent_color);
@@ -34,6 +35,11 @@ const StyledNavLink = styled(Link)`
     }
 
     &:hover {
+      color: var(--accent_color);
+    }
+
+    &:focus {
+      outline: none;
       color: var(--accent_color);
     }
 
@@ -62,6 +68,17 @@ const NavigationContainer = styled.div`
   text-align: left;
 `;
 
+const VersionLink = styled.a`
+  && {
+    font-weight: 500;
+    color: var(--gray2);
+
+    &:hover {
+      color: var(--accent_color);
+    }
+  }
+`;
+
 export default () => (
   <Footer>
     <NavigationContainer>
@@ -86,8 +103,8 @@ export default () => (
         )}
       </nav>
     </NavigationContainer>
-    <a href="https://github.com/Kanttiinit/web" target="_blank">
+    <VersionLink href="https://github.com/Kanttiinit/web" target="_blank">
       {version}
-    </a>
+    </VersionLink>
   </Footer>
 );

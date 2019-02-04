@@ -85,6 +85,7 @@ const Area = ({
 }) => (
   <AreaWrapper>
     <AreaButton
+      onKeyDown={e => e.key === 'Enter' && selectArea(area.id)}
       onMouseUp={() => selectArea(area.id)}
       selected={selectedAreaId === area.id}
     >

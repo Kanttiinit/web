@@ -103,6 +103,13 @@ const iconLinkStyles = css`
     color: var(--accent_color);
   }
 
+  &:focus {
+    img,
+    svg {
+      transform: scale(1.1);
+    }
+  }
+
   svg {
     display: none;
   }
@@ -195,19 +202,27 @@ const TopBar = () => {
           <NativeIconLink
             ref={areaSelectorLink}
             onMouseDown={toggleAreaSelector}
+            tabIndex={0}
+            onKeyDown={e => e.key === 'Enter' && toggleAreaSelector()}
           >
             <MdMap size={18} />
             <Text id="selectArea" />
           </NativeIconLink>
           <AreaSelectorContainer isOpen={areaSelectorOpen}>
-            <AreaSelector onAreaSelected={toggleAreaSelector} />
+            {areaSelectorOpen && (
+              <AreaSelector onAreaSelected={toggleAreaSelector} />
+            )}
           </AreaSelectorContainer>
         </AreaSelectorButton>
-        <IconLink to="/settings">
+        <IconLink to="/settings" aria-label="Settings">
           <MdSettings size={18} />
           <Text id="settings" />
         </IconLink>
-        <NativeIconLink onClick={toggleLang}>
+        <NativeIconLink
+          tabIndex={0}
+          onClick={toggleLang}
+          onKeyDown={e => e.key === 'Enter' && toggleLang()}
+        >
           <img
             height={18}
             alt={lang.toUpperCase()}

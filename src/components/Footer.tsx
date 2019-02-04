@@ -97,13 +97,17 @@ export default () => (
           <Text id="termsOfService" />
         </StyledNavLink>
         {!isBeta && (
-          <a href="https://beta.kanttiinit.fi/" target="_blank">
+          <a href="https://beta.kanttiinit.fi/" rel="noopener" target="_blank">
             Beta
           </a>
         )}
       </nav>
     </NavigationContainer>
-    <VersionLink href="https://github.com/Kanttiinit/web" target="_blank">
+    <VersionLink
+      href="https://github.com/Kanttiinit/web"
+      rel="noopener"
+      target="_blank"
+    >
       {version}
     </VersionLink>
   </Footer>

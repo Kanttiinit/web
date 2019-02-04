@@ -59,7 +59,8 @@ const MetaLink = styled.a`
   margin: 0 0.5em 0.5em 0;
   transition: background 0.2s;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     background: var(--gray5);
   }
 
@@ -121,12 +122,9 @@ const RestaurantModal = (props: Props) => {
     setRestaurant(rest);
   }
 
-  React.useEffect(
-    () => {
-      fetchRestaurant();
-    },
-    [props.restaurantId]
-  );
+  React.useEffect(() => {
+    fetchRestaurant();
+  }, [props.restaurantId]);
 
   if (notFound) {
     return <PageContainer title={<Text id="restaurantNotFound" />} />;
@@ -142,6 +140,7 @@ const RestaurantModal = (props: Props) => {
             href={`https://maps.google.com/?q=${encodeURIComponent(
               restaurant.address
             )}`}
+            rel="noopener"
             target="_blank"
           >
             <InlineIcon>

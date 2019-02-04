@@ -103,7 +103,15 @@ export const PreferenceContextProvider = (props: {
       updatesLastSeenAt,
       useLocation
     }),
-    [useLocation, selectedArea, darkMode, favorites, order, starredRestaurants]
+    [
+      useLocation,
+      updatesLastSeenAt,
+      selectedArea,
+      darkMode,
+      favorites,
+      order,
+      starredRestaurants
+    ]
   );
 
   return (

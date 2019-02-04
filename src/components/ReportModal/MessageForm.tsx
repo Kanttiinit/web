@@ -23,7 +23,7 @@ export default (props: FormProps) => {
 
   React.useEffect(() => {
     if (sent) {
-      props.setDone();
+      props.setDone(true);
     }
   }, [sent]);
 

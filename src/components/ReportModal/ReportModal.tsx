@@ -31,7 +31,7 @@ export interface FormProps {
   goBack(): void;
   sendChange(change: any): void;
   setError(error?: Error): void;
-  setDone(): void;
+  setDone(isDone: boolean): void;
 }
 
 const ListItem = styled(Button).attrs({ type: 'text' })`

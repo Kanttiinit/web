@@ -24,26 +24,26 @@ export const useSelectedFavorites = () => {
   const { favorites } = React.useContext(dataContext);
   const preferences = React.useContext(preferenceContext);
 
-  return React.useMemo(
-    () => {
-      if (favorites.fulfilled) {
-        return favorites.data.filter(
-          ({ id }) => preferences.favorites.indexOf(id) > -1
-        );
-      }
-      return [];
-    },
-    [favorites.data, preferences.favorites]
-  );
+  return React.useMemo(() => {
+    if (favorites.fulfilled) {
+      return favorites.data.filter(
+        ({ id }) => preferences.favorites.indexOf(id) > -1
+      );
+    }
+    return [];
+  }, [favorites.data, preferences.favorites]);
 };
 
 export const useIsFavorite = () => {
   const selectedFavorites = useSelectedFavorites();
 
-  return (course: CourseType) =>
-    selectedFavorites.some(
-      favorite => !!course.title.match(new RegExp(favorite.regexp, 'i'))
-    );
+  return React.useCallback(
+    (course: CourseType) =>
+      selectedFavorites.some(
+        favorite => !!course.title.match(new RegExp(favorite.regexp, 'i'))
+      ),
+    [selectedFavorites]
+  );
 };
 
 export const useUnseenUpdates = () => {
@@ -52,6 +52,7 @@ export const useUnseenUpdates = () => {
   if (!preferences.updatesLastSeenAt) {
     return [];
   }
+
   return updates.data.filter(
     update => parse(update.createdAt).getTime() > preferences.updatesLastSeenAt
   );
@@ -59,29 +60,24 @@ export const useUnseenUpdates = () => {
 
 export const useSelectedArea = () => {
   const { areas } = React.useContext(dataContext);
-  const {selectedArea} = React.useContext(preferenceContext);
+  const { selectedArea } = React.useContext(preferenceContext);
 
-  return React.useMemo(
-    () => areas.data.find(a => a.id === selectedArea),
-    [areas.data, selectedArea]
-  );
+  return React.useMemo(() => areas.data.find(a => a.id === selectedArea), [
+    areas.data,
+    selectedArea
+  ]);
 };
 
 export const useFormattedFavorites: () => FormattedFavoriteType[] = () => {
   const { favorites } = React.useContext(dataContext);
   const preferences = React.useContext(preferenceContext);
 
-  return React.useMemo(
-    () => {
-      return orderBy(favorites.data, ['name']).map(
-        (favorite: FavoriteType) => ({
-          ...favorite,
-          isSelected: preferences.favorites.indexOf(favorite.id) > -1
-        })
-      );
-    },
-    [favorites.data, preferences.favorites]
-  );
+  return React.useMemo(() => {
+    return orderBy(favorites.data, ['name']).map((favorite: FavoriteType) => ({
+      ...favorite,
+      isSelected: preferences.favorites.indexOf(favorite.id) > -1
+    }));
+  }, [favorites.data, preferences.favorites]);
 };
 
 const parseTimeOfDay = (input: string) => {
@@ -133,42 +129,39 @@ export const useFormattedRestaurants: () => RestaurantType[] = () => {
   const preferences = React.useContext(preferenceContext);
   const isFavorite = useIsFavorite();
 
-  const formattedRestaurants = React.useMemo(
-    () => {
-      const day = ui.selectedDay;
-      const restaurants = data.restaurants.data.map(restaurant => {
-        const courses = get(
-          data.menus.data,
-          [restaurant.id, format(day, 'YYYY-MM-DD')],
-          []
-        ).filter((course: CourseType) => course.title);
-        const distance =
-          ui.location && haversine(ui.location, restaurant, { unit: 'meter' });
-        return {
-          ...restaurant,
-          courses,
-          distance,
-          favoriteCourses: courses.some(isFavorite),
-          isOpenNow: isOpenNow(restaurant, day),
-          isStarred: preferences.starredRestaurants.indexOf(restaurant.id) > -1,
-          noCourses: !courses.length
-        };
-      });
+  const formattedRestaurants = React.useMemo(() => {
+    const day = ui.selectedDay;
+    const restaurants = data.restaurants.data.map(restaurant => {
+      const courses = get(
+        data.menus.data,
+        [restaurant.id, format(day, 'YYYY-MM-DD')],
+        []
+      ).filter((course: CourseType) => course.title);
+      const distance =
+        ui.location && haversine(ui.location, restaurant, { unit: 'meter' });
+      return {
+        ...restaurant,
+        courses,
+        distance,
+        favoriteCourses: courses.some(isFavorite),
+        isOpenNow: isOpenNow(restaurant, day),
+        isStarred: preferences.starredRestaurants.indexOf(restaurant.id) > -1,
+        noCourses: !courses.length
+      };
+    });
 
-      const order = getOrder(preferences.order, preferences.useLocation);
-      return orderBy(restaurants, order.properties, order.orders);
-    },
-    [
-      ui.selectedDay,
-      ui.location,
-      data.restaurants.data,
-      data.menus.data,
-      preferences.favorites,
-      preferences.starredRestaurants,
-      preferences.order,
-      preferences.useLocation
-    ]
-  );
+    const order = getOrder(preferences.order, preferences.useLocation);
+    return orderBy(restaurants, order.properties, order.orders);
+  }, [
+    ui.selectedDay,
+    ui.location,
+    data.restaurants.data,
+    data.menus.data,
+    preferences.favorites,
+    preferences.starredRestaurants,
+    preferences.order,
+    preferences.useLocation
+  ]);
 
   return formattedRestaurants;
 };

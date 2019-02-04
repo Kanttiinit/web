@@ -9,6 +9,7 @@ import { langContext } from '../../contexts';
 import { useUnseenUpdates } from '../../utils/hooks';
 import AreaSelector from '../AreaSelector';
 import DaySelector from '../DaySelector';
+import InlineIcon from '../InlineIcon';
 import Link from '../Link';
 import Text from '../Text';
 
@@ -134,61 +135,60 @@ const TopBar = () => {
   const closeAreaSelector = () =>
     areaSelectorOpen && setAreaSelectorOpen(false);
 
-  React.useEffect(
-    () => {
-      if (areaSelectorLink) {
-        const touchStart = (e: TouchEvent) => {
-          e.preventDefault();
-          toggleAreaSelector();
-        };
+  React.useEffect(() => {
+    if (areaSelectorLink) {
+      const touchStart = (e: TouchEvent) => {
+        e.preventDefault();
+        toggleAreaSelector();
+      };
 
-        const touchMove = (event: TouchEvent) => {
-          event.preventDefault();
-          const target = document.elementFromPoint(
-            event.touches[0].pageX,
-            event.touches[0].pageY
+      const touchMove = (event: TouchEvent) => {
+        event.preventDefault();
+        const target = document.elementFromPoint(
+          event.touches[0].pageX,
+          event.touches[0].pageY
+        );
+        if (target instanceof HTMLButtonElement) {
+          target.focus();
+        }
+      };
+
+      const touchEnd = (event: TouchEvent) => {
+        const endTarget = document.elementFromPoint(
+          event.changedTouches[0].pageX,
+          event.changedTouches[0].pageY
+        );
+        if (endTarget instanceof HTMLElement) {
+          endTarget.dispatchEvent(
+            new MouseEvent('mouseup', {
+              bubbles: true
+            })
           );
-          if (target instanceof HTMLButtonElement) {
-            target.focus();
-          }
-        };
+        }
+      };
 
-        const touchEnd = (event: TouchEvent) => {
-          const endTarget = document.elementFromPoint(
-            event.changedTouches[0].pageX,
-            event.changedTouches[0].pageY
-          );
-          if (endTarget instanceof HTMLElement) {
-            endTarget.dispatchEvent(
-              new MouseEvent('mouseup', {
-                bubbles: true
-              })
-            );
-          }
-        };
+      const element = areaSelectorLink.current;
 
-        const element = areaSelectorLink.current;
+      element.addEventListener('touchstart', touchStart, { passive: false });
+      element.addEventListener('touchmove', touchMove, { passive: false });
+      element.addEventListener('touchend', touchEnd);
 
-        element.addEventListener('touchstart', touchStart, { passive: false });
-        element.addEventListener('touchmove', touchMove, { passive: false });
-        element.addEventListener('touchend', touchEnd);
-
-        return () => {
-          element.removeEventListener('touchstart', touchStart);
-          element.removeEventListener('touchmove', touchMove);
-          element.removeEventListener('touchend', touchEnd);
-        };
-      }
-    },
-    [areaSelectorLink.current]
-  );
+      return () => {
+        element.removeEventListener('touchstart', touchStart);
+        element.removeEventListener('touchmove', touchMove);
+        element.removeEventListener('touchend', touchEnd);
+      };
+    }
+  }, [areaSelectorLink.current]);
   return (
     <Container>
       <Content>
         <DaySelector root="/" />
         {unseenUpdates.length > 0 && (
           <Link to="/news">
-            <NewsIcon size={24} />
+            <InlineIcon>
+              <NewsIcon size={24} />
+            </InlineIcon>
           </Link>
         )}
         <AreaSelectorButton onClickOutside={closeAreaSelector}>

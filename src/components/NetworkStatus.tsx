@@ -2,7 +2,7 @@ import * as React from 'react';
 import { MdErrorOutline } from 'react-icons/md';
 import styled from 'styled-components';
 
-import Text from './Text';
+import { useTranslations } from '../utils/hooks';
 
 const Container = styled.div<{ online: boolean }>`
   background: rgb(255, 222, 148);
@@ -28,6 +28,7 @@ const Container = styled.div<{ online: boolean }>`
 
 const NetworkStatus = () => {
   const [isOnline, setIsOnline] = React.useState(true);
+  const translations = useTranslations();
 
   React.useEffect(() => {
     const updateNetworkStatus = () => {
@@ -45,7 +46,7 @@ const NetworkStatus = () => {
     <Container online={isOnline}>
       <MdErrorOutline />
       &nbsp;
-      <Text id="offline" />
+      {translations.offline}
     </Container>
   );
 };

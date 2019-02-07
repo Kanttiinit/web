@@ -7,8 +7,9 @@ import styled, { css } from 'styled-components';
 import { MdDirectionsWalk, MdStar } from 'react-icons/md';
 import { dataContext, preferenceContext } from '../../contexts';
 import { AreaType } from '../../contexts/types';
+import { useTranslations } from '../../utils/hooks';
+import allTranslations from '../../utils/translations';
 import Button from '../Button';
-import Text from '../Text';
 
 const iconStyles = css`
   margin-right: 0.5ch;
@@ -25,27 +26,20 @@ const StarIcon = styled(MdStar)`
 
 interface SpecialArea {
   id: -1 | -2;
-  name: React.ReactNode;
+  icon: React.ReactNode;
+  translationKey: keyof typeof allTranslations;
 }
 
 const specialAreas: SpecialArea[] = [
   {
+    icon: <WalkIcon />,
     id: -2,
-    name: (
-      <React.Fragment>
-        <WalkIcon />
-        <Text id="nearby" />
-      </React.Fragment>
-    )
+    translationKey: 'nearby'
   },
   {
+    icon: <StarIcon />,
     id: -1,
-    name: (
-      <React.Fragment>
-        <StarIcon />
-        <Text id="starred" />
-      </React.Fragment>
-    )
+    translationKey: 'starred'
   }
 ];
 
@@ -79,7 +73,7 @@ const Area = ({
   selectArea,
   selectedAreaId
 }: {
-  area: AreaType | SpecialArea;
+  area: { label: React.ReactNode; id: number };
   selectedAreaId: number;
   selectArea: (id: number) => void;
 }) => (
@@ -89,7 +83,7 @@ const Area = ({
       onMouseUp={() => selectArea(area.id)}
       selected={selectedAreaId === area.id}
     >
-      {area.name}
+      {area.label}
     </AreaButton>
   </AreaWrapper>
 );
@@ -108,6 +102,7 @@ const Container = styled.div`
 `;
 
 const AreaSelector = (props: Props & RouteComponentProps<any>) => {
+  const translations = useTranslations();
   const data = React.useContext(dataContext);
   const preferences = React.useContext(preferenceContext);
 
@@ -125,7 +120,15 @@ const AreaSelector = (props: Props & RouteComponentProps<any>) => {
           key={area.id}
           selectedAreaId={preferences.selectedArea}
           selectArea={selectArea}
-          area={area}
+          area={{
+            id: area.id,
+            label: (
+              <>
+                {area.icon}
+                {translations[area.translationKey]}
+              </>
+            )
+          }}
         />
       ))}
       {sortBy(data.areas.data, 'name').map((area: AreaType) => (
@@ -133,7 +136,10 @@ const AreaSelector = (props: Props & RouteComponentProps<any>) => {
           key={area.id}
           selectedAreaId={preferences.selectedArea}
           selectArea={selectArea}
-          area={area}
+          area={{
+            id: area.id,
+            label: area.name
+          }}
         />
       ))}
     </Container>

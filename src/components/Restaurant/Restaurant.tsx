@@ -13,14 +13,15 @@ import styled, { css } from 'styled-components';
 
 import { preferenceContext, uiContext } from '../../contexts';
 import { RestaurantType } from '../../contexts/types';
+import { useTranslations } from '../../utils/hooks';
 import Colon from '../Colon';
 import CourseList from '../CourseList';
 import InlineIcon from '../InlineIcon';
 import Link from '../Link';
-import Text from '../Text';
 
 const Distance = ({ distance }: { distance: number }) => {
   const kilometers = distance > 1500;
+  const translations = useTranslations();
   return (
     <RestaurantMeta style={{ fontWeight: 400 }}>
       <InlineIcon>
@@ -32,15 +33,13 @@ const Distance = ({ distance }: { distance: number }) => {
           <MdDirectionsWalk />
         )}
       </InlineIcon>
-      {!distance ? (
-        <Text id="locating" />
-      ) : kilometers ? (
-        parseFloat(String(distance / 1000)).toFixed(1)
-      ) : (
-        Math.round(distance)
-      )}
+      {!distance
+        ? translations.locating
+        : kilometers
+        ? parseFloat(String(distance / 1000)).toFixed(1)
+        : Math.round(distance)}
       &nbsp;
-      {distance && <Text id={kilometers ? 'kilometers' : 'meters'} />}
+      {distance && (kilometers ? translations.kilometers : translations.meters)}
     </RestaurantMeta>
   );
 };
@@ -162,10 +161,7 @@ const StyledCourseList = styled(CourseList)<{ noCourses?: boolean }>`
   ${props => props.noCourses && 'var(--gray3)'}
 `;
 
-const ClosedText = styled(Text).attrs({
-  element: 'small',
-  id: 'restaurantClosed'
-})`
+const ClosedText = styled.small`
   font-size: 0.8rem;
 `;
 
@@ -175,6 +171,7 @@ interface Props {
 
 const Restaurant = (props: Props) => {
   const ui = React.useContext(uiContext);
+  const translations = useTranslations();
   const preferences = React.useContext(preferenceContext);
   const { restaurant } = props;
 
@@ -207,7 +204,7 @@ const Restaurant = (props: Props) => {
               <br />
             </React.Fragment>
           )}
-          {isClosed && <ClosedText />}
+          {isClosed && <ClosedText>{translations.restaurantClosed}</ClosedText>}
         </RestaurantMeta>
       </Header>
       <StyledCourseList courses={restaurant.courses} />

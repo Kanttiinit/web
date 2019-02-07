@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import Text from './Text';
 const logo = require('../assets/logo_48.png');
 import { isBeta, version } from '../utils/consts';
+import { useTranslations } from '../utils/hooks';
 import Link from './Link';
 
 const Footer = styled.footer`
@@ -79,36 +79,39 @@ const VersionLink = styled.a`
   }
 `;
 
-export default () => (
-  <Footer>
-    <NavigationContainer>
-      <LogoImage src={logo} />
-      <nav>
-        <StyledNavLink to="/contact">
-          <Text id="contact" />
-        </StyledNavLink>
-        <StyledNavLink to="/clients">
-          <Text id="otherClients" />
-        </StyledNavLink>
-        <StyledNavLink to="/news">
-          <Text id="updates" />
-        </StyledNavLink>
-        <StyledNavLink to="/terms-of-service">
-          <Text id="termsOfService" />
-        </StyledNavLink>
-        {!isBeta && (
-          <a href="https://beta.kanttiinit.fi/" rel="noopener" target="_blank">
-            Beta
-          </a>
-        )}
-      </nav>
-    </NavigationContainer>
-    <VersionLink
-      href="https://github.com/Kanttiinit/web"
-      rel="noopener"
-      target="_blank"
-    >
-      {version}
-    </VersionLink>
-  </Footer>
-);
+export default () => {
+  const translations = useTranslations();
+  return (
+    <Footer>
+      <NavigationContainer>
+        <LogoImage src={logo} />
+        <nav>
+          <StyledNavLink to="/contact">{translations.contact}</StyledNavLink>
+          <StyledNavLink to="/clients">
+            {translations.otherClients}
+          </StyledNavLink>
+          <StyledNavLink to="/news">{translations.updates}</StyledNavLink>
+          <StyledNavLink to="/terms-of-service">
+            {translations.termsOfService}
+          </StyledNavLink>
+          {!isBeta && (
+            <a
+              href="https://beta.kanttiinit.fi/"
+              rel="noopener"
+              target="_blank"
+            >
+              Beta
+            </a>
+          )}
+        </nav>
+      </NavigationContainer>
+      <VersionLink
+        href="https://github.com/Kanttiinit/web"
+        rel="noopener"
+        target="_blank"
+      >
+        {version}
+      </VersionLink>
+    </Footer>
+  );
+};

@@ -7,10 +7,10 @@ import styled from 'styled-components';
 import { dataContext, langContext, uiContext } from '../../contexts';
 import { RestaurantType } from '../../contexts/types';
 import * as api from '../../utils/api';
+import { useFormatDate, useTranslations } from '../../utils/hooks';
 import InlineIcon from '../InlineIcon';
 import MenuViewer from '../MenuViewer';
 import PageContainer from '../PageContainer';
-import Text from '../Text';
 import Map from './Map';
 
 function getOpeningHourString(hours: string[]) {
@@ -103,6 +103,8 @@ interface Props {
 const RestaurantModal = (props: Props) => {
   const data = React.useContext(dataContext);
   const { lang } = React.useContext(langContext);
+  const translations = useTranslations();
+  const formatDate = useFormatDate();
   const ui = React.useContext(uiContext);
   const [restaurant, setRestaurant] = React.useState<RestaurantType>(null);
   const [notFound, setNotFound] = React.useState(false);
@@ -127,7 +129,7 @@ const RestaurantModal = (props: Props) => {
   }, [props.restaurantId]);
 
   if (notFound) {
-    return <PageContainer title={<Text id="restaurantNotFound" />} />;
+    return <PageContainer title={translations.restaurantNotFound} />;
   }
   if (!restaurant) {
     return null;
@@ -152,29 +154,23 @@ const RestaurantModal = (props: Props) => {
             <InlineIcon>
               <MdHome />
             </InlineIcon>
-            <Text id="homepage" />
+            {translations.homepage}
           </MetaLink>
         </LinkContainer>
         <OpeningHoursContainer>
           {getOpeningHourString(restaurant.openingHours).map(hours => (
             <OpeningHoursRow key={hours.startDay}>
               <OpeningHoursDay>
-                <Text
-                  dateFormat="ddd"
-                  date={setIsoDay(new Date(), hours.startDay + 1)}
-                />
+                {formatDate(setIsoDay(new Date(), hours.startDay + 1), 'ddd')}
                 {hours.endDay && (
                   <span>
                     &nbsp;&ndash;&nbsp;
-                    <Text
-                      dateFormat="ddd"
-                      date={setIsoDay(new Date(), hours.endDay + 1)}
-                    />
+                    {formatDate(setIsoDay(new Date(), hours.endDay + 1), 'ddd')}
                   </span>
                 )}
               </OpeningHoursDay>
               <OpeningHoursTime>
-                {hours.hour.replace('-', '–') || <Text id="closed" />}
+                {hours.hour.replace('-', '–') || translations.closed}
               </OpeningHoursTime>
             </OpeningHoursRow>
           ))}

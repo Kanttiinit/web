@@ -5,11 +5,10 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import snarkdown from 'snarkdown';
 import styled from 'styled-components';
 
-import { dataContext, preferenceContext } from '../../contexts';
+import { dataContext, langContext, preferenceContext } from '../../contexts';
 import { Update } from '../../contexts/types';
-import { useUnseenUpdates } from '../../utils/hooks';
+import { useTranslations, useUnseenUpdates } from '../../utils/hooks';
 import PageContainer from '../PageContainer';
-import Text from '../Text';
 
 const UpdateWrapper = styled.div`
   margin-bottom: 0.5em;
@@ -61,6 +60,7 @@ const ArrowDownIcon = styled(({ isVisible, ...props }) => (
 
 const ChangeLog = () => {
   const data = React.useContext(dataContext);
+  const translations = useTranslations();
   const preferences = React.useContext(preferenceContext);
   const unseenUpdates = useUnseenUpdates();
   const [visibleItems, setVisibleItems] = React.useState(
@@ -83,7 +83,7 @@ const ChangeLog = () => {
   }, []);
 
   return (
-    <PageContainer title={<Text id="updates" />}>
+    <PageContainer title={translations.updates}>
       {data.updates.pending ? (
         <p>Loading...</p>
       ) : (

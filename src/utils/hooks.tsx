@@ -2,16 +2,22 @@ import * as format from 'date-fns/format';
 import * as getIsoDay from 'date-fns/get_iso_day';
 import * as isAfter from 'date-fns/is_after';
 import * as isBefore from 'date-fns/is_before';
+import * as enLocale from 'date-fns/locale/en';
+import * as fiLocale from 'date-fns/locale/fi';
 import * as parse from 'date-fns/parse';
 import * as setHours from 'date-fns/set_hours';
 import * as setMinutes from 'date-fns/set_minutes';
 import * as haversine from 'haversine';
 import * as get from 'lodash/get';
 import * as orderBy from 'lodash/orderBy';
-
 import * as React from 'react';
 
-import { dataContext, preferenceContext, uiContext } from '../contexts';
+import {
+  dataContext,
+  langContext,
+  preferenceContext,
+  uiContext
+} from '../contexts';
 import {
   CourseType,
   FavoriteType,
@@ -19,6 +25,7 @@ import {
   Order,
   RestaurantType
 } from '../contexts/types';
+import translations from './translations';
 
 export const useSelectedFavorites = () => {
   const { favorites } = React.useContext(dataContext);
@@ -164,4 +171,32 @@ export const useFormattedRestaurants: () => RestaurantType[] = () => {
   ]);
 
   return formattedRestaurants;
+};
+
+type TranslatedDict = { [t in keyof typeof translations]: string };
+
+export const useTranslations = () => {
+  const { lang } = React.useContext(langContext);
+  return React.useMemo(
+    () =>
+      Object.keys(translations).reduce<any>((t, key) => {
+        t[key] = (translations as any)[key][lang];
+        return t;
+      }, {}) as TranslatedDict,
+    [lang]
+  );
+};
+
+const locales = {
+  en: enLocale,
+  fi: fiLocale
+};
+
+export const useFormatDate = () => {
+  const { lang } = React.useContext(langContext);
+  return React.useMemo(
+    () => (date: Date, dateFormat: string) =>
+      format(date, dateFormat, { locale: locales[lang] }),
+    [lang]
+  );
 };

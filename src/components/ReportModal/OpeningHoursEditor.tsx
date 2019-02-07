@@ -11,8 +11,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { langContext } from '../../contexts';
 import { Lang } from '../../contexts/types';
-import translations from '../../utils/translations';
-import Text from '../Text';
+import { useTranslations } from '../../utils/hooks';
 import Tooltip from '../Tooltip';
 import { FormProps } from './ReportModal';
 
@@ -29,6 +28,7 @@ const getWeekDayLabel = (index: number, lang: Lang) =>
 
 export default (props: FormProps) => {
   const { lang } = React.useContext(langContext);
+  const translations = useTranslations();
 
   const [openingHours, setOpeningHours] = React.useState<
     Array<string[] | null[]>
@@ -94,7 +94,7 @@ export default (props: FormProps) => {
               checked={!isClosed}
             />
             <TextField
-              label={`${weekDayLabel}, ${translations.openingTime[lang]}`}
+              label={`${weekDayLabel}, ${translations.openingTime}`}
               style={{ margin: 4 }}
               fullWidth
               margin="dense"
@@ -105,11 +105,11 @@ export default (props: FormProps) => {
               InputLabelProps={{
                 shrink: true
               }}
-              value={isClosed ? translations.closed[lang] : open}
+              value={isClosed ? translations.closed : open}
               onChange={createDayTimeChanger(i, 0)}
             />
             <TextField
-              label={`${weekDayLabel}, ${translations.closingTime[lang]}`}
+              label={`${weekDayLabel}, ${translations.closingTime}`}
               style={{ margin: 4 }}
               fullWidth
               margin="dense"
@@ -120,7 +120,7 @@ export default (props: FormProps) => {
               InputLabelProps={{
                 shrink: true
               }}
-              value={isClosed ? translations.closed[lang] : close}
+              value={isClosed ? translations.closed : close}
               onChange={createDayTimeChanger(i, 1)}
             />
             <Tooltip translationKey="copyFromPreviousDay">
@@ -142,10 +142,10 @@ export default (props: FormProps) => {
         variant="contained"
         color="primary"
       >
-        <Text id="send" />
+        {translations.send}
       </Button>{' '}
       <Button variant="contained" onClick={props.goBack}>
-        <Text id="back" />
+        {translations.back}
       </Button>
     </form>
   );

@@ -11,12 +11,12 @@ import styled from 'styled-components';
 import { langContext, preferenceContext } from '../../contexts';
 import { RestaurantType } from '../../contexts/types';
 import { createRestaurantChange, getRestaurant } from '../../utils/api';
-import translations from '../../utils/translations';
+import { useTranslations } from '../../utils/hooks';
+import allTranslations from '../../utils/translations';
 import useResource from '../../utils/useResource';
 import Button from '../Button';
 import InlineIcon from '../InlineIcon';
 import PageContainer from '../PageContainer';
-import Text from '../Text';
 import LocationEditor from './LocationEditor';
 import MessageForm from './MessageForm';
 import OpeningHoursEditor from './OpeningHoursEditor';
@@ -65,7 +65,7 @@ const ErrorMessage = styled.p`
 interface ReportForm {
   component: React.FC<FormProps>;
   icon: JSX.Element;
-  labelId: keyof (typeof translations);
+  labelId: keyof (typeof allTranslations);
 }
 
 const reportForms: ReportForm[] = [
@@ -87,6 +87,7 @@ const reportForms: ReportForm[] = [
 ];
 
 const ReportModal = (props: Props) => {
+  const translations = useTranslations();
   const [activeForm, setActiveForm] = React.useState(null);
   const [error, setError] = React.useState<Error>(null);
   const [done, setDone] = React.useState(false);
@@ -116,7 +117,7 @@ const ReportModal = (props: Props) => {
   };
 
   const title = restaurant.fulfilled
-    ? translations.fixRestaurantInformation[lang].replace(
+    ? translations.fixRestaurantInformation.replace(
         '%restaurantName%',
         restaurant.data.name
       )
@@ -136,7 +137,7 @@ const ReportModal = (props: Props) => {
     >
       <PageContainer title={title}>
         {done ? (
-          <Text id="thanksForFeedback" />
+          translations.thanksForFeedback
         ) : activeForm ? (
           <>
             {React.createElement(activeForm.component, {
@@ -160,7 +161,7 @@ const ReportModal = (props: Props) => {
           reportForms.map(form => (
             <ListItem key={form.labelId} onClick={() => setActiveForm(form)}>
               <InlineIcon>{form.icon}</InlineIcon>
-              <Text id={form.labelId} />
+              {translations[form.labelId]}
             </ListItem>
           ))
         )}

@@ -8,10 +8,10 @@ import 'url-polyfill';
 import App from './components/App';
 import AssetsLoading from './components/AssetsLoading';
 import Map from './components/Map';
-import Text from './components/Text';
 import { LangContextProvider } from './contexts';
 import Global from './globalStyles';
 import * as consts from './utils/consts';
+import { useTranslations } from './utils/hooks';
 import './worker/registerWorker';
 
 const useBugSnag = !!process.env.BUGSNAG_API_KEY;
@@ -27,7 +27,10 @@ if (useBugSnag) {
     isBeta: consts.isBeta
   };
 }
-const ErrorMessage = () => <Text element="p" id="errorDetails" />;
+const ErrorMessage = () => {
+  const translations = useTranslations();
+  return <p>{translations.errorDetails}</p>;
+};
 
 export const ErrorBoundary = useBugSnag
   ? bugsnagClient.use(createPlugin(React))

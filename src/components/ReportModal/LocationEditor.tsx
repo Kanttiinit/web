@@ -5,10 +5,8 @@ import Map from 'pigeon-maps';
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { langContext } from '../../contexts';
-import translations from '../../utils/translations';
+import { useTranslations } from '../../utils/hooks';
 import useInput from '../../utils/useInput';
-import Text from '../Text';
 import { FormProps } from './ReportModal';
 
 const LatLngContainer = styled.div`
@@ -43,7 +41,7 @@ const CrossHair = styled.div`
 `;
 
 export default (props: FormProps) => {
-  const { lang } = React.useContext(langContext);
+  const translations = useTranslations();
   const [address, addressProps] = useInput(props.restaurant.address);
   const [latitude, latitudeProps, setLatitude] = useInput(
     props.restaurant.latitude
@@ -95,7 +93,7 @@ export default (props: FormProps) => {
         />
       </LatLngContainer>
       <TextField
-        label={translations.address[lang]}
+        label={translations.address}
         style={{ margin: 4, marginBottom: 18 }}
         fullWidth
         disabled={props.isSending}
@@ -107,14 +105,14 @@ export default (props: FormProps) => {
         variant="contained"
         color="primary"
       >
-        <Text id="send" />
+        {translations.send}
       </Button>{' '}
       <Button
         disabled={props.isSending}
         variant="contained"
         onClick={props.goBack}
       >
-        <Text id="back" />
+        {translations.back}
       </Button>
     </form>
   );

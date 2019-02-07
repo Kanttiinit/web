@@ -4,14 +4,17 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ErrorBoundary } from '../../index';
+import { useTranslations } from '../../utils/hooks';
 import PageContainer from '../PageContainer';
-import Text from '../Text';
 
-const ModalError = () => (
-  <PageContainer title={<Text id="error" />}>
-    <Text id="errorDetails" element="p" />
-  </PageContainer>
-);
+const ModalError = () => {
+  const translations = useTranslations();
+  return (
+    <PageContainer title={translations.error}>
+      {translations.errorDetails}
+    </PageContainer>
+  );
+};
 
 const Container = styled.div<{ open: boolean }>`
   @media (min-width: ${props => props.theme.breakLarge}) {
@@ -98,18 +101,16 @@ type Props = RouteComponentProps<any> & {
 
 const Modal = (props: Props) => {
   const [open, setOpen] = React.useState(false);
+  const translations = useTranslations();
 
   const closeModal = React.useCallback(
     () => props.history.replace('/' + props.location.search),
     [props.location]
   );
 
-  React.useEffect(
-    () => {
-      setOpen(props.location.pathname !== '/');
-    },
-    [props.location.pathname]
-  );
+  React.useEffect(() => {
+    setOpen(props.location.pathname !== '/');
+  }, [props.location.pathname]);
 
   React.useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -122,16 +123,13 @@ const Modal = (props: Props) => {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, []);
 
-  React.useEffect(
-    () => {
-      if (open) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = 'initial';
-      }
-    },
-    [open]
-  );
+  React.useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'initial';
+    }
+  }, [open]);
 
   return (
     <Container open={open}>
@@ -143,7 +141,7 @@ const Modal = (props: Props) => {
           </ErrorBoundary>
         </Content>
         <CloseText open={open} onClick={closeModal}>
-          <Text id="closeModal" />
+          {translations.closeModal}
         </CloseText>
       </React.Fragment>
     </Container>

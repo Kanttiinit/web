@@ -5,9 +5,9 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { preferenceContext } from '../../contexts';
+import { useTranslations } from '../../utils/hooks';
 import useFeedback from '../../utils/useFeedback';
 import PageContainer from '../PageContainer';
-import Text from '../Text';
 
 const Field: any = styled(TextField)`
   margin-bottom: 1em !important;
@@ -15,6 +15,7 @@ const Field: any = styled(TextField)`
 
 const Contact = () => {
   const preferences = React.useContext(preferenceContext);
+  const translations = useTranslations();
   const { sending, sent, send } = useFeedback();
 
   const onSubmit = (e: any) => {
@@ -31,28 +32,26 @@ const Contact = () => {
         }
       })}
     >
-      <PageContainer title={<Text id="contact" />}>
+      <PageContainer title={translations.contact}>
         {sent ? (
-          <Text element="p" id="thanksForFeedback" />
+          translations.thanksForFeedback
         ) : (
           <form onSubmit={onSubmit}>
             <Field
-              variant="filled"
               fullWidth
               autoFocus
               type="email"
               id="email"
               required
-              label="E-mail"
+              label={translations.email}
               autoComplete="off"
             />
             <Field
-              variant="filled"
               fullWidth
               multiline
               id="message"
               required
-              label="Message"
+              label={translations.message}
               rows={10}
             />
             <Button
@@ -61,7 +60,7 @@ const Contact = () => {
               disabled={sending}
               type="submit"
             >
-              {sending ? <Text id="sending" /> : <Text id="send" />}
+              {sending ? translations.sending : translations.send}
             </Button>
           </form>
         )}

@@ -5,12 +5,11 @@ const locating = require('../../assets/locating.svg');
 
 import styled from 'styled-components';
 import { dataContext, preferenceContext, uiContext } from '../../contexts';
-import { useFormattedRestaurants } from '../../utils/hooks';
+import { useFormattedRestaurants, useTranslations } from '../../utils/hooks';
 import InlineIcon from '../InlineIcon';
 import NetworkStatus from '../NetworkStatus';
 import Notice from '../Notice';
 import Restaurant, { Placeholder } from '../Restaurant';
-import Text from '../Text';
 
 const Container = styled.div`
   padding: 4rem 0 1.5rem;
@@ -53,6 +52,7 @@ const ListContent = React.memo(() => {
   const data = React.useContext(dataContext);
   const preferences = React.useContext(preferenceContext);
   const ui = React.useContext(uiContext);
+  const translations = useTranslations();
 
   const loading =
     data.menus.pending || data.restaurants.pending || data.areas.pending;
@@ -67,16 +67,14 @@ const ListContent = React.memo(() => {
           <InlineIcon>
             <MdWarning />
           </InlineIcon>{' '}
-          <Text id="turnOnLocation" />
+          {translations.turnOnLocation}
         </Notice>
       );
     } else if (!ui.location) {
       return (
         <Locating>
           <img src={locating} />
-          <Notice>
-            <Text id="locating" />
-          </Notice>
+          <Notice>{translations.locating}</Notice>
         </Locating>
       );
     }
@@ -86,7 +84,7 @@ const ListContent = React.memo(() => {
         <InlineIcon>
           <MdWarning />
         </InlineIcon>{' '}
-        <Text id="emptyRestaurants" />
+        {translations.emptyRestaurants}
       </Notice>
     );
   }

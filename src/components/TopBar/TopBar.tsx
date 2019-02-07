@@ -6,12 +6,11 @@ const EN = require('../../assets/en.png');
 
 import styled, { css } from 'styled-components';
 import { langContext } from '../../contexts';
-import { useUnseenUpdates } from '../../utils/hooks';
+import { useTranslations, useUnseenUpdates } from '../../utils/hooks';
 import AreaSelector from '../AreaSelector';
 import DaySelector from '../DaySelector';
 import InlineIcon from '../InlineIcon';
 import Link from '../Link';
-import Text from '../Text';
 
 const Container = styled.div`
   background: linear-gradient(to bottom, var(--gray7) 0%, var(--gray6) 100%);
@@ -133,6 +132,7 @@ const NativeIconLink = styled.a`
 
 const TopBar = () => {
   const unseenUpdates = useUnseenUpdates();
+  const translations = useTranslations();
   const { lang, toggleLang } = React.useContext(langContext);
   const areaSelectorLink = React.useRef<HTMLAnchorElement | null>(null);
   const [areaSelectorOpen, setAreaSelectorOpen] = React.useState(false);
@@ -206,7 +206,7 @@ const TopBar = () => {
             onKeyDown={e => e.key === 'Enter' && toggleAreaSelector()}
           >
             <MdMap size={18} />
-            <Text id="selectArea" />
+            {translations.selectArea}
           </NativeIconLink>
           <AreaSelectorContainer isOpen={areaSelectorOpen}>
             {areaSelectorOpen && (
@@ -216,7 +216,7 @@ const TopBar = () => {
         </AreaSelectorButton>
         <IconLink to="/settings" aria-label="Settings">
           <MdSettings size={18} />
-          <Text id="settings" />
+          {translations.settings}
         </IconLink>
         <NativeIconLink
           tabIndex={0}

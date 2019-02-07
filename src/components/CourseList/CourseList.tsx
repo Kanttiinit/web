@@ -6,8 +6,7 @@ import styled, { css } from 'styled-components';
 
 import { propertyContext } from '../../contexts';
 import { CourseType } from '../../contexts/types';
-import { useIsFavorite } from '../../utils/hooks';
-import Text from '../Text';
+import { useIsFavorite, useTranslations } from '../../utils/hooks';
 import Property from './Property';
 
 interface CourseGroup {
@@ -136,7 +135,7 @@ const GroupTitle = styled.span`
   font-weight: 500;
 `;
 
-const EmptyText = styled(Text).attrs({ id: 'noMenu', element: 'span' })`
+const EmptyText = styled.span`
   font-size: 1rem;
   display: flex;
   flex: 1;
@@ -144,18 +143,21 @@ const EmptyText = styled(Text).attrs({ id: 'noMenu', element: 'span' })`
   justify-content: center;
 `;
 
-const CourseList = ({ courses, ...props }: Props) => (
-  <div {...props}>
-    {!courses.length && <EmptyText />}
-    {moizedGroups(courses).map((group: CourseGroup) => (
-      <Group key={group.key}>
-        <GroupTitle>{capitalize(group.key)}</GroupTitle>
-        {group.courses.map((c, i) => (
-          <Course key={i} course={c} />
-        ))}
-      </Group>
-    ))}
-  </div>
-);
+const CourseList = ({ courses, ...props }: Props) => {
+  const translations = useTranslations();
+  return (
+    <div {...props}>
+      {!courses.length && <EmptyText>{translations.noMenu}</EmptyText>}
+      {moizedGroups(courses).map((group: CourseGroup) => (
+        <Group key={group.key}>
+          <GroupTitle>{capitalize(group.key)}</GroupTitle>
+          {group.courses.map((c, i) => (
+            <Course key={i} course={c} />
+          ))}
+        </Group>
+      ))}
+    </div>
+  );
+};
 
 export default CourseList;

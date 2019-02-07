@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import translations from '../utils/translations';
 import usePersistedState from '../utils/usePersistedState';
 import { Lang } from './types';
 

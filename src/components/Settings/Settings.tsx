@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 import { langContext, preferenceContext } from '../../contexts';
 import { Lang, Order } from '../../contexts/types';
+import { useTranslations } from '../../utils/hooks';
 import FavoriteSelector from '../FavoriteSelector';
 import PageContainer from '../PageContainer';
 import PropertySelector from '../PropertySelector';
 import Radio from '../Radio';
-import Text from '../Text';
 import Toggle from '../Toggle';
 
 interface ItemProps {
@@ -30,10 +30,7 @@ const Item = ({ label, children }: ItemProps) => (
   </React.Fragment>
 );
 
-const orders = [Order.AUTOMATIC, Order.ALPHABET, Order.DISTANCE].map(order => ({
-  label: <Text id={order} />,
-  value: order
-}));
+const orders = [Order.AUTOMATIC, Order.ALPHABET, Order.DISTANCE];
 
 const languageOptions = [
   { label: 'Finnish', value: Lang.FI },
@@ -41,6 +38,7 @@ const languageOptions = [
 ];
 
 const Settings = () => {
+  const translations = useTranslations();
   const preferences = React.useContext(preferenceContext);
   const langState = React.useContext(langContext);
 
@@ -65,34 +63,37 @@ const Settings = () => {
   );
 
   return (
-    <PageContainer title={<Text id="settings" />}>
-      <Item label={<Text id="language" />}>
+    <PageContainer title={translations.settings}>
+      <Item label={translations.language}>
         <Radio
           options={languageOptions}
           selected={langState.lang}
           onChange={setLang}
         />
       </Item>
-      <Item label={<Text id="darkMode" />}>
+      <Item label={translations.darkMode}>
         <Toggle selected={preferences.darkMode} onChange={setDarkMode} />
       </Item>
-      <Item label={<Text id="order" />}>
+      <Item label={translations.order}>
         <Radio
-          options={orders}
+          options={orders.map(order => ({
+            label: translations[order],
+            value: order
+          }))}
           selected={preferences.order}
           onChange={setOrder}
         />
       </Item>
-      <Item label={<Text id="useLocation" />}>
+      <Item label={translations.useLocation}>
         <Toggle selected={preferences.useLocation} onChange={setUseLocation} />
       </Item>
-      <Item label={<Text id="highlightDiets" />}>
+      <Item label={translations.highlightDiets}>
         <PropertySelector showDesiredProperties />
       </Item>
-      <Item label={<Text id="avoidDiets" />}>
+      <Item label={translations.avoidDiets}>
         <PropertySelector />
       </Item>
-      <Item label={<Text id="prioritize" />}>
+      <Item label={translations.prioritize}>
         <FavoriteSelector />
       </Item>
     </PageContainer>

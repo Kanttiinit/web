@@ -2,12 +2,13 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import * as React from 'react';
 
+import { useTranslations } from '../../utils/hooks';
 import useFeedback from '../../utils/useFeedback';
 import useInput from '../../utils/useInput';
-import Text from '../Text';
 import { FormProps } from './ReportModal';
 
 export default (props: FormProps) => {
+  const translations = useTranslations();
   const [email, emailProps] = useInput('');
   const [message, messageProps] = useInput('');
   const { sending, sent, error, send } = useFeedback();
@@ -34,14 +35,14 @@ export default (props: FormProps) => {
   return (
     <form onSubmit={onSubmit}>
       <TextField
-        label="E-mail"
+        label={translations.email}
         style={{ margin: 4 }}
         fullWidth
         type="email"
         {...emailProps}
       />
       <TextField
-        label="Message"
+        label={translations.message}
         required
         style={{ margin: 4, marginBottom: 18 }}
         multiline
@@ -55,10 +56,10 @@ export default (props: FormProps) => {
         variant="contained"
         color="primary"
       >
-        {sending ? <Text id="sending" /> : <Text id="send" />}
+        {sending ? translations.sending : translations.send}
       </Button>{' '}
       <Button variant="contained" onClick={props.goBack}>
-        <Text id="back" />
+        {translations.back}
       </Button>
     </form>
   );

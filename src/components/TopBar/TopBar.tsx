@@ -206,7 +206,7 @@ const TopBar = () => {
             onKeyDown={e => e.key === 'Enter' && toggleAreaSelector()}
           >
             <MdMap size={18} />
-            {translations.selectArea}
+            <span>{translations.selectArea}</span>
           </NativeIconLink>
           <AreaSelectorContainer isOpen={areaSelectorOpen}>
             {areaSelectorOpen && (
@@ -216,7 +216,7 @@ const TopBar = () => {
         </AreaSelectorButton>
         <IconLink to="/settings" aria-label="Settings">
           <MdSettings size={18} />
-          {translations.settings}
+          <span>{translations.settings}</span>
         </IconLink>
         <NativeIconLink
           tabIndex={0}

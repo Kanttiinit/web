@@ -312,7 +312,7 @@ const translations = {
     en: 'Opening hours'
   },
   somethingElse: {
-    fi: 'Jokin muu',
+    fi: 'Muu tieto',
     en: 'Something else'
   },
   back: {
@@ -324,8 +324,8 @@ const translations = {
     en: 'Copy from previous day'
   },
   fixRestaurantInformation: {
-    fi: 'Korjaa ravintolan %restaurantName% tietoja',
-    en: 'Fix the information of %restaurantName%'
+    fi: 'Ehdota tietojen korjausta ravintolalle %restaurantName%',
+    en: 'Suggest a fix for %restaurantName%'
   },
   location: {
     fi: 'Sijainti',

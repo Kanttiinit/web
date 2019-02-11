@@ -173,4 +173,14 @@ export default (location: any, history: any) => {
   useEffect(() => {
     pageView(location);
   }, [location.pathname, location.search]);
+
+  useEffect(() => {
+    if (selectedArea) {
+      GA.event({
+        action: 'selected area',
+        category: 'User',
+        value: selectedArea.id
+      });
+    }
+  }, [selectedArea]);
 };

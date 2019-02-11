@@ -23,7 +23,7 @@ const Distance = ({ distance }: { distance: number }) => {
   const kilometers = distance > 1500;
   const translations = useTranslations();
   return (
-    <RestaurantMeta style={{ fontWeight: 400 }}>
+    <RestaurantMeta style={{ fontWeight: 400, textAlign: 'left' }}>
       <InlineIcon>
         {!distance ? (
           <MdPlace />

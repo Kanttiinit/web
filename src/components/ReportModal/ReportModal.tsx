@@ -45,6 +45,7 @@ const ListItem = styled(Button).attrs({ type: 'text' })`
   transition: background 0.2s;
   margin-bottom: 0.5em;
   outline: none;
+  color: var(--gray1);
 
   svg {
     margin-right: 1ch;

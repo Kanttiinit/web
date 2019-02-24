@@ -179,6 +179,7 @@ export default (location: any, history: any) => {
       GA.event({
         action: 'selected area',
         category: 'User',
+        label: selectedArea.name,
         value: selectedArea.id
       });
     }

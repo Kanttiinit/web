@@ -48,7 +48,9 @@ const AreaWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const AreaButton = styled(Button).attrs({ type: 'text' })<{
+const AreaButton = styled(Button).attrs({
+  variant: 'text'
+})<{
   selected: boolean;
 }>`
   background-color: ${props =>
@@ -79,7 +81,9 @@ const Area = ({
 }) => (
   <AreaWrapper>
     <AreaButton
-      onKeyDown={e => e.key === 'Enter' && selectArea(area.id)}
+      onKeyDown={(e: React.KeyboardEvent<HTMLButtonElement>) =>
+        e.key === 'Enter' && selectArea(area.id)
+      }
       onMouseUp={() => selectArea(area.id)}
       selected={selectedAreaId === area.id}
     >

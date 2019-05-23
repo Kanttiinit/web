@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 interface ButtonProps {
-  type?: 'text';
+  variant?: 'text';
   size?: 'small';
 }
 
@@ -15,7 +15,7 @@ const Button = styled.button<ButtonProps>`
   font-weight: 500;
 
   ${props =>
-    props.type !== 'text' &&
+    props.variant !== 'text' &&
     css`
       padding: 0.8em 1.2em;
       border-radius: 0.2em;

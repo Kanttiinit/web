@@ -121,7 +121,7 @@ const Modal = (props: Props) => {
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, []);
+  }, [props.location.pathname]);
 
   React.useEffect(() => {
     if (open) {

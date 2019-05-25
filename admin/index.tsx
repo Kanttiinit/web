@@ -1,13 +1,13 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
+import Snackbar from '@material-ui/core/Snackbar';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import Snackbar from '@material-ui/core/Snackbar';
-import { withRouter, BrowserRouter, Switch, Route } from 'react-router-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { RouteComponentProps } from 'react-router';
+import { BrowserRouter, Route, Switch, withRouter } from 'react-router-dom';
 
 import http from '../src/utils/http';
 import DataTable from './DataTable';
@@ -29,7 +29,7 @@ const BaseView = withRouter(
       this.setState({ updatingRestaurants: true });
       await http.post('/admin/update-restaurants');
       this.setState({ updatingRestaurants: false });
-    };
+    }
 
     checkAuth = async () => {
       try {
@@ -40,7 +40,7 @@ const BaseView = withRouter(
       } catch (e) {
         this.props.history.replace('/admin/login');
       }
-    };
+    }
 
     componentDidMount() {
       this.checkAuth();
@@ -57,25 +57,25 @@ const BaseView = withRouter(
       } catch (e) {
         this.setState({ message: e.message, messageVisible: true });
       }
-    };
+    }
 
     logout = async () => {
       await http.post('/admin/logout');
       this.checkAuth();
       this.setState({ message: 'Goodbye!', messageVisible: true });
-    };
+    }
 
     tabChange = (event: any, value: string) => {
       this.props.history.push('/admin/model/' + value);
-    };
+    }
 
     showMessage = (message: string) =>
-      this.setState({ messageVisible: true, message });
+      this.setState({ messageVisible: true, message })
 
     clearMessage = () => this.setState({ messageVisible: false });
 
     renderModel = ({ match }: { match: any }) => {
-      const model = models.find(model => model.key === match.params.model);
+      const model = models.find(m => m.key === match.params.model);
 
       return (
         <React.Fragment>
@@ -108,7 +108,7 @@ const BaseView = withRouter(
           )}
         </React.Fragment>
       );
-    };
+    }
 
     render() {
       const { message, messageVisible } = this.state;
@@ -132,7 +132,7 @@ const BaseView = withRouter(
                   margin="normal"
                 />
                 &nbsp;
-                <Button variant="raised" type="submit" color="primary">
+                <Button variant="contained" type="submit" color="primary">
                   Log in
                 </Button>
               </form>

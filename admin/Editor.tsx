@@ -1,26 +1,26 @@
-import * as React from 'react';
 import Button from '@material-ui/core/Button';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { withStyles } from '@material-ui/core/styles';
 import * as get from 'lodash/fp/get';
 import * as set from 'lodash/fp/set';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogActions from '@material-ui/core/DialogActions';
-import { withStyles } from '@material-ui/core/styles';
+import * as React from 'react';
 
 import * as api from './api';
-import { Model } from './models';
-import inputs from './inputs';
-import { Field } from './models';
 import { showMessage } from './index';
+import inputs from './inputs';
+import { Model } from './models';
+import { Field } from './models';
 
-type ExportedProps = {
+interface ExportedProps {
   mode: 'creating' | 'editing';
   onSuccess: () => void;
   onCancel: () => void;
   onError?: () => void;
   item?: any;
   model: Model;
-};
+}
 
 type Props = ExportedProps & {
   classes: any;
@@ -57,7 +57,7 @@ class Editor extends React.PureComponent<Props> {
     } catch (e) {
       showMessage('Error: ' + e.message);
     }
-  };
+  }
 
   delete = async () => {
     if (confirm('Are you sure?')) {
@@ -65,10 +65,10 @@ class Editor extends React.PureComponent<Props> {
       this.props.onSuccess();
       showMessage('The item has been deleted.');
     }
-  };
+  }
 
   setValue = (key: string | string[], value: any) =>
-    this.setState({ item: set(key, value, this.state.item) });
+    this.setState({ item: set(key, value, this.state.item) })
 
   componentWillReceiveProps(props: Props) {
     this.updateItem(props);
@@ -91,7 +91,7 @@ class Editor extends React.PureComponent<Props> {
         <InputComponent field={field} value={value} setValue={this.setValue} />
       </div>
     );
-  };
+  }
 
   render() {
     const { model, mode, onCancel } = this.props;
@@ -105,13 +105,13 @@ class Editor extends React.PureComponent<Props> {
         <form onSubmit={this.save}>
           <DialogContent>{model.fields.map(this.renderField)}</DialogContent>
           <DialogActions>
-            <Button type="submit" color="primary" variant="raised">
+            <Button type="submit" color="primary" variant="contained">
               {mode === 'creating' ? 'Create' : 'Save'}
             </Button>
             {mode === 'editing' && (
               <Button onClick={this.delete}>Delete</Button>
             )}
-            <Button onClick={onCancel} color="secondary" variant="raised">
+            <Button onClick={onCancel} color="secondary" variant="contained">
               Cancel
             </Button>
           </DialogActions>
@@ -123,6 +123,6 @@ class Editor extends React.PureComponent<Props> {
 
 export default withStyles(theme => ({
   margin: {
-    marginBottom: theme.spacing.unit * 4
+    marginBottom: theme.spacing(4)
   }
 }))(Editor) as any;

@@ -10,7 +10,7 @@ interface LangContext {
   setLang(state: Lang): void;
 }
 
-const langContext = React.createContext<LangContext>({} as any);
+const langContext = React.createContext<LangContext>({ lang: Lang.FI } as any);
 
 export const LangContextProvider = (props: { children: React.ReactNode }) => {
   const [lang, setLang] = usePersistedState('lang', Lang.FI);

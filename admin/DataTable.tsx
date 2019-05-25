@@ -1,16 +1,16 @@
-import * as React from 'react';
-import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 import Progress from '@material-ui/core/CircularProgress';
+import Dialog from '@material-ui/core/Dialog';
+import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Paper from '@material-ui/core/Paper';
 import * as get from 'lodash/fp/get';
 import * as orderBy from 'lodash/fp/orderBy';
+import * as React from 'react';
 
 import * as api from './api';
 import Editor from './Editor';
@@ -22,19 +22,19 @@ const tdStyle: any = {
   textOverflow: 'ellipsis'
 };
 
-type Props = {
+interface Props {
   model: Model;
-};
+}
 
-type State = {
+interface State {
   mode?: 'editing' | 'creating';
   item?: any;
   sortedColumn?: string;
   sortDirection: 'asc' | 'desc';
-  sortedItems: Array<any>;
-  items: Array<any>;
+  sortedItems: any[];
+  items: any[];
   loading: boolean;
-};
+}
 
 export default class DataTable extends React.PureComponent<Props, State> {
   state: State = {
@@ -59,7 +59,7 @@ export default class DataTable extends React.PureComponent<Props, State> {
       ? this.state.sortDirection === 'asc'
         ? '︎︎↑'
         : '↓'
-      : '';
+      : ''
 
   changeSort = (columnKey: string) => {
     const { sortedColumn, sortDirection } = this.state;
@@ -70,12 +70,12 @@ export default class DataTable extends React.PureComponent<Props, State> {
     } else {
       this.setState({ sortedColumn: columnKey, sortDirection: 'asc' });
     }
-  };
+  }
 
   onEditorSuccess = () => {
     this.hideDialog();
     this.fetchItems();
-  };
+  }
 
   sortItems = (state = this.state) => {
     const { sortedColumn, sortDirection } = state;
@@ -83,7 +83,7 @@ export default class DataTable extends React.PureComponent<Props, State> {
       ? orderBy(sortedColumn, sortDirection, state.items)
       : state.items;
     this.setState({ sortedItems });
-  };
+  }
 
   resetSort(props: Props = this.props) {
     this.setState({
@@ -95,7 +95,7 @@ export default class DataTable extends React.PureComponent<Props, State> {
   fetchItems = async (props: Props = this.props) => {
     this.setState({ loading: true, items: [] });
     this.setState({ loading: false, items: await api.fetchItems(props.model) });
-  };
+  }
 
   componentWillReceiveProps(props: Props) {
     if (props.model.key !== this.props.model.key) {
@@ -158,7 +158,7 @@ export default class DataTable extends React.PureComponent<Props, State> {
         </Dialog>
         <Button
           color="primary"
-          variant="raised"
+          variant="contained"
           style={{ margin: '1em 0' }}
           onClick={this.openCreateDialog}
         >
@@ -193,11 +193,7 @@ export default class DataTable extends React.PureComponent<Props, State> {
                       key={i}
                     >
                       {model.tableFields.map(field => (
-                        <TableCell
-                          padding="dense"
-                          style={tdStyle}
-                          key={field.key}
-                        >
+                        <TableCell style={tdStyle} key={field.key}>
                           {this.renderValue(get(field.key, item))}
                         </TableCell>
                       ))}

@@ -34,7 +34,7 @@ export interface FormProps {
   setDone(isDone: boolean): void;
 }
 
-const ListItem = styled(Button).attrs({ type: 'text' })`
+const ListItem = styled(Button).attrs({ variant: 'text' })`
   font-size: 1.25em;
   display: flex;
   align-items: center;

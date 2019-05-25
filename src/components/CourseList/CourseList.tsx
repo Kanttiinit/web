@@ -15,6 +15,9 @@ interface CourseGroup {
 }
 
 const getCourseGroup = (course: CourseType) => {
+  if (!course.title) {
+    return '';
+  }
   const split = course.title.split(':');
   return split.length > 1 ? split[0] : '';
 };
@@ -34,10 +37,12 @@ const courseGroups = (courses: CourseType[]) => {
   );
 
   return Object.keys(groups).map(groupKey => ({
-    courses: groups[groupKey].map(c => ({
-      ...c,
-      title: c.title.replace(groupKey + ': ', '')
-    })),
+    courses: groups[groupKey]
+      .filter(c => !!c.title)
+      .map(c => ({
+        ...c,
+        title: c.title.replace(groupKey + ': ', '')
+      })),
     key: groupKey
   }));
 };

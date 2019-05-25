@@ -1,22 +1,22 @@
-import * as React from 'react';
 import * as format from 'date-fns/format';
+import * as React from 'react';
 
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
-import { DayOfWeekSelect, BooleanInput, DateInput, PlainField } from './inputs';
+import { BooleanInput, DateInput, DayOfWeekSelect, PlainField } from './inputs';
 
-type Props = {
+interface Props {
   mode: 'create' | 'edit';
   onAction: (item?: any) => void;
   item?: any;
-};
+}
 
-type State = {
+interface State {
   item?: any;
-};
+}
 
 export default class OpeningHourDialog extends React.PureComponent<
   Props,
@@ -78,7 +78,7 @@ export default class OpeningHourDialog extends React.PureComponent<
           {mode === 'edit' ? 'Edit opening hour' : 'Create opening hour'}
         </DialogTitle>
         <DialogContent>
-          <Grid container direction="column" spacing={24}>
+          <Grid container direction="column" spacing={6}>
             <Grid item>
               <DayOfWeekSelect
                 value={item.dayOfWeek}

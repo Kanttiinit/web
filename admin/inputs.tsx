@@ -102,7 +102,7 @@ const RegExpInput = (props: InputProps) => {
   const [test, setTest] = React.useState('');
   const match = !!test.match(new RegExp(value));
   return (
-    <Grid container spacing={24}>
+    <Grid container spacing={6}>
       <Grid item sm>
         <TextField
           fullWidth
@@ -183,7 +183,7 @@ const LocationInput = (props: GroupInputProps) => {
 };
 
 const TranslatedInput = (props: GroupInputProps) => (
-  <Grid container spacing={24}>
+  <Grid container spacing={6}>
     {props.field.fields.map((field, i) => (
       <Grid key={i} item md>
         {React.createElement(inputs[field.type] || inputs._, {

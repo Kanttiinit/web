@@ -37,7 +37,9 @@ interface UIContextType {
   location: Coordinates | null;
   displayedDays: Date[];
   selectedDay: Date | null;
-  setLocation(location: Coordinates | null): void;
+  setLocation(
+    location: Coordinates | null | ((location: Coordinates) => Coordinates)
+  ): void;
   updateDay(location: Location): void;
   updateDisplayedDays(): void;
 }

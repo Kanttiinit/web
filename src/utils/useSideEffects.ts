@@ -1,5 +1,6 @@
 import * as addDays from 'date-fns/add_days';
 import * as isSameDay from 'date-fns/is_same_day';
+import * as haversine from 'haversine';
 import { useContext, useEffect, useState } from 'react';
 import * as GA from 'react-ga';
 
@@ -93,7 +94,18 @@ export default (location: any, history: any) => {
       setLocationWatchId(
         navigator.geolocation.watchPosition(
           ({ coords }) => {
-            ui.setLocation(coords);
+            ui.setLocation(currentLocation => {
+              if (!currentLocation) {
+                return coords;
+              }
+              const distance = haversine(currentLocation, coords, {
+                unit: 'meter'
+              });
+              if (distance > 0.1) {
+                return coords;
+              }
+              return currentLocation;
+            });
           },
           error => {
             switch (error.code) {

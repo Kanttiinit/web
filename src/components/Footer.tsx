@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const logo = require('../assets/logo_48.png');
 import { isBeta, version } from '../utils/consts';
@@ -18,7 +18,7 @@ const Footer = styled.footer`
   align-items: flex-end;
 `;
 
-const StyledNavLink = styled(Link)`
+const linkStyles = css`
   && {
     color: var(--gray2);
     text-transform: uppercase;
@@ -49,6 +49,14 @@ const StyledNavLink = styled(Link)`
       margin: 0.5rem;
     }
   }
+`;
+
+const StyledNavLink = styled(Link)`
+  ${linkStyles}
+`;
+
+const StyledExternalLink = styled.a`
+  ${linkStyles}
 `;
 
 const LogoImage = styled.img`
@@ -95,13 +103,13 @@ export default () => {
             {translations.termsOfService}
           </StyledNavLink>
           {!isBeta && (
-            <a
+            <StyledExternalLink
               href="https://beta.kanttiinit.fi/"
               rel="noopener"
               target="_blank"
             >
               Beta
-            </a>
+            </StyledExternalLink>
           )}
         </nav>
       </NavigationContainer>

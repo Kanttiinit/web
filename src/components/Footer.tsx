@@ -92,7 +92,7 @@ export default () => {
   return (
     <Footer>
       <NavigationContainer>
-        <LogoImage src={logo} />
+        <LogoImage alt="Kanttiinit logo" src={logo} />
         <nav>
           <StyledNavLink to="/contact">{translations.contact}</StyledNavLink>
           <StyledNavLink to="/clients">

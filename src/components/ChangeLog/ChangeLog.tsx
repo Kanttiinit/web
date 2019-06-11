@@ -1,6 +1,5 @@
 import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import * as React from 'react';
-import { Collapse } from 'react-collapse';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import snarkdown from 'snarkdown';
 import styled from 'styled-components';
@@ -8,6 +7,7 @@ import styled from 'styled-components';
 import { dataContext, langContext, preferenceContext } from '../../contexts';
 import { Update } from '../../contexts/types';
 import { useTranslations, useUnseenUpdates } from '../../utils/hooks';
+import Collapse from '../Collapse';
 import PageContainer from '../PageContainer';
 
 const UpdateWrapper = styled.div`
@@ -32,10 +32,9 @@ const UpdateContent = styled.div`
   margin-left: 1ch;
 `;
 
-const Body = styled.p<{ isVisible: boolean }>`
+const Body = styled.p`
   margin: 0;
   line-height: 1.25em;
-  display: ${props => (props.isVisible ? 'block' : 'none')};
 `;
 
 const Title = styled.h3`
@@ -100,12 +99,8 @@ const ChangeLog = () => {
                   {distanceInWordsToNow(update.createdAt)}
                 </PublishedAt>
                 <Title>{update.title}</Title>
-                <Collapse
-                  springConfig={{ stiffness: 300, damping: 20 }}
-                  isOpened={isVisible}
-                >
+                <Collapse isOpen={isVisible}>
                   <Body
-                    isVisible={isVisible}
                     dangerouslySetInnerHTML={{
                       __html: snarkdown(update.description)
                     }}

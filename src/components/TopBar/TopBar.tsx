@@ -209,9 +209,7 @@ const TopBar = () => {
             <span>{translations.selectArea}</span>
           </NativeIconLink>
           <AreaSelectorContainer isOpen={areaSelectorOpen}>
-            {areaSelectorOpen && (
-              <AreaSelector onAreaSelected={toggleAreaSelector} />
-            )}
+            <AreaSelector onAreaSelected={toggleAreaSelector} />
           </AreaSelectorContainer>
         </AreaSelectorButton>
         <IconLink to="/settings" aria-label="Settings">

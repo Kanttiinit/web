@@ -52,11 +52,14 @@ module.exports = {
     }
   },
   optimization: {
-    minimizer: [
-      new TerserPlugin({
-        sourceMap: true
-      })
-    ]
+    minimizer:
+      process.env.NODE_ENV === 'production'
+        ? [
+            new TerserPlugin({
+              sourceMap: true
+            })
+          ]
+        : []
   },
   resolve: {
     extensions: ['.mjs', '.ts', '.tsx', '.js', '.scss']

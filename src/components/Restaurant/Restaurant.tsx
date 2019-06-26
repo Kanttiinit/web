@@ -188,25 +188,29 @@ const Restaurant = (props: Props) => {
 
   return (
     <Container noCourses={restaurant.noCourses}>
-      <Header>
-        <RestaurantName noCourses={restaurant.noCourses} isClosed={isClosed}>
-          {restaurant.name}
-          {preferences.useLocation && (
-            <Distance distance={restaurant.distance} />
-          )}
-        </RestaurantName>
-        <RestaurantMeta>
-          {restaurant.openingHours[dayOfWeek] && (
-            <React.Fragment>
-              <Colon>
-                {restaurant.openingHours[dayOfWeek].replace('-', '–')}
-              </Colon>
-              <br />
-            </React.Fragment>
-          )}
-          {isClosed && <ClosedText>{translations.restaurantClosed}</ClosedText>}
-        </RestaurantMeta>
-      </Header>
+      <Link to={`/restaurant/${restaurant.id}`}>
+        <Header>
+          <RestaurantName noCourses={restaurant.noCourses} isClosed={isClosed}>
+            {restaurant.name}
+            {preferences.useLocation && (
+              <Distance distance={restaurant.distance} />
+            )}
+          </RestaurantName>
+          <RestaurantMeta>
+            {restaurant.openingHours[dayOfWeek] && (
+              <React.Fragment>
+                <Colon>
+                  {restaurant.openingHours[dayOfWeek].replace('-', '–')}
+                </Colon>
+                <br />
+              </React.Fragment>
+            )}
+            {isClosed && (
+              <ClosedText>{translations.restaurantClosed}</ClosedText>
+            )}
+          </RestaurantMeta>
+        </Header>
+      </Link>
       <StyledCourseList courses={restaurant.courses} />
       <ActionsContainer>
         <StyledActionLink

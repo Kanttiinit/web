@@ -6,9 +6,12 @@ import { CourseType } from '../../contexts/types';
 import { useIsFavorite } from '../../utils/hooks';
 import Property from './Property';
 
-const CourseTitle = styled.span<{ highlight: boolean; dimmed: boolean }>`
+const CourseTitle = styled.h2<{ highlight: boolean; dimmed: boolean }>`
   flex: 1;
   color: var(--gray1);
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
 
   ${props =>
     props.highlight &&
@@ -31,7 +34,7 @@ const FavoriteIcon = styled(MdFavorite)`
   margin-right: 0.5em;
 `;
 
-const CourseWrapper = styled.div<{
+const CourseWrapper = styled.li<{
   favorite: boolean;
 }>`
   padding-bottom: 0.2rem;

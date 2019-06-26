@@ -46,7 +46,7 @@ interface Props {
   dimmed: boolean;
 }
 
-export default ({ property, dimmed, highlighted }: Props) => {
+export default React.memo(({ property, dimmed, highlighted }: Props) => {
   const { lang } = React.useContext(langContext);
   const { toggleProperty } = React.useContext(propertyContext);
   const prop = properties.find(p => p.key === property);
@@ -57,4 +57,4 @@ export default ({ property, dimmed, highlighted }: Props) => {
       <ClickTrap onClick={() => toggleProperty(property)} />
     </Container>
   );
-};
+});

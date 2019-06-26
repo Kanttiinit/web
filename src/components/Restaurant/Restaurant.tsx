@@ -44,7 +44,7 @@ const Distance = ({ distance }: { distance: number }) => {
   );
 };
 
-export const Container = styled.div<{ noCourses?: boolean }>`
+export const Container = styled.article<{ noCourses?: boolean }>`
   display: flex;
   flex-direction: column;
   padding: 0.8rem;
@@ -73,7 +73,7 @@ export const Container = styled.div<{ noCourses?: boolean }>`
   ${props => props.noCourses && 'opacity: 0.6;'}
 `;
 
-export const Header = styled.div`
+export const Header = styled.header`
   display: flex;
   margin-bottom: 1.4rem;
   justify-content: space-between;
@@ -97,7 +97,7 @@ const RestaurantName = styled.h2<{ noCourses?: boolean; isClosed?: boolean }>`
   }
 `;
 
-const RestaurantMeta = styled.div`
+const RestaurantMeta = styled.section`
   color: var(--gray2);
   font-size: 0.8rem;
   font-weight: 500;
@@ -108,7 +108,7 @@ const RestaurantMeta = styled.div`
   }
 `;
 
-const ActionsContainer = styled.div`
+const ActionsContainer = styled.section`
   color: var(--gray4);
   font-size: 0.75em;
   text-transform: uppercase;

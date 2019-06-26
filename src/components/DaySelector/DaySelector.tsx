@@ -14,7 +14,7 @@ interface DayLinkProps {
   root?: string;
 }
 
-const Container = styled.div`
+const Container = styled.nav`
   flex: 1;
   white-space: nowrap;
   overflow: auto;

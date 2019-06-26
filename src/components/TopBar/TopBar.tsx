@@ -12,7 +12,7 @@ import DaySelector from '../DaySelector';
 import InlineIcon from '../InlineIcon';
 import Link from '../Link';
 
-const Container = styled.div`
+const Container = styled.header`
   background: linear-gradient(to bottom, var(--gray7) 0%, var(--gray6) 100%);
   box-sizing: border-box;
   padding: 0 0.5em;

@@ -96,7 +96,7 @@ interface Props {
   onAreaSelected?: () => void;
 }
 
-const Container = styled.div`
+const Container = styled.menu`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

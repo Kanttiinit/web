@@ -11,7 +11,7 @@ import NetworkStatus from '../NetworkStatus';
 import Notice from '../Notice';
 import Restaurant, { Placeholder } from '../Restaurant';
 
-const Container = styled.div`
+const Container = styled.main`
   padding: 4rem 0 1.5rem;
 
   @media (max-width: ${props => props.theme.breakSmall}) {

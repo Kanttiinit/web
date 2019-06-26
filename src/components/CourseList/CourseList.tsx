@@ -52,21 +52,29 @@ interface Props {
   className?: string;
 }
 
-const Group = styled.div`
+const Container = styled.ul`
+  padding: 0;
+  margin: 0;
+`;
+
+const Group = styled.ul`
+  padding: 0;
+  margin: 0;
+
   &:not(:last-child) {
     margin-bottom: 0.6rem;
   }
 `;
 
-const GroupTitle = styled.span`
+const GroupTitle = styled.h1`
   display: block;
   color: var(--gray2);
-  margin-bottom: 0.2rem;
+  margin: 0 0 0.2rem 0;
   font-size: 0.8em;
   font-weight: 500;
 `;
 
-const EmptyText = styled.span`
+const EmptyText = styled.p`
   font-size: 1rem;
   display: flex;
   flex: 1;
@@ -77,7 +85,7 @@ const EmptyText = styled.span`
 const CourseList = ({ courses, ...props }: Props) => {
   const translations = useTranslations();
   return (
-    <div {...props}>
+    <Container {...props}>
       {!courses.length && <EmptyText>{translations.noMenu}</EmptyText>}
       {moizedGroups(courses).map((group: CourseGroup) => (
         <Group key={group.key}>
@@ -87,7 +95,7 @@ const CourseList = ({ courses, ...props }: Props) => {
           ))}
         </Group>
       ))}
-    </div>
+    </Container>
   );
 };
 

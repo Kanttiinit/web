@@ -1,8 +1,8 @@
 import * as React from 'react';
 import ClickOutside from 'react-click-outside';
 import { MdFiberNew, MdMap, MdSettings } from 'react-icons/md';
-const FI = require('../../assets/fi.png');
-const EN = require('../../assets/en.png');
+const FI = require('./fi.svg');
+const EN = require('./en.svg');
 
 import styled, { css } from 'styled-components';
 import { langContext } from '../../contexts';
@@ -91,18 +91,22 @@ const iconLinkStyles = css`
   align-items: center;
   margin: 0 1em;
 
-  &:link,
-  &:visited {
+  :last-child {
+    margin-right: 0;
+  }
+
+  :link,
+  :visited {
     color: var(--gray3);
   }
 
-  &:hover,
-  &:focus {
+  :hover,
+  :focus {
     outline: none;
     color: var(--accent_color);
   }
 
-  &:focus {
+  :focus {
     img,
     svg {
       transform: scale(1.1);
@@ -128,6 +132,13 @@ const IconLink = styled(Link)`
 `;
 const NativeIconLink = styled.a`
   ${iconLinkStyles}
+`;
+
+const FlagImg = styled.img`
+  height: 16px;
+  width: auto;
+  border-radius: 2px;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.33);
 `;
 
 const TopBar = () => {
@@ -221,11 +232,7 @@ const TopBar = () => {
           onClick={toggleLang}
           onKeyDown={e => e.key === 'Enter' && toggleLang()}
         >
-          <img
-            height={18}
-            alt={lang.toUpperCase()}
-            src={lang === 'fi' ? FI : EN}
-          />
+          <FlagImg alt={lang.toUpperCase()} src={lang === 'fi' ? FI : EN} />
         </NativeIconLink>
       </Content>
     </Container>

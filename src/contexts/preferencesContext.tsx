@@ -1,23 +1,23 @@
 import * as React from 'react';
 
-import { langContext } from '.';
 import { getApprovedUpdates } from '../utils/api';
 import useArrayState from '../utils/useArrayState';
 import usePersistedState from '../utils/usePersistedState';
 import usePolledResource from '../utils/usePolledResource';
-import { Order } from './types';
+import { DarkModeChoice, Order } from './types';
 
 interface PreferenceContext {
   selectedArea: number;
   useLocation: boolean;
   darkMode: boolean;
+  selectedDarkMode: DarkModeChoice;
   order: Order;
   favorites: number[];
   starredRestaurants: number[];
   updatesLastSeenAt: number;
   setUseLocation: (state: boolean) => void;
   addSuggestedUpdate(uuid: string): void;
-  setDarkMode(state: boolean): void;
+  setDarkMode(state: DarkModeChoice): void;
   setOrder(state: Order): void;
   setRestaurantStarred(restaurantId: number, isStarred: boolean): void;
   setSelectedArea(areaId: number): void;
@@ -26,11 +26,12 @@ interface PreferenceContext {
 }
 
 const preferenceContext = React.createContext<PreferenceContext>({} as any);
+const osDarkModeEnabled = window.matchMedia('(prefers-color-scheme: dark)')
+  .matches;
 
 export const PreferenceContextProvider = (props: {
   children: React.ReactNode;
 }) => {
-  const { setLang } = React.useContext(langContext);
   const [selectedArea, setSelectedArea] = usePersistedState('selectedArea', 1);
   const [useLocation, setUseLocation] = usePersistedState('location', false);
   const [order, setOrder] = usePersistedState('order', Order.AUTOMATIC);
@@ -40,7 +41,10 @@ export const PreferenceContextProvider = (props: {
   const [starredRestaurants, starredRestaurantsActions] = useArrayState(
     usePersistedState<number[]>('starredRestaurants', [])
   );
-  const [darkMode, setDarkMode] = usePersistedState('darkMode', false);
+  const [selectedDarkMode, setDarkMode] = usePersistedState<DarkModeChoice>(
+    'darkMode',
+    DarkModeChoice.DEFAULT
+  );
   const [updatesLastSeenAt, setUpdatesLastSeenAt] = usePersistedState(
     'updatesLastSeenAt',
     0
@@ -56,26 +60,12 @@ export const PreferenceContextProvider = (props: {
     }
   });
 
-  // migrate old preferences
-  React.useEffect(() => {
-    const oldPreferences = localStorage.getItem('preferenceStore');
-    if (oldPreferences) {
-      try {
-        const prefs = JSON.parse(oldPreferences);
-        setLang(prefs.lang);
-        setSelectedArea(prefs.selectedArea);
-        setUseLocation(prefs.useLocation);
-        setOrder(prefs.order);
-        favoritesActions.set(prefs.favorites);
-        starredRestaurantsActions.set(prefs.starredRestaurants);
-        setDarkMode(prefs.darkMode);
-        setUpdatesLastSeenAt(prefs.updatesLastSeenAt);
-        localStorage.removeItem('preferenceStore');
-      } catch (e) {
-        console.warn('Could not migrate preferences', e);
-      }
-    }
-  }, []);
+  const darkMode =
+    typeof selectedDarkMode === 'boolean' // migration, can be removed after some time
+      ? selectedDarkMode
+      : selectedDarkMode === DarkModeChoice.DEFAULT
+      ? osDarkModeEnabled
+      : selectedDarkMode === DarkModeChoice.ON;
 
   React.useEffect(() => {
     if (darkMode) {
@@ -89,6 +79,7 @@ export const PreferenceContextProvider = (props: {
     () => ({
       addSuggestedUpdate: suggestedUpdatesActions.push,
       darkMode,
+      selectedDarkMode,
       favorites,
       order,
       selectedArea,
@@ -108,6 +99,7 @@ export const PreferenceContextProvider = (props: {
       updatesLastSeenAt,
       selectedArea,
       darkMode,
+      selectedDarkMode,
       favorites,
       order,
       starredRestaurants

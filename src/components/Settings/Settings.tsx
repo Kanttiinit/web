@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import { langContext, preferenceContext } from '../../contexts';
-import { Lang, Order } from '../../contexts/types';
+import { DarkModeChoice, Lang, Order } from '../../contexts/types';
 import { useTranslations } from '../../utils/hooks';
 import FavoriteSelector from '../FavoriteSelector';
 import PageContainer from '../PageContainer';
@@ -53,7 +53,7 @@ const Settings = () => {
   );
 
   const setDarkMode = React.useCallback(
-    (darkMode: boolean) => preferences.setDarkMode(darkMode),
+    (darkMode: DarkModeChoice) => preferences.setDarkMode(darkMode),
     []
   );
 
@@ -72,7 +72,15 @@ const Settings = () => {
         />
       </Item>
       <Item label={translations.darkMode}>
-        <Toggle selected={preferences.darkMode} onChange={setDarkMode} />
+        <Radio
+          options={[
+            { label: translations.default, value: DarkModeChoice.DEFAULT },
+            { label: translations.on, value: DarkModeChoice.ON },
+            { label: translations.off, value: DarkModeChoice.OFF }
+          ]}
+          selected={preferences.selectedDarkMode}
+          onChange={setDarkMode}
+        />
       </Item>
       <Item label={translations.order}>
         <Radio

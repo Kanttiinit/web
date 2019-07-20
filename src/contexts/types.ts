@@ -61,3 +61,9 @@ export enum Order {
   ALPHABET = 'ORDER_ALPHABET',
   DISTANCE = 'ORDER_DISTANCE'
 }
+
+export enum DarkModeChoice {
+  DEFAULT = 'DEFAULT',
+  ON = 'ON',
+  OFF = 'OFF'
+}

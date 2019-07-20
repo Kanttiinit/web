@@ -342,6 +342,18 @@ const translations = {
   address: {
     fi: 'Osoite',
     en: 'Address'
+  },
+  default: {
+    fi: 'Oletus',
+    en: 'Default'
+  },
+  on: {
+    fi: 'Päällä',
+    en: 'On'
+  },
+  off: {
+    fi: 'Pois',
+    en: 'Off'
   }
 };
 

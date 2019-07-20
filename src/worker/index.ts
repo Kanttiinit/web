@@ -15,7 +15,7 @@ const shouldCacheUrl = (url: string): boolean => {
     return true;
   }
   if (
-    url.match(/^https?\:\/\/((beta\.)?kanttiinit\.fi|localhost)/) &&
+    url.match(/.+\.amazonaws\.com|localhost/) &&
     url.match(/\.(js|png|svg|woff2)$/)
   ) {
     return true;

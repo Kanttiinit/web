@@ -20,7 +20,6 @@ declare module '*.scss' {
   export default classes;
 }
 
-declare module 'bugsnag-react';
 declare module 'pigeon-maps';
 declare module 'pigeon-overlay';
 declare module 'pigeon-draggable';

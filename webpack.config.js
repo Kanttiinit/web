@@ -81,7 +81,7 @@ const appConfig = {
   },
   output: {
     path: PATHS.dist,
-    publicPath: publicAssetPath,
+    publicPath: isProduction ? publicAssetPath : '/',
     filename: '[name].[hash].js',
     chunkFilename: '[hash].chunk.[chunkhash].js'
   },

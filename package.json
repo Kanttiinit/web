@@ -23,6 +23,7 @@
     "express": "^4.16.2",
     "file-loader": "^3.0.1",
     "haversine": "^1.1.0",
+    "html-webpack-plugin": "^3.2.0",
     "lodash": "^4.17.5",
     "pigeon-draggable": "^0.1.1",
     "pigeon-maps": "^0.13.0",
@@ -45,6 +46,7 @@
     "url-polyfill": "^1.0.11",
     "webpack": "^4.8.3",
     "webpack-cli": "^3.1.0",
+    "webpack-s3-plugin": "^1.0.3",
     "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
@@ -64,6 +66,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "dotenv": "^8.0.0",
     "npm-run-all": "^4.1.2",
     "prettier": "^1.16.1",
     "tslint": "^5.12.0",

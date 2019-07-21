@@ -106,13 +106,6 @@ const iconLinkStyles = css`
     color: var(--accent_color);
   }
 
-  :focus {
-    img,
-    svg {
-      transform: scale(1.1);
-    }
-  }
-
   svg {
     display: none;
   }
@@ -135,6 +128,7 @@ const NativeIconLink = styled.a`
 `;
 
 const FlagImg = styled.img`
+  cursor: pointer;
   height: 16px;
   width: auto;
   border-radius: 2px;

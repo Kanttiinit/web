@@ -26,7 +26,7 @@ export default createGlobalStyle`
     --friendly: #1bb518;
 
     &.dark {
-      --accent_color: #cfe8fc;
+      --accent_color: #eee;
 
       --gray7: #212121;
       --gray6: #313131;

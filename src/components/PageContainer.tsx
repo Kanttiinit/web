@@ -4,6 +4,7 @@ import styled from 'styled-components';
 interface Props {
   children?: any;
   title: any;
+  compactTitle?: boolean;
   className?: string;
 }
 
@@ -20,11 +21,12 @@ const Container = styled.div`
   }
 `;
 
-const Title = styled.h1`
+const Title = styled.h1<{ compact?: boolean }>`
   margin: 1em 0;
   font-weight: 300;
   letter-spacing: 0.02em;
   color: var(--gray1);
+  font-size: ${props => (props.compact ? '1.5em' : '1.75em')};
 
   &:first-child {
     margin-top: 0;
@@ -44,9 +46,9 @@ const Title = styled.h1`
   }
 `;
 
-const PageContainer = ({ children, title, ...rest }: Props) => (
+const PageContainer = ({ children, title, compactTitle, ...rest }: Props) => (
   <Container {...rest}>
-    {title && <Title>{title}</Title>}
+    {title && <Title compact={compactTitle}>{title}</Title>}
     {children}
   </Container>
 );

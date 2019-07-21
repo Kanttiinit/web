@@ -136,7 +136,7 @@ const ReportModal = (props: Props) => {
         }
       })}
     >
-      <PageContainer title={title}>
+      <PageContainer title={title} compactTitle>
         {done ? (
           translations.thanksForFeedback
         ) : activeForm ? (

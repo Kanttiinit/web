@@ -41,14 +41,15 @@ export default (props: FormProps) => {
       <Button
         disabled={props.isSending}
         type="submit"
-        variant="contained"
+        variant="outlined"
         color="primary"
+        style={{ marginRight: '1em' }}
       >
         {translations.send}
-      </Button>{' '}
+      </Button>
       <Button
         disabled={props.isSending}
-        variant="contained"
+        variant="outlined"
         onClick={props.goBack}
       >
         {translations.back}

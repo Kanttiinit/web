@@ -55,7 +55,7 @@ const Contact = () => {
               rows={10}
             />
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               disabled={sending}
               type="submit"

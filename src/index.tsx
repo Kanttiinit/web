@@ -15,10 +15,14 @@ import './worker/registerWorker';
 declare var window: any;
 
 if (consts.isProduction) {
-  window.Sentry.init({
-    dsn: 'https://374810f1636c4ad4a3e669a7f8621a4f@sentry.io/1466161',
-    release: consts.isProduction ? consts.version : 'DEV'
-  });
+  try {
+    window.Sentry.init({
+      dsn: 'https://374810f1636c4ad4a3e669a7f8621a4f@sentry.io/1466161',
+      release: consts.isProduction ? consts.version : 'DEV'
+    });
+  } catch (e) {
+    console.warn('Couldn\'t initialise Sentry:', e);
+  }
 }
 
 const ErrorMessage = () => {

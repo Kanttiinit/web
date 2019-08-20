@@ -20,20 +20,19 @@ const Container = styled.div`
 `;
 
 interface Props {
-  children: React.ReactNode;
+  children: any;
   text?: string;
   translationKey?: keyof (typeof translations);
   position?: Popper.Position;
   className?: string;
 }
 
-const Tooltip = (props: Props) => {
+const Tooltip = (props: Props): any => {
   const { lang } = React.useContext(langContext);
   const [isOpen, setIsOpen] = React.useState(false);
   const anchorRef = React.useRef<HTMLSpanElement>(null);
   const tooltipRef = React.useRef<HTMLDivElement>(null);
   const popper = React.useRef<Popper>(null);
-  const contents = props.text || translations[props.translationKey][lang];
 
   const open = () => setIsOpen(true);
 
@@ -46,6 +45,12 @@ const Tooltip = (props: Props) => {
       });
     }
   }, [tooltipRef.current, anchorRef.current, isOpen]);
+
+  if (!props.text && !(props.translationKey in translations)) {
+    return props.children;
+  }
+
+  const contents = props.text || translations[props.translationKey][lang];
 
   return (
     <React.Fragment>

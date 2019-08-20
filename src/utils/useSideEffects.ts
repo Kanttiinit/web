@@ -101,7 +101,7 @@ export default (location: any, history: any) => {
               const distance = haversine(currentLocation, coords, {
                 unit: 'meter'
               });
-              if (distance > 0.1) {
+              if (distance > 100) {
                 return coords;
               }
               return currentLocation;

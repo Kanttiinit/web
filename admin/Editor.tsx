@@ -30,7 +30,7 @@ class Editor extends React.PureComponent<Props> {
   state: {
     item: any;
   } = {
-    item: {}
+    item: undefined
   };
 
   updateItem(props: Props) {
@@ -95,6 +95,10 @@ class Editor extends React.PureComponent<Props> {
 
   render() {
     const { model, mode, onCancel } = this.props;
+
+    if (this.state.item === undefined) {
+      return null;
+    }
 
     return (
       <React.Fragment>

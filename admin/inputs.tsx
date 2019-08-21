@@ -278,7 +278,12 @@ export const PlainField = ({ value, field, setValue }: InputProps) => (
 );
 
 const OpeningHoursEditor = ({ value, field, setValue }: InputProps) => (
-  <OpeningHoursInput defaultValue={value || []} onChange={() => {}} />
+  <OpeningHoursInput
+    defaultValue={value || field.default}
+    onChange={change => {
+      setValue(field.path, change);
+    }}
+  />
 );
 
 const inputs: any = {

@@ -29,28 +29,38 @@ const OpeningHoursInput = (props: Props) => {
   const [openingHours, setOpeningHours] = React.useState<
     Array<string[] | null>
   >([]);
+  const firstRun = React.useRef(true);
+
   React.useEffect(() => {
-    setOpeningHours(
-      props.defaultValue.map(hours => {
-        if (!hours) {
-          return null;
-        }
-        return hours.map((hour: number) =>
-          String(hour).length === 4
-            ? String(hour).substr(0, 2) + ':' + String(hour).substr(2)
-            : String(hour)
-        );
-      })
-    );
+    if (firstRun.current) {
+      setOpeningHours(
+        props.defaultValue.map(hours => {
+          if (!hours) {
+            return null;
+          }
+          return hours.map((hour: number) =>
+            String(hour).length === 4
+              ? String(hour).substr(0, 2) + ':' + String(hour).substr(2)
+              : String(hour)
+          );
+        })
+      );
+    }
   }, [props.defaultValue]);
 
   React.useEffect(() => {
-    props.onChange(
-      openingHours.map(hours =>
-        hours ? hours.map(h => Number(h.replace(':', ''))) : null
-      )
-    );
+    if (!firstRun.current) {
+      props.onChange(
+        openingHours.map(hours =>
+          hours ? hours.map(h => Number(h.replace(':', ''))) : null
+        )
+      );
+    }
   }, [openingHours]);
+
+  React.useEffect(() => {
+    firstRun.current = false;
+  }, []);
 
   return (
     <React.Fragment>
@@ -80,7 +90,7 @@ const OpeningHoursInput = (props: Props) => {
 
         const createCopyFromPrevious = (dayIndex: number) => () => {
           const hours = [...openingHours];
-          hours[dayIndex] = hours[dayIndex - 1];
+          hours[dayIndex] = [...hours[dayIndex - 1]];
           setOpeningHours(hours);
         };
 
@@ -120,7 +130,7 @@ const OpeningHoursInput = (props: Props) => {
             <Tooltip translationKey="copyFromPreviousDay">
               <IconButton
                 onClick={createCopyFromPrevious(i)}
-                disabled={i === 0 || isClosed}
+                disabled={i === 0}
                 aria-label="Copy from previous"
               >
                 <CopyFromPrevious />

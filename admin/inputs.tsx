@@ -165,18 +165,15 @@ export const DateInput = ({ value, setValue, field }: InputProps) => (
 );
 
 const LocationInput = (props: GroupInputProps) => {
-  if (
-    typeof props.value[0] !== 'number' ||
-    typeof props.value[0] !== 'number'
-  ) {
-    return null;
-  }
   return (
     <LatLngInput
       value={props.value as [number, number]}
-      onChange={value => {
-        props.setValue('latitude', value[0]);
-        props.setValue('longitude', value[1]);
+      onChange={v => {
+        if (v[0] !== props.value[0]) {
+          props.setValue('latitude', v[0]);
+        } else {
+          props.setValue('longitude', v[1]);
+        }
       }}
     />
   );

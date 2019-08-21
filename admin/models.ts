@@ -22,7 +22,7 @@ export interface ModelField {
 export interface ModelFieldGroup {
   type: 'translated' | 'location';
   title: string;
-  fields: Array<ModelField>;
+  fields: ModelField[];
 }
 
 export interface RelationField {
@@ -39,11 +39,11 @@ export interface Model {
   name: string;
   key: string;
   tableFields: Array<{ key: string; name: string }>;
-  fields: Array<Field>;
+  fields: Field[];
   defaultSort?: string;
 }
 
-const models: Array<Model> = [
+const models: Model[] = [
   {
     name: 'Areas',
     key: 'areas',
@@ -72,8 +72,18 @@ const models: Array<Model> = [
         type: 'location',
         title: 'Location',
         fields: [
-          { path: 'latitude', title: 'Latitude', type: 'number' },
-          { path: 'longitude', title: 'Longitude', type: 'number' }
+          {
+            path: 'latitude',
+            default: 60.123,
+            title: 'Latitude',
+            type: 'number'
+          },
+          {
+            path: 'longitude',
+            default: 24.123,
+            title: 'Longitude',
+            type: 'number'
+          }
         ]
       },
       {
@@ -117,8 +127,18 @@ const models: Array<Model> = [
         type: 'location',
         title: 'Location',
         fields: [
-          { path: 'latitude', title: 'Latitude', type: 'number' },
-          { path: 'longitude', title: 'Longitude', type: 'number' }
+          {
+            path: 'latitude',
+            default: 60.123,
+            title: 'Latitude',
+            type: 'number'
+          },
+          {
+            path: 'longitude',
+            default: 24.123,
+            title: 'Longitude',
+            type: 'number'
+          }
         ]
       },
       { path: 'address', title: 'Address', type: 'address' },

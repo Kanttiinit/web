@@ -2,6 +2,7 @@ require('dotenv').config();
 const webpack = require('webpack');
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const pkg = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -32,7 +33,7 @@ const definePlugin = new webpack.DefinePlugin({
 
 const plugins = [
   new CleanWebpackPlugin({
-    cleanOnceBeforeBuildPatterns: []
+    cleanOnceBeforeBuildPatterns: ['**/*', '!worker*']
   }),
   definePlugin,
   new HtmlWebpackPlugin({
@@ -49,10 +50,22 @@ const plugins = [
 
 if (isProduction) {
   plugins.push(
+    new CompressionPlugin({
+      test: /\.(js|css)$/,
+      filename: '[path]'
+    }),
     new S3Plugin({
       include: /.*\.(map|js|png|svg)/,
       s3Options: { accessKeyId, secretAccessKey },
-      s3UploadOptions: { Bucket: s3Bucket, Region: s3Region }
+      s3UploadOptions: {
+        Bucket: s3Bucket,
+        Region: s3Region,
+        ContentEncoding(fileName) {
+          if (/\.(js|css)$/.test(fileName)) {
+            return 'gzip';
+          }
+        }
+      }
     })
   );
 }

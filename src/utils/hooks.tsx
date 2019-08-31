@@ -69,10 +69,9 @@ export const useSelectedArea = () => {
   const { areas } = React.useContext(dataContext);
   const { selectedArea } = React.useContext(preferenceContext);
 
-  return React.useMemo(() => areas.data.find(a => a.id === selectedArea), [
-    areas.data,
-    selectedArea
-  ]);
+  return React.useMemo(() => {
+    return areas.data.find(a => a.id === selectedArea);
+  }, [areas.data, selectedArea]);
 };
 
 export const useFormattedFavorites: () => FormattedFavoriteType[] = () => {

@@ -46,7 +46,7 @@ export default (location: any, history: any) => {
         api.getRestaurantsByIds(selectedArea.restaurants, lang)
       );
     }
-  }, [selectedArea, lang]);
+  }, [selectedArea ? selectedArea.id : null, lang]);
 
   useEffect(() => {
     if (preferences.selectedArea === -1) {
@@ -84,7 +84,7 @@ export default (location: any, history: any) => {
       const menus = api.getMenus(restaurantIds, [ui.selectedDay], lang);
       data.setMenus(menus);
     }
-  }, [data.restaurants.data, ui.selectedDay, lang]);
+  }, [data.restaurants.data.map(r => r.id).join(','), ui.selectedDay, lang]);
 
   // update location
   const [locationWatchId, setLocationWatchId] = useState(null);

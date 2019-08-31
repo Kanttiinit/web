@@ -31,7 +31,9 @@ const definePlugin = new webpack.DefinePlugin({
 });
 
 const plugins = [
-  new CleanWebpackPlugin(),
+  new CleanWebpackPlugin({
+    cleanOnceBeforeBuildPatterns: []
+  }),
   definePlugin,
   new HtmlWebpackPlugin({
     template: './src/index.html',

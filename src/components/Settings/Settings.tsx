@@ -71,12 +71,12 @@ const Settings = () => {
           onChange={setLang}
         />
       </Item>
-      <Item label={translations.darkMode}>
+      <Item label={translations.theme}>
         <Radio
           options={[
             { label: translations.default, value: DarkModeChoice.DEFAULT },
-            { label: translations.on, value: DarkModeChoice.ON },
-            { label: translations.off, value: DarkModeChoice.OFF }
+            { label: translations.light, value: DarkModeChoice.OFF },
+            { label: translations.dark, value: DarkModeChoice.ON }
           ]}
           selected={preferences.selectedDarkMode}
           onChange={setDarkMode}

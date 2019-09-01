@@ -283,9 +283,9 @@ const translations = {
     fi: 'Ei verkkoyhteyttä.',
     en: 'You are currently offline.'
   },
-  darkMode: {
-    fi: 'Tumma teema',
-    en: 'Dark mode'
+  theme: {
+    fi: 'Teema',
+    en: 'Theme'
   },
   copyURLToClipboard: {
     fi: 'Kopioi linkki leikepöydälle',
@@ -347,13 +347,13 @@ const translations = {
     fi: 'Oletus',
     en: 'Default'
   },
-  on: {
-    fi: 'Päällä',
-    en: 'On'
+  light: {
+    fi: 'Vaalea',
+    en: 'Light'
   },
-  off: {
-    fi: 'Pois',
-    en: 'Off'
+  dark: {
+    fi: 'Tumma',
+    en: 'Dark'
   }
 };
 

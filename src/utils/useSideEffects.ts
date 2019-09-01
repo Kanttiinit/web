@@ -84,7 +84,11 @@ export default (location: any, history: any) => {
       const menus = api.getMenus(restaurantIds, [ui.selectedDay], lang);
       data.setMenus(menus);
     }
-  }, [data.restaurants.data.map(r => r.id).join(','), ui.selectedDay, lang]);
+  }, [
+    data.restaurants.data.map(r => r.id).join(','),
+    ui.selectedDay.toString(),
+    lang
+  ]);
 
   // update location
   const [locationWatchId, setLocationWatchId] = useState(null);
@@ -145,6 +149,8 @@ export default (location: any, history: any) => {
       ) {
         ui.updateDisplayedDays();
       }
+
+      ui.updateDay(window.location);
     };
 
     window.addEventListener('focus', update);

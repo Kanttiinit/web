@@ -30,7 +30,7 @@ export function getNewPath(date: Date) {
 }
 
 function getDisplayedDays(): Date[] {
-  return times(6, (i: number) => addDays(new Date(), i));
+  return times(7, (i: number) => addDays(new Date(), i));
 }
 
 interface UIContextType {

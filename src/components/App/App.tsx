@@ -21,6 +21,7 @@ import Modal from '../Modal';
 import NotFound from '../NotFound';
 import ReportModal from '../ReportModal';
 import RestaurantList from '../RestaurantList';
+import Map from '../Map';
 import RestaurantModal from '../RestaurantModal';
 import Settings from '../Settings';
 import TermsOfService from '../TermsOfService';
@@ -58,7 +59,14 @@ const App = () => {
         <Container>
           <div>
             <TopBar />
-            <RestaurantList />
+            <Switch>
+              <Route exact path="/">
+                <RestaurantList />
+              </Route>
+              <Route path="/map">
+                <Map />
+              </Route>
+            </Switch>
           </div>
           <Footer />
         </Container>
@@ -66,6 +74,7 @@ const App = () => {
           <React.Suspense fallback={<AssetsLoading />}>
             <Switch>
               <Route exact path="/" render={null} />
+              <Route path="/map" render={null} />
               <Route path="/settings/favorites">
                 <FavoriteSelector />
               </Route>

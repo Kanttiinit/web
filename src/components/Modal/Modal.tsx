@@ -109,7 +109,7 @@ const Modal = (props: Props) => {
   );
 
   React.useEffect(() => {
-    setOpen(props.location.pathname !== '/');
+    setOpen(!['/', '/map'].includes(props.location.pathname));
   }, [props.location.pathname]);
 
   React.useEffect(() => {

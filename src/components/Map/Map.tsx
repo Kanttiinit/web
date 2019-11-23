@@ -7,6 +7,7 @@ import { RestaurantType } from '../../contexts/types';
 import http from '../../utils/http';
 import useResource from '../../utils/useResource';
 import Tooltip from '../Tooltip';
+import RestaurantInfoSheet from './RestaurantInfoSheet';
 
 const Container = styled.div`
   width: 100vw;
@@ -19,6 +20,7 @@ const Pin = styled.div`
   background: #2196f3;
   border-radius: 50%;
   border: solid 1px white;
+  cursor: pointer;
 `;
 
 const Global = createGlobalStyle`
@@ -35,6 +37,8 @@ const Map = () => {
     setRestaurants(http.get('/restaurants'));
   }, []);
 
+  const [activeRestaurant, setActiveRestaurant] = React.useState<RestaurantType>(null);
+
   return (
     <Container>
       <PigeonMap defaultZoom={14} defaultCenter={[60.1680363, 24.9317823]}>
@@ -45,12 +49,13 @@ const Map = () => {
             anchor={[restaurant.latitude, restaurant.longitude]}
           >
             <Tooltip text={restaurant.name}>
-              <Pin />
+              <Pin onClick={() => setActiveRestaurant(restaurant)} />
             </Tooltip>
           </Overlay>
         ))}
       </PigeonMap>
       <Global />
+      {!!activeRestaurant && <RestaurantInfoSheet restaurantData={activeRestaurant} />}
     </Container>
   );
 };

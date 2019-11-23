@@ -57,14 +57,14 @@ render(
     <ErrorBoundary>
       <BrowserRouter>
         <React.Suspense fallback={<AssetsLoading />}>
-          <Switch>
+          {/* <Switch>
             <Route path="/map">
               <Map />
-            </Route>
+            </Route> */}
             <Route>
               <App />
             </Route>
-          </Switch>
+          {/* </Switch> */}
         </React.Suspense>
       </BrowserRouter>
       <Global />

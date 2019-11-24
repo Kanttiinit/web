@@ -1,5 +1,3 @@
-import * as setIsoDay from 'date-fns/set_iso_day';
-import * as findIndex from 'lodash/findIndex';
 import * as React from 'react';
 import { MdHome, MdPlace } from 'react-icons/md';
 import styled from 'styled-components';
@@ -12,20 +10,7 @@ import InlineIcon from '../InlineIcon';
 import MenuViewer from '../MenuViewer';
 import PageContainer from '../PageContainer';
 import Map from './Map';
-
-function getOpeningHourString(hours: string[]) {
-  return hours.reduce((open, hour, i) => {
-    if (hour) {
-      const existingIndex = findIndex(open, ['hour', hour]);
-      if (existingIndex > -1) {
-        open[existingIndex].endDay = i;
-      } else {
-        open.push({ startDay: i, hour });
-      }
-    }
-    return open;
-  }, []);
-}
+import OpeningHours from './OpeningHours';
 
 const Info = styled.div`
   display: flex;
@@ -71,29 +56,6 @@ const MetaLink = styled.a`
   @media (max-width: ${props => props.theme.breakSmall}) {
     padding: 0;
   }
-`;
-
-const OpeningHoursContainer = styled.div`
-  display: table;
-  position: relative;
-  z-index: 1;
-  white-space: nowrap;
-`;
-
-const OpeningHoursRow = styled.div`
-  display: table-row;
-`;
-
-const OpeningHoursDay = styled.div`
-  display: table-cell;
-  text-transform: uppercase;
-  opacity: 0.6;
-  text-align: right;
-`;
-
-const OpeningHoursTime = styled.div`
-  display: table-cell;
-  padding-left: 0.4em;
 `;
 
 interface Props {
@@ -157,24 +119,7 @@ const RestaurantModal = (props: Props) => {
             {translations.homepage}
           </MetaLink>
         </LinkContainer>
-        <OpeningHoursContainer>
-          {getOpeningHourString(restaurant.openingHours).map(hours => (
-            <OpeningHoursRow key={hours.startDay}>
-              <OpeningHoursDay>
-                {formatDate(setIsoDay(new Date(), hours.startDay + 1), 'ddd')}
-                {hours.endDay && (
-                  <span>
-                    &nbsp;&ndash;&nbsp;
-                    {formatDate(setIsoDay(new Date(), hours.endDay + 1), 'ddd')}
-                  </span>
-                )}
-              </OpeningHoursDay>
-              <OpeningHoursTime>
-                {hours.hour.replace('-', '–') || translations.closed}
-              </OpeningHoursTime>
-            </OpeningHoursRow>
-          ))}
-        </OpeningHoursContainer>
+        <OpeningHours restaurant={restaurant} />
       </Info>
       <MenuViewer showCopyButton restaurantId={restaurant.id} />
       <Map

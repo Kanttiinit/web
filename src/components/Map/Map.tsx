@@ -37,7 +37,10 @@ const Map = () => {
     setRestaurants(http.get('/restaurants'));
   }, []);
 
-  const [activeRestaurant, setActiveRestaurant] = React.useState<RestaurantType>(null);
+  const [activeRestaurant, setActiveRestaurant] = React.useState<
+    RestaurantType
+  >(null);
+  const handleClose = () => setActiveRestaurant(null);
 
   return (
     <Container>
@@ -55,7 +58,12 @@ const Map = () => {
         ))}
       </PigeonMap>
       <Global />
-      {!!activeRestaurant && <RestaurantInfoSheet restaurantData={activeRestaurant} />}
+      {!!activeRestaurant && (
+        <RestaurantInfoSheet
+          restaurantData={activeRestaurant}
+          onClose={handleClose}
+        />
+      )}
     </Container>
   );
 };

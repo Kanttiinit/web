@@ -18,6 +18,8 @@ export interface AreaType {
   name: string;
   restaurants: number[];
   mapImageUrl: string;
+  latitude: number;
+  longitude: number;
 }
 
 export interface FavoriteType {

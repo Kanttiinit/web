@@ -3,11 +3,12 @@ import Overlay from 'pigeon-overlay';
 import * as React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 
-import { RestaurantType } from '../../contexts/types';
+import { RestaurantType, AreaType } from '../../contexts/types';
 import http from '../../utils/http';
 import useResource from '../../utils/useResource';
 import Tooltip from '../Tooltip';
 import RestaurantInfoSheet from './RestaurantInfoSheet';
+import { preferenceContext } from '../../contexts';
 
 const Container = styled.div`
   width: 100vw;
@@ -30,8 +31,15 @@ const Global = createGlobalStyle`
   }
 `;
 
+const DEFAULT_CENTER = [60.1680363, 24.9317823];
+
 const Map = () => {
+  const [areas, setAreas] = useResource<AreaType[]>([]);
   const [restaurants, setRestaurants] = useResource<RestaurantType[]>([]);
+
+  React.useEffect(() => {
+    setAreas(http.get('/areas'));
+  }, []);
 
   React.useEffect(() => {
     setRestaurants(http.get('/restaurants'));
@@ -42,9 +50,17 @@ const Map = () => {
   >(null);
   const handleClose = () => setActiveRestaurant(null);
 
+  const { selectedArea } = React.useContext(preferenceContext);
+  const areaToCenter = (areas.data || []).find(
+    area => area.id === selectedArea
+  );
+  const center = areaToCenter
+    ? [areaToCenter.latitude, areaToCenter.longitude]
+    : DEFAULT_CENTER;
+
   return (
     <Container>
-      <PigeonMap defaultZoom={14} defaultCenter={[60.1680363, 24.9317823]}>
+      <PigeonMap defaultZoom={14} center={center}>
         {restaurants.data.map(restaurant => (
           <Overlay
             key={restaurant.id}

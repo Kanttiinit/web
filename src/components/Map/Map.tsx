@@ -9,25 +9,16 @@ import useResource from '../../utils/useResource';
 import Tooltip from '../Tooltip';
 import RestaurantInfoSheet from './RestaurantInfoSheet';
 import { preferenceContext } from '../../contexts';
-import { number } from 'prop-types';
 
 const DEFAULT_CENTER = [60.1680363, 24.9317823];
 
 function getCenter(activeRestaurant: RestaurantType, activeArea: AreaType) {
-  // return DEFAULT_CENTER;
-  const areaHasRestaurant =
-    !activeRestaurant ||
-    ((activeArea && activeArea.restaurants) || [])
-      .map(r => r.id)
-      .includes(activeRestaurant.id);
-
-  // active restaurant > selected area center
-
-  return activeRestaurant
-    ? [activeRestaurant.latitude, activeRestaurant.longitude]
-    : activeArea
-    ? [activeArea.latitude, activeArea.longitude]
-    : DEFAULT_CENTER;
+  if (activeRestaurant) {
+    return [activeRestaurant.latitude, activeRestaurant.longitude];
+  } else if (activeArea) {
+    return [activeArea.latitude, activeArea.longitude];
+  }
+  return DEFAULT_CENTER;
 }
 
 function getDelay(restaurant: RestaurantType): number {
@@ -90,9 +81,19 @@ const Map = () => {
   >(null);
   const handleClose = () => setActiveRestaurant(null);
 
-  const { selectedArea } = React.useContext(preferenceContext);
+  const { selectedArea, setSelectedArea } = React.useContext(preferenceContext);
   const activeArea = (areas.data || []).find(area => area.id === selectedArea);
   const center = getCenter(activeRestaurant, activeArea);
+
+  if (activeRestaurant) {
+    const restaurantArea = (areas.data || []).find(
+      area =>
+        !!area.restaurants.find(
+          (r: RestaurantType) => r.id === activeRestaurant.id
+        )
+    );
+    setSelectedArea(restaurantArea.id);
+  }
 
   return (
     <Container>
@@ -105,7 +106,9 @@ const Map = () => {
           >
             <Tooltip text={restaurant.name}>
               <Pin
-                active={activeRestaurant && activeRestaurant.id === restaurant.id}
+                active={
+                  activeRestaurant && activeRestaurant.id === restaurant.id
+                }
                 onClick={() => setActiveRestaurant(restaurant)}
                 delay={getDelay(restaurant)}
               />

@@ -87,19 +87,23 @@ const VersionLink = styled.a`
   }
 `;
 
-export default () => {
+export default ({ root }: { root: string }) => {
   const translations = useTranslations();
   return (
     <Footer>
       <NavigationContainer>
         <LogoImage alt="Kanttiinit logo" src={logo} />
         <nav>
-          <StyledNavLink to="/contact">{translations.contact}</StyledNavLink>
-          <StyledNavLink to="/clients">
+          <StyledNavLink to={root + '/contact'}>
+            {translations.contact}
+          </StyledNavLink>
+          <StyledNavLink to={root + '/clients'}>
             {translations.otherClients}
           </StyledNavLink>
-          <StyledNavLink to="/news">{translations.updates}</StyledNavLink>
-          <StyledNavLink to="/terms-of-service">
+          <StyledNavLink to={root + '/news'}>
+            {translations.updates}
+          </StyledNavLink>
+          <StyledNavLink to={root + '/terms-of-service'}>
             {translations.termsOfService}
           </StyledNavLink>
           {!isBeta && (

@@ -62,14 +62,15 @@ const App = () => {
               <Route path="/map">
                 <TopBar root={'/map'} />
                 <Map />
+                <Footer root={'/map'} />
               </Route>
               <Route path="/">
                 <TopBar root={''} />
                 <RestaurantList />
+                <Footer root={''} />
               </Route>
             </Switch>
           </div>
-          <Footer />
         </Container>
         <Modal>
           <React.Suspense fallback={<AssetsLoading />}>
@@ -81,19 +82,19 @@ const App = () => {
               <Route path={['/settings', '/map/settings']}>
                 <Settings />
               </Route>
-              <Route path="/contact">
+              <Route path={['/contact', '/map/contact']}>
                 <Contact />
               </Route>
-              <Route path="/terms-of-service">
+              <Route path={['/terms-of-service', '/map/terms-of-service']}>
                 <TermsOfService />
               </Route>
-              <Route path="/select-area">
+              <Route path={['/select-area', '/map/select-area']}>
                 <AreaSelector />
               </Route>
-              <Route path="/clients">
+              <Route path={['/clients', '/map/clients']}>
                 <Clients />
               </Route>
-              <Route path="/news">
+              <Route path={['/news', '/map/news']}>
                 <ChangeLog />
               </Route>
               <Route path="/restaurant/:id">

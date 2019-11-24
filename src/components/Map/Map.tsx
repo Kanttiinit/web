@@ -9,11 +9,12 @@ import useResource from '../../utils/useResource';
 import Tooltip from '../Tooltip';
 import RestaurantInfoSheet from './RestaurantInfoSheet';
 import { preferenceContext } from '../../contexts';
+import { number } from 'prop-types';
 
 const DEFAULT_CENTER = [60.1680363, 24.9317823];
 
 function getCenter(activeRestaurant: RestaurantType, activeArea: AreaType) {
-  return DEFAULT_CENTER;
+  // return DEFAULT_CENTER;
   const areaHasRestaurant =
     !activeRestaurant ||
     ((activeArea && activeArea.restaurants) || [])
@@ -38,10 +39,16 @@ const Container = styled.div`
   height: 100vh;
 `;
 
+interface PinProps {
+  delay: number;
+  active: boolean;
+}
+
 const Pin = styled.div`
   width: 13px;
   height: 13px;
-  background: #2196f3;
+  background-color: ${(props: PinProps) =>
+    props.active ? '#23c0ff' : '#2196f3'};
   border-radius: 50%;
   border: solid 1px white;
   cursor: pointer;
@@ -56,7 +63,7 @@ const Pin = styled.div`
     }
   }
   animation: slide-in-top 0.4s ease-out 0.1s both;
-  animation-delay: ${(props: { delay: number }) => props.delay + 's'};
+  animation-delay: ${(props: PinProps) => props.delay + 's'};
 `;
 
 const Global = createGlobalStyle`
@@ -87,8 +94,6 @@ const Map = () => {
   const activeArea = (areas.data || []).find(area => area.id === selectedArea);
   const center = getCenter(activeRestaurant, activeArea);
 
-  const loaded = areas.fulfilled && restaurants.fulfilled;
-
   return (
     <Container>
       <PigeonMap defaultZoom={12} center={center}>
@@ -99,7 +104,11 @@ const Map = () => {
             anchor={[restaurant.latitude, restaurant.longitude]}
           >
             <Tooltip text={restaurant.name}>
-              <Pin onClick={() => setActiveRestaurant(restaurant)} delay={getDelay(restaurant)} />
+              <Pin
+                active={activeRestaurant && activeRestaurant.id === restaurant.id}
+                onClick={() => setActiveRestaurant(restaurant)}
+                delay={getDelay(restaurant)}
+              />
             </Tooltip>
           </Overlay>
         ))}

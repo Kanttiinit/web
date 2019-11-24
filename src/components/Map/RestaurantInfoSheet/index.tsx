@@ -12,28 +12,34 @@ export interface Props {
 }
 
 const Container = styled.div`
-  @keyframes slide-in-right {
-    0% {
-      -webkit-transform: translateX(1000px);
-      transform: translateX(1000px);
-      opacity: 0;
-    }
-    100% {
-      -webkit-transform: translateX(0);
-      transform: translateX(0);
-      opacity: 1;
-    }
+  position: absolute;
+  background: var(--gray7);
+
+  @media (min-width: ${props => props.theme.breakSmall}) {
+    top: 48px;
+    bottom: 0;
+    right: 0;
+    width: 400px;
+    height: 100%;
   }
 
-  /* animation: slide-in-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; */
-  position: absolute;
-  top: 48px;
-  padding: 1em;
-  bottom: 0;
-  right: 0;
-  width: 400px;
-  height: 100%;
-  background: var(--gray7);
+  @media (max-width: ${props => props.theme.breakLarge}) {
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    min-height: 200px;
+  }
+`;
+
+const Content = styled.div`
+  @media (min-width: ${props => props.theme.breakSmall}) {
+    padding: 1em;
+  }
+
+  @media (max-width: ${props => props.theme.breakLarge}) {
+    padding: 0.5em;
+  }
 `;
 
 const IconButton = styled.div`
@@ -53,20 +59,22 @@ const RestaurantHeader = styled.div`
 const RestaurantInfoSheet = ({ restaurantData, onClose }: Props) => {
   return (
     <Container>
-      <RestaurantHeader>
-        <div>
-          <h3>{restaurantData.name}</h3>
+      <Content>
+        <RestaurantHeader>
           <div>
-            <OpeningHours restaurant={restaurantData} />
+            <h3>{restaurantData.name}</h3>
+            <div>
+              <OpeningHours restaurant={restaurantData} />
+            </div>
           </div>
-        </div>
-        <IconButton onClick={onClose}>
-          <InlineIcon>
-            <MdClose size={22} />
-          </InlineIcon>
-        </IconButton>
-      </RestaurantHeader>
-      <MenuViewer restaurantId={restaurantData.id} />
+          <IconButton onClick={onClose}>
+            <InlineIcon>
+              <MdClose size={22} />
+            </InlineIcon>
+          </IconButton>
+        </RestaurantHeader>
+        <MenuViewer restaurantId={restaurantData.id} />
+      </Content>
     </Container>
   );
 };

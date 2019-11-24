@@ -29,6 +29,10 @@ function getCenter(activeRestaurant: RestaurantType, activeArea: AreaType) {
     : DEFAULT_CENTER;
 }
 
+function getDelay(restaurant: RestaurantType): number {
+  return (restaurant.longitude - 24.805201) * 2;
+}
+
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -43,17 +47,15 @@ const Pin = styled.div`
   cursor: pointer;
   @keyframes slide-in-top {
     0% {
-      -webkit-transform: translateY(-1000px);
-      transform: translateY(-1000px);
+      transform: translateY(-300px);
       opacity: 0;
     }
     100% {
-      -webkit-transform: translateY(0);
       transform: translateY(0);
       opacity: 1;
     }
   }
-  animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-in-top 0.4s ease-out 0.1s both;
   animation-delay: ${(props: { delay: number }) => props.delay + 's'};
 `;
 
@@ -89,7 +91,7 @@ const Map = () => {
 
   return (
     <Container>
-      <PigeonMap defaultZoom={14} center={center}>
+      <PigeonMap defaultZoom={12} center={center}>
         {restaurants.data.map(restaurant => (
           <Overlay
             key={restaurant.id}
@@ -97,7 +99,7 @@ const Map = () => {
             anchor={[restaurant.latitude, restaurant.longitude]}
           >
             <Tooltip text={restaurant.name}>
-              <Pin onClick={() => setActiveRestaurant(restaurant)} delay={0.01 * restaurant.id} />
+              <Pin onClick={() => setActiveRestaurant(restaurant)} delay={getDelay(restaurant)} />
             </Tooltip>
           </Overlay>
         ))}

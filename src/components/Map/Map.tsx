@@ -13,13 +13,16 @@ import { preferenceContext } from '../../contexts';
 const DEFAULT_CENTER = [60.1680363, 24.9317823];
 
 function getCenter(activeRestaurant: RestaurantType, activeArea: AreaType) {
+  return DEFAULT_CENTER;
   const areaHasRestaurant =
     !activeRestaurant ||
     ((activeArea && activeArea.restaurants) || [])
       .map(r => r.id)
       .includes(activeRestaurant.id);
 
-  return areaHasRestaurant && activeRestaurant
+  // active restaurant > selected area center
+
+  return activeRestaurant
     ? [activeRestaurant.latitude, activeRestaurant.longitude]
     : activeArea
     ? [activeArea.latitude, activeArea.longitude]
@@ -38,6 +41,20 @@ const Pin = styled.div`
   border-radius: 50%;
   border: solid 1px white;
   cursor: pointer;
+  @keyframes slide-in-top {
+    0% {
+      -webkit-transform: translateY(-1000px);
+      transform: translateY(-1000px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation-delay: ${(props: { delay: number }) => props.delay + 's'};
 `;
 
 const Global = createGlobalStyle`
@@ -68,6 +85,8 @@ const Map = () => {
   const activeArea = (areas.data || []).find(area => area.id === selectedArea);
   const center = getCenter(activeRestaurant, activeArea);
 
+  const loaded = areas.fulfilled && restaurants.fulfilled;
+
   return (
     <Container>
       <PigeonMap defaultZoom={14} center={center}>
@@ -78,7 +97,7 @@ const Map = () => {
             anchor={[restaurant.latitude, restaurant.longitude]}
           >
             <Tooltip text={restaurant.name}>
-              <Pin onClick={() => setActiveRestaurant(restaurant)} />
+              <Pin onClick={() => setActiveRestaurant(restaurant)} delay={0.01 * restaurant.id} />
             </Tooltip>
           </Overlay>
         ))}

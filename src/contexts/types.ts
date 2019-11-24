@@ -1,3 +1,5 @@
+import { Shape } from 'react-native';
+
 export interface RestaurantType {
   id: number;
   name: string;
@@ -16,7 +18,7 @@ export interface RestaurantType {
 export interface AreaType {
   id: number;
   name: string;
-  restaurants: number[];
+  restaurants: Partial<RestaurantType>[];
   mapImageUrl: string;
   latitude: number;
   longitude: number;

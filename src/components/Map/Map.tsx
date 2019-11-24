@@ -10,6 +10,22 @@ import Tooltip from '../Tooltip';
 import RestaurantInfoSheet from './RestaurantInfoSheet';
 import { preferenceContext } from '../../contexts';
 
+const DEFAULT_CENTER = [60.1680363, 24.9317823];
+
+function getCenter(activeRestaurant: RestaurantType, activeArea: AreaType) {
+  const areaHasRestaurant =
+    !activeRestaurant ||
+    ((activeArea && activeArea.restaurants) || [])
+      .map(r => r.id)
+      .includes(activeRestaurant.id);
+
+  return areaHasRestaurant && activeRestaurant
+    ? [activeRestaurant.latitude, activeRestaurant.longitude]
+    : activeArea
+    ? [activeArea.latitude, activeArea.longitude]
+    : DEFAULT_CENTER;
+}
+
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -31,8 +47,6 @@ const Global = createGlobalStyle`
   }
 `;
 
-const DEFAULT_CENTER = [60.1680363, 24.9317823];
-
 const Map = () => {
   const [areas, setAreas] = useResource<AreaType[]>([]);
   const [restaurants, setRestaurants] = useResource<RestaurantType[]>([]);
@@ -51,12 +65,8 @@ const Map = () => {
   const handleClose = () => setActiveRestaurant(null);
 
   const { selectedArea } = React.useContext(preferenceContext);
-  const areaToCenter = (areas.data || []).find(
-    area => area.id === selectedArea
-  );
-  const center = areaToCenter
-    ? [areaToCenter.latitude, areaToCenter.longitude]
-    : DEFAULT_CENTER;
+  const activeArea = (areas.data || []).find(area => area.id === selectedArea);
+  const center = getCenter(activeRestaurant, activeArea);
 
   return (
     <Container>

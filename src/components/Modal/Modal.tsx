@@ -103,8 +103,10 @@ const Modal = (props: Props) => {
   const [open, setOpen] = React.useState(false);
   const translations = useTranslations();
 
+  const parentPath = props.location.pathname.replace('/settings', '');
+
   const closeModal = React.useCallback(
-    () => props.history.replace('/' + props.location.search),
+    () => props.history.replace(parentPath + props.location.search),
     [props.location]
   );
 

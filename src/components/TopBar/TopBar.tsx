@@ -135,7 +135,7 @@ const FlagImg = styled.img`
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.33);
 `;
 
-const TopBar = () => {
+const TopBar = ({ root }: { root: string }) => {
   const unseenUpdates = useUnseenUpdates();
   const translations = useTranslations();
   const { lang, toggleLang } = React.useContext(langContext);
@@ -195,9 +195,9 @@ const TopBar = () => {
   return (
     <Container>
       <Content>
-        <DaySelector root="/" />
+        <DaySelector root={root} />
         {unseenUpdates.length > 0 && (
-          <Link to="/news">
+          <Link to={root + '/news'}>
             <InlineIcon>
               <NewsIcon size={24} />
             </InlineIcon>
@@ -217,7 +217,7 @@ const TopBar = () => {
             <AreaSelector onAreaSelected={toggleAreaSelector} />
           </AreaSelectorContainer>
         </AreaSelectorButton>
-        <IconLink to="/settings" aria-label="Settings">
+        <IconLink to={root + '/settings'} aria-label="Settings">
           <MdSettings size={18} />
           <span>{translations.settings}</span>
         </IconLink>

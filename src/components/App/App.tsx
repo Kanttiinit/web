@@ -58,13 +58,14 @@ const App = () => {
       <React.Fragment>
         <Container>
           <div>
-            <TopBar />
             <Switch>
-              <Route exact path="/">
-                <RestaurantList />
-              </Route>
               <Route path="/map">
+                <TopBar root={'/map'} />
                 <Map />
+              </Route>
+              <Route path="/">
+                <TopBar root={''} />
+                <RestaurantList />
               </Route>
             </Switch>
           </div>
@@ -74,11 +75,10 @@ const App = () => {
           <React.Suspense fallback={<AssetsLoading />}>
             <Switch>
               <Route exact path="/" render={null} />
-              <Route path="/map" render={null} />
-              <Route path="/settings/favorites">
+              <Route path={['/settings/favorites', '/map/settings/favorites']}>
                 <FavoriteSelector />
               </Route>
-              <Route path="/settings">
+              <Route path={['/settings', '/map/settings']}>
                 <Settings />
               </Route>
               <Route path="/contact">

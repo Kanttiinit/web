@@ -12,6 +12,20 @@ export interface Props {
 }
 
 const Container = styled.div`
+  @keyframes slide-in-right {
+    0% {
+      -webkit-transform: translateX(1000px);
+      transform: translateX(1000px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateX(0);
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  /* animation: slide-in-right 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; */
   position: absolute;
   top: 48px;
   padding: 1em;

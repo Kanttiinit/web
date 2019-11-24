@@ -49,6 +49,7 @@ const IconButton = styled.div`
 const RestaurantHeader = styled.div`
   display: flex;
   justify-content: space-between;
+  color: var(--gray2);
 
   h3 {
     margin: 0;

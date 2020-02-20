@@ -7,7 +7,7 @@ import * as startOfDay from 'date-fns/start_of_day';
 import * as times from 'lodash/times';
 import * as React from 'react';
 
-const maxDayOffset = 5;
+const maxDayOffset = 6;
 const dateFormat = 'YYYY-MM-DD';
 
 export function isDateInRange(date: Date) {
@@ -30,7 +30,7 @@ export function getNewPath(date: Date) {
 }
 
 function getDisplayedDays(): Date[] {
-  return times(7, (i: number) => addDays(new Date(), i));
+  return times(maxDayOffset + 1, (i: number) => addDays(new Date(), i));
 }
 
 interface UIContextType {

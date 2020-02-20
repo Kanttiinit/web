@@ -6,6 +6,11 @@ import styled from 'styled-components';
 
 import { RestaurantType } from '../../contexts/types';
 
+const osmProvider = (x: number, y: number, z: number) => {
+  const s = String.fromCharCode(97 + ((x + y + z) % 3));
+  return `https://${s}.tile.openstreetmap.org/${z}/${x}/${y}.png`;
+};
+
 const Container = styled.div`
   border-top: 1px solid var(--gray6);
   border-bottom: 1px solid var(--gray6);
@@ -38,7 +43,11 @@ interface Props {
 
 const RestaurantMap = (props: Props) => (
   <Container>
-    <Map defaultZoom={14} defaultCenter={props.restaurantPoint}>
+    <Map
+      defaultZoom={14}
+      defaultCenter={props.restaurantPoint}
+      provider={osmProvider}
+    >
       <Overlay anchor={props.restaurantPoint} offset={[12, 24]}>
         <RestaurantPin>
           <MdLocationOn size={24} />

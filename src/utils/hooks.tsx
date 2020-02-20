@@ -1,12 +1,12 @@
-import * as format from 'date-fns/format';
-import * as getIsoDay from 'date-fns/get_iso_day';
-import * as isAfter from 'date-fns/is_after';
-import * as isBefore from 'date-fns/is_before';
-import * as enLocale from 'date-fns/locale/en';
-import * as fiLocale from 'date-fns/locale/fi';
-import * as parse from 'date-fns/parse';
-import * as setHours from 'date-fns/set_hours';
-import * as setMinutes from 'date-fns/set_minutes';
+import format from 'date-fns/format';
+import getIsoDay from 'date-fns/getISODay';
+import isAfter from 'date-fns/isAfter';
+import isBefore from 'date-fns/isBefore';
+import enLocale from 'date-fns/locale/en-GB';
+import fiLocale from 'date-fns/locale/fi';
+import parseISO from 'date-fns/parseISO';
+import setHours from 'date-fns/setHours';
+import setMinutes from 'date-fns/setMinutes';
 import * as haversine from 'haversine';
 import * as get from 'lodash/get';
 import * as orderBy from 'lodash/orderBy';
@@ -61,7 +61,8 @@ export const useUnseenUpdates = () => {
   }
 
   return updates.data.filter(
-    update => parse(update.createdAt).getTime() > preferences.updatesLastSeenAt
+    update =>
+      parseISO(update.createdAt).getTime() > preferences.updatesLastSeenAt
   );
 };
 
@@ -140,7 +141,7 @@ export const useFormattedRestaurants: () => RestaurantType[] = () => {
     const restaurants = data.restaurants.data.map(restaurant => {
       const courses = get(
         data.menus.data,
-        [restaurant.id, format(day, 'YYYY-MM-DD')],
+        [restaurant.id, format(day, 'y-MM-dd')],
         []
       ).filter((course: CourseType) => course.title);
       const distance =

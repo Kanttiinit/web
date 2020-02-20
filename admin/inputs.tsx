@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
-import * as format from 'date-fns/format';
+import format from 'date-fns/format';
 import * as get from 'lodash/fp/get';
 import * as sortBy from 'lodash/fp/sortBy';
 import * as React from 'react';

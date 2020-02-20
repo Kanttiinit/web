@@ -2,7 +2,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
 import CopyFromPrevious from '@material-ui/icons/SubdirectoryArrowLeft';
-import * as setISODay from 'date-fns/set_iso_day';
+import setISODay from 'date-fns/setISODay';
 import * as React from 'react';
 import styled from 'styled-components';
 
@@ -18,17 +18,17 @@ const InputGroup = styled.div`
 
 interface Props {
   lang?: Lang;
-  defaultValue: Array<number[] | null>;
+  defaultValue: (number[] | null)[];
   disabled?: boolean;
-  onChange(hours: Array<number[] | null>): void;
+  onChange(hours: (number[] | null)[]): void;
 }
 
 const OpeningHoursInput = (props: Props) => {
   const translations = useTranslations();
   const formatDate = useFormatDate();
-  const [openingHours, setOpeningHours] = React.useState<
-    Array<string[] | null>
-  >([]);
+  const [openingHours, setOpeningHours] = React.useState<(string[] | null)[]>(
+    []
+  );
   const firstRun = React.useRef(true);
 
   React.useEffect(() => {

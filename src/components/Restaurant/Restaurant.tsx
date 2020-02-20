@@ -1,5 +1,5 @@
-import * as getIsoDay from 'date-fns/get_iso_day';
-import * as isSameDay from 'date-fns/is_same_day';
+import getIsoDay from 'date-fns/getISODay';
+import isSameDay from 'date-fns/isSameDay';
 import * as React from 'react';
 import {
   MdDirectionsBike,

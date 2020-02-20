@@ -1,4 +1,4 @@
-import * as setIsoDay from 'date-fns/set_iso_day';
+import setIsoDay from 'date-fns/setISODay';
 import * as findIndex from 'lodash/findIndex';
 import * as React from 'react';
 import { MdHome, MdPlace } from 'react-icons/md';

@@ -1,14 +1,14 @@
-import * as addDays from 'date-fns/add_days';
-import * as format from 'date-fns/format';
-import * as isBefore from 'date-fns/is_before';
-import * as isSameDay from 'date-fns/is_same_day';
-import * as parse from 'date-fns/parse';
-import * as startOfDay from 'date-fns/start_of_day';
+import addDays from 'date-fns/addDays';
+import format from 'date-fns/format';
+import isBefore from 'date-fns/isBefore';
+import isSameDay from 'date-fns/isSameDay';
+import parse from 'date-fns/parse';
+import startOfDay from 'date-fns/startOfDay';
 import * as times from 'lodash/times';
 import * as React from 'react';
 
 const maxDayOffset = 6;
-const dateFormat = 'YYYY-MM-DD';
+const dateFormat = 'y-MM-dd';
 
 export function isDateInRange(date: Date) {
   const now = startOfDay(new Date());
@@ -30,7 +30,8 @@ export function getNewPath(date: Date) {
 }
 
 function getDisplayedDays(): Date[] {
-  return times(maxDayOffset + 1, (i: number) => addDays(new Date(), i));
+  const now = new Date();
+  return times(maxDayOffset + 1, (i: number) => addDays(now, i));
 }
 
 interface UIContextType {
@@ -59,7 +60,11 @@ export const UIStateProvider = (props: { children: React.ReactNode }) => {
       setLocation,
       updateDay(loc: Location) {
         const day = new URL(loc.href).searchParams.get('day');
-        setDate(day ? startOfDay(parse(day)) : startOfDay(new Date()));
+        setDate(
+          day
+            ? startOfDay(parse(day, 'y-MM-dd', new Date()))
+            : startOfDay(new Date())
+        );
       },
       updateDisplayedDays() {
         setDisplayedDays(getDisplayedDays());

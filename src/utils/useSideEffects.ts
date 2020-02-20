@@ -1,5 +1,5 @@
-import * as addDays from 'date-fns/add_days';
-import * as isSameDay from 'date-fns/is_same_day';
+import addDays from 'date-fns/addDays';
+import isSameDay from 'date-fns/isSameDay';
 import * as haversine from 'haversine';
 import { useContext, useEffect, useState } from 'react';
 import * as GA from 'react-ga';

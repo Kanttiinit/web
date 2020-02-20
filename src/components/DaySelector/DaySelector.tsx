@@ -1,5 +1,5 @@
-import * as format from 'date-fns/format';
-import * as isSameDay from 'date-fns/is_same_day';
+import format from 'date-fns/format';
+import isSameDay from 'date-fns/isSameDay';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -73,12 +73,12 @@ const DayLink = ({ day, selectedDay, root }: DayLinkProps) => {
   const formatDate = useFormatDate();
   const search = isSameDay(day, new Date())
     ? ''
-    : `?day=${format(day, 'YYYY-MM-DD')}`;
+    : `?day=${format(day, 'y-MM-dd')}`;
   const active = isSameDay(selectedDay, day);
 
   return (
     <StyledLink activeLink={active} to={{ pathname: root, search }}>
-      {formatDate(day, 'dd D.M.')}
+      {formatDate(day, 'iiiiii d.M.')}
     </StyledLink>
   );
 };
@@ -93,7 +93,7 @@ export default React.memo(({ root }: { root: string }) => {
       )}
       {ui.displayedDays.map(day => (
         <DayLink
-          key={format(day, 'YYYY-MM-DD')}
+          key={format(day, 'y-MM-dd')}
           root={root}
           selectedDay={selectedDay}
           day={day}

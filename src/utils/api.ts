@@ -1,4 +1,4 @@
-import * as format from 'date-fns/format';
+import format from 'date-fns/format';
 import http from './http';
 
 import {
@@ -19,7 +19,7 @@ export const getCourses = async (
   const restaurant = await http.get(
     `/restaurants/${restaurantId}/menu?day=${format(
       day,
-      'YYYY-MM-DD'
+      'y-MM-dd'
     )}&lang=${lang}`
   );
   if (!restaurant.menus.length) {
@@ -35,9 +35,9 @@ export const getMenus = (
   lang: string
 ): Promise<MenuType> => {
   return http.get(
-    `/menus?lang=${lang}&restaurants=${restaurantIds.join(',')}&days=${days
-      .map(day => format(day, 'YYYY-MM-DD'))
-      .join(',')}`
+    `/menus?lang=${lang}&restaurants=${restaurantIds.join(
+      ','
+    )}&days=${days.map(day => format(day, 'y-MM-dd')).join(',')}`
   );
 };
 

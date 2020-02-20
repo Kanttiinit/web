@@ -1,4 +1,5 @@
-import * as distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
+import distanceInWordsToNow from 'date-fns/formatDistanceToNow';
+import parseISO from 'date-fns/parseISO';
 import * as React from 'react';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import snarkdown from 'snarkdown';
@@ -96,7 +97,7 @@ const ChangeLog = () => {
               <ArrowDownIcon isVisible={isVisible} size={30} />
               <UpdateContent>
                 <PublishedAt>
-                  {distanceInWordsToNow(update.createdAt)}
+                  {distanceInWordsToNow(parseISO(update.createdAt))}
                 </PublishedAt>
                 <Title>{update.title}</Title>
                 <Collapse isOpen={isVisible}>

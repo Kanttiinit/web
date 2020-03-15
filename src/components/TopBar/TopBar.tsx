@@ -1,5 +1,4 @@
 import * as React from 'react';
-import ClickOutside from 'react-click-outside';
 import { MdFiberNew, MdMap, MdSettings } from 'react-icons/md';
 const FI = require('./fi.svg').default;
 const EN = require('./en.svg').default;
@@ -8,6 +7,7 @@ import styled, { css } from 'styled-components';
 import { langContext } from '../../contexts';
 import { useTranslations, useUnseenUpdates } from '../../utils/hooks';
 import AreaSelector from '../AreaSelector';
+import ClickOutside from '../ClickOutside';
 import DaySelector from '../DaySelector';
 import InlineIcon from '../InlineIcon';
 import Link from '../Link';

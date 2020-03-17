@@ -12,11 +12,17 @@ export interface ModelField {
     | 'date'
     | 'text'
     | 'dayOfWeek'
+    | 'enum'
     | 'openingHours';
   path: string;
   title: string;
   default?: any;
   required?: boolean;
+}
+
+export interface EnumField extends ModelField {
+  type: 'enum';
+  values: string[];
 }
 
 export interface ModelFieldGroup {
@@ -33,12 +39,12 @@ export interface RelationField {
   relationDisplayField: string;
 }
 
-export type Field = ModelField | ModelFieldGroup | RelationField;
+export type Field = ModelField | EnumField | ModelFieldGroup | RelationField;
 
 export interface Model {
   name: string;
   key: string;
-  tableFields: Array<{ key: string; name: string }>;
+  tableFields: { key: string; name: string }[];
   fields: Field[];
   defaultSort?: string;
 }
@@ -114,6 +120,13 @@ const models: Model[] = [
           { path: 'name_i18n.fi', title: 'Finnish' },
           { path: 'name_i18n.en', title: 'English' }
         ]
+      },
+      {
+        path: 'priceCategory',
+        type: 'enum',
+        title: 'Price Category',
+        values: ['student', 'regular', 'studentPremium'],
+        default: 'student'
       },
       {
         path: 'openingHours',

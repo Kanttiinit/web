@@ -9,6 +9,10 @@ interface Props {
   value: [number, number];
   onChange(latLng: [number, number]): void;
 }
+const osmProvider = (x: number, y: number, z: number) => {
+  const s = String.fromCharCode(97 + ((x + y + z) % 3));
+  return `https://${s}.tile.openstreetmap.org/${z}/${x}/${y}.png`;
+};
 
 const LatLngContainer = styled.div`
   display: flex;
@@ -45,7 +49,7 @@ const LatLngInput = ({ value, onChange, disabled }: Props) => {
   return (
     <>
       <MapContainer>
-        <Map defaultZoom={14} center={value}>
+        <Map defaultZoom={14} center={value} provider={osmProvider}>
           <Draggable anchor={value} offset={[12, 12]} onDragEnd={onChange}>
             <CrossHair />
           </Draggable>

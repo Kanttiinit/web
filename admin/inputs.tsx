@@ -18,7 +18,12 @@ import OpeningHoursInput from '../src/components/OpeningHoursInput';
 import useResource from '../src/utils/useResource';
 import * as api from './api';
 import models from './models';
-import { ModelField, ModelFieldGroup, RelationField } from './models';
+import {
+  EnumField,
+  ModelField,
+  ModelFieldGroup,
+  RelationField
+} from './models';
 
 interface InputProps {
   value: any;
@@ -56,9 +61,9 @@ const MenuUrlInput = ({ value, setValue, field }: InputProps) => {
   const link =
     value &&
     value
-      .replace('%year%', format(now, 'YYYY'))
-      .replace('%month%', format(now, 'MM'))
-      .replace('%day%', format(now, 'DD'));
+      .replace('%year%', format(now, 'yyyy'))
+      .replace('%month%', format(now, 'mm'))
+      .replace('%day%', format(now, 'dd'));
   return (
     <TextField
       fullWidth
@@ -283,6 +288,22 @@ const OpeningHoursEditor = ({ value, field, setValue }: InputProps) => (
   />
 );
 
+const EnumInput = ({ value, field, setValue }: InputProps) => (
+  <FormControl fullWidth>
+    <InputLabel>{field.title}</InputLabel>
+    <Select
+      value={value || field.default}
+      onChange={e => setValue(field.path, e.target.value)}
+    >
+      {(field as EnumField).values.map((item: string) => (
+        <MenuItem key={item} value={item}>
+          {item}
+        </MenuItem>
+      ))}
+    </Select>
+  </FormControl>
+);
+
 const inputs: any = {
   url: UrlInput,
   address: AddressInput,
@@ -297,6 +318,7 @@ const inputs: any = {
   date: DateInput,
   dayOfWeek: DayOfWeekSelect,
   openingHours: OpeningHoursEditor,
+  enum: EnumInput,
   _: PlainField
 };
 

@@ -78,7 +78,7 @@ const commonConfig = {
   resolve: {
     extensions: ['.mjs', '.ts', '.tsx', '.js', '.scss']
   },
-  devtool: 'cheap-module-source-map'
+  devtool: isProduction ? null : 'eval'
 };
 
 const appConfig = {

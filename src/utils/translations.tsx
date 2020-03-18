@@ -354,6 +354,10 @@ const translations = {
   dark: {
     fi: 'Tumma',
     en: 'Dark'
+  },
+  priceCategory: {
+    fi: 'Hintaluokka',
+    en: 'Price Category'
   }
 };
 

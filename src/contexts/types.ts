@@ -1,3 +1,9 @@
+export enum PriceCategory {
+  student = 'student',
+  studentPremium = 'studentPremium',
+  regular = 'regular'
+}
+
 export interface RestaurantType {
   id: number;
   name: string;
@@ -11,6 +17,7 @@ export interface RestaurantType {
   isOpenNow: boolean;
   distance?: number;
   courses: CourseType[];
+  priceCategory: PriceCategory;
 }
 
 export interface AreaType {

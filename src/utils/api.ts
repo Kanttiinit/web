@@ -7,6 +7,7 @@ import {
   FavoriteType,
   Lang,
   MenuType,
+  PriceCategory,
   RestaurantType,
   Update
 } from '../contexts/types';
@@ -65,9 +66,24 @@ export const getFavorites = (lang: Lang): Promise<FavoriteType[]> =>
 
 export const getRestaurantsByIds = (
   ids: number[],
-  lang: Lang
-): Promise<RestaurantType[]> =>
-  http.get(`/restaurants?lang=${lang}&ids=${ids.join(',')}`);
+  lang: Lang,
+  maxPriceCategory: PriceCategory = PriceCategory.regular
+): Promise<RestaurantType[]> => {
+  const categories = [
+    PriceCategory.student,
+    PriceCategory.studentPremium,
+    PriceCategory.regular
+  ];
+  const priceCategories = categories.slice(
+    0,
+    categories.indexOf(maxPriceCategory) + 1
+  );
+  return http.get(
+    `/restaurants?lang=${lang}&ids=${ids.join(
+      ','
+    )}&priceCategories=${priceCategories.join(',')}`
+  );
+};
 
 export const getRestaurant = async (id: number, lang: Lang) => {
   const [restaurant] = await getRestaurantsByIds([id], lang);

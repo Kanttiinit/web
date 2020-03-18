@@ -6,6 +6,7 @@ import { DarkModeChoice, Lang, Order } from '../../contexts/types';
 import { useTranslations } from '../../utils/hooks';
 import FavoriteSelector from '../FavoriteSelector';
 import PageContainer from '../PageContainer';
+import PriceCategorySelector from '../PriceCategorySelector';
 import PropertySelector from '../PropertySelector';
 import Radio from '../Radio';
 import Toggle from '../Toggle';
@@ -69,6 +70,12 @@ const Settings = () => {
           options={languageOptions}
           selected={langState.lang}
           onChange={setLang}
+        />
+      </Item>
+      <Item label={translations.priceCategory}>
+        <PriceCategorySelector
+          value={preferences.maxPriceCategory}
+          onChange={preferences.setMaxPriceCategory}
         />
       </Item>
       <Item label={translations.theme}>

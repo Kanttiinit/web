@@ -4,7 +4,7 @@ import { getApprovedUpdates } from '../utils/api';
 import useArrayState from '../utils/useArrayState';
 import usePersistedState from '../utils/usePersistedState';
 import usePolledResource from '../utils/usePolledResource';
-import { DarkModeChoice, Order } from './types';
+import { DarkModeChoice, Order, PriceCategory } from './types';
 
 interface PreferenceContext {
   selectedArea: number;
@@ -15,6 +15,7 @@ interface PreferenceContext {
   favorites: number[];
   starredRestaurants: number[];
   updatesLastSeenAt: number;
+  maxPriceCategory: PriceCategory;
   setUseLocation: (state: boolean) => void;
   addSuggestedUpdate(uuid: string): void;
   setDarkMode(state: DarkModeChoice): void;
@@ -22,6 +23,7 @@ interface PreferenceContext {
   setRestaurantStarred(restaurantId: number, isStarred: boolean): void;
   setSelectedArea(areaId: number): void;
   setUpdatesLastSeenAt(time: number): void;
+  setMaxPriceCategory(maxPriceCategory: PriceCategory): void;
   toggleFavorite(favoriteId: number): void;
 }
 
@@ -49,6 +51,9 @@ export const PreferenceContextProvider = (props: {
     'updatesLastSeenAt',
     0
   );
+  const [maxPriceCategory, setMaxPriceCategory] = usePersistedState<
+    PriceCategory
+  >('maxPriceCategory', PriceCategory.regular);
   const [suggestedUpdates, suggestedUpdatesActions] = useArrayState(
     usePersistedState<string[]>('suggestedUpdates', [])
   );
@@ -92,7 +97,9 @@ export const PreferenceContextProvider = (props: {
       starredRestaurants,
       toggleFavorite: favoritesActions.toggle,
       updatesLastSeenAt,
-      useLocation
+      useLocation,
+      maxPriceCategory,
+      setMaxPriceCategory
     }),
     [
       useLocation,
@@ -102,7 +109,8 @@ export const PreferenceContextProvider = (props: {
       selectedDarkMode,
       favorites,
       order,
-      starredRestaurants
+      starredRestaurants,
+      maxPriceCategory
     ]
   );
 

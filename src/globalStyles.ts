@@ -25,6 +25,10 @@ export default createGlobalStyle`
     --hearty: #d81b60;
     --friendly: #1bb518;
 
+    --priceCategory_student: #5c9e5c;
+    --priceCategory_studentPremium: #8b8f4f;
+    --priceCategory_regular: #875555;
+
     &.dark {
       --accent_color: #eee;
 

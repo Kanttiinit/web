@@ -43,10 +43,18 @@ export default (location: any, history: any) => {
     if (selectedArea) {
       data.markMenusPending();
       data.setRestaurants(
-        api.getRestaurantsByIds(selectedArea.restaurants, lang)
+        api.getRestaurantsByIds(
+          selectedArea.restaurants,
+          lang,
+          preferences.maxPriceCategory
+        )
       );
     }
-  }, [selectedArea ? selectedArea.id : null, lang]);
+  }, [
+    selectedArea ? selectedArea.id : null,
+    lang,
+    preferences.maxPriceCategory
+  ]);
 
   useEffect(() => {
     if (preferences.selectedArea === -1) {

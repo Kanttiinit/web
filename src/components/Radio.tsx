@@ -2,10 +2,10 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 interface Props {
-  options: Array<{
+  options: {
     label: any;
     value: string;
-  }>;
+  }[];
   selected: string;
   onChange: (value: string) => void;
   className?: string;
@@ -21,7 +21,7 @@ const Container = styled.div`
   }
 `;
 
-const Button = styled.button<{ selected: boolean }>`
+export const Button = styled.button<{ selected: boolean }>`
   color: var(--accent_color);
   background: transparent;
   font-family: inherit;
@@ -31,7 +31,7 @@ const Button = styled.button<{ selected: boolean }>`
   margin: 0;
   border-radius: 1rem;
   outline: none;
-  border: none;
+  border: solid 2px transparent;
 
   @media (max-width: ${props => props.theme.breakSmall}) {
     font-size: 0.7rem;
@@ -44,7 +44,7 @@ const Button = styled.button<{ selected: boolean }>`
   }
 
   &:focus {
-    background: var(--gray3);
+    border-color: var(--gray4);
   }
 
   ${props =>

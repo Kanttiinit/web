@@ -18,6 +18,7 @@ import Colon from '../Colon';
 import CourseList from '../CourseList';
 import InlineIcon from '../InlineIcon';
 import Link from '../Link';
+import PriceCategoryBadge from '../PriceCategoryBadge';
 
 const Distance = ({ distance }: { distance: number }) => {
   const kilometers = distance > 1500;
@@ -192,6 +193,7 @@ const Restaurant = (props: Props) => {
         <Header>
           <RestaurantName noCourses={restaurant.noCourses} isClosed={isClosed}>
             {restaurant.name}
+            <PriceCategoryBadge priceCategory={restaurant.priceCategory} />
             {preferences.useLocation && (
               <Distance distance={restaurant.distance} />
             )}

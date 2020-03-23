@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Order } from '../contexts/types';
+import { Order, PriceCategory } from '../contexts/types';
 
 interface FormattedProperty {
   key: string;
@@ -358,6 +358,18 @@ const translations = {
   priceCategory: {
     fi: 'Hintaluokka',
     en: 'Price Category'
+  },
+  [PriceCategory.student]: {
+    fi: '2.60€ lounas opiskelijoille',
+    en: '2.60€ lunch for students'
+  },
+  [PriceCategory.studentPremium]: {
+    fi: 'Jokseenkin alennettu lounaan hinta opiskelijoille',
+    en: 'Somewhat reduced lunch price for students'
+  },
+  [PriceCategory.regular]: {
+    fi: 'Ei opiskelija-alennusta',
+    en: 'No student discount'
   }
 };
 

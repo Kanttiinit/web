@@ -53,8 +53,6 @@ const PriceCategorySelector = (props: Props) => {
           selected={valueIndex >= i}
           key={c}
         >
-          {c}
-          <br />
           <PriceCategoryBadge noMargin priceCategory={c} />
         </Item>
       ))}

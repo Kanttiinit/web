@@ -78,7 +78,7 @@ const commonConfig = {
   resolve: {
     extensions: ['.mjs', '.ts', '.tsx', '.js', '.scss']
   },
-  devtool: isProduction ? null : 'eval'
+  devtool: isProduction ? '' : 'eval'
 };
 
 const appConfig = {

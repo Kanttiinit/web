@@ -35,8 +35,13 @@ const PriceCategoryBadge = (props: Props) => {
   return (
     <Tooltip text={translations[props.priceCategory]}>
       <Container {...props}>
-        {times(categories.indexOf(props.priceCategory) + 1, (i: number) => (
-          <MdAttachMoney key={i} />
+        {times(categories.length, (i: number) => (
+          <MdAttachMoney
+            key={i}
+            color={
+              i <= categories.indexOf(props.priceCategory) ? 'var(--gray1)' : ''
+            }
+          />
         ))}
       </Container>
     </Tooltip>

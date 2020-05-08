@@ -24,6 +24,7 @@ const Container = styled.span<Props>`
   color: var(--gray4);
   padding-left: 6px;
   vertical-align: -1px;
+  display: inline-block;
 
   svg {
     margin-left: -6px;
@@ -35,8 +36,13 @@ const PriceCategoryBadge = (props: Props) => {
   return (
     <Tooltip text={translations[props.priceCategory]}>
       <Container {...props}>
-        {times(categories.indexOf(props.priceCategory) + 1, (i: number) => (
-          <MdAttachMoney key={i} />
+        {times(categories.length, (i: number) => (
+          <MdAttachMoney
+            key={i}
+            color={
+              i <= categories.indexOf(props.priceCategory) ? 'var(--gray1)' : ''
+            }
+          />
         ))}
       </Container>
     </Tooltip>

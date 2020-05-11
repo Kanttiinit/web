@@ -7,6 +7,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const pkg = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const S3Plugin = require('webpack-s3-plugin');
+const VersionFile = require('webpack-version-file');
 
 const PATHS = {
   dist: path.join(__dirname, './dist')
@@ -33,7 +34,7 @@ const definePlugin = new webpack.DefinePlugin({
 
 const plugins = [
   new CleanWebpackPlugin({
-    cleanOnceBeforeBuildPatterns: ['**/*', '!worker*']
+    cleanOnceBeforeBuildPatterns: ['**/*', '!worker*', '!version.txt']
   }),
   definePlugin,
   new HtmlWebpackPlugin({
@@ -45,6 +46,10 @@ const plugins = [
     template: './admin/index_admin.html',
     filename: 'index_admin.html',
     chunks: ['admin']
+  }),
+  new VersionFile({
+    output: './dist/version.txt',
+    templateString: '<%= version %>'
   })
 ];
 

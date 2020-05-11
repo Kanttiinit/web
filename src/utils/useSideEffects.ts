@@ -3,6 +3,7 @@ import isSameDay from 'date-fns/isSameDay';
 import * as haversine from 'haversine';
 import { useContext, useEffect, useState } from 'react';
 import * as GA from 'react-ga';
+import * as semver from 'semver';
 
 import {
   dataContext,
@@ -143,9 +144,9 @@ export default (location: any, history: any) => {
       const now = Math.round(Date.now() / 1000);
       if (!lastUpdateCheck || now - lastUpdateCheck > 3600) {
         lastUpdateCheck = now;
-        const response = await fetch(`/check-update?version=${version}`);
-        const json = await response.json();
-        if (json.updateAvailable) {
+        const response = await fetch('/version.txt');
+        const latestVersion = await response.text();
+        if (semver.gt(latestVersion, version)) {
           window.location.reload();
         }
       }

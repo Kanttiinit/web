@@ -6,7 +6,7 @@ interface Props {
   selected: boolean;
 }
 
-const StyledToggle = styled.span<{ on: boolean }>`
+const StyledToggle = styled.span<{ switchedOn: boolean }>`
   position: relative;
   display: inline-block;
   border: 2px solid var(--gray3);
@@ -34,12 +34,12 @@ const StyledToggle = styled.span<{ on: boolean }>`
     width: 2em;
     height: 2em;
     transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-    content: "";
-    ${props => props.on && 'margin-left: 1.9em;'}
+    content: '';
+    ${props => props.switchedOn && 'margin-left: 1.9em;'}
   }
 
   ${props =>
-    props.on &&
+    props.switchedOn &&
     `
       background: var(--accent_color);
       border-color: var(--accent_color);
@@ -54,7 +54,7 @@ const StyledToggle = styled.span<{ on: boolean }>`
 const Toggle = ({ selected, onChange }: Props) => (
   <StyledToggle
     tabIndex={0}
-    on={selected}
+    switchedOn={selected}
     onClick={() => onChange(!selected)}
   />
 );

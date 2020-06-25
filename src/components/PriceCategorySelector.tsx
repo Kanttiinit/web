@@ -43,6 +43,14 @@ const Item = styled(Button)`
   }
 `;
 
+const CustomPriceCategoryBadge = styled(PriceCategoryBadge)<{
+  selected: boolean;
+}>`
+  font-size: 1rem;
+  margin-left: 0;
+  color: ${props => (props.selected ? 'var(--gray7)' : '')};
+`;
+
 const PriceCategorySelector = (props: Props) => {
   const valueIndex = categories.indexOf(props.value);
   return (
@@ -53,7 +61,10 @@ const PriceCategorySelector = (props: Props) => {
           selected={valueIndex >= i}
           key={c}
         >
-          <PriceCategoryBadge noMargin priceCategory={c} />
+          <CustomPriceCategoryBadge
+            selected={valueIndex >= i}
+            priceCategory={c}
+          />
         </Item>
       ))}
     </Container>

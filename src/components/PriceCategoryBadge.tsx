@@ -9,7 +9,6 @@ import Tooltip from './Tooltip';
 
 type Props = {
   priceCategory: PriceCategory;
-  noMargin?: boolean;
 };
 
 const categories = [
@@ -20,14 +19,15 @@ const categories = [
 
 const Container = styled.span<Props>`
   font-size: 0.9rem;
-  ${props => !props.noMargin && 'margin-left: 0.25rem;'}
-  color: var(--gray4);
+  margin-left: 0.25rem;
+  color: var(--gray1);
   padding-left: 6px;
   vertical-align: -1px;
-  display: inline-block;
+  display: inline-flex;
 
   svg {
     margin-left: -6px;
+    display: block;
   }
 `;
 
@@ -39,9 +39,9 @@ const PriceCategoryBadge = (props: Props) => {
         {times(categories.length, (i: number) => (
           <MdAttachMoney
             key={i}
-            color={
-              i <= categories.indexOf(props.priceCategory) ? 'var(--gray1)' : ''
-            }
+            style={{
+              opacity: i <= categories.indexOf(props.priceCategory) ? 1.0 : 0.33
+            }}
           />
         ))}
       </Container>

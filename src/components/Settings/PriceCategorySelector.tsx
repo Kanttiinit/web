@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { PriceCategory } from '../contexts/types';
-import PriceCategoryBadge from './PriceCategoryBadge';
-import { Button } from './Radio';
+import { PriceCategory } from '../../contexts/types';
+import PriceCategoryBadge from '../PriceCategoryBadge';
+import { Button } from '../Radio';
 
 type Props = {
   value: PriceCategory;

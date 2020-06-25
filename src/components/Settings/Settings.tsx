@@ -6,10 +6,10 @@ import { DarkModeChoice, Lang, Order } from '../../contexts/types';
 import { useTranslations } from '../../utils/hooks';
 import FavoriteSelector from '../FavoriteSelector';
 import PageContainer from '../PageContainer';
-import PriceCategorySelector from '../PriceCategorySelector';
-import PropertySelector from '../PropertySelector';
 import Radio from '../Radio';
 import Toggle from '../Toggle';
+import PriceCategorySelector from './PriceCategorySelector';
+import PropertySelector from './PropertySelector';
 
 interface ItemProps {
   label: React.ReactNode;

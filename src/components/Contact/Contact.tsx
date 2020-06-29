@@ -21,7 +21,7 @@ const Contact = () => {
   const onSubmit = (e: any) => {
     e.preventDefault();
     const [email, message] = e.target.elements;
-    send(`Email: ${email.value}\n"${message.value}"`);
+    send(message.value, email.value);
   };
 
   return (

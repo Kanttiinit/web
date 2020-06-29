@@ -41,10 +41,11 @@ export const getMenus = (
   );
 };
 
-export const sendFeedback = (message: string) =>
-  fetch('https://bot.kanttiinit.fi/feedback', {
+export const sendFeedback = (message: string, email: string) =>
+  fetch('https://kitchen.kanttiinit.fi/contact', {
     body: JSON.stringify({
-      message
+      message,
+      email
     }),
     headers: {
       Accept: 'application/json',

@@ -9,7 +9,7 @@ interface State {
 }
 
 export interface FeedbackProps extends State {
-  send?: (message: string) => Promise<void>;
+  send?: (message: string, email?: string) => Promise<void>;
 }
 
 export default (): FeedbackProps => {
@@ -22,10 +22,10 @@ export default (): FeedbackProps => {
   return React.useMemo(
     () => ({
       ...state,
-      send: async (message: string) => {
+      send: async (message: string, email?: string) => {
         setState({ ...state, sending: true });
         try {
-          await sendFeedback(message);
+          await sendFeedback(message, email || 'anonymous');
           setState({ ...state, sending: false, sent: true, error: null });
         } catch (error) {
           setState({ ...state, sending: false, error });

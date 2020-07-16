@@ -34,15 +34,7 @@ const Clients = () => {
       >
         iOS App
       </Link>
-      ,{' '}
-      <Link
-        href="https://play.google.com/apps/testing/com.kanttiinit"
-        target="_blank"
-        rel="noopener"
-      >
-        Android App
-      </Link>
-      <p>iOS and Android apps. Not actively maintained.</p>
+      <p>iOS app, now receiving frequent bug fixes and feature updates.</p>
     </PageContainer>
   );
 };

@@ -16,9 +16,8 @@ export default (props: FormProps) => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     send(
-      `Feedback regarding restaurant "${
-        props.restaurant.name
-      }":\n"${message}"\nSender: ${email || 'anonymous'}`
+      `Feedback regarding restaurant "${props.restaurant.name}":\n"${message}"`,
+      email as string
     );
   };
 

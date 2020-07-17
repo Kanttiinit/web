@@ -103,15 +103,32 @@ const translations = {
     en: (
       <div>
         <p>
-          Kanttiinit retrieves all menus directly from the restaurants, and
+          Kanttiinit retrieves all menu data directly from the restaurants, and
           isn't directly responsible for the correctness of any information.
           Please verify the information about allergens at the restaurants.
         </p>
         <p>
-          Kanttiinit uses cookies for collecting user statistics. By using the
-          service you agree to the usage of cookies.
+          Some third party services used by Kanttiinit use cookies to collect
+          anonymous data. By using Kanttiinit you agree to the usage of cookies.
         </p>
-        <p>Kanttiinit will not share any data with third parties.</p>
+        <p>The following third party services are using cookies:</p>
+        <ul>
+          <li>
+            <strong>Google Analytics</strong>
+            <p>
+              Google Analytics is used to measure how users behave on the site
+              in order to improve the user experience.
+            </p>
+          </li>
+          <li>
+            <strong>Sentry</strong>
+            <p>
+              Sentry is used to automatically report any JavaScript errors to
+              our developers so they can quickly detect and fix issues that
+              might be introduced with updates.
+            </p>
+          </li>
+        </ul>
       </div>
     ),
     fi: (
@@ -122,10 +139,28 @@ const translations = {
           varmistaa ruokien allergeenit paikan päällä ravintolassa.
         </p>
         <p>
-          Kanttiinit käyttää evästeitä kävijätilastojen keräämiseksi.
-          Käyttämällä palvelua hyväksyt evästeiden käytön.
+          Tietyt Kanttiinien käyttämät ulkoiset palvelut käyttävät evästeitä
+          nimettömän datan keräämiseksi. Käyttämällä Kanttiineja hyväksyt
+          evästeiden käytön.
         </p>
-        <p>Kanttiinit ei jaa mitään dataa kolmansille osapuolille.</p>
+        <p>Seuraavat kolmannen osapuolen palvelut käyttävät evästeitä:</p>
+        <ul>
+          <li>
+            <strong>Google Analytics</strong>
+            <p>
+              Google Analytics -palvelua hyödynnetään käyttäjien käyttäytymisen
+              mittaamiseen käyttäjäkokemuksen parantamiseksi.
+            </p>
+          </li>
+          <li>
+            <strong>Sentry</strong>
+            <p>
+              Sentry-palvelua käytetään JavaScript virheiden automaattiseen
+              raportointiin, jotta kehittäjämme pystyvät nopeasti tunnistamaan
+              ja korjaamaan ongelmia, joita saattaa ilmetä päivitysten myötä.
+            </p>
+          </li>
+        </ul>
       </div>
     )
   },

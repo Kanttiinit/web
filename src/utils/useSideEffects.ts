@@ -82,7 +82,7 @@ export default (location: any, history: any) => {
         data.setRestaurants(Promise.resolve([]));
       }
     }
-  }, [preferences.selectedArea, preferences.starredRestaurants, ui.location]);
+  }, [preferences.selectedArea, ui.location, lang]);
 
   // update menus
   useEffect(() => {
@@ -92,6 +92,8 @@ export default (location: any, history: any) => {
       );
       const menus = api.getMenus(restaurantIds, [ui.selectedDay], lang);
       data.setMenus(menus);
+    } else {
+      data.setMenus(Promise.resolve({}));
     }
   }, [
     data.restaurants.data.map(r => r.id).join(','),

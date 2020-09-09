@@ -27,9 +27,10 @@ export default function useResource<T>(
         pending: true
       });
       try {
+        const data = await promise;
         setState({
           ...state,
-          data: await promise,
+          data,
           fulfilled: true,
           pending: false
         });

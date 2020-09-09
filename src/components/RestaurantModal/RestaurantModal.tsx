@@ -161,11 +161,11 @@ const RestaurantModal = (props: Props) => {
           {getOpeningHourString(restaurant.openingHours).map(hours => (
             <OpeningHoursRow key={hours.startDay}>
               <OpeningHoursDay>
-                {formatDate(setIsoDay(new Date(), hours.startDay + 1), 'ddd')}
+                {formatDate(setIsoDay(new Date(), hours.startDay + 1), 'EEEEEE')}
                 {hours.endDay && (
                   <span>
                     &nbsp;&ndash;&nbsp;
-                    {formatDate(setIsoDay(new Date(), hours.endDay + 1), 'ddd')}
+                    {formatDate(setIsoDay(new Date(), hours.endDay + 1), 'EEEEEE')}
                   </span>
                 )}
               </OpeningHoursDay>

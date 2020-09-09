@@ -78,6 +78,21 @@ export const properties: FormattedProperty[] = [
   { key: 'VV', desired: true, name_en: 'vegan', name_fi: 'vegaani' }
 ];
 
+export const priceCategorySettings = {
+  [PriceCategory.student]: {
+    fi: 'Näytetään vain ravintolat, jotka tarjoavat opiskelijahintaisen lounaan.',
+    en: 'Only showing restaurants that provide student-priced lunches.'
+  },
+  [PriceCategory.studentPremium]: {
+    fi: 'Näytetään ravintolat, jotka tarjoavat mitä tahansa opiskelija-alennuksia.',
+    en: 'Showing restaurants that provide any student discounts.'
+  },
+  [PriceCategory.regular]: {
+    fi: 'Näytetään kaikki ravintolat.',
+    en: 'Showing all restaurants.'
+  },
+};
+
 const translations = {
   noMenu: {
     en: 'No menu available.',
@@ -395,16 +410,16 @@ const translations = {
     en: 'Price Category'
   },
   [PriceCategory.student]: {
-    fi: '2.60€ lounas opiskelijoille',
-    en: '2.60€ lunch for students'
+    fi: 'Opiskelijalounas',
+    en: 'Student lunch'
   },
   [PriceCategory.studentPremium]: {
-    fi: 'Jokseenkin alennettu lounaan hinta opiskelijoille',
-    en: 'Somewhat reduced lunch price for students'
+    fi: 'Joitain alennuksia opiskelijoille',
+    en: 'Some discounts for students'
   },
   [PriceCategory.regular]: {
-    fi: 'Ei opiskelija-alennusta',
-    en: 'No student discount'
+    fi: 'Ei opiskelija-alennuksia',
+    en: 'No student discounts'
   }
 };
 

@@ -19,11 +19,10 @@ const categories = [
 
 const Container = styled.span<Props>`
   font-size: 0.9rem;
-  margin-left: 0.25rem;
   color: var(--gray1);
-  padding-left: 6px;
-  vertical-align: -1px;
+  vertical-align: -2px;
   display: inline-flex;
+  margin-left: 6px;
 
   svg {
     margin-left: -6px;

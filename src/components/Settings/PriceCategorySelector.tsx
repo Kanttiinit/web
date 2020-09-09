@@ -1,9 +1,11 @@
+import * as times from 'lodash/times';
 import * as React from 'react';
+import { MdAttachMoney } from 'react-icons/md';
 import styled from 'styled-components';
-
+import langContext from '../../contexts/langContext';
 import { PriceCategory } from '../../contexts/types';
-import PriceCategoryBadge from '../PriceCategoryBadge';
-import { Button } from '../Radio';
+import { priceCategorySettings } from '../../utils/translations';
+import {Button} from '../Radio';
 
 type Props = {
   value: PriceCategory;
@@ -16,7 +18,7 @@ const categories = [
   PriceCategory.regular
 ];
 
-const Container = styled.div`
+const ButtonContainer = styled.div`
   border-radius: 50%;
   border: solid 2px var(--accent_color);
   border-radius: 1rem;
@@ -27,6 +29,11 @@ const Item = styled(Button)`
   border-radius: 0;
   border-right: 1px solid var(--gray5);
   color: ${props => (props.selected ? 'var(--gray7)' : 'var(--accent_color)')};
+  padding-left: 3px;
+
+  svg {
+    margin-left: -3px;
+  }
 
   :first-child {
     border-radius: 1em 0 0 1em;
@@ -43,31 +50,26 @@ const Item = styled(Button)`
   }
 `;
 
-const CustomPriceCategoryBadge = styled(PriceCategoryBadge)<{
-  selected: boolean;
-}>`
-  font-size: 1rem;
-  margin-left: 0;
-  color: ${props => (props.selected ? 'var(--gray7)' : '')};
-`;
-
 const PriceCategorySelector = (props: Props) => {
   const valueIndex = categories.indexOf(props.value);
+  const { lang } = React.useContext(langContext);
   return (
-    <Container>
-      {categories.map((c, i) => (
-        <Item
-          onClick={() => props.onChange(c)}
-          selected={valueIndex >= i}
-          key={c}
-        >
-          <CustomPriceCategoryBadge
+    <>
+      <ButtonContainer>
+        {categories.map((c, i) => (
+          <Item
+            onClick={() => props.onChange(c)}
             selected={valueIndex >= i}
-            priceCategory={c}
-          />
-        </Item>
-      ))}
-    </Container>
+            key={c}
+          >
+            {times(i + 1, (j: number) => (
+              <MdAttachMoney key={j} />
+            ))}
+          </Item>
+        ))}
+      </ButtonContainer>
+      <p style={{ fontSize: '0.8rem' }}>{priceCategorySettings[props.value][lang]}</p>
+    </>
   );
 };
 

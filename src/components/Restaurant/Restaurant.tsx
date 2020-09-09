@@ -24,7 +24,7 @@ const Distance = ({ distance }: { distance: number }) => {
   const kilometers = distance > 1500;
   const translations = useTranslations();
   return (
-    <RestaurantMeta style={{ fontWeight: 400, textAlign: 'left' }}>
+    <RestaurantMeta style={{ fontWeight: 400, textAlign: 'left', display: 'inline-block' }}>
       <InlineIcon>
         {!distance ? (
           <MdPlace />
@@ -164,6 +164,7 @@ const StyledCourseList = styled(CourseList)<{ noCourses?: boolean }>`
 
 const ClosedText = styled.small`
   font-size: 0.8rem;
+  margin-left: auto;
 `;
 
 interface Props {
@@ -193,10 +194,15 @@ const Restaurant = (props: Props) => {
         <Header>
           <RestaurantName noCourses={restaurant.noCourses} isClosed={isClosed}>
             {restaurant.name}
-            <PriceCategoryBadge priceCategory={restaurant.priceCategory} />
-            {preferences.useLocation && (
-              <Distance distance={restaurant.distance} />
-            )}
+            <div>
+              {preferences.useLocation && (
+                <>
+                  <Distance distance={restaurant.distance} />
+                  &nbsp;&nbsp;
+                </>
+              )}
+              <PriceCategoryBadge priceCategory={restaurant.priceCategory} />
+            </div>
           </RestaurantName>
           <RestaurantMeta>
             {restaurant.openingHours[dayOfWeek] && (

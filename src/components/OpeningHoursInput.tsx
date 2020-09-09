@@ -16,6 +16,11 @@ const InputGroup = styled.div`
   margin-bottom: 0.5em;
 `;
 
+const DayLabel = styled.p`
+  font-size: 0.8rem;
+  margin-bottom: 0;
+`;
+
 interface Props {
   lang?: Lang;
   defaultValue: (number[] | null)[];
@@ -66,7 +71,7 @@ const OpeningHoursInput = (props: Props) => {
     <React.Fragment>
       {openingHours.map((times, i) => {
         const isClosed = times === null;
-        const weekDayLabel = formatDate(setISODay(new Date(), i + 1), 'dddd');
+        const weekDayLabel = formatDate(setISODay(new Date(), i + 1), 'EEEE');
 
         const createDayToggler = (index: number) => (
           event: React.ChangeEvent<HTMLInputElement>
@@ -95,6 +100,8 @@ const OpeningHoursInput = (props: Props) => {
         };
 
         return (
+          <>
+          <DayLabel>{weekDayLabel}</DayLabel>
           <InputGroup key={i}>
             <Checkbox
               disabled={props.disabled}
@@ -102,7 +109,7 @@ const OpeningHoursInput = (props: Props) => {
               checked={!isClosed}
             />
             <TextField
-              label={`${weekDayLabel}, ${translations.openingTime}`}
+              label={translations.openingTime}
               style={{ margin: 4 }}
               fullWidth
               margin="dense"
@@ -115,7 +122,7 @@ const OpeningHoursInput = (props: Props) => {
               onChange={createDayTimeChanger(i, 0)}
             />
             <TextField
-              label={`${weekDayLabel}, ${translations.closingTime}`}
+              label={translations.closingTime}
               style={{ margin: 4 }}
               fullWidth
               margin="dense"
@@ -137,6 +144,7 @@ const OpeningHoursInput = (props: Props) => {
               </IconButton>
             </Tooltip>
           </InputGroup>
+          </>
         );
       })}
     </React.Fragment>

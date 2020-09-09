@@ -10,10 +10,10 @@ export default (props: FormProps) => {
   const { lang } = React.useContext(langContext);
   const translations = useTranslations();
   const [openingHours, setOpeningHours] = React.useState<
-    Array<number[] | null>
+    (number[] | null)[]
   >([]);
 
-  const initialHours: Array<number[] | null> = React.useMemo(
+  const initialHours: (number[] | null)[] = React.useMemo(
     () =>
       props.restaurant.openingHours.map(hours =>
         hours ? hours.split(' - ').map(n => Number(n.replace(':', ''))) : null

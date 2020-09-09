@@ -29,10 +29,13 @@ const Item = styled(Button)`
   border-radius: 0;
   border-right: 1px solid var(--gray5);
   color: ${props => (props.selected ? 'var(--gray7)' : 'var(--accent_color)')};
-  padding-left: 3px;
 
   svg {
     margin-left: -3px;
+
+    &:first-child {
+      margin-left: 0;
+    }
   }
 
   :first-child {

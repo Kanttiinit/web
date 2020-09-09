@@ -32,7 +32,7 @@ const Container = styled.header`
 
   ${props =>
     props.theme.dark &&
-    'background: linear-gradient(to bottom, #262626 0%, var(--gray7) 100%);'}
+    'background: linear-gradient(to bottom,var(--gray6),var(--gray7) 100%)'}
 `;
 
 const Content = styled.div`

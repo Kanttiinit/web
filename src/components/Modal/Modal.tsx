@@ -40,7 +40,7 @@ const Container = styled.div<{ open: boolean }>`
 `;
 
 const Overlay = styled.div<{ open: boolean }>`
-  background: rgba(0, 0, 0, 0.55);
+  background: ${props => props.theme.dark ? 'rgba(50, 50, 50, 0.3)' : 'rgba(0, 0, 0, 0.55)'};
   position: absolute;
   width: 100%;
   height: 100%;

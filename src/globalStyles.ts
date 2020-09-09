@@ -32,13 +32,13 @@ export default createGlobalStyle`
     &.dark {
       --accent_color: #eee;
 
-      --gray7: #212121;
-      --gray6: #313131;
-      --gray5: #383838;
-      --gray4: #525252;
-      --gray3: #8a8a8a;
-      --gray2: #bdbdbd;
-      --gray1: #d4d4d4;
+      --gray7: #0a0a0a;
+      --gray6: #212121;
+      --gray5: #313131;
+      --gray4: #989898;
+      --gray3: #adadad;
+      --gray2: #b3b3b3;
+      --gray1: #c3c3c3;
 
       --hearty: #c15c81;
       --friendly: #4a9448;

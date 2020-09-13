@@ -144,7 +144,7 @@ const StyledActionLink = styled(Link)`
 
 const StyledNativeActionLink = styled.a<{ color: string }>`
     ${actionLinkStyles}
-    color: ${props => props.color};
+    color: ${props => props.color} !important;
 `;
 
 export const courseListStyles = css`

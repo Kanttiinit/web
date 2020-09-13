@@ -20,7 +20,7 @@ const categories = [
 const Container = styled.span<Props>`
   font-size: 0.9rem;
   color: var(--gray1);
-  vertical-align: -2px;
+  vertical-align: -3px;
   display: inline-flex;
   margin-left: 6px;
 

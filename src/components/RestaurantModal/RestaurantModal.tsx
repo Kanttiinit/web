@@ -11,6 +11,7 @@ import { useFormatDate, useTranslations } from '../../utils/hooks';
 import InlineIcon from '../InlineIcon';
 import MenuViewer from '../MenuViewer';
 import PageContainer from '../PageContainer';
+import PriceCategoryBadge from '../PriceCategoryBadge';
 import Map from './Map';
 
 function getOpeningHourString(hours: string[]) {
@@ -156,6 +157,9 @@ const RestaurantModal = (props: Props) => {
             </InlineIcon>
             {translations.homepage}
           </MetaLink>
+          <div>
+            <PriceCategoryBadge priceCategory={restaurant.priceCategory} />
+          </div>
         </LinkContainer>
         <OpeningHoursContainer>
           {getOpeningHourString(restaurant.openingHours).map(hours => (

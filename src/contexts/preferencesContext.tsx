@@ -53,7 +53,7 @@ export const PreferenceContextProvider = (props: {
   );
   const [maxPriceCategory, setMaxPriceCategory] = usePersistedState<
     PriceCategory
-  >('maxPriceCategory', PriceCategory.regular);
+  >('maxPriceCategory', PriceCategory.studentPremium);
   const [suggestedUpdates, suggestedUpdatesActions] = useArrayState(
     usePersistedState<string[]>('suggestedUpdates', [])
   );

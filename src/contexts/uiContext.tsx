@@ -35,11 +35,11 @@ function getDisplayedDays(): Date[] {
 }
 
 interface UIContextType {
-  location: Coordinates | null;
+  location: GeolocationCoordinates | null;
   displayedDays: Date[];
   selectedDay: Date | null;
   setLocation(
-    location: Coordinates | null | ((location: Coordinates) => Coordinates)
+    location: GeolocationCoordinates | null | ((location: GeolocationCoordinates) => GeolocationCoordinates)
   ): void;
   updateDay(location: Location): void;
   updateDisplayedDays(): void;
@@ -48,7 +48,7 @@ interface UIContextType {
 const uiContext = React.createContext<UIContextType>({} as any);
 
 export const UIStateProvider = (props: { children: React.ReactNode }) => {
-  const [location, setLocation] = React.useState<Coordinates | null>(null);
+  const [location, setLocation] = React.useState<GeolocationCoordinates | null>(null);
   const [displayedDays, setDisplayedDays] = React.useState(getDisplayedDays());
   const [date, setDate] = React.useState(startOfDay(new Date()));
 

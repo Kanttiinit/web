@@ -3427,21 +3427,9 @@ pify@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/pify/-/pify-4.0.1.tgz#4b2cd25c50d598735c50292224fd8c6df41e3231"
 
-pigeon-draggable@^0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/pigeon-draggable/-/pigeon-draggable-0.1.1.tgz#4d6316d83c8d1919826a3404236df9e4d73f33e8"
-
 pigeon-maps@^0.19.7:
   version "0.19.7"
   resolved "https://registry.yarnpkg.com/pigeon-maps/-/pigeon-maps-0.19.7.tgz#c897f0fc46e88769fc0c6d39a25f178bd7055758"
-
-pigeon-marker@^0.3.4:
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/pigeon-marker/-/pigeon-marker-0.3.4.tgz#bd00dd15a4e7622a77dc43fb746e256af5fa5f47"
-
-pigeon-overlay@^0.2.2:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/pigeon-overlay/-/pigeon-overlay-0.2.3.tgz#46d08f5661ddb84309549cb2ff45df6c62a71e8d"
 
 pinkie-promise@^2.0.0:
   version "2.0.1"

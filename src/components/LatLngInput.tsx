@@ -1,6 +1,5 @@
 import TextField from '@material-ui/core/TextField';
-import Draggable from 'pigeon-draggable';
-import Map from 'pigeon-maps';
+import { Map, Draggable } from 'pigeon-maps';
 import * as React from 'react';
 import styled from 'styled-components';
 

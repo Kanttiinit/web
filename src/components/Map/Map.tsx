@@ -1,5 +1,4 @@
-import PigeonMap from 'pigeon-maps';
-import Overlay from 'pigeon-overlay';
+import { Map as PigeonMap, Overlay } from 'pigeon-maps';
 import * as React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 

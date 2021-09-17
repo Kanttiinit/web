@@ -1,20 +1,12 @@
-import Button from '@material-ui/core/Button';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import * as React from 'react';
-import styled from 'styled-components';
 
-import { preferenceContext } from '../../contexts';
 import { useTranslations } from '../../utils/hooks';
 import useFeedback from '../../utils/useFeedback';
 import PageContainer from '../PageContainer';
-
-const Field: any = styled(TextField)`
-  margin-bottom: 1em !important;
-`;
+import Button from '../Button';
+import Input from '../Input';
 
 const Contact = () => {
-  const preferences = React.useContext(preferenceContext);
   const translations = useTranslations();
   const { sending, sent, send } = useFeedback();
 
@@ -25,47 +17,35 @@ const Contact = () => {
   };
 
   return (
-    <MuiThemeProvider
-      theme={createMuiTheme({
-        palette: {
-          type: preferences.darkMode ? 'dark' : 'light'
-        }
-      })}
-    >
-      <PageContainer title={translations.contact}>
-        {sent ? (
-          translations.thanksForFeedback
-        ) : (
-          <form onSubmit={onSubmit}>
-            <Field
-              fullWidth
-              autoFocus
-              type="email"
-              id="email"
-              required
-              label={translations.email}
-              autoComplete="off"
-            />
-            <Field
-              fullWidth
-              multiline
-              id="message"
-              required
-              label={translations.message}
-              rows={10}
-            />
-            <Button
-              variant="outlined"
-              color="primary"
-              disabled={sending}
-              type="submit"
-            >
-              {sending ? translations.sending : translations.send}
-            </Button>
-          </form>
-        )}
-      </PageContainer>
-    </MuiThemeProvider>
+    <PageContainer title={translations.contact}>
+      {sent ? (
+        translations.thanksForFeedback
+      ) : (
+        <form onSubmit={onSubmit}>
+          <Input
+            autoFocus
+            type="email"
+            id="email"
+            required
+            label={translations.email}
+            autoComplete="off"
+          />
+          <Input
+            multiline
+            id="message"
+            required
+            label={translations.message}
+            rows={10}
+          />
+          <Button
+            disabled={sending}
+            type="submit"
+          >
+            {sending ? translations.sending : translations.send}
+          </Button>
+        </form>
+      )}
+    </PageContainer>
   );
 };
 

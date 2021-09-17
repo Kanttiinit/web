@@ -15,6 +15,7 @@ const Container = styled.div`
   height: 100%;
   overflow: auto;
   box-sizing: border-box;
+  color: var(--gray1);
 
   p, strong, ul {
     color: var(--gray1);

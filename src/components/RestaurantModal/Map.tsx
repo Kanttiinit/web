@@ -1,5 +1,4 @@
-import Map from 'pigeon-maps';
-import Overlay from 'pigeon-overlay';
+import { Map, Overlay } from 'pigeon-maps';
 import * as React from 'react';
 import { MdLocationOn } from 'react-icons/md';
 import styled from 'styled-components';

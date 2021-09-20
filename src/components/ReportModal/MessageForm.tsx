@@ -1,16 +1,15 @@
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import * as React from 'react';
 
 import { useTranslations } from '../../utils/hooks';
 import useFeedback from '../../utils/useFeedback';
-import useInput from '../../utils/useInput';
+import Button from '../Button';
+import Input from '../Input';
 import { FormProps } from './ReportModal';
 
 export default (props: FormProps) => {
   const translations = useTranslations();
-  const [email, emailProps] = useInput('');
-  const [message, messageProps] = useInput('');
+  const [email, setEmail] = React.useState('');
+  const [message, setMessage] = React.useState('');
   const { sending, sent, error, send } = useFeedback();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -33,32 +32,29 @@ export default (props: FormProps) => {
 
   return (
     <form onSubmit={onSubmit}>
-      <TextField
+      <Input
         label={translations.email}
-        style={{ margin: 4 }}
-        fullWidth
         type="email"
-        {...emailProps}
+        id="email"
+        value={email}
+        onChange={setEmail}
       />
-      <TextField
+      <Input
         label={translations.message}
         required
-        style={{ margin: 4, marginBottom: 18 }}
         multiline
-        fullWidth
+        id="message"
         rows={10}
-        {...messageProps}
+        value={message}
+        onChange={setMessage}
       />
       <Button
         disabled={sending}
-        type="submit"
-        variant="outlined"
-        color="primary"
-        style={{ marginRight: '1em' }}
-      >
+        type="submit">
         {sending ? translations.sending : translations.send}
       </Button>
-      <Button variant="outlined" onClick={props.goBack}>
+      &nbsp;
+      <Button onClick={props.goBack}>
         {translations.back}
       </Button>
     </form>

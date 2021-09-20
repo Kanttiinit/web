@@ -1,8 +1,7 @@
-import Button from '@material-ui/core/Button';
-
 import * as React from 'react';
 import { langContext } from '../../contexts';
 import { useTranslations } from '../../utils/hooks';
+import Button from '../Button';
 import OpeningHoursInput from '../OpeningHoursInput';
 import { FormProps } from './ReportModal';
 
@@ -37,13 +36,12 @@ export default (props: FormProps) => {
       <Button
         disabled={props.isSending}
         type="submit"
-        variant="outlined"
         color="primary"
         style={{ marginRight: '1em' }}
       >
         {translations.send}
       </Button>
-      <Button variant="outlined" onClick={props.goBack}>
+      <Button onClick={props.goBack}>
         {translations.back}
       </Button>
     </form>

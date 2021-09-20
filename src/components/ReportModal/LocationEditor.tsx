@@ -1,15 +1,14 @@
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import * as React from 'react';
 
 import { useTranslations } from '../../utils/hooks';
-import useInput from '../../utils/useInput';
+import Button from '../Button';
+import Input from '../Input';
 import LatLngInput from '../LatLngInput';
 import { FormProps } from './ReportModal';
 
 export default (props: FormProps) => {
   const translations = useTranslations();
-  const [address, addressProps] = useInput(props.restaurant.address);
+  const [address, setAddress] = React.useState(props.restaurant.address);
   const [latLng, setLatLng] = React.useState<[number, number]>([
     props.restaurant.latitude,
     props.restaurant.longitude
@@ -31,25 +30,23 @@ export default (props: FormProps) => {
         value={latLng}
         onChange={setLatLng}
       />
-      <TextField
+      <Input
+        value={address}
+        onChange={setAddress}
+        id="address"
         label={translations.address}
-        style={{ margin: 4, marginBottom: 18 }}
-        fullWidth
         disabled={props.isSending}
-        {...addressProps}
       />
       <Button
         disabled={props.isSending}
         type="submit"
-        variant="outlined"
         color="primary"
-        style={{ marginRight: '1em' }}
       >
         {translations.send}
       </Button>
+      &nbsp;
       <Button
         disabled={props.isSending}
-        variant="outlined"
         onClick={props.goBack}
       >
         {translations.back}

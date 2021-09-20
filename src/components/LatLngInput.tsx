@@ -1,4 +1,4 @@
-import TextField from '@material-ui/core/TextField';
+import Input from './Input';
 import { Map, Draggable } from 'pigeon-maps';
 import * as React from 'react';
 import styled from 'styled-components';
@@ -14,15 +14,13 @@ const osmProvider = (x: number, y: number, z: number) => {
 };
 
 const LatLngContainer = styled.div`
-  display: flex;
-
-  > * {
-    flex: 1;
-  }
+  column-count: 2;
+  column-gap: 1rem;
 `;
 
 const MapContainer = styled.div`
   height: 20rem;
+  margin-bottom: 1rem;
 `;
 
 const CrossHair = styled.div`
@@ -55,23 +53,21 @@ const LatLngInput = ({ value, onChange, disabled }: Props) => {
         </Map>
       </MapContainer>
       <LatLngContainer>
-        <TextField
+        <Input
           label="Latitude"
           type="number"
-          style={{ margin: 4 }}
-          fullWidth
+          id="latitude"
           disabled={disabled}
           value={value[0] || 0}
-          onChange={e => onChange([Number(e.target.value), value[1]])}
+          onChange={strValue => onChange([Number(strValue), value[1]])}
         />
-        <TextField
+        <Input
           label="Longitude"
           type="number"
-          style={{ margin: 4 }}
-          fullWidth
+          id="longitude"
           disabled={disabled}
           value={value[1] || 0}
-          onChange={e => onChange([value[0], Number(e.target.value)])}
+          onChange={strValue => onChange([value[0], Number(strValue)])}
         />
       </LatLngContainer>
     </>

@@ -13,6 +13,8 @@ type Props = {
   disabled?: boolean;
   rows?: number;
   autoFocus?: boolean;
+  pattern?: string;
+  className?: string;
 };
 
 const Container = styled.div`
@@ -22,6 +24,7 @@ const Container = styled.div`
     color: var(--gray1);
     display: block;
     margin-bottom: 0.4rem;
+    font-size: 0.9rem;
   }
 
   input, textarea {
@@ -36,6 +39,11 @@ const Container = styled.div`
     border: solid 1px var(--gray3);
     border-radius: 4px;
 
+    &:disabled {
+      color: var(--gray5);
+      border-color: var(--gray5);
+    }
+
     &:focus {
       border-color: var(--accent_color);
     }
@@ -49,7 +57,8 @@ export default React.memo((props: Props) => {
     autoComplete: props.autoComplete,
     value: props.value,
     disabled: props.disabled,
-    autoFocus: props.autoFocus
+    autoFocus: props.autoFocus,
+    pattern: props.pattern
   };
 
   const onChange = React.useCallback(e => {
@@ -58,7 +67,7 @@ export default React.memo((props: Props) => {
   }, [props.onChange]);
 
   return (
-    <Container>
+    <Container className={props.className}>
       <label htmlFor={props.id}>{props.label}</label>
       {props.multiline
         ? <textarea rows={props.rows} {...fieldProps} onChange={onChange} />

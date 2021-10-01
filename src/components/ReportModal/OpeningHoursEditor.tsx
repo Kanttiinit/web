@@ -41,7 +41,7 @@ export default (props: FormProps) => {
       >
         {translations.send}
       </Button>
-      <Button onClick={props.goBack}>
+      <Button onClick={props.goBack} type="submit">
         {translations.back}
       </Button>
     </form>

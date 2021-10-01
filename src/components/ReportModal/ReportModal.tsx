@@ -1,4 +1,3 @@
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import * as React from 'react';
 import {
   MdAccessTime,
@@ -129,45 +128,37 @@ const ReportModal = (props: Props) => {
   }
 
   return (
-    <MuiThemeProvider
-      theme={createMuiTheme({
-        palette: {
-          type: preferences.darkMode ? 'dark' : 'light'
-        }
-      })}
-    >
-      <PageContainer title={title} compactTitle>
-        {done ? (
-          translations.thanksForFeedback
-        ) : activeForm ? (
-          <>
-            {React.createElement(activeForm.component, {
-              goBack: () => (setActiveForm(null), setError(null)),
-              isSending,
-              restaurant: restaurant.data,
-              sendChange,
-              setDone,
-              setError
-            })}
-            {error && (
-              <ErrorMessage>
-                <InlineIcon>
-                  <MdError />
-                </InlineIcon>{' '}
-                {error.message}
-              </ErrorMessage>
-            )}
-          </>
-        ) : (
-          reportForms.map(form => (
-            <ListItem key={form.labelId} onClick={() => setActiveForm(form)}>
-              <InlineIcon>{form.icon}</InlineIcon>
-              {translations[form.labelId]}
-            </ListItem>
-          ))
-        )}
-      </PageContainer>
-    </MuiThemeProvider>
+    <PageContainer title={title} compactTitle>
+      {done ? (
+        translations.thanksForFeedback
+      ) : activeForm ? (
+        <>
+          {React.createElement(activeForm.component, {
+            goBack: () => (setActiveForm(null), setError(null)),
+            isSending,
+            restaurant: restaurant.data,
+            sendChange,
+            setDone,
+            setError
+          })}
+          {error && (
+            <ErrorMessage>
+              <InlineIcon>
+                <MdError />
+              </InlineIcon>{' '}
+              {error.message}
+            </ErrorMessage>
+          )}
+        </>
+      ) : (
+        reportForms.map(form => (
+          <ListItem key={form.labelId} onClick={() => setActiveForm(form)}>
+            <InlineIcon>{form.icon}</InlineIcon>
+            {translations[form.labelId]}
+          </ListItem>
+        ))
+      )}
+    </PageContainer>
   );
 };
 

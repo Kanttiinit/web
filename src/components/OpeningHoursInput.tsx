@@ -1,24 +1,31 @@
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
-import CopyFromPrevious from '@material-ui/icons/SubdirectoryArrowLeft';
 import setISODay from 'date-fns/setISODay';
 import * as React from 'react';
 import styled from 'styled-components';
+import { MdSubdirectoryArrowLeft as CopyIcon } from 'react-icons/md';
 
 import { Lang } from '../contexts/types';
 import { useFormatDate, useTranslations } from '../utils/hooks';
+import Input from './Input';
 import Tooltip from './Tooltip';
+import Button from './Button';
 
 const InputGroup = styled.div`
   display: flex;
-  align-items: center;
-  margin-bottom: 0.5em;
+  align-items: flex-end;
+  width: 100%;
+  margin-bottom: 1rem;
 `;
 
-const DayLabel = styled.p`
-  font-size: 0.8rem;
-  margin-bottom: 0;
+const DayLabel = styled.div`
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-left: .5ch;
+  width: 4ch;
+`;
+
+const StyledInput = styled(Input)`
+  flex: 1;
+  margin: 0 0.5rem;
 `;
 
 interface Props {
@@ -68,10 +75,10 @@ const OpeningHoursInput = (props: Props) => {
   }, []);
 
   return (
-    <React.Fragment>
+    <>
       {openingHours.map((times, i) => {
         const isClosed = times === null;
-        const weekDayLabel = formatDate(setISODay(new Date(), i + 1), 'EEEE');
+        const weekDayLabel = formatDate(setISODay(new Date(), i + 1), 'EE');
 
         const createDayToggler = (index: number) => (
           event: React.ChangeEvent<HTMLInputElement>
@@ -86,10 +93,10 @@ const OpeningHoursInput = (props: Props) => {
         };
 
         const createDayTimeChanger = (dayIndex: number, timeIndex: number) => (
-          event: React.ChangeEvent<HTMLInputElement>
+          value: string
         ) => {
           const hours = [...openingHours];
-          hours[dayIndex][timeIndex] = event.target.value;
+          hours[dayIndex][timeIndex] = value;
           setOpeningHours(hours);
         };
 
@@ -100,54 +107,42 @@ const OpeningHoursInput = (props: Props) => {
         };
 
         return (
-          <>
-          <DayLabel>{weekDayLabel}</DayLabel>
           <InputGroup key={i}>
-            <Checkbox
+            <input
+              type="checkbox"
               disabled={props.disabled}
               onChange={createDayToggler(i)}
               checked={!isClosed}
-            />
-            <TextField
+              />
+            <DayLabel>{weekDayLabel}</DayLabel>
+            <StyledInput
+              id={`opening-time-${i}`}
               label={translations.openingTime}
-              style={{ margin: 4 }}
-              fullWidth
-              margin="dense"
-              inputProps={{
-                pattern: '[0-9]{1,}:[0-9]{2}'
-              }}
+              pattern="[0-9]{1,}:[0-9]{2}"
               disabled={isClosed || props.disabled}
-              InputLabelProps={{ shrink: true }}
               value={isClosed ? translations.closed : times[0]}
               onChange={createDayTimeChanger(i, 0)}
             />
-            <TextField
+            <StyledInput
+              id={`closing-time-${i}`}
               label={translations.closingTime}
-              style={{ margin: 4 }}
-              fullWidth
-              margin="dense"
-              inputProps={{
-                pattern: '[0-9]{1,}:[0-9]{2}'
-              }}
+              pattern="[0-9]{1,}:[0-9]{2}"
               disabled={isClosed || props.disabled}
-              InputLabelProps={{ shrink: true }}
               value={isClosed ? translations.closed : times[1]}
               onChange={createDayTimeChanger(i, 1)}
             />
             <Tooltip translationKey="copyFromPreviousDay">
-              <IconButton
+              <Button
                 onClick={createCopyFromPrevious(i)}
                 disabled={i === 0}
-                aria-label="Copy from previous"
               >
-                <CopyFromPrevious />
-              </IconButton>
+                <CopyIcon />
+              </Button>
             </Tooltip>
           </InputGroup>
-          </>
         );
       })}
-    </React.Fragment>
+    </>
   );
 };
 

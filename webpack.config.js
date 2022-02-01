@@ -58,6 +58,9 @@ const plugins = [
 
 if (isProduction) {
   plugins.push(
+    new CompressionPlugin({
+      test: /\.(js|css)$/
+    }),
     new S3Plugin({
       include: /.*\.(map|js|png|svg)/,
       s3Options: { accessKeyId, secretAccessKey },

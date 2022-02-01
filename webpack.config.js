@@ -121,7 +121,7 @@ const appConfig = {
         test: /\.(png|svg)$/,
         loader: 'file-loader',
         options: {
-          name: '[name].[fullhash].[ext]',
+          name: '[name].[ext]',
         }
       },
       { test: /\.tsx?$/, use: ['ts-loader'], exclude: /node_modules/ }

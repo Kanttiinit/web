@@ -80,13 +80,13 @@ if (isProduction) {
 
 const commonConfig = {
   optimization: {
-    minimizer: isProduction ? [new TerserPlugin({ sourceMap: true })] : []
+    minimizer: isProduction ? [new TerserPlugin()] : []
   },
   mode: process.env.NODE_ENV || 'development',
   resolve: {
     extensions: ['.mjs', '.ts', '.tsx', '.js', '.scss']
   },
-  devtool: isProduction ? '' : 'eval'
+  devtool: isProduction ? false : 'eval'
 };
 
 const appConfig = {

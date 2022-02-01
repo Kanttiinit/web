@@ -58,10 +58,6 @@ const plugins = [
 
 if (isProduction) {
   plugins.push(
-    new CompressionPlugin({
-      test: /\.(js|css)$/,
-      filename: '[path]'
-    }),
     new S3Plugin({
       include: /.*\.(map|js|png|svg)/,
       s3Options: { accessKeyId, secretAccessKey },
@@ -105,8 +101,8 @@ const appConfig = {
   output: {
     path: PATHS.dist,
     publicPath: isProduction ? publicAssetPath : '/',
-    filename: '[name].[hash].js',
-    chunkFilename: '[hash].chunk.[chunkhash].js'
+    filename: '[name].[fullhash].js',
+    chunkFilename: '[fullhash].chunk.[chunkhash].js'
   },
   devServer: {
     contentBase: PATHS.dist,
@@ -118,7 +114,10 @@ const appConfig = {
     rules: [
       {
         test: /\.(png|svg)$/,
-        use: 'file-loader'
+        loader: 'file-loader',
+        options: {
+          name: '[name].[fullhash].[ext]',
+        }
       },
       { test: /\.tsx?$/, use: ['ts-loader'], exclude: /node_modules/ }
     ]

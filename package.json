@@ -52,7 +52,6 @@
     "develop": "webpack serve",
     "develop-local": "API_BASE='http://localhost:3000' npm run develop",
     "watch": "webpack -w",
-    "install": "npm run build",
     "lint": "tslint \"src/**/*.ts*\"",
     "typecheck": "tsc --noEmit"
   },

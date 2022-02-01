@@ -8,6 +8,7 @@ const pkg = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const S3Plugin = require('webpack-s3-plugin');
 const VersionFile = require('webpack-version-file');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const PATHS = {
   dist: path.join(__dirname, './dist')
@@ -24,9 +25,6 @@ const apiBase = process.env.API_BASE || 'https://kitchen.kanttiinit.fi';
 
 const definePlugin = new webpack.DefinePlugin({
   IS_PRODUCTION: isProduction,
-  'process.env': {
-    NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-  },
   VERSION: JSON.stringify(pkg.version),
   API_BASE: JSON.stringify(apiBase),
   PUBLIC_ASSET_PATH: JSON.stringify(publicAssetPath)
@@ -50,6 +48,11 @@ const plugins = [
   new VersionFile({
     output: './dist/version.txt',
     templateString: '<%= version %>'
+  }),
+  new CopyPlugin({
+    patterns: [
+      { from: './src/assets', to: '.' }
+    ]
   })
 ];
 
@@ -115,14 +118,7 @@ const appConfig = {
     rules: [
       {
         test: /\.(png|svg)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            query: {
-              name: '[name].[ext]'
-            }
-          }
-        ]
+        use: 'file-loader'
       },
       { test: /\.tsx?$/, use: ['ts-loader'], exclude: /node_modules/ }
     ]

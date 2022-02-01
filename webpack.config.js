@@ -59,7 +59,9 @@ const plugins = [
 if (isProduction) {
   plugins.push(
     new CompressionPlugin({
-      test: /\.(js|css)$/
+      test: /\.(js|css)$/,
+      filename: '[file]',
+      deleteOriginalAssets: true
     }),
     new S3Plugin({
       include: /.*\.(map|js|png|svg)/,

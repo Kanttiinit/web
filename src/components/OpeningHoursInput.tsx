@@ -1,13 +1,13 @@
 import setISODay from 'date-fns/setISODay';
 import * as React from 'react';
-import styled from 'styled-components';
 import { MdSubdirectoryArrowLeft as CopyIcon } from 'react-icons/md';
+import styled from 'styled-components';
 
 import { Lang } from '../contexts/types';
 import { useFormatDate, useTranslations } from '../utils/hooks';
+import Button from './Button';
 import Input from './Input';
 import Tooltip from './Tooltip';
-import Button from './Button';
 
 const InputGroup = styled.div`
   display: flex;

@@ -2,9 +2,9 @@ import * as React from 'react';
 
 import { useTranslations } from '../../utils/hooks';
 import useFeedback from '../../utils/useFeedback';
-import PageContainer from '../PageContainer';
 import Button from '../Button';
 import Input from '../Input';
+import PageContainer from '../PageContainer';
 
 const Contact = () => {
   const translations = useTranslations();

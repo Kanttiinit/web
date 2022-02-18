@@ -1,7 +1,8 @@
-import Input from './Input';
-import { Map, Draggable } from 'pigeon-maps';
 import * as React from 'react';
+
+import { Draggable, Map } from 'pigeon-maps';
 import styled from 'styled-components';
+import Input from './Input';
 
 interface Props {
   disabled?: boolean;

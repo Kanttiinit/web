@@ -1,5 +1,4 @@
-import * as React from 'react';
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface ModelField {
   type?:
     | 'menuUrl'

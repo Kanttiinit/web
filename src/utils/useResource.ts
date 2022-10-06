@@ -9,7 +9,8 @@ export interface Resource<T> {
 
 export default function useResource<T>(
   defaultData: T,
-  pendingByDefault: boolean = false
+  pendingByDefault = false
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): [Resource<T>, ((promise: Promise<T>) => any), (pending?: boolean) => void] {
   const [state, setState] = React.useState<Resource<T>>({
     data: defaultData,

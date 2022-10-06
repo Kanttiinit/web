@@ -24,7 +24,9 @@ const Distance = ({ distance }: { distance: number }) => {
   const kilometers = distance > 1500;
   const translations = useTranslations();
   return (
-    <RestaurantMeta style={{ fontWeight: 400, textAlign: 'left', display: 'inline-block' }}>
+    <RestaurantMeta
+      style={{ fontWeight: 400, textAlign: 'left', display: 'inline-block' }}
+    >
       <InlineIcon>
         {!distance ? (
           <MdPlace />
@@ -231,8 +233,8 @@ const Restaurant = (props: Props) => {
           <StyledNativeActionLink
             aria-label={
               restaurant.isStarred
-                ? `Star ${restaurant.name}`
-                : `Unstar ${restaurant.name}`
+                ? `Star ${restaurant.name}`
+                : `Unstar ${restaurant.name}`
             }
             onClick={toggleStar}
             color={restaurant.isStarred ? '#FFA726' : undefined}

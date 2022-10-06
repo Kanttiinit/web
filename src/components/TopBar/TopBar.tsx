@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { MdFiberNew, MdMap, MdSettings } from 'react-icons/md';
-const FI = require('./fi.svg').default;
-const EN = require('./en.svg').default;
+import FI from './fi.svg';
+import EN from './en.svg';
 
 import styled, { css } from 'styled-components';
 import { langContext } from '../../contexts';

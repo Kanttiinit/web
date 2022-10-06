@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -57,7 +58,7 @@ class Editor extends React.PureComponent<Props> {
     } catch (e) {
       showMessage('Error: ' + e.message);
     }
-  }
+  };
 
   delete = async () => {
     if (confirm('Are you sure?')) {
@@ -65,11 +66,12 @@ class Editor extends React.PureComponent<Props> {
       this.props.onSuccess();
       showMessage('The item has been deleted.');
     }
-  }
+  };
 
   setValue = (key: string | string[], value: any) =>
-    this.setState({ item: set(key, value, this.state.item) })
+    this.setState({ item: set(key, value, this.state.item) });
 
+  // eslint-disable-next-line react/no-deprecated
   componentWillReceiveProps(props: Props) {
     this.updateItem(props);
   }
@@ -91,7 +93,7 @@ class Editor extends React.PureComponent<Props> {
         <InputComponent field={field} value={value} setValue={this.setValue} />
       </div>
     );
-  }
+  };
 
   render() {
     const { model, mode, onCancel } = this.props;

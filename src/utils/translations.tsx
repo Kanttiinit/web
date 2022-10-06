@@ -119,7 +119,7 @@ const translations = {
       <div>
         <p>
           Kanttiinit retrieves all menu data directly from the restaurants, and
-          isn't directly responsible for the correctness of any information.
+          isn&#39;t directly responsible for the correctness of any information.
           Please verify the information about allergens at the restaurants.
         </p>
         <p>

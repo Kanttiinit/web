@@ -1,7 +1,7 @@
 import * as times from 'lodash/times';
 import * as React from 'react';
 import { MdWarning } from 'react-icons/md';
-const locating = require('../../assets/locating.svg');
+import locating from '../../assets/locating.svg';
 
 import styled from 'styled-components';
 import { dataContext, preferenceContext, uiContext } from '../../contexts';

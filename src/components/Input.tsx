@@ -61,7 +61,7 @@ export default React.memo((props: Props) => {
     pattern: props.pattern
   };
 
-  const onChange = React.useCallback(e => {
+  const onChange = React.useCallback((e: { target: { value: string; }; }) => {
     if (props.onChange)
       props.onChange(e.target.value);
   }, [props.onChange]);

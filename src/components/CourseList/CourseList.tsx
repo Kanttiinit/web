@@ -1,5 +1,5 @@
 import * as capitalize from 'lodash/capitalize';
-import * as memoize from 'lodash/memoize';
+import memoize from 'lodash/memoize';
 import * as React from 'react';
 import styled from 'styled-components';
 

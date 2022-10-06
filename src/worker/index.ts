@@ -24,7 +24,6 @@ const shouldCacheUrl = (url: string): boolean => {
 };
 
 const resolve = async (request: Request) => {
-  const cache = await getCache(); // tslint:disable-line
   if (shouldCacheUrl(request.url)) {
     try {
       const response = await fetch(request);

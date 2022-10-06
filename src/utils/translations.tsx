@@ -10,7 +10,6 @@ interface FormattedProperty {
   name_fi: string;
 }
 
-/* tslint:disable:object-literal-sort-keys */
 export const properties: FormattedProperty[] = [
   {
     desired: false,

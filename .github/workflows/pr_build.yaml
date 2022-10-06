@@ -18,4 +18,3 @@ jobs:
         run: npm install --include=dev
       - name: npm run lint
         run: npm run lint
-  

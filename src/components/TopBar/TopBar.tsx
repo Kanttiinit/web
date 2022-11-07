@@ -69,11 +69,11 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
   pointer-events: none;
 
   ${props =>
-    props.isOpen &&
+    props.isOpen ?
     css`
       opacity: 1;
       pointer-events: all;
-    `}
+    ` : ''}
 
   @media (max-width: ${breakSmall}) {
     top: 52px;
@@ -194,14 +194,14 @@ export default function TopBar() {
     <Container>
       <Content>
         <DaySelector root="/" />
-        {/* {unseenUpdates.length > 0 && (
+        {state.unseenUpdates.length > 0 && (
           <Link to="/news">
-            <InlineIcon>
+            {/* <InlineIcon>
               <NewsIcon size={24} />
-            </InlineIcon>
+            </InlineIcon> */}
           </Link>
         )}
-        <AreaSelectorButton onClickOutside={closeAreaSelector}>
+        {/* <AreaSelectorButton onClickOutside={closeAreaSelector}>
           <NativeIconLink
             ref={areaSelectorLink}
             onMouseDown={toggleAreaSelector}
@@ -214,11 +214,11 @@ export default function TopBar() {
           <AreaSelectorContainer isOpen={areaSelectorOpen}>
             <AreaSelector onAreaSelected={toggleAreaSelector} />
           </AreaSelectorContainer>
-        </AreaSelectorButton>
+        </AreaSelectorButton> */}
         <IconLink to="/settings" aria-label="Settings">
-          <MdSettings size={18} />
-          <span>{translations.settings}</span>
-        </IconLink> */}
+          {/* <MdSettings size={18} /> */}
+          <span>{state.translations.settings}</span>
+        </IconLink>
         <NativeIconLink
           tabIndex={0}
           onClick={actions.toggleLang}

@@ -3,6 +3,8 @@ import addDays from 'date-fns/addDays';
 import * as times from 'lodash/times';
 import startOfDay from 'date-fns/startOfDay';
 import translations from './utils/translations';
+import { createResource, ResourceReturn } from "solid-js";
+import * as api from './utils/api';
 
 import { AreaType, DarkModeChoice, FavoriteType, Lang, MenuType, Order, PriceCategory, RestaurantType, Update } from "./contexts/types";
 import parseISO from 'date-fns/parseISO';
@@ -22,10 +24,10 @@ interface State {
   selectedDay: Date;
   data: {
     areas: AreaType[],
-    favorites: FavoriteType[],
+    favorites: ResourceReturn<FavoriteType[]>,
     menus: MenuType,
     restaurants: RestaurantType[],
-    updates: Update[],
+    updates: ResourceReturn<Update[]>,
   },
   preferences: {
     selectedArea: number;
@@ -52,10 +54,10 @@ const [state, setState] = createStore<State>({
   selectedDay: startOfDay(new Date()),
   data: {
     areas: [],
-    favorites: [],
+    favorites: createResource<FavoriteType[]>(() => api.getFavorites(Lang.FI)),
     menus: {},
     restaurants: [],
-    updates: [],
+    updates: createResource<Update[]>(() => api.getUpdates()),
   },
   preferences: {
     selectedArea: 1,
@@ -78,8 +80,8 @@ const [state, setState] = createStore<State>({
     }, {}) as TranslatedDict;
   },
   get unseenUpdates() {
-    const updates: Update[] = this.data.updates;
-    if (!this.preferences.updatesLastSeenAt) {
+    const updates: Update[] | undefined = this.data.updates[0]();
+    if (!this.preferences.updatesLastSeenAt || !updates) {
       return [];
     }
   

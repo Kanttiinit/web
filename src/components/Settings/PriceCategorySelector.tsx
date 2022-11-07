@@ -1,9 +1,8 @@
 import * as times from 'lodash/times';
-import * as React from 'react';
-import { MdAttachMoney } from 'react-icons/md';
-import styled from 'solid-styled-components';
-import langContext from '../../contexts/langContext';
+import { For } from 'solid-js';
+import { styled } from 'solid-styled-components';
 import { PriceCategory } from '../../contexts/types';
+import { state } from '../../state';
 import { priceCategorySettings } from '../../utils/translations';
 import {Button} from '../Radio';
 
@@ -57,23 +56,24 @@ const Item = styled(Button)`
 
 const PriceCategorySelector = (props: Props) => {
   const valueIndex = categories.indexOf(props.value);
-  const { lang } = React.useContext(langContext);
   return (
     <>
       <ButtonContainer>
-        {categories.map((c, i) => (
+        <For each={categories}>
+          {(c, i) =>
           <Item
             onClick={() => props.onChange(c)}
-            selected={valueIndex >= i}
-            key={c}
+            selected={valueIndex >= i()}
           >
-            {times(i + 1, (j: number) => (
-              <MdAttachMoney key={j} />
+            {times(i() + 1, (j: number) => (
+              <span />
+              // <MdAttachMoney key={j} />
             ))}
           </Item>
-        ))}
+          }
+        </For>
       </ButtonContainer>
-      <p style={{ fontSize: '0.8rem' }}>{priceCategorySettings[props.value][lang]}</p>
+      <p style={{ 'font-size': '0.8rem' }}>{priceCategorySettings[props.value][state.lang]}</p>
     </>
   );
 };

@@ -1,7 +1,5 @@
-import * as React from 'react';
-
-import styled from 'solid-styled-components';
-import { useTranslations } from '../utils/hooks';
+import { styled } from 'solid-styled-components';
+import { state } from '../state';
 import PageContainer from './PageContainer';
 
 const Link = styled.a`
@@ -9,9 +7,8 @@ const Link = styled.a`
 `;
 
 const Clients = () => {
-  const translations = useTranslations();
   return (
-    <PageContainer title={translations.otherClients}>
+    <PageContainer title={state.translations.otherClients}>
       <Link href="https://folio.kanttiinit.fi/" rel="noopener">
         folio.kanttiinit.fi
       </Link>

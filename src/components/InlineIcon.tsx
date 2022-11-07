@@ -1,13 +1,6 @@
-import * as React from 'react';
-import styled from 'solid-styled-components';
+import { styled } from 'solid-styled-components';
 
-export default styled(
-  (props: { className?: string; children: React.ReactElement<any, any> }) => {
-    return React.cloneElement(React.Children.only(props.children), {
-      className: props.className
-    });
-  }
-)`
+export default styled.span`
   vertical-align: -0.1rem !important;
   margin-right: 0.1rem;
 `;

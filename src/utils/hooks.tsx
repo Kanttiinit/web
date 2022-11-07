@@ -10,7 +10,7 @@ import setMinutes from 'date-fns/setMinutes';
 import * as haversine from 'haversine';
 import * as get from 'lodash/get';
 import * as orderBy from 'lodash/orderBy';
-import * as React from 'react';
+import { Accessor, createMemo } from 'solid-js';
 
 import {
   dataContext,
@@ -62,17 +62,12 @@ export const useSelectedArea = () => {
   }, [areas.data, selectedArea]);
 };
 
-export const useFormattedFavorites: () => FormattedFavoriteType[] = () => {
-  const { favorites } = React.useContext(dataContext);
-  const preferences = React.useContext(preferenceContext);
-
-  return React.useMemo(() => {
-    return orderBy(favorites.data, ['name']).map((favorite: FavoriteType) => ({
+export const formattedFavorites: Accessor<(FavoriteType & { isSelected: boolean })[]> = createMemo(() => {
+    return orderBy(state.data.favorites[0](), ['name']).map((favorite: FavoriteType) => ({
       ...favorite,
-      isSelected: preferences.favorites.indexOf(favorite.id) > -1
+      isSelected: state.preferences.favorites.indexOf(favorite.id) > -1
     }));
-  }, [favorites.data, preferences.favorites]);
-};
+  });
 
 const parseTimeOfDay = (input: string) => {
   const parts = input.split(':');

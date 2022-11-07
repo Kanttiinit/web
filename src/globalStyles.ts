@@ -4,6 +4,36 @@ export const breakSmall = '767px';
 export const breakLarge = '768px';
 
 export default createGlobalStyles`
+  @font-face {
+    font-family: 'Interface';
+    font-display: auto;
+    font-style: normal;
+    font-weight: 400;
+    src: local('Interface'),
+      url('./assets/fonts/Interface-Regular.woff2') format('woff2'),
+      url('./assets/fonts/Interface-Regular.woff') format('woff');
+  }
+
+  @font-face {
+    font-family: 'Interface';
+    font-display: auto;
+    font-style: normal;
+    font-weight: 500;
+    src: local('Interface'),
+      url('./assets/fonts/Interface-Medium.woff2') format('woff2'),
+      url('./assets/fonts/Interface-Medium.woff') format('woff');
+  }
+
+  @font-face {
+    font-family: 'Interface';
+    font-display: auto;
+    font-style: normal;
+    font-weight: 700;
+    src: local('Interface'),
+      url('./assets/fonts/Interface-Bold.woff2') format('woff2'),
+      url('./assets/fonts/Interface-Bold.woff') format('woff');
+  }
+
   html,
   body,
   #root {

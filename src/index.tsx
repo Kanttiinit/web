@@ -1,6 +1,6 @@
 import 'url-polyfill';
 
-import { render } from 'solid-js/web';
+import { ErrorBoundary as SolidErrorBoundary, render } from 'solid-js/web';
 import { Route, Router, Routes } from "@solidjs/router";
 
 import App from './components/App';
@@ -11,6 +11,7 @@ import Global from './globalStyles';
 import * as consts from './utils/consts';
 // import { useTranslations } from './utils/hooks';
 import './worker/registerWorker';
+import { state } from './state';
 
 declare let window: any;
 
@@ -25,44 +26,37 @@ if (consts.isProduction) {
   }
 }
 
-// const ErrorMessage = () => {
-//   const translations = useTranslations();
-//   return <p>{translations.errorDetails}</p>;
-// };
+export function ErrorBoundary(props: { children: any, fallback?: any }) {
+  return (
+    <SolidErrorBoundary fallback={error => {
+      console.error(error);
+      
+      if (consts.isProduction) {
+        window.Sentry.captureException(error);
+      }
 
-interface State {
-  error: Error | null;
+      return props.fallback || <ErrorMessage />;
+    }}>
+      {props.children}
+    </SolidErrorBoundary>
+  );
 }
 
-// export class ErrorBoundary extends React.PureComponent<any, State> {
-//   state: State = { error: null };
-
-//   componentDidCatch(error: Error) {
-//     if (consts.isProduction) {
-//       window.Sentry.captureException(error);
-//     }
-//     this.setState({ error });
-//   }
-
-//   render() {
-//     if (this.state.error) {
-//       return <ErrorMessage />;
-//     }
-//     return this.props.children;
-//   }
-// }
+const ErrorMessage = () => {
+  return <p>{state.translations.errorDetails}</p>;
+};
 
 render(
   () => (
-    <>
-    <Global />
-    <Router>
-      <Routes>
-        {/* <Route path="/map" element={<Map />} /> */}
-        <Route path="*" component={App} />
-      </Routes>
-    </Router>
-    </>
+    <ErrorBoundary>
+      <Global />
+      <Router>
+        <Routes>
+          {/* <Route path="/map" element={<Map />} /> */}
+          <Route path="*" component={App} />
+        </Routes>
+      </Router>
+    </ErrorBoundary>
   ),
   document.getElementById('root')!
 );

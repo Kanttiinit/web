@@ -1,4 +1,4 @@
-import styled, { css } from 'solid-styled-components';
+import { styled, css } from 'solid-styled-components';
 
 export const RoundedButtonContainer = styled.div`
   display: flex;
@@ -36,7 +36,7 @@ export const RoundedButton = styled.button<{
   }
 
   ${props =>
-    props.selected &&
+    props.selected ?
     css`
       background: ${props.color};
       color: var(--gray6);
@@ -45,5 +45,5 @@ export const RoundedButton = styled.button<{
         filter: brightness(115%);
         background: ${props.color};
       }
-    `}
+    ` : ''}
 `;

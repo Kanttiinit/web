@@ -1,15 +1,10 @@
-import * as React from 'react';
-
-import { useTranslations } from '../utils/hooks';
+import { state } from '../state';
 import PageContainer from './PageContainer';
 
-const PrivacyPolicy = () => {
-  const translations = useTranslations();
+export default function PrivacyPolicy() {
   return (
-    <PageContainer title={translations.termsOfService}>
-      {translations.termsOfServiceContent}
+    <PageContainer title={state.translations.termsOfService}>
+      {state.translations.termsOfServiceContent}
     </PageContainer>
   );
 };
-
-export default PrivacyPolicy;

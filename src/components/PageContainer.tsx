@@ -1,5 +1,6 @@
-import * as React from 'react';
-import styled from 'solid-styled-components';
+import { splitProps } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import { breakSmall } from '../globalStyles';
 
 interface Props {
   children?: any;
@@ -33,7 +34,7 @@ const Title = styled.h1<{ compact?: boolean }>`
     margin-top: 0;
   }
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     font-size: 1.2em;
   }
 
@@ -47,11 +48,14 @@ const Title = styled.h1<{ compact?: boolean }>`
   }
 `;
 
-const PageContainer = ({ children, title, compactTitle, ...rest }: Props) => (
-  <Container {...rest}>
-    {title && <Title compact={compactTitle}>{title}</Title>}
-    {children}
-  </Container>
-);
+const PageContainer = (props: Props) => {
+  const [ownProps, rest] = splitProps(props, ['children', 'title', 'className', 'compactTitle']);
+  return (
+    <Container {...rest}>
+      {ownProps.title && <Title compact={ownProps.compactTitle}>{ownProps.title}</Title>}
+      {ownProps.children}
+    </Container>
+  );
+};
 
 export default PageContainer;

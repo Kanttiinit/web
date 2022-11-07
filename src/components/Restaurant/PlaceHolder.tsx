@@ -1,7 +1,7 @@
 import * as random from 'lodash/random';
 import * as times from 'lodash/times';
 import * as React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from 'solid-styled-components';
 
 import { Container, courseListStyles } from './Restaurant';
 

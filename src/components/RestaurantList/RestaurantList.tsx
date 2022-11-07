@@ -3,7 +3,7 @@ import * as React from 'react';
 import { MdWarning } from 'react-icons/md';
 import locating from '../../assets/locating.svg';
 
-import styled from 'styled-components';
+import styled from 'solid-styled-components';
 import { dataContext, preferenceContext, uiContext } from '../../contexts';
 import { useFormattedRestaurants, useTranslations } from '../../utils/hooks';
 import InlineIcon from '../InlineIcon';

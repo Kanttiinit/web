@@ -1,10 +1,10 @@
-import * as React from 'react';
-import styled, { css } from 'styled-components';
+import { styled, css } from 'solid-styled-components';
+import { state } from '../state';
 
 import logo from '../assets/logo_48.png';
 import { isBeta, version } from '../utils/consts';
-import { useTranslations } from '../utils/hooks';
 import Link from './Link';
+import { breakSmall } from '../globalStyles';
 
 const Footer = styled.footer`
   text-align: center;
@@ -43,7 +43,7 @@ const linkStyles = css`
       color: var(--accent_color);
     }
 
-    @media (max-width: ${props => props.theme.breakSmall}) {
+    @media (max-width: ${breakSmall}) {
       border-bottom: none;
       display: block;
       margin: 0.5rem;
@@ -63,11 +63,11 @@ const LogoImage = styled.img`
   height: 48px;
   margin-right: 1rem;
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     display: none;
   }
 
-  ${props => props.theme.dark && 'filter: grayscale(0.6);'}
+  ${state.darkMode ? 'filter: grayscale(0.6);' : ''}
 `;
 
 const NavigationContainer = styled.div`
@@ -88,19 +88,18 @@ const VersionLink = styled.a`
 `;
 
 export default () => {
-  const translations = useTranslations();
   return (
     <Footer>
       <NavigationContainer>
         <LogoImage alt="Kanttiinit logo" src={logo} />
         <nav>
-          <StyledNavLink to="/contact">{translations.contact}</StyledNavLink>
+          <StyledNavLink to="/contact">{state.translations.contact}</StyledNavLink>
           <StyledNavLink to="/clients">
-            {translations.otherClients}
+            {state.translations.otherClients}
           </StyledNavLink>
-          <StyledNavLink to="/news">{translations.updates}</StyledNavLink>
+          <StyledNavLink to="/news">{state.translations.updates}</StyledNavLink>
           <StyledNavLink to="/terms-of-service">
-            {translations.termsOfService}
+            {state.translations.termsOfService}
           </StyledNavLink>
           {!isBeta && (
             <StyledExternalLink

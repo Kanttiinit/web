@@ -149,7 +149,7 @@ export default class DataTable extends React.PureComponent<Props, State> {
     } = this.state;
 
     return (
-      <React.Fragment>
+      <>
         <Dialog maxWidth="sm" fullWidth open={!!mode} onClose={this.hideDialog}>
           <Editor
             model={model}
@@ -207,7 +207,7 @@ export default class DataTable extends React.PureComponent<Props, State> {
             </div>
           </Paper>
         )}
-      </React.Fragment>
+      </>
     );
   }
 }

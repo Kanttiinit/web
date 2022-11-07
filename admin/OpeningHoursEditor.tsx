@@ -96,7 +96,7 @@ export default class OpeningHourDialog extends React.PureComponent<
                 />
               </Grid>
               {!item.closed && (
-                <React.Fragment>
+                <>
                   <Grid item md>
                     <PlainField
                       field={{ title: 'Opens', path: 'opens' }}
@@ -111,7 +111,7 @@ export default class OpeningHourDialog extends React.PureComponent<
                       setValue={this.setValue}
                     />
                   </Grid>
-                </React.Fragment>
+                </>
               )}
             </Grid>
             <Grid item container spacing={8}>

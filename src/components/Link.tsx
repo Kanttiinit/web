@@ -1,23 +1,22 @@
-import * as React from 'react';
-import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
+import { A } from '@solidjs/router';
 
-interface Props extends RouteComponentProps<any> {
+interface Props {
   to: string;
-  className?: string;
+  class?: string;
   style?: any;
   children: any;
   'aria-label'?: any;
 }
 
-export default withRouter(
-  ({ to, children, location, className, style, ...rest }: Props) => (
-    <Link
-      className={className}
-      style={style}
-      to={{ pathname: to, search: location.search }}
-      aria-label={rest['aria-label']}
+export default function Link(props: Props) {
+  return (
+    <A
+      class={props.class}
+      style={props.style}
+      href={props.to}
+      // aria-label={rest['aria-label']}
     >
-      {children}
-    </Link>
-  )
-);
+      {props.children}
+    </A>
+  );
+}

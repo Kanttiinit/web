@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import styled from 'styled-components';
+import styled from 'solid-styled-components';
 
 import { ErrorBoundary } from '../../index';
 import { useTranslations } from '../../utils/hooks';
@@ -135,7 +135,7 @@ const Modal = (props: Props) => {
 
   return (
     <Container open={open}>
-      <React.Fragment>
+      <>
         <Overlay open={open} onClick={closeModal} />
         <Content open={open}>
           <ErrorBoundary FallbackComponent={ModalError}>
@@ -145,7 +145,7 @@ const Modal = (props: Props) => {
         <CloseText open={open} onClick={closeModal}>
           {translations.closeModal}
         </CloseText>
-      </React.Fragment>
+      </>
     </Container>
   );
 };

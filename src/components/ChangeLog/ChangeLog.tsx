@@ -3,7 +3,7 @@ import parseISO from 'date-fns/parseISO';
 import * as React from 'react';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import snarkdown from 'snarkdown';
-import styled from 'styled-components';
+import styled from 'solid-styled-components';
 
 import { dataContext, preferenceContext } from '../../contexts';
 import { Update } from '../../contexts/types';

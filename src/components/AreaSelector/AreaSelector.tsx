@@ -3,7 +3,7 @@ import * as sortBy from 'lodash/sortBy';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'solid-styled-components';
 
 import { MdDirectionsWalk, MdStar } from 'react-icons/md';
 import { dataContext, preferenceContext } from '../../contexts';

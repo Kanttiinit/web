@@ -1,12 +1,13 @@
 import format from 'date-fns/format';
 import isSameDay from 'date-fns/isSameDay';
-import * as React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import { For } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import { isDateInRange } from '../contexts/uiContext';
 
-import { uiContext } from '../../contexts';
-import { isDateInRange } from '../../contexts/uiContext';
-import { useFormatDate } from '../../utils/hooks';
+import { breakLarge, breakSmall } from '../globalStyles';
+import { state } from '../state';
+import { createDayFormatter } from '../utils/hooks';
+import Link from './Link';
 
 interface DayLinkProps {
   day: Date;
@@ -24,7 +25,7 @@ const Container = styled.nav`
   }
 `;
 
-const StyledLink = styled(({ activeLink, ...props }) => <Link {...props} />)<{
+const StyledLink = styled<{ activeLink: boolean }>(({ activeLink, ...props }) => <Link {...props} />)<{
   activeLink: boolean;
 }>`
   && {
@@ -53,52 +54,51 @@ const StyledLink = styled(({ activeLink, ...props }) => <Link {...props} />)<{
     }
 
     ${props =>
-      props.activeLink &&
+      props.activeLink ?
       `
       color: var(--gray1);
       font-weight: 600;
-    `}
+    ` : ''}
 
-    @media (min-width: ${props => props.theme.breakSmall}) {
+    @media (min-width: ${breakSmall}) {
       font-size: 0.8rem;
     }
 
-    @media (max-width: ${props => props.theme.breakLarge}) {
+    @media (max-width: ${breakLarge}) {
       margin: 0;
     }
   }
 `;
 
 const DayLink = ({ day, selectedDay, root }: DayLinkProps) => {
-  const formatDate = useFormatDate();
+  const formatDate = createDayFormatter();
   const search = isSameDay(day, new Date())
     ? ''
     : `?day=${format(day, 'y-MM-dd')}`;
   const active = isSameDay(selectedDay, day);
 
   return (
-    <StyledLink activeLink={active} to={{ pathname: root, search }}>
-      {formatDate(day, 'iiiiii d.M.')}
+    <StyledLink activeLink={active} to={root + search}>
+      {formatDate()(day, 'iiiiii d.M.')}
     </StyledLink>
   );
 };
 
-export default React.memo(({ root }: { root: string }) => {
-  const ui = React.useContext(uiContext);
-  const selectedDay = ui.selectedDay;
+export default function DaySelector(props: { root: string }) {
   return (
     <Container>
-      {!isDateInRange(selectedDay) && (
-        <DayLink day={selectedDay} selectedDay={selectedDay} />
+      {!isDateInRange(state.selectedDay) && (
+        <DayLink day={state.selectedDay} selectedDay={state.selectedDay} />
       )}
-      {ui.displayedDays.map(day => (
-        <DayLink
-          key={format(day, 'y-MM-dd')}
-          root={root}
-          selectedDay={selectedDay}
-          day={day}
-        />
-      ))}
+      <For each={state.displayedDays}>
+        {day =>
+          <DayLink
+            root={props.root}
+            selectedDay={state.selectedDay}
+            day={day}
+          />
+        }
+      </For>
     </Container>
   );
-});
+};

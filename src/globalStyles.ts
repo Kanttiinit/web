@@ -1,6 +1,9 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyles } from 'solid-styled-components';
 
-export default createGlobalStyle`
+export const breakSmall = '767px';
+export const breakLarge = '768px';
+
+export default createGlobalStyles`
   html,
   body,
   #root {

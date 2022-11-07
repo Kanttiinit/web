@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled from 'solid-styled-components';
 
 export default styled(
   (props: { className?: string; children: React.ReactElement<any, any> }) => {

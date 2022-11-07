@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'solid-styled-components';
 
 export const RoundedButtonContainer = styled.div`
   display: flex;

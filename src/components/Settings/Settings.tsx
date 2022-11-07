@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled from 'styled-components';
+import styled from 'solid-styled-components';
 
 import { langContext, preferenceContext } from '../../contexts';
 import { DarkModeChoice, Lang, Order } from '../../contexts/types';
@@ -25,10 +25,10 @@ const ItemTitle = styled.h2`
 `;
 
 const Item = ({ label, children }: ItemProps) => (
-  <React.Fragment>
+  <>
     <ItemTitle>{label}</ItemTitle>
     {children}
-  </React.Fragment>
+  </>
 );
 
 const orders = [Order.AUTOMATIC, Order.ALPHABET, Order.DISTANCE];

@@ -1,7 +1,7 @@
 import setISODay from 'date-fns/setISODay';
 import * as React from 'react';
 import { MdSubdirectoryArrowLeft as CopyIcon } from 'react-icons/md';
-import styled from 'styled-components';
+import styled from 'solid-styled-components';
 
 import { Lang } from '../contexts/types';
 import { useFormatDate, useTranslations } from '../utils/hooks';

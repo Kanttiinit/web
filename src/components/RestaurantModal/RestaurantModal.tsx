@@ -2,7 +2,7 @@ import setIsoDay from 'date-fns/setISODay';
 import * as findIndex from 'lodash/findIndex';
 import * as React from 'react';
 import { MdHome, MdPlace } from 'react-icons/md';
-import styled from 'styled-components';
+import styled from 'solid-styled-components';
 
 import { dataContext, langContext, uiContext } from '../../contexts';
 import { RestaurantType } from '../../contexts/types';

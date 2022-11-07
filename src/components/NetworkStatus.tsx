@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MdErrorOutline } from 'react-icons/md';
-import styled from 'styled-components';
+import styled from 'solid-styled-components';
 
 import { useTranslations } from '../utils/hooks';
 

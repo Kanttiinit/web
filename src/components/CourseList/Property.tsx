@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'solid-styled-components';
 
 import { langContext, propertyContext } from '../../contexts';
 import { properties } from '../../utils/translations';

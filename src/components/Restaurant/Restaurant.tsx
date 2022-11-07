@@ -9,7 +9,7 @@ import {
   MdPlace,
   MdStar
 } from 'react-icons/md';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'solid-styled-components';
 
 import { preferenceContext, uiContext } from '../../contexts';
 import { RestaurantType } from '../../contexts/types';
@@ -208,12 +208,12 @@ const Restaurant = (props: Props) => {
           </RestaurantName>
           <RestaurantMeta>
             {restaurant.openingHours[dayOfWeek] && (
-              <React.Fragment>
+              <>
                 <Colon>
                   {restaurant.openingHours[dayOfWeek].replace('-', '–')}
                 </Colon>
                 <br />
-              </React.Fragment>
+              </>
             )}
             {isClosed && (
               <ClosedText>{translations.restaurantClosed}</ClosedText>

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MdFavorite } from 'react-icons/md';
-import styled, { css } from 'styled-components';
+import styled, { css } from 'solid-styled-components';
 import { propertyContext } from '../../contexts';
 import { CourseType } from '../../contexts/types';
 import { useIsFavorite } from '../../utils/hooks';

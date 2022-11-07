@@ -5,7 +5,7 @@ import {
   MdPlace,
   MdQuestionAnswer
 } from 'react-icons/md';
-import styled from 'styled-components';
+import styled from 'solid-styled-components';
 
 import { langContext, preferenceContext } from '../../contexts';
 import { RestaurantType } from '../../contexts/types';

@@ -103,7 +103,7 @@ class Editor extends React.PureComponent<Props> {
     }
 
     return (
-      <React.Fragment>
+      <>
         <DialogTitle>
           {mode === 'editing' ? 'Edit ' : 'Create new '}
           {model.name}
@@ -122,7 +122,7 @@ class Editor extends React.PureComponent<Props> {
             </Button>
           </DialogActions>
         </form>
-      </React.Fragment>
+      </>
     );
   }
 }

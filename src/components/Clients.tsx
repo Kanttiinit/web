@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import styled from 'styled-components';
+import styled from 'solid-styled-components';
 import { useTranslations } from '../utils/hooks';
 import PageContainer from './PageContainer';
 

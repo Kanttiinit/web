@@ -25,7 +25,7 @@ import {
   Order,
   RestaurantType
 } from '../contexts/types';
-import translations from './translations';
+import { state } from '../state';
 
 export const useSelectedFavorites = () => {
   const { favorites } = React.useContext(dataContext);
@@ -50,19 +50,6 @@ export const useIsFavorite = () => {
         favorite => !!course.title.match(new RegExp(favorite.regexp, 'i'))
       ),
     [selectedFavorites]
-  );
-};
-
-export const useUnseenUpdates = () => {
-  const { updates } = React.useContext(dataContext);
-  const preferences = React.useContext(preferenceContext);
-  if (!preferences.updatesLastSeenAt) {
-    return [];
-  }
-
-  return updates.data.filter(
-    update =>
-      parseISO(update.createdAt).getTime() > preferences.updatesLastSeenAt
   );
 };
 
@@ -173,30 +160,15 @@ export const useFormattedRestaurants: () => RestaurantType[] = () => {
   return formattedRestaurants;
 };
 
-type TranslatedDict = { [t in keyof typeof translations]: string };
-
-export const useTranslations = () => {
-  const { lang } = React.useContext(langContext);
-  return React.useMemo(
-    () =>
-      Object.keys(translations).reduce<any>((t, key) => {
-        t[key] = (translations as any)[key][lang];
-        return t;
-      }, {}) as TranslatedDict,
-    [lang]
-  );
-};
-
 const locales = {
   en: enLocale,
   fi: fiLocale
 };
 
-export const useFormatDate = () => {
-  const { lang } = React.useContext(langContext);
-  return React.useMemo(
-    () => (date: Date, dateFormat: string) =>
-      format(date, dateFormat, { locale: locales[lang] }),
-    [lang]
-  );
+export const createDayFormatter = () => {
+  return () => {
+    const lang = state.lang;
+    return (date: Date, dateFormat: string) =>
+    format(date, dateFormat, { locale: locales[lang] });
+  };
 };

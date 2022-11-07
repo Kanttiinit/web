@@ -1,7 +1,7 @@
 import { Map, Overlay } from 'pigeon-maps';
 import * as React from 'react';
 import { MdLocationOn } from 'react-icons/md';
-import styled from 'styled-components';
+import styled from 'solid-styled-components';
 
 import { RestaurantType } from '../../contexts/types';
 

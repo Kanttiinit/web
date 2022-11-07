@@ -1,7 +1,7 @@
 import * as times from 'lodash/times';
 import * as React from 'react';
 import { MdAttachMoney } from 'react-icons/md';
-import styled from 'styled-components';
+import styled from 'solid-styled-components';
 import langContext from '../../contexts/langContext';
 import { PriceCategory } from '../../contexts/types';
 import { priceCategorySettings } from '../../utils/translations';

@@ -88,13 +88,15 @@ const App = () => {
                 <ChangeLog />
               </Route>
               <Route path="/restaurant/:id">
-                {({ match }: any) => (
-                  <RestaurantModal restaurantId={match.params.id} />
+                {({ match }) => (
+                  <RestaurantModal restaurantId={Number(match.params.id)} />
                 )}
               </Route>
               <Route path="/report/:restaurantId">
-                {({ match }: any) => (
-                  <ReportModal restaurantId={match.params.restaurantId} />
+                {({ match }) => (
+                  <ReportModal
+                    restaurantId={Number(match.params.restaurantId)}
+                  />
                 )}
               </Route>
               <Route path="*">

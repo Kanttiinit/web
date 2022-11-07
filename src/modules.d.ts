@@ -20,6 +20,16 @@ declare module '*.scss' {
   export default classes;
 }
 
+declare module '*.svg' {
+  const content: any;
+  export default content;
+}
+
+declare module '*.png' {
+  const content: any;
+  export default content;
+}
+
 declare module 'pigeon-maps';
 declare module 'pigeon-overlay';
 declare module 'pigeon-draggable';

@@ -98,6 +98,7 @@ export const getRestaurantsByLocation = (
 ): Promise<RestaurantType[]> =>
   http.get(`/restaurants?lang=${lang}&location=${latitude},${longitude}`);
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createRestaurantChange = (restaurantId: number, change: any) =>
   http.post('/changes', {
     change,

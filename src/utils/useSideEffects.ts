@@ -26,6 +26,7 @@ function pageView(location: Location) {
   GA.pageview(pathname);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default (location: any, history: any) => {
   const { lang } = useContext(langContext);
   const preferences = useContext(preferenceContext);

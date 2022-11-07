@@ -1,4 +1,4 @@
-import * as times from 'lodash/times';
+import times from 'lodash/times';
 import * as React from 'react';
 import { MdAttachMoney } from 'react-icons/md';
 import styled from 'styled-components';

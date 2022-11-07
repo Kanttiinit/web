@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as sortBy from 'lodash/sortBy';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';

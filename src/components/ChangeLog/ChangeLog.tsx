@@ -5,7 +5,7 @@ import { MdKeyboardArrowDown } from 'react-icons/md';
 import snarkdown from 'snarkdown';
 import styled from 'styled-components';
 
-import { dataContext, langContext, preferenceContext } from '../../contexts';
+import { dataContext, preferenceContext } from '../../contexts';
 import { Update } from '../../contexts/types';
 import { useTranslations, useUnseenUpdates } from '../../utils/hooks';
 import Collapse from '../Collapse';
@@ -50,9 +50,9 @@ const PublishedAt = styled.p`
   color: var(--gray2) !important;
 `;
 
-const ArrowDownIcon = styled(({ isVisible, ...props }) => (
-  <MdKeyboardArrowDown {...props} />
-))<{ isVisible: boolean }>`
+const ArrowDownIcon = styled(props => <MdKeyboardArrowDown {...props} />)<{
+  isVisible: boolean;
+}>`
   margin-top: 0.4em;
   transition: transform 0.3s;
   ${props => props.isVisible && 'transform: rotateX(180deg);'}

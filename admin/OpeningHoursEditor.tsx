@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import format from 'date-fns/format';
 import * as React from 'react';
 

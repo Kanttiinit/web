@@ -12,7 +12,7 @@ import * as consts from './utils/consts';
 import { useTranslations } from './utils/hooks';
 import './worker/registerWorker';
 
-declare var window: any;
+declare let window: any;
 
 if (consts.isProduction) {
   try {

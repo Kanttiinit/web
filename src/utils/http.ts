@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'whatwg-fetch';
 import { apiBase } from './consts';
 

@@ -53,7 +53,7 @@ const Tooltip = (props: Props): any => {
   const contents = props.text || translations[props.translationKey][lang];
 
   return (
-    <React.Fragment>
+    <>
       <span
         onMouseOver={open}
         onMouseLeave={close}
@@ -67,7 +67,7 @@ const Tooltip = (props: Props): any => {
           <Container ref={tooltipRef}>{contents}</Container>,
           document.body
         )}
-    </React.Fragment>
+    </>
   );
 };
 

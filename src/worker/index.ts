@@ -1,5 +1,6 @@
 import { version } from '../utils/consts';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const worker = self as any;
 
 const CACHE_NAME = `cache-${version}`;
@@ -23,13 +24,13 @@ const shouldCacheUrl = (url: string): boolean => {
 };
 
 const resolve = async (request: Request) => {
-  const cache = await getCache(); // tslint:disable-line
   if (shouldCacheUrl(request.url)) {
     try {
       const response = await fetch(request);
       cache.put(request, response.clone());
       return response;
-    } catch (e) {} // tslint:disable-line
+    // eslint-disable-next-line no-empty
+    } catch (e) {}
     return caches.match(request);
   }
   return (await caches.match(request)) || fetch(request);
@@ -47,14 +48,17 @@ const removeOldCaches = async () => {
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 worker.addEventListener('install', (event: any) => {
   event.waitUntil(install());
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 worker.addEventListener('activate', (event: any) => {
   event.waitUntil(removeOldCaches());
 });
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 worker.addEventListener('fetch', (event: any) => {
   event.respondWith(resolve(event.request));
 });

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled, { css } from 'styled-components';
 
-const logo = require('../assets/logo_48.png').default;
+import logo from '../assets/logo_48.png';
 import { isBeta, version } from '../utils/consts';
 import { useTranslations } from '../utils/hooks';
 import Link from './Link';

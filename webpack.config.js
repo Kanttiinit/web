@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
 require('dotenv').config();
 const webpack = require('webpack');
 const path = require('path');
@@ -7,18 +9,18 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const pkg = require('./package.json');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const S3Plugin = require('webpack-s3-plugin');
-const VersionFile = require('webpack-version-file');
 const CopyPlugin = require('copy-webpack-plugin');
 
 const PATHS = {
+  // eslint-disable-next-line no-undef
   dist: path.join(__dirname, './dist')
 };
 
 const isProduction = process.env.NODE_ENV === 'production';
 
 const publicAssetPath = process.env.PUBLIC_ASSET_PATH;
-const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+const accessKeyId = process.env.KANTTIINIT_AWS_ACCESS_KEY_ID;
+const secretAccessKey = process.env.KANTTIINIT_AWS_SECRET_ACCESS_KEY;
 const s3Bucket = process.env.S3_BUCKET;
 const s3Region = process.env.S3_REGION;
 const apiBase = process.env.API_BASE || 'https://kitchen.kanttiinit.fi';
@@ -45,14 +47,8 @@ const plugins = [
     filename: 'index_admin.html',
     chunks: ['admin']
   }),
-  new VersionFile({
-    output: './dist/version.txt',
-    templateString: '<%= version %>'
-  }),
   new CopyPlugin({
-    patterns: [
-      { from: './src/assets', to: '.' }
-    ]
+    patterns: [{ from: './src/assets', to: '.' }]
   })
 ];
 
@@ -110,7 +106,9 @@ const appConfig = {
     chunkFilename: '[fullhash].chunk.[chunkhash].js'
   },
   devServer: {
-    contentBase: PATHS.dist,
+    static: {
+      directory: PATHS.dist,
+    },
     historyApiFallback: {
       index: 'index.html'
     }
@@ -119,10 +117,7 @@ const appConfig = {
     rules: [
       {
         test: /\.(png|svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]',
-        }
+        type: 'asset/resource',
       },
       { test: /\.tsx?$/, use: ['ts-loader'], exclude: /node_modules/ }
     ]
@@ -144,4 +139,5 @@ const workerConfig = {
   plugins: [definePlugin]
 };
 
+// eslint-disable-next-line no-undef
 module.exports = [appConfig, workerConfig];

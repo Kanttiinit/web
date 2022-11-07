@@ -1,0 +1,20 @@
+name: PR Build
+
+on:
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup node version
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.node-version'
+          cache: 'npm'
+      - name: npm install
+        run: npm install --include=dev
+      - name: npm run lint
+        run: npm run lint

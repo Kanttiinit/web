@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Button from '@material-ui/core/Button';
 import Progress from '@material-ui/core/CircularProgress';
 import Dialog from '@material-ui/core/Dialog';
@@ -59,7 +60,7 @@ export default class DataTable extends React.PureComponent<Props, State> {
       ? this.state.sortDirection === 'asc'
         ? '︎︎↑'
         : '↓'
-      : ''
+      : '';
 
   changeSort = (columnKey: string) => {
     const { sortedColumn, sortDirection } = this.state;
@@ -70,12 +71,12 @@ export default class DataTable extends React.PureComponent<Props, State> {
     } else {
       this.setState({ sortedColumn: columnKey, sortDirection: 'asc' });
     }
-  }
+  };
 
   onEditorSuccess = () => {
     this.hideDialog();
     this.fetchItems();
-  }
+  };
 
   sortItems = (state = this.state) => {
     const { sortedColumn, sortDirection } = state;
@@ -83,7 +84,7 @@ export default class DataTable extends React.PureComponent<Props, State> {
       ? orderBy(sortedColumn, sortDirection, state.items)
       : state.items;
     this.setState({ sortedItems });
-  }
+  };
 
   resetSort(props: Props = this.props) {
     this.setState({
@@ -95,8 +96,9 @@ export default class DataTable extends React.PureComponent<Props, State> {
   fetchItems = async (props: Props = this.props) => {
     this.setState({ loading: true, items: [] });
     this.setState({ loading: false, items: await api.fetchItems(props.model) });
-  }
+  };
 
+  // eslint-disable-next-line react/no-deprecated
   componentWillReceiveProps(props: Props) {
     if (props.model.key !== this.props.model.key) {
       this.resetSort(props);
@@ -104,6 +106,7 @@ export default class DataTable extends React.PureComponent<Props, State> {
     }
   }
 
+  // eslint-disable-next-line react/no-deprecated
   componentWillUpdate(props: Props, state: State) {
     if (
       state.sortDirection !== this.state.sortDirection ||
@@ -123,7 +126,7 @@ export default class DataTable extends React.PureComponent<Props, State> {
     if (typeof value === 'string') {
       if (value.startsWith('http')) {
         return (
-          <a href={value} target="_blank">
+          <a href={value} target="_blank" rel="noreferrer">
             {value}
           </a>
         );

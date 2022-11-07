@@ -1,23 +1,24 @@
-import { useCallback, useEffect, useState } from 'react';
+import { createEffect, createSignal } from "solid-js";
 
 export default function usePersistedState<T>(
   key: string,
-  defaultState: T = null
-): [T, (state: T) => void] {
-  const [value, setValue] = useState(defaultState);
-  useEffect(() => {
+  defaultState: T
+) {
+  const [value, setValue] = createSignal<T>(defaultState);
+  createEffect(() => {
     try {
-      const v = JSON.parse(localStorage.getItem(key));
+      const v = JSON.parse(localStorage.getItem(key)!);
       setValue(v || defaultState);
     } catch (e) {
-      setValue(defaultState);
+      setValue(defaultState as any);
     }
   }, []);
 
-  const setAndStoreValue = useCallback((v: T) => {
-    localStorage.setItem(key, JSON.stringify(v));
-    setValue(v);
-  }, []);
-
-  return [value, setAndStoreValue];
+  return {
+    value,
+    setValue: (v: T) => {
+      localStorage.setItem(key, JSON.stringify(v));
+      setValue(v as any);
+    }
+  };
 }

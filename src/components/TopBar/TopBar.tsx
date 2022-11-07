@@ -224,7 +224,7 @@ export default function TopBar() {
           onClick={actions.toggleLang}
           onKeyDown={e => e.key === 'Enter' && actions.toggleLang()}
         >
-          <FlagImg alt={state.lang.toUpperCase()} src={state.lang === 'fi' ? FI : EN} />
+          <FlagImg alt={state.preferences.lang.toUpperCase()} src={state.preferences.lang === 'fi' ? FI : EN} />
         </NativeIconLink>
       </Content>
     </Container>

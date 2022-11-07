@@ -43,8 +43,8 @@ const Settings = () => {
       <Item label={state.translations.language}>
         <Radio
           options={languageOptions}
-          selected={state.lang}
-          onChange={value => setState('lang', value)}
+          selected={state.preferences.lang}
+          onChange={value => setState('preferences', 'lang', value)}
         />
       </Item>
       <Item label={state.translations.priceCategory}>

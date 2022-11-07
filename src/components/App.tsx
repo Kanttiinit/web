@@ -1,5 +1,6 @@
 import { Route, Routes } from '@solidjs/router';
 import { createEffect, createSignal } from 'solid-js';
+import { unwrap } from 'solid-js/store';
 import { untrack } from 'solid-js/web';
 import { styled } from 'solid-styled-components';
 import { state } from '../state';
@@ -36,6 +37,19 @@ const Container = styled.div`
 `;
 
 export default function App() {
+
+  createEffect(() => {
+    if (state.darkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+
+  createEffect(() => {
+    localStorage.setItem('preferences', JSON.stringify(state.preferences));
+  });
+
   return (
     <>
       <Container>

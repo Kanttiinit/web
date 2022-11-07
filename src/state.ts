@@ -17,38 +17,9 @@ function getDisplayedDays(): Date[] {
   return times(maxDayOffset + 1, (i: number) => addDays(now, i));
 }
 
-interface State {
-  lang: Lang,
-  location: GeolocationCoordinates | null;
-  displayedDays: Date[];
-  selectedDay: Date;
-  data: {
-    areas: AreaType[],
-    favorites: ResourceReturn<FavoriteType[]>,
-    menus: MenuType,
-    restaurants: RestaurantType[],
-    updates: ResourceReturn<Update[]>,
-  },
-  preferences: {
-    selectedArea: number;
-    useLocation: boolean;
-    darkMode: DarkModeChoice;
-    order: Order;
-    favorites: number[];
-    starredRestaurants: number[];
-    updatesLastSeenAt: number;
-    maxPriceCategory: PriceCategory;
-  },
-  properties: string[],
-  darkMode: boolean,
-  translations: TranslatedDict,
-  unseenUpdates: Update[]
-};
-
 type TranslatedDict = { [t in keyof typeof translations]: string };
 
-const [state, setState] = createStore<State>({
-  lang: Lang.FI,
+const [state, setState] = createStore({
   location: null,
   displayedDays: getDisplayedDays(),
   selectedDay: startOfDay(new Date()),
@@ -60,6 +31,7 @@ const [state, setState] = createStore<State>({
     updates: createResource<Update[]>(() => api.getUpdates()),
   },
   preferences: {
+    lang: Lang.FI,
     selectedArea: 1,
     useLocation: false,
     order: Order.AUTOMATIC,
@@ -68,6 +40,7 @@ const [state, setState] = createStore<State>({
     darkMode: DarkModeChoice.DEFAULT,
     updatesLastSeenAt: 0,
     maxPriceCategory: PriceCategory.studentPremium,
+    ...JSON.parse(localStorage.getItem('preferences') || '{}')
   },
   properties: [],
   get darkMode(): boolean {
@@ -75,7 +48,7 @@ const [state, setState] = createStore<State>({
   },
   get translations(): TranslatedDict {
     return Object.keys(translations).reduce<any>((t, key) => {
-      t[key] = (translations as any)[key][this.lang];
+      t[key] = (translations as any)[key][this.preferences.lang];
       return t;
     }, {}) as TranslatedDict;
   },
@@ -93,7 +66,7 @@ const [state, setState] = createStore<State>({
 });
 
 const actions = {
-  toggleLang: () => setState({ lang: state.lang === Lang.FI ? Lang.EN : Lang.FI })
+  toggleLang: () => setState('preferences', 'lang', state.preferences.lang === Lang.FI ? Lang.EN : Lang.FI)
 };
 
 export {

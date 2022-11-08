@@ -1,24 +1,25 @@
 import * as times from 'lodash/times';
-import * as React from 'react';
-import { MdWarning } from 'react-icons/md';
 import locating from '../../assets/locating.svg';
 
-import styled from 'solid-styled-components';
-import { dataContext, preferenceContext, uiContext } from '../../contexts';
-import { useFormattedRestaurants, useTranslations } from '../../utils/hooks';
+import { styled } from 'solid-styled-components';
 import InlineIcon from '../InlineIcon';
 import NetworkStatus from '../NetworkStatus';
 import Notice from '../Notice';
 import Restaurant, { Placeholder } from '../Restaurant';
+import { breakLarge, breakSmall } from '../../globalStyles';
+import { createEffect, For, Match, Show, Switch } from 'solid-js';
+import { resources, state } from '../../state';
+import { WarningIcon } from '../../utils/icons';
+import { useFormattedRestaurants } from '../../utils/hooks';
 
 const Container = styled.main`
   padding: 4rem 0 1.5rem;
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     padding-top: 3.5rem;
   }
 
-  @media (min-width: ${props => props.theme.breakLarge}) {
+  @media (min-width: ${breakLarge}) {
     max-width: 95em;
     margin: 0 auto;
   }
@@ -27,13 +28,13 @@ const Container = styled.main`
 const ListContainer = styled.div`
   display: flex;
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     max-width: 100%;
     flex-direction: column;
     flex-wrap: nowrap;
   }
 
-  @media (min-width: ${props => props.theme.breakLarge}) {
+  @media (min-width: ${breakLarge}) {
     flex-direction: row;
     flex-wrap: wrap;
   }
@@ -48,54 +49,49 @@ const Locating = styled.div`
   }
 `;
 
-const ListContent = React.memo(() => {
-  const data = React.useContext(dataContext);
-  const preferences = React.useContext(preferenceContext);
-  const ui = React.useContext(uiContext);
-  const translations = useTranslations();
+function ListContent() {
+  const loading = () => resources.menus[0].loading || resources.restaurants[0].loading || resources.areas[0].loading;
+  const restaurants = useFormattedRestaurants;
 
-  const loading =
-    data.menus.pending || data.restaurants.pending || data.areas.pending;
-  const restaurants = useFormattedRestaurants();
-
-  if (loading) {
-    return times(8, (i: number) => <Placeholder key={i} />);
-  } else if (preferences.selectedArea === -2) {
-    if (!preferences.useLocation) {
-      return (
+  return (
+    <Switch>
+      <Match when={loading()}>
+        {times(8, () => <Placeholder />)}
+      </Match>
+      <Match when={state.preferences.selectedArea === -2 && !state.preferences.useLocation}>
         <Notice>
           <InlineIcon>
-            <MdWarning />
+            <WarningIcon />
           </InlineIcon>{' '}
-          {translations.turnOnLocation}
+          {state.translations.turnOnLocation()}
         </Notice>
-      );
-    } else if (!ui.location) {
-      return (
+      </Match>
+      <Match when={state.preferences.selectedArea === -2 && !state.location}>
         <Locating>
           <img src={locating} />
-          <Notice>{translations.locating}</Notice>
+          <Notice>{state.translations.locating}</Notice>
         </Locating>
-      );
-    }
-  } else if (!restaurants.length) {
-    return (
-      <Notice>
-        <InlineIcon>
-          <MdWarning />
-        </InlineIcon>{' '}
-        {translations.emptyRestaurants}
-      </Notice>
-    );
-  }
-  return restaurants.map(restaurant => (
-    <Restaurant key={restaurant.id} restaurant={restaurant} />
-  ));
-});
+      </Match>
+      <Match when={!restaurants().length}>
+        <Notice>
+          <InlineIcon>
+            <WarningIcon />
+          </InlineIcon>{' '}
+          {state.translations.emptyRestaurants}
+        </Notice>
+      </Match>
+      <Match when={true}>
+        <For each={restaurants()}>
+          {restaurant => <Restaurant restaurant={restaurant} />}
+        </For>
+      </Match>
+    </Switch>
+  );
+};
 
 export default () => (
   <Container>
-    <NetworkStatus />
+    {/* <NetworkStatus /> */}
     <ListContainer>
       <ListContent />
     </ListContainer>

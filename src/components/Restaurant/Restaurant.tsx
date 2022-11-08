@@ -1,48 +1,39 @@
 import getIsoDay from 'date-fns/getISODay';
 import isSameDay from 'date-fns/isSameDay';
-import * as React from 'react';
-import {
-  MdDirectionsBike,
-  MdDirectionsWalk,
-  MdEdit,
-  MdMoreVert,
-  MdPlace,
-  MdStar
-} from 'react-icons/md';
-import styled, { css } from 'solid-styled-components';
+import { styled, css } from 'solid-styled-components';
 
-import { preferenceContext, uiContext } from '../../contexts';
 import { RestaurantType } from '../../contexts/types';
-import { useTranslations } from '../../utils/hooks';
+import { breakSmall } from '../../globalStyles';
+import { state } from '../../state';
+import { BikeIcon, FilledStarIcon, LocationIcon, WalkIcon } from '../../utils/icons';
 import Colon from '../Colon';
 import CourseList from '../CourseList';
 import InlineIcon from '../InlineIcon';
 import Link from '../Link';
 import PriceCategoryBadge from '../PriceCategoryBadge';
 
-const Distance = ({ distance }: { distance: number }) => {
-  const kilometers = distance > 1500;
-  const translations = useTranslations();
+const Distance = (props: { distance?: number }) => {
+  const kilometers = () => props.distance || 0 > 1500;
   return (
     <RestaurantMeta
-      style={{ fontWeight: 400, textAlign: 'left', display: 'inline-block' }}
+      style={{ 'font-weight': 400, 'text-align': 'left', display: 'inline-block' }}
     >
       <InlineIcon>
-        {!distance ? (
-          <MdPlace />
-        ) : kilometers ? (
-          <MdDirectionsBike />
+        {!props.distance ? (
+          <LocationIcon />
+        ) : kilometers() ? (
+          <BikeIcon />
         ) : (
-          <MdDirectionsWalk />
+          <WalkIcon />
         )}
       </InlineIcon>
-      {!distance
-        ? translations.locating
-        : kilometers
-        ? parseFloat(String(distance / 1000)).toFixed(1)
-        : Math.round(distance)}
+      {!props.distance
+        ? state.translations.locating
+        : kilometers()
+        ? parseFloat(String(props.distance / 1000)).toFixed(1)
+        : Math.round(props.distance)}
       &nbsp;
-      {distance && (kilometers ? translations.kilometers : translations.meters)}
+      {props.distance && (kilometers() ? state.translations.kilometers : state.translations.meters)}
     </RestaurantMeta>
   );
 };
@@ -63,7 +54,7 @@ export const Container = styled.article<{ noCourses?: boolean }>`
     width: calc(33.3% - 0.5rem);
   }
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     width: initial;
     box-shadow: none;
     margin: 0.25rem 0;
@@ -73,7 +64,7 @@ export const Container = styled.article<{ noCourses?: boolean }>`
     border-radius: 0;
   }
 
-  ${props => props.noCourses && 'opacity: 0.6;'}
+  ${props => props.noCourses ? 'opacity: 0.6;' : ''}
 `;
 
 export const Header = styled.header`
@@ -95,7 +86,7 @@ const RestaurantName = styled.h2<{ noCourses?: boolean; isClosed?: boolean }>`
   max-width: 60%;
   font-size: 1.2rem;
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     font-size: 1.1rem;
   }
 `;
@@ -106,7 +97,7 @@ const RestaurantMeta = styled.section`
   font-weight: 500;
   text-align: right;
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     font-size: 0.7rem;
   }
 `;
@@ -161,7 +152,7 @@ export const courseListStyles = css`
 
 const StyledCourseList = styled(CourseList)<{ noCourses?: boolean }>`
   ${courseListStyles}
-  ${props => props.noCourses && 'var(--gray3)'}
+  ${props => props.noCourses ? 'var(--gray3)' : ''}
 `;
 
 const ClosedText = styled.small`
@@ -174,14 +165,9 @@ interface Props {
 }
 
 const Restaurant = (props: Props) => {
-  const ui = React.useContext(uiContext);
-  const translations = useTranslations();
-  const preferences = React.useContext(preferenceContext);
-  const { restaurant } = props;
-
-  const dayOfWeek = getIsoDay(ui.selectedDay) - 1;
-  const isClosed =
-    isSameDay(ui.selectedDay, new Date()) && !restaurant.isOpenNow;
+  const dayOfWeek = () => getIsoDay(state.selectedDay) - 1;
+  const isClosed = () =>
+    isSameDay(state.selectedDay, new Date()) && !props.restaurant.isOpenNow;
 
   const toggleStar = () => {
     preferences.setRestaurantStarred(
@@ -191,63 +177,63 @@ const Restaurant = (props: Props) => {
   };
 
   return (
-    <Container noCourses={restaurant.noCourses}>
-      <Link to={`/restaurant/${restaurant.id}`}>
+    <Container noCourses={props.restaurant.noCourses}>
+      <Link to={`/restaurant/${props.restaurant.id}`}>
         <Header>
-          <RestaurantName noCourses={restaurant.noCourses} isClosed={isClosed}>
-            {restaurant.name}
+          <RestaurantName noCourses={props.restaurant.noCourses} isClosed={isClosed()}>
+            {props.restaurant.name}
             <div>
-              {preferences.useLocation && (
+              {state.preferences.useLocation && (
                 <>
-                  <Distance distance={restaurant.distance} />
+                  <Distance distance={props.restaurant.distance} />
                   &nbsp;&nbsp;
                 </>
               )}
-              <PriceCategoryBadge priceCategory={restaurant.priceCategory} />
+              <PriceCategoryBadge priceCategory={props.restaurant.priceCategory} />
             </div>
           </RestaurantName>
           <RestaurantMeta>
-            {restaurant.openingHours[dayOfWeek] && (
+            {props.restaurant.openingHours[dayOfWeek()] && (
               <>
                 <Colon>
-                  {restaurant.openingHours[dayOfWeek].replace('-', '–')}
+                  {props.restaurant.openingHours[dayOfWeek()].replace('-', '–')}
                 </Colon>
                 <br />
               </>
             )}
-            {isClosed && (
-              <ClosedText>{translations.restaurantClosed}</ClosedText>
+            {isClosed() && (
+              <ClosedText>{state.translations.restaurantClosed}</ClosedText>
             )}
           </RestaurantMeta>
         </Header>
       </Link>
-      <StyledCourseList courses={restaurant.courses} />
+      <StyledCourseList courses={props.restaurant.courses} />
       <ActionsContainer>
         <StyledActionLink
-          aria-label={`Fix information about ${restaurant.name}`}
-          to={`/report/${restaurant.id}`}
+          aria-label={`Fix information about ${props.restaurant.name}`}
+          to={`/report/${props.restaurant.id}`}
         >
-          <MdEdit size={18} />
+          {/* <MdEdit size={18} /> */}
         </StyledActionLink>
         <RightActions>
           <StyledNativeActionLink
             aria-label={
-              restaurant.isStarred
-                ? `Star ${restaurant.name}`
-                : `Unstar ${restaurant.name}`
+              props.restaurant.isStarred
+                ? `Star ${props.restaurant.name}`
+                : `Unstar ${props.restaurant.name}`
             }
             onClick={toggleStar}
-            color={restaurant.isStarred ? '#FFA726' : undefined}
+            color={props.restaurant.isStarred ? '#FFA726' : ''}
             tabIndex={0}
           >
-            <MdStar size={18} />
+            <FilledStarIcon size={18} />
           </StyledNativeActionLink>
           &nbsp;
           <StyledActionLink
-            aria-label={`More information about ${restaurant.name}`}
-            to={`/restaurant/${restaurant.id}`}
+            aria-label={`More information about ${props.restaurant.name}`}
+            to={`/restaurant/${props.restaurant.id}`}
           >
-            <MdMoreVert size={18} />
+            {/* <MdMoreVert size={18} /> */}
           </StyledActionLink>
         </RightActions>
       </ActionsContainer>

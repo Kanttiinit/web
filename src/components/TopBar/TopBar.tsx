@@ -1,17 +1,16 @@
 import FI from './fi.svg';
 import EN from './en.svg';;
 
-import { styled, css } from 'solid-styled-components';
-import { langContext } from '../../contexts';
-// import { useTranslations, useUnseenUpdates } from '../../utils/hooks';
-// import AreaSelector from '../AreaSelector';
+import { styled } from 'solid-styled-components';
+import AreaSelector from '../AreaSelector';
 import ClickOutside from '../ClickOutside';
 import DaySelector from '../DaySelector';
-// import InlineIcon from '../InlineIcon';
+import InlineIcon from '../InlineIcon';
 import Link from '../Link';
 import { actions, state } from '../../state';
 import { breakSmall } from '../../globalStyles';
 import { createSignal, onCleanup, onMount } from 'solid-js';
+import { MapIcon, NewsIcon } from '../../utils/icons';
 
 const Container = styled.header`
   background: linear-gradient(to bottom, var(--gray7) 0%, var(--gray6) 100%);
@@ -42,9 +41,9 @@ const Content = styled.div`
   margin: 0 auto;
 `;
 
-// const NewsIcon = styled(MdFiberNew)`
-//   color: var(--accent_color);
-// `;
+const StyledNewsIcon = styled(NewsIcon)`
+  color: var(--accent_color);
+`;
 
 const AreaSelectorButton = styled(ClickOutside)`
   position: relative;
@@ -70,8 +69,7 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
 
   ${props =>
     props.isOpen ?
-    css`
-      opacity: 1;
+    `opacity: 1;
       pointer-events: all;
     ` : ''}
 
@@ -83,7 +81,7 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-const iconLinkStyles = css`
+const iconLinkStyles = `
   text-transform: uppercase;
   font-weight: 500;
   font-size: 0.8rem;
@@ -136,10 +134,10 @@ const FlagImg = styled.img`
 `;
 
 export default function TopBar() {
-  let areaSelectorLink: HTMLAnchorElement | null = null;
+  let areaSelectorLink: HTMLAnchorElement | undefined;
   const [areaSelectorOpen, setAreaSelectorOpen] = createSignal(false);
 
-  const toggleAreaSelector = () => setAreaSelectorOpen(!areaSelectorOpen);
+  const toggleAreaSelector = () => setAreaSelectorOpen(!areaSelectorOpen());
 
   const closeAreaSelector = () =>
     areaSelectorOpen() && setAreaSelectorOpen(false);
@@ -196,25 +194,25 @@ export default function TopBar() {
         <DaySelector root="/" />
         {state.unseenUpdates.length > 0 && (
           <Link to="/news">
-            {/* <InlineIcon>
-              <NewsIcon size={24} />
-            </InlineIcon> */}
+            <InlineIcon>
+              <StyledNewsIcon size={24} />
+            </InlineIcon>
           </Link>
         )}
-        {/* <AreaSelectorButton onClickOutside={closeAreaSelector}>
+        <AreaSelectorButton onClickOutside={closeAreaSelector}>
           <NativeIconLink
             ref={areaSelectorLink}
             onMouseDown={toggleAreaSelector}
             tabIndex={0}
             onKeyDown={e => e.key === 'Enter' && toggleAreaSelector()}
           >
-            <MdMap size={18} />
-            <span>{translations.selectArea}</span>
+            <MapIcon />
+            <span>{state.translations.selectArea}</span>
           </NativeIconLink>
-          <AreaSelectorContainer isOpen={areaSelectorOpen}>
+          <AreaSelectorContainer isOpen={areaSelectorOpen()}>
             <AreaSelector onAreaSelected={toggleAreaSelector} />
           </AreaSelectorContainer>
-        </AreaSelectorButton> */}
+        </AreaSelectorButton>
         <IconLink to="/settings" aria-label="Settings">
           {/* <MdSettings size={18} /> */}
           <span>{state.translations.settings}</span>

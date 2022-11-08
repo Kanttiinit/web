@@ -39,69 +39,7 @@ export default (location: any, history: any) => {
     data.setAreas(api.getAreas(lang));
     data.setFavorites(api.getFavorites(lang));
   }, [lang]);
-
-  // update restaurants
-  useEffect(() => {
-    if (selectedArea) {
-      data.markMenusPending();
-      data.setRestaurants(
-        api.getRestaurantsByIds(
-          selectedArea.restaurants,
-          lang,
-          preferences.maxPriceCategory
-        )
-      );
-    }
-  }, [
-    selectedArea ? selectedArea.id : null,
-    lang,
-    preferences.maxPriceCategory
-  ]);
-
-  useEffect(() => {
-    if (preferences.selectedArea === -1) {
-      if (preferences.starredRestaurants.length) {
-        data.markMenusPending();
-        data.setRestaurants(
-          api.getRestaurantsByIds(preferences.starredRestaurants, lang)
-        );
-      } else {
-        data.setRestaurants(Promise.resolve([]));
-      }
-    }
-  }, [preferences.selectedArea, preferences.starredRestaurants, lang]);
-
-  useEffect(() => {
-    if (preferences.selectedArea === -2) {
-      if (ui.location) {
-        const { latitude, longitude } = ui.location;
-        data.markMenusPending();
-        data.setRestaurants(
-          api.getRestaurantsByLocation(latitude, longitude, lang)
-        );
-      } else {
-        data.setRestaurants(Promise.resolve([]));
-      }
-    }
-  }, [preferences.selectedArea, ui.location, lang]);
-
-  // update menus
-  useEffect(() => {
-    if (data.restaurants.fulfilled) {
-      const restaurantIds = data.restaurants.data.map(
-        restaurant => restaurant.id
-      );
-      const menus = api.getMenus(restaurantIds, [ui.selectedDay], lang);
-      data.setMenus(menus);
-    } else {
-      data.setMenus(Promise.resolve({}));
-    }
-  }, [
-    data.restaurants.data.map(r => r.id).join(','),
-    ui.selectedDay.toString(),
-    lang
-  ]);
-
+  
   // update location
   const [locationWatchId, setLocationWatchId] = useState(null);
   useEffect(() => {

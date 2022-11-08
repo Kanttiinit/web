@@ -7,6 +7,7 @@ import App from './components/App';
 // import AssetsLoading from './components/AssetsLoading';
 // import Map from './components/Map';
 import Global from './globalStyles';
+import './fonts.css';
 import * as consts from './utils/consts';
 import { state } from './state';
 

@@ -1,7 +1,6 @@
-import * as React from 'react';
-import styled, { css } from 'solid-styled-components';
+import { styled } from 'solid-styled-components';
 
-import { langContext, propertyContext } from '../../contexts';
+import { state } from '../../state';
 import { properties } from '../../utils/translations';
 import Tooltip from '../Tooltip';
 
@@ -23,13 +22,13 @@ const Container = styled(Tooltip)<{ dimmed: boolean; highlighted: boolean }>`
   position: relative;
 
   ${props =>
-    props.highlighted &&
-    css`
+    props.highlighted ?
+    `
       color: var(--friendly);
       font-weight: 500;
-    `}
+    ` : ''}
 
-  ${props => props.dimmed && 'color: var(--gray4);'}
+  ${props => props.dimmed ? 'color: var(--gray4);' : ''}
 
   &:hover {
     color: var(--accent_color);
@@ -46,15 +45,13 @@ interface Props {
   dimmed: boolean;
 }
 
-export default React.memo(({ property, dimmed, highlighted }: Props) => {
-  const { lang } = React.useContext(langContext);
-  const { toggleProperty } = React.useContext(propertyContext);
-  const prop = properties.find(p => p.key === property);
-  const propName = prop ? (lang === 'fi' ? prop.name_fi : prop.name_en) : '';
+export default function Property(props: Props) {
+  const prop = () => properties.find(p => p.key === props.property)!;
+  const propName = () => prop ? (state.preferences.lang === 'fi' ? prop().name_fi : prop().name_en) : '';
   return (
-    <Container text={propName} dimmed={dimmed} highlighted={highlighted}>
-      {property}
+    <Container text={propName()} dimmed={props.dimmed} highlighted={props.highlighted}>
+      {props.property}
       <ClickTrap onClick={() => toggleProperty(property)} />
     </Container>
   );
-});
+};

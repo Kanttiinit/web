@@ -1,9 +1,9 @@
 import Popper from 'popper.js';
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import styled from 'solid-styled-components';
+import { createEffect, createSignal } from 'solid-js';
+import { Portal } from 'solid-js/web';
+import { styled } from 'solid-styled-components';
 
-import { langContext } from '../contexts';
+import { state } from '../state';
 import translations from '../utils/translations';
 
 const Container = styled.div`
@@ -28,29 +28,28 @@ interface Props {
 }
 
 const Tooltip = (props: Props): any => {
-  const { lang } = React.useContext(langContext);
-  const [isOpen, setIsOpen] = React.useState(false);
-  const anchorRef = React.useRef<HTMLSpanElement>(null);
-  const tooltipRef = React.useRef<HTMLDivElement>(null);
-  const popper = React.useRef<Popper>(null);
+  const [isOpen, setIsOpen] = createSignal(false);
+  let anchorRef: HTMLSpanElement | undefined;
+  let tooltipRef: HTMLDivElement | undefined;
+  let popper: Popper;
 
   const open = () => setIsOpen(true);
 
   const close = () => setIsOpen(false);
 
-  React.useLayoutEffect(() => {
-    if (anchorRef.current && tooltipRef.current && isOpen) {
-      popper.current = new Popper(anchorRef.current, tooltipRef.current, {
+  createEffect(() => {
+    if (anchorRef && tooltipRef && isOpen()) {
+      popper = new Popper(anchorRef, tooltipRef, {
         placement: props.position || 'bottom-start'
       });
     }
-  }, [tooltipRef.current, anchorRef.current, isOpen]);
+  });
 
   if (!props.text && !(props.translationKey in translations)) {
     return props.children;
   }
 
-  const contents = props.text || translations[props.translationKey][lang];
+  const contents = () => props.text || state.translations[props.translationKey][state.preferences.lang];
 
   return (
     <>
@@ -58,15 +57,15 @@ const Tooltip = (props: Props): any => {
         onMouseOver={open}
         onMouseLeave={close}
         ref={anchorRef}
-        className={props.className}
+        class={props.className}
       >
         {props.children}
       </span>
-      {isOpen &&
-        ReactDOM.createPortal(
-          <Container ref={tooltipRef}>{contents}</Container>,
-          document.body
-        )}
+      {isOpen() &&
+      <Portal mount={document.body}>
+        <Container ref={tooltipRef}>{contents}</Container>,
+      </Portal>
+      }
     </>
   );
 };

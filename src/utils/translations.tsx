@@ -264,18 +264,18 @@ const translations = {
     fi: 'Sijaintia haetaan...',
     en: 'Locating...'
   },
-  // turnOnLocation: {
-  //   fi: (
-  //     <span>
-  //       Laita sijainti päälle <Link to="/settings">asetuksista.</Link>
-  //     </span>
-  //   ),
-  //   en: (
-  //     <span>
-  //       Turn on location <Link to="/settings">in the settings.</Link>
-  //     </span>
-  //   )
-  // },
+  turnOnLocation: {
+    fi: () => (
+      <span>
+        Laita sijainti päälle <Link to="/settings">asetuksista.</Link>
+      </span>
+    ),
+    en: () => (
+      <span>
+        Turn on location <Link to="/settings">in the settings.</Link>
+      </span>
+    )
+  },
   reportDataTitle: {
     fi: 'Mikä tieto on väärin?',
     en: 'Which information is incorrect?'

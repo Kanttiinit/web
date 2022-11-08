@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { createEffect, onCleanup, onMount, splitProps } from "solid-js";
 
 type Props = {
   onClickOutside(): any;
@@ -6,26 +6,29 @@ type Props = {
 };
 
 const ClickOutside = (props: Props) => {
-  const { onClickOutside, children, ...otherProps } = props;
-  const containerRef = React.useRef<HTMLDivElement>();
+  const [ownProps, otherProps] = splitProps(props, ['onClickOutside', 'children']);
+  let containerRef: HTMLDivElement | undefined;
 
-  React.useEffect(() => {
-    const onClick = (e: MouseEvent) => {
-      const clickedInside =
-        containerRef.current.contains(e.target as Node) ||
-        e.target === containerRef.current;
-      if (!clickedInside) {
-        onClickOutside();
-      }
-    };
-
+  const onClick = (e: MouseEvent) => {
+    const clickedInside =
+      containerRef?.contains(e.target as Node) ||
+      e.target === containerRef;
+    if (!clickedInside) {
+      ownProps.onClickOutside();
+    }
+  };
+  
+  onMount(() => {
     window.addEventListener('click', onClick);
-    return () => window.removeEventListener('click', onClick);
-  }, [onClickOutside]);
+  });
+
+  onCleanup(() => {
+    window.removeEventListener('click', onClick)
+  });
 
   return (
     <div ref={containerRef} {...otherProps}>
-      {children}
+      {ownProps.children}
     </div>
   );
 };

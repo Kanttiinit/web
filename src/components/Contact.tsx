@@ -1,13 +1,10 @@
-import * as React from 'react';
-
-import { useTranslations } from '../../utils/hooks';
-import useFeedback from '../../utils/useFeedback';
-import Button from '../Button';
-import Input from '../Input';
-import PageContainer from '../PageContainer';
+import { state } from '../state';
+import useFeedback from '../utils/useFeedback';
+import Button from './Button';
+import Input from './Input';
+import PageContainer from './PageContainer';
 
 const Contact = () => {
-  const translations = useTranslations();
   const { sending, sent, send } = useFeedback();
 
   const onSubmit = (e: any) => {
@@ -17,9 +14,9 @@ const Contact = () => {
   };
 
   return (
-    <PageContainer title={translations.contact}>
+    <PageContainer title={state.translations.contact}>
       {sent ? (
-        translations.thanksForFeedback
+        state.translations.thanksForFeedback
       ) : (
         <form onSubmit={onSubmit}>
           <Input
@@ -27,21 +24,21 @@ const Contact = () => {
             type="email"
             id="email"
             required
-            label={translations.email}
+            label={state.translations.email}
             autoComplete="off"
           />
           <Input
             multiline
             id="message"
             required
-            label={translations.message}
+            label={state.translations.message}
             rows={10}
           />
           <Button
             disabled={sending}
             type="submit"
           >
-            {sending ? translations.sending : translations.send}
+            {sending ? state.translations.sending : state.translations.send}
           </Button>
         </form>
       )}

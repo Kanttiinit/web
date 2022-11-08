@@ -1,8 +1,7 @@
-import * as React from 'react';
-import { MdErrorOutline } from 'react-icons/md';
-import styled from 'solid-styled-components';
-
-import { useTranslations } from '../utils/hooks';
+import { createSignal, onCleanup, onMount } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import { state } from '../state';
+import { ErrorIcon } from '../utils/icons';
 
 const Container = styled.div<{ online: boolean }>`
   background: rgb(255, 222, 148);
@@ -17,36 +16,37 @@ const Container = styled.div<{ online: boolean }>`
   justify-content: center;
 
   ${props =>
-    !props.online &&
+    !props.online ?
     `
     padding: 0.5em 1em;
     margin: 0.5em;
     height: 1.5em;
     opacity: 1;
-  `}
+  ` : ''}
 `;
 
 const NetworkStatus = () => {
-  const [isOnline, setIsOnline] = React.useState(true);
-  const translations = useTranslations();
+  const [isOnline, setIsOnline] = createSignal(true);
 
-  React.useEffect(() => {
-    const updateNetworkStatus = () => {
-      setIsOnline(navigator.onLine);
-    };
+  function updateNetworkStatus() {
+    setIsOnline(navigator.onLine);
+  };
+
+  onMount(() => {
     window.addEventListener('online', updateNetworkStatus);
     window.addEventListener('offline', updateNetworkStatus);
-    return () => {
-      window.removeEventListener('online', updateNetworkStatus);
-      window.removeEventListener('offline', updateNetworkStatus);
-    };
-  }, []);
+  });
+
+  onCleanup(() => {
+    window.removeEventListener('online', updateNetworkStatus);
+    window.removeEventListener('offline', updateNetworkStatus);
+  });
 
   return (
-    <Container online={isOnline}>
-      <MdErrorOutline />
+    <Container online={isOnline()}>
+      <ErrorIcon />
       &nbsp;
-      {translations.offline}
+      {state.translations.offline}
     </Container>
   );
 };

@@ -1,4 +1,4 @@
-import styled from 'solid-styled-components';
+import {styled} from 'solid-styled-components';
 
 export default styled.p`
   font-size: 1.2rem;

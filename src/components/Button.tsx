@@ -1,4 +1,4 @@
-import styled, { css } from 'solid-styled-components';
+import { styled, css } from 'solid-styled-components';
 
 interface ButtonProps {
   variant?: 'text';
@@ -15,7 +15,7 @@ const Button = styled.button<ButtonProps>`
   font-weight: 500;
 
   ${props =>
-    props.variant !== 'text' &&
+    props.variant !== 'text' ?
     css`
       padding: 0.8em 1.2em;
       border-radius: 0.2em;
@@ -30,14 +30,14 @@ const Button = styled.button<ButtonProps>`
         opacity: 0.5;
         cursor: not-allowed;
       }
-    `}
+    ` : ''}
 
   ${props =>
-    props.size === 'small' &&
+    props.size === 'small' ?
     css`
       font-size: 0.7rem;
       padding: 0.5em 0.7em;
-    `}
+    ` : ''}
 `;
 
 export default Button;

@@ -1,4 +1,4 @@
-import { styled, css } from 'solid-styled-components';
+import { styled } from 'solid-styled-components';
 import { state } from '../state';
 
 import logo from '../assets/logo_48.png';
@@ -18,36 +18,34 @@ const Footer = styled.footer`
   align-items: flex-end;
 `;
 
-const linkStyles = css`
-  && {
-    color: var(--gray2);
-    text-transform: uppercase;
-    margin: 0 0.5rem;
-    text-decoration: none;
-    vertical-align: middle;
-    border-bottom: solid 1px transparent;
-    padding-bottom: 0.25rem;
-    font-weight: 500;
+const linkStyles = `
+  color: var(--gray2);
+  text-transform: uppercase;
+  margin: 0 0.5rem;
+  text-decoration: none;
+  vertical-align: middle;
+  border-bottom: solid 1px transparent;
+  padding-bottom: 0.25rem;
+  font-weight: 500;
 
-    &.current {
-      border-color: var(--accent_color);
-      color: var(--accent_color);
-    }
+  &.current {
+    border-color: var(--accent_color);
+    color: var(--accent_color);
+  }
 
-    &:hover {
-      color: var(--accent_color);
-    }
+  &:hover {
+    color: var(--accent_color);
+  }
 
-    &:focus {
-      outline: none;
-      color: var(--accent_color);
-    }
+  &:focus {
+    outline: none;
+    color: var(--accent_color);
+  }
 
-    @media (max-width: ${breakSmall}) {
-      border-bottom: none;
-      display: block;
-      margin: 0.5rem;
-    }
+  @media (max-width: ${breakSmall}) {
+    border-bottom: none;
+    display: block;
+    margin: 0.5rem;
   }
 `;
 

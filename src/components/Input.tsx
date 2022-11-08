@@ -1,5 +1,4 @@
-import * as React from 'react';
-import styled from 'solid-styled-components';
+import { styled } from 'solid-styled-components';
 
 type Props = {
   label: string;
@@ -50,7 +49,7 @@ const Container = styled.div`
   }
 `;
 
-export default React.memo((props: Props) => {
+export default function Input(props: Props) {
   const fieldProps = {
     id: props.id,
     required: props.required,
@@ -61,18 +60,18 @@ export default React.memo((props: Props) => {
     pattern: props.pattern
   };
 
-  const onChange = React.useCallback((e: { target: { value: string; }; }) => {
+  const onChange = (e: any) => {
     if (props.onChange)
-      props.onChange(e.target.value);
-  }, [props.onChange]);
+      props.onChange(e?.target?.value);
+  };
 
   return (
-    <Container className={props.className}>
-      <label htmlFor={props.id}>{props.label}</label>
+    <Container class={props.className}>
+      <label for={props.id}>{props.label}</label>
       {props.multiline
         ? <textarea rows={props.rows} {...fieldProps} onChange={onChange} />
         : <input {...fieldProps} type={props.type} onChange={onChange} />
       }
     </Container>
   );
-});
+};

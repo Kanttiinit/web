@@ -1,6 +1,5 @@
-import * as React from 'react';
-
-import styled from 'solid-styled-components';
+import { For } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
 const Container = styled.span`
   span::after {
@@ -14,13 +13,12 @@ const Container = styled.span`
   }
 `;
 
-const Colon = ({ children }: { children: string }) => {
-  const parts = children.split(':');
+const Colon = (props: { children: string }) => {
   return (
     <Container>
-      {parts.map((part, i) => (
-        <span key={i}>{part}</span>
-      ))}
+      <For each={props.children.split(':')}>
+        {part => <span>{part}</span>}
+      </For>
     </Container>
   );
 };

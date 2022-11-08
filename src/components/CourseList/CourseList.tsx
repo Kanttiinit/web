@@ -1,10 +1,10 @@
 import * as capitalize from 'lodash/capitalize';
 import memoize from 'lodash/memoize';
-import * as React from 'react';
-import styled from 'solid-styled-components';
+import { For } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
 import { CourseType } from '../../contexts/types';
-import { useTranslations } from '../../utils/hooks';
+import { state } from '../../state';
 import Course from './Course';
 
 interface CourseGroup {
@@ -82,19 +82,20 @@ const EmptyText = styled.p`
   justify-content: center;
 `;
 
-const CourseList = ({ courses, ...props }: Props) => {
-  const translations = useTranslations();
+const CourseList = (props: Props) => {
   return (
     <Container {...props}>
-      {!courses.length && <EmptyText>{translations.noMenu}</EmptyText>}
-      {moizedGroups(courses).map((group: CourseGroup) => (
-        <Group key={group.key}>
+      {!props.courses.length && <EmptyText>{state.translations.noMenu}</EmptyText>}
+      <For each={moizedGroups(props.courses)}>
+      {(group: CourseGroup) => (
+        <Group>
           <GroupTitle>{capitalize(group.key)}</GroupTitle>
-          {group.courses.map((c, i) => (
-            <Course key={i} course={c} />
-          ))}
+          <For each={group.courses}>
+          {c => <Course course={c} />}
+          </For>
         </Group>
-      ))}
+      )}
+      </For>
     </Container>
   );
 };

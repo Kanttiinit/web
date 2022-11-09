@@ -24,26 +24,21 @@ interface Props {
   text?: string;
   translationKey?: keyof (typeof translations);
   position?: Popper.Position;
-  className?: string;
+  class?: string;
 }
 
 const Tooltip = (props: Props): any => {
   const [isOpen, setIsOpen] = createSignal(false);
   let anchorRef: HTMLSpanElement | undefined;
-  let tooltipRef: HTMLDivElement | undefined;
   let popper: Popper;
 
-  const open = () => setIsOpen(true);
-
-  const close = () => setIsOpen(false);
-
-  createEffect(() => {
+  function setTooltip(tooltipRef: HTMLDivElement) {
     if (anchorRef && tooltipRef && isOpen()) {
       popper = new Popper(anchorRef, tooltipRef, {
         placement: props.position || 'bottom-start'
       });
     }
-  });
+  }
 
   if (!props.text && !(props.translationKey in translations)) {
     return props.children;
@@ -54,16 +49,16 @@ const Tooltip = (props: Props): any => {
   return (
     <>
       <span
-        onMouseOver={open}
-        onMouseLeave={close}
+        onMouseOver={() => setIsOpen(true)}
+        onMouseLeave={() => setIsOpen(false)}
         ref={anchorRef}
-        class={props.className}
+        class={props.class}
       >
         {props.children}
       </span>
       {isOpen() &&
       <Portal mount={document.body}>
-        <Container ref={tooltipRef}>{contents}</Container>,
+        <Container ref={setTooltip}>{contents()}</Container>,
       </Portal>
       }
     </>

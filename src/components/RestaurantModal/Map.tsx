@@ -1,9 +1,8 @@
 import { Map, Overlay } from 'pigeon-maps';
-import * as React from 'react';
-import { MdLocationOn } from 'react-icons/md';
-import styled from 'solid-styled-components';
+import { styled } from 'solid-styled-components';
 
 import { RestaurantType } from '../../contexts/types';
+import { breakSmall } from '../../globalStyles';
 
 const osmProvider = (x: number, y: number, z: number) => {
   const s = String.fromCharCode(97 + ((x + y + z) % 3));
@@ -18,7 +17,7 @@ const Container = styled.div`
   margin: 1rem -1rem -1rem -1rem;
   overflow: hidden;
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     display: none;
   }
 `;
@@ -36,13 +35,13 @@ const RestaurantLabel = styled.span`
 
 interface Props {
   restaurantPoint: [number, number];
-  userPoint: [number, number] | null;
+  userPoint?: [number, number];
   restaurant: RestaurantType;
 }
 
 const RestaurantMap = (props: Props) => (
   <Container>
-    <Map
+    {/* <Map
       defaultZoom={14}
       defaultCenter={props.restaurantPoint}
       provider={osmProvider}
@@ -62,7 +61,7 @@ const RestaurantMap = (props: Props) => (
           />
         </Overlay>
       )}
-    </Map>
+    </Map> */}
   </Container>
 );
 

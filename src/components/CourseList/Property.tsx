@@ -51,7 +51,7 @@ export default function Property(props: Props) {
   return (
     <Container text={propName()} dimmed={props.dimmed} highlighted={props.highlighted}>
       {props.property}
-      <ClickTrap onClick={() => toggleProperty(property)} />
+      {/* <ClickTrap onClick={() => toggleProperty(property)} /> */}
     </Container>
   );
 };

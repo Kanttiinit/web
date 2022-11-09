@@ -13,15 +13,8 @@ import * as orderBy from 'lodash/orderBy';
 import { Accessor, createMemo } from 'solid-js';
 
 import {
-  dataContext,
-  langContext,
-  preferenceContext,
-  uiContext
-} from '../contexts';
-import {
   CourseType,
   FavoriteType,
-  FormattedFavoriteType,
   Order,
   RestaurantType
 } from '../contexts/types';
@@ -118,10 +111,7 @@ const locales = {
   fi: fiLocale
 };
 
-export const createDayFormatter = () => {
-  return () => {
-    const lang = state.lang;
-    return (date: Date, dateFormat: string) =>
-    format(date, dateFormat, { locale: locales[lang] });
-  };
-};
+export const formattedDay = (date: Date, dateFormat: string) => createMemo(() => {
+  const lang = state.preferences.lang;
+  return format(date, dateFormat, { locale: locales[lang] });
+});

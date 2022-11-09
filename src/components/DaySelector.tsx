@@ -6,7 +6,7 @@ import { isDateInRange } from '../contexts/uiContext';
 
 import { breakLarge, breakSmall } from '../globalStyles';
 import { state } from '../state';
-import { createDayFormatter } from '../utils/hooks';
+import { formattedDay } from '../utils/hooks';
 import Link from './Link';
 
 interface DayLinkProps {
@@ -70,16 +70,16 @@ const StyledLink = styled<{ activeLink: boolean }>(({ activeLink, ...props }) =>
   }
 `;
 
-const DayLink = ({ day, selectedDay, root }: DayLinkProps) => {
-  const formatDate = createDayFormatter();
-  const search = isSameDay(day, new Date())
+const DayLink = (props: DayLinkProps) => {
+  const date = formattedDay(props.day, 'iiiiii d.M.');
+  const search = () => isSameDay(props.day, new Date())
     ? ''
-    : `?day=${format(day, 'y-MM-dd')}`;
-  const active = isSameDay(selectedDay, day);
+    : `?day=${format(props.day, 'y-MM-dd')}`;
+  const active = () => isSameDay(props.selectedDay, props.day);
 
   return (
-    <StyledLink activeLink={active} to={root + search}>
-      {formatDate()(day, 'iiiiii d.M.')}
+    <StyledLink activeLink={active()} to={props.root + search()}>
+      {date()}
     </StyledLink>
   );
 };

@@ -2,8 +2,9 @@ import addDays from 'date-fns/addDays';
 import format from 'date-fns/format';
 import isBefore from 'date-fns/isBefore';
 import isSameDay from 'date-fns/isSameDay';
-import parse from 'date-fns/parse';
 import startOfDay from 'date-fns/startOfDay';
+
+
 import * as times from 'lodash/times';
 import * as React from 'react';
 
@@ -61,9 +62,7 @@ export const UIStateProvider = (props: { children: React.ReactNode }) => {
       updateDay(loc: Location) {
         const day = new URL(loc.href).searchParams.get('day');
         setDate(
-          day
-            ? startOfDay(parse(day, 'y-MM-dd', new Date()))
-            : startOfDay(new Date())
+
         );
       },
       updateDisplayedDays() {

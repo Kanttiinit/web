@@ -12,7 +12,7 @@ import parseISO from 'date-fns/parseISO';
 const maxDayOffset = 6;
 const dateFormat = 'y-MM-dd';
 
-function getDisplayedDays(): Date[] {
+export function getDisplayedDays(): Date[] {
   const now = new Date();
   return times(maxDayOffset + 1, (i: number) => addDays(now, i));
 }
@@ -20,7 +20,7 @@ function getDisplayedDays(): Date[] {
 type TranslatedDict = { [t in keyof typeof translations]: any };
 
 const [state, setState] = createStore({
-  location: null,
+  location: null as (GeolocationCoordinates | null),
   displayedDays: getDisplayedDays(),
   selectedDay: startOfDay(new Date()),
   preferences: {

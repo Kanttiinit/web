@@ -7,3 +7,4 @@ export { BiSolidErrorAlt as ErrorIcon } from 'solid-icons/bi'
 export { IoLocationSharp as LocationIcon } from 'solid-icons/io'
 export { TbBike as BikeIcon } from 'solid-icons/tb'
 export { VsHeartFilled as HeartFilledIcon } from 'solid-icons/vs';
+export { AiFillHome as HomeIcon } from 'solid-icons/ai'

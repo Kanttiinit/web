@@ -1,11 +1,7 @@
-import * as React from 'react';
-import { MdContentCopy, MdLink, MdShare } from 'react-icons/md';
-import styled from 'solid-styled-components';
+import { styled } from 'solid-styled-components';
+import { breakSmall } from '../../globalStyles';
 
-import { langContext, uiContext } from '../../contexts';
-import { CourseType } from '../../contexts/types';
 import { getCourses } from '../../utils/api';
-import useResource from '../../utils/useResource';
 import CourseList from '../CourseList';
 import DaySelector from '../DaySelector';
 import Tooltip from '../Tooltip';
@@ -31,9 +27,9 @@ const StyledCourseList = styled(({ loading, ...props }) => (
   max-height: 25vh;
   padding-right: 1ch;
 
-  ${props => props.loading && 'opacity: 0.5;'}
+  ${props => props.loading ? 'opacity: 0.5;' : ''}
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     max-height: 100%;
   }
 `;
@@ -45,8 +41,6 @@ interface Props {
 }
 
 const MenuViewer = (props: Props) => {
-  const ui = React.useContext(uiContext);
-  const { lang } = React.useContext(langContext);
   const [courses, setCourses] = useResource<CourseType[]>([]);
   const { showCopyButton } = props;
 

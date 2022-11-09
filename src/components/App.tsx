@@ -8,12 +8,9 @@ import parse from 'date-fns/parse';
 import isSameDay from 'date-fns/isSameDay';
 import * as semver from 'semver';
 
-// import AreaSelector from './AreaSelector';
-// import AssetsLoading from './AssetsLoading';
 import ChangeLog from './ChangeLog';
 import Clients from './Clients';
 import Contact from './Contact';
-// import FavoriteSelector from './FavoriteSelector';
 import Footer from './Footer';
 import Modal from './Modal';
 import NotFound from './NotFound';
@@ -23,7 +20,7 @@ import RestaurantModal from './RestaurantModal';
 import Settings from './Settings';
 import TermsOfService from './TermsOfService';
 import TopBar from './TopBar';
-import { getNewPath, isDateInRange } from '../contexts/uiContext';
+import { getNewPath, isDateInRange } from '../utils/hooks';
 import { version } from '../utils/consts';
 import haversine from 'haversine';
 
@@ -58,7 +55,7 @@ export default function App() {
   const [locationWatchId, setLocationWatchId] = createSignal<number | null>(null);
   createEffect(() => {
     // start or stop watching for location
-    if (state.preferences.useLocation && !locationWatchId) {
+    if (state.preferences.useLocation && !locationWatchId()) {
       setLocationWatchId(
         navigator.geolocation.watchPosition(
           ({ coords }) => {

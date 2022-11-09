@@ -1,7 +1,7 @@
 import { JSXElement } from 'solid-js';
 import { styled } from 'solid-styled-components';
 
-import { DarkModeChoice, Lang, Order } from '../../contexts/types';
+import { DarkModeChoice, Lang, Order } from '../../types';
 import { setState, state } from '../../state';
 import FavoriteSelector from '../FavoriteSelector';
 import PageContainer from '../PageContainer';

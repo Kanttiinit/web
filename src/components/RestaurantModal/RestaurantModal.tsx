@@ -171,7 +171,7 @@ const RestaurantModal = () => {
               </For>
             </OpeningHoursContainer>
           </Info>
-          {/* <MenuViewer showCopyButton restaurantId={restaurant.id} /> */}
+          <MenuViewer showCopyButton restaurantId={restaurant.id} />
           <Map
             restaurant={restaurant}
             restaurantPoint={[restaurant.latitude, restaurant.longitude]}

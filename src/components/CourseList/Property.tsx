@@ -1,6 +1,7 @@
 import { styled } from 'solid-styled-components';
 
-import { state } from '../../state';
+import { setState, state } from '../../state';
+import { getArrayWithToggled } from '../../utils/hooks';
 import { properties } from '../../utils/translations';
 import Tooltip from '../Tooltip';
 
@@ -51,7 +52,7 @@ export default function Property(props: Props) {
   return (
     <Container text={propName()} dimmed={props.dimmed} highlighted={props.highlighted}>
       {props.property}
-      {/* <ClickTrap onClick={() => toggleProperty(property)} /> */}
+      <ClickTrap onClick={() => setState('preferences', 'properties', getArrayWithToggled(state.preferences.properties, props.property))} />
     </Container>
   );
 };

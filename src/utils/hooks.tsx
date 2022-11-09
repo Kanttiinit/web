@@ -4,7 +4,9 @@ import isAfter from 'date-fns/isAfter';
 import isBefore from 'date-fns/isBefore';
 import enLocale from 'date-fns/locale/en-GB';
 import fiLocale from 'date-fns/locale/fi';
-import parseISO from 'date-fns/parseISO';
+import addDays from 'date-fns/addDays';
+import isSameDay from 'date-fns/isSameDay';
+import startOfDay from 'date-fns/startOfDay';
 import setHours from 'date-fns/setHours';
 import setMinutes from 'date-fns/setMinutes';
 import haversine from 'haversine';
@@ -17,7 +19,7 @@ import {
   FavoriteType,
   Order,
   RestaurantType
-} from '../contexts/types';
+} from '../types';
 import { resources, state } from '../state';
 
 export const selectedFavorites = createMemo(() => {
@@ -115,3 +117,36 @@ export const formattedDay = (date: Date, dateFormat: string) => createMemo(() =>
   const lang = state.preferences.lang;
   return format(date, dateFormat, { locale: locales[lang] });
 });
+
+export function getArrayWithToggled<T>(array: T[], item: T) {
+  const index = array.indexOf(item);
+  if (index === -1) {
+    return [...array, item];
+  }
+  const out = [...array];
+  out.splice(index, 1);
+  return out;
+}
+
+const maxDayOffset = 6;
+const dateFormat = 'y-MM-dd';
+
+export function isDateInRange(date: Date) {
+  const now = startOfDay(new Date());
+  const end = addDays(now, maxDayOffset);
+  return (
+    (isSameDay(now, date) || isBefore(now, date)) &&
+    (isSameDay(date, end) || isBefore(date, end))
+  );
+}
+
+export function getNewPath(date: Date) {
+  const regexp = /day=[^&$]+/;
+  if (isSameDay(date, new Date())) {
+    return location.pathname.replace(regexp, '');
+  } else if (location.pathname.match(regexp)) {
+    return location.pathname.replace(regexp, `day=${format(date, dateFormat)}`);
+  }
+  return `${location.pathname}?day=${format(date, dateFormat)}`;
+}
+

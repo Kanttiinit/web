@@ -6,7 +6,7 @@ import translations from './utils/translations';
 import { createResource } from "solid-js";
 import * as api from './utils/api';
 
-import { AreaType, DarkModeChoice, FavoriteType, Lang, MenuType, Order, PriceCategory, RestaurantType, Update } from "./contexts/types";
+import { AreaType, DarkModeChoice, FavoriteType, Lang, MenuType, Order, PriceCategory, RestaurantType, Update } from "./types";
 import parseISO from 'date-fns/parseISO';
 
 const maxDayOffset = 6;
@@ -36,7 +36,7 @@ const [state, setState] = createStore({
     maxPriceCategory: PriceCategory.studentPremium,
     ...JSON.parse(localStorage.getItem('preferences') || '{}') as {}
   },
-  properties: [],
+  properties: [] as string[],
   get darkMode(): boolean {
     return this.preferences.darkMode === DarkModeChoice.ON;
   },
@@ -59,7 +59,7 @@ const [state, setState] = createStore({
   }
 });
 
-const areaResource = createResource<AreaType[]>(() => api.getAreas(Lang.FI));
+const areaResource = createResource(() => ({ lang: state.preferences.lang }), source => api.getAreas(source.lang));
 
 const restaurantResource = createResource(
   () => {
@@ -119,7 +119,10 @@ const menuResource = createResource(
 
 const resources = {
   areas: areaResource,
-  favorites: createResource<FavoriteType[]>(() => api.getFavorites(Lang.FI)),
+  favorites: createResource(
+    () => ({ lang: state.preferences.lang }),
+    source => api.getFavorites(source.lang)
+  ),
   menus: menuResource,
   restaurants: restaurantResource,
   updates: createResource<Update[]>(() => api.getUpdates()),

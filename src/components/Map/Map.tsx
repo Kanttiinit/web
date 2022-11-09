@@ -2,7 +2,7 @@ import { Map as PigeonMap, Overlay } from 'pigeon-maps';
 import * as React from 'react';
 import styled, { createGlobalStyle } from 'solid-styled-components';
 
-import { RestaurantType } from '../../contexts/types';
+import { RestaurantType } from '../../types';
 import http from '../../utils/http';
 import useResource from '../../utils/useResource';
 import Tooltip from '../Tooltip';

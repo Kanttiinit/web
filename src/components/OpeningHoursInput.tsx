@@ -3,7 +3,7 @@ import * as React from 'react';
 import { MdSubdirectoryArrowLeft as CopyIcon } from 'react-icons/md';
 import styled from 'solid-styled-components';
 
-import { Lang } from '../contexts/types';
+import { Lang } from '../types';
 import { useFormatDate, useTranslations } from '../utils/hooks';
 import Button from './Button';
 import Input from './Input';

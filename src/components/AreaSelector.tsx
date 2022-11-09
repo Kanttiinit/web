@@ -3,7 +3,7 @@ import * as sortBy from 'lodash/sortBy';
 import { For, JSX } from 'solid-js';
 import { styled, css } from 'solid-styled-components';
 
-import { AreaType } from '../contexts/types';
+import { AreaType } from '../types';
 import { actions, resources, setState, state } from '../state';
 import { FilledStarIcon, WalkIcon } from '../utils/icons';
 import allTranslations from '../utils/translations';

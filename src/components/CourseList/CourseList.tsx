@@ -3,7 +3,7 @@ import memoize from 'lodash/memoize';
 import { For } from 'solid-js';
 import { styled } from 'solid-styled-components';
 
-import { CourseType } from '../../contexts/types';
+import { CourseType } from '../../types';
 import { state } from '../../state';
 import Course from './Course';
 

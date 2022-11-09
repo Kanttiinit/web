@@ -2,7 +2,7 @@ import format from 'date-fns/format';
 import isSameDay from 'date-fns/isSameDay';
 import { For } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { isDateInRange } from '../contexts/uiContext';
+import { isDateInRange } from '../utils/hooks';
 
 import { breakLarge, breakSmall } from '../globalStyles';
 import { state } from '../state';
@@ -25,9 +25,7 @@ const Container = styled.nav`
   }
 `;
 
-const StyledLink = styled<{ activeLink: boolean }>(({ activeLink, ...props }) => <Link {...props} />)<{
-  activeLink: boolean;
-}>`
+const StyledLink = styled(Link)<{activeLink: boolean;}>`
   && {
     border: none;
     background: transparent;

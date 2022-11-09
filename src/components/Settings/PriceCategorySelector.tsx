@@ -1,7 +1,7 @@
 import * as times from 'lodash/times';
 import { For } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { PriceCategory } from '../../contexts/types';
+import { PriceCategory } from '../../types';
 import { state } from '../../state';
 import { priceCategorySettings } from '../../utils/translations';
 import {Button} from '../Radio';
@@ -66,14 +66,16 @@ const PriceCategorySelector = (props: Props) => {
             selected={valueIndex >= i()}
           >
             {times(i() + 1, (j: number) => (
-              <span />
-              // <MdAttachMoney key={j} />
+              <>
+                <span />
+                $
+              </>
             ))}
           </Item>
           }
         </For>
       </ButtonContainer>
-      <p style={{ 'font-size': '0.8rem' }}>{priceCategorySettings[props.value][state.lang]}</p>
+      <p style={{ 'font-size': '0.8rem' }}>{priceCategorySettings[props.value][state.preferences.lang]}</p>
     </>
   );
 };

@@ -1,7 +1,10 @@
+import { createResource } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { breakSmall } from '../../globalStyles';
+import { state } from '../../state';
 
 import { getCourses } from '../../utils/api';
+import { CopyIcon, LinkIcon, ShareIcon } from '../../utils/icons';
 import CourseList from '../CourseList';
 import DaySelector from '../DaySelector';
 import Tooltip from '../Tooltip';
@@ -19,9 +22,7 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const StyledCourseList = styled(({ loading, ...props }) => (
-  <CourseList {...props} />
-))<{ loading: boolean }>`
+const StyledCourseList = styled(CourseList)<{ loading: boolean }>`
   transition: opacity 0.2s;
   overflow: auto;
   max-height: 25vh;
@@ -41,20 +42,16 @@ interface Props {
 }
 
 const MenuViewer = (props: Props) => {
-  const [courses, setCourses] = useResource<CourseType[]>([]);
-  const { showCopyButton } = props;
-
-  React.useEffect(
-    () => {
-      setCourses(getCourses(props.restaurantId, ui.selectedDay, lang));
-    },
-    [props.restaurantId, ui.selectedDay]
-  );
+  const [courses] = createResource(() => ({
+    id: props.restaurantId,
+    selectedDay: state.selectedDay,
+    lang: state.preferences.lang
+  }), source => getCourses(source.id, source.selectedDay, source.lang));
 
   const onCopy = (target: string) => {
     const textArea = document.createElement('textarea');
     if (target === 'courses') {
-      textArea.value = courses.data
+      textArea.value = (courses() || [])
         .map(c => `${c.title} (${c.properties.join(', ')})`)
         .join('\n');
     } else if (target === 'url') {
@@ -77,23 +74,23 @@ const MenuViewer = (props: Props) => {
     <div>
       <Header>
         <DaySelector root={location.pathname} />
-        {showCopyButton && (
+        {props.showCopyButton && (
           <ButtonContainer>
             {'share' in navigator && (
               <Tooltip translationKey="shareURL">
-                <MdShare size={18} onClick={share} />
+                <ShareIcon size={18} onClick={share} />
               </Tooltip>
             )}
             <Tooltip translationKey="copyURLToClipboard">
-              <MdLink size={18} onClick={() => onCopy('url')} />
+              <LinkIcon size={18} onClick={() => onCopy('url')} />
             </Tooltip>
             <Tooltip translationKey="copyMenuToClipboard">
-              <MdContentCopy size={18} onClick={() => onCopy('courses')} />
+              <CopyIcon size={18} onClick={() => onCopy('courses')} />
             </Tooltip>
           </ButtonContainer>
         )}
       </Header>
-      <StyledCourseList loading={courses.pending} courses={courses.data} />
+      <StyledCourseList loading={courses.loading} courses={courses() || []} />
     </div>
   );
 };

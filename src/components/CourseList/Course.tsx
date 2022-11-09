@@ -1,5 +1,6 @@
+import { For } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { CourseType } from '../../contexts/types';
+import { CourseType } from '../../types';
 import { state } from '../../state';
 import { isFavorite } from '../../utils/hooks';
 import { HeartFilledIcon } from '../../utils/icons';
@@ -87,13 +88,15 @@ const Course = (props: { course: CourseType }) => {
         {props.course.title}
       </CourseTitle>
       <PropertyContainer>
-        {props.course.properties.map(p => (
+        <For each={props.course.properties}>
+        {p =>
           <Property
             highlighted={isDesiredProperty(p)}
             dimmed={isUndesiredProperty(p)}
             property={p}
           />
-        ))}
+        }
+        </For>
       </PropertyContainer>
     </CourseWrapper>
   );

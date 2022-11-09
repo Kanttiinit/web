@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import 'whatwg-fetch';
 import { apiBase } from './consts';
 
@@ -28,7 +27,7 @@ export default {
       return r.json();
     });
   },
-  get(url: string, authorize?: boolean) {
+  get(url: string, authorize: boolean = false) {
     return this.fetch('GET', url, undefined, authorize);
   },
   post(url: string, data?: any) {

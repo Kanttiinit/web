@@ -8,7 +8,7 @@ import {
 import styled from 'solid-styled-components';
 
 import { langContext, preferenceContext } from '../../contexts';
-import { RestaurantType } from '../../contexts/types';
+import { RestaurantType } from '../../types';
 import { createRestaurantChange, getRestaurant } from '../../utils/api';
 import { useTranslations } from '../../utils/hooks';
 import allTranslations from '../../utils/translations';

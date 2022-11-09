@@ -40,11 +40,11 @@ const Tooltip = (props: Props): any => {
     }
   }
 
-  if (!props.text && !(props.translationKey in translations)) {
+  if (!props.text && !(props.translationKey! in translations)) {
     return props.children;
   }
 
-  const contents = () => props.text || state.translations[props.translationKey][state.preferences.lang];
+  const contents = () => props.text || state.translations[props.translationKey!][state.preferences.lang];
 
   return (
     <>

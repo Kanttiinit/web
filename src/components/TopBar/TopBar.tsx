@@ -12,7 +12,7 @@ import { breakSmall } from '../../globalStyles';
 import { createSignal, onCleanup, onMount } from 'solid-js';
 import { MapIcon, NewsIcon } from '../../utils/icons';
 
-const Container = styled.header`
+const Container = styled.header<{ darkMode: boolean }>`
   background: linear-gradient(to bottom, var(--gray7) 0%, var(--gray6) 100%);
   box-sizing: border-box;
   padding: 0 0.5em;
@@ -30,7 +30,7 @@ const Container = styled.header`
     padding-left: 1rem;
   }
 
-  ${state.darkMode ?
+  ${props => props.darkMode ?
     'background: linear-gradient(to bottom,var(--gray6),var(--gray7) 100%)' : ''}
 `;
 
@@ -189,7 +189,7 @@ export default function TopBar() {
   });
 
   return (
-    <Container>
+    <Container darkMode={state.darkMode}>
       <Content>
         <DaySelector root="/" />
         {state.unseenUpdates.length > 0 && (

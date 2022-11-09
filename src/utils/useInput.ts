@@ -1,16 +1,16 @@
-import { useMemo, useState } from 'react';
+import { Accessor, createMemo, createSignal } from "solid-js";
 
 type T = string | number;
 
 export default function useInput(
   defaultValue: T
 ): [
-  T,
-  { value: T; onChange(e: React.ChangeEvent<HTMLInputElement>): void },
+  Accessor<T>,
+  Accessor<{ value: Accessor<T>; onChange(e: React.ChangeEvent<HTMLInputElement>): void }>,
   (value: T) => void
 ] {
-  const [value, setValue] = useState(defaultValue);
-  const inputProps = useMemo(
+  const [value, setValue] = createSignal(defaultValue);
+  const inputProps = createMemo(
     () => ({
       value,
       onChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -20,8 +20,7 @@ export default function useInput(
           setValue(e.target.value);
         }
       }
-    }),
-    [value]
+    })
   );
   return [value, inputProps, setValue];
 }

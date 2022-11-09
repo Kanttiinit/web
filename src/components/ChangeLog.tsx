@@ -1,14 +1,14 @@
 import distanceInWordsToNow from 'date-fns/formatDistanceToNow';
 import parseISO from 'date-fns/parseISO';
-// import { MdKeyboardArrowDown } from 'react-icons/md';
 import snarkdown from 'snarkdown';
 import { createSignal, For, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
 
-import { Update } from '../contexts/types';
-import { setState, state } from '../state';
+import { Update } from '../types';
+import { resources, setState, state } from '../state';
 import Collapse from './Collapse';
 import PageContainer from './PageContainer';
+import { CaretDownIcon } from '../utils/icons';
 
 const UpdateWrapper = styled.div`
   margin-bottom: 0.5em;
@@ -49,9 +49,7 @@ const PublishedAt = styled.p`
   color: var(--gray2) !important;
 `;
 
-const ArrowDownIcon = styled(props => <span {...props} />)<{
-  isVisible: boolean;
-}>`
+const ArrowDownIcon = styled(CaretDownIcon)<{ isVisible: boolean }>`
   margin-top: 0.4em;
   transition: transform 0.3s;
   ${props => props.isVisible ? 'transform: rotateX(180deg);' : ''}
@@ -74,11 +72,11 @@ const ChangeLog = () => {
     setState('preferences', 'updatesLastSeenAt', Date.now());
   });
 
-  const [updates] = state.data.updates;
+  const [updates] = resources.updates;
 
   return (
     <PageContainer title={state.translations.updates}>
-      {state.data.updates[0].loading ? (
+      {updates.loading ? (
         <p>Loading...</p>
       ) : (
         <For each={updates()}>

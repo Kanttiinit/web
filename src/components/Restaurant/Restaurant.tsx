@@ -1,16 +1,17 @@
 import getIsoDay from 'date-fns/getISODay';
 import isSameDay from 'date-fns/isSameDay';
-import { styled, css } from 'solid-styled-components';
+import { styled } from 'solid-styled-components';
 
-import { RestaurantType } from '../../contexts/types';
+import { RestaurantType } from '../../types';
 import { breakSmall } from '../../globalStyles';
-import { state } from '../../state';
-import { BikeIcon, FilledStarIcon, LocationIcon, WalkIcon } from '../../utils/icons';
+import { setState, state } from '../../state';
+import { BikeIcon, EditIcon, FilledStarIcon, LocationIcon, MoreIcon, WalkIcon } from '../../utils/icons';
 import Colon from '../Colon';
 import CourseList from '../CourseList';
 import InlineIcon from '../InlineIcon';
 import Link from '../Link';
 import PriceCategoryBadge from '../PriceCategoryBadge';
+import { getArrayWithToggled } from '../../utils/hooks';
 
 const Distance = (props: { distance?: number }) => {
   const kilometers = () => props.distance || 0 > 1500;
@@ -114,7 +115,7 @@ const RightActions = styled.div`
   margin-left: auto;
 `;
 
-const actionLinkStyles = css`
+const actionLinkStyles = `
   margin-right: 1ch;
   color: inherit;
 
@@ -140,7 +141,7 @@ const StyledNativeActionLink = styled.a<{ color: string }>`
     color: ${props => props.color} !important;
 `;
 
-export const courseListStyles = css`
+export const courseListStyles = `
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -170,10 +171,7 @@ const Restaurant = (props: Props) => {
     isSameDay(state.selectedDay, new Date()) && !props.restaurant.isOpenNow;
 
   const toggleStar = () => {
-    preferences.setRestaurantStarred(
-      props.restaurant.id,
-      !props.restaurant.isStarred
-    );
+    setState('preferences', 'starredRestaurants', getArrayWithToggled(state.preferences.starredRestaurants, props.restaurant.id));
   };
 
   return (
@@ -213,7 +211,7 @@ const Restaurant = (props: Props) => {
           aria-label={`Fix information about ${props.restaurant.name}`}
           to={`/report/${props.restaurant.id}`}
         >
-          {/* <MdEdit size={18} /> */}
+          <EditIcon size={18} />
         </StyledActionLink>
         <RightActions>
           <StyledNativeActionLink
@@ -233,7 +231,7 @@ const Restaurant = (props: Props) => {
             aria-label={`More information about ${props.restaurant.name}`}
             to={`/restaurant/${props.restaurant.id}`}
           >
-            {/* <MdMoreVert size={18} /> */}
+            <MoreIcon size={18} />
           </StyledActionLink>
         </RightActions>
       </ActionsContainer>

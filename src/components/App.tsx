@@ -1,5 +1,5 @@
 import { Route, Routes, useLocation, useNavigate } from '@solidjs/router';
-import { createEffect, createSignal, onCleanup, onMount } from 'solid-js';
+import { createEffect, createSignal, lazy, onCleanup, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { computedState, getDisplayedDays, setState, state } from '../state';
 import addDays from 'date-fns/addDays';
@@ -15,14 +15,14 @@ import Footer from './Footer';
 import Modal from './Modal';
 import NotFound from './NotFound';
 import RestaurantList from './RestaurantList';
-import RestaurantModal from './RestaurantModal';
+const RestaurantModal = lazy(() => import('./RestaurantModal'));
 import Settings from './Settings';
 import TermsOfService from './TermsOfService';
 import TopBar from './TopBar';
 import { getNewPath, isDateInRange } from '../hooks';
 import { version } from '../consts';
 import haversine from 'haversine';
-import ReportModal from './ReportModal';
+const ReportModal = lazy(() => import('./ReportModal'));
 
 const Container = styled.div`
   display: flex;

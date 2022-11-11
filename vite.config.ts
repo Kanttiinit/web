@@ -13,6 +13,6 @@ export default defineConfig({
     hmr: false
   },
   build: {
-    target: 'esnext',
+    target: 'es2015',
   },
 });

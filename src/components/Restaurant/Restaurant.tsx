@@ -4,7 +4,7 @@ import { styled } from 'solid-styled-components';
 
 import { RestaurantType } from '../../types';
 import { breakSmall } from '../../globalStyles';
-import { setState, state } from '../../state';
+import { computedState, setState, state } from '../../state';
 import { BikeIcon, EditIcon, FilledStarIcon, LocationIcon, MoreIcon, WalkIcon } from '../../icons';
 import Colon from '../Colon';
 import CourseList from '../CourseList';
@@ -29,12 +29,12 @@ const Distance = (props: { distance?: number }) => {
         )}
       </InlineIcon>
       {!props.distance
-        ? state.translations.locating
+        ? computedState.translations().locating
         : kilometers()
         ? parseFloat(String(props.distance / 1000)).toFixed(1)
         : Math.round(props.distance)}
       &nbsp;
-      {props.distance && (kilometers() ? state.translations.kilometers : state.translations.meters)}
+      {props.distance && (kilometers() ? computedState.translations().kilometers : computedState.translations().meters)}
     </RestaurantMeta>
   );
 };
@@ -200,7 +200,7 @@ const Restaurant = (props: Props) => {
               </>
             )}
             {isClosed() && (
-              <ClosedText>{state.translations.restaurantClosed}</ClosedText>
+              <ClosedText>{computedState.translations().restaurantClosed}</ClosedText>
             )}
           </RestaurantMeta>
         </Header>

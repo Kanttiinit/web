@@ -7,8 +7,8 @@ import NetworkStatus from '../NetworkStatus';
 import Notice from '../Notice';
 import Restaurant, { Placeholder } from '../Restaurant';
 import { breakLarge, breakSmall } from '../../globalStyles';
-import { createEffect, For, Match, Show, Switch } from 'solid-js';
-import { resources, state } from '../../state';
+import { For, Match, Switch } from 'solid-js';
+import { computedState, state, resources } from '../../state';
 import { WarningIcon } from '../../icons';
 import { useFormattedRestaurants } from '../../hooks';
 
@@ -63,13 +63,13 @@ function ListContent() {
           <InlineIcon>
             <WarningIcon />
           </InlineIcon>{' '}
-          {state.translations.turnOnLocation()}
+          {computedState.translations().turnOnLocation()}
         </Notice>
       </Match>
       <Match when={state.preferences.selectedArea === -2 && !state.location}>
         <Locating>
           <img src={locating} />
-          <Notice>{state.translations.locating}</Notice>
+          <Notice>{computedState.translations().locating}</Notice>
         </Locating>
       </Match>
       <Match when={!restaurants().length}>
@@ -77,7 +77,7 @@ function ListContent() {
           <InlineIcon>
             <WarningIcon />
           </InlineIcon>{' '}
-          {state.translations.emptyRestaurants}
+          {computedState.translations().emptyRestaurants}
         </Notice>
       </Match>
       <Match when={true}>
@@ -91,7 +91,7 @@ function ListContent() {
 
 export default () => (
   <Container>
-    {/* <NetworkStatus /> */}
+    <NetworkStatus />
     <ListContainer>
       <ListContent />
     </ListContainer>

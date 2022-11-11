@@ -1,5 +1,5 @@
 import { createEffect, createSignal } from 'solid-js';
-import { state } from '../../state';
+import { computedState, state } from '../../state';
 import { useFeedback } from '../../hooks';
 import Button from '../Button';
 import Input from '../Input';
@@ -32,14 +32,14 @@ export default (props: FormProps) => {
   return (
     <form onSubmit={onSubmit}>
       <Input
-        label={state.translations.email}
+        label={computedState.translations().email}
         type="email"
         id="email"
         value={email()}
         onChange={setEmail}
       />
       <Input
-        label={state.translations.message}
+        label={computedState.translations().message}
         required
         multiline
         id="message"
@@ -50,11 +50,11 @@ export default (props: FormProps) => {
       <Button
         disabled={feedback.sending}
         type="submit">
-        {feedback.sending ? state.translations.sending : state.translations.send}
+        {feedback.sending ? computedState.translations().sending : computedState.translations().send}
       </Button>
       &nbsp;
       <Button onClick={props.goBack}>
-        {state.translations.back}
+        {computedState.translations().back}
       </Button>
     </form>
   );

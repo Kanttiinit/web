@@ -1,9 +1,9 @@
 import { createSignal, onCleanup, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { state } from '../state';
+import { computedState } from '../state';
 import { ErrorIcon } from '../icons';
 
-const Container = styled.div<{ online: boolean }>`
+const Container = styled.div<{ isOnline: boolean }>`
   background: rgb(255, 222, 148);
   border-radius: 0.5em;
   box-shadow: 0px 1px 4px -2px rgba(0, 0, 0, 0.5);
@@ -16,7 +16,7 @@ const Container = styled.div<{ online: boolean }>`
   justify-content: center;
 
   ${props =>
-    !props.online ?
+    !props.isOnline ?
     `
     padding: 0.5em 1em;
     margin: 0.5em;
@@ -25,30 +25,28 @@ const Container = styled.div<{ online: boolean }>`
   ` : ''}
 `;
 
-const NetworkStatus = () => {
+export default function NetworkStatus() {
   const [isOnline, setIsOnline] = createSignal(true);
-
+  
   function updateNetworkStatus() {
     setIsOnline(navigator.onLine);
   };
-
+  
   onMount(() => {
-    window.addEventListener('online', updateNetworkStatus);
-    window.addEventListener('offline', updateNetworkStatus);
+    // window.addEventListener('online', updateNetworkStatus);
+    // window.addEventListener('offline', updateNetworkStatus);
   });
-
+  
   onCleanup(() => {
     window.removeEventListener('online', updateNetworkStatus);
     window.removeEventListener('offline', updateNetworkStatus);
   });
-
+  
   return (
-    <Container online={isOnline()}>
+    <Container isOnline={isOnline()}>
       <ErrorIcon />
       &nbsp;
-      {state.translations.offline}
+      {computedState.translations().offline}
     </Container>
   );
 };
-
-export default NetworkStatus;

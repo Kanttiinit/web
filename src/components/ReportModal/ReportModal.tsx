@@ -11,7 +11,7 @@ import LocationEditor from './LocationEditor';
 import MessageForm from './MessageForm';
 import OpeningHoursEditor from './OpeningHoursEditor';
 import { ClockIcon, ErrorIcon, LocationIcon, MoreIcon } from '../../icons';
-import { state } from '../../state';
+import { computedState, state } from '../../state';
 import { Dynamic } from 'solid-js/web';
 import { useParams } from '@solidjs/router';
 
@@ -105,7 +105,7 @@ const ReportModal = () => {
   };
 
   const title = () => !restaurant.loading
-    ? state.translations.fixRestaurantInformation.replace(
+    ? computedState.translations().fixRestaurantInformation.replace(
         '%restaurantName%',
         restaurant()?.name
       )
@@ -117,7 +117,7 @@ const ReportModal = () => {
         <Match when={restaurant.loading}>
         </Match>
         <Match when={done()}>
-          {state.translations.thanksForFeedback}
+          {computedState.translations().thanksForFeedback}
         </Match>
         <Match keyed when={activeForm()}>
           {form =>
@@ -149,7 +149,7 @@ const ReportModal = () => {
             {form =>
               <ListItem onClick={() => setActiveForm(form)}>
                 <InlineIcon>{form.icon}</InlineIcon>
-                {state.translations[form.labelId]}
+                {computedState.translations()[form.labelId]}
               </ListItem>
             }
           </For>

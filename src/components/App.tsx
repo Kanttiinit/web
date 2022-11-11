@@ -1,7 +1,7 @@
 import { Route, Routes, useLocation, useNavigate } from '@solidjs/router';
 import { createEffect, createSignal, onCleanup, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { getDisplayedDays, setState, state } from '../state';
+import { computedState, getDisplayedDays, setState, state } from '../state';
 import addDays from 'date-fns/addDays';
 import startOfDay from 'date-fns/startOfDay';
 import parse from 'date-fns/parse';
@@ -36,7 +36,7 @@ export default function App() {
   const location = useLocation();
 
   createEffect(() => {
-    if (state.darkMode) {
+    if (computedState.darkMode()) {
       document.body.classList.add('dark');
     } else {
       document.body.classList.remove('dark');

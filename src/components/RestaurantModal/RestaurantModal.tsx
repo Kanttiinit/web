@@ -1,11 +1,11 @@
 import { useParams } from '@solidjs/router';
 import setIsoDay from 'date-fns/setISODay';
 import * as findIndex from 'lodash/findIndex';
-import { createEffect, createResource, For, Match, Show, Switch } from 'solid-js';
+import { createResource, For, Show } from 'solid-js';
 import { styled } from 'solid-styled-components';
 
 import { breakSmall } from '../../globalStyles';
-import { resources, state } from '../../state';
+import { computedState, state, resources } from '../../state';
 import * as api from '../../api';
 import { formattedDay } from '../../hooks';
 import { HomeIcon, LocationIcon } from '../../icons';
@@ -119,7 +119,7 @@ const RestaurantModal = () => {
   });
 
   return (
-    <Show keyed when={restaurant()} fallback={<PageContainer title={state.translations.restaurantNotFound} />}>
+    <Show keyed when={restaurant()} fallback={<PageContainer title={computedState.translations().restaurantNotFound} />}>
       {restaurant =>
         <PageContainer title={restaurant.name}>
           <Info>
@@ -140,7 +140,7 @@ const RestaurantModal = () => {
                 <InlineIcon>
                   <HomeIcon />
                 </InlineIcon>
-                {state.translations.homepage}
+                {computedState.translations().homepage}
               </MetaLink>
               <div>
                 <PriceCategoryBadge priceCategory={restaurant.priceCategory} />
@@ -163,7 +163,7 @@ const RestaurantModal = () => {
                         )}
                       </OpeningHoursDay>
                       <OpeningHoursTime>
-                        {hours.hour.replace('-', '–') || state.translations.closed}
+                        {hours.hour.replace('-', '–') || computedState.translations().closed}
                       </OpeningHoursTime>
                     </OpeningHoursRow>
                   );

@@ -3,15 +3,14 @@ import { styled } from 'solid-styled-components';
 import { useLocation, useNavigate } from '@solidjs/router';
 import { ErrorBoundary } from '..';
 import { breakLarge, breakSmall } from '../globalStyles';
-import { state } from '../state';
+import { computedState, state } from '../state';
 
-// import { ErrorBoundary } from '../index';
 import PageContainer from './PageContainer';
 
 const ModalError = () => {
   return (
-    <PageContainer title={state.translations.error}>
-      {state.translations.errorDetails}
+    <PageContainer title={computedState.translations().error}>
+      {computedState.translations().errorDetails}
     </PageContainer>
   );
 };
@@ -39,8 +38,8 @@ const Container = styled.div<{ open: boolean }>`
   ${props => props.open ? 'pointer-events: auto;' : ''}
 `;
 
-const Overlay = styled.div<{ open: boolean }>`
-  background: ${() => state.darkMode ? 'rgba(50, 50, 50, 0.3)' : 'rgba(0, 0, 0, 0.55)'};
+const Overlay = styled.div<{ open: boolean, darkMode: boolean }>`
+  background: ${props => props.darkMode ? 'rgba(50, 50, 50, 0.3)' : 'rgba(0, 0, 0, 0.55)'};
   position: absolute;
   width: 100%;
   height: 100%;
@@ -132,14 +131,14 @@ const Modal = (props: Props) => {
   return (
     <Container open={open()}>
       <>
-        <Overlay open={open()} onClick={closeModal} />
+        <Overlay darkMode={computedState.darkMode()} open={open()} onClick={closeModal} />
         <Content open={open()}>
           <ErrorBoundary fallback={ModalError}>
             {props.children}
           </ErrorBoundary>
         </Content>
         <CloseText open={open()} onClick={closeModal}>
-          {state.translations.closeModal}
+          {computedState.translations().closeModal}
         </CloseText>
       </>
     </Container>

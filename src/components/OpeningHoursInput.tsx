@@ -1,7 +1,7 @@
 import setISODay from 'date-fns/setISODay';
 import { createEffect, createSignal, For, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { state } from '../state';
+import { computedState, state } from '../state';
 
 import { Lang } from '../types';
 import { formattedDay } from '../hooks';
@@ -117,18 +117,18 @@ const OpeningHoursInput = (props: Props) => {
             <DayLabel>{weekDayLabel()}</DayLabel>
             <StyledInput
               id={`opening-time-${i()}`}
-              label={state.translations.openingTime}
+              label={computedState.translations().openingTime}
               pattern="[0-9]{1,}:[0-9]{2}"
               disabled={isClosed || props.disabled}
-              value={isClosed ? state.translations.closed : times[0]}
+              value={isClosed ? computedState.translations().closed : times[0]}
               onChange={createDayTimeChanger(i(), 0)}
             />
             <StyledInput
               id={`closing-time-${i()}`}
-              label={state.translations.closingTime}
+              label={computedState.translations().closingTime}
               pattern="[0-9]{1,}:[0-9]{2}"
               disabled={isClosed || props.disabled}
-              value={isClosed ? state.translations.closed : times[1]}
+              value={isClosed ? computedState.translations().closed : times[1]}
               onChange={createDayTimeChanger(i(), 1)}
             />
             <Tooltip translationKey="copyFromPreviousDay">

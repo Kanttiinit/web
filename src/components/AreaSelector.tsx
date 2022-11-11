@@ -4,11 +4,10 @@ import { For, JSX } from 'solid-js';
 import { styled, css } from 'solid-styled-components';
 
 import { AreaType } from '../types';
-import { actions, resources, setState, state } from '../state';
+import { computedState, setState, state, resources } from '../state';
 import { FilledStarIcon, WalkIcon } from '../icons';
 import allTranslations from '../translations';
 import Button from './Button';
-
 
 const iconStyles = css`
   margin-right: 0.5ch;
@@ -120,7 +119,7 @@ export default function AreaSelector(props: Props) {
               label: (
                 <>
                   {area.icon}
-                  {state.translations[area.translationKey]}
+                  {computedState.translations()[area.translationKey]}
                 </>
               )
             }}

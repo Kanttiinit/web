@@ -4,7 +4,7 @@ import { For } from 'solid-js';
 import { styled } from 'solid-styled-components';
 
 import { CourseType } from '../../types';
-import { state } from '../../state';
+import { computedState } from '../../state';
 import Course from './Course';
 
 interface CourseGroup {
@@ -85,7 +85,7 @@ const EmptyText = styled.p`
 const CourseList = (props: Props) => {
   return (
     <Container {...props}>
-      {!props.courses.length && <EmptyText>{state.translations.noMenu}</EmptyText>}
+      {!props.courses.length && <EmptyText>{computedState.translations().noMenu}</EmptyText>}
       <For each={moizedGroups(props.courses)}>
       {(group: CourseGroup) => (
         <Group>

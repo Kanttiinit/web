@@ -1,4 +1,4 @@
-import { state } from '../state';
+import { computedState, state } from '../state';
 import { useFeedback } from '../hooks';
 import Button from './Button';
 import Input from './Input';
@@ -14,9 +14,9 @@ const Contact = () => {
   };
 
   return (
-    <PageContainer title={state.translations.contact}>
+    <PageContainer title={computedState.translations().contact}>
       {feedback.sent ? (
-        state.translations.thanksForFeedback
+        computedState.translations().thanksForFeedback
       ) : (
         <form onSubmit={onSubmit}>
           <Input
@@ -24,21 +24,21 @@ const Contact = () => {
             type="email"
             id="email"
             required
-            label={state.translations.email}
+            label={computedState.translations().email}
             autoComplete="off"
           />
           <Input
             multiline
             id="message"
             required
-            label={state.translations.message}
+            label={computedState.translations().message}
             rows={10}
           />
           <Button
             disabled={feedback.sending}
             type="submit"
           >
-            {feedback.sending ? state.translations.sending : state.translations.send}
+            {feedback.sending ? computedState.translations().sending : computedState.translations().send}
           </Button>
         </form>
       )}

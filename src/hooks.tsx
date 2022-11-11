@@ -21,7 +21,7 @@ import {
   Order,
   RestaurantType
 } from './types';
-import { resources, state } from './state';
+import { state, resources } from './state';
 import { createStore } from 'solid-js/store';
 
 export const selectedFavorites = createMemo(() => {

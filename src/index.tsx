@@ -9,7 +9,7 @@ import App from './components/App';
 import Global from './globalStyles';
 import './fonts.css';
 import * as consts from './consts';
-import { state } from './state';
+import { computedState, state } from './state';
 
 declare let window: any;
 
@@ -41,7 +41,7 @@ export function ErrorBoundary(props: { children: any, fallback?: any }) {
 }
 
 const ErrorMessage = () => {
-  return <p>{state.translations.errorDetails}</p>;
+  return <p>{computedState.translations().errorDetails}</p>;
 };
 
 render(

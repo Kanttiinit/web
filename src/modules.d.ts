@@ -14,28 +14,4 @@ declare module 'lodash/fp/get';
 declare module 'lodash/fp/orderBy';
 declare module 'lodash/fp/set';
 declare module 'lodash/fp/sortBy';
-
-declare module '*.scss' {
-  const classes: any;
-  export default classes;
-}
-
-declare module '*.svg' {
-  const content: any;
-  export default content;
-}
-
-declare module '*.png' {
-  const content: any;
-  export default content;
-}
-
-declare module 'pigeon-maps';
-declare module 'pigeon-overlay';
-declare module 'pigeon-draggable';
-declare module 'pigeon-marker';
-declare module 'react-collapse';
-declare module 'react-text-mask';
-declare module 'react-loadable';
 declare module 'snarkdown';
-declare module 'react-click-outside';

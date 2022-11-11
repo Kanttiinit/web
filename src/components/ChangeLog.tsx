@@ -5,7 +5,7 @@ import { createSignal, For, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
 
 import { Update } from '../types';
-import { resources, setState, state } from '../state';
+import { computedState, setState, resources } from '../state';
 import Collapse from './Collapse';
 import PageContainer from './PageContainer';
 import { CaretDownIcon } from '../icons';
@@ -57,7 +57,7 @@ const ArrowDownIcon = styled(CaretDownIcon)<{ isVisible: boolean }>`
 
 const ChangeLog = () => {
   const [visibleItems, setVisibleItems] = createSignal(
-    state.unseenUpdates.map(update => update.id)
+    computedState.unseenUpdates().map(update => update.id)
   );
 
   const toggleVisible = (update: Update) => {
@@ -75,7 +75,7 @@ const ChangeLog = () => {
   const [updates] = resources.updates;
 
   return (
-    <PageContainer title={state.translations.updates}>
+    <PageContainer title={computedState.translations().updates}>
       {updates.loading ? (
         <p>Loading...</p>
       ) : (

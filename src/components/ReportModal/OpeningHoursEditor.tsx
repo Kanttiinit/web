@@ -1,5 +1,5 @@
 import { Accessor, createMemo, createSignal } from 'solid-js';
-import { state } from '../../state';
+import { computedState } from '../../state';
 import Button from '../Button';
 import OpeningHoursInput from '../OpeningHoursInput';
 import { FormProps } from './ReportModal';
@@ -31,10 +31,10 @@ export default (props: FormProps) => {
         color="primary"
         style={{ 'margin-right': '1em' }}
       >
-        {state.translations.send}
+        {computedState.translations().send}
       </Button>
       <Button onClick={props.goBack} type="submit">
-        {state.translations.back}
+        {computedState.translations().back}
       </Button>
     </form>
   );

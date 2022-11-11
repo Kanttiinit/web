@@ -1,4 +1,4 @@
-import { createEffect, onCleanup, onMount, splitProps } from "solid-js";
+import { onCleanup, onMount, splitProps } from "solid-js";
 
 type Props = {
   onClickOutside(): any;

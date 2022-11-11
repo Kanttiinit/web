@@ -7,10 +7,11 @@ import ClickOutside from '../ClickOutside';
 import DaySelector from '../DaySelector';
 import InlineIcon from '../InlineIcon';
 import Link from '../Link';
-import { actions, state } from '../../state';
+import {  computedState, setState, state } from '../../state';
 import { breakSmall } from '../../globalStyles';
 import { createSignal, onCleanup, onMount } from 'solid-js';
 import { MapIcon, NewsIcon } from '../../icons';
+import { Lang } from '../../types';
 
 const Container = styled.header<{ darkMode: boolean }>`
   background: linear-gradient(to bottom, var(--gray7) 0%, var(--gray6) 100%);
@@ -188,11 +189,15 @@ export default function TopBar() {
     }
   });
 
+  function toggleLang() {
+    setState('preferences', 'lang', state.preferences.lang === Lang.FI ? Lang.EN : Lang.FI);
+  }
+
   return (
-    <Container darkMode={state.darkMode}>
+    <Container darkMode={computedState.darkMode()}>
       <Content>
         <DaySelector root="/" />
-        {state.unseenUpdates.length > 0 && (
+        {computedState.unseenUpdates().length > 0 && (
           <Link to="/news">
             <InlineIcon>
               <StyledNewsIcon size={24} />
@@ -207,7 +212,7 @@ export default function TopBar() {
             onKeyDown={e => e.key === 'Enter' && toggleAreaSelector()}
           >
             <MapIcon />
-            <span>{state.translations.selectArea}</span>
+            <span>{computedState.translations().selectArea}</span>
           </NativeIconLink>
           <AreaSelectorContainer isOpen={areaSelectorOpen()}>
             <AreaSelector onAreaSelected={toggleAreaSelector} />
@@ -215,12 +220,12 @@ export default function TopBar() {
         </AreaSelectorButton>
         <IconLink to="/settings" aria-label="Settings">
           {/* <MdSettings size={18} /> */}
-          <span>{state.translations.settings}</span>
+          <span>{computedState.translations().settings}</span>
         </IconLink>
         <NativeIconLink
           tabIndex={0}
-          onClick={actions.toggleLang}
-          onKeyDown={e => e.key === 'Enter' && actions.toggleLang()}
+          onClick={toggleLang}
+          onKeyDown={e => e.key === 'Enter' && toggleLang()}
         >
           <FlagImg alt={state.preferences.lang.toUpperCase()} src={state.preferences.lang === 'fi' ? FI : EN} />
         </NativeIconLink>

@@ -1,5 +1,5 @@
 import { styled } from 'solid-styled-components';
-import { state } from '../state';
+import { computedState } from '../state';
 import PageContainer from './PageContainer';
 
 const Link = styled.a`
@@ -8,7 +8,7 @@ const Link = styled.a`
 
 const Clients = () => {
   return (
-    <PageContainer title={state.translations.otherClients}>
+    <PageContainer title={computedState.translations().otherClients}>
       <Link href="https://folio.kanttiinit.fi/" rel="noopener">
         folio.kanttiinit.fi
       </Link>

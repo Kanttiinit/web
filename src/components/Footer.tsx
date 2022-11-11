@@ -1,5 +1,5 @@
 import { styled } from 'solid-styled-components';
-import { state } from '../state';
+import { computedState, state } from '../state';
 
 import logo from '../assets/logo_48.png';
 import { isBeta, version } from '../consts';
@@ -57,7 +57,7 @@ const StyledExternalLink = styled.a`
   ${linkStyles}
 `;
 
-const LogoImage = styled.img`
+const LogoImage = styled.img<{ darkMode: boolean }>`
   height: 48px;
   margin-right: 1rem;
 
@@ -65,7 +65,7 @@ const LogoImage = styled.img`
     display: none;
   }
 
-  ${state.darkMode ? 'filter: grayscale(0.6);' : ''}
+  ${props => props.darkMode ? 'filter: grayscale(0.6);' : ''}
 `;
 
 const NavigationContainer = styled.div`
@@ -89,15 +89,15 @@ export default () => {
   return (
     <Footer>
       <NavigationContainer>
-        <LogoImage alt="Kanttiinit logo" src={logo} />
+        <LogoImage darkMode={computedState.darkMode()} alt="Kanttiinit logo" src={logo} />
         <nav>
-          <StyledNavLink to="/contact">{state.translations.contact}</StyledNavLink>
+          <StyledNavLink to="/contact">{computedState.translations().contact}</StyledNavLink>
           <StyledNavLink to="/clients">
-            {state.translations.otherClients}
+            {computedState.translations().otherClients}
           </StyledNavLink>
-          <StyledNavLink to="/news">{state.translations.updates}</StyledNavLink>
+          <StyledNavLink to="/news">{computedState.translations().updates}</StyledNavLink>
           <StyledNavLink to="/terms-of-service">
-            {state.translations.termsOfService}
+            {computedState.translations().termsOfService}
           </StyledNavLink>
           {!isBeta && (
             <StyledExternalLink

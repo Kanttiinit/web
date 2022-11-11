@@ -1,9 +1,8 @@
-import times from 'lodash/times';
 import { For } from 'solid-js';
 import { styled } from 'solid-styled-components';
 
 import { PriceCategory } from '../types';
-import { state } from '../state';
+import { computedState } from '../state';
 import Tooltip from './Tooltip';
 
 type Props = {
@@ -31,7 +30,7 @@ const Container = styled.span<Props>`
 
 const PriceCategoryBadge = (props: Props) => {
   return (
-    <Tooltip text={state.translations[props.priceCategory]}>
+    <Tooltip text={computedState.translations()[props.priceCategory]}>
       <Container {...props}>
         <For each={Array(categories.length).fill(0)}>
           {(_, i) =>

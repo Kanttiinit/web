@@ -1,9 +1,9 @@
 import Popper from 'popper.js';
-import { createEffect, createSignal } from 'solid-js';
+import { createSignal } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { styled } from 'solid-styled-components';
 
-import { state } from '../state';
+import { computedState, state } from '../state';
 import translations from '../translations';
 
 const Container = styled.div`
@@ -44,7 +44,7 @@ const Tooltip = (props: Props): any => {
     return props.children;
   }
 
-  const contents = () => props.text || state.translations[props.translationKey!][state.preferences.lang];
+  const contents = () => props.text || computedState.translations()[props.translationKey!][state.preferences.lang];
 
   return (
     <>

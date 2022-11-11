@@ -1,16 +1,15 @@
 import { createStore } from 'solid-js/store';
+import { createResource } from "solid-js";
+import * as api from './api';
 import addDays from 'date-fns/addDays';
 import * as times from 'lodash/times';
 import startOfDay from 'date-fns/startOfDay';
 import translations from './translations';
-import { createResource } from "solid-js";
-import * as api from './api';
-
-import { AreaType, DarkModeChoice, FavoriteType, Lang, MenuType, Order, PriceCategory, RestaurantType, Update } from "./types";
+import { DarkModeChoice, Lang, Order, PriceCategory, Update } from "./types";
 import parseISO from 'date-fns/parseISO';
+import { createMemo } from 'solid-js';
 
 const maxDayOffset = 6;
-const dateFormat = 'y-MM-dd';
 
 export function getDisplayedDays(): Date[] {
   const now = new Date();
@@ -36,27 +35,7 @@ const [state, setState] = createStore({
     maxPriceCategory: PriceCategory.studentPremium,
     ...JSON.parse(localStorage.getItem('preferences') || '{}') as {}
   },
-  properties: [] as string[],
-  get darkMode(): boolean {
-    return this.preferences.darkMode === DarkModeChoice.ON;
-  },
-  get translations(): TranslatedDict {
-    return Object.keys(translations).reduce<any>((t, key) => {
-      t[key] = (translations as any)[key][this.preferences.lang];
-      return t;
-    }, {}) as TranslatedDict;
-  },
-  get unseenUpdates() {
-    const updates: Update[] | undefined = resources.updates[0]();
-    if (!this.preferences.updatesLastSeenAt || !updates) {
-      return [];
-    }
-  
-    return updates.filter(
-      update =>
-        parseISO(update.createdAt).getTime() > this.preferences.updatesLastSeenAt
-    );
-  }
+  properties: [] as string[]
 });
 
 const areaResource = createResource(() => ({ lang: state.preferences.lang }), source => api.getAreas(source.lang));
@@ -128,13 +107,32 @@ const resources = {
   updates: createResource<Update[]>(() => api.getUpdates()),
 };
 
-const actions = {
-  toggleLang: () => setState('preferences', 'lang', state.preferences.lang === Lang.FI ? Lang.EN : Lang.FI)
+const computedState = {
+  unseenUpdates: createMemo(() => {
+    const updates: Update[] | undefined = resources.updates[0]();
+    if (!state.preferences.updatesLastSeenAt || !updates) {
+      return [];
+    }
+  
+    return updates.filter(
+      update =>
+        parseISO(update.createdAt).getTime() > state.preferences.updatesLastSeenAt
+    );
+  }),
+  translations: createMemo(() => {
+    return Object.keys(translations).reduce<any>((t, key) => {
+      t[key] = (translations as any)[key][state.preferences.lang];
+      return t;
+    }, {}) as TranslatedDict;
+  }),
+  darkMode: createMemo(() => {
+    return state.preferences.darkMode === DarkModeChoice.ON;
+  })
 };
 
 export {
   state,
   setState,
-  actions,
+  computedState,
   resources
 };

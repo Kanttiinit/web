@@ -1,5 +1,5 @@
 import { createSignal } from 'solid-js';
-import { state } from '../../state';
+import { computedState } from '../../state';
 import Button from '../Button';
 import Input from '../Input';
 import LatLngInput from '../LatLngInput';
@@ -32,7 +32,7 @@ export default (props: FormProps) => {
         value={address()}
         onChange={setAddress}
         id="address"
-        label={state.translations.address}
+        label={computedState.translations().address}
         disabled={props.isSending}
       />
       <Button
@@ -40,14 +40,14 @@ export default (props: FormProps) => {
         type="submit"
         color="primary"
       >
-        {state.translations.send}
+        {computedState.translations().send}
       </Button>
       &nbsp;
       <Button
         disabled={props.isSending}
         onClick={props.goBack}
       >
-        {state.translations.back}
+        {computedState.translations().back}
       </Button>
     </form>
   );

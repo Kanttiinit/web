@@ -140,4 +140,4 @@ export default function AreaSelector(props: Props) {
       </For>
     </Container>
   );
-};
+}

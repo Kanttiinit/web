@@ -30,6 +30,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "lint": "eslint .",
+    "fix-lint": "eslint . --fix",
     "typecheck": "tsc --noEmit"
   },
   "author": "Jere Vaara, Max Huttunen",

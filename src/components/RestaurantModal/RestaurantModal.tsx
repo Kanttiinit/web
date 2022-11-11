@@ -106,7 +106,7 @@ const RestaurantModal = () => {
       id: params.id
     };
   }, async source => {
-    let restaurant = (resources.restaurants[0]() || []).find(
+    const restaurant = (resources.restaurants[0]() || []).find(
       r => r.id === Number(source.id)
     );
     if (restaurant) {

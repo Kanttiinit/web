@@ -6,8 +6,8 @@ console.log(apiBase);
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 export default {
-  fetch(method: Method, url: string, body: any, authorize: boolean) {
-    const options: any = {
+  fetch(method: Method, url: string, body: unknown, authorize: boolean) {
+    const options: RequestInit = {
       body: undefined,
       credentials: undefined,
       headers: [],
@@ -16,7 +16,7 @@ export default {
     if (authorize) {
       options.credentials = 'include';
     }
-    if (body) {
+    if (body && options.headers instanceof Array) {
       options.headers.push(['Content-Type', 'application/json']);
       options.body = JSON.stringify(body);
     }
@@ -27,16 +27,16 @@ export default {
       return r.json();
     });
   },
-  get(url: string, authorize: boolean = false) {
+  get(url: string, authorize = false) {
     return this.fetch('GET', url, undefined, authorize);
   },
-  post(url: string, data?: any) {
+  post(url: string, data?: unknown) {
     return this.fetch('POST', url, data, true);
   },
-  put(url: string, data?: any) {
+  put(url: string, data?: unknown) {
     return this.fetch('PUT', url, data, true);
   },
-  delete(url: string, data?: any) {
+  delete(url: string, data?: unknown) {
     return this.fetch('DELETE', url, data, true);
   }
 };

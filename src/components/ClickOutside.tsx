@@ -23,7 +23,7 @@ const ClickOutside = (props: Props) => {
   });
 
   onCleanup(() => {
-    window.removeEventListener('click', onClick)
+    window.removeEventListener('click', onClick);
   });
 
   return (

@@ -1,4 +1,4 @@
-import { computedState, state } from '../state';
+import { computedState } from '../state';
 import { useFeedback } from '../hooks';
 import Button from './Button';
 import Input from './Input';

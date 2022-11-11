@@ -64,7 +64,7 @@ function isDesiredProperty(propertyKey: string) {
     return isPropertySelected(propertyKey);
   }
   return false;
-};
+}
 
 function isUndesiredProperty(propertyKey: string) {
   const property = getProperty(propertyKey);
@@ -72,7 +72,7 @@ function isUndesiredProperty(propertyKey: string) {
     return isPropertySelected(propertyKey);
   }
   return false;
-};
+}
 
 const Course = (props: { course: CourseType }) => {
   const highlight = () => props.course.properties.some(isDesiredProperty);

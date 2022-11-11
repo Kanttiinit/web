@@ -1,6 +1,6 @@
 import 'url-polyfill';
 
-import { ErrorBoundary as SolidErrorBoundary, render } from 'solid-js/web';
+import {  render } from 'solid-js/web';
 import { Route, Router, Routes } from "@solidjs/router";
 
 import App from './components/App';
@@ -10,7 +10,7 @@ import Global from './globalStyles';
 import './fonts.css';
 import * as consts from './consts';
 import { computedState, state } from './state';
-import { lazy } from 'solid-js';
+import { lazy, ErrorBoundary as SolidErrorBoundary } from 'solid-js';
 const Admin = lazy(() => import('../admin'));
 
 declare let window: any;

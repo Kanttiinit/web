@@ -89,7 +89,7 @@ class Editor extends React.PureComponent<Props> {
         ? field.fields.map(f => get(f.path, item))
         : get(field.path, item);
     return (
-      <div key={i} className={classes.margin}>
+      <div  class={classes.margin}>
         <InputComponent field={field} value={value} setValue={this.setValue} />
       </div>
     );

@@ -1,5 +1,5 @@
 import FI from './fi.svg';
-import EN from './en.svg';;
+import EN from './en.svg';
 
 import { styled } from 'solid-styled-components';
 import AreaSelector from '../AreaSelector';
@@ -227,4 +227,4 @@ export default function TopBar() {
       </Content>
     </Container>
   );
-};
+}

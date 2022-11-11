@@ -1,5 +1,5 @@
 import { Route, Routes, useLocation, useNavigate, useParams } from '@solidjs/router';
-import { onMount, Show } from 'solid-js';
+import { onMount, Show, For } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import Button from '../src/components/Button';
 import Input from '../src/components/Input';
@@ -74,9 +74,9 @@ export default function Admin() {
     return (
       <>
         <Tabs value={model() ? model()?.key : 'none'} onChange={tabChange}>
-          {models.map(m => (
+          <For each={models}>{m => (
             <Tab key={m.key} value={m.key} label={m.name} />
-          ))}
+          )}</For>
         </Tabs>
         <div
           style={{ position: 'absolute', top: 0, right: 0, padding: '0.5em' }}
@@ -96,7 +96,7 @@ export default function Admin() {
         </Show>
       </>
     );
-  };  
+  }  
 
   return (
     <>

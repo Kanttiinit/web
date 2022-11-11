@@ -18,6 +18,8 @@ export function getDisplayedDays(): Date[] {
 
 type TranslatedDict = { [t in keyof typeof translations]: any };
 
+const persistedSettings = JSON.parse(localStorage.getItem('preferences') || '{}') as Record<string, unknown>;
+
 const [state, setState] = createStore({
   location: null as (GeolocationCoordinates | null),
   displayedDays: getDisplayedDays(),
@@ -33,7 +35,7 @@ const [state, setState] = createStore({
     darkMode: DarkModeChoice.DEFAULT,
     updatesLastSeenAt: 0,
     maxPriceCategory: PriceCategory.studentPremium,
-    ...JSON.parse(localStorage.getItem('preferences') || '{}') as {}
+    ...persistedSettings
   },
   properties: [] as string[]
 });
@@ -121,10 +123,11 @@ const computedState = {
     );
   }),
   translations: createMemo(() => {
-    return Object.keys(translations).reduce<any>((t, key) => {
-      t[key] = (translations as any)[key][state.preferences.lang];
+    return Object.keys(translations).reduce((t, k) => {
+      const key = k as keyof typeof translations;
+      t[key] = translations[key][state.preferences.lang];
       return t;
-    }, {}) as TranslatedDict;
+    }, {} as TranslatedDict) as TranslatedDict;
   }),
   darkMode: createMemo(() => {
     if (state.preferences.darkMode === DarkModeChoice.DEFAULT) {

@@ -55,4 +55,4 @@ export default function Property(props: Props) {
       <ClickTrap onClick={() => setState('preferences', 'properties', getArrayWithToggled(state.preferences.properties, props.property))} />
     </Container>
   );
-};
+}

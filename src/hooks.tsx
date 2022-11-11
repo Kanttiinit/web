@@ -177,7 +177,7 @@ export function useFeedback(): [State, (message: string, email?: string) => Prom
       }
     }
   ];
-};
+}
 
 type T = string | number;
 

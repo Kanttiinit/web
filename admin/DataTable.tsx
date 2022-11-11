@@ -1,3 +1,4 @@
+import { For } from "solid-js";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Button from '@material-ui/core/Button';
 import Progress from '@material-ui/core/CircularProgress';
@@ -171,11 +172,11 @@ export default class DataTable extends React.PureComponent<Props, State> {
           <Progress />
         ) : (
           <Paper>
-            <div style={{ overflowX: 'auto' }}>
+            <div style={{ "overflow-x": 'auto' }}>
               <Table>
                 <TableHead>
                   <TableRow>
-                    {model.tableFields.map(field => (
+                    <For each={model.tableFields}>{field => (
                       <TableCell key={field.key}>
                         <TableSortLabel
                           direction={sortDirection}
@@ -185,7 +186,7 @@ export default class DataTable extends React.PureComponent<Props, State> {
                           {field.name}
                         </TableSortLabel>
                       </TableCell>
-                    ))}
+                    )}</For>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -195,11 +196,11 @@ export default class DataTable extends React.PureComponent<Props, State> {
                       onClick={() => this.openEditDialog(item)}
                       key={i}
                     >
-                      {model.tableFields.map(field => (
+                      <For each={model.tableFields}>{field => (
                         <TableCell style={tdStyle} key={field.key}>
                           {this.renderValue(get(field.key, item))}
                         </TableCell>
-                      ))}
+                      )}</For>
                     </TableRow>
                   ))}
                 </TableBody>

@@ -1,3 +1,4 @@
+import { For } from "solid-js";
 import { Map as PigeonMap, Overlay } from 'pigeon-maps';
 import * as React from 'react';
 import styled, { createGlobalStyle } from 'solid-styled-components';
@@ -37,7 +38,7 @@ const Map = () => {
   return (
     <Container>
       <PigeonMap defaultZoom={14} defaultCenter={[60.1680363, 24.9317823]}>
-        {restaurants.data.map(restaurant => (
+        <For each={restaurants.data}>{restaurant => (
           <Overlay
             key={restaurant.id}
             offset={[6, 6]}
@@ -47,7 +48,7 @@ const Map = () => {
               <Pin />
             </Tooltip>
           </Overlay>
-        ))}
+        )}</For>
       </PigeonMap>
       <Global />
     </Container>

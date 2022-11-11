@@ -62,7 +62,7 @@ export const Button = styled.button<{ selected: boolean }>`
 `;
 
 export default function Radio<T>(props: Props<T>) {
-  const [ownProps, rest] = splitProps(props, ['onChange', 'options', 'selected'])
+  const [ownProps, rest] = splitProps(props, ['onChange', 'options', 'selected']);
   return (
     <Container {...rest}>
       <For each={props.options}>
@@ -77,4 +77,4 @@ export default function Radio<T>(props: Props<T>) {
       </For>
     </Container>
   );
-};
+}

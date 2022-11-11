@@ -99,4 +99,4 @@ export default function DaySelector(props: { root: string }) {
       </For>
     </Container>
   );
-};
+}

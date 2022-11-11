@@ -58,7 +58,6 @@ export default function RestaurantMap(props: Props) {
   // )}
 
   return (
-    <Container ref={container}>
-    </Container>
+    <Container ref={container} />
   );
-};
+}

@@ -1,3 +1,4 @@
+import { For } from "solid-js";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Button from '@material-ui/core/Button';
 import FormControl from '@material-ui/core/FormControl';
@@ -38,16 +39,16 @@ interface GroupInputProps {
   setValue(path: string, value: any): any;
 }
 
-const UrlInput = ({ value, setValue, field }: InputProps) => (
+const UrlInput = (props) => (
   <TextField
     fullWidth
-    label={field.title}
-    onChange={e => setValue(field.path, e.target.value)}
-    value={value || ''}
+    label={props.field.title}
+    onChange={e => props.setValue(props.field.path, e.target.value)}
+    value={props.value || ''}
     InputProps={{
       endAdornment: (
         <InputAdornment position="end">
-          <Button size="small" target="_blank" href={value}>
+          <Button size="small" target="_blank" href={props.value}>
             Open
           </Button>
         </InputAdornment>
@@ -57,21 +58,21 @@ const UrlInput = ({ value, setValue, field }: InputProps) => (
   />
 );
 
-const MenuUrlInput = ({ value, setValue, field }: InputProps) => {
+const MenuUrlInput = (props) => {
   const now = new Date();
   const link =
-    value &&
-    value
+    props.value &&
+    props.value
       .replace('%year%', format(now, 'yyyy'))
       .replace('%month%', format(now, 'mm'))
       .replace('%day%', format(now, 'dd'));
   return (
     <TextField
       fullWidth
-      onChange={e => setValue(field.path, e.target.value)}
-      value={value || ''}
+      onChange={e => props.setValue(props.field.path, e.target.value)}
+      value={props.value || ''}
       type="text"
-      label={field.title}
+      label={props.field.title}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
@@ -136,37 +137,37 @@ const RegExpInput = (props: InputProps) => {
   );
 };
 
-export const BooleanInput = ({ value, setValue, field }: InputProps) => (
+export const BooleanInput = (props) => (
   <FormControlLabel
     control={
       <Switch
-        checked={value || false}
-        onChange={(e: any) => setValue(field.path, e.target.checked)}
+        checked={props.value || false}
+        onChange={(e: any) => props.setValue(props.field.path, e.target.checked)}
       />
     }
-    label={field.title}
+    label={props.field.title}
   />
 );
 
-const NumericInput = ({ value, setValue, field }: InputProps) => (
+const NumericInput = (props) => (
   <TextField
     fullWidth
-    onChange={e => setValue(field.path, Number(e.target.value))}
-    value={value || ''}
-    label={field.title}
+    onChange={e => props.setValue(props.field.path, Number(e.target.value))}
+    value={props.value || ''}
+    label={props.field.title}
     type="number"
   />
 );
 
-export const DateInput = ({ value, setValue, field }: InputProps) => (
+export const DateInput = (props) => (
   <TextField
     fullWidth
-    onChange={e => setValue(field.path, e.target.value)}
-    value={value || ''}
-    label={field.title}
+    onChange={e => props.setValue(props.field.path, e.target.value)}
+    value={props.value || ''}
+    label={props.field.title}
     type="date"
     InputLabelProps={{ shrink: true }}
-    required={field.required}
+    required={props.field.required}
   />
 );
 
@@ -260,47 +261,47 @@ const RelationInput = (props: {
         value={value || (state.data.length ? state.data[0].id : '')}
         onChange={e => setValue(field.path, e.target.value)}
       >
-        {sortBy(field.relationDisplayField, state.data).map((item: any) => (
+        <For each={sortBy(field.relationDisplayField, state.data)}>{(item: any) => (
           <MenuItem key={item.id} value={item.id}>
             {get(field.relationDisplayField, item)}
           </MenuItem>
-        ))}
+        )}</For>
       </Select>
     </FormControl>
   );
 };
 
-export const PlainField = ({ value, field, setValue }: InputProps) => (
+export const PlainField = (props) => (
   <TextField
     fullWidth
-    label={field.title}
-    onChange={e => setValue(field.path, e.target.value)}
-    value={value || ''}
+    label={props.field.title}
+    onChange={e => props.setValue(props.field.path, e.target.value)}
+    value={props.value || ''}
     type="text"
   />
 );
 
-const OpeningHoursEditor = ({ value, field, setValue }: InputProps) => (
+const OpeningHoursEditor = (props) => (
   <OpeningHoursInput
-    defaultValue={value || field.default}
+    defaultValue={props.value || props.field.default}
     onChange={change => {
-      setValue(field.path, change);
+      props.setValue(props.field.path, change);
     }}
   />
 );
 
-const EnumInput = ({ value, field, setValue }: InputProps) => (
+const EnumInput = (props) => (
   <FormControl fullWidth>
-    <InputLabel>{field.title}</InputLabel>
+    <InputLabel>{props.field.title}</InputLabel>
     <Select
-      value={value || field.default}
-      onChange={e => setValue(field.path, e.target.value)}
+      value={props.value || props.field.default}
+      onChange={e => props.setValue(props.field.path, e.target.value)}
     >
-      {(field as EnumField).values.map((item: string) => (
+      <For each={(props.field as EnumField).values}>{(item: string) => (
         <MenuItem key={item} value={item}>
           {item}
         </MenuItem>
-      ))}
+      )}</For>
     </Select>
   </FormControl>
 );

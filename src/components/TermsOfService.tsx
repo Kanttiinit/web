@@ -7,4 +7,4 @@ export default function PrivacyPolicy() {
       {computedState.translations().termsOfServiceContent}
     </PageContainer>
   );
-};
+}

@@ -30,7 +30,7 @@ export default function NetworkStatus() {
   
   function updateNetworkStatus() {
     setIsOnline(navigator.onLine);
-  };
+  }
   
   onMount(() => {
     // window.addEventListener('online', updateNetworkStatus);
@@ -49,4 +49,4 @@ export default function NetworkStatus() {
       {computedState.translations().offline}
     </Container>
   );
-};
+}

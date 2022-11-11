@@ -25,4 +25,4 @@ export default function FavoriteSelector() {
       </For>
     </RoundedButtonContainer>
   );
-};
+}

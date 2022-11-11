@@ -87,7 +87,7 @@ function ListContent() {
       </Match>
     </Switch>
   );
-};
+}
 
 export default () => (
   <Container>

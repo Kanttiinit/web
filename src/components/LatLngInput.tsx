@@ -40,7 +40,7 @@ const CrossHair = styled.div`
   }
 `;
 
-const LatLngInput = ({ value, onChange, disabled }: Props) => {
+const LatLngInput = (props) => {
   return (
     <>
       {/* <MapContainer>
@@ -55,17 +55,17 @@ const LatLngInput = ({ value, onChange, disabled }: Props) => {
           label="Latitude"
           type="number"
           id="latitude"
-          disabled={disabled}
-          value={value[0] || 0}
-          onChange={strValue => onChange([Number(strValue), value[1]])}
+          disabled={props.disabled}
+          value={props.value[0] || 0}
+          onChange={strValue => props.onChange([Number(strValue), props.value[1]])}
         />
         <Input
           label="Longitude"
           type="number"
           id="longitude"
-          disabled={disabled}
-          value={value[1] || 0}
-          onChange={strValue => onChange([value[0], Number(strValue)])}
+          disabled={props.disabled}
+          value={props.value[1] || 0}
+          onChange={strValue => props.onChange([props.value[0], Number(strValue)])}
         />
       </LatLngContainer>
     </>

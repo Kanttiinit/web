@@ -1,4 +1,4 @@
-import { styled, css } from 'solid-styled-components';
+import { styled } from 'solid-styled-components';
 
 interface ButtonProps {
   variant?: 'text';
@@ -14,9 +14,8 @@ const Button = styled.button<ButtonProps>`
   font-size: 0.8rem;
   font-weight: 500;
 
-  ${props =>
-    props.variant !== 'text' ?
-    css`
+  ${props => props.variant !== 'text' ?
+    `
       padding: 0.8em 1.2em;
       border-radius: 0.2em;
       display: inline-block;
@@ -34,7 +33,7 @@ const Button = styled.button<ButtonProps>`
 
   ${props =>
     props.size === 'small' ?
-    css`
+    `
       font-size: 0.7rem;
       padding: 0.5em 0.7em;
     ` : ''}

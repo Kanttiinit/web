@@ -14,7 +14,6 @@ import Contact from './Contact';
 import Footer from './Footer';
 import Modal from './Modal';
 import NotFound from './NotFound';
-// import ReportModal from './ReportModal';
 import RestaurantList from './RestaurantList';
 import RestaurantModal from './RestaurantModal';
 import Settings from './Settings';
@@ -23,6 +22,7 @@ import TopBar from './TopBar';
 import { getNewPath, isDateInRange } from '../utils/hooks';
 import { version } from '../utils/consts';
 import haversine from 'haversine';
+import ReportModal from './ReportModal';
 
 const Container = styled.div`
   display: flex;
@@ -151,11 +151,7 @@ export default function App() {
           <Route path="/clients" component={Clients} />
           <Route path="/news" component={ChangeLog} />
           <Route path="/restaurant/:id" component={RestaurantModal} />
-          {/* <Route path="/report/:restaurantId">
-            {({ match }: any) => (
-              <ReportModal restaurantId={match.params.restaurantId} />
-            )}
-          </Route> */}
+          <Route path="/report/:id" component={ReportModal} />
           <Route path="*" component={NotFound} />
         </Routes>
       </Modal>

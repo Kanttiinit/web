@@ -1,7 +1,4 @@
-import * as React from 'react';
-
-import { Draggable, Map } from 'pigeon-maps';
-import styled from 'solid-styled-components';
+import { styled } from 'solid-styled-components';
 import Input from './Input';
 
 interface Props {
@@ -46,13 +43,13 @@ const CrossHair = styled.div`
 const LatLngInput = ({ value, onChange, disabled }: Props) => {
   return (
     <>
-      <MapContainer>
+      {/* <MapContainer>
         <Map defaultZoom={14} center={value} provider={osmProvider}>
           <Draggable anchor={value} offset={[12, 12]} onDragEnd={onChange}>
             <CrossHair />
           </Draggable>
         </Map>
-      </MapContainer>
+      </MapContainer> */}
       <LatLngContainer>
         <Input
           label="Latitude"

@@ -1,28 +1,19 @@
-import * as React from 'react';
-import {
-  MdAccessTime,
-  MdError,
-  MdPlace,
-  MdQuestionAnswer
-} from 'react-icons/md';
-import styled from 'solid-styled-components';
+import { styled } from 'solid-styled-components';
 
-import { langContext, preferenceContext } from '../../contexts';
+import { createResource, createSignal, For, JSX, Match, Show, Switch, ValidComponent } from 'solid-js'; 
 import { RestaurantType } from '../../types';
 import { createRestaurantChange, getRestaurant } from '../../utils/api';
-import { useTranslations } from '../../utils/hooks';
 import allTranslations from '../../utils/translations';
-import useResource from '../../utils/useResource';
 import Button from '../Button';
 import InlineIcon from '../InlineIcon';
 import PageContainer from '../PageContainer';
 import LocationEditor from './LocationEditor';
 import MessageForm from './MessageForm';
 import OpeningHoursEditor from './OpeningHoursEditor';
-
-interface Props {
-  restaurantId: number;
-}
+import { ClockIcon, ErrorIcon, LocationIcon, MoreIcon } from '../../utils/icons';
+import { state } from '../../state';
+import { Dynamic } from 'solid-js/web';
+import { useParams } from '@solidjs/router';
 
 export interface FormProps {
   restaurant: RestaurantType;
@@ -33,7 +24,7 @@ export interface FormProps {
   setDone(isDone: boolean): void;
 }
 
-const ListItem = styled(Button).attrs({ variant: 'text' })`
+const ListItem = styled(Button)`
   font-size: 1.25em;
   display: flex;
   align-items: center;
@@ -63,7 +54,7 @@ const ErrorMessage = styled.p`
 `;
 
 interface ReportForm {
-  component: React.FC<FormProps>;
+  component: ValidComponent;
   icon: JSX.Element;
   labelId: keyof (typeof allTranslations);
 }
@@ -71,93 +62,99 @@ interface ReportForm {
 const reportForms: ReportForm[] = [
   {
     component: OpeningHoursEditor,
-    icon: <MdAccessTime />,
+    icon: <ClockIcon />,
     labelId: 'openingHours'
   },
   {
     component: LocationEditor,
-    icon: <MdPlace />,
+    icon: <LocationIcon />,
     labelId: 'location'
   },
   {
     component: MessageForm,
-    icon: <MdQuestionAnswer />,
+    icon: <MoreIcon />,
     labelId: 'somethingElse'
   }
 ];
 
-const ReportModal = (props: Props) => {
-  const translations = useTranslations();
-  const [activeForm, setActiveForm] = React.useState(null);
-  const [error, setError] = React.useState<Error>(null);
-  const [done, setDone] = React.useState(false);
-  const [isSending, setIsSending] = React.useState(false);
-  const preferences = React.useContext(preferenceContext);
-  const { lang } = React.useContext(langContext);
-  const [restaurant, setRestaurant] = useResource<RestaurantType>(null);
-
-  React.useEffect(() => {
-    setRestaurant(getRestaurant(props.restaurantId, lang));
-  }, []);
+const ReportModal = () => {
+  const [activeForm, setActiveForm] = createSignal<ReportForm | null>(null);
+  const [error, setError] = createSignal<Error | null>(null);
+  const [done, setDone] = createSignal(false);
+  const [isSending, setIsSending] = createSignal(false);
+  const params = useParams();
+  const [restaurant] = createResource(() => ({
+    id: Number(params.id),
+    lang: state.preferences.lang
+  }), source => getRestaurant(source.id, source.lang));
 
   const sendChange: FormProps['sendChange'] = async change => {
     setIsSending(true);
     try {
-      const response = await createRestaurantChange(restaurant.data.id, change);
-      preferences.addSuggestedUpdate(response.uuid);
+      const response = await createRestaurantChange(restaurant()!.id, change);
+      // preferences.addSuggestedUpdate(response.uuid);
       setDone(true);
-      if (error) {
+      if (error()) {
         setError(null);
       }
     } catch (e) {
-      setError(e);
+      setError(e as Error);
     } finally {
       setIsSending(false);
     }
   };
 
-  const title = restaurant.fulfilled
-    ? translations.fixRestaurantInformation.replace(
+  const title = () => !restaurant.loading
+    ? state.translations.fixRestaurantInformation.replace(
         '%restaurantName%',
-        restaurant.data.name
+        restaurant()?.name
       )
     : '';
 
-  if (restaurant.pending) {
-    return null;
-  }
-
   return (
-    <PageContainer title={title} compactTitle>
-      {done ? (
-        translations.thanksForFeedback
-      ) : activeForm ? (
-        <>
-          {React.createElement(activeForm.component, {
-            goBack: () => (setActiveForm(null), setError(null)),
-            isSending,
-            restaurant: restaurant.data,
-            sendChange,
-            setDone,
-            setError
-          })}
-          {error && (
-            <ErrorMessage>
-              <InlineIcon>
-                <MdError />
-              </InlineIcon>{' '}
-              {error.message}
-            </ErrorMessage>
-          )}
-        </>
-      ) : (
-        reportForms.map(form => (
-          <ListItem key={form.labelId} onClick={() => setActiveForm(form)}>
-            <InlineIcon>{form.icon}</InlineIcon>
-            {translations[form.labelId]}
-          </ListItem>
-        ))
-      )}
+    <PageContainer title={title()} compactTitle>
+      <Switch>
+        <Match when={restaurant.loading}>
+        </Match>
+        <Match when={done()}>
+          {state.translations.thanksForFeedback}
+        </Match>
+        <Match keyed when={activeForm()}>
+          {form =>
+          <>
+            <Dynamic
+              component={form.component}
+              goBack={() => (setActiveForm(null), setError(null))}
+              isSending={isSending()}
+              restaurant={restaurant()}
+              sendChange={sendChange}
+              setDone={setDone}
+              setError={setError}
+            />
+            <Show keyed when={error()}>
+              {error =>
+                <ErrorMessage>
+                  <InlineIcon>
+                    <ErrorIcon />
+                  </InlineIcon>{' '}
+                  {error.message}
+                </ErrorMessage>
+              }
+            </Show>
+          </>
+          }
+        </Match>
+        <Match when={true}>
+          <For each={reportForms}>
+            {form =>
+              <ListItem onClick={() => setActiveForm(form)}>
+                <InlineIcon>{form.icon}</InlineIcon>
+                {state.translations[form.labelId]}
+              </ListItem>
+            }
+          </For>
+        </Match>
+      </Switch>
     </PageContainer>
   );
 };

@@ -1,10 +1,11 @@
 import setISODay from 'date-fns/setISODay';
-import * as React from 'react';
-import { MdSubdirectoryArrowLeft as CopyIcon } from 'react-icons/md';
-import styled from 'solid-styled-components';
+import { createEffect, createSignal, For, onMount } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import { state } from '../state';
 
 import { Lang } from '../types';
-import { useFormatDate, useTranslations } from '../utils/hooks';
+import { formattedDay } from '../utils/hooks';
+import { CopyIcon } from '../utils/icons';
 import Button from './Button';
 import Input from './Input';
 import Tooltip from './Tooltip';
@@ -29,22 +30,19 @@ const StyledInput = styled(Input)`
 `;
 
 interface Props {
-  lang?: Lang;
   defaultValue: (number[] | null)[];
   disabled?: boolean;
   onChange(hours: (number[] | null)[]): void;
 }
 
 const OpeningHoursInput = (props: Props) => {
-  const translations = useTranslations();
-  const formatDate = useFormatDate();
-  const [openingHours, setOpeningHours] = React.useState<(string[] | null)[]>(
+  const [openingHours, setOpeningHours] = createSignal<(string[] | null)[]>(
     []
   );
-  const firstRun = React.useRef(true);
+  let firstRun = true;
 
-  React.useEffect(() => {
-    if (firstRun.current) {
+  createEffect(() => {
+    if (firstRun) {
       setOpeningHours(
         props.defaultValue.map(hours => {
           if (!hours) {
@@ -58,32 +56,30 @@ const OpeningHoursInput = (props: Props) => {
         })
       );
     }
-  }, [props.defaultValue]);
+  });
 
-  React.useEffect(() => {
-    if (!firstRun.current) {
+  createEffect(() => {
+    if (!firstRun) {
       props.onChange(
-        openingHours.map(hours =>
+        openingHours().map(hours =>
           hours ? hours.map(h => Number(h.replace(':', ''))) : null
         )
       );
     }
-  }, [openingHours]);
+  });
 
-  React.useEffect(() => {
-    firstRun.current = false;
-  }, []);
+  onMount(() => {
+    firstRun = false;
+  });
 
   return (
-    <>
-      {openingHours.map((times, i) => {
+    <For each={openingHours()}>
+      {(times, i) => {
         const isClosed = times === null;
-        const weekDayLabel = formatDate(setISODay(new Date(), i + 1), 'EE');
+        const weekDayLabel = formattedDay(setISODay(new Date(), i() + 1), 'EE');
 
-        const createDayToggler = (index: number) => (
-          event: React.ChangeEvent<HTMLInputElement>
-        ) => {
-          const hours = [...openingHours];
+        const createDayToggler = (index: number) => (event: any) => {
+          const hours = [...openingHours()];
           if (event.target.checked) {
             hours[index] = ['', ''];
           } else {
@@ -95,54 +91,58 @@ const OpeningHoursInput = (props: Props) => {
         const createDayTimeChanger = (dayIndex: number, timeIndex: number) => (
           value: string
         ) => {
-          const hours = [...openingHours];
-          hours[dayIndex][timeIndex] = value;
+          const hours = [...openingHours()];
+          const dayHours = hours[dayIndex];
+          if (dayHours)
+            dayHours[timeIndex] = value;
           setOpeningHours(hours);
         };
 
         const createCopyFromPrevious = (dayIndex: number) => () => {
-          const hours = [...openingHours];
-          hours[dayIndex] = [...hours[dayIndex - 1]];
+          const hours = [...openingHours()];
+          const previous = hours[dayIndex - 1];
+          if (previous)
+            hours[dayIndex] = [...previous];
           setOpeningHours(hours);
         };
 
         return (
-          <InputGroup key={i}>
+          <InputGroup>
             <input
               type="checkbox"
               disabled={props.disabled}
-              onChange={createDayToggler(i)}
+              onChange={createDayToggler(i())}
               checked={!isClosed}
               />
-            <DayLabel>{weekDayLabel}</DayLabel>
+            <DayLabel>{weekDayLabel()}</DayLabel>
             <StyledInput
-              id={`opening-time-${i}`}
-              label={translations.openingTime}
+              id={`opening-time-${i()}`}
+              label={state.translations.openingTime}
               pattern="[0-9]{1,}:[0-9]{2}"
               disabled={isClosed || props.disabled}
-              value={isClosed ? translations.closed : times[0]}
-              onChange={createDayTimeChanger(i, 0)}
+              value={isClosed ? state.translations.closed : times[0]}
+              onChange={createDayTimeChanger(i(), 0)}
             />
             <StyledInput
-              id={`closing-time-${i}`}
-              label={translations.closingTime}
+              id={`closing-time-${i()}`}
+              label={state.translations.closingTime}
               pattern="[0-9]{1,}:[0-9]{2}"
               disabled={isClosed || props.disabled}
-              value={isClosed ? translations.closed : times[1]}
-              onChange={createDayTimeChanger(i, 1)}
+              value={isClosed ? state.translations.closed : times[1]}
+              onChange={createDayTimeChanger(i(), 1)}
             />
             <Tooltip translationKey="copyFromPreviousDay">
               <Button
-                onClick={createCopyFromPrevious(i)}
-                disabled={i === 0}
+                onClick={createCopyFromPrevious(i())}
+                disabled={i() === 0}
               >
                 <CopyIcon />
               </Button>
             </Tooltip>
           </InputGroup>
         );
-      })}
-    </>
+      }}
+    </For>
   );
 };
 

@@ -1,4 +1,3 @@
-import * as times from 'lodash/times';
 import locating from '../../assets/locating.svg';
 
 import { styled } from 'solid-styled-components';
@@ -56,7 +55,7 @@ function ListContent() {
   return (
     <Switch>
       <Match when={loading()}>
-        {times(8, () => <Placeholder />)}
+        {Array(8).fill(0).map(() => <Placeholder />)}
       </Match>
       <Match when={state.preferences.selectedArea === -2 && !state.preferences.useLocation}>
         <Notice>

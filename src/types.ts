@@ -18,6 +18,7 @@ export interface RestaurantType {
   distance?: number;
   courses: CourseType[];
   priceCategory: PriceCategory;
+  favoriteCourses?: boolean;
 }
 
 export interface AreaType {

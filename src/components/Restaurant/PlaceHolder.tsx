@@ -1,4 +1,3 @@
-import * as random from 'lodash/random';
 import { For } from 'solid-js';
 import { styled, keyframes } from 'solid-styled-components';
 
@@ -53,10 +52,10 @@ const Body = styled.div`
 export default function PlaceHolder() {
   return (
     <PlaceholderContainer>
-    <Header width={random(30, 40)} />
+    <Header width={30 + Math.random() * 10} />
     <Body>
       <For each={Array(10).fill(0)}>
-        {() =>  <Course width={random(40, 100)} />}
+        {() =>  <Course width={40 + Math.random() * 60} />}
       </For>
     </Body>
   </PlaceholderContainer>

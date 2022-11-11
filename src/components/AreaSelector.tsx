@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import * as sortBy from 'lodash/sortBy';
 import { For, JSX } from 'solid-js';
 import { styled, css } from 'solid-styled-components';
 
@@ -126,7 +124,7 @@ export default function AreaSelector(props: Props) {
           />
         }
       </For>
-      <For each={sortBy(areas(), 'name')}>
+      <For each={areas()?.sort((a, b) => a.name > b.name ? -1 : 1)}>
         {(area: AreaType) =>
           <Area
             selectedAreaId={state.preferences.selectedArea}

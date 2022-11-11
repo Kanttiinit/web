@@ -2,7 +2,6 @@ import { createStore } from 'solid-js/store';
 import { createResource } from "solid-js";
 import * as api from './api';
 import addDays from 'date-fns/addDays';
-import * as times from 'lodash/times';
 import startOfDay from 'date-fns/startOfDay';
 import translations from './translations';
 import { DarkModeChoice, Lang, Order, PriceCategory, Update } from "./types";
@@ -13,7 +12,7 @@ const maxDayOffset = 6;
 
 export function getDisplayedDays(): Date[] {
   const now = new Date();
-  return times(maxDayOffset + 1, (i: number) => addDays(now, i));
+  return Array(maxDayOffset + 1).fill(0).map((_: number, i: number) => addDays(now, i));
 }
 
 type TranslatedDict = { [t in keyof typeof translations]: any };

@@ -1,6 +1,5 @@
 import { useParams } from '@solidjs/router';
 import setIsoDay from 'date-fns/setISODay';
-import * as findIndex from 'lodash/findIndex';
 import { createResource, For, Show } from 'solid-js';
 import { styled } from 'solid-styled-components';
 
@@ -18,7 +17,7 @@ import Map from './Map';
 function getOpeningHourString(hours: string[]) {
   return hours.reduce((open, hour, i) => {
     if (hour) {
-      const existingIndex = findIndex(open, ['hour', hour]);
+      const existingIndex = open.findIndex(i => i.hour === hour);
       if (existingIndex > -1) {
         open[existingIndex].endDay = i;
       } else {

@@ -40,7 +40,7 @@ const CrossHair = styled.div`
   }
 `;
 
-const LatLngInput = (props) => {
+const LatLngInput = (props: any) => {
   return (
     <>
       {/* <MapContainer>

@@ -10,8 +10,6 @@ import startOfDay from 'date-fns/startOfDay';
 import setHours from 'date-fns/setHours';
 import setMinutes from 'date-fns/setMinutes';
 import haversine from 'haversine';
-import * as get from 'lodash/get';
-import * as orderBy from 'lodash/orderBy';
 import { Accessor, createMemo, createSignal } from 'solid-js';
 import { sendFeedback } from './api';
 
@@ -23,6 +21,7 @@ import {
 } from './types';
 import { state, resources } from './state';
 import { createStore } from 'solid-js/store';
+import { ISortByObjectSorter, sort } from 'fast-sort';
 
 export const selectedFavorites = createMemo(() => {
   if (!resources.favorites[0].loading) {
@@ -36,7 +35,7 @@ export const selectedFavorites = createMemo(() => {
 export const isFavorite = (course: CourseType) => selectedFavorites().some(favorite => !!course.title.match(new RegExp(favorite.regexp, 'i')));
 
 export const formattedFavorites: Accessor<(FavoriteType & { isSelected: boolean })[]> = createMemo(() => {
-    return orderBy(resources.favorites[0](), ['name']).map((favorite: FavoriteType) => ({
+    return sort(resources.favorites[0]() || []).asc(i => i.name).map((favorite: FavoriteType) => ({
       ...favorite,
       isSelected: state.preferences.favorites.indexOf(favorite.id) > -1
     }));
@@ -59,42 +58,37 @@ const isOpenNow = (restaurant: RestaurantType, day: Date) => {
   );
 };
 
-const getOrder = (orderType: Order, useLocation: boolean) => {
+const getOrder = (orderType: Order, useLocation: boolean): ISortByObjectSorter<RestaurantType>[] => {
   if (orderType === Order.ALPHABET) {
-    return {
-      orders: ['desc', 'asc', 'asc'],
-      properties: ['isStarred', 'noCourses', 'name']
-    };
+    return [
+      { desc: r => r.isStarred },
+      { asc: r => r.noCourses },
+      { asc: r => r.name }
+    ];
   } else if (orderType === Order.DISTANCE && useLocation) {
-    return {
-      orders: ['desc', 'asc', 'asc', 'asc'],
-      properties: ['isStarred', 'noCourses', 'distance', 'name']
-    };
+    return [
+      { desc: r => r.isStarred },
+      { asc: r => r.noCourses },
+      { asc: r => r.distance },
+      { asc: r => r.name }
+    ];
   } else {
-    return {
-      orders: ['desc', 'desc', 'asc', 'desc', 'asc', 'asc'],
-      properties: [
-        'isStarred',
-        'isOpenNow',
-        'noCourses',
-        'favoriteCourses',
-        'distance',
-        'name'
-      ]
-    };
+    return [
+      { desc: r => r.isStarred },
+      { desc: r => r.isOpenNow },
+      { asc: r => r.noCourses },
+      { desc: r => r.favoriteCourses },
+      { asc: r => r.distance },
+      { desc: r => r.name }
+    ];
   }
 };
 
 export const useFormattedRestaurants = createMemo(() => {
   const day = state.selectedDay;
   const restaurants = (resources.restaurants[0]() || []).map(restaurant => {
-    const courses = get(
-      resources.menus[0]() || {},
-      [restaurant.id, format(day, 'y-MM-dd')],
-      []
-    ).filter((course: CourseType) => course.title);
-    const distance =
-      state.location && haversine(state.location, restaurant, { unit: 'meter' });
+    const courses = resources.menus[0]()?.[restaurant.id]?.[format(day, 'y-MM-dd')]?.filter(course => course.title) || [];
+    const distance = state.location ? haversine(state.location, restaurant, { unit: 'meter' }) : undefined;
     return {
       ...restaurant,
       courses,
@@ -106,8 +100,7 @@ export const useFormattedRestaurants = createMemo(() => {
     };
   });
 
-  const order = getOrder(state.preferences.order, state.preferences.useLocation);
-  return orderBy(restaurants, order.properties, order.orders) as (typeof restaurants);
+  return sort(restaurants).by(getOrder(state.preferences.order, state.preferences.useLocation));
 });
 
 const locales = {

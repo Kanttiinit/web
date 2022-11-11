@@ -1,4 +1,3 @@
-import * as times from 'lodash/times';
 import { For } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { PriceCategory } from '../../types';
@@ -65,7 +64,7 @@ const PriceCategorySelector = (props: Props) => {
             onClick={() => props.onChange(c)}
             selected={valueIndex >= i()}
           >
-            {times(i() + 1, () => '$')}
+            {Array(i() + 1).fill(0).map(() => '$')}
           </Item>
           }
         </For>

@@ -115,7 +115,7 @@ const ReportModal = () => {
   return (
     <PageContainer title={title()} compactTitle>
       <Switch>
-        <Match when={restaurant.loading} />
+        <Match when={restaurant.loading}>Loading...</Match>
         <Match when={done()}>
           {computedState.translations().thanksForFeedback}
         </Match>

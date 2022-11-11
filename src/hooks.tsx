@@ -86,8 +86,8 @@ const getOrder = (orderType: Order, useLocation: boolean): ISortByObjectSorter<R
 
 export const useFormattedRestaurants = createMemo(() => {
   const day = state.selectedDay;
-  const restaurants = (resources.restaurants[0]() || []).map(restaurant => {
-    const courses = resources.menus[0]()?.[restaurant.id]?.[format(day, 'y-MM-dd')]?.filter(course => course.title) || [];
+  const restaurants = (resources.restaurants[0].latest || []).map(restaurant => {
+    const courses = resources.menus[0].latest?.[restaurant.id]?.[format(day, 'y-MM-dd')]?.filter(course => course.title) || [];
     const distance = state.location ? haversine(state.location, restaurant, { unit: 'meter' }) : undefined;
     return {
       ...restaurant,

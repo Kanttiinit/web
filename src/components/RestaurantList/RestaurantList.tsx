@@ -50,12 +50,10 @@ const Locating = styled.div`
 
 function ListContent() {
   const loading = () => resources.menus[0].loading || resources.restaurants[0].loading || resources.areas[0].loading;
-  const restaurants = useFormattedRestaurants;
-
   return (
     <Switch>
-      <Match when={loading()}>
-        {Array(8).fill(0).map(() => <Placeholder />)}
+      <Match when={loading() && !resources.menus[0].latest}>
+        {computedState.translations().assetsLoading}
       </Match>
       <Match when={state.preferences.selectedArea === -2 && !state.preferences.useLocation}>
         <Notice>
@@ -71,7 +69,7 @@ function ListContent() {
           <Notice>{computedState.translations().locating}</Notice>
         </Locating>
       </Match>
-      <Match when={!restaurants().length}>
+      <Match when={!useFormattedRestaurants().length}>
         <Notice>
           <InlineIcon>
             <WarningIcon />
@@ -80,7 +78,7 @@ function ListContent() {
         </Notice>
       </Match>
       <Match when={true}>
-        <For each={restaurants()}>
+        <For each={useFormattedRestaurants()}>
           {restaurant => <Restaurant restaurant={restaurant} />}
         </For>
       </Match>

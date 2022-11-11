@@ -120,27 +120,8 @@ const translations = {
           Please verify the information about allergens at the restaurants.
         </p>
         <p>
-          Some third party services used by Kanttiinit use cookies to collect
-          anonymous data. By using Kanttiinit you agree to the usage of cookies.
+          Kanttiinit does not collect any identifiable user data.
         </p>
-        <p>The following third party services are using cookies:</p>
-        <ul>
-          <li>
-            <strong>Google Analytics</strong>
-            <p>
-              Google Analytics is used to measure how users behave on the site
-              in order to improve the user experience.
-            </p>
-          </li>
-          <li>
-            <strong>Sentry</strong>
-            <p>
-              Sentry is used to automatically report any JavaScript errors to
-              our developers so they can quickly detect and fix issues that
-              might be introduced with updates.
-            </p>
-          </li>
-        </ul>
       </div>
     ),
     fi: (

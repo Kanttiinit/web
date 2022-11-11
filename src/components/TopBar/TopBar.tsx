@@ -32,7 +32,7 @@ const Container = styled.header<{ darkMode: boolean }>`
   }
 
   ${props => props.darkMode ?
-    'background: linear-gradient(to bottom,var(--gray6),var(--gray7) 100%)' : ''}
+    'background: var(--gray7);' : ''}
 `;
 
 const Content = styled.div`
@@ -92,11 +92,6 @@ const iconLinkStyles = `
 
   :last-child {
     margin-right: 0;
-  }
-
-  :link,
-  :visited {
-    color: var(--gray3);
   }
 
   :hover,

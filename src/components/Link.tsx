@@ -11,10 +11,11 @@ interface Props {
 export default function Link(props: Props) {
   return (
     <A
+      noScroll
       class={props.class}
       style={props.style}
       href={props.to}
-      // aria-label={rest['aria-label']}
+      aria-label={props['aria-label']}
     >
       {props.children}
     </A>

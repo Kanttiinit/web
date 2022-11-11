@@ -58,6 +58,6 @@ export default createGlobalStyles`
   a:active,
   a:hover {
     text-decoration: none;
-    color: var(--accent_color);
+    color: inherit;
   }
 `;

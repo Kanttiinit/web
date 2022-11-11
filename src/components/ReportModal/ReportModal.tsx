@@ -36,6 +36,7 @@ const ListItem = styled(Button)`
   margin-bottom: 0.5em;
   outline: none;
   color: var(--gray1);
+  background: none;
 
   svg {
     margin-right: 1ch;

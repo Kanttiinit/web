@@ -103,7 +103,7 @@ const Modal = (props: Props) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const closeModal = () => navigate('/' + location.search, { replace: true });
+  const closeModal = () => navigate('/' + location.search, { replace: true, scroll: false });
 
   createEffect(() => {
     setOpen(location.pathname !== '/');

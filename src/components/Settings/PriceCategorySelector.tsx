@@ -65,12 +65,7 @@ const PriceCategorySelector = (props: Props) => {
             onClick={() => props.onChange(c)}
             selected={valueIndex >= i()}
           >
-            {times(i() + 1, (j: number) => (
-              <>
-                <span />
-                $
-              </>
-            ))}
+            {times(i() + 1, () => '$')}
           </Item>
           }
         </For>

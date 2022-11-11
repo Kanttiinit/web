@@ -127,6 +127,9 @@ const computedState = {
     }, {}) as TranslatedDict;
   }),
   darkMode: createMemo(() => {
+    if (state.preferences.darkMode === DarkModeChoice.DEFAULT) {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
     return state.preferences.darkMode === DarkModeChoice.ON;
   })
 };

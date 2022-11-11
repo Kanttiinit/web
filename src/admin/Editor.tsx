@@ -1,13 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import Button from '@material-ui/core/Button';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { withStyles } from '@material-ui/core/styles';
-import * as get from 'lodash/fp/get';
-import * as set from 'lodash/fp/set';
-import * as React from 'react';
-
 import * as api from './api';
 import { showMessage } from './index';
 import inputs from './inputs';

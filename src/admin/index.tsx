@@ -1,14 +1,23 @@
 import { Route, Routes, useLocation, useNavigate, useParams } from '@solidjs/router';
 import { onMount, Show, For } from 'solid-js';
 import { createStore } from 'solid-js/store';
+import { styled } from 'solid-styled-components';
 import Button from '../components/Button';
 import Input from '../components/Input';
 
 import http from '../http';
-// import DataTable from './DataTable';
+import DataTable from './DataTable';
 import models from './models';
 
 export let showMessage: (message: string) => void;
+
+const Tabs = styled.div`
+  
+`;
+
+const Tab = styled.div<{ selected: boolean }>`
+  
+`;
 
 export default function Admin() {
   const [state, setState] = createStore<{
@@ -37,7 +46,7 @@ export default function Admin() {
     setState({ message: 'Goodbye!', messageVisible: true });
   };
 
-  const tabChange = (event: any, value: string) => {
+  const tabChange = (value: string) => {
     navigate('/admin/model/' + value);
   };
 
@@ -73,10 +82,10 @@ export default function Admin() {
   
     return (
       <>
-        <Tabs value={model() ? model()?.key : 'none'} onChange={tabChange}>
-          <For each={models}>{m => (
-            <Tab key={m.key} value={m.key} label={m.name} />
-          )}</For>
+        <Tabs>
+          <For each={models}>
+            {m => <Tab onClick={() => tabChange(m.key)} selected={m.key === model()?.key}>{m.name}</Tab>}
+          </For>
         </Tabs>
         <div
           style={{ position: 'absolute', top: 0, right: 0, padding: '0.5em' }}
@@ -91,7 +100,7 @@ export default function Admin() {
             Log out
           </Button>
         </div>
-        <Show keyed when={model()} fallback={<Paper>No such model &quot;{params.model}&quot;.</Paper>}>
+        <Show keyed when={model()} fallback={<p>No such model &quot;{params.model}&quot;.</p>}>
           {model => <DataTable model={model} />}
         </Show>
       </>

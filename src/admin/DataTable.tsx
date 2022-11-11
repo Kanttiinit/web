@@ -1,28 +1,30 @@
-import { For } from "solid-js";
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import Button from '@material-ui/core/Button';
-import Progress from '@material-ui/core/CircularProgress';
-import Dialog from '@material-ui/core/Dialog';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import * as get from 'lodash/fp/get';
-import * as orderBy from 'lodash/fp/orderBy';
-import * as React from 'react';
+import { sort } from "fast-sort";
+import { createEffect, createMemo, For, Match, onMount, Show, Switch } from "solid-js";
+import { createStore } from "solid-js/store";
+import { styled } from "solid-styled-components";
+import Button from "../components/Button";
 
 import * as api from './api';
 import Editor from './Editor';
 import { Model } from './models';
 
-const tdStyle: any = {
-  whiteSpace: 'nowrap',
-  maxWidth: '300px',
-  textOverflow: 'ellipsis'
-};
+function get(obj: any, path: string, def: any) {
+	var fullPath = path
+		.replace(/\[/g, '.')
+		.replace(/]/g, '')
+		.split('.')
+		.filter(Boolean);
+
+	return fullPath.every(everyFunc) ? obj : def;
+
+	function everyFunc(step: any) {
+		return !(step && (obj = obj[step]) === undefined);
+	}
+}
+
+const Table = styled.table`
+  
+`;
 
 interface Props {
   model: Model;
@@ -33,182 +35,139 @@ interface State {
   item?: any;
   sortedColumn?: string;
   sortDirection: 'asc' | 'desc';
-  sortedItems: any[];
   items: any[];
   loading: boolean;
 }
 
-export default class DataTable extends React.PureComponent<Props, State> {
-  state: State = {
+function Value(props: { value: any }) {
+  return (
+    <Switch>
+      <Match keyed when={typeof props.value === 'string' && props.value.startsWith('http') && props.value}>
+        {value =>
+        <a href={value} target="_blank" rel="noreferrer">
+          {value}
+        </a>
+        }
+      </Match>
+      <Match when={typeof props.value === 'boolean'}>
+        {props.value ? 'Yes' : 'No'}
+      </Match>
+      <Match when={true}>
+        {props.value}
+      </Match>
+    </Switch>
+  );
+}
+
+export default function DataTable(props: Props) {
+  const [state, setState] = createStore<State>({
     sortDirection: 'asc',
-    sortedItems: [],
     items: [],
     loading: false
-  };
+  });
 
-  props: {
-    model: Model;
-  };
+  const openCreateDialog = () => setState({ mode: 'creating', item: undefined });
 
-  openCreateDialog = () => this.setState({ mode: 'creating', item: undefined });
+  const hideDialog = () => setState({ mode: undefined });
 
-  openEditDialog = (item: any) => this.setState({ mode: 'editing', item });
-
-  hideDialog = () => this.setState({ mode: undefined });
-
-  getSortIndicator = (sortedColumn: string) =>
-    sortedColumn === this.state.sortedColumn
-      ? this.state.sortDirection === 'asc'
+  const getSortIndicator = (sortedColumn: string) =>
+    sortedColumn === state.sortedColumn
+      ? state.sortDirection === 'asc'
         ? '︎︎↑'
         : '↓'
       : '';
 
-  changeSort = (columnKey: string) => {
-    const { sortedColumn, sortDirection } = this.state;
+  const changeSort = (columnKey: string) => {
+    const { sortedColumn, sortDirection } = state;
     if (sortedColumn === columnKey) {
-      this.setState({
+      setState({
         sortDirection: sortDirection === 'asc' ? 'desc' : 'asc'
       });
     } else {
-      this.setState({ sortedColumn: columnKey, sortDirection: 'asc' });
+      setState({ sortedColumn: columnKey, sortDirection: 'asc' });
     }
   };
 
-  onEditorSuccess = () => {
-    this.hideDialog();
-    this.fetchItems();
+  const onEditorSuccess = async () => {
+    hideDialog();
+    setState({ loading: true, items: [] });
+    setState({ loading: false, items: await api.fetchItems(props.model) });
   };
 
-  sortItems = (state = this.state) => {
-    const { sortedColumn, sortDirection } = state;
-    const sortedItems = sortedColumn
-      ? orderBy(sortedColumn, sortDirection, state.items)
-      : state.items;
-    this.setState({ sortedItems });
-  };
+  const sortedItems = createMemo(() => /*state.sortedColumn
+    ? sort(state.items).by({ [state.sortDirection]: state.sortedColumn! })
+    : */ state.items
+  );
 
-  resetSort(props: Props = this.props) {
-    this.setState({
+  const resetSort = () => {
+    setState({
       sortedColumn: props.model.defaultSort,
       sortDirection: 'asc'
     });
   }
 
-  fetchItems = async (props: Props = this.props) => {
-    this.setState({ loading: true, items: [] });
-    this.setState({ loading: false, items: await api.fetchItems(props.model) });
-  };
+  createEffect(async () => {
+    setState({ loading: true, items: [] });
+    setState({ loading: false, items: await api.fetchItems(props.model) });
+  });
 
-  // eslint-disable-next-line react/no-deprecated
-  componentWillReceiveProps(props: Props) {
-    if (props.model.key !== this.props.model.key) {
-      this.resetSort(props);
-      this.fetchItems(props);
-    }
-  }
+  onMount(() => {
+    resetSort();
+  });
 
-  // eslint-disable-next-line react/no-deprecated
-  componentWillUpdate(props: Props, state: State) {
-    if (
-      state.sortDirection !== this.state.sortDirection ||
-      state.sortedColumn !== this.state.sortedColumn ||
-      state.items !== this.state.items
-    ) {
-      this.sortItems(state);
-    }
-  }
-
-  componentDidMount() {
-    this.resetSort();
-    this.fetchItems();
-  }
-
-  renderValue(value: any) {
-    if (typeof value === 'string') {
-      if (value.startsWith('http')) {
-        return (
-          <a href={value} target="_blank" rel="noreferrer">
-            {value}
-          </a>
-        );
-      }
-    } else if (typeof value === 'boolean') {
-      return value ? 'Yes' : 'No';
-    }
-    return value;
-  }
-
-  render() {
-    const { model } = this.props;
-    const {
-      mode,
-      sortedItems,
-      item,
-      loading,
-      sortDirection,
-      sortedColumn
-    } = this.state;
-
-    return (
-      <>
-        <Dialog maxWidth="sm" fullWidth open={!!mode} onClose={this.hideDialog}>
-          <Editor
-            model={model}
-            mode={mode}
-            item={item}
-            onSuccess={this.onEditorSuccess}
-            onCancel={this.hideDialog}
-          />
-        </Dialog>
-        <Button
-          color="primary"
-          variant="contained"
-          style={{ margin: '1em 0' }}
-          onClick={this.openCreateDialog}
-        >
-          Create
-        </Button>
-        {loading ? (
-          <Progress />
-        ) : (
-          <Paper>
-            <div style={{ "overflow-x": 'auto' }}>
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <For each={model.tableFields}>{field => (
-                      <TableCell key={field.key}>
-                        <TableSortLabel
-                          direction={sortDirection}
-                          onClick={() => this.changeSort(field.key)}
-                          active={sortedColumn === field.key}
-                        >
-                          {field.name}
-                        </TableSortLabel>
-                      </TableCell>
-                    )}</For>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {sortedItems.map((item, i) => (
-                    <TableRow
-                      hover
-                      onClick={() => this.openEditDialog(item)}
-                      key={i}
-                    >
-                      <For each={model.tableFields}>{field => (
-                        <TableCell style={tdStyle} key={field.key}>
-                          {this.renderValue(get(field.key, item))}
-                        </TableCell>
-                      )}</For>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </Paper>
-        )}
-      </>
-    );
-  }
+  return (
+    <>
+      {/* <Dialog maxWidth="sm" fullWidth open={!!state.mode} onClose={hideDialog}>
+        <Editor
+          model={props.model}
+          mode={state.mode}
+          item={state.item}
+          onSuccess={onEditorSuccess}
+          onCancel={hideDialog}
+        />
+      </Dialog> */}
+      <Button
+        style={{ margin: '1em 0' }}
+        onClick={openCreateDialog}
+      >
+        Create
+      </Button>
+      <Show when={!state.loading} fallback={<p>Loading...</p>}>
+        <div style={{ "overflow-x": 'auto' }}>
+          <Table>
+            <thead>
+              <tr>
+                <For each={props.model.tableFields}>{field => (
+                  <th>
+                    {/* <TableSortLabel
+                      direction={state.sortDirection}
+                      onClick={() => changeSort(field.key)}
+                      active={state.sortedColumn === field.key}
+                    > */}
+                      {field.name}
+                    {/* </TableSortLabel> */}
+                  </th>
+                )}</For>
+              </tr>
+            </thead>
+            <tbody>
+              <For each={sortedItems()}>
+              {item =>
+                <tr onClick={() => setState({ mode: 'editing', item })}>
+                  <For each={props.model.tableFields}>
+                    {field =>
+                    <td>
+                      <Value value={get(item, field.key, '')} />
+                    </td>
+                    }
+                  </For>
+                </tr>
+                }
+              </For>
+            </tbody>
+          </Table>
+        </div>
+      </Show>
+    </>
+  );
 }

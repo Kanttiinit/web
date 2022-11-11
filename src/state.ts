@@ -48,7 +48,8 @@ const restaurantResource = createResource(
       lang: state.preferences.lang,
       starredRestaurants: state.preferences.starredRestaurants,
       maxPriceCategory: state.preferences.maxPriceCategory,
-      areas: areaResource[0]()
+      areas: areaResource[0](),
+      areasLoading: areaResource[0].loading
     };
   }, 
   source => {
@@ -65,7 +66,7 @@ const restaurantResource = createResource(
       } else {
         return Promise.resolve([]);
       }
-    } else if (source.areas?.length) {
+    } else if (source.areas?.length && !source.areasLoading) {
       return api.getRestaurantsByIds(
         source.areas.find(a => a.id === source.area)!.restaurants,
         source.lang,
@@ -78,7 +79,7 @@ const restaurantResource = createResource(
 const menuResource = createResource(
   () => {
     return {
-      restaurantsLoaded: !restaurantResource[0].loading,
+      restaurantsLoaded: !restaurantResource[0].loading && !areaResource[0].loading,
       restaurants: restaurantResource[0]() || [],
       selectedDay: state.selectedDay,
       lang: state.preferences.lang

@@ -1,9 +1,9 @@
 import { For } from 'solid-js';
 import { formattedFavorites, getArrayWithToggled } from '../hooks';
 import InlineIcon from './InlineIcon';
-import { VsHeart, VsHeartFilled } from 'solid-icons/vs'
 import { RoundedButton, RoundedButtonContainer } from './RoundedButton';
 import { setState, state } from '../state';
+import { FilledHeartIcon, HeartIcon } from '../icons';
 
 export default function FavoriteSelector() {
   return (
@@ -16,7 +16,7 @@ export default function FavoriteSelector() {
             onClick={() => setState('preferences', 'favorites', getArrayWithToggled(state.preferences.favorites, favorite.id))}
           >
             <InlineIcon>
-              {favorite.isSelected ? <VsHeartFilled /> : <VsHeart />}
+              {favorite.isSelected ? <FilledHeartIcon /> : <HeartIcon />}
             </InlineIcon>
             &nbsp;
             {favorite.name}

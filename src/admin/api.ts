@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import http from '../src/http';
+import http from '../http';
 import { Model } from './models';
 
 export const fetchItems = (model: Model) =>

@@ -11,7 +11,7 @@ import './fonts.css';
 import * as consts from './consts';
 import { computedState } from './state';
 import { lazy, ErrorBoundary as SolidErrorBoundary } from 'solid-js';
-const Admin = lazy(() => import('../admin'));
+const Admin = lazy(() => import('./admin'));
 
 declare let window: any;
 

@@ -1,10 +1,10 @@
 import { Route, Routes, useLocation, useNavigate, useParams } from '@solidjs/router';
 import { onMount, Show, For } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import Button from '../src/components/Button';
-import Input from '../src/components/Input';
+import Button from '../components/Button';
+import Input from '../components/Input';
 
-import http from '../src/http';
+import http from '../http';
 // import DataTable from './DataTable';
 import models from './models';
 

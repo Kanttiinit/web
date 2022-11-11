@@ -15,8 +15,8 @@ import * as get from 'lodash/fp/get';
 import * as sortBy from 'lodash/fp/sortBy';
 import * as React from 'react';
 
-import LatLngInput from '../src/components/LatLngInput';
-import OpeningHoursInput from '../src/components/OpeningHoursInput';
+import LatLngInput from '../components/LatLngInput';
+import OpeningHoursInput from '../components/OpeningHoursInput';
 import useResource from '../src/utils/useResource';
 import * as api from './api';
 import models from './models';

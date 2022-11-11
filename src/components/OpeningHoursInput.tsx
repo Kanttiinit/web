@@ -2,7 +2,7 @@ import setISODay from 'date-fns/setISODay';
 import { createEffect, createSignal, For, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { computedState } from '../state';
-import { formattedDay } from '../hooks';
+import { formattedDay } from '../utils';
 import { CopyIcon } from '../icons';
 import Button from './Button';
 import Input from './Input';

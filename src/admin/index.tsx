@@ -35,7 +35,7 @@ export default function Admin() {
       await http.post('/admin/login', { password });
       clearMessage();
       checkAuth();
-    } catch (e) {
+    } catch (e: any) {
       setState({ message: e.message, messageVisible: true });
     }
   };

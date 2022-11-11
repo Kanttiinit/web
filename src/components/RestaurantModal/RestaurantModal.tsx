@@ -6,7 +6,7 @@ import { styled } from 'solid-styled-components';
 import { breakSmall } from '../../globalStyles';
 import { computedState, state, resources } from '../../state';
 import * as api from '../../api';
-import { formattedDay } from '../../hooks';
+import { formattedDay } from '../../utils';
 import { HomeIcon, LocationIcon } from '../../icons';
 import InlineIcon from '../InlineIcon';
 import MenuViewer from '../MenuViewer';

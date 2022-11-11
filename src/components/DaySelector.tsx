@@ -2,11 +2,11 @@ import format from 'date-fns/format';
 import isSameDay from 'date-fns/isSameDay';
 import { For } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { isDateInRange } from '../hooks';
+import { isDateInRange } from '../utils';
 
 import { breakLarge, breakSmall } from '../globalStyles';
 import { state } from '../state';
-import { formattedDay } from '../hooks';
+import { formattedDay } from '../utils';
 import Link from './Link';
 
 interface DayLinkProps {

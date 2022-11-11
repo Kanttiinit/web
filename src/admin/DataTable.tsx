@@ -3,24 +3,11 @@ import { createEffect, createMemo, For, Match, onMount, Show, Switch } from "sol
 import { createStore } from "solid-js/store";
 import { styled } from "solid-styled-components";
 import Button from "../components/Button";
+import { get } from "../utils";
 
 import * as api from './api';
 import Editor from './Editor';
 import { Model } from './models';
-
-function get(obj: any, path: string, def: any) {
-	var fullPath = path
-		.replace(/\[/g, '.')
-		.replace(/]/g, '')
-		.split('.')
-		.filter(Boolean);
-
-	return fullPath.every(everyFunc) ? obj : def;
-
-	function everyFunc(step: any) {
-		return !(step && (obj = obj[step]) === undefined);
-	}
-}
 
 const Table = styled.table`
   
@@ -157,7 +144,7 @@ export default function DataTable(props: Props) {
                   <For each={props.model.tableFields}>
                     {field =>
                     <td>
-                      <Value value={get(item, field.key, '')} />
+                      <Value value={get(item, field.key)} />
                     </td>
                     }
                   </For>

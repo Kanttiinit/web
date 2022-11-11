@@ -9,7 +9,7 @@ import { breakLarge, breakSmall } from '../../globalStyles';
 import { For, Match, Switch } from 'solid-js';
 import { computedState, state, resources } from '../../state';
 import { WarningIcon } from '../../icons';
-import { useFormattedRestaurants } from '../../hooks';
+import { useFormattedRestaurants } from '../../utils';
 
 const Container = styled.main`
   padding: 4rem 0 1.5rem;

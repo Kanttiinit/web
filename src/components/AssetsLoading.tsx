@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'solid-styled-components';
 
-import { useTranslations } from '../hooks';
+import { useTranslations } from '../utils';
 
 const Container = styled.div<{ showLoading: boolean }>`
   width: 100%;

@@ -194,3 +194,17 @@ export default function useInput(defaultValue: T): [
   );
   return [value, inputProps, setValue];
 }
+
+export function get(obj: any, path: string, def: any = undefined) {
+	var fullPath = path
+		.replace(/\[/g, '.')
+		.replace(/]/g, '')
+		.split('.')
+		.filter(Boolean);
+
+	return fullPath.every(everyFunc) ? obj : def;
+
+	function everyFunc(step: any) {
+		return !(step && (obj = obj[step]) === undefined);
+	}
+}

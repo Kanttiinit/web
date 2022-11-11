@@ -1,23 +1,8 @@
 import { For } from "solid-js";
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Grid from '@material-ui/core/Grid';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import Switch from '@material-ui/core/Switch';
-import TextField from '@material-ui/core/TextField';
-import format from 'date-fns/format';
-import * as get from 'lodash/fp/get';
-import * as sortBy from 'lodash/fp/sortBy';
 import * as React from 'react';
 
 import LatLngInput from '../components/LatLngInput';
 import OpeningHoursInput from '../components/OpeningHoursInput';
-import useResource from '../src/utils/useResource';
 import * as api from './api';
 import models from './models';
 import {
@@ -26,6 +11,8 @@ import {
   ModelFieldGroup,
   RelationField
 } from './models';
+import Input from "../components/Input";
+import format from "date-fns/format";
 
 interface InputProps {
   value: any;
@@ -39,69 +26,52 @@ interface GroupInputProps {
   setValue(path: string, value: any): any;
 }
 
-const UrlInput = (props) => (
-  <TextField
-    fullWidth
-    label={props.field.title}
-    onChange={e => props.setValue(props.field.path, e.target.value)}
-    value={props.value || ''}
-    InputProps={{
-      endAdornment: (
-        <InputAdornment position="end">
-          <Button size="small" target="_blank" href={props.value}>
-            Open
-          </Button>
-        </InputAdornment>
-      )
-    }}
-    type="text"
-  />
+const UrlInput = (props: InputProps) => (
+  <>
+    <Input
+      label={props.field.title}
+      onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
+      value={props.value || ''}
+      type="text"
+    />
+    <a target="_blank" href={props.value}>
+      Open
+    </a>
+  </>
 );
 
-const MenuUrlInput = (props) => {
-  const now = new Date();
-  const link =
+const MenuUrlInput = (props: InputProps) => {
+  const now = () => new Date();
+  const link = () =>
     props.value &&
     props.value
-      .replace('%year%', format(now, 'yyyy'))
-      .replace('%month%', format(now, 'mm'))
-      .replace('%day%', format(now, 'dd'));
+      .replace('%year%', format(now(), 'yyyy'))
+      .replace('%month%', format(now(), 'mm'))
+      .replace('%day%', format(now(), 'dd'));
   return (
-    <TextField
-      fullWidth
-      onChange={e => props.setValue(props.field.path, e.target.value)}
+    <>
+    <Input
+      onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
       value={props.value || ''}
       type="text"
       label={props.field.title}
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <Button target="_blank" href={link} size="small">
-              Open
-            </Button>
-          </InputAdornment>
-        )
-      }}
     />
+    <a target="_blank" href={link()}>
+      Open
+    </a>
+    </>
   );
 };
 
-class AddressInput extends React.PureComponent {
-  props: InputProps;
-
-  render() {
-    const { value, setValue, field } = this.props;
-
-    return (
-      <TextField
-        fullWidth
-        onChange={e => setValue(field.path, e.target.value)}
-        value={value || ''}
-        label={field.title}
-        type="text"
-      />
-    );
-  }
+function AddressInput(props: InputProps) {
+  return (
+    <Input
+      onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
+      value={props.value || ''}
+      label={props.field.title}
+      type="text"
+    />
+  );
 }
 
 const RegExpInput = (props: InputProps) => {
@@ -111,21 +81,19 @@ const RegExpInput = (props: InputProps) => {
   return (
     <Grid container spacing={6}>
       <Grid item sm>
-        <TextField
-          fullWidth
+        <Input
           label={field.title}
-          onChange={e => setValue(field.path, e.target.value)}
+          onChange={(e: any) => setValue(field.path, e.target.value)}
           value={value || ''}
           type="text"
         />
       </Grid>
       <Grid item sm>
-        <TextField
-          fullWidth
+        <Input
           label="Test value"
           value={test}
           error={!match}
-          onChange={e => setTest(e.target.value)}
+          onChange={(e: any) => setTest(e.target.value)}
           helperText={
             match
               ? 'The regexp matches this value.'
@@ -137,7 +105,7 @@ const RegExpInput = (props: InputProps) => {
   );
 };
 
-export const BooleanInput = (props) => (
+export const BooleanInput = (props: InputProps) => (
   <FormControlLabel
     control={
       <Switch
@@ -149,24 +117,21 @@ export const BooleanInput = (props) => (
   />
 );
 
-const NumericInput = (props) => (
-  <TextField
-    fullWidth
-    onChange={e => props.setValue(props.field.path, Number(e.target.value))}
+const NumericInput = (props: InputProps) => (
+  <Input
+    onChange={(e: any) => props.setValue(props.field.path, Number(e.target.value))}
     value={props.value || ''}
     label={props.field.title}
     type="number"
   />
 );
 
-export const DateInput = (props) => (
-  <TextField
-    fullWidth
-    onChange={e => props.setValue(props.field.path, e.target.value)}
+export const DateInput = (props: InputProps) => (
+  <Input
+    onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
     value={props.value || ''}
     label={props.field.title}
     type="date"
-    InputLabelProps={{ shrink: true }}
     required={props.field.required}
   />
 );
@@ -190,7 +155,7 @@ const TranslatedInput = (props: GroupInputProps) => (
   <Grid container spacing={6}>
     {props.field.fields.map((field, i) => (
       <Grid key={i} item md>
-        {React.createElement(inputs[field.type] || inputs._, {
+        {React.createElement(inputs[props.field.type] || inputs._, {
           field: { ...field, title: `${props.field.title} in ${field.title}` },
           setValue: props.setValue,
           value: props.value[i]
@@ -203,23 +168,23 @@ const TranslatedInput = (props: GroupInputProps) => (
 const UpdateTypeSelect = (props: InputProps) => (
   <FormControl fullWidth>
     <InputLabel>{props.field.title}</InputLabel>
-    <Select
+    <select
       value={props.value || 'information-update'}
-      onChange={e => props.setValue(props.field.path, e.target.value)}
+      onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
     >
-      <MenuItem value="software-update">Software update</MenuItem>
-      <MenuItem value="information-update">Information update</MenuItem>
-      <MenuItem value="bugfix">Bug fix</MenuItem>
-    </Select>
+      <option value="software-update">Software update</option>
+      <option value="information-update">Information update</option>
+      <option value="bugfix">Bug fix</option>
+    </select>
   </FormControl>
 );
 
 export const DayOfWeekSelect = (props: InputProps) => (
   <FormControl fullWidth>
     <InputLabel>{props.field.title}</InputLabel>
-    <Select
+    <select
       value={String(props.value) || '0'}
-      onChange={e => props.setValue(props.field.path, Number(e.target.value))}
+      onChange={(e: any) => props.setValue(props.field.path, Number(e.target.value))}
     >
       {[
         'Monday',
@@ -230,11 +195,11 @@ export const DayOfWeekSelect = (props: InputProps) => (
         'Saturday',
         'Sunday'
       ].map((day, i) => (
-        <MenuItem key={i} value={String(i)}>
+        <option value={String(i)}>
           {day}
-        </MenuItem>
+        </option>
       ))}
-    </Select>
+    </select>
   </FormControl>
 );
 
@@ -257,31 +222,30 @@ const RelationInput = (props: {
   return (
     <FormControl fullWidth>
       <InputLabel>{field.title}</InputLabel>
-      <Select
+      <select
         value={value || (state.data.length ? state.data[0].id : '')}
         onChange={e => setValue(field.path, e.target.value)}
       >
         <For each={sortBy(field.relationDisplayField, state.data)}>{(item: any) => (
-          <MenuItem key={item.id} value={item.id}>
+          <option value={item.id}>
             {get(field.relationDisplayField, item)}
-          </MenuItem>
+          </option>
         )}</For>
-      </Select>
+      </select>
     </FormControl>
   );
 };
 
-export const PlainField = (props) => (
-  <TextField
-    fullWidth
+export const PlainField = (props: InputProps) => (
+  <Input
     label={props.field.title}
-    onChange={e => props.setValue(props.field.path, e.target.value)}
+    onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
     value={props.value || ''}
     type="text"
   />
 );
 
-const OpeningHoursEditor = (props) => (
+const OpeningHoursEditor = (props: InputProps) => (
   <OpeningHoursInput
     defaultValue={props.value || props.field.default}
     onChange={change => {
@@ -290,19 +254,19 @@ const OpeningHoursEditor = (props) => (
   />
 );
 
-const EnumInput = (props) => (
+const EnumInput = (props: InputProps) => (
   <FormControl fullWidth>
     <InputLabel>{props.field.title}</InputLabel>
-    <Select
+    <select
       value={props.value || props.field.default}
-      onChange={e => props.setValue(props.field.path, e.target.value)}
+      onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
     >
       <For each={(props.field as EnumField).values}>{(item: string) => (
-        <MenuItem key={item} value={item}>
+        <option value={item}>
           {item}
-        </MenuItem>
+        </option>
       )}</For>
-    </Select>
+    </select>
   </FormControl>
 );
 

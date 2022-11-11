@@ -2,7 +2,7 @@ import { For } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { CourseType } from '../../types';
 import { state } from '../../state';
-import { isFavorite } from '../../hooks';
+import { isFavorite } from '../../utils';
 import { HeartFilledIcon } from '../../icons';
 import { properties } from '../../translations';
 import Property from './Property';

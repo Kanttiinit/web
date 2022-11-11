@@ -11,7 +11,7 @@ import CourseList from '../CourseList';
 import InlineIcon from '../InlineIcon';
 import Link from '../Link';
 import PriceCategoryBadge from '../PriceCategoryBadge';
-import { getArrayWithToggled } from '../../hooks';
+import { getArrayWithToggled } from '../../utils';
 
 const Distance = (props: { distance?: number }) => {
   const kilometers = () => props.distance || 0 > 1500;

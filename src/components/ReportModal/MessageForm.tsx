@@ -1,6 +1,6 @@
 import { createEffect, createSignal } from 'solid-js';
 import { computedState } from '../../state';
-import { useFeedback } from '../../hooks';
+import { useFeedback } from '../../utils';
 import Button from '../Button';
 import Input from '../Input';
 import { FormProps } from './ReportModal';

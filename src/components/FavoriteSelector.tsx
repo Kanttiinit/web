@@ -1,5 +1,5 @@
 import { For } from 'solid-js';
-import { formattedFavorites, getArrayWithToggled } from '../hooks';
+import { formattedFavorites, getArrayWithToggled } from '../utils';
 import InlineIcon from './InlineIcon';
 import { RoundedButton, RoundedButtonContainer } from './RoundedButton';
 import { setState, state } from '../state';

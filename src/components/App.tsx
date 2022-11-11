@@ -19,7 +19,7 @@ const RestaurantModal = lazy(() => import('./RestaurantModal'));
 import Settings from './Settings';
 import TermsOfService from './TermsOfService';
 import TopBar from './TopBar';
-import { getNewPath, isDateInRange } from '../hooks';
+import { getNewPath, isDateInRange } from '../utils';
 import { version } from '../consts';
 import haversine from 'haversine';
 const ReportModal = lazy(() => import('./ReportModal'));

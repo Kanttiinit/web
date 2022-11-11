@@ -1,6 +1,6 @@
 import { For } from 'solid-js';
 import { setState, state } from '../../state';
-import { getArrayWithToggled } from '../../hooks';
+import { getArrayWithToggled } from '../../utils';
 import { properties } from '../../translations';
 import { RoundedButton, RoundedButtonContainer } from '../RoundedButton';
 

@@ -1,10 +1,13 @@
+import { createEffect, createSignal, For, Show } from 'solid-js';
+import { unwrap } from 'solid-js/store';
+import Button from '../components/Button';
+import { get } from '../utils';
 import * as api from './api';
 import { showMessage } from './index';
 import inputs from './inputs';
 import { Model } from './models';
-import { Field } from './models';
 
-interface ExportedProps {
+interface Props {
   mode: 'creating' | 'editing';
   onSuccess: () => void;
   onCancel: () => void;
@@ -13,112 +16,82 @@ interface ExportedProps {
   model: Model;
 }
 
-type Props = ExportedProps & {
-  classes: any;
-};
+export default function Editor(props: Props) {
+  const [item, setItem] = createSignal<any>();
+  const [mode, setMode] = createSignal<string>();
 
-class Editor extends React.PureComponent<Props> {
-  state: {
-    item: any;
-  } = {
-    item: undefined
-  };
-
-  updateItem(props: Props) {
-    const item = { ...props.item };
+  createEffect(() => {
+    const item = { ...unwrap(props.item) };
     delete item.createdAt;
     delete item.updatedAt;
-    this.setState({ item });
-  }
+    setItem(item);
+  });
 
-  save = async (e: React.SyntheticEvent) => {
+  const save = async (e: SubmitEvent) => {
     e.preventDefault();
     try {
-      const { item } = this.state;
-
-      if (this.props.mode === 'editing') {
-        await api.editItem(this.props.model, item);
+      if (props.mode === 'editing') {
+        await api.editItem(props.model, item());
       } else {
-        await api.createItem(this.props.model, item);
+        await api.createItem(props.model, item());
       }
 
-      this.setState({ mode: undefined });
-      this.props.onSuccess();
+      setMode(undefined);
+      props.onSuccess();
       showMessage('The item has been saved.');
-    } catch (e) {
+    } catch (e: any) {
       showMessage('Error: ' + e.message);
     }
   };
 
-  delete = async () => {
+  const deleteItem = async () => {
     if (confirm('Are you sure?')) {
-      await api.deleteItem(this.props.model, this.props.item);
-      this.props.onSuccess();
+      await api.deleteItem(props.model, props.item);
+      props.onSuccess();
       showMessage('The item has been deleted.');
     }
   };
 
-  setValue = (key: string | string[], value: any) =>
-    this.setState({ item: set(key, value, this.state.item) });
+  const setValue = (key: string | string[], value: any) =>
+    setItem(set(key, value, item()));
 
-  // eslint-disable-next-line react/no-deprecated
-  componentWillReceiveProps(props: Props) {
-    this.updateItem(props);
-  }
+  return (
+    <Show when={item()}>
+      <h1>
+        {mode() === 'editing' ? 'Edit ' : 'Create new '}
+        {props.model.name}
+      </h1>
+      <form onSubmit={save}>
+        <div>
+          <For each={props.model.fields}>
+            {field => {
+              const InputComponent = inputs[field.type!] || inputs._;
+              const value =
+                'fields' in field
+                  ? field.fields.map(f => get(item(), f.path))
+                  : get(item(), field.path);
 
-  componentDidMount() {
-    this.updateItem(this.props);
-  }
-
-  renderField = (field: Field, i: number) => {
-    const { item } = this.state;
-    const { classes } = this.props;
-    const InputComponent = inputs[field.type] || inputs._;
-    const value =
-      'fields' in field
-        ? field.fields.map(f => get(f.path, item))
-        : get(field.path, item);
-    return (
-      <div  class={classes.margin}>
-        <InputComponent field={field} value={value} setValue={this.setValue} />
-      </div>
-    );
-  };
-
-  render() {
-    const { model, mode, onCancel } = this.props;
-
-    if (this.state.item === undefined) {
-      return null;
-    }
-
-    return (
-      <>
-        <DialogTitle>
-          {mode === 'editing' ? 'Edit ' : 'Create new '}
-          {model.name}
-        </DialogTitle>
-        <form onSubmit={this.save}>
-          <DialogContent>{model.fields.map(this.renderField)}</DialogContent>
-          <DialogActions>
-            <Button type="submit" color="primary" variant="contained">
-              {mode === 'creating' ? 'Create' : 'Save'}
-            </Button>
-            {mode === 'editing' && (
-              <Button onClick={this.delete}>Delete</Button>
-            )}
-            <Button onClick={onCancel} color="secondary" variant="contained">
-              Cancel
-            </Button>
-          </DialogActions>
-        </form>
-      </>
-    );
-  }
+              return (
+                <div>
+                  <InputComponent field={field} value={value} setValue={setValue} />
+                </div>
+              );
+            }}
+          </For>
+        </div>
+        <div>
+          <Button type="submit" color="primary">
+            {mode() === 'creating' ? 'Create' : 'Save'}
+          </Button>
+          {mode() === 'editing' && (
+            <Button onClick={deleteItem}>Delete</Button>
+          )}
+          <Button onClick={props.onCancel} color="secondary">
+            Cancel
+          </Button>
+        </div>
+      </form>
+    </Show>
+  );
 }
 
-export default withStyles(theme => ({
-  margin: {
-    marginBottom: theme.spacing(4)
-  }
-}))(Editor) as any;

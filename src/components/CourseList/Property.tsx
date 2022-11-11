@@ -1,7 +1,7 @@
 import { styled } from 'solid-styled-components';
 
 import { setState, state } from '../../state';
-import { getArrayWithToggled } from '../../hooks';
+import { getArrayWithToggled } from '../../utils';
 import { properties } from '../../translations';
 import Tooltip from '../Tooltip';
 

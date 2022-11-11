@@ -2,15 +2,15 @@ import { styled } from 'solid-styled-components';
 
 import { createResource, createSignal, For, JSX, Match, Show, Switch, ValidComponent } from 'solid-js'; 
 import { RestaurantType } from '../../types';
-import { createRestaurantChange, getRestaurant } from '../../utils/api';
-import allTranslations from '../../utils/translations';
+import { createRestaurantChange, getRestaurant } from '../../api';
+import allTranslations from '../../translations';
 import Button from '../Button';
 import InlineIcon from '../InlineIcon';
 import PageContainer from '../PageContainer';
 import LocationEditor from './LocationEditor';
 import MessageForm from './MessageForm';
 import OpeningHoursEditor from './OpeningHoursEditor';
-import { ClockIcon, ErrorIcon, LocationIcon, MoreIcon } from '../../utils/icons';
+import { ClockIcon, ErrorIcon, LocationIcon, MoreIcon } from '../../icons';
 import { state } from '../../state';
 import { Dynamic } from 'solid-js/web';
 import { useParams } from '@solidjs/router';

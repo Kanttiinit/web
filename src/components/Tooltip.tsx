@@ -4,7 +4,7 @@ import { Portal } from 'solid-js/web';
 import { styled } from 'solid-styled-components';
 
 import { state } from '../state';
-import translations from '../utils/translations';
+import translations from '../translations';
 
 const Container = styled.div`
   font-size: 0.8rem;

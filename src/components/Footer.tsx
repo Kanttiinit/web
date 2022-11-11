@@ -2,7 +2,7 @@ import { styled } from 'solid-styled-components';
 import { state } from '../state';
 
 import logo from '../assets/logo_48.png';
-import { isBeta, version } from '../utils/consts';
+import { isBeta, version } from '../consts';
 import Link from './Link';
 import { breakSmall } from '../globalStyles';
 

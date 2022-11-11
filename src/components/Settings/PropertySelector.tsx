@@ -1,7 +1,7 @@
 import { For } from 'solid-js';
 import { setState, state } from '../../state';
-import { getArrayWithToggled } from '../../utils/hooks';
-import { properties } from '../../utils/translations';
+import { getArrayWithToggled } from '../../hooks';
+import { properties } from '../../translations';
 import { RoundedButton, RoundedButtonContainer } from '../RoundedButton';
 
 export default function PropertySelector(props: { showDesiredProperties?: boolean }) {

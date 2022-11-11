@@ -2,9 +2,9 @@ import { For } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { CourseType } from '../../types';
 import { state } from '../../state';
-import { isFavorite } from '../../utils/hooks';
-import { HeartFilledIcon } from '../../utils/icons';
-import { properties } from '../../utils/translations';
+import { isFavorite } from '../../hooks';
+import { HeartFilledIcon } from '../../icons';
+import { properties } from '../../translations';
 import Property from './Property';
 
 const CourseTitle = styled.h2<{ highlight: boolean; dimmed: boolean }>`

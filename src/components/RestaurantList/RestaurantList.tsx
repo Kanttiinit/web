@@ -9,8 +9,8 @@ import Restaurant, { Placeholder } from '../Restaurant';
 import { breakLarge, breakSmall } from '../../globalStyles';
 import { createEffect, For, Match, Show, Switch } from 'solid-js';
 import { resources, state } from '../../state';
-import { WarningIcon } from '../../utils/icons';
-import { useFormattedRestaurants } from '../../utils/hooks';
+import { WarningIcon } from '../../icons';
+import { useFormattedRestaurants } from '../../hooks';
 
 const Container = styled.main`
   padding: 4rem 0 1.5rem;

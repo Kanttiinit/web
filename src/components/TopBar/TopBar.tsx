@@ -10,7 +10,7 @@ import Link from '../Link';
 import { actions, state } from '../../state';
 import { breakSmall } from '../../globalStyles';
 import { createSignal, onCleanup, onMount } from 'solid-js';
-import { MapIcon, NewsIcon } from '../../utils/icons';
+import { MapIcon, NewsIcon } from '../../icons';
 
 const Container = styled.header<{ darkMode: boolean }>`
   background: linear-gradient(to bottom, var(--gray7) 0%, var(--gray6) 100%);

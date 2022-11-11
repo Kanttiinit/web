@@ -8,7 +8,7 @@ import App from './components/App';
 // import Map from './components/Map';
 import Global from './globalStyles';
 import './fonts.css';
-import * as consts from './utils/consts';
+import * as consts from './consts';
 import { state } from './state';
 
 declare let window: any;

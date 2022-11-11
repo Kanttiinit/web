@@ -3,7 +3,7 @@ import * as React from 'react';
 import styled, { createGlobalStyle } from 'solid-styled-components';
 
 import { RestaurantType } from '../../types';
-import http from '../../utils/http';
+import http from '../../http';
 import useResource from '../../utils/useResource';
 import Tooltip from '../Tooltip';
 

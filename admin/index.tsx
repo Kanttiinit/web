@@ -10,7 +10,7 @@ import * as ReactDOM from 'react-dom';
 import { RouteComponentProps } from 'react-router';
 import { BrowserRouter, Route, Switch, withRouter } from 'react-router-dom';
 
-import http from '../src/utils/http';
+import http from '../src/http';
 import DataTable from './DataTable';
 import models from './models';
 

@@ -1,6 +1,6 @@
 import { createEffect, createSignal } from 'solid-js';
 import { state } from '../../state';
-import useFeedback from '../../utils/useFeedback';
+import { useFeedback } from '../../hooks';
 import Button from '../Button';
 import Input from '../Input';
 import { FormProps } from './ReportModal';
@@ -8,11 +8,11 @@ import { FormProps } from './ReportModal';
 export default (props: FormProps) => {
   const [email, setEmail] = createSignal('');
   const [message, setMessage] = createSignal('');
-  const feedback = useFeedback();
+  const [feedback, send] = useFeedback();
 
   const onSubmit = (e: SubmitEvent) => {
     e.preventDefault();
-    feedback.send(
+    send(
       `Feedback regarding restaurant "${props.restaurant.name}":\n"${message()}"`,
       email() as string
     );

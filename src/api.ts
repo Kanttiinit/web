@@ -10,7 +10,7 @@ import {
   PriceCategory,
   RestaurantType,
   Update
-} from '../types';
+} from './types';
 
 export const getCourses = async (
   restaurantId: number,

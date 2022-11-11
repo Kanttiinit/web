@@ -4,8 +4,8 @@ import { styled } from 'solid-styled-components';
 import { state } from '../state';
 
 import { Lang } from '../types';
-import { formattedDay } from '../utils/hooks';
-import { CopyIcon } from '../utils/icons';
+import { formattedDay } from '../hooks';
+import { CopyIcon } from '../icons';
 import Button from './Button';
 import Input from './Input';
 import Tooltip from './Tooltip';

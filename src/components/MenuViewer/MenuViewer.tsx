@@ -3,8 +3,8 @@ import { styled } from 'solid-styled-components';
 import { breakSmall } from '../../globalStyles';
 import { state } from '../../state';
 
-import { getCourses } from '../../utils/api';
-import { CopyIcon, LinkIcon, ShareIcon } from '../../utils/icons';
+import { getCourses } from '../../api';
+import { CopyIcon, LinkIcon, ShareIcon } from '../../icons';
 import CourseList from '../CourseList';
 import DaySelector from '../DaySelector';
 import Tooltip from '../Tooltip';

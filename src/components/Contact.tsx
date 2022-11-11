@@ -1,11 +1,11 @@
 import { state } from '../state';
-import useFeedback from '../utils/useFeedback';
+import { useFeedback } from '../hooks';
 import Button from './Button';
 import Input from './Input';
 import PageContainer from './PageContainer';
 
 const Contact = () => {
-  const { sending, sent, send } = useFeedback();
+  const [feedback, send] = useFeedback();
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -15,7 +15,7 @@ const Contact = () => {
 
   return (
     <PageContainer title={state.translations.contact}>
-      {sent ? (
+      {feedback.sent ? (
         state.translations.thanksForFeedback
       ) : (
         <form onSubmit={onSubmit}>
@@ -35,10 +35,10 @@ const Contact = () => {
             rows={10}
           />
           <Button
-            disabled={sending}
+            disabled={feedback.sending}
             type="submit"
           >
-            {sending ? state.translations.sending : state.translations.send}
+            {feedback.sending ? state.translations.sending : state.translations.send}
           </Button>
         </form>
       )}

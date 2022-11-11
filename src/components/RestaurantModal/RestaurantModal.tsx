@@ -6,9 +6,9 @@ import { styled } from 'solid-styled-components';
 
 import { breakSmall } from '../../globalStyles';
 import { resources, state } from '../../state';
-import * as api from '../../utils/api';
-import { formattedDay } from '../../utils/hooks';
-import { HomeIcon, LocationIcon } from '../../utils/icons';
+import * as api from '../../api';
+import { formattedDay } from '../../hooks';
+import { HomeIcon, LocationIcon } from '../../icons';
 import InlineIcon from '../InlineIcon';
 import MenuViewer from '../MenuViewer';
 import PageContainer from '../PageContainer';

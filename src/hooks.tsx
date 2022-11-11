@@ -12,15 +12,17 @@ import setMinutes from 'date-fns/setMinutes';
 import haversine from 'haversine';
 import * as get from 'lodash/get';
 import * as orderBy from 'lodash/orderBy';
-import { Accessor, createMemo } from 'solid-js';
+import { Accessor, createMemo, createSignal } from 'solid-js';
+import { sendFeedback } from './api';
 
 import {
   CourseType,
   FavoriteType,
   Order,
   RestaurantType
-} from '../types';
-import { resources, state } from '../state';
+} from './types';
+import { resources, state } from './state';
+import { createStore } from 'solid-js/store';
 
 export const selectedFavorites = createMemo(() => {
   if (!resources.favorites[0].loading) {
@@ -150,3 +152,52 @@ export function getNewPath(date: Date) {
   return `${location.pathname}?day=${format(date, dateFormat)}`;
 }
 
+interface State {
+  sending: boolean;
+  sent: boolean;
+  error: Error | null;
+}
+
+export function useFeedback(): [State, (message: string, email?: string) => Promise<void>] {
+  const [state, setState] = createStore<State>({
+    error: null,
+    sending: false,
+    sent: false
+  });
+
+  return [
+    state,
+    async (message: string, email?: string) => {
+      setState({ sending: true });
+      try {
+        await sendFeedback(message, email || 'anonymous');
+        setState({ sending: false, sent: true, error: null });
+      } catch (error: any) {
+        setState({ sending: false, error });
+      }
+    }
+  ];
+};
+
+type T = string | number;
+
+export default function useInput(defaultValue: T): [
+  Accessor<T>,
+  Accessor<{ value: Accessor<T>; onChange(e: React.ChangeEvent<HTMLInputElement>): void }>,
+  (value: T) => void
+] {
+  const [value, setValue] = createSignal(defaultValue);
+  const inputProps = createMemo(
+    () => ({
+      value,
+      onChange(e: React.ChangeEvent<HTMLInputElement>) {
+        if (typeof defaultValue === 'number') {
+          setValue(Number(e.target.value));
+        } else {
+          setValue(e.target.value);
+        }
+      }
+    })
+  );
+  return [value, inputProps, setValue];
+}

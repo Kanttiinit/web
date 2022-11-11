@@ -8,7 +8,7 @@ import { Update } from '../types';
 import { resources, setState, state } from '../state';
 import Collapse from './Collapse';
 import PageContainer from './PageContainer';
-import { CaretDownIcon } from '../utils/icons';
+import { CaretDownIcon } from '../icons';
 
 const UpdateWrapper = styled.div`
   margin-bottom: 0.5em;

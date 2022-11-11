@@ -2,9 +2,9 @@ import { createStore } from 'solid-js/store';
 import addDays from 'date-fns/addDays';
 import * as times from 'lodash/times';
 import startOfDay from 'date-fns/startOfDay';
-import translations from './utils/translations';
+import translations from './translations';
 import { createResource } from "solid-js";
-import * as api from './utils/api';
+import * as api from './api';
 
 import { AreaType, DarkModeChoice, FavoriteType, Lang, MenuType, Order, PriceCategory, RestaurantType, Update } from "./types";
 import parseISO from 'date-fns/parseISO';

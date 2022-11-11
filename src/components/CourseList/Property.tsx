@@ -1,8 +1,8 @@
 import { styled } from 'solid-styled-components';
 
 import { setState, state } from '../../state';
-import { getArrayWithToggled } from '../../utils/hooks';
-import { properties } from '../../utils/translations';
+import { getArrayWithToggled } from '../../hooks';
+import { properties } from '../../translations';
 import Tooltip from '../Tooltip';
 
 const ClickTrap = styled.span`

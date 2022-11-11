@@ -5,8 +5,8 @@ import { styled, css } from 'solid-styled-components';
 
 import { AreaType } from '../types';
 import { actions, resources, setState, state } from '../state';
-import { FilledStarIcon, WalkIcon } from '../utils/icons';
-import allTranslations from '../utils/translations';
+import { FilledStarIcon, WalkIcon } from '../icons';
+import allTranslations from '../translations';
 import Button from './Button';
 
 

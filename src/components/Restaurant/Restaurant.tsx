@@ -5,13 +5,13 @@ import { styled } from 'solid-styled-components';
 import { RestaurantType } from '../../types';
 import { breakSmall } from '../../globalStyles';
 import { setState, state } from '../../state';
-import { BikeIcon, EditIcon, FilledStarIcon, LocationIcon, MoreIcon, WalkIcon } from '../../utils/icons';
+import { BikeIcon, EditIcon, FilledStarIcon, LocationIcon, MoreIcon, WalkIcon } from '../../icons';
 import Colon from '../Colon';
 import CourseList from '../CourseList';
 import InlineIcon from '../InlineIcon';
 import Link from '../Link';
 import PriceCategoryBadge from '../PriceCategoryBadge';
-import { getArrayWithToggled } from '../../utils/hooks';
+import { getArrayWithToggled } from '../../hooks';
 
 const Distance = (props: { distance?: number }) => {
   const kilometers = () => props.distance || 0 > 1500;

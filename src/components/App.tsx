@@ -19,8 +19,8 @@ import RestaurantModal from './RestaurantModal';
 import Settings from './Settings';
 import TermsOfService from './TermsOfService';
 import TopBar from './TopBar';
-import { getNewPath, isDateInRange } from '../utils/hooks';
-import { version } from '../utils/consts';
+import { getNewPath, isDateInRange } from '../hooks';
+import { version } from '../consts';
 import haversine from 'haversine';
 import ReportModal from './ReportModal';
 

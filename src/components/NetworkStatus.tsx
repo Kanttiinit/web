@@ -1,7 +1,7 @@
 import { createSignal, onCleanup, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { state } from '../state';
-import { ErrorIcon } from '../utils/icons';
+import { ErrorIcon } from '../icons';
 
 const Container = styled.div<{ online: boolean }>`
   background: rgb(255, 222, 148);

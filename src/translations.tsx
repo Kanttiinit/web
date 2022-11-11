@@ -1,5 +1,5 @@
-import Link from '../components/Link';
-import { Order, PriceCategory } from '../types';
+import Link from './components/Link';
+import { Order, PriceCategory } from './types';
 
 interface FormattedProperty {
   key: string;

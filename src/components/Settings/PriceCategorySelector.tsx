@@ -3,7 +3,7 @@ import { For } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { PriceCategory } from '../../types';
 import { state } from '../../state';
-import { priceCategorySettings } from '../../utils/translations';
+import { priceCategorySettings } from '../../translations';
 import {Button} from '../Radio';
 
 type Props = {

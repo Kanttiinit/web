@@ -1,15 +1,14 @@
+import { createEffect, onCleanup, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import Input from './Input';
+import leaflet from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 interface Props {
   disabled?: boolean;
   value: [number, number];
   onChange(latLng: [number, number]): void;
 }
-const osmProvider = (x: number, y: number, z: number) => {
-  const s = String.fromCharCode(97 + ((x + y + z) % 3));
-  return `https://${s}.tile.openstreetmap.org/${z}/${x}/${y}.png`;
-};
 
 const LatLngContainer = styled.div`
   column-count: 2;
@@ -40,16 +39,39 @@ const CrossHair = styled.div`
   }
 `;
 
-const LatLngInput = (props: any) => {
+const LatLngInput = (props: Props) => {
+  let container: HTMLDivElement | undefined;
+  let marker: leaflet.Marker;
+  let map: leaflet.Map;
+
+  onMount(() => {
+    map = leaflet.map(container!).setView(props.value, 14);
+    leaflet.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    marker = leaflet.marker(props.value, { draggable: true }).addTo(map);
+    marker.addEventListener('dragend', () => {
+      const pos = marker.getLatLng();
+      props.onChange([pos.lat, pos.lng]);
+    });
+  });
+
+  onCleanup(() => {
+    marker.remove();
+    map.remove();
+  });
+  
+  createEffect(() => {
+    if (marker && map) {
+      marker.setLatLng(props.value);
+      map.panTo(props.value, { animate: true });
+    }
+  });
+
   return (
     <>
-      {/* <MapContainer>
-        <Map defaultZoom={14} center={value} provider={osmProvider}>
-          <Draggable anchor={value} offset={[12, 12]} onDragEnd={onChange}>
-            <CrossHair />
-          </Draggable>
-        </Map>
-      </MapContainer> */}
+      <MapContainer ref={container}></MapContainer>
       <LatLngContainer>
         <Input
           label="Latitude"

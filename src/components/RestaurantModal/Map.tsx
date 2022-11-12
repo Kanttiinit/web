@@ -1,5 +1,6 @@
 import { styled } from 'solid-styled-components';
 import leaflet from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 import { RestaurantType } from '../../types';
 import { breakSmall } from '../../globalStyles';

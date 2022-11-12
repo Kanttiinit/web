@@ -16,3 +16,4 @@ export { FiMoreVertical as MoreIcon } from 'solid-icons/fi';
 export { FaSolidAngleDown as CaretDownIcon } from 'solid-icons/fa';
 export { FiClock as ClockIcon } from 'solid-icons/fi';
 export { VsHeart as HeartIcon, VsHeartFilled as FilledHeartIcon } from 'solid-icons/vs';
+export { IoSettingsSharp as SettingsIcon } from 'solid-icons/io';

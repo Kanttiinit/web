@@ -10,7 +10,7 @@ import Link from '../Link';
 import {  computedState, setState, state } from '../../state';
 import { breakSmall } from '../../globalStyles';
 import { createSignal, onCleanup, onMount } from 'solid-js';
-import { MapIcon, NewsIcon } from '../../icons';
+import { MapIcon, NewsIcon, SettingsIcon } from '../../icons';
 import { Lang } from '../../types';
 
 const Container = styled.header<{ darkMode: boolean }>`
@@ -214,7 +214,7 @@ export default function TopBar() {
           </AreaSelectorContainer>
         </AreaSelectorButton>
         <IconLink to="/settings" aria-label="Settings">
-          {/* <MdSettings size={18} /> */}
+          <SettingsIcon size={18} />
           <span>{computedState.translations().settings}</span>
         </IconLink>
         <NativeIconLink

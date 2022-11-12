@@ -132,28 +132,8 @@ const translations = {
           varmistaa ruokien allergeenit paikan päällä ravintolassa.
         </p>
         <p>
-          Tietyt Kanttiinien käyttämät ulkoiset palvelut käyttävät evästeitä
-          nimettömän datan keräämiseksi. Käyttämällä Kanttiineja hyväksyt
-          evästeiden käytön.
+          Kanttiinit ei kerää mitään käyttäjän dataa.
         </p>
-        <p>Seuraavat kolmannen osapuolen palvelut käyttävät evästeitä:</p>
-        <ul>
-          <li>
-            <strong>Google Analytics</strong>
-            <p>
-              Google Analytics -palvelua hyödynnetään käyttäjien käyttäytymisen
-              mittaamiseen käyttäjäkokemuksen parantamiseksi.
-            </p>
-          </li>
-          <li>
-            <strong>Sentry</strong>
-            <p>
-              Sentry-palvelua käytetään JavaScript virheiden automaattiseen
-              raportointiin, jotta kehittäjämme pystyvät nopeasti tunnistamaan
-              ja korjaamaan ongelmia, joita saattaa ilmetä päivitysten myötä.
-            </p>
-          </li>
-        </ul>
       </div>
     )
   },

@@ -50,7 +50,7 @@ const Container = styled.div`
 `;
 
 export default function Input(props: Props) {
-  const fieldProps = {
+  const fieldProps = () => ({
     id: props.id,
     required: props.required,
     autoComplete: props.autoComplete,
@@ -58,7 +58,7 @@ export default function Input(props: Props) {
     disabled: props.disabled,
     autoFocus: props.autoFocus,
     pattern: props.pattern
-  };
+  });
 
   const onChange = (e: any) => {
     if (props.onChange)
@@ -69,8 +69,8 @@ export default function Input(props: Props) {
     <Container class={props.className}>
       <label for={props.id}>{props.label}</label>
       {props.multiline
-        ? <textarea rows={props.rows} {...fieldProps} onChange={onChange} />
-        : <input {...fieldProps} type={props.type} onChange={onChange} />
+        ? <textarea rows={props.rows} {...fieldProps()} onChange={onChange} />
+        : <input {...fieldProps()} type={props.type} onChange={onChange} />
       }
     </Container>
   );

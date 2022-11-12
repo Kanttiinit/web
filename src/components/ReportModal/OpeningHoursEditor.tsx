@@ -28,12 +28,11 @@ export default (props: FormProps) => {
       <Button
         disabled={props.isSending}
         type="submit"
-        color="primary"
         style={{ 'margin-right': '1em' }}
       >
         {computedState.translations().send}
       </Button>
-      <Button onClick={props.goBack} type="submit">
+      <Button onClick={props.goBack} secondary>
         {computedState.translations().back}
       </Button>
     </form>

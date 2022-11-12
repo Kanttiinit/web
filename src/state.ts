@@ -74,7 +74,6 @@ const restaurantResource = createResource(
         source.maxPriceCategory
       );
     }
-    return Promise.resolve([]);
   });
 
 const menuResource = createResource(

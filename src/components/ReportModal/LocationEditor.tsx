@@ -46,6 +46,7 @@ export default (props: FormProps) => {
       <Button
         disabled={props.isSending}
         onClick={props.goBack}
+        secondary
       >
         {computedState.translations().back}
       </Button>

@@ -4,22 +4,23 @@ import { styled } from 'solid-styled-components';
 import { computedState } from '../state';
 import { formattedDay } from '../utils';
 import { CopyIcon } from '../icons';
-import Button from './Button';
+import Button, { TextButton } from './Button';
 import Input from './Input';
 import Tooltip from './Tooltip';
 
 const InputGroup = styled.div`
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   width: 100%;
   margin-bottom: 1rem;
-`;
 
-const DayLabel = styled.div`
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin-left: .5ch;
-  width: 4ch;
+  label {
+    width: 7ch;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-left: .5ch;
+    white-space: nowrap;
+  }
 `;
 
 const StyledInput = styled(Input)`
@@ -106,13 +107,15 @@ const OpeningHoursInput = (props: Props) => {
 
         return (
           <InputGroup>
-            <input
-              type="checkbox"
-              disabled={props.disabled}
-              onChange={createDayToggler(i())}
-              checked={!isClosed}
-              />
-            <DayLabel>{weekDayLabel()}</DayLabel>
+            <label>
+              <input
+                type="checkbox"
+                disabled={props.disabled}
+                onChange={createDayToggler(i())}
+                checked={!isClosed}
+                />
+              {weekDayLabel()}
+            </label>
             <StyledInput
               id={`opening-time-${i()}`}
               label={computedState.translations().openingTime}
@@ -130,12 +133,12 @@ const OpeningHoursInput = (props: Props) => {
               onChange={createDayTimeChanger(i(), 1)}
             />
             <Tooltip translationKey="copyFromPreviousDay">
-              <Button
+              <TextButton
                 onClick={createCopyFromPrevious(i())}
                 disabled={i() === 0}
               >
                 <CopyIcon />
-              </Button>
+              </TextButton>
             </Tooltip>
           </InputGroup>
         );

@@ -13,7 +13,7 @@ type Props = {
   rows?: number;
   autoFocus?: boolean;
   pattern?: string;
-  className?: string;
+  class?: string;
 };
 
 const Container = styled.div`
@@ -66,7 +66,7 @@ export default function Input(props: Props) {
   };
 
   return (
-    <Container class={props.className}>
+    <Container class={props.class}>
       <label for={props.id}>{props.label}</label>
       {props.multiline
         ? <textarea rows={props.rows} {...fieldProps()} onChange={onChange} />

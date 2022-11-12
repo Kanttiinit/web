@@ -2,6 +2,7 @@ import { styled } from 'solid-styled-components';
 
 interface ButtonProps {
   small?: boolean;
+  secondary?: boolean;
 }
 
 const Button = styled.button<ButtonProps>`
@@ -9,14 +10,34 @@ const Button = styled.button<ButtonProps>`
   padding: 0.8em 1.2em;
   border-radius: 0.2em;
   font-family: inherit;
+  font-size: 0.8rem;
   display: inline-block;
   text-transform: uppercase;
   min-width: 4rem;
-  background: var(--accent_color);
+  background: ${props => props.secondary ? 'var(--gray3)' : 'var(--accent_color)'};
   text-align: center;
   color: var(--gray6);
   outline: none;
   font-weight: 500;
+  transition: transform 0.1s;
+  opacity: 0.95;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:focus {
+    color: var(--gray6);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 
   ${props =>
     props.small ?
@@ -29,12 +50,7 @@ const Button = styled.button<ButtonProps>`
 export const TextButton = styled(Button)`
   background: transparent;
   padding: 0;
-  font-size: 0.8rem;
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
+  color: inherit;
 `;
 
 export default Button;

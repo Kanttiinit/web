@@ -53,7 +53,7 @@ export default (props: FormProps) => {
         {feedback.sending ? computedState.translations().sending : computedState.translations().send}
       </Button>
       &nbsp;
-      <Button onClick={props.goBack}>
+      <Button onClick={props.goBack} secondary>
         {computedState.translations().back}
       </Button>
     </form>

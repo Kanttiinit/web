@@ -1,4 +1,4 @@
-import { A } from '@solidjs/router';
+import { A, useLocation } from '@solidjs/router';
 
 interface Props {
   to: string;
@@ -9,12 +9,13 @@ interface Props {
 }
 
 export default function Link(props: Props) {
+  const location = useLocation();
   return (
     <A
       noScroll
       class={props.class}
       style={props.style}
-      href={props.to}
+      href={!props.to.includes('?') ? props.to + location.search : props.to}
       aria-label={props['aria-label']}
     >
       {props.children}

@@ -3,6 +3,7 @@ import { createEffect, createMemo, For, Match, onMount, Show, Switch } from "sol
 import { createStore } from "solid-js/store";
 import { styled } from "solid-styled-components";
 import Button from "../components/Button";
+import Modal from "../components/Modal";
 import { get } from "../utils";
 
 import * as api from './api';
@@ -104,7 +105,7 @@ export default function DataTable(props: Props) {
 
   return (
     <>
-      {/* <Dialog maxWidth="sm" fullWidth open={!!state.mode} onClose={hideDialog}>
+      <Modal open={!!state.mode} onClose={hideDialog}>
         <Editor
           model={props.model}
           mode={state.mode}
@@ -112,7 +113,7 @@ export default function DataTable(props: Props) {
           onSuccess={onEditorSuccess}
           onCancel={hideDialog}
         />
-      </Dialog> */}
+      </Modal>
       <Button
         style={{ margin: '1em 0' }}
         onClick={openCreateDialog}

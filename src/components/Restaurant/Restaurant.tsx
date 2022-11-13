@@ -14,19 +14,13 @@ import PriceCategoryBadge from '../PriceCategoryBadge';
 import { getArrayWithToggled } from '../../utils';
 
 const Distance = (props: { distance?: number }) => {
-  const kilometers = () => props.distance || 0 > 1500;
+  const kilometers = () => (props.distance || 0) > 1500;
   return (
     <RestaurantMeta
       style={{ 'font-weight': 400, 'text-align': 'left', display: 'inline-block' }}
     >
       <InlineIcon>
-        {!props.distance ? (
-          <LocationIcon />
-        ) : kilometers() ? (
-          <BikeIcon />
-        ) : (
-          <WalkIcon />
-        )}
+        {!props.distance ? <LocationIcon /> : kilometers() ? <BikeIcon /> : <WalkIcon />}
       </InlineIcon>
       {!props.distance
         ? computedState.translations().locating

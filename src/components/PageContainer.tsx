@@ -6,7 +6,7 @@ interface Props {
   children?: any;
   title: any;
   compactTitle?: boolean;
-  className?: string;
+  class?: string;
 }
 
 const Container = styled.div`
@@ -49,7 +49,7 @@ const Title = styled.h1<{ compact?: boolean }>`
 `;
 
 const PageContainer = (props: Props) => {
-  const [ownProps, rest] = splitProps(props, ['children', 'title', 'className', 'compactTitle']);
+  const [ownProps, rest] = splitProps(props, ['children', 'title', 'class', 'compactTitle']);
   return (
     <Container {...rest}>
       {ownProps.title && <Title compact={ownProps.compactTitle}>{ownProps.title}</Title>}

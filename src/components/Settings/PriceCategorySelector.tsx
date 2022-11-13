@@ -4,6 +4,7 @@ import { PriceCategory } from '../../types';
 import { state } from '../../state';
 import { priceCategorySettings } from '../../translations';
 import {Button} from '../Radio';
+import { MoneyIcon } from '../../icons';
 
 type Props = {
   value: PriceCategory;
@@ -21,6 +22,7 @@ const ButtonContainer = styled.div`
   border: solid 2px var(--accent_color);
   border-radius: 1rem;
   display: inline-block;
+  overflow: hidden;
 `;
 
 const Item = styled(Button)`
@@ -54,7 +56,7 @@ const Item = styled(Button)`
 `;
 
 const PriceCategorySelector = (props: Props) => {
-  const valueIndex = categories.indexOf(props.value);
+  const valueIndex = () => categories.indexOf(props.value);
   return (
     <>
       <ButtonContainer>
@@ -62,9 +64,9 @@ const PriceCategorySelector = (props: Props) => {
           {(c, i) =>
           <Item
             onClick={() => props.onChange(c)}
-            selected={valueIndex >= i()}
+            selected={valueIndex() >= i()}
           >
-            {Array(i() + 1).fill(0).map(() => '$')}
+            {Array(i() + 1).fill(0).map(() => <MoneyIcon />)}
           </Item>
           }
         </For>

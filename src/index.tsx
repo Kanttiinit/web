@@ -4,7 +4,6 @@ import {  render } from 'solid-js/web';
 import { Route, Router, Routes } from "@solidjs/router";
 
 import App from './components/App';
-// import AssetsLoading from './components/AssetsLoading';
 // import Map from './components/Map';
 import Global from './globalStyles';
 import './fonts.css';
@@ -12,8 +11,6 @@ import * as consts from './consts';
 import { computedState } from './state';
 import { lazy, ErrorBoundary as SolidErrorBoundary } from 'solid-js';
 const Admin = lazy(() => import('./admin'));
-
-declare let window: any;
 
 export function ErrorBoundary(props: { children: any, fallback?: any }) {
   return (

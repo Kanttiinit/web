@@ -8,11 +8,11 @@ import { breakLarge, breakSmall } from '../globalStyles';
 import { state } from '../state';
 import { formattedDay } from '../utils';
 import Link from './Link';
+import { useLocation } from '@solidjs/router';
 
 interface DayLinkProps {
   day: Date;
   selectedDay: Date;
-  root?: string;
 }
 
 const Container = styled.nav`
@@ -75,14 +75,16 @@ const DayLink = (props: DayLinkProps) => {
     : `?day=${format(props.day, 'y-MM-dd')}`;
   const active = () => isSameDay(props.selectedDay, props.day);
 
+  const location = useLocation();
+
   return (
-    <StyledLink activeLink={active()} to={props.root + search()}>
+    <StyledLink activeLink={active()} to={location.pathname + search()}>
       {date()}
     </StyledLink>
   );
 };
 
-export default function DaySelector(props: { root: string }) {
+export default function DaySelector() {
   return (
     <Container>
       {!isDateInRange(state.selectedDay) && (
@@ -91,7 +93,6 @@ export default function DaySelector(props: { root: string }) {
       <For each={state.displayedDays}>
         {day =>
           <DayLink
-            root={props.root}
             selectedDay={state.selectedDay}
             day={day}
           />

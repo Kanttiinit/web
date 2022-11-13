@@ -35,7 +35,7 @@ const Container = styled.div`
     border: none;
     background: transparent;
     color: var(--gray1);
-    border: solid 1px var(--gray3);
+    border: solid 1px var(--gray4);
     border-radius: 4px;
 
     &:disabled {

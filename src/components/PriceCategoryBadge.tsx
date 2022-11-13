@@ -4,6 +4,7 @@ import { styled } from 'solid-styled-components';
 import { PriceCategory } from '../types';
 import { computedState } from '../state';
 import Tooltip from './Tooltip';
+import { MoneyIcon } from '../icons';
 
 type Props = {
   priceCategory: PriceCategory;
@@ -23,7 +24,6 @@ const Container = styled.span<Props>`
   margin-left: 6px;
 
   svg {
-    margin-left: -6px;
     display: block;
   }
 `;
@@ -34,11 +34,11 @@ const PriceCategoryBadge = (props: Props) => {
       <Container {...props}>
         <For each={Array(categories.length).fill(0)}>
           {(_, i) =>
-          <span
+          <MoneyIcon
             style={{
               opacity: i() <= categories.indexOf(props.priceCategory) ? 1.0 : 0.33
             }}
-          >$</span>
+          />
           }
         </For>
       </Container>

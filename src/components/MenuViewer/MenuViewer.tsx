@@ -49,18 +49,19 @@ const MenuViewer = (props: Props) => {
   }), source => getCourses(source.id, source.selectedDay, source.lang));
 
   const onCopy = (target: string) => {
-    const textArea = document.createElement('textarea');
     if (target === 'courses') {
-      textArea.value = (courses() || [])
-        .map(c => `${c.title} (${c.properties.join(', ')})`)
-        .join('\n');
+      navigator.clipboard.writeText((courses() || [])
+        .map(c => {
+          let line = c.title;
+          if (c.properties.length) {
+            line += `(${c.properties.join(', ')})`;
+          }
+          return line;
+        })
+        .join('\n'));
     } else if (target === 'url') {
-      textArea.value = location.href;
+      navigator.clipboard.writeText(location.href);
     }
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand('copy');
-    textArea.remove();
   };
 
   const share = () => {
@@ -73,7 +74,7 @@ const MenuViewer = (props: Props) => {
   return (
     <div>
       <Header>
-        <DaySelector root={location.pathname} />
+        <DaySelector />
         {props.showCopyButton && (
           <ButtonContainer>
             {'share' in navigator && (

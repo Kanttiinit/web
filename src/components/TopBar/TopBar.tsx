@@ -191,7 +191,7 @@ export default function TopBar() {
   return (
     <Container darkMode={computedState.darkMode()}>
       <Content>
-        <DaySelector root="/" />
+        <DaySelector />
         {computedState.unseenUpdates().length > 0 && (
           <Link to="/news">
             <InlineIcon>

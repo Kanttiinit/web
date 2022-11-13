@@ -9,7 +9,7 @@ interface Props<T> {
   }[];
   selected: string;
   onChange: (value: T) => void;
-  className?: string;
+  class?: string;
   style?: any;
 }
 

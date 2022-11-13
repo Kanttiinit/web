@@ -1,12 +1,22 @@
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import solidPlugin from 'vite-plugin-solid';
+import pkg from './package.json';
 
 export default defineConfig({
   plugins: [
     solidPlugin(),
     VitePWA({
-      registerType: 'prompt',
+      registerType: 'autoUpdate',
+      workbox: {
+        globPatterns: ['**/*.{js,css,png,svg}'],
+        globIgnores: [
+          "**/node_modules/**/*",
+          "sw.js",
+          "workbox-*.js",
+          "index.html"
+        ]
+      },
       manifest: {
         name: 'Kanttiinit',
         short_name: 'Kanttiinit',
@@ -38,7 +48,7 @@ export default defineConfig({
     })
   ],
   define: {
-    'VERSION': JSON.stringify(process.env.npm_package_version),
+    'VERSION': JSON.stringify(pkg.version),
     'PUBLIC_ASSET_PATH': JSON.stringify('/'),
     'API_BASE': JSON.stringify('https://kitchen.kanttiinit.fi')
   },

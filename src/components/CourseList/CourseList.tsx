@@ -20,7 +20,7 @@ const getCourseGroup = (course: CourseType) => {
 
 interface Props {
   courses: CourseType[];
-  className?: string;
+  class?: string;
 }
 
 const Container = styled.ul`

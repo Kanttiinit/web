@@ -1,5 +1,5 @@
 import Popper from 'popper.js';
-import { createSignal } from 'solid-js';
+import { createEffect, createMemo, createSignal, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { styled } from 'solid-styled-components';
 
@@ -32,7 +32,7 @@ const Tooltip = (props: Props): any => {
   let anchorRef: HTMLSpanElement | undefined;
   let popper: Popper;
 
-  function setTooltip(tooltipRef: HTMLDivElement) {
+  const setTooltip = (tooltipRef: HTMLDivElement) => {
     if (anchorRef && tooltipRef && isOpen()) {
       popper = new Popper(anchorRef, tooltipRef, {
         placement: props.position || 'bottom-start'
@@ -44,10 +44,10 @@ const Tooltip = (props: Props): any => {
     return props.children;
   }
 
-  const contents = () => props.text || computedState.translations()[props.translationKey!][state.preferences.lang];
+  const contents = () => props.text || computedState.translations()[props.translationKey!];
 
   return (
-    <>
+    <Show when={props.text || (props.translationKey! in translations)} fallback={props.children}>
       <span
         onMouseOver={() => setIsOpen(true)}
         onMouseLeave={() => setIsOpen(false)}
@@ -58,10 +58,10 @@ const Tooltip = (props: Props): any => {
       </span>
       {isOpen() &&
       <Portal mount={document.body}>
-        <Container ref={setTooltip}>{contents()}</Container>,
+        <Container ref={setTooltip}>{contents()}</Container>
       </Portal>
       }
-    </>
+    </Show>
   );
 };
 

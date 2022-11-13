@@ -8,7 +8,7 @@ interface ButtonProps {
 const Button = styled.button<ButtonProps>`
   border: none;
   padding: 0.8em 1.2em;
-  border-radius: 0.2em;
+  border-radius: 0.4em;
   font-family: inherit;
   font-size: 0.8rem;
   display: inline-block;

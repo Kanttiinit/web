@@ -33,7 +33,7 @@ export default createGlobalStyles`
     --priceCategory_regular: #875555;
 
     &.dark {
-      --accent_color: #eee;
+      --accent_color: #4a85b5;
 
       --gray7: #0a0a0a;
       --gray6: #212121;

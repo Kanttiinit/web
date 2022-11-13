@@ -81,18 +81,16 @@ const ChangeLog = () => {
       ) : (
         <For each={updates()}>
           {update => {
-            const isVisible = visibleItems().some(id => update.id === id);
+            const isVisible = () => visibleItems().some(id => update.id === id);
             return (
-              <UpdateWrapper
-                onClick={() => toggleVisible(update)}
-              >
-                <ArrowDownIcon isVisible={isVisible} size={30} />
+              <UpdateWrapper onClick={() => toggleVisible(update)}>
+                <ArrowDownIcon isVisible={isVisible()} size={18} />
                 <UpdateContent>
                   <PublishedAt>
                     {distanceInWordsToNow(parseISO(update.createdAt))}
                   </PublishedAt>
                   <Title>{update.title}</Title>
-                  <Collapse isOpen={isVisible}>
+                  <Collapse isOpen={isVisible()}>
                     <Body innerHTML={snarkdown(update.description)} />
                   </Collapse>
                 </UpdateContent>

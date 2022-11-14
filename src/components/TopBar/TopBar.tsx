@@ -60,8 +60,8 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
   top: 32px;
   width: 20em;
   background: var(--gray7);
-  padding: 1em;
-  box-shadow: 0px 7px 18px -1px rgba(50, 50, 50, 0.1);
+  padding: 0.4em;
+  box-shadow: 0rem 0.1rem 0.6rem -0.2rem rgba(0, 0, 0, 0.3);
   border-radius: 4px;
   border: solid 1px var(--gray5);
   opacity: 0;

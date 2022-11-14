@@ -55,10 +55,11 @@ const AreaButton = styled(Button)<{ selected: boolean }>`
   text-align: center;
   outline: none;
   color: ${props => (props.selected ? 'var(--accent_color)' : 'var(--gray1)')};
+  cursor: pointer;
 
   &:hover,
   &:focus {
-    background: var(--gray5);
+    background: var(--gray6);
   }
 `;
 
@@ -92,7 +93,6 @@ const Container = styled.menu`
   flex-wrap: wrap;
   justify-content: space-between;
   user-select: none;
-  background: var(--gray7);
 `;
 
 export default function AreaSelector(props: Props) {

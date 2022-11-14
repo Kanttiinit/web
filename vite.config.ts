@@ -23,7 +23,7 @@ export default defineConfig({
         start_url: '.',
         display: 'standalone',
         background_color: '#f4f4f4',
-        theme_color: '#009688',
+        theme_color: '#2B3138',
         description: 'Student lunch effortlessly.',
         lang: 'en-US',
         orientation: 'any',

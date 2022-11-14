@@ -74,7 +74,7 @@ const LatLngInput = (props: Props) => {
 
   return (
     <>
-      <MapContainer ref={container}></MapContainer>
+      <MapContainer ref={container} />
       <LatLngContainer>
         <Input
           label="Latitude"

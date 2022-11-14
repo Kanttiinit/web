@@ -15,7 +15,7 @@ export default createGlobalStyles`
     margin: 0;
     background-color: var(--gray6);
 
-    --accent_color: #2196f3;
+    --accent_color: #09ACFE;
 
     --gray1: #464646;
     --gray2: #636363;
@@ -25,26 +25,28 @@ export default createGlobalStyles`
     --gray6: #f8f8f8;
     --gray7: #fefefe;
 
-    --hearty: #d81b60;
-    --friendly: #1bb518;
+    --hearty: #fe346e;
+    --friendly: #06CBB0;
+
+    --star: #F2A65A;
 
     --priceCategory_student: #5c9e5c;
     --priceCategory_studentPremium: #8b8f4f;
     --priceCategory_regular: #875555;
 
     &.dark {
-      --accent_color: #4a85b5;
+      --accent_color: #09ACFE;
 
-      --gray7: #0a0a0a;
-      --gray6: #212121;
+      --gray7: #2B3138;
+      --gray6: #202329;
       --gray5: #313131;
       --gray4: #989898;
       --gray3: #adadad;
       --gray2: #b3b3b3;
       --gray1: #c3c3c3;
 
-      --hearty: #c15c81;
-      --friendly: #4a9448;
+      --hearty: #fe346e;
+      --friendly: #06CBB0;
     }
   }
 

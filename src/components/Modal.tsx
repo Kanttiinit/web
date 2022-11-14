@@ -40,7 +40,7 @@ const Container = styled.div<{ open: boolean }>`
 
 const Overlay = styled.div<{ open: boolean; darkMode: boolean }>`
   background: ${props =>
-    props.darkMode ? 'rgba(50, 50, 50, 0.3)' : 'rgba(0, 0, 0, 0.55)'};
+    props.darkMode ? 'rgba(50, 50, 50, 0.5)' : 'rgba(0, 0, 0, 0.55)'};
   position: absolute;
   width: 100%;
   height: 100%;
@@ -60,8 +60,9 @@ const Content = styled.div<{ open: boolean }>`
   z-index: 6;
   position: relative;
   max-width: 40rem;
-  border-radius: 0.2rem;
-  overflow: auto;
+  border-radius: 0.8rem;
+  overflow: hidden;
+  border: 1px var(--gray6) solid;
   box-shadow: 0rem 0.1rem 0.6rem -0.2rem rgba(0, 0, 0, 0.3);
   flex: 1;
   transition: opacity 0.3s;

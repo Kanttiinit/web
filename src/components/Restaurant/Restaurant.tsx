@@ -56,9 +56,9 @@ const Distance = (props: { distance?: number }) => {
 export const Container = styled.article<{ noCourses?: boolean }>`
   display: flex;
   flex-direction: column;
-  padding: 0.8rem;
   background-color: var(--gray7);
-  border-radius: 4px;
+  padding: 1.2rem;
+  border-radius: 8px;
   border: solid 1px var(--gray5);
   box-shadow: 0px 1px 2px 0px rgba(50, 50, 50, 0.1);
   box-sizing: border-box;
@@ -249,7 +249,7 @@ const Restaurant = (props: Props) => {
                 : `Unstar ${props.restaurant.name}`
             }
             onClick={toggleStar}
-            color={props.restaurant.isStarred ? '#FFA726' : ''}
+            color={props.restaurant.isStarred ? 'var(--star)' : ''}
             tabIndex={0}
           >
             <FilledStarIcon size={18} />

@@ -12,7 +12,6 @@ interface Props {
 const Container = styled.div`
   background: var(--gray7);
   padding: 0.5rem 1rem 1rem;
-  border: 1px var(--gray6) solid;
   height: 100%;
   overflow: auto;
   box-sizing: border-box;

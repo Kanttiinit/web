@@ -14,7 +14,7 @@ import { MapIcon, NewsIcon, SettingsIcon } from '../../icons';
 import { Lang } from '../../types';
 
 const Container = styled.header<{ darkMode: boolean }>`
-  background: linear-gradient(to bottom, var(--gray7) 0%, var(--gray6) 100%);
+  background: linear-gradient(to bottom, var(--gray6) 0%, var(--gray7) 100%);
   box-sizing: border-box;
   padding: 0 0.5em;
   position: fixed;
@@ -25,7 +25,7 @@ const Container = styled.header<{ darkMode: boolean }>`
   user-select: none;
 
   @media (max-width: ${breakSmall}) {
-    background-color: var(--gray6);
+    background-color: var(--gray7);
     justify-content: flex-start;
     padding: 0.2em;
     padding-left: 1rem;

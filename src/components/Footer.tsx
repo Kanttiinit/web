@@ -1,8 +1,8 @@
 import { styled } from 'solid-styled-components';
-import { computedState, state } from '../state';
+import { computedState } from '../state';
 
 import logo from '../assets/logo_48.png';
-import { isBeta, version } from '../consts';
+import { version } from '../consts';
 import Link from './Link';
 import { breakSmall } from '../globalStyles';
 
@@ -107,15 +107,6 @@ export default () => {
           <StyledNavLink to="/terms-of-service">
             {computedState.translations().termsOfService}
           </StyledNavLink>
-          {!isBeta && (
-            <StyledExternalLink
-              href="https://beta.kanttiinit.fi/"
-              rel="noopener"
-              target="_blank"
-            >
-              Beta
-            </StyledExternalLink>
-          )}
         </nav>
       </NavigationContainer>
       <VersionLink

@@ -9,6 +9,11 @@ export const RoundedButtonContainer = styled.div`
     content: '';
     flex-grow: 1000000000;
   }
+
+  svg {
+    display: block;
+    padding-top: 0.1rem;
+  }
 `;
 
 export const RoundedButton = styled.button<{

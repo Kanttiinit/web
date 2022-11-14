@@ -11,14 +11,54 @@ import {
 import { createStore } from 'solid-js/store';
 import { styled } from 'solid-styled-components';
 import Button from '../components/Button';
-import Modal from '../components/Modal';
 import { get } from '../utils';
-
 import * as api from './api';
 import Editor from './Editor';
 import { Model } from './models';
 
-const Table = styled.table``;
+const Table = styled.table`
+  width: 100%;
+
+  th {
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  tbody {
+    tr {
+      cursor: pointer;
+
+      &:nth-child(2n) {
+        background: #eee;
+      }
+
+      &:hover {
+        background: #ddd;
+      }
+    }
+
+    td {
+      padding: 0.5rem;
+    }
+  }
+`;
+
+const Modal = styled.div`
+  position: absolute;
+  width: 30rem;
+  left: calc(50% - 15rem);
+  background: white;
+  top: 10rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+
+  h1 {
+    padding: 0;
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+  }
+`;
 
 interface Props {
   model: Model;
@@ -119,7 +159,8 @@ export default function DataTable(props: Props) {
 
   return (
     <>
-      <Modal open={!!state.mode} onClose={hideDialog}>
+      {!!state.mode &&
+      <Modal>
         <Editor
           model={props.model}
           mode={state.mode}
@@ -128,6 +169,7 @@ export default function DataTable(props: Props) {
           onCancel={hideDialog}
         />
       </Modal>
+      }
       <Button style={{ margin: '1em 0' }} onClick={openCreateDialog}>
         Create
       </Button>

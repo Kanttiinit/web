@@ -1,5 +1,6 @@
-import { createEffect, createSignal, For, Show } from 'solid-js';
-import { unwrap } from 'solid-js/store';
+import { createEffect, For, Show } from 'solid-js';
+import { createStore, unwrap } from 'solid-js/store';
+import { Dynamic } from 'solid-js/web';
 import Button from '../components/Button';
 import { get } from '../utils';
 import * as api from './api';
@@ -16,9 +17,17 @@ interface Props {
   model: Model;
 }
 
+function setToValue(obj: any, p: string, value: any) {
+  let i;
+  const path = p.split('.');
+  for (i = 0; i < path.length - 1; i++)
+      obj = obj[path[i]];
+
+  obj[path[i]] = value;
+}
+
 export default function Editor(props: Props) {
-  const [item, setItem] = createSignal<any>();
-  const [mode, setMode] = createSignal<string>();
+  const [item, setItem] = createStore<any>();
 
   createEffect(() => {
     const item = { ...unwrap(props.item) };
@@ -36,11 +45,10 @@ export default function Editor(props: Props) {
         await api.createItem(props.model, item());
       }
 
-      setMode(undefined);
       props.onSuccess();
       showMessage('The item has been saved.');
-    } catch (e) {
-      showMessage('Error: ' + e.message);
+    } catch (error) {
+      showMessage('Error: ' + error.message);
     }
   };
 
@@ -52,43 +60,38 @@ export default function Editor(props: Props) {
     }
   };
 
-  const setValue = (key: string | string[], value: any) =>
-    setItem(set(key, value, item()));
+  const setValue = (key: string, value: any) => setItem(key, value);
 
   return (
-    <Show when={item()}>
+    <Show when={item}>
       <h1>
-        {mode() === 'editing' ? 'Edit ' : 'Create new '}
+        {props.mode === 'editing' ? 'Edit ' : 'Create new '}
         {props.model.name}
       </h1>
       <form onSubmit={save}>
         <div>
           <For each={props.model.fields}>
-            {field => {
-              const InputComponent = inputs[field.type!] || inputs._;
-              const value =
-                'fields' in field
-                  ? field.fields.map(f => get(item(), f.path))
-                  : get(item(), field.path);
-
-              return (
-                <div>
-                  <InputComponent
-                    field={field}
-                    value={value}
-                    setValue={setValue}
-                  />
-                </div>
-              );
-            }}
+            {field => (
+              <div>
+                <Dynamic
+                  component={inputs[field.type!] || inputs._}
+                  field={field}
+                  value={'fields' in field
+                    ? field.fields.map(f => get(unwrap(item), f.path))
+                    : get(unwrap(item), field.path)}
+                  setValue={setValue}
+                />
+              </div>
+            )}
           </For>
         </div>
         <div>
           <Button type="submit" color="primary">
-            {mode() === 'creating' ? 'Create' : 'Save'}
+            {props.mode === 'creating' ? 'Create' : 'Save'}
           </Button>
-          {mode() === 'editing' && <Button onClick={deleteItem}>Delete</Button>}
-          <Button onClick={props.onCancel} color="secondary">
+          {' '}
+          {props.mode === 'editing' && <><Button onClick={deleteItem}>Delete</Button>{' '}</>}
+          <Button onClick={props.onCancel} secondary>
             Cancel
           </Button>
         </div>

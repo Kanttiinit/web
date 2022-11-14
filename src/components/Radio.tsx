@@ -23,14 +23,14 @@ const Container = styled.div`
 `;
 
 export const Button = styled.button<{ selected: boolean }>`
-  color: var(--accent_color);
+  color: var(--gray3);
   background: transparent;
   font-family: inherit;
   font-weight: 500;
   text-transform: uppercase;
   transition: background 0.1s, color 0.1s;
   margin: 0;
-  border-radius: 1rem;
+  border-radius: 0.2em;
   outline: none;
   border: solid 2px transparent;
 

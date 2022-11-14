@@ -33,13 +33,14 @@ const PriceCategoryBadge = (props: Props) => {
     <Tooltip text={computedState.translations()[props.priceCategory]}>
       <Container {...props}>
         <For each={Array(categories.length).fill(0)}>
-          {(_, i) =>
-          <MoneyIcon
-            style={{
-              opacity: i() <= categories.indexOf(props.priceCategory) ? 1.0 : 0.33
-            }}
-          />
-          }
+          {(_, i) => (
+            <MoneyIcon
+              style={{
+                opacity:
+                  i() <= categories.indexOf(props.priceCategory) ? 1.0 : 0.33
+              }}
+            />
+          )}
         </For>
       </Container>
     </Tooltip>

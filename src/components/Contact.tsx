@@ -34,11 +34,10 @@ const Contact = () => {
             label={computedState.translations().message}
             rows={10}
           />
-          <Button
-            disabled={feedback.sending}
-            type="submit"
-          >
-            {feedback.sending ? computedState.translations().sending : computedState.translations().send}
+          <Button disabled={feedback.sending} type="submit">
+            {feedback.sending
+              ? computedState.translations().sending
+              : computedState.translations().send}
           </Button>
         </form>
       )}

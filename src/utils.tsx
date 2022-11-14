@@ -13,12 +13,7 @@ import haversine from 'haversine';
 import { Accessor, createMemo, createSignal } from 'solid-js';
 import { sendFeedback } from './api';
 
-import {
-  CourseType,
-  FavoriteType,
-  Order,
-  RestaurantType
-} from './types';
+import { CourseType, FavoriteType, Order, RestaurantType } from './types';
 import { state, resources } from './state';
 import { createStore } from 'solid-js/store';
 import { ISortByObjectSorter, sort } from 'fast-sort';
@@ -32,14 +27,21 @@ export const selectedFavorites = createMemo(() => {
   return [];
 });
 
-export const isFavorite = (course: CourseType) => selectedFavorites().some(favorite => !!course.title.match(new RegExp(favorite.regexp, 'i')));
+export const isFavorite = (course: CourseType) =>
+  selectedFavorites().some(
+    favorite => !!course.title.match(new RegExp(favorite.regexp, 'i'))
+  );
 
-export const formattedFavorites: Accessor<(FavoriteType & { isSelected: boolean })[]> = createMemo(() => {
-    return sort(resources.favorites[0]() || []).asc(i => i.name).map((favorite: FavoriteType) => ({
+export const formattedFavorites: Accessor<(FavoriteType & {
+  isSelected: boolean;
+})[]> = createMemo(() => {
+  return sort(resources.favorites[0]() || [])
+    .asc(i => i.name)
+    .map((favorite: FavoriteType) => ({
       ...favorite,
       isSelected: state.preferences.favorites.indexOf(favorite.id) > -1
     }));
-  });
+});
 
 const parseTimeOfDay = (input: string) => {
   const parts = input.split(':');
@@ -58,7 +60,10 @@ const isOpenNow = (restaurant: RestaurantType, day: Date) => {
   );
 };
 
-const getOrder = (orderType: Order, useLocation: boolean): ISortByObjectSorter<RestaurantType>[] => {
+const getOrder = (
+  orderType: Order,
+  useLocation: boolean
+): ISortByObjectSorter<RestaurantType>[] => {
   if (orderType === Order.ALPHABET) {
     return [
       { desc: r => r.isStarred },
@@ -86,21 +91,31 @@ const getOrder = (orderType: Order, useLocation: boolean): ISortByObjectSorter<R
 
 export const useFormattedRestaurants = createMemo(() => {
   const day = state.selectedDay;
-  const restaurants = (resources.restaurants[0].latest || []).map(restaurant => {
-    const courses = resources.menus[0].latest?.[restaurant.id]?.[format(day, 'y-MM-dd')]?.filter(course => course.title) || [];
-    const distance = state.location ? haversine(state.location, restaurant, { unit: 'meter' }) : undefined;
-    return {
-      ...restaurant,
-      courses,
-      distance,
-      favoriteCourses: courses.some(isFavorite),
-      isOpenNow: isOpenNow(restaurant, day),
-      isStarred: state.preferences.starredRestaurants.indexOf(restaurant.id) > -1,
-      noCourses: !courses.length
-    };
-  });
+  const restaurants = (resources.restaurants[0].latest || []).map(
+    restaurant => {
+      const courses =
+        resources.menus[0].latest?.[restaurant.id]?.[
+          format(day, 'y-MM-dd')
+        ]?.filter(course => course.title) || [];
+      const distance = state.location
+        ? haversine(state.location, restaurant, { unit: 'meter' })
+        : undefined;
+      return {
+        ...restaurant,
+        courses,
+        distance,
+        favoriteCourses: courses.some(isFavorite),
+        isOpenNow: isOpenNow(restaurant, day),
+        isStarred:
+          state.preferences.starredRestaurants.indexOf(restaurant.id) > -1,
+        noCourses: !courses.length
+      };
+    }
+  );
 
-  return sort(restaurants).by(getOrder(state.preferences.order, state.preferences.useLocation));
+  return sort(restaurants).by(
+    getOrder(state.preferences.order, state.preferences.useLocation)
+  );
 });
 
 const locales = {
@@ -108,10 +123,11 @@ const locales = {
   fi: fiLocale
 };
 
-export const formattedDay = (date: Date, dateFormat: string) => createMemo(() => {
-  const lang = state.preferences.lang;
-  return format(date, dateFormat, { locale: locales[lang] });
-});
+export const formattedDay = (date: Date, dateFormat: string) =>
+  createMemo(() => {
+    const lang = state.preferences.lang;
+    return format(date, dateFormat, { locale: locales[lang] });
+  });
 
 export function getArrayWithToggled<T>(array: T[], item: T) {
   const index = array.indexOf(item);
@@ -151,7 +167,10 @@ interface State {
   error: Error | null;
 }
 
-export function useFeedback(): [State, (message: string, email?: string) => Promise<void>] {
+export function useFeedback(): [
+  State,
+  (message: string, email?: string) => Promise<void>
+] {
   const [state, setState] = createStore<State>({
     error: null,
     sending: false,
@@ -165,7 +184,7 @@ export function useFeedback(): [State, (message: string, email?: string) => Prom
       try {
         await sendFeedback(message, email || 'anonymous');
         setState({ sending: false, sent: true, error: null });
-      } catch (error: any) {
+      } catch (error) {
         setState({ sending: false, error });
       }
     }
@@ -174,37 +193,40 @@ export function useFeedback(): [State, (message: string, email?: string) => Prom
 
 type T = string | number;
 
-export default function useInput(defaultValue: T): [
+export default function useInput(
+  defaultValue: T
+): [
   Accessor<T>,
-  Accessor<{ value: Accessor<T>; onChange(e: React.ChangeEvent<HTMLInputElement>): void }>,
+  Accessor<{
+    value: Accessor<T>;
+    onChange(e: React.ChangeEvent<HTMLInputElement>): void;
+  }>,
   (value: T) => void
 ] {
   const [value, setValue] = createSignal(defaultValue);
-  const inputProps = createMemo(
-    () => ({
-      value,
-      onChange(e: React.ChangeEvent<HTMLInputElement>) {
-        if (typeof defaultValue === 'number') {
-          setValue(Number(e.target.value));
-        } else {
-          setValue(e.target.value);
-        }
+  const inputProps = createMemo(() => ({
+    value,
+    onChange(e: React.ChangeEvent<HTMLInputElement>) {
+      if (typeof defaultValue === 'number') {
+        setValue(Number(e.target.value));
+      } else {
+        setValue(e.target.value);
       }
-    })
-  );
+    }
+  }));
   return [value, inputProps, setValue];
 }
 
 export function get(obj: any, path: string, def: any = undefined) {
-	var fullPath = path
-		.replace(/\[/g, '.')
-		.replace(/]/g, '')
-		.split('.')
-		.filter(Boolean);
+  var fullPath = path
+    .replace(/\[/g, '.')
+    .replace(/]/g, '')
+    .split('.')
+    .filter(Boolean);
 
-	return fullPath.every(everyFunc) ? obj : def;
+  return fullPath.every(everyFunc) ? obj : def;
 
-	function everyFunc(step: any) {
-		return !(step && (obj = obj[step]) === undefined);
-	}
+  function everyFunc(step: any) {
+    return !(step && (obj = obj[step]) === undefined);
+  }
 }

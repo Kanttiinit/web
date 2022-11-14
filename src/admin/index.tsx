@@ -1,4 +1,10 @@
-import { Route, Routes, useLocation, useNavigate, useParams } from '@solidjs/router';
+import {
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+  useParams
+} from '@solidjs/router';
 import { onMount, Show, For } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { styled } from 'solid-styled-components';
@@ -11,13 +17,9 @@ import models from './models';
 
 export let showMessage: (message: string) => void;
 
-const Tabs = styled.div`
-  
-`;
+const Tabs = styled.div``;
 
-const Tab = styled.div<{ selected: boolean }>`
-  
-`;
+const Tab = styled.div<{ selected: boolean }>``;
 
 export default function Admin() {
   const [state, setState] = createStore<{
@@ -35,7 +37,7 @@ export default function Admin() {
       await http.post('/admin/login', { password });
       clearMessage();
       checkAuth();
-    } catch (e: any) {
+    } catch (e) {
       setState({ message: e.message, messageVisible: true });
     }
   };
@@ -50,7 +52,8 @@ export default function Admin() {
     navigate('/admin/model/' + value);
   };
 
-  const showMessageInternal = (message: string) => setState({ messageVisible: true, message });
+  const showMessageInternal = (message: string) =>
+    setState({ messageVisible: true, message });
 
   const updateMenus = async () => {
     setState({ updatingRestaurants: true });
@@ -79,57 +82,69 @@ export default function Admin() {
   function Model() {
     const params = useParams();
     const model = () => models.find(m => m.key === params.model);
-  
+
     return (
       <>
         <Tabs>
           <For each={models}>
-            {m => <Tab onClick={() => tabChange(m.key)} selected={m.key === model()?.key}>{m.name}</Tab>}
+            {m => (
+              <Tab
+                onClick={() => tabChange(m.key)}
+                selected={m.key === model()?.key}
+              >
+                {m.name}
+              </Tab>
+            )}
           </For>
         </Tabs>
         <div
           style={{ position: 'absolute', top: 0, right: 0, padding: '0.5em' }}
         >
-          <Button
-            disabled={state.updatingRestaurants}
-            onClick={updateMenus}
-          >
+          <Button disabled={state.updatingRestaurants} onClick={updateMenus}>
             {state.updatingRestaurants ? 'Updating...' : 'Update menus'}
           </Button>
           <Button color="secondary" onClick={logout}>
             Log out
           </Button>
         </div>
-        <Show keyed when={model()} fallback={<p>No such model &quot;{params.model}&quot;.</p>}>
+        <Show
+          keyed
+          when={model()}
+          fallback={<p>No such model &quot;{params.model}&quot;.</p>}
+        >
           {model => <DataTable model={model} />}
         </Show>
       </>
     );
-  }  
+  }
 
   return (
     <>
       <Routes>
-        <Route path="/login" element={
-          <form
-            onSubmit={login}
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translateY(-50%) translateX(-50%)'
-            }}
-          >
-            <Input
-              type="password"
-              label="Password"
-              autoComplete="current-password"
-            />
-            &nbsp;
-            <Button type="submit" color="primary">
-              Log in
-            </Button>
-          </form>} />
+        <Route
+          path="/login"
+          element={
+            <form
+              onSubmit={login}
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translateY(-50%) translateX(-50%)'
+              }}
+            >
+              <Input
+                type="password"
+                label="Password"
+                autoComplete="current-password"
+              />
+              &nbsp;
+              <Button type="submit" color="primary">
+                Log in
+              </Button>
+            </form>
+          }
+        />
         <Route path="/model/:model" component={Model} />
       </Routes>
       {/* <Snackbar

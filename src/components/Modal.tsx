@@ -35,11 +35,12 @@ const Container = styled.div<{ open: boolean }>`
   pointer-events: none;
   display: flex;
 
-  ${props => props.open ? 'pointer-events: auto;' : ''}
+  ${props => (props.open ? 'pointer-events: auto;' : '')}
 `;
 
-const Overlay = styled.div<{ open: boolean, darkMode: boolean }>`
-  background: ${props => props.darkMode ? 'rgba(50, 50, 50, 0.3)' : 'rgba(0, 0, 0, 0.55)'};
+const Overlay = styled.div<{ open: boolean; darkMode: boolean }>`
+  background: ${props =>
+    props.darkMode ? 'rgba(50, 50, 50, 0.3)' : 'rgba(0, 0, 0, 0.55)'};
   position: absolute;
   width: 100%;
   height: 100%;
@@ -52,7 +53,7 @@ const Overlay = styled.div<{ open: boolean, darkMode: boolean }>`
     background: var(--gray6);
   }
 
-  ${props => props.open ? 'opacity: 1;' : ''}
+  ${props => (props.open ? 'opacity: 1;' : '')}
 `;
 
 const Content = styled.div<{ open: boolean }>`
@@ -71,7 +72,7 @@ const Content = styled.div<{ open: boolean }>`
     max-width: 100%;
   }
 
-  ${props => props.open ? 'opacity: 1;' : ''}
+  ${props => (props.open ? 'opacity: 1;' : '')}
 `;
 
 const CloseText = styled.div<{ open: boolean }>`
@@ -91,7 +92,7 @@ const CloseText = styled.div<{ open: boolean }>`
     display: none;
   }
 
-  ${props => props.open ? 'opacity: 1;' : ''}
+  ${props => (props.open ? 'opacity: 1;' : '')}
 `;
 
 type Props = {
@@ -103,7 +104,8 @@ const Modal = (props: Props) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const closeModal = () => navigate('/' + location.search, { replace: true, scroll: false });
+  const closeModal = () =>
+    navigate('/' + location.search, { replace: true, scroll: false });
 
   createEffect(() => {
     setOpen(location.pathname !== '/');
@@ -119,7 +121,7 @@ const Modal = (props: Props) => {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [location.pathname]);
-    
+
   createEffect(() => {
     if (open()) {
       document.body.style.overflow = 'hidden';
@@ -131,11 +133,13 @@ const Modal = (props: Props) => {
   return (
     <Container open={open()}>
       <>
-        <Overlay darkMode={computedState.darkMode()} open={open()} onClick={closeModal} />
+        <Overlay
+          darkMode={computedState.darkMode()}
+          open={open()}
+          onClick={closeModal}
+        />
         <Content open={open()}>
-          <ErrorBoundary fallback={ModalError}>
-            {props.children}
-          </ErrorBoundary>
+          <ErrorBoundary fallback={ModalError}>{props.children}</ErrorBoundary>
         </Content>
         <CloseText open={open()} onClick={closeModal}>
           {computedState.translations().closeModal}

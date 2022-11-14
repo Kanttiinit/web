@@ -26,7 +26,8 @@ const Container = styled.div`
     font-size: 0.9rem;
   }
 
-  input, textarea {
+  input,
+  textarea {
     box-sizing: border-box;
     width: 100%;
     outline: none;
@@ -61,17 +62,17 @@ export default function Input(props: Props) {
   });
 
   const onChange = (e: any) => {
-    if (props.onChange)
-      props.onChange(e?.target?.value);
+    if (props.onChange) props.onChange(e?.target?.value);
   };
 
   return (
     <Container class={props.class}>
       <label for={props.id}>{props.label}</label>
-      {props.multiline
-        ? <textarea rows={props.rows} {...fieldProps()} onChange={onChange} />
-        : <input {...fieldProps()} type={props.type} onChange={onChange} />
-      }
+      {props.multiline ? (
+        <textarea rows={props.rows} {...fieldProps()} onChange={onChange} />
+      ) : (
+        <input {...fieldProps()} type={props.type} onChange={onChange} />
+      )}
     </Container>
   );
 }

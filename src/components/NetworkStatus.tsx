@@ -16,32 +16,33 @@ const Container = styled.div<{ isOnline: boolean }>`
   justify-content: center;
 
   ${props =>
-    !props.isOnline ?
-    `
+    !props.isOnline
+      ? `
     padding: 0.5em 1em;
     margin: 0.5em;
     height: 1.5em;
     opacity: 1;
-  ` : ''}
+  `
+      : ''}
 `;
 
 export default function NetworkStatus() {
   const [isOnline, setIsOnline] = createSignal(true);
-  
+
   function updateNetworkStatus() {
     setIsOnline(navigator.onLine);
   }
-  
+
   onMount(() => {
     // window.addEventListener('online', updateNetworkStatus);
     // window.addEventListener('offline', updateNetworkStatus);
   });
-  
+
   onCleanup(() => {
     window.removeEventListener('online', updateNetworkStatus);
     window.removeEventListener('offline', updateNetworkStatus);
   });
-  
+
   return (
     <Container isOnline={isOnline()}>
       <ErrorIcon />

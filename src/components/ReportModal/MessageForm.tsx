@@ -13,7 +13,9 @@ export default (props: FormProps) => {
   const onSubmit = (e: SubmitEvent) => {
     e.preventDefault();
     send(
-      `Feedback regarding restaurant "${props.restaurant.name}":\n"${message()}"`,
+      `Feedback regarding restaurant "${
+        props.restaurant.name
+      }":\n"${message()}"`,
       email() as string
     );
   };
@@ -25,8 +27,7 @@ export default (props: FormProps) => {
   });
 
   createEffect(() => {
-    if (feedback.error)
-      props.setError(feedback.error);
+    if (feedback.error) props.setError(feedback.error);
   });
 
   return (
@@ -47,10 +48,10 @@ export default (props: FormProps) => {
         value={message()}
         onChange={setMessage}
       />
-      <Button
-        disabled={feedback.sending}
-        type="submit">
-        {feedback.sending ? computedState.translations().sending : computedState.translations().send}
+      <Button disabled={feedback.sending} type="submit">
+        {feedback.sending
+          ? computedState.translations().sending
+          : computedState.translations().send}
       </Button>
       &nbsp;
       <Button onClick={props.goBack} secondary>

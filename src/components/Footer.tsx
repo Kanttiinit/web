@@ -65,7 +65,7 @@ const LogoImage = styled.img<{ darkMode: boolean }>`
     display: none;
   }
 
-  ${props => props.darkMode ? 'filter: grayscale(0.6);' : ''}
+  ${props => (props.darkMode ? 'filter: grayscale(0.6);' : '')}
 `;
 
 const NavigationContainer = styled.div`
@@ -89,13 +89,21 @@ export default () => {
   return (
     <Footer>
       <NavigationContainer>
-        <LogoImage darkMode={computedState.darkMode()} alt="Kanttiinit logo" src={logo} />
+        <LogoImage
+          darkMode={computedState.darkMode()}
+          alt="Kanttiinit logo"
+          src={logo}
+        />
         <nav>
-          <StyledNavLink to="/contact">{computedState.translations().contact}</StyledNavLink>
+          <StyledNavLink to="/contact">
+            {computedState.translations().contact}
+          </StyledNavLink>
           <StyledNavLink to="/clients">
             {computedState.translations().otherClients}
           </StyledNavLink>
-          <StyledNavLink to="/news">{computedState.translations().updates}</StyledNavLink>
+          <StyledNavLink to="/news">
+            {computedState.translations().updates}
+          </StyledNavLink>
           <StyledNavLink to="/terms-of-service">
             {computedState.translations().termsOfService}
           </StyledNavLink>

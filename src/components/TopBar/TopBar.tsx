@@ -7,7 +7,7 @@ import ClickOutside from '../ClickOutside';
 import DaySelector from '../DaySelector';
 import InlineIcon from '../InlineIcon';
 import Link from '../Link';
-import {  computedState, setState, state } from '../../state';
+import { computedState, setState, state } from '../../state';
 import { breakSmall } from '../../globalStyles';
 import { createSignal, onCleanup, onMount } from 'solid-js';
 import { MapIcon, NewsIcon, SettingsIcon } from '../../icons';
@@ -31,8 +31,7 @@ const Container = styled.header<{ darkMode: boolean }>`
     padding-left: 1rem;
   }
 
-  ${props => props.darkMode ?
-    'background: var(--gray7);' : ''}
+  ${props => (props.darkMode ? 'background: var(--gray7);' : '')}
 `;
 
 const Content = styled.div`
@@ -69,10 +68,11 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
   pointer-events: none;
 
   ${props =>
-    props.isOpen ?
-    `opacity: 1;
+    props.isOpen
+      ? `opacity: 1;
       pointer-events: all;
-    ` : ''}
+    `
+      : ''}
 
   @media (max-width: ${breakSmall}) {
     top: 52px;
@@ -170,8 +170,12 @@ export default function TopBar() {
 
   onMount(() => {
     if (areaSelectorLink) {
-      areaSelectorLink.addEventListener('touchstart', touchStart, { passive: false });
-      areaSelectorLink.addEventListener('touchmove', touchMove, { passive: false });
+      areaSelectorLink.addEventListener('touchstart', touchStart, {
+        passive: false
+      });
+      areaSelectorLink.addEventListener('touchmove', touchMove, {
+        passive: false
+      });
       areaSelectorLink.addEventListener('touchend', touchEnd);
     }
   });
@@ -185,7 +189,11 @@ export default function TopBar() {
   });
 
   function toggleLang() {
-    setState('preferences', 'lang', state.preferences.lang === Lang.FI ? Lang.EN : Lang.FI);
+    setState(
+      'preferences',
+      'lang',
+      state.preferences.lang === Lang.FI ? Lang.EN : Lang.FI
+    );
   }
 
   return (
@@ -222,7 +230,10 @@ export default function TopBar() {
           onClick={toggleLang}
           onKeyDown={e => e.key === 'Enter' && toggleLang()}
         >
-          <FlagImg alt={state.preferences.lang.toUpperCase()} src={state.preferences.lang === 'fi' ? FI : EN} />
+          <FlagImg
+            alt={state.preferences.lang.toUpperCase()}
+            src={state.preferences.lang === 'fi' ? FI : EN}
+          />
         </NativeIconLink>
       </Content>
     </Container>

@@ -1,10 +1,10 @@
 import { createStore } from 'solid-js/store';
-import { createResource } from "solid-js";
+import { createResource } from 'solid-js';
 import * as api from './api';
 import addDays from 'date-fns/addDays';
 import startOfDay from 'date-fns/startOfDay';
 import translations from './translations';
-import { DarkModeChoice, Lang, Order, PriceCategory, Update } from "./types";
+import { DarkModeChoice, Lang, Order, PriceCategory, Update } from './types';
 import parseISO from 'date-fns/parseISO';
 import { createMemo } from 'solid-js';
 
@@ -12,15 +12,19 @@ const maxDayOffset = 6;
 
 export function getDisplayedDays(): Date[] {
   const now = new Date();
-  return Array(maxDayOffset + 1).fill(0).map((_: number, i: number) => addDays(now, i));
+  return Array(maxDayOffset + 1)
+    .fill(0)
+    .map((_: number, i: number) => addDays(now, i));
 }
 
 type TranslatedDict = { [t in keyof typeof translations]: any };
 
-const persistedSettings = JSON.parse(localStorage.getItem('preferences') || '{}') as Record<string, unknown>;
+const persistedSettings = JSON.parse(
+  localStorage.getItem('preferences') || '{}'
+) as Record<string, unknown>;
 
 const [state, setState] = createStore({
-  location: null as (GeolocationCoordinates | null),
+  location: null as GeolocationCoordinates | null,
   displayedDays: getDisplayedDays(),
   selectedDay: startOfDay(new Date()),
   preferences: {
@@ -39,7 +43,10 @@ const [state, setState] = createStore({
   properties: [] as string[]
 });
 
-const areaResource = createResource(() => ({ lang: state.preferences.lang }), source => api.getAreas(source.lang));
+const areaResource = createResource(
+  () => ({ lang: state.preferences.lang }),
+  source => api.getAreas(source.lang)
+);
 
 const restaurantResource = createResource(
   () => {
@@ -52,7 +59,7 @@ const restaurantResource = createResource(
       areas: areaResource[0].latest,
       areasLoading: areaResource[0].loading
     };
-  }, 
+  },
   source => {
     if (source.area === -1) {
       if (source.starredRestaurants.length) {
@@ -74,7 +81,8 @@ const restaurantResource = createResource(
         source.maxPriceCategory
       );
     }
-  });
+  }
+);
 
 const menuResource = createResource(
   () => {
@@ -86,9 +94,7 @@ const menuResource = createResource(
   },
   source => {
     if (source.restaurants) {
-      const restaurantIds = source.restaurants.map(
-        restaurant => restaurant.id
-      );
+      const restaurantIds = source.restaurants.map(restaurant => restaurant.id);
       return api.getMenus(restaurantIds, [source.selectedDay], source.lang);
     }
   }
@@ -102,7 +108,7 @@ const resources = {
   ),
   menus: menuResource,
   restaurants: restaurantResource,
-  updates: createResource<Update[]>(() => api.getUpdates()),
+  updates: createResource<Update[]>(() => api.getUpdates())
 };
 
 const computedState = {
@@ -111,10 +117,11 @@ const computedState = {
     if (!state.preferences.updatesLastSeenAt || !updates) {
       return [];
     }
-  
+
     return updates.filter(
       update =>
-        parseISO(update.createdAt).getTime() > state.preferences.updatesLastSeenAt
+        parseISO(update.createdAt).getTime() >
+        state.preferences.updatesLastSeenAt
     );
   }),
   translations: createMemo(() => {
@@ -132,9 +139,4 @@ const computedState = {
   })
 };
 
-export {
-  state,
-  setState,
-  computedState,
-  resources
-};
+export { state, setState, computedState, resources };

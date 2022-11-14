@@ -56,9 +56,18 @@ const Settings = () => {
       <Item label={computedState.translations().theme}>
         <Radio
           options={[
-            { label: computedState.translations().default, value: DarkModeChoice.DEFAULT },
-            { label: computedState.translations().light, value: DarkModeChoice.OFF },
-            { label: computedState.translations().dark, value: DarkModeChoice.ON }
+            {
+              label: computedState.translations().default,
+              value: DarkModeChoice.DEFAULT
+            },
+            {
+              label: computedState.translations().light,
+              value: DarkModeChoice.OFF
+            },
+            {
+              label: computedState.translations().dark,
+              value: DarkModeChoice.ON
+            }
           ]}
           selected={state.preferences.darkMode}
           onChange={value => setState('preferences', 'darkMode', value)}

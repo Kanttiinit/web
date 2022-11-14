@@ -35,19 +35,11 @@ export default (props: FormProps) => {
         label={computedState.translations().address}
         disabled={props.isSending}
       />
-      <Button
-        disabled={props.isSending}
-        type="submit"
-        color="primary"
-      >
+      <Button disabled={props.isSending} type="submit" color="primary">
         {computedState.translations().send}
       </Button>
       &nbsp;
-      <Button
-        disabled={props.isSending}
-        onClick={props.goBack}
-        secondary
-      >
+      <Button disabled={props.isSending} onClick={props.goBack} secondary>
         {computedState.translations().back}
       </Button>
     </form>

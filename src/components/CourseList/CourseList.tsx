@@ -54,24 +54,23 @@ const EmptyText = styled.p`
 `;
 
 const capitalize = (string: string) => {
-  return string ? string.charAt(0).toUpperCase() + string.slice(1).toLowerCase() : '';
+  return string
+    ? string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+    : '';
 };
 
 const CourseList = (props: Props) => {
   const courseGroups = createMemo(() => {
-    const groups = props.courses.reduce(
-      (g, course) => {
-        const group = getCourseGroup(course);
-        if (group in g) {
-          g[group].push(course);
-        } else {
-          g[group] = [course];
-        }
-        return g;
-      },
-      {} as { [key: string]: CourseType[] }
-    );
-  
+    const groups = props.courses.reduce((g, course) => {
+      const group = getCourseGroup(course);
+      if (group in g) {
+        g[group].push(course);
+      } else {
+        g[group] = [course];
+      }
+      return g;
+    }, {} as { [key: string]: CourseType[] });
+
     return Object.keys(groups).map(groupKey => ({
       courses: groups[groupKey]
         .filter(c => !!c.title)
@@ -85,16 +84,16 @@ const CourseList = (props: Props) => {
 
   return (
     <Container {...props}>
-      {!props.courses.length && <EmptyText>{computedState.translations().noMenu}</EmptyText>}
-      <For each={courseGroups()}>
-      {(group: CourseGroup) => (
-        <Group>
-          <GroupTitle>{capitalize(group.key)}</GroupTitle>
-          <For each={group.courses}>
-          {c => <Course course={c} />}
-          </For>
-        </Group>
+      {!props.courses.length && (
+        <EmptyText>{computedState.translations().noMenu}</EmptyText>
       )}
+      <For each={courseGroups()}>
+        {(group: CourseGroup) => (
+          <Group>
+            <GroupTitle>{capitalize(group.key)}</GroupTitle>
+            <For each={group.courses}>{c => <Course course={c} />}</For>
+          </Group>
+        )}
       </For>
     </Container>
   );

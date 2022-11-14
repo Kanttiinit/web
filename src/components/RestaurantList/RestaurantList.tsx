@@ -48,16 +48,24 @@ const Locating = styled.div`
   }
 `;
 
-const placeholders = Array(8).fill(0).map(() => <Placeholder />);
+const placeholders = Array(8)
+  .fill(0)
+  .map(() => <Placeholder />);
 
 function ListContent() {
-  const loading = () => resources.menus[0].loading || resources.restaurants[0].loading || resources.areas[0].loading;
+  const loading = () =>
+    resources.menus[0].loading ||
+    resources.restaurants[0].loading ||
+    resources.areas[0].loading;
   return (
     <Switch>
-      <Match when={loading()}>
-        {placeholders}
-      </Match>
-      <Match when={state.preferences.selectedArea === -2 && !state.preferences.useLocation}>
+      <Match when={loading()}>{placeholders}</Match>
+      <Match
+        when={
+          state.preferences.selectedArea === -2 &&
+          !state.preferences.useLocation
+        }
+      >
         <Notice>
           <InlineIcon>
             <WarningIcon />

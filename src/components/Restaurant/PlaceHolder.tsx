@@ -54,12 +54,10 @@ const arr = Array(10).fill(0);
 export default function PlaceHolder() {
   return (
     <PlaceholderContainer>
-    <Header width={30 + Math.random() * 10} />
-    <Body>
-      <For each={arr}>
-        {() =>  <Course width={40 + Math.random() * 60} />}
-      </For>
-    </Body>
-  </PlaceholderContainer>
+      <Header width={30 + Math.random() * 10} />
+      <Body>
+        <For each={arr}>{() => <Course width={40 + Math.random() * 60} />}</For>
+      </Body>
+    </PlaceholderContainer>
   );
 }

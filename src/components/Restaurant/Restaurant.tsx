@@ -5,7 +5,14 @@ import { styled } from 'solid-styled-components';
 import { RestaurantType } from '../../types';
 import { breakSmall } from '../../globalStyles';
 import { computedState, setState, state } from '../../state';
-import { BikeIcon, EditIcon, FilledStarIcon, LocationIcon, MoreIcon, WalkIcon } from '../../icons';
+import {
+  BikeIcon,
+  EditIcon,
+  FilledStarIcon,
+  LocationIcon,
+  MoreIcon,
+  WalkIcon
+} from '../../icons';
 import Colon from '../Colon';
 import CourseList from '../CourseList';
 import InlineIcon from '../InlineIcon';
@@ -17,10 +24,20 @@ const Distance = (props: { distance?: number }) => {
   const kilometers = () => (props.distance || 0) > 1500;
   return (
     <RestaurantMeta
-      style={{ 'font-weight': 400, 'text-align': 'left', display: 'inline-block' }}
+      style={{
+        'font-weight': 400,
+        'text-align': 'left',
+        display: 'inline-block'
+      }}
     >
       <InlineIcon>
-        {!props.distance ? <LocationIcon /> : kilometers() ? <BikeIcon /> : <WalkIcon />}
+        {!props.distance ? (
+          <LocationIcon />
+        ) : kilometers() ? (
+          <BikeIcon />
+        ) : (
+          <WalkIcon />
+        )}
       </InlineIcon>
       {!props.distance
         ? computedState.translations().locating
@@ -28,7 +45,10 @@ const Distance = (props: { distance?: number }) => {
         ? parseFloat(String(props.distance / 1000)).toFixed(1)
         : Math.round(props.distance)}
       &nbsp;
-      {props.distance && (kilometers() ? computedState.translations().kilometers : computedState.translations().meters)}
+      {props.distance &&
+        (kilometers()
+          ? computedState.translations().kilometers
+          : computedState.translations().meters)}
     </RestaurantMeta>
   );
 };
@@ -59,7 +79,7 @@ export const Container = styled.article<{ noCourses?: boolean }>`
     border-radius: 0;
   }
 
-  ${props => props.noCourses ? 'opacity: 0.6;' : ''}
+  ${props => (props.noCourses ? 'opacity: 0.6;' : '')}
 `;
 
 export const Header = styled.header`
@@ -147,7 +167,7 @@ export const courseListStyles = `
 
 const StyledCourseList = styled(CourseList)<{ noCourses?: boolean }>`
   ${courseListStyles}
-  ${props => props.noCourses ? 'var(--gray3)' : ''}
+  ${props => (props.noCourses ? 'var(--gray3)' : '')}
 `;
 
 const ClosedText = styled.small`
@@ -165,14 +185,24 @@ const Restaurant = (props: Props) => {
     isSameDay(state.selectedDay, new Date()) && !props.restaurant.isOpenNow;
 
   const toggleStar = () => {
-    setState('preferences', 'starredRestaurants', getArrayWithToggled(state.preferences.starredRestaurants, props.restaurant.id));
+    setState(
+      'preferences',
+      'starredRestaurants',
+      getArrayWithToggled(
+        state.preferences.starredRestaurants,
+        props.restaurant.id
+      )
+    );
   };
 
   return (
     <Container noCourses={props.restaurant.noCourses}>
       <Link to={`/restaurant/${props.restaurant.id}`}>
         <Header>
-          <RestaurantName noCourses={props.restaurant.noCourses} isClosed={isClosed()}>
+          <RestaurantName
+            noCourses={props.restaurant.noCourses}
+            isClosed={isClosed()}
+          >
             {props.restaurant.name}
             <div>
               {state.preferences.useLocation && (
@@ -181,7 +211,9 @@ const Restaurant = (props: Props) => {
                   &nbsp;&nbsp;
                 </>
               )}
-              <PriceCategoryBadge priceCategory={props.restaurant.priceCategory} />
+              <PriceCategoryBadge
+                priceCategory={props.restaurant.priceCategory}
+              />
             </div>
           </RestaurantName>
           <RestaurantMeta>
@@ -194,7 +226,9 @@ const Restaurant = (props: Props) => {
               </>
             )}
             {isClosed() && (
-              <ClosedText>{computedState.translations().restaurantClosed}</ClosedText>
+              <ClosedText>
+                {computedState.translations().restaurantClosed}
+              </ClosedText>
             )}
           </RestaurantMeta>
         </Header>

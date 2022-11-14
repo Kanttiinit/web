@@ -41,10 +41,13 @@ export default function RestaurantMap(props: Props) {
 
   onMount(() => {
     const map = leaflet.map(container!).setView(props.restaurantPoint, 14);
-    leaflet.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+    leaflet
+      .tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution:
+          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      })
+      .addTo(map);
     leaflet.marker(props.restaurantPoint).addTo(map);
   });
 
@@ -58,7 +61,5 @@ export default function RestaurantMap(props: Props) {
   //   </Overlay>
   // )}
 
-  return (
-    <Container ref={container} />
-  );
+  return <Container ref={container} />;
 }

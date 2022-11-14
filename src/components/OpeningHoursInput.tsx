@@ -18,7 +18,7 @@ const InputGroup = styled.div`
     width: 7ch;
     font-size: 0.9rem;
     font-weight: 500;
-    margin-left: .5ch;
+    margin-left: 0.5ch;
     white-space: nowrap;
   }
 `;
@@ -35,9 +35,7 @@ interface Props {
 }
 
 const OpeningHoursInput = (props: Props) => {
-  const [openingHours, setOpeningHours] = createSignal<(string[] | null)[]>(
-    []
-  );
+  const [openingHours, setOpeningHours] = createSignal<(string[] | null)[]>([]);
   let firstRun = true;
 
   createEffect(() => {
@@ -92,16 +90,14 @@ const OpeningHoursInput = (props: Props) => {
         ) => {
           const hours = [...openingHours()];
           const dayHours = hours[dayIndex];
-          if (dayHours)
-            dayHours[timeIndex] = value;
+          if (dayHours) dayHours[timeIndex] = value;
           setOpeningHours(hours);
         };
 
         const createCopyFromPrevious = (dayIndex: number) => () => {
           const hours = [...openingHours()];
           const previous = hours[dayIndex - 1];
-          if (previous)
-            hours[dayIndex] = [...previous];
+          if (previous) hours[dayIndex] = [...previous];
           setOpeningHours(hours);
         };
 
@@ -113,7 +109,7 @@ const OpeningHoursInput = (props: Props) => {
                 disabled={props.disabled}
                 onChange={createDayToggler(i())}
                 checked={!isClosed}
-                />
+              />
               {weekDayLabel()}
             </label>
             <StyledInput

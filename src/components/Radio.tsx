@@ -49,8 +49,8 @@ export const Button = styled.button<{ selected: boolean }>`
   }
 
   ${props =>
-    props.selected ?
-    `
+    props.selected
+      ? `
     background: var(--accent_color);
     color: var(--gray6);
 
@@ -58,11 +58,16 @@ export const Button = styled.button<{ selected: boolean }>`
       filter: brightness(115%);
       color: var(--gray6);
     }
-  ` : ''}
+  `
+      : ''}
 `;
 
 export default function Radio<T>(props: Props<T>) {
-  const [ownProps, rest] = splitProps(props, ['onChange', 'options', 'selected']);
+  const [ownProps, rest] = splitProps(props, [
+    'onChange',
+    'options',
+    'selected'
+  ]);
   return (
     <Container {...rest}>
       <For each={props.options}>

@@ -1,6 +1,15 @@
 import { styled } from 'solid-styled-components';
 
-import { createResource, createSignal, For, JSX, Match, Show, Switch, ValidComponent } from 'solid-js'; 
+import {
+  createResource,
+  createSignal,
+  For,
+  JSX,
+  Match,
+  Show,
+  Switch,
+  ValidComponent
+} from 'solid-js';
 import { RestaurantType } from '../../types';
 import { createRestaurantChange, getRestaurant } from '../../api';
 import allTranslations from '../../translations';
@@ -57,7 +66,7 @@ const ErrorMessage = styled.p`
 interface ReportForm {
   component: ValidComponent;
   icon: JSX.Element;
-  labelId: keyof (typeof allTranslations);
+  labelId: keyof typeof allTranslations;
 }
 
 const reportForms: ReportForm[] = [
@@ -84,10 +93,13 @@ const ReportModal = () => {
   const [done, setDone] = createSignal(false);
   const [isSending, setIsSending] = createSignal(false);
   const params = useParams();
-  const [restaurant] = createResource(() => ({
-    id: Number(params.id),
-    lang: state.preferences.lang
-  }), source => getRestaurant(source.id, source.lang));
+  const [restaurant] = createResource(
+    () => ({
+      id: Number(params.id),
+      lang: state.preferences.lang
+    }),
+    source => getRestaurant(source.id, source.lang)
+  );
 
   const sendChange: FormProps['sendChange'] = async change => {
     setIsSending(true);
@@ -105,12 +117,15 @@ const ReportModal = () => {
     }
   };
 
-  const title = () => !restaurant.loading
-    ? computedState.translations().fixRestaurantInformation.replace(
-        '%restaurantName%',
-        restaurant()?.name
-      )
-    : '';
+  const title = () =>
+    !restaurant.loading
+      ? computedState
+          .translations()
+          .fixRestaurantInformation.replace(
+            '%restaurantName%',
+            restaurant()?.name
+          )
+      : '';
 
   return (
     <PageContainer title={title()} compactTitle>
@@ -120,38 +135,38 @@ const ReportModal = () => {
           {computedState.translations().thanksForFeedback}
         </Match>
         <Match keyed when={activeForm()}>
-          {form =>
-          <>
-            <Dynamic
-              component={form.component}
-              goBack={() => (setActiveForm(null), setError(null))}
-              isSending={isSending()}
-              restaurant={restaurant()}
-              sendChange={sendChange}
-              setDone={setDone}
-              setError={setError}
-            />
-            <Show keyed when={error()}>
-              {error =>
-                <ErrorMessage>
-                  <InlineIcon>
-                    <ErrorIcon />
-                  </InlineIcon>{' '}
-                  {error.message}
-                </ErrorMessage>
-              }
-            </Show>
-          </>
-          }
+          {form => (
+            <>
+              <Dynamic
+                component={form.component}
+                goBack={() => (setActiveForm(null), setError(null))}
+                isSending={isSending()}
+                restaurant={restaurant()}
+                sendChange={sendChange}
+                setDone={setDone}
+                setError={setError}
+              />
+              <Show keyed when={error()}>
+                {error => (
+                  <ErrorMessage>
+                    <InlineIcon>
+                      <ErrorIcon />
+                    </InlineIcon>{' '}
+                    {error.message}
+                  </ErrorMessage>
+                )}
+              </Show>
+            </>
+          )}
         </Match>
         <Match when={true}>
           <For each={reportForms}>
-            {form =>
+            {form => (
               <ListItem onClick={() => setActiveForm(form)}>
                 <InlineIcon>{form.icon}</InlineIcon>
                 {computedState.translations()[form.labelId]}
               </ListItem>
-            }
+            )}
           </For>
         </Match>
       </Switch>

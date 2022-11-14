@@ -6,7 +6,7 @@ export const RoundedButtonContainer = styled.div`
   overflow: auto;
 
   &:after {
-    content: "";
+    content: '';
     flex-grow: 1000000000;
   }
 `;
@@ -36,8 +36,8 @@ export const RoundedButton = styled.button<{
   }
 
   ${props =>
-    props.selected ?
-    `
+    props.selected
+      ? `
       background: ${props.color};
       color: var(--gray6);
 
@@ -45,5 +45,6 @@ export const RoundedButton = styled.button<{
         filter: brightness(115%);
         background: ${props.color};
       }
-    ` : ''}
+    `
+      : ''}
 `;

@@ -77,17 +77,19 @@ export const properties: FormattedProperty[] = [
 
 export const priceCategorySettings = {
   [PriceCategory.student]: {
-    fi: 'Näytetään vain ravintolat, jotka tarjoavat opiskelijahintaisen lounaan.',
+    fi:
+      'Näytetään vain ravintolat, jotka tarjoavat opiskelijahintaisen lounaan.',
     en: 'Only showing restaurants that provide student-priced lunches.'
   },
   [PriceCategory.studentPremium]: {
-    fi: 'Näytetään ravintolat, jotka tarjoavat mitä tahansa opiskelija-alennuksia.',
+    fi:
+      'Näytetään ravintolat, jotka tarjoavat mitä tahansa opiskelija-alennuksia.',
     en: 'Showing restaurants that provide any student discounts.'
   },
   [PriceCategory.regular]: {
     fi: 'Näytetään kaikki ravintolat.',
     en: 'Showing all restaurants.'
-  },
+  }
 };
 
 const translations = {
@@ -119,9 +121,7 @@ const translations = {
           isn&#39;t directly responsible for the correctness of any information.
           Please verify the information about allergens at the restaurants.
         </p>
-        <p>
-          Kanttiinit does not collect any identifiable user data.
-        </p>
+        <p>Kanttiinit does not collect any identifiable user data.</p>
       </div>
     ),
     fi: (
@@ -131,9 +131,7 @@ const translations = {
           eikä ole itse vastuussa tietojen paikkansapitävyydestä. Muista
           varmistaa ruokien allergeenit paikan päällä ravintolassa.
         </p>
-        <p>
-          Kanttiinit ei kerää mitään käyttäjän dataa.
-        </p>
+        <p>Kanttiinit ei kerää mitään käyttäjän dataa.</p>
       </div>
     )
   },

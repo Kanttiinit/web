@@ -1,4 +1,4 @@
-import { For } from "solid-js";
+import { For } from 'solid-js';
 import * as React from 'react';
 
 import LatLngInput from '../components/LatLngInput';
@@ -11,8 +11,8 @@ import {
   ModelFieldGroup,
   RelationField
 } from './models';
-import Input from "../components/Input";
-import format from "date-fns/format";
+import Input from '../components/Input';
+import format from 'date-fns/format';
 
 interface InputProps {
   value: any;
@@ -50,15 +50,15 @@ const MenuUrlInput = (props: InputProps) => {
       .replace('%day%', format(now(), 'dd'));
   return (
     <>
-    <Input
-      onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
-      value={props.value || ''}
-      type="text"
-      label={props.field.title}
-    />
-    <a target="_blank" href={link()}>
-      Open
-    </a>
+      <Input
+        onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
+        value={props.value || ''}
+        type="text"
+        label={props.field.title}
+      />
+      <a target="_blank" href={link()}>
+        Open
+      </a>
     </>
   );
 };
@@ -110,7 +110,9 @@ export const BooleanInput = (props: InputProps) => (
     control={
       <Switch
         checked={props.value || false}
-        onChange={(e: any) => props.setValue(props.field.path, e.target.checked)}
+        onChange={(e: any) =>
+          props.setValue(props.field.path, e.target.checked)
+        }
       />
     }
     label={props.field.title}
@@ -119,7 +121,9 @@ export const BooleanInput = (props: InputProps) => (
 
 const NumericInput = (props: InputProps) => (
   <Input
-    onChange={(e: any) => props.setValue(props.field.path, Number(e.target.value))}
+    onChange={(e: any) =>
+      props.setValue(props.field.path, Number(e.target.value))
+    }
     value={props.value || ''}
     label={props.field.title}
     type="number"
@@ -184,7 +188,9 @@ export const DayOfWeekSelect = (props: InputProps) => (
     <InputLabel>{props.field.title}</InputLabel>
     <select
       value={String(props.value) || '0'}
-      onChange={(e: any) => props.setValue(props.field.path, Number(e.target.value))}
+      onChange={(e: any) =>
+        props.setValue(props.field.path, Number(e.target.value))
+      }
     >
       {[
         'Monday',
@@ -195,9 +201,7 @@ export const DayOfWeekSelect = (props: InputProps) => (
         'Saturday',
         'Sunday'
       ].map((day, i) => (
-        <option value={String(i)}>
-          {day}
-        </option>
+        <option value={String(i)}>{day}</option>
       ))}
     </select>
   </FormControl>
@@ -226,11 +230,13 @@ const RelationInput = (props: {
         value={value || (state.data.length ? state.data[0].id : '')}
         onChange={e => setValue(field.path, e.target.value)}
       >
-        <For each={sortBy(field.relationDisplayField, state.data)}>{(item: any) => (
-          <option value={item.id}>
-            {get(field.relationDisplayField, item)}
-          </option>
-        )}</For>
+        <For each={sortBy(field.relationDisplayField, state.data)}>
+          {(item: any) => (
+            <option value={item.id}>
+              {get(field.relationDisplayField, item)}
+            </option>
+          )}
+        </For>
       </select>
     </FormControl>
   );
@@ -261,11 +267,9 @@ const EnumInput = (props: InputProps) => (
       value={props.value || props.field.default}
       onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
     >
-      <For each={(props.field as EnumField).values}>{(item: string) => (
-        <option value={item}>
-          {item}
-        </option>
-      )}</For>
+      <For each={(props.field as EnumField).values}>
+        {(item: string) => <option value={item}>{item}</option>}
+      </For>
     </select>
   </FormControl>
 );

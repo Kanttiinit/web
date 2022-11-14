@@ -23,13 +23,14 @@ const Container = styled(Tooltip)<{ dimmed: boolean; highlighted: boolean }>`
   position: relative;
 
   ${props =>
-    props.highlighted ?
-    `
+    props.highlighted
+      ? `
       color: var(--friendly);
       font-weight: 500;
-    ` : ''}
+    `
+      : ''}
 
-  ${props => props.dimmed ? 'color: var(--gray4);' : ''}
+  ${props => (props.dimmed ? 'color: var(--gray4);' : '')}
 
   &:hover {
     color: var(--accent_color);
@@ -48,11 +49,28 @@ interface Props {
 
 export default function Property(props: Props) {
   const prop = () => properties.find(p => p.key === props.property)!;
-  const propName = () => prop ? (state.preferences.lang === 'fi' ? prop().name_fi : prop().name_en) : '';
+  const propName = () =>
+    prop
+      ? state.preferences.lang === 'fi'
+        ? prop().name_fi
+        : prop().name_en
+      : '';
   return (
-    <Container text={propName()} dimmed={props.dimmed} highlighted={props.highlighted}>
+    <Container
+      text={propName()}
+      dimmed={props.dimmed}
+      highlighted={props.highlighted}
+    >
       {props.property}
-      <ClickTrap onClick={() => setState('preferences', 'properties', getArrayWithToggled(state.preferences.properties, props.property))} />
+      <ClickTrap
+        onClick={() =>
+          setState(
+            'preferences',
+            'properties',
+            getArrayWithToggled(state.preferences.properties, props.property)
+          )
+        }
+      />
     </Container>
   );
 }

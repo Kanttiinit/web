@@ -1,18 +1,24 @@
-import { sort } from "fast-sort";
-import { createEffect, createMemo, For, Match, onMount, Show, Switch } from "solid-js";
-import { createStore } from "solid-js/store";
-import { styled } from "solid-styled-components";
-import Button from "../components/Button";
-import Modal from "../components/Modal";
-import { get } from "../utils";
+import { sort } from 'fast-sort';
+import {
+  createEffect,
+  createMemo,
+  For,
+  Match,
+  onMount,
+  Show,
+  Switch
+} from 'solid-js';
+import { createStore } from 'solid-js/store';
+import { styled } from 'solid-styled-components';
+import Button from '../components/Button';
+import Modal from '../components/Modal';
+import { get } from '../utils';
 
 import * as api from './api';
 import Editor from './Editor';
 import { Model } from './models';
 
-const Table = styled.table`
-  
-`;
+const Table = styled.table``;
 
 interface Props {
   model: Model;
@@ -30,19 +36,24 @@ interface State {
 function Value(props: { value: any }) {
   return (
     <Switch>
-      <Match keyed when={typeof props.value === 'string' && props.value.startsWith('http') && props.value}>
-        {value =>
-        <a href={value} target="_blank" rel="noreferrer">
-          {value}
-        </a>
+      <Match
+        keyed
+        when={
+          typeof props.value === 'string' &&
+          props.value.startsWith('http') &&
+          props.value
         }
+      >
+        {value => (
+          <a href={value} target="_blank" rel="noreferrer">
+            {value}
+          </a>
+        )}
       </Match>
       <Match when={typeof props.value === 'boolean'}>
         {props.value ? 'Yes' : 'No'}
       </Match>
-      <Match when={true}>
-        {props.value}
-      </Match>
+      <Match when={true}>{props.value}</Match>
     </Switch>
   );
 }
@@ -54,7 +65,8 @@ export default function DataTable(props: Props) {
     loading: false
   });
 
-  const openCreateDialog = () => setState({ mode: 'creating', item: undefined });
+  const openCreateDialog = () =>
+    setState({ mode: 'creating', item: undefined });
 
   const hideDialog = () => setState({ mode: undefined });
 
@@ -82,7 +94,9 @@ export default function DataTable(props: Props) {
     setState({ loading: false, items: await api.fetchItems(props.model) });
   };
 
-  const sortedItems = createMemo(() => /*state.sortedColumn
+  const sortedItems = createMemo(
+    () =>
+      /*state.sortedColumn
     ? sort(state.items).by({ [state.sortDirection]: state.sortedColumn! })
     : */ state.items
   );
@@ -92,7 +106,7 @@ export default function DataTable(props: Props) {
       sortedColumn: props.model.defaultSort,
       sortDirection: 'asc'
     });
-  }
+  };
 
   createEffect(async () => {
     setState({ loading: true, items: [] });
@@ -114,43 +128,42 @@ export default function DataTable(props: Props) {
           onCancel={hideDialog}
         />
       </Modal>
-      <Button
-        style={{ margin: '1em 0' }}
-        onClick={openCreateDialog}
-      >
+      <Button style={{ margin: '1em 0' }} onClick={openCreateDialog}>
         Create
       </Button>
       <Show when={!state.loading} fallback={<p>Loading...</p>}>
-        <div style={{ "overflow-x": 'auto' }}>
+        <div style={{ 'overflow-x': 'auto' }}>
           <Table>
             <thead>
               <tr>
-                <For each={props.model.tableFields}>{field => (
-                  <th>
-                    {/* <TableSortLabel
+                <For each={props.model.tableFields}>
+                  {field => (
+                    <th>
+                      {/* <TableSortLabel
                       direction={state.sortDirection}
                       onClick={() => changeSort(field.key)}
                       active={state.sortedColumn === field.key}
                     > */}
                       {field.name}
-                    {/* </TableSortLabel> */}
-                  </th>
-                )}</For>
+                      {/* </TableSortLabel> */}
+                    </th>
+                  )}
+                </For>
               </tr>
             </thead>
             <tbody>
               <For each={sortedItems()}>
-              {item =>
-                <tr onClick={() => setState({ mode: 'editing', item })}>
-                  <For each={props.model.tableFields}>
-                    {field =>
-                    <td>
-                      <Value value={get(item, field.key)} />
-                    </td>
-                    }
-                  </For>
-                </tr>
-                }
+                {item => (
+                  <tr onClick={() => setState({ mode: 'editing', item })}>
+                    <For each={props.model.tableFields}>
+                      {field => (
+                        <td>
+                          <Value value={get(item, field.key)} />
+                        </td>
+                      )}
+                    </For>
+                  </tr>
+                )}
               </For>
             </tbody>
           </Table>

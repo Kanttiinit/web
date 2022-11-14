@@ -9,11 +9,17 @@ export default function FavoriteSelector() {
   return (
     <RoundedButtonContainer>
       <For each={formattedFavorites()}>
-        {favorite =>
+        {favorite => (
           <RoundedButton
             color="var(--hearty)"
             selected={favorite.isSelected}
-            onClick={() => setState('preferences', 'favorites', getArrayWithToggled(state.preferences.favorites, favorite.id))}
+            onClick={() =>
+              setState(
+                'preferences',
+                'favorites',
+                getArrayWithToggled(state.preferences.favorites, favorite.id)
+              )
+            }
           >
             <InlineIcon>
               {favorite.isSelected ? <FilledHeartIcon /> : <HeartIcon />}
@@ -21,7 +27,7 @@ export default function FavoriteSelector() {
             &nbsp;
             {favorite.name}
           </RoundedButton>
-        }
+        )}
       </For>
     </RoundedButtonContainer>
   );

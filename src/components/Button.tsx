@@ -14,7 +14,8 @@ const Button = styled.button<ButtonProps>`
   display: inline-block;
   text-transform: uppercase;
   min-width: 4rem;
-  background: ${props => props.secondary ? 'var(--gray3)' : 'var(--accent_color)'};
+  background: ${props =>
+    props.secondary ? 'var(--gray3)' : 'var(--accent_color)'};
   text-align: center;
   color: var(--gray6);
   outline: none;
@@ -40,11 +41,12 @@ const Button = styled.button<ButtonProps>`
   }
 
   ${props =>
-    props.small ?
-    `
+    props.small
+      ? `
       font-size: 0.7rem;
       padding: 0.5em 0.7em;
-    ` : ''}
+    `
+      : ''}
 `;
 
 export const TextButton = styled(Button)`

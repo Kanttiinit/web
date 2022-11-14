@@ -25,7 +25,7 @@ const Container = styled.nav`
   }
 `;
 
-const StyledLink = styled(Link)<{activeLink: boolean;}>`
+const StyledLink = styled(Link)<{ activeLink: boolean }>`
   && {
     border: none;
     background: transparent;
@@ -52,11 +52,12 @@ const StyledLink = styled(Link)<{activeLink: boolean;}>`
     }
 
     ${props =>
-      props.activeLink ?
-      `
+      props.activeLink
+        ? `
       color: var(--gray1);
       font-weight: 600;
-    ` : ''}
+    `
+        : ''}
 
     @media (min-width: ${breakSmall}) {
       font-size: 0.8rem;
@@ -70,9 +71,10 @@ const StyledLink = styled(Link)<{activeLink: boolean;}>`
 
 const DayLink = (props: DayLinkProps) => {
   const date = formattedDay(props.day, 'iiiiii d.M.');
-  const search = () => isSameDay(props.day, new Date())
-    ? ''
-    : `?day=${format(props.day, 'y-MM-dd')}`;
+  const search = () =>
+    isSameDay(props.day, new Date())
+      ? ''
+      : `?day=${format(props.day, 'y-MM-dd')}`;
   const active = () => isSameDay(props.selectedDay, props.day);
 
   const location = useLocation();
@@ -91,12 +93,7 @@ export default function DaySelector() {
         <DayLink day={state.selectedDay} selectedDay={state.selectedDay} />
       )}
       <For each={state.displayedDays}>
-        {day =>
-          <DayLink
-            selectedDay={state.selectedDay}
-            day={day}
-          />
-        }
+        {day => <DayLink selectedDay={state.selectedDay} day={day} />}
       </For>
     </Container>
   );

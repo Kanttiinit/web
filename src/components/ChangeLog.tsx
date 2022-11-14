@@ -52,7 +52,7 @@ const PublishedAt = styled.p`
 const ArrowDownIcon = styled(CaretDownIcon)<{ isVisible: boolean }>`
   margin-top: 0.4em;
   transition: transform 0.3s;
-  ${props => props.isVisible ? 'transform: rotateX(180deg);' : ''}
+  ${props => (props.isVisible ? 'transform: rotateX(180deg);' : '')}
 `;
 
 const ChangeLog = () => {

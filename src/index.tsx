@@ -1,7 +1,7 @@
 import 'url-polyfill';
 
-import {  render } from 'solid-js/web';
-import { Route, Router, Routes } from "@solidjs/router";
+import { render } from 'solid-js/web';
+import { Route, Router, Routes } from '@solidjs/router';
 
 import App from './components/App';
 // import Map from './components/Map';
@@ -12,17 +12,19 @@ import { computedState } from './state';
 import { lazy, ErrorBoundary as SolidErrorBoundary } from 'solid-js';
 const Admin = lazy(() => import('./admin'));
 
-export function ErrorBoundary(props: { children: any, fallback?: any }) {
+export function ErrorBoundary(props: { children: any; fallback?: any }) {
   return (
-    <SolidErrorBoundary fallback={error => {
-      console.error(error);
-      
-      if (consts.isProduction) {
-        // window.Sentry.captureException(error);
-      }
+    <SolidErrorBoundary
+      fallback={error => {
+        console.error(error);
 
-      return props.fallback || <ErrorMessage />;
-    }}>
+        if (consts.isProduction) {
+          // window.Sentry.captureException(error);
+        }
+
+        return props.fallback || <ErrorMessage />;
+      }}
+    >
       {props.children}
     </SolidErrorBoundary>
   );

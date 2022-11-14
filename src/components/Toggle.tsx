@@ -34,12 +34,12 @@ const StyledToggle = styled.span<{ switchedOn: boolean }>`
     height: 2em;
     transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     content: '';
-    ${props => props.switchedOn ? 'margin-left: 1.9em;' : ''}
+    ${props => (props.switchedOn ? 'margin-left: 1.9em;' : '')}
   }
 
   ${props =>
-    props.switchedOn ?
-    `
+    props.switchedOn
+      ? `
       background: var(--accent_color);
       border-color: var(--accent_color);
 
@@ -47,7 +47,8 @@ const StyledToggle = styled.span<{ switchedOn: boolean }>`
         background: var(--accent_color);
         filter: brightness(120%);
       }
-    ` : ''}
+    `
+      : ''}
 `;
 
 const Toggle = (props: Props) => (

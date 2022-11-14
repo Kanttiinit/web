@@ -25,7 +25,7 @@ function getOpeningHourString(hours: string[]) {
       }
     }
     return open;
-  }, [] as { startDay: number, endDay?: number, hour: string }[]);
+  }, [] as { startDay: number; endDay?: number; hour: string }[]);
 }
 
 const Info = styled.div`
@@ -99,27 +99,41 @@ const OpeningHoursTime = styled.div`
 
 const RestaurantModal = () => {
   const params = useParams();
-  const [restaurant] = createResource(() => {
-    return {
-      lang: state.preferences.lang,
-      id: params.id
-    };
-  }, async source => {
-    const restaurant = (resources.restaurants[0]() || []).find(
-      r => r.id === Number(source.id)
-    );
-    if (restaurant) {
-      return restaurant;
+  const [restaurant] = createResource(
+    () => {
+      return {
+        lang: state.preferences.lang,
+        id: params.id
+      };
+    },
+    async source => {
+      const restaurant = (resources.restaurants[0]() || []).find(
+        r => r.id === Number(source.id)
+      );
+      if (restaurant) {
+        return restaurant;
+      }
+      const result = await api.getRestaurantsByIds(
+        [Number(source.id)],
+        source.lang
+      );
+      if (result.length) {
+        return result[0];
+      }
     }
-    const result = await api.getRestaurantsByIds([Number(source.id)], source.lang);
-    if (result.length) {
-      return result[0];
-    }
-  });
+  );
 
   return (
-    <Show keyed when={restaurant()} fallback={<PageContainer title={computedState.translations().restaurantNotFound} />}>
-      {restaurant =>
+    <Show
+      keyed
+      when={restaurant()}
+      fallback={
+        <PageContainer
+          title={computedState.translations().restaurantNotFound}
+        />
+      }
+    >
+      {restaurant => (
         <PageContainer title={restaurant.name}>
           <Info>
             <LinkContainer>
@@ -148,8 +162,14 @@ const RestaurantModal = () => {
             <OpeningHoursContainer>
               <For each={getOpeningHourString(restaurant.openingHours)}>
                 {hours => {
-                  const startDate = formattedDay(setIsoDay(new Date(), hours.startDay + 1), 'EEEEEE');
-                  const endDate = formattedDay(setIsoDay(new Date(), hours.endDay || 0 + 1), 'EEEEEE');
+                  const startDate = formattedDay(
+                    setIsoDay(new Date(), hours.startDay + 1),
+                    'EEEEEE'
+                  );
+                  const endDate = formattedDay(
+                    setIsoDay(new Date(), hours.endDay || 0 + 1),
+                    'EEEEEE'
+                  );
                   return (
                     <OpeningHoursRow>
                       <OpeningHoursDay>
@@ -162,7 +182,8 @@ const RestaurantModal = () => {
                         )}
                       </OpeningHoursDay>
                       <OpeningHoursTime>
-                        {hours.hour.replace('-', '–') || computedState.translations().closed}
+                        {hours.hour.replace('-', '–') ||
+                          computedState.translations().closed}
                       </OpeningHoursTime>
                     </OpeningHoursRow>
                   );
@@ -181,7 +202,7 @@ const RestaurantModal = () => {
             }
           />
         </PageContainer>
-      }
+      )}
     </Show>
   );
 };

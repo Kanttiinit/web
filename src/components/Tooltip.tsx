@@ -22,7 +22,7 @@ const Container = styled.div`
 interface Props {
   children: any;
   text?: string;
-  translationKey?: keyof (typeof translations);
+  translationKey?: keyof typeof translations;
   position?: Popper.Position;
   class?: string;
 }
@@ -38,16 +38,20 @@ const Tooltip = (props: Props): any => {
         placement: props.position || 'bottom-start'
       });
     }
-  }
+  };
 
   if (!props.text && !(props.translationKey! in translations)) {
     return props.children;
   }
 
-  const contents = () => props.text || computedState.translations()[props.translationKey!];
+  const contents = () =>
+    props.text || computedState.translations()[props.translationKey!];
 
   return (
-    <Show when={props.text || (props.translationKey! in translations)} fallback={props.children}>
+    <Show
+      when={props.text || props.translationKey! in translations}
+      fallback={props.children}
+    >
       <span
         onMouseOver={() => setIsOpen(true)}
         onMouseLeave={() => setIsOpen(false)}
@@ -56,11 +60,11 @@ const Tooltip = (props: Props): any => {
       >
         {props.children}
       </span>
-      {isOpen() &&
-      <Portal mount={document.body}>
-        <Container ref={setTooltip}>{contents()}</Container>
-      </Portal>
-      }
+      {isOpen() && (
+        <Portal mount={document.body}>
+          <Container ref={setTooltip}>{contents()}</Container>
+        </Portal>
+      )}
     </Show>
   );
 };

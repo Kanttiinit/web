@@ -18,7 +18,9 @@ const Container = styled.div`
   box-sizing: border-box;
   color: var(--gray1);
 
-  p, strong, ul {
+  p,
+  strong,
+  ul {
     color: var(--gray1);
   }
 `;
@@ -49,10 +51,17 @@ const Title = styled.h1<{ compact?: boolean }>`
 `;
 
 const PageContainer = (props: Props) => {
-  const [ownProps, rest] = splitProps(props, ['children', 'title', 'class', 'compactTitle']);
+  const [ownProps, rest] = splitProps(props, [
+    'children',
+    'title',
+    'class',
+    'compactTitle'
+  ]);
   return (
     <Container {...rest}>
-      {ownProps.title && <Title compact={ownProps.compactTitle}>{ownProps.title}</Title>}
+      {ownProps.title && (
+        <Title compact={ownProps.compactTitle}>{ownProps.title}</Title>
+      )}
       {ownProps.children}
     </Container>
   );

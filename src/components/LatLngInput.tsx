@@ -46,10 +46,13 @@ const LatLngInput = (props: Props) => {
 
   onMount(() => {
     map = leaflet.map(container!).setView(props.value, 14);
-    leaflet.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+    leaflet
+      .tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution:
+          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      })
+      .addTo(map);
     marker = leaflet.marker(props.value, { draggable: true }).addTo(map);
     marker.addEventListener('dragend', () => {
       const pos = marker.getLatLng();
@@ -61,7 +64,7 @@ const LatLngInput = (props: Props) => {
     marker.remove();
     map.remove();
   });
-  
+
   createEffect(() => {
     if (marker && map) {
       marker.setLatLng(props.value);
@@ -79,7 +82,9 @@ const LatLngInput = (props: Props) => {
           id="latitude"
           disabled={props.disabled}
           value={props.value[0] || 0}
-          onChange={strValue => props.onChange([Number(strValue), props.value[1]])}
+          onChange={strValue =>
+            props.onChange([Number(strValue), props.value[1]])
+          }
         />
         <Input
           label="Longitude"
@@ -87,7 +92,9 @@ const LatLngInput = (props: Props) => {
           id="longitude"
           disabled={props.disabled}
           value={props.value[1] || 0}
-          onChange={strValue => props.onChange([props.value[0], Number(strValue)])}
+          onChange={strValue =>
+            props.onChange([props.value[0], Number(strValue)])
+          }
         />
       </LatLngContainer>
     </>

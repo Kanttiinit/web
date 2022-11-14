@@ -48,11 +48,20 @@ export default function App() {
   });
 
   createEffect(() => {
-    const day = new URL('http://dummy.com' + location.search).searchParams.get('day');
-    setState('selectedDay', day ? startOfDay(parse(day, 'y-MM-dd', new Date())) : startOfDay(new Date()));
+    const day = new URL('http://dummy.com' + location.search).searchParams.get(
+      'day'
+    );
+    setState(
+      'selectedDay',
+      day
+        ? startOfDay(parse(day, 'y-MM-dd', new Date()))
+        : startOfDay(new Date())
+    );
   });
 
-  const [locationWatchId, setLocationWatchId] = createSignal<number | null>(null);
+  const [locationWatchId, setLocationWatchId] = createSignal<number | null>(
+    null
+  );
   createEffect(() => {
     // start or stop watching for location
     if (state.preferences.useLocation && !locationWatchId()) {

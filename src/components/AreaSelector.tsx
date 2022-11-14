@@ -44,7 +44,7 @@ const AreaWrapper = styled.div`
   box-sizing: border-box;
 `;
 
-const AreaButton = styled(Button)<{ selected: boolean; }>`
+const AreaButton = styled(Button)<{ selected: boolean }>`
   background-color: ${props =>
     props.selected ? 'var(--gray6)' : 'transparent'};
   color: inherit;
@@ -108,7 +108,7 @@ export default function AreaSelector(props: Props) {
   return (
     <Container>
       <For each={specialAreas}>
-        {area =>
+        {area => (
           <Area
             selectedAreaId={state.preferences.selectedArea}
             selectArea={selectArea}
@@ -122,10 +122,10 @@ export default function AreaSelector(props: Props) {
               )
             }}
           />
-        }
+        )}
       </For>
-      <For each={areas()?.sort((a, b) => a.name > b.name ? -1 : 1)}>
-        {(area: AreaType) =>
+      <For each={areas()?.sort((a, b) => (a.name > b.name ? -1 : 1))}>
+        {(area: AreaType) => (
           <Area
             selectedAreaId={state.preferences.selectedArea}
             selectArea={selectArea}
@@ -133,8 +133,8 @@ export default function AreaSelector(props: Props) {
               id: area.id,
               label: area.name
             }}
-        />
-        }
+          />
+        )}
       </For>
     </Container>
   );

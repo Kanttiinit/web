@@ -3,7 +3,7 @@ import { styled } from 'solid-styled-components';
 import { PriceCategory } from '../../types';
 import { state } from '../../state';
 import { priceCategorySettings } from '../../translations';
-import {Button} from '../Radio';
+import { Button } from '../Radio';
 import { MoneyIcon } from '../../icons';
 
 type Props = {
@@ -33,7 +33,7 @@ const Item = styled(Button)`
 
   svg {
     margin-left: -3px;
-    font-size: 1.0rem;
+    font-size: 1rem;
 
     &:first-child {
       margin-left: 0;
@@ -61,17 +61,23 @@ const PriceCategorySelector = (props: Props) => {
     <>
       <ButtonContainer>
         <For each={categories}>
-          {(c, i) =>
-          <Item
-            onClick={() => props.onChange(c)}
-            selected={valueIndex() >= i()}
-          >
-            {Array(i() + 1).fill(0).map(() => <MoneyIcon />)}
-          </Item>
-          }
+          {(c, i) => (
+            <Item
+              onClick={() => props.onChange(c)}
+              selected={valueIndex() >= i()}
+            >
+              {Array(i() + 1)
+                .fill(0)
+                .map(() => (
+                  <MoneyIcon />
+                ))}
+            </Item>
+          )}
         </For>
       </ButtonContainer>
-      <p style={{ 'font-size': '0.8rem' }}>{priceCategorySettings[props.value][state.preferences.lang]}</p>
+      <p style={{ 'font-size': '0.8rem' }}>
+        {priceCategorySettings[props.value][state.preferences.lang]}
+      </p>
     </>
   );
 };

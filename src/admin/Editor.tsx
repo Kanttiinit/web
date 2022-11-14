@@ -39,7 +39,7 @@ export default function Editor(props: Props) {
       setMode(undefined);
       props.onSuccess();
       showMessage('The item has been saved.');
-    } catch (e: any) {
+    } catch (e) {
       showMessage('Error: ' + e.message);
     }
   };
@@ -73,7 +73,11 @@ export default function Editor(props: Props) {
 
               return (
                 <div>
-                  <InputComponent field={field} value={value} setValue={setValue} />
+                  <InputComponent
+                    field={field}
+                    value={value}
+                    setValue={setValue}
+                  />
                 </div>
               );
             }}
@@ -83,9 +87,7 @@ export default function Editor(props: Props) {
           <Button type="submit" color="primary">
             {mode() === 'creating' ? 'Create' : 'Save'}
           </Button>
-          {mode() === 'editing' && (
-            <Button onClick={deleteItem}>Delete</Button>
-          )}
+          {mode() === 'editing' && <Button onClick={deleteItem}>Delete</Button>}
           <Button onClick={props.onCancel} color="secondary">
             Cancel
           </Button>
@@ -94,4 +96,3 @@ export default function Editor(props: Props) {
     </Show>
   );
 }
-

@@ -28,7 +28,7 @@ const StyledCourseList = styled(CourseList)<{ loading: boolean }>`
   max-height: 25vh;
   padding-right: 1ch;
 
-  ${props => props.loading ? 'opacity: 0.5;' : ''}
+  ${props => (props.loading ? 'opacity: 0.5;' : '')}
 
   @media (max-width: ${breakSmall}) {
     max-height: 100%;
@@ -42,23 +42,28 @@ interface Props {
 }
 
 const MenuViewer = (props: Props) => {
-  const [courses] = createResource(() => ({
-    id: props.restaurantId,
-    selectedDay: state.selectedDay,
-    lang: state.preferences.lang
-  }), source => getCourses(source.id, source.selectedDay, source.lang));
+  const [courses] = createResource(
+    () => ({
+      id: props.restaurantId,
+      selectedDay: state.selectedDay,
+      lang: state.preferences.lang
+    }),
+    source => getCourses(source.id, source.selectedDay, source.lang)
+  );
 
   const onCopy = (target: string) => {
     if (target === 'courses') {
-      navigator.clipboard.writeText((courses() || [])
-        .map(c => {
-          let line = c.title;
-          if (c.properties.length) {
-            line += `(${c.properties.join(', ')})`;
-          }
-          return line;
-        })
-        .join('\n'));
+      navigator.clipboard.writeText(
+        (courses() || [])
+          .map(c => {
+            let line = c.title;
+            if (c.properties.length) {
+              line += `(${c.properties.join(', ')})`;
+            }
+            return line;
+          })
+          .join('\n')
+      );
     } else if (target === 'url') {
       navigator.clipboard.writeText(location.href);
     }

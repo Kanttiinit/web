@@ -15,13 +15,14 @@ const CourseTitle = styled.h2<{ highlight: boolean; dimmed: boolean }>`
   font-weight: inherit;
 
   ${props =>
-    props.highlight ?
-    `
+    props.highlight
+      ? `
       color: var(--friendly);
       font-weight: 500;
-    ` : ''}
+    `
+      : ''}
 
-  ${props => props.dimmed ? 'color: var(--gray4);' : ''}
+  ${props => (props.dimmed ? 'color: var(--gray4);' : '')}
 `;
 
 const PropertyContainer = styled.span`
@@ -48,7 +49,7 @@ const CourseWrapper = styled.li<{
     border-bottom: 1px solid var(--gray6);
   }
 
-  ${props => props.favorite ? 'color: var(--hearty);' : ''}
+  ${props => (props.favorite ? 'color: var(--hearty);' : '')}
 `;
 
 function getProperty(propertyKey: string) {
@@ -56,7 +57,9 @@ function getProperty(propertyKey: string) {
 }
 
 const isPropertySelected = (propertyKey: string) =>
-  state.preferences.properties.some(p => p.toLowerCase() === propertyKey.toLowerCase());
+  state.preferences.properties.some(
+    p => p.toLowerCase() === propertyKey.toLowerCase()
+  );
 
 function isDesiredProperty(propertyKey: string) {
   const property = getProperty(propertyKey);
@@ -89,13 +92,13 @@ const Course = (props: { course: CourseType }) => {
       </CourseTitle>
       <PropertyContainer>
         <For each={props.course.properties}>
-        {p =>
-          <Property
-            highlighted={isDesiredProperty(p)}
-            dimmed={isUndesiredProperty(p)}
-            property={p}
-          />
-        }
+          {p => (
+            <Property
+              highlighted={isDesiredProperty(p)}
+              dimmed={isUndesiredProperty(p)}
+              property={p}
+            />
+          )}
         </For>
       </PropertyContainer>
     </CourseWrapper>

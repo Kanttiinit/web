@@ -7,8 +7,8 @@ import { FormProps } from './ReportModal';
 export default (props: FormProps) => {
   const [openingHours, setOpeningHours] = createSignal<(number[] | null)[]>([]);
 
-  const initialHours: Accessor<(number[] | null)[]> = createMemo(
-    () => props.restaurant.openingHours.map(hours =>
+  const initialHours: Accessor<(number[] | null)[]> = createMemo(() =>
+    props.restaurant.openingHours.map(hours =>
       hours ? hours.split(' - ').map(n => Number(n.replace(':', ''))) : null
     )
   );

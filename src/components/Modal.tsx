@@ -61,7 +61,7 @@ const Content = styled.div<{ open: boolean }>`
   position: relative;
   max-width: 40rem;
   border-radius: 0.8rem;
-  overflow: hidden;
+  overflow: auto;
   border: 1px var(--gray6) solid;
   box-shadow: 0rem 0.1rem 0.6rem -0.2rem rgba(0, 0, 0, 0.3);
   flex: 1;

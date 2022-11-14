@@ -47,6 +47,7 @@ const StyledNewsIcon = styled(NewsIcon)`
 
 const AreaSelectorButton = styled(ClickOutside)`
   position: relative;
+  cursor: pointer;
 
   @media (max-width: ${breakSmall}) {
     position: initial;

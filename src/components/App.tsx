@@ -94,22 +94,13 @@ export default function App() {
       setLocationWatchId(null);
       state.location = null;
     }
+
+    if (!state.preferences.useLocation) {
+      setState({ location: undefined });
+    }
   });
 
-  let lastUpdateCheck = Math.round(Date.now() / 1000);
-
   const update = async () => {
-    // check for newer version and reload
-    const now = Math.round(Date.now() / 1000);
-    if (!lastUpdateCheck || now - lastUpdateCheck > 3600) {
-      lastUpdateCheck = now;
-      const response = await fetch('/version.txt');
-      const latestVersion = await response.text();
-      if (semver.gt(latestVersion, version)) {
-        window.location.reload();
-      }
-    }
-
     // update displayed days if first day is in past
     if (
       state.displayedDays.length &&

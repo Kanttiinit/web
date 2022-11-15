@@ -15,7 +15,7 @@ export default function Link(props: Props) {
       noScroll
       class={props.class}
       style={props.style}
-      href={!props.to.includes('?') ? props.to + location.search : props.to}
+      href={!props.to.includes('?') && props.to !== '/' ? props.to + location.search : props.to}
       aria-label={props['aria-label']}
     >
       {props.children}

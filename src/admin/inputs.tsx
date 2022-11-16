@@ -1,4 +1,4 @@
-import { createSignal, For } from 'solid-js';
+import { createResource, createSignal, For, Show } from 'solid-js';
 import LatLngInput from '../components/LatLngInput';
 import OpeningHoursInput from '../components/OpeningHoursInput';
 import * as api from './api';
@@ -14,7 +14,7 @@ import format from 'date-fns/format';
 import { styled } from 'solid-styled-components';
 import { get } from '../utils';
 import Toggle from '../components/Toggle';
-import { Dynamic } from 'solid-js/web';
+import { sort } from 'fast-sort';
 
 interface InputProps {
   value: any;
@@ -38,6 +38,7 @@ const Col = styled.div`
 `;
 
 const Control = styled.label`
+  display: block;
   margin-bottom: 1rem;
 `;
 
@@ -46,17 +47,18 @@ const Label = styled.div`
 `;
 
 const UrlInput = (props: InputProps) => (
-  <>
+  <Control style="display: flex; align-items: center; gap: 1rem;">
     <Input
       label={props.field.title}
       onChange={(e: string) => props.setValue(props.field.path, e)}
       value={props.value || ''}
       type="text"
+      style="flex: 1;"
     />
     <a target="_blank" href={props.value}>
       Open
     </a>
-  </>
+  </Control>
 );
 
 const MenuUrlInput = (props: InputProps) => {
@@ -68,17 +70,18 @@ const MenuUrlInput = (props: InputProps) => {
       .replace('%month%', format(now(), 'mm'))
       .replace('%day%', format(now(), 'dd'));
   return (
-    <>
+    <Control style="display: flex; align-items: center; gap: 1rem;">
       <Input
         onChange={value => props.setValue(props.field.path, value)}
         value={props.value || ''}
         type="text"
         label={props.field.title}
+        style="flex: 1;"
       />
       <a target="_blank" href={link()}>
         Open
       </a>
-    </>
+    </Control>
   );
 };
 
@@ -158,7 +161,6 @@ const LocationInput = (props: GroupInputProps) => {
     <LatLngInput
       value={props.value as [number, number]}
       onChange={v => {
-        console.log(v);
         if (v[0] !== props.value[0]) {
           props.setValue('latitude', v[0]);
         } else {
@@ -169,22 +171,23 @@ const LocationInput = (props: GroupInputProps) => {
   );
 };
 
-const TranslatedInput = (props: GroupInputProps) => (
-  <Row>
-    <For each={props.field.fields}>
-    {(field, i) => (
-      <Col>
-        <Dynamic
-          component={inputs._}
-          field={{ ...field, title: `${props.field.title} in ${field.title}` }}
-          setValue={props.setValue}
-          value={props.value[i()]}
-        />
-      </Col>
-    )}
-    </For>
-  </Row>
-);
+function TranslatedInput(props: GroupInputProps) {
+  return (
+    <Row>
+      <For each={props.field.fields}>
+      {(field, i) => (
+        <Col>
+          <PlainField
+            field={{ ...field, title: `${props.field.title} in ${field.title}` }}
+            setValue={props.setValue}
+            value={props.value[i()]}
+          />
+        </Col>
+      )}
+      </For>
+    </Row>
+  );
+}
 
 const UpdateTypeSelect = (props: InputProps) => (
   <Control>
@@ -229,33 +232,28 @@ const RelationInput = (props: {
   field: RelationField;
   setValue(path: string, value: any): any;
 }) => {
-  const { value, field, setValue } = props;
-  const [state, fetch] = useResource(null, true);
+  const [state] = createResource(() => ({
+    model: models.find(m => m.key === props.field.relationKey)
+  }), source => api.fetchItems(source.model!));
 
-  React.useEffect(() => {
-    const model = models.find(m => m.key === props.field.relationKey);
-    fetch(api.fetchItems(model));
-  }, []);
-
-  if (state.pending) {
-    return <span>Loading...</span>;
-  }
   return (
-    <Control>
-      {field.title}
-      <select
-        value={value || (state.data.length ? state.data[0].id : '')}
-        onChange={(e: any) => setValue(field.path, e.target.value)}
-      >
-        <For each={sortBy(field.relationDisplayField, state.data)}>
-          {(item: any) => (
-            <option value={item.id}>
-              {get(field.relationDisplayField, item)}
-            </option>
-          )}
-        </For>
-      </select>
-    </Control>
+    <Show when={!state.loading} fallback={<span>Loading...</span>}>
+      <Control>
+        {props.field.title}: <br />
+        <select
+          value={props.value || (state().length ? state()[0].id : '')}
+          onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
+        >
+          <For each={sort(state()).asc(i => get(i, props.field.relationDisplayField))}>
+            {(item: any) => (
+              <option value={item.id}>
+                {get(item, props.field.relationDisplayField)}
+              </option>
+            )}
+          </For>
+        </select>
+      </Control>
+    </Show>
   );
 };
 
@@ -279,7 +277,7 @@ const OpeningHoursEditor = (props: InputProps) => (
 
 const EnumInput = (props: InputProps) => (
   <Control>
-    {props.field.title}
+    {props.field.title}:<br />
     <select
       value={props.value || props.field.default}
       onChange={(e: any) => props.setValue(props.field.path, e.target.value)}

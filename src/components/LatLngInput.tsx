@@ -61,8 +61,8 @@ const LatLngInput = (props: Props) => {
   });
 
   onCleanup(() => {
-    marker.remove();
-    map.remove();
+    marker && marker.remove();
+    map && map.remove();
   });
 
   createEffect(() => {

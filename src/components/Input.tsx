@@ -1,3 +1,4 @@
+import { createEffect } from 'solid-js';
 import { styled } from 'solid-styled-components';
 
 type Props = {
@@ -14,6 +15,7 @@ type Props = {
   autoFocus?: boolean;
   pattern?: string;
   class?: string;
+  style?: any;
 };
 
 const Container = styled.div`
@@ -66,7 +68,7 @@ export default function Input(props: Props) {
   };
 
   return (
-    <Container class={props.class}>
+    <Container class={props.class} style={props.style}>
       <label for={props.id}>{props.label}</label>
       {props.multiline ? (
         <textarea rows={props.rows} {...fieldProps()} onChange={onChange} />

@@ -40,14 +40,15 @@ export default function Editor(props: Props) {
     e.preventDefault();
     try {
       if (props.mode === 'editing') {
-        await api.editItem(props.model, item());
+        await api.editItem(props.model, unwrap(item));
       } else {
-        await api.createItem(props.model, item());
+        await api.createItem(props.model, unwrap(item));
       }
 
       props.onSuccess();
       showMessage('The item has been saved.');
     } catch (error) {
+      console.error(error);
       showMessage('Error: ' + error.message);
     }
   };
@@ -71,18 +72,20 @@ export default function Editor(props: Props) {
       <form onSubmit={save}>
         <div>
           <For each={props.model.fields}>
-            {field => (
+            {field => {
+              return (
               <div>
                 <Dynamic
                   component={inputs[field.type!] || inputs._}
                   field={field}
                   value={'fields' in field
-                    ? field.fields.map(f => get(unwrap(item), f.path))
-                    : get(unwrap(item), field.path)}
+                    ? field.fields.map(f => get(item, f.path))
+                    : get(item, field.path)}
                   setValue={setValue}
                 />
               </div>
-            )}
+              );
+            }}
           </For>
         </div>
         <div>

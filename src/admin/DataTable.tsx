@@ -44,14 +44,16 @@ const Table = styled.table`
 `;
 
 const Modal = styled.div`
-  position: absolute;
+  position: fixed;
   width: 30rem;
   left: calc(50% - 15rem);
+  max-height: 90vh;
+  overflow: auto;
   background: white;
-  top: 10rem;
+  top: 3rem;
   padding: 1rem;
   border-radius: 1rem;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
 
   h1 {
     padding: 0;

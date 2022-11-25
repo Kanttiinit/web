@@ -19,6 +19,27 @@ export function getDisplayedDays(): Date[] {
 
 type TranslatedDict = { [t in keyof typeof translations]: any };
 
+const migrateOldSettings = () => {
+  return [
+    'darkMode',
+    'favorites',
+    'lang',
+    'selectedArea',
+    'maxPriceCategory',
+    'starredRestaurants',
+    'properties',
+    'useLocation',
+    'order',
+    'updatesLastSeenAt'
+  ].reduce((settings, i) => {
+    const value = localStorage.getItem(i);
+    if (value !== undefined) {
+      settings[i] = value;
+    }
+    return settings;
+  }, {} as any);
+}
+
 const persistedSettings = JSON.parse(
   localStorage.getItem('preferences') || '{}'
 ) as Record<string, unknown>;
@@ -38,7 +59,8 @@ const [state, setState] = createStore({
     darkMode: DarkModeChoice.DEFAULT,
     updatesLastSeenAt: 0,
     maxPriceCategory: PriceCategory.studentPremium,
-    ...persistedSettings
+    ...persistedSettings,
+    ...migrateOldSettings()
   },
   properties: [] as string[]
 });

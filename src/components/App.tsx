@@ -6,7 +6,6 @@ import addDays from 'date-fns/addDays';
 import startOfDay from 'date-fns/startOfDay';
 import parse from 'date-fns/parse';
 import isSameDay from 'date-fns/isSameDay';
-import * as semver from 'semver';
 
 import ChangeLog from './ChangeLog';
 import Clients from './Clients';
@@ -20,7 +19,6 @@ import Settings from './Settings';
 import TermsOfService from './TermsOfService';
 import TopBar from './TopBar';
 import { getNewPath, isDateInRange } from '../utils';
-import { version } from '../consts';
 import haversine from 'haversine';
 const ReportModal = lazy(() => import('./ReportModal'));
 

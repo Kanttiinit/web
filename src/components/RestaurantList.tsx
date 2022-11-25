@@ -1,15 +1,15 @@
-import locating from '../../assets/locating.svg';
+import locating from '../assets/locating.svg';
 
 import { styled } from 'solid-styled-components';
-import InlineIcon from '../InlineIcon';
-import NetworkStatus from '../NetworkStatus';
-import Notice from '../Notice';
-import Restaurant, { Placeholder } from '../Restaurant';
-import { breakLarge, breakSmall } from '../../globalStyles';
+import InlineIcon from './InlineIcon';
+import NetworkStatus from './NetworkStatus';
+import Notice from './Notice';
+import Restaurant, { Placeholder } from './Restaurant';
+import { breakLarge, breakSmall } from '../globalStyles';
 import { For, Match, Switch } from 'solid-js';
-import { computedState, state, resources } from '../../state';
-import { WarningIcon } from '../../icons';
-import { useFormattedRestaurants } from '../../utils';
+import { computedState, state, resources } from '../state';
+import { WarningIcon } from '../icons';
+import { useFormattedRestaurants } from '../utils';
 
 const Container = styled.main`
   padding: 4rem 0 1.5rem;

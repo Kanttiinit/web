@@ -35,9 +35,10 @@ const migrateOldSettings = () => {
     const value = localStorage.getItem(i);
     if (value !== undefined) {
       settings[i] = value;
+      localStorage.removeItem(i);
     }
     return settings;
-  }, {} as any);
+  }, {} as Record<string, unknown>);
 }
 
 const persistedSettings = JSON.parse(
@@ -59,8 +60,8 @@ const [state, setState] = createStore({
     darkMode: DarkModeChoice.DEFAULT,
     updatesLastSeenAt: 0,
     maxPriceCategory: PriceCategory.studentPremium,
+    ...migrateOldSettings(),
     ...persistedSettings,
-    ...migrateOldSettings()
   },
   properties: [] as string[]
 });

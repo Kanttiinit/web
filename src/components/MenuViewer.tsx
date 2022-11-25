@@ -1,13 +1,13 @@
 import { createResource } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { breakSmall } from '../../globalStyles';
-import { state } from '../../state';
+import { breakSmall } from '../globalStyles';
+import { state } from '../state';
 
-import { getCourses } from '../../api';
-import { CopyIcon, LinkIcon, ShareIcon } from '../../icons';
-import CourseList from '../CourseList';
-import DaySelector from '../DaySelector';
-import Tooltip from '../Tooltip';
+import { getCourses } from '../api';
+import { CopyIcon, LinkIcon, ShareIcon } from '../icons';
+import CourseList from './CourseList';
+import DaySelector from './DaySelector';
+import Tooltip from './Tooltip';
 
 const Header = styled.div`
   display: flex;
@@ -41,7 +41,7 @@ interface Props {
   maxHeight?: number;
 }
 
-const MenuViewer = (props: Props) => {
+export default function MenuViewer(props: Props) {
   const [courses] = createResource(
     () => ({
       id: props.restaurantId,
@@ -100,5 +100,3 @@ const MenuViewer = (props: Props) => {
     </div>
   );
 };
-
-export default MenuViewer;

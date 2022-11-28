@@ -49,7 +49,7 @@ export default function Editor(props: Props) {
       showMessage('The item has been saved.');
     } catch (error) {
       console.error(error);
-      showMessage('Error: ' + error.message);
+      showMessage('Error: ' + (error as any).message);
     }
   };
 

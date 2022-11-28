@@ -53,7 +53,7 @@ export default function Admin() {
       clearMessage();
       checkAuth();
     } catch (e) {
-      setState({ message: e.message, messageVisible: true });
+      setState({ message: (e as any).message, messageVisible: true });
     }
   };
 

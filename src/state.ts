@@ -39,7 +39,7 @@ const migrateOldSettings = () => {
     }
     return settings;
   }, {} as Record<string, unknown>);
-}
+};
 
 const persistedSettings = JSON.parse(
   localStorage.getItem('preferences') || '{}'

@@ -218,7 +218,7 @@ export default function useInput(
 }
 
 export function get(obj: any, path: string, def: any = undefined) {
-  var fullPath = path
+  const fullPath = path
     .replace(/\[/g, '.')
     .replace(/]/g, '')
     .split('.')

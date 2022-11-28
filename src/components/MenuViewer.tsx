@@ -99,4 +99,4 @@ export default function MenuViewer(props: Props) {
       <StyledCourseList loading={courses.loading} courses={courses() || []} />
     </div>
   );
-};
+}

@@ -212,7 +212,7 @@ export const DayOfWeekSelect = (props: InputProps) => (
         props.setValue(props.field.path, Number(e.target.value))
       }
     >
-      {[
+      <For each={[
         'Monday',
         'Tuesday',
         'Wednesday',
@@ -220,9 +220,9 @@ export const DayOfWeekSelect = (props: InputProps) => (
         'Friday',
         'Saturday',
         'Sunday'
-      ].map((day, i) => (
-        <option value={String(i)}>{day}</option>
-      ))}
+      ]}>
+        {(day, i) => <option value={String(i())}>{day}</option>}
+      </For>
     </select>
   </Control>
 );

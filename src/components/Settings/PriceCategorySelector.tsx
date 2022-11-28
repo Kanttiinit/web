@@ -64,11 +64,9 @@ const PriceCategorySelector = (props: Props) => {
               onClick={() => props.onChange(c)}
               selected={valueIndex() >= i()}
             >
-              {Array(i() + 1)
-                .fill(0)
-                .map(() => (
-                  <MoneyIcon />
-                ))}
+              <For each={Array(i() + 1).fill(0)}>
+                {() => <MoneyIcon />}
+              </For>
             </Item>
           )}
         </For>

@@ -8,16 +8,8 @@ export default defineConfig({
   plugins: [
     solidPlugin(),
     VitePWA({
+      strategies: 'generateSW',
       registerType: 'autoUpdate',
-      workbox: {
-        globPatterns: ['**/*.{js,css,png,svg}'],
-        globIgnores: [
-          "**/node_modules/**/*",
-          "sw.js",
-          "workbox-*.js",
-          "index.html"
-        ]
-      },
       manifest: {
         name: 'Kanttiinit',
         short_name: 'Kanttiinit',

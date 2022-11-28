@@ -34,7 +34,7 @@ const migrateOldSettings = () => {
   ].reduce((settings, i) => {
     const value = localStorage.getItem(i);
     if (value !== undefined && value !== null) {
-      settings[i] = value;
+      settings[i] = JSON.parse(value);
       localStorage.removeItem(i);
     }
     return settings;

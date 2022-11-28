@@ -4,10 +4,10 @@ import solidPlugin from 'vite-plugin-solid';
 import pkg from './package.json';
 
 export default defineConfig({
+  publicDir: 'public',
   plugins: [
     solidPlugin(),
     VitePWA({
-      filename: 'worker.js',
       registerType: 'autoUpdate',
       workbox: {
         globPatterns: ['**/*.{js,css,png,svg}'],

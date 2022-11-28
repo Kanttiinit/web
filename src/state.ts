@@ -4,7 +4,7 @@ import * as api from './api';
 import addDays from 'date-fns/addDays';
 import startOfDay from 'date-fns/startOfDay';
 import translations from './translations';
-import { DarkModeChoice, Lang, Order, PriceCategory, Update } from './types';
+import { DarkModeChoice, Lang, Order, PriceCategory, RestaurantType, Update } from './types';
 import parseISO from 'date-fns/parseISO';
 import { createMemo } from 'solid-js';
 
@@ -71,39 +71,40 @@ const areaResource = createResource(
   source => api.getAreas(source.lang)
 );
 
-const restaurantResource = createResource(
-  () => {
-    return {
-      area: state.preferences.selectedArea,
-      location: state.location,
-      lang: state.preferences.lang,
-      starredRestaurants: state.preferences.starredRestaurants,
-      maxPriceCategory: state.preferences.maxPriceCategory,
-      areas: areaResource[0].latest,
-      areasLoading: areaResource[0].loading
-    };
-  },
-  source => {
+const restaurantResourceSource = () => {
+  return {
+    area: state.preferences.selectedArea,
+    location: state.location,
+    lang: state.preferences.lang,
+    starredRestaurants: state.preferences.starredRestaurants,
+    maxPriceCategory: state.preferences.maxPriceCategory,
+    areas: areaResource[0].latest,
+    areasLoading: areaResource[0].loading
+  };
+};
+
+const restaurantResource = createResource<RestaurantType[], ReturnType<typeof restaurantResourceSource>>(
+  restaurantResourceSource,
+  (source, v) => {
     if (source.area === -1) {
-      if (source.starredRestaurants.length) {
-        return api.getRestaurantsByIds(source.starredRestaurants, source.lang);
-      } else {
-        return Promise.resolve([]);
-      }
+      if (!source.starredRestaurants.length)
+        return [];
+
+      return api.getRestaurantsByIds(source.starredRestaurants, source.lang);
     } else if (source.area === -2) {
-      if (source.location) {
-        const { latitude, longitude } = source.location;
-        return api.getRestaurantsByLocation(latitude, longitude, source.lang);
-      } else {
-        return Promise.resolve([]);
-      }
+      if (!source.location)
+        return [];
+        
+      const { latitude, longitude } = source.location;
+      return api.getRestaurantsByLocation(latitude, longitude, source.lang);
     } else if (source.areas?.length && !source.areasLoading) {
-      return api.getRestaurantsByIds(
-        source.areas.find(a => a.id === source.area)!.restaurants,
-        source.lang,
-        source.maxPriceCategory
-      );
+      const ids = source.areas.find(a => a.id === source.area)!.restaurants;
+      if (v.value?.length && v.value?.every(r => ids.includes(r.id)))
+        return v.value;
+
+      return api.getRestaurantsByIds(ids, source.lang, source.maxPriceCategory);
     }
+    return [];
   }
 );
 

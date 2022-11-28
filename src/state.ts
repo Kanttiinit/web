@@ -33,7 +33,7 @@ const migrateOldSettings = () => {
     'updatesLastSeenAt'
   ].reduce((settings, i) => {
     const value = localStorage.getItem(i);
-    if (value !== undefined) {
+    if (value !== undefined && value !== null) {
       settings[i] = value;
       localStorage.removeItem(i);
     }

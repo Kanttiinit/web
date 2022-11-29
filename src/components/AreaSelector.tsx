@@ -64,7 +64,7 @@ const AreaButton = styled(Button)<{ selected: boolean }>`
 `;
 
 const Area = (props: {
-  area: { label: JSX.Element; id: number };
+  area: { icon?: JSX.Element; label: JSX.Element; id: number };
   selectedAreaId: number;
   selectArea: (id: number) => void;
 }) => (
@@ -76,6 +76,9 @@ const Area = (props: {
       onMouseUp={() => props.selectArea(props.area.id)}
       selected={props.selectedAreaId === props.area.id}
     >
+      {props.area.icon && (
+        <div style={{ 'margin-right': '4px', display: 'inline-block' }}>{props.area.icon}</div>
+      )}
       {props.area.label}
     </AreaButton>
   </AreaWrapper>
@@ -114,12 +117,8 @@ export default function AreaSelector(props: Props) {
             selectArea={selectArea}
             area={{
               id: area.id,
-              label: (
-                <>
-                  {area.icon}
-                  {computedState.translations()[area.translationKey]}
-                </>
-              )
+              icon: area.icon,
+              label: computedState.translations()[area.translationKey]
             }}
           />
         )}

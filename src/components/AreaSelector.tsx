@@ -125,7 +125,7 @@ export default function AreaSelector(props: Props) {
         )}
       </For>
       <For each={areas()?.sort((a, b) => (a.name > b.name ? -1 : 1))}>
-        {(area: AreaType) => (
+        {area => (
           <Area
             selectedAreaId={state.preferences.selectedArea}
             selectArea={selectArea}

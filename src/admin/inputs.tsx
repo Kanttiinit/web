@@ -1,6 +1,5 @@
-import { For, Switch } from 'solid-js';
 import * as React from 'react';
-
+import { createResource, createSignal, For, Show } from 'solid-js';
 import LatLngInput from '../components/LatLngInput';
 import OpeningHoursInput from '../components/OpeningHoursInput';
 import * as api from './api';
@@ -13,6 +12,10 @@ import {
 } from './models';
 import Input from '../components/Input';
 import format from 'date-fns/format';
+import { styled } from 'solid-styled-components';
+import { get } from '../utils';
+import Toggle from '../components/Toggle';
+import { sort } from 'fast-sort';
 
 interface InputProps {
   value: any;
@@ -26,18 +29,35 @@ interface GroupInputProps {
   setValue(path: string, value: any): any;
 }
 
+const Row = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+const Col = styled.div`
+  flex: 1;
+`;
+
+const Control = styled.label`
+  display: block;
+  margin-bottom: 1rem;
+`;
+
+const Label = styled.div``;
+
 const UrlInput = (props: InputProps) => (
-  <>
+  <Control style="display: flex; align-items: center; gap: 1rem;">
     <Input
       label={props.field.title}
-      onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
+      onChange={(e: string) => props.setValue(props.field.path, e)}
       value={props.value || ''}
       type="text"
+      style="flex: 1;"
     />
     <a target="_blank" href={props.value}>
       Open
     </a>
-  </>
+  </Control>
 );
 
 const MenuUrlInput = (props: InputProps) => {
@@ -49,24 +69,25 @@ const MenuUrlInput = (props: InputProps) => {
       .replace('%month%', format(now(), 'mm'))
       .replace('%day%', format(now(), 'dd'));
   return (
-    <>
+    <Control style="display: flex; align-items: center; gap: 1rem;">
       <Input
-        onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
+        onChange={value => props.setValue(props.field.path, value)}
         value={props.value || ''}
         type="text"
         label={props.field.title}
+        style="flex: 1;"
       />
       <a target="_blank" href={link()}>
         Open
       </a>
-    </>
+    </Control>
   );
 };
 
 function AddressInput(props: InputProps) {
   return (
     <Input
-      onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
+      onChange={value => props.setValue(props.field.path, value)}
       value={props.value || ''}
       label={props.field.title}
       type="text"
@@ -75,55 +96,50 @@ function AddressInput(props: InputProps) {
 }
 
 const RegExpInput = (props: InputProps) => {
-  const { field, value, setValue } = props;
-  const [test, setTest] = React.useState('');
-  const match = !!test.match(new RegExp(value));
+  const [test, setTest] = createSignal('');
+  const match = () => !!test().match(new RegExp(props.value));
   return (
-    <Grid container spacing={6}>
-      <Grid item sm>
+    <Row>
+      <Col>
         <Input
-          label={field.title}
-          onChange={(e: any) => setValue(field.path, e.target.value)}
-          value={value || ''}
+          label={props.field.title}
+          onChange={(e: any) =>
+            props.setValue(props.field.path, e.target.value)
+          }
+          value={props.value || ''}
           type="text"
         />
-      </Grid>
-      <Grid item sm>
+      </Col>
+      <Col>
         <Input
           label="Test value"
-          value={test}
-          error={!match}
-          onChange={(e: any) => setTest(e.target.value)}
-          helperText={
-            match
-              ? 'The regexp matches this value.'
-              : 'The regexp does not match this value.'
-          }
+          value={test()}
+          onChange={value => setTest(value)}
         />
-      </Grid>
-    </Grid>
+        <small style="margin-top: -0.5rem; display: block;">
+          {match()
+            ? 'The regexp matches this value.'
+            : 'The regexp does not match this value.'}
+        </small>
+      </Col>
+    </Row>
   );
 };
 
 export const BooleanInput = (props: InputProps) => (
-  <FormControlLabel
-    control={
-      <Switch
-        checked={props.value || false}
-        onChange={(e: any) =>
-          props.setValue(props.field.path, e.target.checked)
-        }
-      />
-    }
-    label={props.field.title}
-  />
+  <Control>
+    {props.field.title}
+    <br />
+    <Toggle
+      selected={props.value || false}
+      onChange={v => props.setValue(props.field.path, v)}
+    />
+  </Control>
 );
 
 const NumericInput = (props: InputProps) => (
   <Input
-    onChange={(e: any) =>
-      props.setValue(props.field.path, Number(e.target.value))
-    }
+    onChange={value => props.setValue(props.field.path, Number(value))}
     value={props.value || ''}
     label={props.field.title}
     type="number"
@@ -132,7 +148,7 @@ const NumericInput = (props: InputProps) => (
 
 export const DateInput = (props: InputProps) => (
   <Input
-    onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
+    onChange={value => props.setValue(props.field.path, value)}
     value={props.value || ''}
     label={props.field.title}
     type="date"
@@ -155,23 +171,30 @@ const LocationInput = (props: GroupInputProps) => {
   );
 };
 
-const TranslatedInput = (props: GroupInputProps) => (
-  <Grid container spacing={6}>
-    {props.field.fields.map((field, i) => (
-      <Grid key={i} item md>
-        {React.createElement(inputs[props.field.type] || inputs._, {
-          field: { ...field, title: `${props.field.title} in ${field.title}` },
-          setValue: props.setValue,
-          value: props.value[i]
-        })}
-      </Grid>
-    ))}
-  </Grid>
-);
+function TranslatedInput(props: GroupInputProps) {
+  return (
+    <Row>
+      <For each={props.field.fields}>
+        {(field, i) => (
+          <Col>
+            <PlainField
+              field={{
+                ...field,
+                title: `${props.field.title} in ${field.title}`
+              }}
+              setValue={props.setValue}
+              value={props.value[i()]}
+            />
+          </Col>
+        )}
+      </For>
+    </Row>
+  );
+}
 
 const UpdateTypeSelect = (props: InputProps) => (
-  <FormControl fullWidth>
-    <InputLabel>{props.field.title}</InputLabel>
+  <Control>
+    {props.field.title}:{' '}
     <select
       value={props.value || 'information-update'}
       onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
@@ -180,31 +203,33 @@ const UpdateTypeSelect = (props: InputProps) => (
       <option value="information-update">Information update</option>
       <option value="bugfix">Bug fix</option>
     </select>
-  </FormControl>
+  </Control>
 );
 
 export const DayOfWeekSelect = (props: InputProps) => (
-  <FormControl fullWidth>
-    <InputLabel>{props.field.title}</InputLabel>
+  <Control>
+    {props.field.title}
     <select
       value={String(props.value) || '0'}
       onChange={(e: any) =>
         props.setValue(props.field.path, Number(e.target.value))
       }
     >
-      {[
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday'
-      ].map((day, i) => (
-        <option value={String(i)}>{day}</option>
-      ))}
+      <For
+        each={[
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+          'Sunday'
+        ]}
+      >
+        {(day, i) => <option value={String(i())}>{day}</option>}
+      </For>
     </select>
-  </FormControl>
+  </Control>
 );
 
 const RelationInput = (props: {
@@ -212,40 +237,44 @@ const RelationInput = (props: {
   field: RelationField;
   setValue(path: string, value: any): any;
 }) => {
-  const { value, field, setValue } = props;
-  const [state, fetch] = useResource(null, true);
+  const [state] = createResource(
+    () => ({
+      model: models.find(m => m.key === props.field.relationKey)
+    }),
+    source => api.fetchItems(source.model!)
+  );
 
-  React.useEffect(() => {
-    const model = models.find(m => m.key === props.field.relationKey);
-    fetch(api.fetchItems(model));
-  }, []);
-
-  if (state.pending) {
-    return <span>Loading...</span>;
-  }
   return (
-    <FormControl fullWidth>
-      <InputLabel>{field.title}</InputLabel>
-      <select
-        value={value || (state.data.length ? state.data[0].id : '')}
-        onChange={e => setValue(field.path, e.target.value)}
-      >
-        <For each={sortBy(field.relationDisplayField, state.data)}>
-          {(item: any) => (
-            <option value={item.id}>
-              {get(field.relationDisplayField, item)}
-            </option>
-          )}
-        </For>
-      </select>
-    </FormControl>
+    <Show when={!state.loading} fallback={<span>Loading...</span>}>
+      <Control>
+        {props.field.title}: <br />
+        <select
+          value={props.value || (state().length ? state()[0].id : '')}
+          onChange={(e: any) =>
+            props.setValue(props.field.path, e.target.value)
+          }
+        >
+          <For
+            each={sort(state()).asc(i =>
+              get(i, props.field.relationDisplayField)
+            )}
+          >
+            {(item: any) => (
+              <option value={item.id}>
+                {get(item, props.field.relationDisplayField)}
+              </option>
+            )}
+          </For>
+        </select>
+      </Control>
+    </Show>
   );
 };
 
 export const PlainField = (props: InputProps) => (
   <Input
     label={props.field.title}
-    onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
+    onChange={value => props.setValue(props.field.path, value)}
     value={props.value || ''}
     type="text"
   />
@@ -261,8 +290,8 @@ const OpeningHoursEditor = (props: InputProps) => (
 );
 
 const EnumInput = (props: InputProps) => (
-  <FormControl fullWidth>
-    <InputLabel>{props.field.title}</InputLabel>
+  <Control>
+    {props.field.title}:<br />
     <select
       value={props.value || props.field.default}
       onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
@@ -271,7 +300,7 @@ const EnumInput = (props: InputProps) => (
         {(item: string) => <option value={item}>{item}</option>}
       </For>
     </select>
-  </FormControl>
+  </Control>
 );
 
 const inputs: any = {

@@ -185,7 +185,7 @@ export function useFeedback(): [
         await sendFeedback(message, email || 'anonymous');
         setState({ sending: false, sent: true, error: null });
       } catch (error) {
-        setState({ sending: false, error });
+        setState({ sending: false, error: error as Error });
       }
     }
   ];

@@ -16,5 +16,7 @@ jobs:
           cache: 'npm'
       - name: npm install
         run: npm install --include=dev
-      - name: npm run lint
+      - name: Linter
         run: npm run lint
+      - name: Typecheck
+        run: npm run typecheck

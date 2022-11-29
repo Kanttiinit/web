@@ -18,21 +18,19 @@ const categories = [
 ];
 
 const ButtonContainer = styled.div`
-  border-radius: 50%;
   border: solid 2px var(--accent_color);
-  border-radius: 1rem;
+  border-radius: 4px;
   display: inline-block;
   overflow: hidden;
 `;
 
 const Item = styled(Button)`
   border-radius: 0;
-  border-right: 1px solid var(--gray5);
   color: ${props => (props.selected ? 'var(--gray7)' : 'var(--accent_color)')};
   min-width: 3rem;
+  padding-top: 0.6rem;
 
   svg {
-    margin-left: -3px;
     font-size: 1rem;
 
     &:first-child {

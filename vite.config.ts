@@ -4,19 +4,12 @@ import solidPlugin from 'vite-plugin-solid';
 import pkg from './package.json';
 
 export default defineConfig({
+  publicDir: 'public',
   plugins: [
     solidPlugin(),
     VitePWA({
+      strategies: 'generateSW',
       registerType: 'autoUpdate',
-      workbox: {
-        globPatterns: ['**/*.{js,css,png,svg}'],
-        globIgnores: [
-          "**/node_modules/**/*",
-          "sw.js",
-          "workbox-*.js",
-          "index.html"
-        ]
-      },
       manifest: {
         name: 'Kanttiinit',
         short_name: 'Kanttiinit',

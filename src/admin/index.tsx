@@ -17,9 +17,24 @@ import models from './models';
 
 export let showMessage: (message: string) => void;
 
-const Tabs = styled.div``;
+const Container = styled.div`
+  max-width: 60rem;
+  margin: 1rem auto;
+`;
 
-const Tab = styled.div<{ selected: boolean }>``;
+const Tabs = styled.div`
+  display: flex;
+`;
+
+const Tab = styled.button<{ selected: boolean }>`
+  cursor: pointer;
+  background: ${props => props.selected ? '#ccc' : '#eee'};
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  border: none;
+  font-family: inherit;
+`;
 
 export default function Admin() {
   const [state, setState] = createStore<{
@@ -38,7 +53,7 @@ export default function Admin() {
       clearMessage();
       checkAuth();
     } catch (e) {
-      setState({ message: e.message, messageVisible: true });
+      setState({ message: (e as any).message, messageVisible: true });
     }
   };
 
@@ -84,7 +99,7 @@ export default function Admin() {
     const model = () => models.find(m => m.key === params.model);
 
     return (
-      <>
+      <Container>
         <Tabs>
           <For each={models}>
             {m => (
@@ -103,6 +118,7 @@ export default function Admin() {
           <Button disabled={state.updatingRestaurants} onClick={updateMenus}>
             {state.updatingRestaurants ? 'Updating...' : 'Update menus'}
           </Button>
+          {' '}
           <Button color="secondary" onClick={logout}>
             Log out
           </Button>
@@ -114,7 +130,7 @@ export default function Admin() {
         >
           {model => <DataTable model={model} />}
         </Show>
-      </>
+      </Container>
     );
   }
 

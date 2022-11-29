@@ -1,11 +1,11 @@
 import { createEffect, createSignal } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { useLocation, useNavigate } from '@solidjs/router';
-import { ErrorBoundary } from '..';
 import { breakLarge, breakSmall } from '../globalStyles';
 import { computedState } from '../state';
 
 import PageContainer from './PageContainer';
+import { ErrorBoundary } from './ErrorBoundary';
 
 const ModalError = () => {
   return (

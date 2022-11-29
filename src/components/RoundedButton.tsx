@@ -9,6 +9,11 @@ export const RoundedButtonContainer = styled.div`
     content: '';
     flex-grow: 1000000000;
   }
+
+  svg {
+    display: block;
+    padding-top: 0.1rem;
+  }
 `;
 
 export const RoundedButton = styled.button<{
@@ -28,7 +33,7 @@ export const RoundedButton = styled.button<{
   border: 1px solid ${props => props.color};
   border-radius: 1rem;
   transition: background 0.1s, color 0.1s;
-  padding: 0.4rem;
+  padding: 0.4rem 0.8rem 0.45rem;
   outline: none;
 
   &:focus {

@@ -89,7 +89,7 @@ const iconLinkStyles = `
   font-size: 0.8rem;
   display: flex;
   align-items: center;
-  margin: 0 1em;
+  padding: 0 1em;
 
   :last-child {
     margin-right: 0;
@@ -215,7 +215,7 @@ export default function TopBar() {
             tabIndex={0}
             onKeyDown={e => e.key === 'Enter' && toggleAreaSelector()}
           >
-            <MapIcon />
+            <MapIcon size={18} style={{ 'padding-left': '1rem' }} />
             <span>{computedState.translations().selectArea}</span>
           </NativeIconLink>
           <AreaSelectorContainer isOpen={areaSelectorOpen()}>

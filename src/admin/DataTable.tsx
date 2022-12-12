@@ -43,6 +43,16 @@ const Table = styled.table`
   }
 `;
 
+const ModalBg = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(1px);
+`;
+
 const Modal = styled.div`
   position: fixed;
   width: 30rem;
@@ -52,7 +62,7 @@ const Modal = styled.div`
   background: white;
   top: 3rem;
   padding: 1rem;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
 
   h1 {
@@ -162,15 +172,18 @@ export default function DataTable(props: Props) {
   return (
     <>
       {!!state.mode &&
-      <Modal>
-        <Editor
-          model={props.model}
-          mode={state.mode}
-          item={state.item}
-          onSuccess={onEditorSuccess}
-          onCancel={hideDialog}
-        />
-      </Modal>
+        <>
+          <ModalBg onClick={hideDialog} />
+          <Modal>
+            <Editor
+              model={props.model}
+              mode={state.mode}
+              item={state.item}
+              onSuccess={onEditorSuccess}
+              onCancel={hideDialog}
+            />
+          </Modal>
+        </>
       }
       <Button style={{ margin: '1em 0' }} onClick={openCreateDialog}>
         Create

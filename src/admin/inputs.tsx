@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { createResource, createSignal, For, Show } from 'solid-js';
 import LatLngInput from '../components/LatLngInput';
 import OpeningHoursInput from '../components/OpeningHoursInput';
@@ -14,7 +13,6 @@ import Input from '../components/Input';
 import format from 'date-fns/format';
 import { styled } from 'solid-styled-components';
 import { get } from '../utils';
-import Toggle from '../components/Toggle';
 import { sort } from 'fast-sort';
 
 interface InputProps {
@@ -130,10 +128,10 @@ export const BooleanInput = (props: InputProps) => (
   <Control>
     {props.field.title}
     <br />
-    <Toggle
-      selected={props.value || false}
-      onChange={v => props.setValue(props.field.path, v)}
-    />
+    <input
+      type="checkbox"
+      checked={props.value || false}
+      onChange={(e: any) => props.setValue(props.field.path, e.target.checked)} />
   </Control>
 );
 
@@ -247,7 +245,7 @@ const RelationInput = (props: {
   return (
     <Show when={!state.loading} fallback={<span>Loading...</span>}>
       <Control>
-        {props.field.title}: <br />
+        {props.field.title}<br />
         <select
           value={props.value || (state().length ? state()[0].id : '')}
           onChange={(e: any) =>
@@ -291,7 +289,7 @@ const OpeningHoursEditor = (props: InputProps) => (
 
 const EnumInput = (props: InputProps) => (
   <Control>
-    {props.field.title}:<br />
+    {props.field.title}<br />
     <select
       value={props.value || props.field.default}
       onChange={(e: any) => props.setValue(props.field.path, e.target.value)}

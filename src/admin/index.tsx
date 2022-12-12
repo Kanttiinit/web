@@ -20,6 +20,7 @@ export let showMessage: (message: string) => void;
 const Container = styled.div`
   max-width: 60rem;
   margin: 1rem auto;
+  padding: 0 1rem;
 `;
 
 const Tabs = styled.div`

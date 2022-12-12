@@ -1,5 +1,5 @@
 import { createEffect, For, Show } from 'solid-js';
-import { createStore, unwrap } from 'solid-js/store';
+import { createStore, produce, unwrap } from 'solid-js/store';
 import { Dynamic } from 'solid-js/web';
 import Button from '../components/Button';
 import { get } from '../utils';
@@ -61,7 +61,9 @@ export default function Editor(props: Props) {
     }
   };
 
-  const setValue = (key: string, value: any) => setItem(key, value);
+  const setValue = (key: string, value: any) => setItem(produce(s => {
+    setToValue(s, key, value);
+  }));
 
   return (
     <Show when={item}>

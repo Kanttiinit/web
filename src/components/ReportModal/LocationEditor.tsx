@@ -15,7 +15,7 @@ export default (props: FormProps) => {
   const onSubmit = (e: SubmitEvent) => {
     e.preventDefault();
     props.sendChange({
-      address,
+      address: address(),
       latitude: latLng()[0],
       longitude: latLng()[1]
     });

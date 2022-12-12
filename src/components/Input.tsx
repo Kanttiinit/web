@@ -16,6 +16,7 @@ type Props = {
   pattern?: string;
   class?: string;
   style?: any;
+  step?: any;
 };
 
 const Container = styled.div`
@@ -60,7 +61,8 @@ export default function Input(props: Props) {
     value: props.value,
     disabled: props.disabled,
     autoFocus: props.autoFocus,
-    pattern: props.pattern
+    pattern: props.pattern,
+    step: props.step
   });
 
   const onChange = (e: any) => {

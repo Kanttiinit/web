@@ -80,6 +80,7 @@ const LatLngInput = (props: Props) => {
           label="Latitude"
           type="number"
           id="latitude"
+          step="any"
           disabled={props.disabled}
           value={props.value[0] || 0}
           onChange={strValue =>
@@ -90,6 +91,7 @@ const LatLngInput = (props: Props) => {
           label="Longitude"
           type="number"
           id="longitude"
+          step="any"
           disabled={props.disabled}
           value={props.value[1] || 0}
           onChange={strValue =>

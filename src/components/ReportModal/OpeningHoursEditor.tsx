@@ -15,7 +15,7 @@ export default (props: FormProps) => {
 
   const onSubmit = (e: SubmitEvent) => {
     e.preventDefault();
-    props.sendChange({ openingHours });
+    props.sendChange({ openingHours: openingHours() });
   };
 
   return (

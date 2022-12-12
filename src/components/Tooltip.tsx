@@ -25,6 +25,7 @@ interface Props {
   translationKey?: keyof typeof translations;
   position?: Popper.Position;
   class?: string;
+  style?: any;
 }
 
 const Tooltip = (props: Props): any => {
@@ -57,6 +58,7 @@ const Tooltip = (props: Props): any => {
         onMouseLeave={() => setIsOpen(false)}
         ref={anchorRef}
         class={props.class}
+        style={props.style}
       >
         {props.children}
       </span>

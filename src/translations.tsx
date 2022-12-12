@@ -131,7 +131,7 @@ const translations = {
           eikä ole itse vastuussa tietojen paikkansapitävyydestä. Muista
           varmistaa ruokien allergeenit paikan päällä ravintolassa.
         </p>
-        <p>Kanttiinit ei kerää mitään käyttäjän dataa.</p>
+        <p>Kanttiinit ei kerää mitään yskilöitävää käyttäjän dataa.</p>
       </div>
     )
   },

@@ -28,13 +28,13 @@ const migrateOldSettings = () => {
     'maxPriceCategory',
     'starredRestaurants',
     'properties',
-    'useLocation',
+    'location',
     'order',
     'updatesLastSeenAt'
   ].reduce((settings, i) => {
     const value = localStorage.getItem(i);
     if (value !== undefined && value !== null) {
-      settings[i] = JSON.parse(value);
+      settings[i === 'location' ? 'useLocation' : i] = JSON.parse(value);
       localStorage.removeItem(i);
     }
     return settings;

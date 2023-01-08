@@ -1,9 +1,8 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import { JSXElement } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { langContext, preferenceContext } from '../../contexts';
-import { DarkModeChoice, Lang, Order } from '../../contexts/types';
-import { useTranslations } from '../../utils/hooks';
+import { DarkModeChoice, Lang, Order } from '../../types';
+import { computedState, setState, state } from '../../state';
 import FavoriteSelector from '../FavoriteSelector';
 import PageContainer from '../PageContainer';
 import Radio from '../Radio';
@@ -12,8 +11,8 @@ import PriceCategorySelector from './PriceCategorySelector';
 import PropertySelector from './PropertySelector';
 
 interface ItemProps {
-  label: React.ReactNode;
-  children: React.ReactNode;
+  label: JSXElement;
+  children: JSXElement;
 }
 
 const ItemTitle = styled.h2`
@@ -24,11 +23,11 @@ const ItemTitle = styled.h2`
   margin-top: 2em;
 `;
 
-const Item = ({ label, children }: ItemProps) => (
-  <React.Fragment>
-    <ItemTitle>{label}</ItemTitle>
-    {children}
-  </React.Fragment>
+const Item = (props: ItemProps) => (
+  <>
+    <ItemTitle>{props.label}</ItemTitle>
+    {props.children}
+  </>
 );
 
 const orders = [Order.AUTOMATIC, Order.ALPHABET, Order.DISTANCE];
@@ -39,76 +38,64 @@ const languageOptions = [
 ];
 
 const Settings = () => {
-  const translations = useTranslations();
-  const preferences = React.useContext(preferenceContext);
-  const langState = React.useContext(langContext);
-
-  const setOrder = React.useCallback(
-    (order: Order) => preferences.setOrder(order),
-    []
-  );
-
-  const setUseLocation = React.useCallback(
-    (location: boolean) => preferences.setUseLocation(location),
-    []
-  );
-
-  const setDarkMode = React.useCallback(
-    (darkMode: DarkModeChoice) => preferences.setDarkMode(darkMode),
-    []
-  );
-
-  const setLang = React.useCallback(
-    (lang: Lang) => langState.setLang(lang),
-    []
-  );
-
   return (
-    <PageContainer title={translations.settings}>
-      <Item label={translations.language}>
+    <PageContainer title={computedState.translations().settings}>
+      <Item label={computedState.translations().language}>
         <Radio
           options={languageOptions}
-          selected={langState.lang}
-          onChange={setLang}
+          selected={state.preferences.lang}
+          onChange={value => setState('preferences', 'lang', value)}
         />
       </Item>
-      <Item label={translations.priceCategory}>
+      <Item label={computedState.translations().priceCategory}>
         <PriceCategorySelector
-          value={preferences.maxPriceCategory}
-          onChange={preferences.setMaxPriceCategory}
+          value={state.preferences.maxPriceCategory}
+          onChange={value => setState('preferences', 'maxPriceCategory', value)}
         />
       </Item>
-      <Item label={translations.theme}>
+      <Item label={computedState.translations().theme}>
         <Radio
           options={[
-            { label: translations.default, value: DarkModeChoice.DEFAULT },
-            { label: translations.light, value: DarkModeChoice.OFF },
-            { label: translations.dark, value: DarkModeChoice.ON }
+            {
+              label: computedState.translations().default,
+              value: DarkModeChoice.DEFAULT
+            },
+            {
+              label: computedState.translations().light,
+              value: DarkModeChoice.OFF
+            },
+            {
+              label: computedState.translations().dark,
+              value: DarkModeChoice.ON
+            }
           ]}
-          selected={preferences.selectedDarkMode}
-          onChange={setDarkMode}
+          selected={state.preferences.darkMode}
+          onChange={value => setState('preferences', 'darkMode', value)}
         />
       </Item>
-      <Item label={translations.order}>
+      <Item label={computedState.translations().order}>
         <Radio
           options={orders.map(order => ({
-            label: translations[order],
+            label: computedState.translations()[order],
             value: order
           }))}
-          selected={preferences.order}
-          onChange={setOrder}
+          selected={state.preferences.order}
+          onChange={value => setState('preferences', 'order', value)}
         />
       </Item>
-      <Item label={translations.useLocation}>
-        <Toggle selected={preferences.useLocation} onChange={setUseLocation} />
+      <Item label={computedState.translations().useLocation}>
+        <Toggle
+          selected={state.preferences.useLocation}
+          onChange={value => setState('preferences', 'useLocation', value)}
+        />
       </Item>
-      <Item label={translations.highlightDiets}>
+      <Item label={computedState.translations().highlightDiets}>
         <PropertySelector showDesiredProperties />
       </Item>
-      <Item label={translations.avoidDiets}>
+      <Item label={computedState.translations().avoidDiets}>
         <PropertySelector />
       </Item>
-      <Item label={translations.prioritize}>
+      <Item label={computedState.translations().prioritize}>
         <FavoriteSelector />
       </Item>
     </PageContainer>

@@ -1,3 +1,1 @@
-import * as React from 'react';
-
-export default React.lazy(() => import('./ReportModal'));
+export { default } from './ReportModal';

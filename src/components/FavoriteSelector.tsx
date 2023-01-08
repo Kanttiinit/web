@@ -1,30 +1,34 @@
-import * as React from 'react';
-import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
-
-import { preferenceContext } from '../contexts';
-import { useFormattedFavorites } from '../utils/hooks';
+import { For } from 'solid-js';
+import { formattedFavorites, getArrayWithToggled } from '../utils';
 import InlineIcon from './InlineIcon';
 import { RoundedButton, RoundedButtonContainer } from './RoundedButton';
+import { setState, state } from '../state';
+import { FilledHeartIcon, HeartIcon } from '../icons';
 
-export default () => {
-  const preferences = React.useContext(preferenceContext);
-  const formattedFavorites = useFormattedFavorites();
+export default function FavoriteSelector() {
   return (
     <RoundedButtonContainer>
-      {formattedFavorites.map(favorite => (
-        <RoundedButton
-          color="var(--hearty)"
-          key={favorite.id}
-          selected={favorite.isSelected}
-          onClick={() => preferences.toggleFavorite(favorite.id)}
-        >
-          <InlineIcon>
-            {favorite.isSelected ? <MdFavorite /> : <MdFavoriteBorder />}
-          </InlineIcon>
-          &nbsp;
-          {favorite.name}
-        </RoundedButton>
-      ))}
+      <For each={formattedFavorites()}>
+        {favorite => (
+          <RoundedButton
+            color="var(--hearty)"
+            selected={favorite.isSelected}
+            onClick={() =>
+              setState(
+                'preferences',
+                'favorites',
+                getArrayWithToggled(state.preferences.favorites, favorite.id)
+              )
+            }
+          >
+            <InlineIcon>
+              {favorite.isSelected ? <FilledHeartIcon /> : <HeartIcon />}
+            </InlineIcon>
+            &nbsp;
+            {favorite.name}
+          </RoundedButton>
+        )}
+      </For>
     </RoundedButtonContainer>
   );
-};
+}

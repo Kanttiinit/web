@@ -1,10 +1,10 @@
-import * as React from 'react';
-import styled, { css } from 'styled-components';
+import { styled } from 'solid-styled-components';
+import { computedState } from '../state';
 
 import logo from '../assets/logo_48.png';
-import { isBeta, version } from '../utils/consts';
-import { useTranslations } from '../utils/hooks';
+import { version } from '../consts';
 import Link from './Link';
+import { breakSmall } from '../globalStyles';
 
 const Footer = styled.footer`
   text-align: center;
@@ -18,36 +18,34 @@ const Footer = styled.footer`
   align-items: flex-end;
 `;
 
-const linkStyles = css`
-  && {
-    color: var(--gray2);
-    text-transform: uppercase;
-    margin: 0 0.5rem;
-    text-decoration: none;
-    vertical-align: middle;
-    border-bottom: solid 1px transparent;
-    padding-bottom: 0.25rem;
-    font-weight: 500;
+const linkStyles = `
+  color: var(--gray2);
+  text-transform: uppercase;
+  margin: 0 0.5rem;
+  text-decoration: none;
+  vertical-align: middle;
+  border-bottom: solid 1px transparent;
+  padding-bottom: 0.25rem;
+  font-weight: 500;
 
-    &.current {
-      border-color: var(--accent_color);
-      color: var(--accent_color);
-    }
+  &.current {
+    border-color: var(--accent_color);
+    color: var(--accent_color);
+  }
 
-    &:hover {
-      color: var(--accent_color);
-    }
+  &:hover {
+    color: var(--accent_color);
+  }
 
-    &:focus {
-      outline: none;
-      color: var(--accent_color);
-    }
+  &:focus {
+    outline: none;
+    color: var(--accent_color);
+  }
 
-    @media (max-width: ${props => props.theme.breakSmall}) {
-      border-bottom: none;
-      display: block;
-      margin: 0.5rem;
-    }
+  @media (max-width: ${breakSmall}) {
+    border-bottom: none;
+    display: block;
+    margin: 0.5rem;
   }
 `;
 
@@ -59,15 +57,15 @@ const StyledExternalLink = styled.a`
   ${linkStyles}
 `;
 
-const LogoImage = styled.img`
+const LogoImage = styled.img<{ darkMode: boolean }>`
   height: 48px;
   margin-right: 1rem;
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     display: none;
   }
 
-  ${props => props.theme.dark && 'filter: grayscale(0.6);'}
+  ${props => (props.darkMode ? 'filter: grayscale(0.6);' : '')}
 `;
 
 const NavigationContainer = styled.div`
@@ -88,29 +86,27 @@ const VersionLink = styled.a`
 `;
 
 export default () => {
-  const translations = useTranslations();
   return (
     <Footer>
       <NavigationContainer>
-        <LogoImage alt="Kanttiinit logo" src={logo} />
+        <LogoImage
+          darkMode={computedState.darkMode()}
+          alt="Kanttiinit logo"
+          src={logo}
+        />
         <nav>
-          <StyledNavLink to="/contact">{translations.contact}</StyledNavLink>
+          <StyledNavLink to="/contact">
+            {computedState.translations().contact}
+          </StyledNavLink>
           <StyledNavLink to="/clients">
-            {translations.otherClients}
+            {computedState.translations().otherClients}
           </StyledNavLink>
-          <StyledNavLink to="/news">{translations.updates}</StyledNavLink>
+          <StyledNavLink to="/news">
+            {computedState.translations().updates}
+          </StyledNavLink>
           <StyledNavLink to="/terms-of-service">
-            {translations.termsOfService}
+            {computedState.translations().termsOfService}
           </StyledNavLink>
-          {!isBeta && (
-            <StyledExternalLink
-              href="https://beta.kanttiinit.fi/"
-              rel="noopener"
-              target="_blank"
-            >
-              Beta
-            </StyledExternalLink>
-          )}
         </nav>
       </NavigationContainer>
       <VersionLink

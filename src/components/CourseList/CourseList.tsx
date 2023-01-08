@@ -1,10 +1,8 @@
-import * as capitalize from 'lodash/capitalize';
-import memoize from 'lodash/memoize';
-import * as React from 'react';
-import styled from 'styled-components';
+import { createMemo, For } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { CourseType } from '../../contexts/types';
-import { useTranslations } from '../../utils/hooks';
+import { CourseType } from '../../types';
+import { computedState } from '../../state';
 import Course from './Course';
 
 interface CourseGroup {
@@ -20,36 +18,9 @@ const getCourseGroup = (course: CourseType) => {
   return split.length > 1 ? split[0] : '';
 };
 
-const courseGroups = (courses: CourseType[]) => {
-  const groups = courses.reduce(
-    (g, course) => {
-      const group = getCourseGroup(course);
-      if (group in g) {
-        g[group].push(course);
-      } else {
-        g[group] = [course];
-      }
-      return g;
-    },
-    {} as { [key: string]: CourseType[] }
-  );
-
-  return Object.keys(groups).map(groupKey => ({
-    courses: groups[groupKey]
-      .filter(c => !!c.title)
-      .map(c => ({
-        ...c,
-        title: c.title.replace(groupKey + ': ', '')
-      })),
-    key: groupKey
-  }));
-};
-
-const moizedGroups: typeof courseGroups = memoize(courseGroups);
-
 interface Props {
   courses: CourseType[];
-  className?: string;
+  class?: string;
 }
 
 const Container = styled.ul`
@@ -82,19 +53,48 @@ const EmptyText = styled.p`
   justify-content: center;
 `;
 
-const CourseList = ({ courses, ...props }: Props) => {
-  const translations = useTranslations();
+const capitalize = (string: string) => {
+  return string
+    ? string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
+    : '';
+};
+
+const CourseList = (props: Props) => {
+  const courseGroups = createMemo(() => {
+    const groups = props.courses.reduce((g, course) => {
+      const group = getCourseGroup(course);
+      if (group in g) {
+        g[group].push(course);
+      } else {
+        g[group] = [course];
+      }
+      return g;
+    }, {} as { [key: string]: CourseType[] });
+
+    return Object.keys(groups).map(groupKey => ({
+      courses: groups[groupKey]
+        .filter(c => !!c.title)
+        .map(c => ({
+          ...c,
+          title: c.title.replace(groupKey + ': ', '')
+        })),
+      key: groupKey
+    }));
+  });
+
   return (
     <Container {...props}>
-      {!courses.length && <EmptyText>{translations.noMenu}</EmptyText>}
-      {moizedGroups(courses).map((group: CourseGroup) => (
-        <Group key={group.key}>
-          <GroupTitle>{capitalize(group.key)}</GroupTitle>
-          {group.courses.map((c, i) => (
-            <Course key={i} course={c} />
-          ))}
-        </Group>
-      ))}
+      {!props.courses.length && (
+        <EmptyText>{computedState.translations().noMenu}</EmptyText>
+      )}
+      <For each={courseGroups()}>
+        {(group: CourseGroup) => (
+          <Group>
+            <GroupTitle>{capitalize(group.key)}</GroupTitle>
+            <For each={group.courses}>{c => <Course course={c} />}</For>
+          </Group>
+        )}
+      </For>
     </Container>
   );
 };

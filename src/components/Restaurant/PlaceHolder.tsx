@@ -1,7 +1,5 @@
-import * as random from 'lodash/random';
-import * as times from 'lodash/times';
-import * as React from 'react';
-import styled, { keyframes } from 'styled-components';
+import { For } from 'solid-js';
+import { styled, keyframes } from 'solid-styled-components';
 
 import { Container, courseListStyles } from './Restaurant';
 
@@ -51,13 +49,15 @@ const Body = styled.div`
   ${courseListStyles}
 `;
 
-export default React.memo(() => (
-  <PlaceholderContainer>
-    <Header width={random(30, 40)} />
-    <Body>
-      {times(10, (i: number) => (
-        <Course key={i} width={random(40, 100)} />
-      ))}
-    </Body>
-  </PlaceholderContainer>
-));
+const arr = Array(10).fill(0);
+
+export default function PlaceHolder() {
+  return (
+    <PlaceholderContainer>
+      <Header width={30 + Math.random() * 10} />
+      <Body>
+        <For each={arr}>{() => <Course width={40 + Math.random() * 60} />}</For>
+      </Body>
+    </PlaceholderContainer>
+  );
+}

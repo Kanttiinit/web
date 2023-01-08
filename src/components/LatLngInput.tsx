@@ -1,18 +1,14 @@
-import * as React from 'react';
-
-import { Draggable, Map } from 'pigeon-maps';
-import styled from 'styled-components';
+import { createEffect, onCleanup, onMount } from 'solid-js';
+import { styled } from 'solid-styled-components';
 import Input from './Input';
+import leaflet from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 interface Props {
   disabled?: boolean;
   value: [number, number];
   onChange(latLng: [number, number]): void;
 }
-const osmProvider = (x: number, y: number, z: number) => {
-  const s = String.fromCharCode(97 + ((x + y + z) % 3));
-  return `https://${s}.tile.openstreetmap.org/${z}/${x}/${y}.png`;
-};
 
 const LatLngContainer = styled.div`
   column-count: 2;
@@ -43,32 +39,64 @@ const CrossHair = styled.div`
   }
 `;
 
-const LatLngInput = ({ value, onChange, disabled }: Props) => {
+const LatLngInput = (props: Props) => {
+  let container: HTMLDivElement | undefined;
+  let marker: leaflet.Marker;
+  let map: leaflet.Map;
+
+  onMount(() => {
+    map = leaflet.map(container!).setView(props.value, 14);
+    leaflet
+      .tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution:
+          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      })
+      .addTo(map);
+    marker = leaflet.marker(props.value, { draggable: true }).addTo(map);
+    marker.addEventListener('dragend', () => {
+      const pos = marker.getLatLng();
+      props.onChange([pos.lat, pos.lng]);
+    });
+  });
+
+  onCleanup(() => {
+    marker && marker.remove();
+    map && map.remove();
+  });
+
+  createEffect(() => {
+    if (marker && map) {
+      marker.setLatLng(props.value);
+      map.panTo(props.value, { animate: true });
+    }
+  });
+
   return (
     <>
-      <MapContainer>
-        <Map defaultZoom={14} center={value} provider={osmProvider}>
-          <Draggable anchor={value} offset={[12, 12]} onDragEnd={onChange}>
-            <CrossHair />
-          </Draggable>
-        </Map>
-      </MapContainer>
+      <MapContainer ref={container} />
       <LatLngContainer>
         <Input
           label="Latitude"
           type="number"
           id="latitude"
-          disabled={disabled}
-          value={value[0] || 0}
-          onChange={strValue => onChange([Number(strValue), value[1]])}
+          step="any"
+          disabled={props.disabled}
+          value={props.value[0] || 0}
+          onChange={strValue =>
+            props.onChange([Number(strValue), props.value[1]])
+          }
         />
         <Input
           label="Longitude"
           type="number"
           id="longitude"
-          disabled={disabled}
-          value={value[1] || 0}
-          onChange={strValue => onChange([value[0], Number(strValue)])}
+          step="any"
+          disabled={props.disabled}
+          value={props.value[1] || 0}
+          onChange={strValue =>
+            props.onChange([props.value[0], Number(strValue)])
+          }
         />
       </LatLngContainer>
     </>

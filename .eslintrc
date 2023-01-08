@@ -7,21 +7,15 @@
   },
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended",
+    "plugin:solid/recommended",
     "plugin:@typescript-eslint/recommended"
   ],
-  "plugins": ["react", "@typescript-eslint"],
-  "settings": {
-    "react": {
-      "pragma": "React",
-      "version": "detect"
-    }
-  },
+  "plugins": ["solid", "@typescript-eslint"],
   "rules": {
+    "solid/no-innerhtml": 0,
+    "@typescript-eslint/no-non-null-assertion": 0,
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/explicit-module-boundary-types": 0,
-    "react/react-in-jsx-scope": 0,
-    "react/display-name": 0,
     "semi": 2
   },
   "parser": "@typescript-eslint/parser",

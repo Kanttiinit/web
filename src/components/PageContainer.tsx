@@ -1,23 +1,25 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import { splitProps } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import { breakSmall } from '../globalStyles';
 
 interface Props {
   children?: any;
   title: any;
   compactTitle?: boolean;
-  className?: string;
+  class?: string;
 }
 
 const Container = styled.div`
   background: var(--gray7);
   padding: 0.5rem 1rem 1rem;
-  border: 1px var(--gray6) solid;
   height: 100%;
   overflow: auto;
   box-sizing: border-box;
   color: var(--gray1);
 
-  p, strong, ul {
+  p,
+  strong,
+  ul {
     color: var(--gray1);
   }
 `;
@@ -33,7 +35,7 @@ const Title = styled.h1<{ compact?: boolean }>`
     margin-top: 0;
   }
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     font-size: 1.2em;
   }
 
@@ -47,11 +49,21 @@ const Title = styled.h1<{ compact?: boolean }>`
   }
 `;
 
-const PageContainer = ({ children, title, compactTitle, ...rest }: Props) => (
-  <Container {...rest}>
-    {title && <Title compact={compactTitle}>{title}</Title>}
-    {children}
-  </Container>
-);
+const PageContainer = (props: Props) => {
+  const [ownProps, rest] = splitProps(props, [
+    'children',
+    'title',
+    'class',
+    'compactTitle'
+  ]);
+  return (
+    <Container {...rest}>
+      {ownProps.title && (
+        <Title compact={ownProps.compactTitle}>{ownProps.title}</Title>
+      )}
+      {ownProps.children}
+    </Container>
+  );
+};
 
 export default PageContainer;

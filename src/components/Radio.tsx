@@ -1,14 +1,15 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import { For, splitProps } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import { breakLarge, breakSmall } from '../globalStyles';
 
-interface Props {
+interface Props<T> {
   options: {
     label: any;
-    value: string;
+    value: T;
   }[];
   selected: string;
-  onChange: (value: string) => void;
-  className?: string;
+  onChange: (value: T) => void;
+  class?: string;
   style?: any;
 }
 
@@ -22,23 +23,23 @@ const Container = styled.div`
 `;
 
 export const Button = styled.button<{ selected: boolean }>`
-  color: var(--accent_color);
+  color: var(--gray3);
   background: transparent;
   font-family: inherit;
   font-weight: 500;
   text-transform: uppercase;
   transition: background 0.1s, color 0.1s;
   margin: 0;
-  border-radius: 1rem;
+  border-radius: 0.2em;
   outline: none;
   border: solid 2px transparent;
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     font-size: 0.7rem;
     padding: 0.5rem 0.4rem;
   }
 
-  @media (min-width: ${props => props.theme.breakLarge}) {
+  @media (min-width: ${breakLarge}) {
     font-size: 0.8rem;
     padding: 0.5rem 1rem;
   }
@@ -48,8 +49,8 @@ export const Button = styled.button<{ selected: boolean }>`
   }
 
   ${props =>
-    props.selected &&
-    `
+    props.selected
+      ? `
     background: var(--accent_color);
     color: var(--gray6);
 
@@ -57,23 +58,28 @@ export const Button = styled.button<{ selected: boolean }>`
       filter: brightness(115%);
       color: var(--gray6);
     }
-  `}
+  `
+      : ''}
 `;
 
-const Radio = ({ options, selected, onChange, ...rest }: Props) => {
+export default function Radio<T>(props: Props<T>) {
+  const [ownProps, rest] = splitProps(props, [
+    'onChange',
+    'options',
+    'selected'
+  ]);
   return (
     <Container {...rest}>
-      {options.map(({ label, value }) => (
-        <Button
-          key={value}
-          onClick={() => value !== selected && onChange(value)}
-          selected={selected === value}
-        >
-          {label}
-        </Button>
-      ))}
+      <For each={props.options}>
+        {({ label, value }) => (
+          <Button
+            onClick={() => value !== props.selected && props.onChange(value)}
+            selected={props.selected === value}
+          >
+            {label}
+          </Button>
+        )}
+      </For>
     </Container>
   );
-};
-
-export default Radio;
+}

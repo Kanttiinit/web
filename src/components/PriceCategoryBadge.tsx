@@ -1,11 +1,10 @@
-import times from 'lodash/times';
-import * as React from 'react';
-import { MdAttachMoney } from 'react-icons/md';
-import styled from 'styled-components';
+import { For } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { PriceCategory } from '../contexts/types';
-import { useTranslations } from '../utils/hooks';
+import { PriceCategory } from '../types';
+import { computedState } from '../state';
 import Tooltip from './Tooltip';
+import { MoneyIcon } from '../icons';
 
 type Props = {
   priceCategory: PriceCategory;
@@ -25,24 +24,24 @@ const Container = styled.span<Props>`
   margin-left: 6px;
 
   svg {
-    margin-left: -6px;
     display: block;
   }
 `;
 
 const PriceCategoryBadge = (props: Props) => {
-  const translations = useTranslations();
   return (
-    <Tooltip text={translations[props.priceCategory]}>
+    <Tooltip text={computedState.translations()[props.priceCategory]}>
       <Container {...props}>
-        {times(categories.length, (i: number) => (
-          <MdAttachMoney
-            key={i}
-            style={{
-              opacity: i <= categories.indexOf(props.priceCategory) ? 1.0 : 0.33
-            }}
-          />
-        ))}
+        <For each={Array(categories.length).fill(0)}>
+          {(_, i) => (
+            <MoneyIcon
+              style={{
+                opacity:
+                  i() <= categories.indexOf(props.priceCategory) ? 1.0 : 0.33
+              }}
+            />
+          )}
+        </For>
       </Container>
     </Tooltip>
   );

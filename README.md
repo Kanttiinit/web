@@ -1,10 +1,15 @@
-# Kanttiinit Web Client
+# kanttiinit.fi web client
+
+The main web client application that runs on [kanttiinit.fi](https://kanttiinit.fi).
+This client is built using SolidJS and Vite.
 
 ## Local development
 
-After cloning the repo run `npm install` to install all dependencies.
+After cloning the repo, run `npm install` to install all dependencies.
 
-The (Webpack) development server can be started with `npm run develop` after which it will be available at `http://localhost:8080/`. The server can also be started separately with `npm start` and running `webpack -w` separately.
+Start the development server with `npm run dev` after which it will be available at `http://localhost:8080/`.
+The development server will use the live backend by default.
 
-### ESLint
-We use [ESLint](http://eslint.org/) for linting JavaScript in order to keep the style uniform. ESLint has integrations for all major IDE's and we highly recommend installing it.
+## Contributing
+
+Contributions are welcome!

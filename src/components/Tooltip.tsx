@@ -1,10 +1,10 @@
 import Popper from 'popper.js';
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import styled from 'styled-components';
+import { createEffect, createMemo, createSignal, Show } from 'solid-js';
+import { Portal } from 'solid-js/web';
+import { styled } from 'solid-styled-components';
 
-import { langContext } from '../contexts';
-import translations from '../utils/translations';
+import { computedState, state } from '../state';
+import translations from '../translations';
 
 const Container = styled.div`
   font-size: 0.8rem;
@@ -22,52 +22,52 @@ const Container = styled.div`
 interface Props {
   children: any;
   text?: string;
-  translationKey?: keyof (typeof translations);
+  translationKey?: keyof typeof translations;
   position?: Popper.Position;
-  className?: string;
+  class?: string;
+  style?: any;
 }
 
 const Tooltip = (props: Props): any => {
-  const { lang } = React.useContext(langContext);
-  const [isOpen, setIsOpen] = React.useState(false);
-  const anchorRef = React.useRef<HTMLSpanElement>(null);
-  const tooltipRef = React.useRef<HTMLDivElement>(null);
-  const popper = React.useRef<Popper>(null);
+  const [isOpen, setIsOpen] = createSignal(false);
+  let anchorRef: HTMLSpanElement | undefined;
+  let popper: Popper;
 
-  const open = () => setIsOpen(true);
-
-  const close = () => setIsOpen(false);
-
-  React.useLayoutEffect(() => {
-    if (anchorRef.current && tooltipRef.current && isOpen) {
-      popper.current = new Popper(anchorRef.current, tooltipRef.current, {
+  const setTooltip = (tooltipRef: HTMLDivElement) => {
+    if (anchorRef && tooltipRef && isOpen()) {
+      popper = new Popper(anchorRef, tooltipRef, {
         placement: props.position || 'bottom-start'
       });
     }
-  }, [tooltipRef.current, anchorRef.current, isOpen]);
+  };
 
-  if (!props.text && !(props.translationKey in translations)) {
+  if (!props.text && !(props.translationKey! in translations)) {
     return props.children;
   }
 
-  const contents = props.text || translations[props.translationKey][lang];
+  const contents = () =>
+    props.text || computedState.translations()[props.translationKey!];
 
   return (
-    <>
+    <Show
+      when={props.text || props.translationKey! in translations}
+      fallback={props.children}
+    >
       <span
-        onMouseOver={open}
-        onMouseLeave={close}
+        onMouseOver={() => setIsOpen(true)}
+        onMouseLeave={() => setIsOpen(false)}
         ref={anchorRef}
-        className={props.className}
+        class={props.class}
+        style={props.style}
       >
         {props.children}
       </span>
-      {isOpen &&
-        ReactDOM.createPortal(
-          <Container ref={tooltipRef}>{contents}</Container>,
-          document.body
-        )}
-    </>
+      {isOpen() && (
+        <Portal mount={document.body}>
+          <Container ref={setTooltip}>{contents()}</Container>
+        </Portal>
+      )}
+    </Show>
   );
 };
 

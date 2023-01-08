@@ -1,5 +1,5 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import { createEffect, createSignal } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
 interface Props {
   children: any;
@@ -13,17 +13,17 @@ const Content = styled.div<{ contentHeight: number }>`
 `;
 
 export default function Collapse(props: Props) {
-  const [height, setHeight] = React.useState(0);
-  const containerRef = React.useRef<HTMLDivElement | null>(null);
+  const [height, setHeight] = createSignal(0);
+  let containerRef: HTMLDivElement | undefined;
 
-  React.useEffect(() => {
-    if (containerRef.current) {
-      setHeight(containerRef.current.scrollHeight);
+  createEffect(() => {
+    if (props.isOpen && containerRef) {
+      setHeight(containerRef.scrollHeight);
     }
-  }, [props.isOpen]);
+  });
 
   return (
-    <Content contentHeight={props.isOpen ? height : 0} ref={containerRef}>
+    <Content contentHeight={props.isOpen ? height() : 0} ref={containerRef}>
       {props.children}
     </Content>
   );

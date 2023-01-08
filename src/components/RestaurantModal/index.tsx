@@ -1,3 +1,1 @@
-import * as React from 'react';
-
-export default React.lazy(() => import('./RestaurantModal'));
+export { default } from './RestaurantModal';

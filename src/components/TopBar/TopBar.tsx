@@ -1,19 +1,20 @@
-import * as React from 'react';
-import { MdFiberNew, MdMap, MdSettings } from 'react-icons/md';
 import FI from './fi.svg';
 import EN from './en.svg';
 
-import styled, { css } from 'styled-components';
-import { langContext } from '../../contexts';
-import { useTranslations, useUnseenUpdates } from '../../utils/hooks';
+import { styled } from 'solid-styled-components';
 import AreaSelector from '../AreaSelector';
 import ClickOutside from '../ClickOutside';
 import DaySelector from '../DaySelector';
 import InlineIcon from '../InlineIcon';
 import Link from '../Link';
+import { computedState, setState, state } from '../../state';
+import { breakSmall } from '../../globalStyles';
+import { createSignal, onCleanup, onMount } from 'solid-js';
+import { MapIcon, NewsIcon, SettingsIcon } from '../../icons';
+import { Lang } from '../../types';
 
-const Container = styled.header`
-  background: linear-gradient(to bottom, var(--gray7) 0%, var(--gray6) 100%);
+const Container = styled.header<{ darkMode: boolean }>`
+  background: linear-gradient(to bottom, var(--gray6) 0%, var(--gray7) 100%);
   box-sizing: border-box;
   padding: 0 0.5em;
   position: fixed;
@@ -23,16 +24,14 @@ const Container = styled.header`
   border-bottom: 1px solid var(--gray5);
   user-select: none;
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
-    background-color: var(--gray6);
+  @media (max-width: ${breakSmall}) {
+    background-color: var(--gray7);
     justify-content: flex-start;
     padding: 0.2em;
     padding-left: 1rem;
   }
 
-  ${props =>
-    props.theme.dark &&
-    'background: linear-gradient(to bottom,var(--gray6),var(--gray7) 100%)'}
+  ${props => (props.darkMode ? 'background: var(--gray7);' : '')}
 `;
 
 const Content = styled.div`
@@ -42,14 +41,15 @@ const Content = styled.div`
   margin: 0 auto;
 `;
 
-const NewsIcon = styled(MdFiberNew)`
+const StyledNewsIcon = styled(NewsIcon)`
   color: var(--accent_color);
 `;
 
 const AreaSelectorButton = styled(ClickOutside)`
   position: relative;
+  cursor: pointer;
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     position: initial;
   }
 `;
@@ -60,8 +60,8 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
   top: 32px;
   width: 20em;
   background: var(--gray7);
-  padding: 1em;
-  box-shadow: 0px 7px 18px -1px rgba(50, 50, 50, 0.1);
+  padding: 0.4em;
+  box-shadow: 0rem 0.1rem 0.6rem -0.2rem rgba(0, 0, 0, 0.3);
   border-radius: 4px;
   border: solid 1px var(--gray5);
   opacity: 0;
@@ -69,13 +69,13 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
   pointer-events: none;
 
   ${props =>
-    props.isOpen &&
-    css`
-      opacity: 1;
+    props.isOpen
+      ? `opacity: 1;
       pointer-events: all;
-    `}
+    `
+      : ''}
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     top: 52px;
     left: 0;
     width: 100%;
@@ -83,21 +83,16 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-const iconLinkStyles = css`
+const iconLinkStyles = `
   text-transform: uppercase;
   font-weight: 500;
   font-size: 0.8rem;
   display: flex;
   align-items: center;
-  margin: 0 1em;
+  padding: 0 1em;
 
   :last-child {
     margin-right: 0;
-  }
-
-  :link,
-  :visited {
-    color: var(--gray3);
   }
 
   :hover,
@@ -110,7 +105,7 @@ const iconLinkStyles = css`
     display: none;
   }
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     svg {
       display: block;
     }
@@ -135,71 +130,81 @@ const FlagImg = styled.img`
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.33);
 `;
 
-const TopBar = () => {
-  const unseenUpdates = useUnseenUpdates();
-  const translations = useTranslations();
-  const { lang, toggleLang } = React.useContext(langContext);
-  const areaSelectorLink = React.useRef<HTMLAnchorElement | null>(null);
-  const [areaSelectorOpen, setAreaSelectorOpen] = React.useState(false);
+export default function TopBar() {
+  let areaSelectorLink: HTMLAnchorElement | undefined;
+  const [areaSelectorOpen, setAreaSelectorOpen] = createSignal(false);
 
-  const toggleAreaSelector = () => setAreaSelectorOpen(!areaSelectorOpen);
+  const toggleAreaSelector = () => setAreaSelectorOpen(!areaSelectorOpen());
 
   const closeAreaSelector = () =>
-    areaSelectorOpen && setAreaSelectorOpen(false);
+    areaSelectorOpen() && setAreaSelectorOpen(false);
 
-  React.useEffect(() => {
-    if (areaSelectorLink) {
-      const touchStart = (e: TouchEvent) => {
-        e.preventDefault();
-        toggleAreaSelector();
-      };
+  const touchStart = (e: TouchEvent) => {
+    e.preventDefault();
+    toggleAreaSelector();
+  };
 
-      const touchMove = (event: TouchEvent) => {
-        event.preventDefault();
-        const target = document.elementFromPoint(
-          event.touches[0].pageX,
-          event.touches[0].pageY
-        );
-        if (target instanceof HTMLButtonElement) {
-          target.focus();
-        }
-      };
-
-      const touchEnd = (event: TouchEvent) => {
-        const endTarget = document.elementFromPoint(
-          event.changedTouches[0].pageX,
-          event.changedTouches[0].pageY
-        );
-        if (endTarget instanceof HTMLElement) {
-          endTarget.dispatchEvent(
-            new MouseEvent('mouseup', {
-              bubbles: true
-            })
-          );
-        }
-      };
-
-      const element = areaSelectorLink.current;
-
-      element.addEventListener('touchstart', touchStart, { passive: false });
-      element.addEventListener('touchmove', touchMove, { passive: false });
-      element.addEventListener('touchend', touchEnd);
-
-      return () => {
-        element.removeEventListener('touchstart', touchStart);
-        element.removeEventListener('touchmove', touchMove);
-        element.removeEventListener('touchend', touchEnd);
-      };
+  const touchMove = (event: TouchEvent) => {
+    event.preventDefault();
+    const target = document.elementFromPoint(
+      event.touches[0].pageX,
+      event.touches[0].pageY
+    );
+    if (target instanceof HTMLButtonElement) {
+      target.focus();
     }
-  }, [areaSelectorLink.current]);
+  };
+
+  const touchEnd = (event: TouchEvent) => {
+    const endTarget = document.elementFromPoint(
+      event.changedTouches[0].pageX,
+      event.changedTouches[0].pageY
+    );
+    if (endTarget instanceof HTMLElement) {
+      endTarget.dispatchEvent(
+        new MouseEvent('mouseup', {
+          bubbles: true
+        })
+      );
+    }
+  };
+
+  onMount(() => {
+    if (areaSelectorLink) {
+      areaSelectorLink.addEventListener('touchstart', touchStart, {
+        passive: false
+      });
+      areaSelectorLink.addEventListener('touchmove', touchMove, {
+        passive: false
+      });
+      areaSelectorLink.addEventListener('touchend', touchEnd);
+    }
+  });
+
+  onCleanup(() => {
+    if (areaSelectorLink) {
+      areaSelectorLink.removeEventListener('touchstart', touchStart);
+      areaSelectorLink.removeEventListener('touchmove', touchMove);
+      areaSelectorLink.removeEventListener('touchend', touchEnd);
+    }
+  });
+
+  function toggleLang() {
+    setState(
+      'preferences',
+      'lang',
+      state.preferences.lang === Lang.FI ? Lang.EN : Lang.FI
+    );
+  }
+
   return (
-    <Container>
+    <Container darkMode={computedState.darkMode()}>
       <Content>
-        <DaySelector root="/" />
-        {unseenUpdates.length > 0 && (
+        <DaySelector />
+        {computedState.unseenUpdates().length > 0 && (
           <Link to="/news">
             <InlineIcon>
-              <NewsIcon size={24} />
+              <StyledNewsIcon size={24} />
             </InlineIcon>
           </Link>
         )}
@@ -210,27 +215,28 @@ const TopBar = () => {
             tabIndex={0}
             onKeyDown={e => e.key === 'Enter' && toggleAreaSelector()}
           >
-            <MdMap size={18} />
-            <span>{translations.selectArea}</span>
+            <MapIcon size={18} style={{ 'padding-left': '1rem' }} />
+            <span>{computedState.translations().selectArea}</span>
           </NativeIconLink>
-          <AreaSelectorContainer isOpen={areaSelectorOpen}>
+          <AreaSelectorContainer isOpen={areaSelectorOpen()}>
             <AreaSelector onAreaSelected={toggleAreaSelector} />
           </AreaSelectorContainer>
         </AreaSelectorButton>
         <IconLink to="/settings" aria-label="Settings">
-          <MdSettings size={18} />
-          <span>{translations.settings}</span>
+          <SettingsIcon size={18} />
+          <span>{computedState.translations().settings}</span>
         </IconLink>
         <NativeIconLink
           tabIndex={0}
           onClick={toggleLang}
           onKeyDown={e => e.key === 'Enter' && toggleLang()}
         >
-          <FlagImg alt={lang.toUpperCase()} src={lang === 'fi' ? FI : EN} />
+          <FlagImg
+            alt={state.preferences.lang.toUpperCase()}
+            src={state.preferences.lang === 'fi' ? FI : EN}
+          />
         </NativeIconLink>
       </Content>
     </Container>
   );
-};
-
-export default React.memo(TopBar);
+}

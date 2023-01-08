@@ -1,7 +1,5 @@
-import * as React from 'react';
-
-import styled from 'styled-components';
-import { useTranslations } from '../utils/hooks';
+import { styled } from 'solid-styled-components';
+import { computedState } from '../state';
 import PageContainer from './PageContainer';
 
 const Link = styled.a`
@@ -9,24 +7,8 @@ const Link = styled.a`
 `;
 
 const Clients = () => {
-  const translations = useTranslations();
   return (
-    <PageContainer title={translations.otherClients}>
-      <Link href="https://folio.kanttiinit.fi/" rel="noopener">
-        folio.kanttiinit.fi
-      </Link>
-      <p>JavaScript-less version of Kanttiinit.</p>
-      <Link
-        href="https://github.com/Kanttiinit/cli"
-        rel="noopener"
-        target="_blank"
-      >
-        CLI
-      </Link>
-      <p>
-        Command line interface written in C++ (no prebuilt binaries available
-        yet).
-      </p>
+    <PageContainer title={computedState.translations().otherClients}>
       <Link
         href="https://itunes.apple.com/fi/app/kanttiinit/id1069903670?mt=8"
         target="_blank"
@@ -35,6 +17,10 @@ const Clients = () => {
         iOS App
       </Link>
       <p>iOS app, now receiving frequent bug fixes and feature updates.</p>
+      <Link href="https://folio.kanttiinit.fi/" rel="noopener">
+        folio.kanttiinit.fi
+      </Link>
+      <p>JavaScript-less version of Kanttiinit.</p>
     </PageContainer>
   );
 };

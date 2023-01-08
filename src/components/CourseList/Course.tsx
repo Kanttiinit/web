@@ -1,9 +1,10 @@
-import * as React from 'react';
-import { MdFavorite } from 'react-icons/md';
-import styled, { css } from 'styled-components';
-import { propertyContext } from '../../contexts';
-import { CourseType } from '../../contexts/types';
-import { useIsFavorite } from '../../utils/hooks';
+import { For } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import { CourseType } from '../../types';
+import { state } from '../../state';
+import { isFavorite } from '../../utils';
+import { HeartFilledIcon } from '../../icons';
+import { properties } from '../../translations';
 import Property from './Property';
 
 const CourseTitle = styled.h2<{ highlight: boolean; dimmed: boolean }>`
@@ -14,13 +15,14 @@ const CourseTitle = styled.h2<{ highlight: boolean; dimmed: boolean }>`
   font-weight: inherit;
 
   ${props =>
-    props.highlight &&
-    css`
+    props.highlight
+      ? `
       color: var(--friendly);
       font-weight: 500;
-    `}
+    `
+      : ''}
 
-  ${props => props.dimmed && 'color: var(--gray4);'}
+  ${props => (props.dimmed ? 'color: var(--gray4);' : '')}
 `;
 
 const PropertyContainer = styled.span`
@@ -30,7 +32,7 @@ const PropertyContainer = styled.span`
   color: var(--gray2);
 `;
 
-const FavoriteIcon = styled(MdFavorite)`
+const FavoriteIcon = styled(HeartFilledIcon)`
   margin-right: 0.5em;
 `;
 
@@ -47,35 +49,57 @@ const CourseWrapper = styled.li<{
     border-bottom: 1px solid var(--gray6);
   }
 
-  ${props => props.favorite && 'color: var(--hearty);'}
+  ${props => (props.favorite ? 'color: var(--hearty);' : '')}
 `;
 
-const Course = ({ course }: { course: CourseType }) => {
-  const isFavoriteFn = useIsFavorite();
-  const { isDesiredProperty, isUndesiredProperty } = React.useContext(
-    propertyContext
+function getProperty(propertyKey: string) {
+  return properties.find(p => p.key === propertyKey);
+}
+
+const isPropertySelected = (propertyKey: string) =>
+  state.preferences.properties.some(
+    p => p.toLowerCase() === propertyKey.toLowerCase()
   );
-  const isFavorite = isFavoriteFn(course);
 
-  const highlight = course.properties.some(isDesiredProperty);
+function isDesiredProperty(propertyKey: string) {
+  const property = getProperty(propertyKey);
+  if (property && property.desired) {
+    return isPropertySelected(propertyKey);
+  }
+  return false;
+}
 
-  const dim = course.properties.some(isUndesiredProperty);
+function isUndesiredProperty(propertyKey: string) {
+  const property = getProperty(propertyKey);
+  if (property && !property.desired) {
+    return isPropertySelected(propertyKey);
+  }
+  return false;
+}
+
+const Course = (props: { course: CourseType }) => {
+  const highlight = () => props.course.properties.some(isDesiredProperty);
+
+  const dim = () => props.course.properties.some(isUndesiredProperty);
+
+  const isFav = () => isFavorite(props.course);
 
   return (
-    <CourseWrapper favorite={isFavorite}>
-      {isFavorite && <FavoriteIcon />}
-      <CourseTitle highlight={highlight} dimmed={dim}>
-        {course.title}
+    <CourseWrapper favorite={isFav()}>
+      {isFav() && <FavoriteIcon />}
+      <CourseTitle highlight={highlight()} dimmed={dim()}>
+        {props.course.title}
       </CourseTitle>
       <PropertyContainer>
-        {course.properties.map(p => (
-          <Property
-            key={p}
-            highlighted={isDesiredProperty(p)}
-            dimmed={isUndesiredProperty(p)}
-            property={p}
-          />
-        ))}
+        <For each={props.course.properties}>
+          {p => (
+            <Property
+              highlighted={isDesiredProperty(p)}
+              dimmed={isUndesiredProperty(p)}
+              property={p}
+            />
+          )}
+        </For>
       </PropertyContainer>
     </CourseWrapper>
   );

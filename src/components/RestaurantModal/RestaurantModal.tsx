@@ -1,13 +1,13 @@
+import { useParams } from '@solidjs/router';
 import setIsoDay from 'date-fns/setISODay';
-import * as findIndex from 'lodash/findIndex';
-import * as React from 'react';
-import { MdHome, MdPlace } from 'react-icons/md';
-import styled from 'styled-components';
+import { createResource, For, Show } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
-import { dataContext, langContext, uiContext } from '../../contexts';
-import { RestaurantType } from '../../contexts/types';
-import * as api from '../../utils/api';
-import { useFormatDate, useTranslations } from '../../utils/hooks';
+import { breakSmall } from '../../globalStyles';
+import { computedState, state, resources } from '../../state';
+import * as api from '../../api';
+import { formattedDay } from '../../utils';
+import { HomeIcon, LocationIcon } from '../../icons';
 import InlineIcon from '../InlineIcon';
 import MenuViewer from '../MenuViewer';
 import PageContainer from '../PageContainer';
@@ -17,7 +17,7 @@ import Map from './Map';
 function getOpeningHourString(hours: string[]) {
   return hours.reduce((open, hour, i) => {
     if (hour) {
-      const existingIndex = findIndex(open, ['hour', hour]);
+      const existingIndex = open.findIndex(i => i.hour === hour);
       if (existingIndex > -1) {
         open[existingIndex].endDay = i;
       } else {
@@ -25,7 +25,7 @@ function getOpeningHourString(hours: string[]) {
       }
     }
     return open;
-  }, []);
+  }, [] as { startDay: number; endDay?: number; hour: string }[]);
 }
 
 const Info = styled.div`
@@ -37,7 +37,7 @@ const Info = styled.div`
   font-size: 0.8rem;
   line-height: 1.5em;
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     font-size: 0.7em;
     align-items: flex-start;
   }
@@ -47,7 +47,7 @@ const LinkContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     flex-direction: column;
   }
 `;
@@ -69,7 +69,7 @@ const MetaLink = styled.a`
     margin-right: 0.5ch;
   }
 
-  @media (max-width: ${props => props.theme.breakSmall}) {
+  @media (max-width: ${breakSmall}) {
     padding: 0;
   }
 `;
@@ -97,100 +97,113 @@ const OpeningHoursTime = styled.div`
   padding-left: 0.4em;
 `;
 
-interface Props {
-  restaurantId: number;
-}
-
-const RestaurantModal = (props: Props) => {
-  const data = React.useContext(dataContext);
-  const { lang } = React.useContext(langContext);
-  const translations = useTranslations();
-  const formatDate = useFormatDate();
-  const ui = React.useContext(uiContext);
-  const [restaurant, setRestaurant] = React.useState<RestaurantType>(null);
-  const [notFound, setNotFound] = React.useState(false);
-
-  async function fetchRestaurant() {
-    let rest = data.restaurants.data.find(
-      r => r.id === Number(props.restaurantId)
-    );
-    if (!rest) {
-      const result = await api.getRestaurantsByIds([props.restaurantId], lang);
+const RestaurantModal = () => {
+  const params = useParams();
+  const [restaurant] = createResource(
+    () => {
+      return {
+        lang: state.preferences.lang,
+        id: params.id
+      };
+    },
+    async source => {
+      const restaurant = (resources.restaurants[0]() || []).find(
+        r => r.id === Number(source.id)
+      );
+      if (restaurant) {
+        return restaurant;
+      }
+      const result = await api.getRestaurantsByIds(
+        [Number(source.id)],
+        source.lang
+      );
       if (result.length) {
-        rest = result[0];
-      } else {
-        setNotFound(true);
+        return result[0];
       }
     }
-    setRestaurant(rest);
-  }
+  );
 
-  React.useEffect(() => {
-    fetchRestaurant();
-  }, [props.restaurantId]);
-
-  if (notFound) {
-    return <PageContainer title={translations.restaurantNotFound} />;
-  }
-  if (!restaurant) {
-    return null;
-  }
   return (
-    <PageContainer title={restaurant.name}>
-      <Info>
-        <LinkContainer>
-          <MetaLink
-            href={`https://maps.google.com/?q=${encodeURIComponent(
-              restaurant.address
-            )}`}
-            rel="noopener"
-            target="_blank"
-          >
-            <InlineIcon>
-              <MdPlace />
-            </InlineIcon>
-            {restaurant.address}
-          </MetaLink>
-          <MetaLink href={restaurant.url} target="_blank">
-            <InlineIcon>
-              <MdHome />
-            </InlineIcon>
-            {translations.homepage}
-          </MetaLink>
-          <div>
-            <PriceCategoryBadge priceCategory={restaurant.priceCategory} />
-          </div>
-        </LinkContainer>
-        <OpeningHoursContainer>
-          {getOpeningHourString(restaurant.openingHours).map(hours => (
-            <OpeningHoursRow key={hours.startDay}>
-              <OpeningHoursDay>
-                {formatDate(setIsoDay(new Date(), hours.startDay + 1), 'EEEEEE')}
-                {hours.endDay && (
-                  <span>
-                    &nbsp;&ndash;&nbsp;
-                    {formatDate(setIsoDay(new Date(), hours.endDay + 1), 'EEEEEE')}
-                  </span>
-                )}
-              </OpeningHoursDay>
-              <OpeningHoursTime>
-                {hours.hour.replace('-', '–') || translations.closed}
-              </OpeningHoursTime>
-            </OpeningHoursRow>
-          ))}
-        </OpeningHoursContainer>
-      </Info>
-      <MenuViewer showCopyButton restaurantId={restaurant.id} />
-      <Map
-        restaurant={restaurant}
-        restaurantPoint={[restaurant.latitude, restaurant.longitude]}
-        userPoint={
-          ui.location
-            ? [ui.location.latitude, ui.location.longitude]
-            : undefined
-        }
-      />
-    </PageContainer>
+    <Show
+      keyed
+      when={restaurant()}
+      fallback={
+        <PageContainer
+          title={computedState.translations().restaurantNotFound}
+        />
+      }
+    >
+      {restaurant => (
+        <PageContainer title={restaurant.name}>
+          <Info>
+            <LinkContainer>
+              <MetaLink
+                href={`https://maps.google.com/?q=${encodeURIComponent(
+                  restaurant.address
+                )}`}
+                rel="noopener"
+                target="_blank"
+              >
+                <InlineIcon>
+                  <LocationIcon />
+                </InlineIcon>
+                {restaurant.address}
+              </MetaLink>
+              <MetaLink href={restaurant.url} target="_blank">
+                <InlineIcon>
+                  <HomeIcon />
+                </InlineIcon>
+                {computedState.translations().homepage}
+              </MetaLink>
+              <div>
+                <PriceCategoryBadge priceCategory={restaurant.priceCategory} />
+              </div>
+            </LinkContainer>
+            <OpeningHoursContainer>
+              <For each={getOpeningHourString(restaurant.openingHours)}>
+                {hours => {
+                  const startDate = formattedDay(
+                    setIsoDay(new Date(), hours.startDay + 1),
+                    'EEEEEE'
+                  );
+                  const endDate = formattedDay(
+                    setIsoDay(new Date(), hours.endDay || 0 + 1),
+                    'EEEEEE'
+                  );
+                  return (
+                    <OpeningHoursRow>
+                      <OpeningHoursDay>
+                        {startDate()}
+                        {hours.endDay && (
+                          <span>
+                            &nbsp;&ndash;&nbsp;
+                            {endDate()}
+                          </span>
+                        )}
+                      </OpeningHoursDay>
+                      <OpeningHoursTime>
+                        {hours.hour.replace('-', '–') ||
+                          computedState.translations().closed}
+                      </OpeningHoursTime>
+                    </OpeningHoursRow>
+                  );
+                }}
+              </For>
+            </OpeningHoursContainer>
+          </Info>
+          <MenuViewer showCopyButton restaurantId={restaurant.id} />
+          <Map
+            restaurant={restaurant}
+            restaurantPoint={[restaurant.latitude, restaurant.longitude]}
+            userPoint={
+              state.location
+                ? [state.location.latitude, state.location.longitude]
+                : undefined
+            }
+          />
+        </PageContainer>
+      )}
+    </Show>
   );
 };
 

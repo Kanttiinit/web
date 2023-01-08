@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import { styled } from 'solid-styled-components';
 
 export const RoundedButtonContainer = styled.div`
   display: flex;
@@ -6,8 +6,13 @@ export const RoundedButtonContainer = styled.div`
   overflow: auto;
 
   &:after {
-    content: "";
+    content: '';
     flex-grow: 1000000000;
+  }
+
+  svg {
+    display: block;
+    padding-top: 0.1rem;
   }
 `;
 
@@ -28,7 +33,7 @@ export const RoundedButton = styled.button<{
   border: 1px solid ${props => props.color};
   border-radius: 1rem;
   transition: background 0.1s, color 0.1s;
-  padding: 0.4rem;
+  padding: 0.4rem 0.8rem 0.45rem;
   outline: none;
 
   &:focus {
@@ -36,8 +41,8 @@ export const RoundedButton = styled.button<{
   }
 
   ${props =>
-    props.selected &&
-    css`
+    props.selected
+      ? `
       background: ${props.color};
       color: var(--gray6);
 
@@ -45,5 +50,6 @@ export const RoundedButton = styled.button<{
         filter: brightness(115%);
         background: ${props.color};
       }
-    `}
+    `
+      : ''}
 `;

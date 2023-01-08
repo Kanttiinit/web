@@ -1,61 +1,61 @@
-import * as React from 'react';
-
-import { useTranslations } from '../../utils/hooks';
-import useFeedback from '../../utils/useFeedback';
+import { createEffect, createSignal } from 'solid-js';
+import { computedState } from '../../state';
+import { useFeedback } from '../../utils';
 import Button from '../Button';
 import Input from '../Input';
 import { FormProps } from './ReportModal';
 
 export default (props: FormProps) => {
-  const translations = useTranslations();
-  const [email, setEmail] = React.useState('');
-  const [message, setMessage] = React.useState('');
-  const { sending, sent, error, send } = useFeedback();
+  const [email, setEmail] = createSignal('');
+  const [message, setMessage] = createSignal('');
+  const [feedback, send] = useFeedback();
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = (e: SubmitEvent) => {
     e.preventDefault();
     send(
-      `Feedback regarding restaurant "${props.restaurant.name}":\n"${message}"`,
-      email as string
+      `Feedback regarding restaurant "${
+        props.restaurant.name
+      }":\n"${message()}"`,
+      email() as string
     );
   };
 
-  React.useEffect(() => {
-    if (sent) {
+  createEffect(() => {
+    if (feedback.sent) {
       props.setDone(true);
     }
-  }, [sent]);
+  });
 
-  React.useEffect(() => {
-    props.setError(error);
-  }, [error]);
+  createEffect(() => {
+    if (feedback.error) props.setError(feedback.error);
+  });
 
   return (
     <form onSubmit={onSubmit}>
       <Input
-        label={translations.email}
+        label={computedState.translations().email}
         type="email"
         id="email"
-        value={email}
+        value={email()}
         onChange={setEmail}
       />
       <Input
-        label={translations.message}
+        label={computedState.translations().message}
         required
         multiline
         id="message"
         rows={10}
-        value={message}
+        value={message()}
         onChange={setMessage}
       />
-      <Button
-        disabled={sending}
-        type="submit">
-        {sending ? translations.sending : translations.send}
+      <Button disabled={feedback.sending} type="submit">
+        {feedback.sending
+          ? computedState.translations().sending
+          : computedState.translations().send}
       </Button>
       &nbsp;
-      <Button onClick={props.goBack}>
-        {translations.back}
+      <Button onClick={props.goBack} secondary>
+        {computedState.translations().back}
       </Button>
     </form>
   );

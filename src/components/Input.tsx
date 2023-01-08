@@ -1,5 +1,5 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import { createEffect } from 'solid-js';
+import { styled } from 'solid-styled-components';
 
 type Props = {
   label: string;
@@ -14,7 +14,9 @@ type Props = {
   rows?: number;
   autoFocus?: boolean;
   pattern?: string;
-  className?: string;
+  class?: string;
+  style?: any;
+  step?: any;
 };
 
 const Container = styled.div`
@@ -27,7 +29,8 @@ const Container = styled.div`
     font-size: 0.9rem;
   }
 
-  input, textarea {
+  input,
+  textarea {
     box-sizing: border-box;
     width: 100%;
     outline: none;
@@ -36,7 +39,7 @@ const Container = styled.div`
     border: none;
     background: transparent;
     color: var(--gray1);
-    border: solid 1px var(--gray3);
+    border: solid 1px var(--gray4);
     border-radius: 4px;
 
     &:disabled {
@@ -50,29 +53,30 @@ const Container = styled.div`
   }
 `;
 
-export default React.memo((props: Props) => {
-  const fieldProps = {
+export default function Input(props: Props) {
+  const fieldProps = () => ({
     id: props.id,
     required: props.required,
     autoComplete: props.autoComplete,
     value: props.value,
     disabled: props.disabled,
     autoFocus: props.autoFocus,
-    pattern: props.pattern
+    pattern: props.pattern,
+    step: props.step
+  });
+
+  const onChange = (e: any) => {
+    if (props.onChange) props.onChange(e?.target?.value);
   };
 
-  const onChange = React.useCallback((e: { target: { value: string; }; }) => {
-    if (props.onChange)
-      props.onChange(e.target.value);
-  }, [props.onChange]);
-
   return (
-    <Container className={props.className}>
-      <label htmlFor={props.id}>{props.label}</label>
-      {props.multiline
-        ? <textarea rows={props.rows} {...fieldProps} onChange={onChange} />
-        : <input {...fieldProps} type={props.type} onChange={onChange} />
-      }
+    <Container class={props.class} style={props.style}>
+      <label for={props.id}>{props.label}</label>
+      {props.multiline ? (
+        <textarea rows={props.rows} {...fieldProps()} onChange={onChange} />
+      ) : (
+        <input {...fieldProps()} type={props.type} onChange={onChange} />
+      )}
     </Container>
   );
-});
+}

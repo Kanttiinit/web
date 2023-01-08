@@ -1,7 +1,7 @@
 # kanttiinit.fi web client
 
-The main web client application that runs on [kanttiinit.fi](https://kanttiinit.fi).
-This client is built using SolidJS and Vite.
+The [kanttiinit.fi](https://kanttiinit.fi) web client.
+This app is built using SolidJS and Vite.
 
 ## Local development
 
@@ -13,3 +13,4 @@ The development server will use the live backend by default.
 ## Contributing
 
 Contributions are welcome!
+For bigger changes, it might be best to open an issue for discussion before starting work on a PR.

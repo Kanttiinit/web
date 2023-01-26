@@ -20,8 +20,12 @@ interface Props {
 function setToValue(obj: any, p: string, value: any) {
   let i;
   const path = p.split('.');
-  for (i = 0; i < path.length - 1; i++)
-      obj = obj[path[i]];
+  for (i = 0; i < path.length - 1; i++) {
+    if (!(path[i] in obj))
+      obj[path[i]] = {};
+
+    obj = obj[path[i]];
+  }
 
   obj[path[i]] = value;
 }

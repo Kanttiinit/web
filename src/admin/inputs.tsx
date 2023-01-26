@@ -14,6 +14,7 @@ import format from 'date-fns/format';
 import { styled } from 'solid-styled-components';
 import { get } from '../utils';
 import { sort } from 'fast-sort';
+import { unwrap } from 'solid-js/store';
 
 interface InputProps {
   value: any;
@@ -44,13 +45,13 @@ const Control = styled.label`
 const Label = styled.div``;
 
 const UrlInput = (props: InputProps) => (
-  <Control style="display: flex; align-items: center; gap: 1rem;">
+  <Control style={{"display":"flex","align-items":"center","gap":"1rem"}}>
     <Input
       label={props.field.title}
       onChange={(e: string) => props.setValue(props.field.path, e)}
       value={props.value || ''}
       type="text"
-      style="flex: 1;"
+      style={{"flex":"1"}}
     />
     <a target="_blank" href={props.value}>
       Open
@@ -67,13 +68,13 @@ const MenuUrlInput = (props: InputProps) => {
       .replace('%month%', format(now(), 'mm'))
       .replace('%day%', format(now(), 'dd'));
   return (
-    <Control style="display: flex; align-items: center; gap: 1rem;">
+    <Control style={{"display":"flex","align-items":"center","gap":"1rem"}}>
       <Input
         onChange={value => props.setValue(props.field.path, value)}
         value={props.value || ''}
         type="text"
         label={props.field.title}
-        style="flex: 1;"
+        style={{"flex":"1"}}
       />
       <a target="_blank" href={link()}>
         Open
@@ -114,7 +115,7 @@ const RegExpInput = (props: InputProps) => {
           value={test()}
           onChange={value => setTest(value)}
         />
-        <small style="margin-top: -0.5rem; display: block;">
+        <small style={{"margin-top":"-0.5rem","display":"block"}}>
           {match()
             ? 'The regexp matches this value.'
             : 'The regexp does not match this value.'}
@@ -157,7 +158,7 @@ export const DateInput = (props: InputProps) => (
 const LocationInput = (props: GroupInputProps) => {
   return (
     <LatLngInput
-      value={props.value as [number, number]}
+      value={[props.value[0] || 0, props.value[1] || 0]}
       onChange={v => {
         if (v[0] !== props.value[0]) {
           props.setValue('latitude', v[0]);
@@ -278,14 +279,19 @@ export const PlainField = (props: InputProps) => (
   />
 );
 
-const OpeningHoursEditor = (props: InputProps) => (
-  <OpeningHoursInput
-    defaultValue={props.value || props.field.default}
-    onChange={change => {
-      props.setValue(props.field.path, change);
-    }}
-  />
-);
+const OpeningHoursEditor = (props: InputProps) => {
+  return (
+    <>
+      {props.value && props.value.length &&
+        <OpeningHoursInput
+          defaultValue={props.value && props.value.length ? props.value : props.field.default}
+          onChange={change => {
+            props.setValue(props.field.path, change);
+          }}
+        />}
+    </>
+  );
+};
 
 const EnumInput = (props: InputProps) => (
   <Control>

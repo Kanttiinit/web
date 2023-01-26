@@ -7,6 +7,7 @@ import { CopyIcon } from '../icons';
 import { TextButton } from './Button';
 import Input from './Input';
 import Tooltip from './Tooltip';
+import { unwrap } from 'solid-js/store';
 
 const InputGroup = styled.div`
   display: flex;
@@ -40,17 +41,9 @@ interface Props {
 const OpeningHoursInput = (props: Props) => {
   const [openingHours, setOpeningHours] = createSignal<(string[] | null)[]>([]);
 
-  createEffect(() => {
-    props.onChange(
-      openingHours().map(hours =>
-        hours ? hours.map(h => Number(h.replace(':', ''))) : null
-      )
-    );
-  });
-
   onMount(() => {
     setOpeningHours(
-      props.defaultValue.map(hours => {
+      unwrap(props.defaultValue).map(hours => {
         if (!hours) {
           return null;
         }
@@ -60,6 +53,14 @@ const OpeningHoursInput = (props: Props) => {
             : String(hour)
         );
       })
+    );
+  });
+
+  createEffect(() => {
+    props.onChange(
+      openingHours().map(hours =>
+        hours ? hours.map(h => Number(h.replace(':', ''))) : null
+      )
     );
   });
 
@@ -111,7 +112,7 @@ const OpeningHoursInput = (props: Props) => {
               value={isClosed ? computedState.translations().closed : times[1]}
               onChange={v => changeDayAndTime(v, i(), 1)}
             />
-            <Tooltip style="align-self: end; padding-bottom: 0.3rem;" translationKey="copyFromPreviousDay">
+            <Tooltip style={{"align-self":"end","padding-bottom":"0.3rem"}} translationKey="copyFromPreviousDay">
               <TextButton
                 onClick={() => {
                   const hours = [...openingHours()];

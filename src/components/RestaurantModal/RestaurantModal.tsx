@@ -167,7 +167,7 @@ const RestaurantModal = () => {
                     'EEEEEE'
                   );
                   const endDate = formattedDay(
-                    setIsoDay(new Date(), hours.endDay || 0 + 1),
+                    setIsoDay(new Date(), (hours.endDay || 0) + 1),
                     'EEEEEE'
                   );
                   return (

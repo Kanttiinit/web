@@ -75,3 +75,8 @@ export enum DarkModeChoice {
   ON = 'ON',
   OFF = 'OFF'
 }
+
+export enum HighlighOperator {
+  AND = 'and',
+  OR = 'or'
+}

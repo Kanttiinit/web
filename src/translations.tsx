@@ -365,6 +365,18 @@ const translations = {
     fi: 'Hintaluokka',
     en: 'Price Category'
   },
+  highlightOperator: {
+    fi: 'Korosta ruokalajit jotka sisältävät',
+    en: 'Highlight courses that contain'
+  },
+  and: {
+    fi: 'Kaikki valinnat',
+    en: 'All of the selected'
+  },
+  or: {
+    fi: 'Mitkä tahansa valinnoista',
+    en: 'Any of the selected'
+  },
   [PriceCategory.student]: {
     fi: 'Opiskelijalounas',
     en: 'Student lunch'

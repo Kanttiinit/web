@@ -7,7 +7,6 @@ import App from './components/App';
 // import Map from './components/Map';
 import Global from './globalStyles';
 import './fonts.css';
-import { computedState } from './state';
 import { lazy } from 'solid-js';
 import { ErrorBoundary } from './components/ErrorBoundary';
 const Admin = lazy(() => import('./admin'));

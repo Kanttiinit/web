@@ -1,6 +1,6 @@
-import { For } from 'solid-js';
+import { For, createMemo } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { CourseType } from '../../types';
+import { CourseType, HighlighOperator } from '../../types';
 import { state } from '../../state';
 import { isFavorite } from '../../utils';
 import { HeartFilledIcon } from '../../icons';
@@ -78,7 +78,10 @@ function isUndesiredProperty(propertyKey: string) {
 }
 
 const Course = (props: { course: CourseType }) => {
-  const highlight = () => props.course.properties.some(isDesiredProperty);
+  const desiredProperties = createMemo(() => props.course.properties.filter(p => getProperty(p)?.desired));
+
+  const propertyOperator = createMemo(() => state.preferences.highlightOperator === HighlighOperator.OR ? 'some' : 'every');
+  const highlight = () => state.preferences.properties.length !== 0 && state.preferences.properties[propertyOperator()](p => desiredProperties().includes(p));
 
   const dim = () => props.course.properties.some(isUndesiredProperty);
 

@@ -4,7 +4,7 @@ import * as api from './api';
 import addDays from 'date-fns/addDays';
 import startOfDay from 'date-fns/startOfDay';
 import translations from './translations';
-import { DarkModeChoice, Lang, Order, PriceCategory, RestaurantType, Update } from './types';
+import { DarkModeChoice, HighlighOperator, Lang, Order, PriceCategory, RestaurantType, Update } from './types';
 import parseISO from 'date-fns/parseISO';
 import { createMemo } from 'solid-js';
 
@@ -60,6 +60,7 @@ const [state, setState] = createStore({
     darkMode: DarkModeChoice.DEFAULT,
     updatesLastSeenAt: 0,
     maxPriceCategory: PriceCategory.studentPremium,
+    highlightOperator: HighlighOperator.OR,
     ...migrateOldSettings(),
     ...persistedSettings,
   },

@@ -1,7 +1,7 @@
 import { JSXElement } from 'solid-js';
 import { styled } from 'solid-styled-components';
 
-import { DarkModeChoice, Lang, Order } from '../../types';
+import { DarkModeChoice, HighlighOperator, Lang, Order } from '../../types';
 import { computedState, setState, state } from '../../state';
 import FavoriteSelector from '../FavoriteSelector';
 import PageContainer from '../PageContainer';
@@ -91,6 +91,16 @@ const Settings = () => {
       </Item>
       <Item label={computedState.translations().highlightDiets}>
         <PropertySelector showDesiredProperties />
+      </Item>
+      <Item label={computedState.translations().highlightOperator}>
+        <Radio
+          options={[
+            { label: computedState.translations().and, value: HighlighOperator.AND },
+            { label: computedState.translations().or, value: HighlighOperator.OR }
+          ]}
+          selected={state.preferences.highlightOperator}
+          onChange={value => setState('preferences', 'highlightOperator', value)}
+        />
       </Item>
       <Item label={computedState.translations().avoidDiets}>
         <PropertySelector />

@@ -361,6 +361,12 @@ const translations = {
     fi: 'Tumma',
     en: 'Dark'
   },
+  tosShort: {
+    fi:
+      'Huom. Kanttiinit tarjoaa ruokalistat muokkaamattomana, ota yhteyttä itse ravintolaan jos palautteesi koskee ruokaa tai sen sisältöä',
+    en:
+      'Note: Kanttiinit displays the restaurant menus unedited, please contact the restaurant itself if your feedback concerns the food or its contents'
+  },
   priceCategory: {
     fi: 'Hintaluokka',
     en: 'Price Category'

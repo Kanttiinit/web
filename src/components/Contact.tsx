@@ -34,6 +34,9 @@ const Contact = () => {
             label={computedState.translations().message}
             rows={10}
           />
+          <p>
+            <i>{computedState.translations().tosShort}</i>
+          </p>
           <Button disabled={feedback.sending} type="submit">
             {feedback.sending
               ? computedState.translations().sending

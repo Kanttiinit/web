@@ -281,15 +281,14 @@ export const PlainField = (props: InputProps) => (
 
 const OpeningHoursEditor = (props: InputProps) => {
   return (
-    <>
-      {props.value && props.value.length &&
-        <OpeningHoursInput
-          defaultValue={props.value && props.value.length ? props.value : props.field.default}
-          onChange={change => {
-            props.setValue(props.field.path, change);
-          }}
-        />}
-    </>
+    <OpeningHoursInput
+      defaultValue={
+        Array.isArray(props.value) ? props.value : props.field.default
+      }
+      onChange={change => {
+        props.setValue(props.field.path, change);
+      }}
+    />
   );
 };
 

@@ -189,17 +189,24 @@ function ListContent() {
         )}
         {showContribLink() && (
           <ContribModal>
-            <p>
-              April Fools! This is a joke. If you want to contribute to the
-              codebase and help keep this free service alive, please visit:{' '}
-              <a
-                href="https://kanttiinit.github.io"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                kanttiinit.github.io
-              </a>
-            </p>
+            <section>
+              <p>April Fools! But what if the menus really disappeared?</p>
+              <p>
+                Since you have devtools installed, you got a little surprise.
+              </p>
+              Kanttiinit is a free open source project and turns 10 soon. If
+              you're interested in web development and like this project, please
+              check out the source code and contribute!
+              <p>
+                <a
+                  href="https://kanttiinit.github.io"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  More info
+                </a>
+              </p>
+            </section>
             <button onClick={() => setShowContribLink(false)}>close</button>
           </ContribModal>
         )}

@@ -55,6 +55,7 @@ const StyledNavLink = styled(Link)`
 
 const StyledExternalLink = styled.a`
   ${linkStyles}
+  color: slateblue !important;
 `;
 
 const LogoImage = styled.img<{ darkMode: boolean }>`
@@ -86,6 +87,7 @@ const VersionLink = styled.a`
 `;
 
 export default () => {
+  const showInfo = localStorage.getItem('isSurprise') === 'false';
   return (
     <Footer>
       <NavigationContainer>
@@ -107,6 +109,15 @@ export default () => {
           <StyledNavLink to="/terms-of-service">
             {computedState.translations().termsOfService}
           </StyledNavLink>
+          {showInfo && (
+            <StyledExternalLink
+              href="https://kanttiinit.github.io"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open source 👾
+            </StyledExternalLink>
+          )}
         </nav>
       </NavigationContainer>
       <VersionLink

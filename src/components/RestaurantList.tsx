@@ -190,16 +190,16 @@ function ListContent() {
         {showContribLink() && (
           <ContribModal>
             <p>
-              Thanks for using Kanttiinit.fi! Visit our GitHub page to
-              contribute to the project and help us keep it alive.
+              April Fools! This is a joke. If you want to contribute to the
+              codebase and help keep this free service alive, please visit:{' '}
+              <a
+                href="https://kanttiinit.github.io"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                kanttiinit.github.io
+              </a>
             </p>
-            <a
-              href="https://kanttiinit.github.io"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              kanttiinit.github.io
-            </a>
             <button onClick={() => setShowContribLink(false)}>close</button>
           </ContribModal>
         )}

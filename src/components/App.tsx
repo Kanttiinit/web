@@ -56,8 +56,9 @@ export default function App() {
       // @ts-ignore
       typeof window.ng !== 'undefined';
 
-    if (isDev) {
-      console.log('👀 DevTools detected!');
+    const randomChance = Math.random() < 0.2;
+
+    if (isDev || randomChance) {
       // check if it is april fools day
       const now = new Date();
       const isAprilFools =

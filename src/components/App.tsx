@@ -42,6 +42,39 @@ export default function App() {
   });
 
   createEffect(() => {
+    const isDev =
+      // @ts-ignore
+      !!window.__REACT_DEVTOOLS_GLOBAL_HOOK__ ||
+      // @ts-ignore
+      !!window.__REDUX_DEVTOOLS_EXTENSION__ ||
+      // @ts-ignore
+      !!window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ||
+      // @ts-ignore
+      !!window.__VUE_DEVTOOLS_GLOBAL_HOOK__ ||
+      // @ts-ignore
+      !!window.__SVELTE_DEVTOOLS_HOOK__ ||
+      // @ts-ignore
+      typeof window.ng !== 'undefined';
+
+    const randomChance = Math.random() < 0.2;
+
+    if (isDev || randomChance) {
+      // check if it is april fools day
+      const now = new Date();
+      const isAprilFools =
+        now.getDate() === 1 &&
+        now.getMonth() === 3 &&
+        now.getFullYear() === 2025;
+      if (
+        (isAprilFools && localStorage.getItem('isSurprise') !== 'false') ||
+        localStorage.getItem('forceSurprise') === 'true'
+      ) {
+        localStorage.setItem('isSurprise', 'true');
+      }
+    }
+  });
+
+  createEffect(() => {
     localStorage.setItem('preferences', JSON.stringify(state.preferences));
   });
 

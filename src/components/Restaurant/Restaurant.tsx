@@ -19,6 +19,7 @@ import InlineIcon from '../InlineIcon';
 import Link from '../Link';
 import PriceCategoryBadge from '../PriceCategoryBadge';
 import { getArrayWithToggled } from '../../utils';
+import { createSignal } from 'solid-js';
 
 const Distance = (props: { distance?: number }) => {
   const kilometers = () => (props.distance || 0) > 1500;
@@ -65,8 +66,62 @@ export const Container = styled.article<{ noCourses?: boolean }>`
   width: calc(25% - 0.5rem);
   margin: 0.25rem;
 
+  &.disappear {
+    animation: snapFade 2s forwards;
+    overflow: hidden;
+  }
+
   @media (max-width: 1111px) {
-    width: calc(33.3% - 0.5rem);
+    width: calc(33.3% - 0.5rem);∫
+  }
+
+  &.disappear::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: repeating-radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.6) 0px,
+      rgba(255, 255, 255, 0.3) 2px,
+      transparent 4px
+    );
+    pointer-events: none;
+    animation: snapDust 2s forwards;
+    mix-blend-mode: lighten;
+    opacity: 0.5;
+  }
+
+  @keyframes snapFade {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    60% {
+      transform: translateY(-10px) scale(1.05);
+      opacity: 0.7;
+    }
+    100% {
+      transform: translateY(-50px) scale(0.9);
+      opacity: 0;
+    }
+  }
+
+  @keyframes snapDust {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+      opacity: 0.5;
+    }
+    50% {
+      transform: translate(10px, -20px) rotate(15deg);
+      opacity: 0.3;
+    }
+    100% {
+      transform: translate(-30px, -80px) rotate(-25deg);
+      opacity: 0;
+    }
   }
 
   @media (max-width: ${breakSmall}) {
@@ -177,6 +232,7 @@ const ClosedText = styled.small`
 
 interface Props {
   restaurant: RestaurantType;
+  onShowMakeItStaph?: () => void;
 }
 
 const Restaurant = (props: Props) => {
@@ -195,8 +251,24 @@ const Restaurant = (props: Props) => {
     );
   };
 
+  const [hovering, setHovering] = createSignal(false);
+  function deploySurprise() { 
+    if (localStorage.getItem('isSurprise') === 'true') {
+      setHovering(true);
+      setTimeout(() => {
+        if (localStorage.getItem('isSurprise') === 'true') {
+          props.onShowMakeItStaph?.();
+        }
+      }, 2000);
+    }
+  }
+
   return (
-    <Container noCourses={props.restaurant.noCourses}>
+    <Container
+      classList={{ disappear: hovering() }}
+      noCourses={props.restaurant.noCourses}
+      onMouseEnter={deploySurprise}
+    >
       <Link to={`/restaurant/${props.restaurant.id}`}>
         <Header>
           <RestaurantName

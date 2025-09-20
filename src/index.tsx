@@ -1,7 +1,7 @@
 import 'url-polyfill';
 
 import { render } from 'solid-js/web';
-import { Route, Router, Routes } from '@solidjs/router';
+import { Route, Router } from '@solidjs/router';
 
 import App from './components/App';
 // import Map from './components/Map';
@@ -16,11 +16,10 @@ render(
     <ErrorBoundary>
       <Global />
       <Router>
-        <Routes>
-          {/* <Route path="/map" element={<Map />} /> */}
-          <Route path="/admin/*" component={Admin} />
-          <Route path="*" component={App} />
-        </Routes>
+        <Route path="/admin/*" component={Admin} />
+        {/* <Route path="/map" element={<Map />} /> */}
+        <Route path="/admin/*" component={Admin} />
+        <Route path="*" component={App} />
       </Router>
     </ErrorBoundary>
   ),

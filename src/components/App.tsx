@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation, useNavigate } from '@solidjs/router';
+import { Route, Router, useLocation, useNavigate } from '@solidjs/router';
 import { createEffect, createSignal, lazy, onCleanup, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { computedState, getDisplayedDays, setState, state } from '../state';
@@ -172,8 +172,8 @@ export default function App() {
         <Footer />
       </Container>
       <Modal>
-        <Routes>
-          <Route path="/" element={null} />
+        <Router>
+          <Route path="/" component={() => <></>} />
           <Route path="/settings" component={Settings} />
           <Route path="/contact" component={Contact} />
           <Route path="/terms-of-service" component={TermsOfService} />
@@ -182,7 +182,7 @@ export default function App() {
           <Route path="/restaurant/:id" component={RestaurantModal} />
           <Route path="/report/:id" component={ReportModal} />
           <Route path="*" component={NotFound} />
-        </Routes>
+        </Router>
       </Modal>
     </>
   );

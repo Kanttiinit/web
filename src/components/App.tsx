@@ -1,26 +1,18 @@
-import { Route, Router, useLocation, useNavigate } from '@solidjs/router';
-import { createEffect, createSignal, lazy, onCleanup, onMount } from 'solid-js';
+import { Route, Router, useLocation, useMatch, useNavigate } from '@solidjs/router';
+import { createEffect, createSignal, lazy, Match, onCleanup, onMount, Switch } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { computedState, getDisplayedDays, setState, state } from '../state';
 import addDays from 'date-fns/addDays';
 import startOfDay from 'date-fns/startOfDay';
 import parse from 'date-fns/parse';
 import isSameDay from 'date-fns/isSameDay';
-
-import ChangeLog from './ChangeLog';
-import Clients from './Clients';
-import Contact from './Contact';
 import Footer from './Footer';
 import Modal from './Modal';
-import NotFound from './NotFound';
 import RestaurantList from './RestaurantList';
-const RestaurantModal = lazy(() => import('./RestaurantModal'));
-import Settings from './Settings';
-import TermsOfService from './TermsOfService';
+
 import TopBar from './TopBar';
 import { getNewPath, isDateInRange } from '../utils';
 import haversine from 'haversine';
-const ReportModal = lazy(() => import('./ReportModal'));
 
 const Container = styled.div`
   display: flex;
@@ -29,7 +21,7 @@ const Container = styled.div`
   min-height: 100vh;
 `;
 
-export default function App() {
+export default function App(props: any) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -170,20 +162,10 @@ export default function App() {
           <RestaurantList />
         </div>
         <Footer />
+        <Modal>
+          {props.children}
+        </Modal>
       </Container>
-      <Modal>
-        <Router>
-          <Route path="/" component={() => <></>} />
-          <Route path="/settings" component={Settings} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/terms-of-service" component={TermsOfService} />
-          <Route path="/clients" component={Clients} />
-          <Route path="/news" component={ChangeLog} />
-          <Route path="/restaurant/:id" component={RestaurantModal} />
-          <Route path="/report/:id" component={ReportModal} />
-          <Route path="*" component={NotFound} />
-        </Router>
-      </Modal>
     </>
   );
 }

@@ -3,6 +3,7 @@ import { styled } from 'solid-styled-components';
 import Input from './Input';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { formatAddress } from '../utils/addressFormatter';
 
 interface Props {
   disabled?: boolean;
@@ -56,7 +57,8 @@ const LatLngInput = (props: Props) => {
       if (response.ok) {
         const data = await response.json();
         if (data.display_name) {
-          props.onAddressChange(data.display_name);
+          const formattedAddress = formatAddress(data);
+          props.onAddressChange(formattedAddress);
         }
       }
     } catch (error) {

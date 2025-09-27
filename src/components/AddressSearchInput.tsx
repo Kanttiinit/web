@@ -1,8 +1,9 @@
 import { createEffect, createSignal, For, Show } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import Input from './Input';
+import { formatAddress, type AddressData } from '../utils/addressFormatter';
 
-interface NominatimResult {
+interface NominatimResult extends AddressData {
   place_id: number;
   licence: string;
   osm_type: string;
@@ -10,20 +11,9 @@ interface NominatimResult {
   boundingbox: string[];
   lat: string;
   lon: string;
-  display_name: string;
   class: string;
   type: string;
   importance: number;
-  address?: {
-    house_number?: string;
-    road?: string;
-    postcode?: string;
-    city?: string;
-    town?: string;
-    municipality?: string;
-    suburb?: string;
-    neighbourhood?: string;
-  };
 }
 
 interface Props {
@@ -83,33 +73,6 @@ const AddressSearchInput = (props: Props) => {
   const [showResults, setShowResults] = createSignal(false);
   let searchTimeout: ReturnType<typeof setTimeout>;
 
-  const formatAddress = (result: NominatimResult): string => {
-    if (!result.address) {
-      return result.display_name;
-    }
-
-    const addr = result.address;
-    const parts: string[] = [];
-
-    // Street and house number
-    if (addr.road) {
-      if (addr.house_number) {
-        parts.push(`${addr.road} ${addr.house_number}`);
-      } else {
-        parts.push(addr.road);
-      }
-    }
-
-    // Postal code and city
-    const cityName = addr.city || addr.town || addr.municipality || 'Helsinki';
-    if (addr.postcode && cityName) {
-      parts.push(`${addr.postcode} ${cityName}`);
-    } else if (cityName) {
-      parts.push(cityName);
-    }
-
-    return parts.length > 0 ? parts.join(', ') : result.display_name;
-  };
 
   const searchAddresses = async (query: string) => {
     if (query.length < 3) {

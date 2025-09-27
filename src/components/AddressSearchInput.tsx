@@ -14,6 +14,16 @@ interface NominatimResult {
   class: string;
   type: string;
   importance: number;
+  address?: {
+    house_number?: string;
+    road?: string;
+    postcode?: string;
+    city?: string;
+    town?: string;
+    municipality?: string;
+    suburb?: string;
+    neighbourhood?: string;
+  };
 }
 
 interface Props {
@@ -73,6 +83,34 @@ const AddressSearchInput = (props: Props) => {
   const [showResults, setShowResults] = createSignal(false);
   let searchTimeout: ReturnType<typeof setTimeout>;
 
+  const formatAddress = (result: NominatimResult): string => {
+    if (!result.address) {
+      return result.display_name;
+    }
+
+    const addr = result.address;
+    const parts: string[] = [];
+
+    // Street and house number
+    if (addr.road) {
+      if (addr.house_number) {
+        parts.push(`${addr.road} ${addr.house_number}`);
+      } else {
+        parts.push(addr.road);
+      }
+    }
+
+    // Postal code and city
+    const cityName = addr.city || addr.town || addr.municipality || 'Helsinki';
+    if (addr.postcode && cityName) {
+      parts.push(`${addr.postcode} ${cityName}`);
+    } else if (cityName) {
+      parts.push(cityName);
+    }
+
+    return parts.length > 0 ? parts.join(', ') : result.display_name;
+  };
+
   const searchAddresses = async (query: string) => {
     if (query.length < 3) {
       setResults([]);
@@ -89,7 +127,20 @@ const AddressSearchInput = (props: Props) => {
 
       if (response.ok) {
         const data: NominatimResult[] = await response.json();
-        setResults(data);
+
+        // Deduplicate results based on formatted address
+        const uniqueResults: NominatimResult[] = [];
+        const seenAddresses = new Set<string>();
+
+        for (const result of data) {
+          const formattedAddr = formatAddress(result);
+          if (!seenAddresses.has(formattedAddr)) {
+            seenAddresses.add(formattedAddr);
+            uniqueResults.push(result);
+          }
+        }
+
+        setResults(uniqueResults);
         setShowResults(true);
       } else {
         console.error('Geocoding request failed:', response.statusText);
@@ -119,7 +170,7 @@ const AddressSearchInput = (props: Props) => {
   };
 
   const selectResult = (result: NominatimResult) => {
-    const address = result.display_name;
+    const address = formatAddress(result);
     setSearchQuery(address);
     props.onChange(address);
 
@@ -164,7 +215,7 @@ const AddressSearchInput = (props: Props) => {
           <For each={results()}>
             {(result) => (
               <ResultItem onClick={() => selectResult(result)}>
-                {result.display_name}
+                {formatAddress(result)}
               </ResultItem>
             )}
           </For>

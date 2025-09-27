@@ -1,6 +1,6 @@
 import {
   Route,
-  Routes,
+  Router,
   useLocation,
   useNavigate,
   useParams
@@ -137,7 +137,7 @@ export default function Admin() {
 
   return (
     <>
-      <Routes>
+      <Router>
         <Route
           path="/login"
           element={
@@ -163,7 +163,7 @@ export default function Admin() {
           }
         />
         <Route path="/model/:model" component={Model} />
-      </Routes>
+      </Router>
       {/* <Snackbar
         autoHideDuration={4000}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}

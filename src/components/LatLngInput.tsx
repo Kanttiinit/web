@@ -3,11 +3,13 @@ import { styled } from 'solid-styled-components';
 import Input from './Input';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { formatAddress } from '../utils/addressFormatter';
 
 interface Props {
   disabled?: boolean;
   value: [number, number];
   onChange(latLng: [number, number]): void;
+  onAddressChange?: (address: string) => void;
 }
 
 const LatLngContainer = styled.div`
@@ -44,6 +46,26 @@ const LatLngInput = (props: Props) => {
   let marker: leaflet.Marker;
   let map: leaflet.Map;
 
+  const reverseGeocode = async (lat: number, lng: number) => {
+    if (!props.onAddressChange) return;
+
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.display_name) {
+          const formattedAddress = formatAddress(data);
+          props.onAddressChange(formattedAddress);
+        }
+      }
+    } catch (error) {
+      console.error('Reverse geocoding error:', error);
+    }
+  };
+
   onMount(() => {
     map = leaflet.map(container!).setView(props.value, 14);
     leaflet
@@ -57,6 +79,7 @@ const LatLngInput = (props: Props) => {
     marker.addEventListener('dragend', () => {
       const pos = marker.getLatLng();
       props.onChange([pos.lat, pos.lng]);
+      reverseGeocode(pos.lat, pos.lng);
     });
   });
 

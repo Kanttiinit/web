@@ -1,9 +1,6 @@
 import {
-  Route,
-  Router,
   useLocation,
-  useNavigate,
-  useParams
+  useNavigate
 } from '@solidjs/router';
 import { onMount, Show, For } from 'solid-js';
 import { createStore } from 'solid-js/store';
@@ -96,8 +93,12 @@ export default function Admin() {
   });
 
   function Model() {
-    const params = useParams();
-    const model = () => models.find(m => m.key === params.model);
+    const modelKey = () => {
+      const path = location.pathname;
+      const match = path.match(/\/admin\/model\/(.+)/);
+      return match ? match[1] : '';
+    };
+    const model = () => models.find(m => m.key === modelKey());
 
     return (
       <Container>
@@ -135,42 +136,35 @@ export default function Admin() {
     );
   }
 
-  return (
-    <>
-      <Router>
-        <Route
-          path="/login"
-          element={
-            <form
-              onSubmit={login}
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translateY(-50%) translateX(-50%)'
-              }}
-            >
-              <Input
-                type="password"
-                label="Password"
-                autoComplete="current-password"
-              />
-              &nbsp;
-              <Button type="submit" color="primary">
-                Log in
-              </Button>
-            </form>
-          }
+  const currentPath = location.pathname;
+
+  if (currentPath === '/admin/login' || currentPath === '/admin/') {
+    return (
+      <form
+        onSubmit={login}
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translateY(-50%) translateX(-50%)'
+        }}
+      >
+        <Input
+          type="password"
+          label="Password"
+          autoComplete="current-password"
         />
-        <Route path="/model/:model" component={Model} />
-      </Router>
-      {/* <Snackbar
-        autoHideDuration={4000}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        onClose={this.clearMessage}
-        message={<span>{message}</span>}
-        open={messageVisible}
-      /> */}
-    </>
-  );
+        &nbsp;
+        <Button type="submit" color="primary">
+          Log in
+        </Button>
+      </form>
+    );
+  }
+
+  if (currentPath.startsWith('/admin/model/')) {
+    return <Model />;
+  }
+
+  return <div>Admin route not found</div>;
 }

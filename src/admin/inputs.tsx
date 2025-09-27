@@ -1,6 +1,7 @@
 import { createResource, createSignal, For, Show } from 'solid-js';
 import LatLngInput from '../components/LatLngInput';
 import OpeningHoursInput from '../components/OpeningHoursInput';
+import AddressSearchInput from '../components/AddressSearchInput';
 import * as api from './api';
 import models from './models';
 import {
@@ -26,6 +27,10 @@ interface GroupInputProps {
   value: any[];
   field: ModelFieldGroup;
   setValue(path: string, value: any): any;
+}
+
+interface AddressInputProps extends InputProps {
+  onCoordinatesChange?: (lat: number, lng: number) => void;
 }
 
 const Row = styled.div`
@@ -83,13 +88,20 @@ const MenuUrlInput = (props: InputProps) => {
   );
 };
 
-function AddressInput(props: InputProps) {
+function AddressInput(props: AddressInputProps) {
   return (
-    <Input
-      onChange={value => props.setValue(props.field.path, value)}
+    <AddressSearchInput
       value={props.value || ''}
       label={props.field.title}
-      type="text"
+      onChange={value => props.setValue(props.field.path, value)}
+      onCoordinatesChange={(lat, lng) => {
+        if (props.onCoordinatesChange) {
+          props.onCoordinatesChange(lat, lng);
+        }
+        // Update coordinates directly if available
+        props.setValue('latitude', lat);
+        props.setValue('longitude', lng);
+      }}
     />
   );
 }
@@ -165,6 +177,9 @@ const LocationInput = (props: GroupInputProps) => {
         } else {
           props.setValue('longitude', v[1]);
         }
+      }}
+      onAddressChange={(address: string) => {
+        props.setValue('address', address);
       }}
     />
   );

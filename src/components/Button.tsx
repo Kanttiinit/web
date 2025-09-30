@@ -3,6 +3,7 @@ import { styled } from 'solid-styled-components';
 interface ButtonProps {
   small?: boolean;
   secondary?: boolean;
+  color?: string;
 }
 
 const Button = styled.button<ButtonProps>`

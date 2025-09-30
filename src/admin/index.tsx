@@ -1,10 +1,4 @@
-import {
-  Route,
-  Router,
-  useLocation,
-  useNavigate,
-  useParams
-} from '@solidjs/router';
+import { useLocation, useNavigate } from '@solidjs/router';
 import { onMount, Show, For } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { styled } from 'solid-styled-components';
@@ -29,7 +23,7 @@ const Tabs = styled.div`
 
 const Tab = styled.button<{ selected: boolean }>`
   cursor: pointer;
-  background: ${props => props.selected ? '#ccc' : '#eee'};
+  background: ${(props) => (props.selected ? '#ccc' : '#eee')};
   border-radius: 2rem;
   padding: 0.5rem 1rem;
   margin-right: 0.5rem;
@@ -102,30 +96,28 @@ export default function Admin() {
         position: 'absolute',
         top: '50%',
         left: '50%',
-        transform: 'translateY(-50%) translateX(-50%)'
+        transform: 'translateY(-50%) translateX(-50%)',
       }}
     >
-      <Input
-        type="password"
-        label="Password"
-        autoComplete="current-password"
-      />
+      <Input type="password" label="Password" autoComplete="current-password" />
       &nbsp;
-      <Button type="submit">
-        Log in
-      </Button>
+      <Button type="submit">Log in</Button>
     </form>
   );
 
   function Model() {
-    const params = useParams();
-    const model = () => models.find(m => m.key === params.model);
+    const modelKey = () => {
+      const path = location.pathname;
+      const match = path.match(/\/admin\/model\/(.+)/);
+      return match ? match[1] : '';
+    };
+    const model = () => models.find((m) => m.key === modelKey());
 
     return (
       <Container>
         <Tabs>
           <For each={models}>
-            {m => (
+            {(m) => (
               <Tab
                 onClick={() => tabChange(m.key)}
                 selected={m.key === model()?.key}
@@ -140,8 +132,7 @@ export default function Admin() {
         >
           <Button disabled={state.updatingRestaurants} onClick={updateMenus}>
             {state.updatingRestaurants ? 'Updating...' : 'Update menus'}
-          </Button>
-          {' '}
+          </Button>{' '}
           <Button onClick={logout} secondary>
             Log out
           </Button>
@@ -151,28 +142,41 @@ export default function Admin() {
           when={model()}
           fallback={<p>No such model &quot;{params.model}&quot;.</p>}
         >
-          {model => <DataTable model={model} />}
+          {(model) => <DataTable model={model} />}
         </Show>
       </Container>
     );
   }
 
-  return (
-    <>
-      <Router>
-        <Route
-          path="/login"
-          component={Login}
+  const currentPath = location.pathname;
+
+  if (currentPath === '/admin/login' || currentPath === '/admin/') {
+    return (
+      <form
+        onSubmit={login}
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translateY(-50%) translateX(-50%)',
+        }}
+      >
+        <Input
+          type="password"
+          label="Password"
+          autoComplete="current-password"
         />
-        <Route path="/model/:model" component={Model} />
-      </Router>
-      {/* <Snackbar
-        autoHideDuration={4000}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        onClose={this.clearMessage}
-        message={<span>{message}</span>}
-        open={messageVisible}
-      /> */}
-    </>
-  );
+        &nbsp;
+        <Button type="submit" color="primary">
+          Log in
+        </Button>
+      </form>
+    );
+  }
+
+  if (currentPath.startsWith('/admin/model/')) {
+    return <Model />;
+  }
+
+  return <div>Admin route not found</div>;
 }

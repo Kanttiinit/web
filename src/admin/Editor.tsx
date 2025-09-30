@@ -95,7 +95,7 @@ export default function Editor(props: Props) {
           </For>
         </div>
         <div>
-          <Button type="submit" color="primary">
+          <Button type="submit">
             {props.mode === 'creating' ? 'Create' : 'Save'}
           </Button>
           {' '}

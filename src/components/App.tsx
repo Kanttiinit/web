@@ -35,17 +35,17 @@ export default function App(props: any) {
 
   createEffect(() => {
     const isDev =
-      // @ts-ignore
+      // @ts-expect-error -- devtools globals are injected by browser extensions
       !!window.__REACT_DEVTOOLS_GLOBAL_HOOK__ ||
-      // @ts-ignore
+      // @ts-expect-error -- devtools globals are injected by browser extensions
       !!window.__REDUX_DEVTOOLS_EXTENSION__ ||
-      // @ts-ignore
+      // @ts-expect-error -- devtools globals are injected by browser extensions
       !!window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ||
-      // @ts-ignore
+      // @ts-expect-error -- devtools globals are injected by browser extensions
       !!window.__VUE_DEVTOOLS_GLOBAL_HOOK__ ||
-      // @ts-ignore
+      // @ts-expect-error -- devtools globals are injected by browser extensions
       !!window.__SVELTE_DEVTOOLS_HOOK__ ||
-      // @ts-ignore
+      // @ts-expect-error -- devtools globals are injected by browser extensions
       typeof window.ng !== 'undefined';
 
     if (isDev) {

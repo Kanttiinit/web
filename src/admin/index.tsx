@@ -95,6 +95,28 @@ export default function Admin() {
     checkAuth();
   });
 
+  const Login = () => (
+    <form
+      onSubmit={login}
+      style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translateY(-50%) translateX(-50%)'
+      }}
+    >
+      <Input
+        type="password"
+        label="Password"
+        autoComplete="current-password"
+      />
+      &nbsp;
+      <Button type="submit">
+        Log in
+      </Button>
+    </form>
+  );
+
   function Model() {
     const params = useParams();
     const model = () => models.find(m => m.key === params.model);
@@ -120,7 +142,7 @@ export default function Admin() {
             {state.updatingRestaurants ? 'Updating...' : 'Update menus'}
           </Button>
           {' '}
-          <Button color="secondary" onClick={logout}>
+          <Button onClick={logout} secondary>
             Log out
           </Button>
         </div>
@@ -140,27 +162,7 @@ export default function Admin() {
       <Router>
         <Route
           path="/login"
-          element={
-            <form
-              onSubmit={login}
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translateY(-50%) translateX(-50%)'
-              }}
-            >
-              <Input
-                type="password"
-                label="Password"
-                autoComplete="current-password"
-              />
-              &nbsp;
-              <Button type="submit" color="primary">
-                Log in
-              </Button>
-            </form>
-          }
+          component={Login}
         />
         <Route path="/model/:model" component={Model} />
       </Router>

@@ -1,4 +1,3 @@
-import 'whatwg-fetch';
 import { apiBase } from './consts';
 
 console.log(apiBase);

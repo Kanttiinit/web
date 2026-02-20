@@ -1,5 +1,5 @@
-import Popper from 'popper.js';
-import { createEffect, createMemo, createSignal, Show } from 'solid-js';
+import { createPopper, Instance as PopperInstance, Placement } from '@popperjs/core';
+import { createSignal, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 import { styled } from 'solid-styled-components';
 
@@ -23,7 +23,7 @@ interface Props {
   children: any;
   text?: string;
   translationKey?: keyof typeof translations;
-  position?: Popper.Position;
+  position?: Placement;
   class?: string;
   style?: any;
 }
@@ -31,11 +31,11 @@ interface Props {
 const Tooltip = (props: Props): any => {
   const [isOpen, setIsOpen] = createSignal(false);
   let anchorRef: HTMLSpanElement | undefined;
-  let popper: Popper;
+  let popper: PopperInstance | undefined;
 
   const setTooltip = (tooltipRef: HTMLDivElement) => {
     if (anchorRef && tooltipRef && isOpen()) {
-      popper = new Popper(anchorRef, tooltipRef, {
+      popper = createPopper(anchorRef, tooltipRef, {
         placement: props.position || 'bottom-start'
       });
     }

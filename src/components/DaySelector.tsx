@@ -1,5 +1,4 @@
-import format from 'date-fns/format';
-import isSameDay from 'date-fns/isSameDay';
+import { format, isSameDay } from 'date-fns';
 import { For } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { isDateInRange } from '../utils';

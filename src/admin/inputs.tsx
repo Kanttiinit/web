@@ -10,7 +10,7 @@ import {
   RelationField
 } from './models';
 import Input from '../components/Input';
-import format from 'date-fns/format';
+import { format } from 'date-fns';
 import { styled } from 'solid-styled-components';
 import { get } from '../utils';
 import { sort } from 'fast-sort';

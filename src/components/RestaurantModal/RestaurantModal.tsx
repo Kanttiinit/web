@@ -1,5 +1,5 @@
 import { useParams } from '@solidjs/router';
-import setIsoDay from 'date-fns/setISODay';
+import { setISODay as setIsoDay } from 'date-fns';
 import { createResource, For, Show } from 'solid-js';
 import { styled } from 'solid-styled-components';
 

@@ -140,7 +140,7 @@ export default function Admin() {
       <Router>
         <Route
           path="/login"
-          element={
+          component={() => (
             <form
               onSubmit={login}
               style={{
@@ -160,7 +160,7 @@ export default function Admin() {
                 Log in
               </Button>
             </form>
-          }
+          )}
         />
         <Route path="/model/:model" component={Model} />
       </Router>

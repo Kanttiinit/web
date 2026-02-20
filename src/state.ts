@@ -1,11 +1,9 @@
 import { createStore } from 'solid-js/store';
 import { createResource } from 'solid-js';
 import * as api from './api';
-import addDays from 'date-fns/addDays';
-import startOfDay from 'date-fns/startOfDay';
+import { addDays, startOfDay, parseISO } from 'date-fns';
 import translations from './translations';
 import { DarkModeChoice, HighlighOperator, Lang, Order, PriceCategory, RestaurantType, Update } from './types';
-import parseISO from 'date-fns/parseISO';
 import { createMemo } from 'solid-js';
 
 const maxDayOffset = 6;

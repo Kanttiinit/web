@@ -1,4 +1,4 @@
-import setISODay from 'date-fns/setISODay';
+import { setISODay } from 'date-fns';
 import { createEffect, createSignal, For, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { computedState } from '../state';

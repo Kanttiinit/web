@@ -1,14 +1,5 @@
-import format from 'date-fns/format';
-import getIsoDay from 'date-fns/getISODay';
-import isAfter from 'date-fns/isAfter';
-import isBefore from 'date-fns/isBefore';
-import enLocale from 'date-fns/locale/en-GB';
-import fiLocale from 'date-fns/locale/fi';
-import addDays from 'date-fns/addDays';
-import isSameDay from 'date-fns/isSameDay';
-import startOfDay from 'date-fns/startOfDay';
-import setHours from 'date-fns/setHours';
-import setMinutes from 'date-fns/setMinutes';
+import { format, getISODay as getIsoDay, isAfter, isBefore, addDays, isSameDay, startOfDay, setHours, setMinutes } from 'date-fns';
+import { enGB as enLocale, fi as fiLocale } from 'date-fns/locale';
 import haversine from 'haversine';
 import { Accessor, createMemo, createSignal } from 'solid-js';
 import { sendFeedback } from './api';
@@ -199,18 +190,18 @@ export default function useInput(
   Accessor<T>,
   Accessor<{
     value: Accessor<T>;
-    onChange(e: React.ChangeEvent<HTMLInputElement>): void;
+    onChange(e: Event & { currentTarget: HTMLInputElement }): void;
   }>,
   (value: T) => void
 ] {
   const [value, setValue] = createSignal(defaultValue);
   const inputProps = createMemo(() => ({
     value,
-    onChange(e: React.ChangeEvent<HTMLInputElement>) {
+    onChange(e: Event & { currentTarget: HTMLInputElement }) {
       if (typeof defaultValue === 'number') {
-        setValue(Number(e.target.value));
+        setValue(Number(e.currentTarget.value));
       } else {
-        setValue(e.target.value);
+        setValue(e.currentTarget.value);
       }
     }
   }));

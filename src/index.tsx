@@ -27,13 +27,13 @@ render(
         {/* <Route path="/map" element={<Map />} /> */}
         <Route path="*" component={App}>
           <Route path="/" component={() => <></>} />
-          <Route path="/settings" component={Settings} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/terms-of-service" component={TermsOfService} />
-          <Route path="/clients" component={Clients} />
-          <Route path="/news" component={ChangeLog} />
-          <Route path="/restaurant/:id" component={RestaurantModal} />
-          <Route path="/report/:id" component={ReportModal} />
+          <Route path="settings" component={Settings} />
+          <Route path="contact" component={Contact} />
+          <Route path="terms-of-service" component={TermsOfService} />
+          <Route path="clients" component={Clients} />
+          <Route path="news" component={ChangeLog} />
+          <Route path="restaurant/:id" component={RestaurantModal} />
+          <Route path="report/:id" component={ReportModal} />
           <Route path="*" component={NotFound} />
         </Route>
       </Router>

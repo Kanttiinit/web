@@ -1,5 +1,4 @@
-import distanceInWordsToNow from 'date-fns/formatDistanceToNow';
-import parseISO from 'date-fns/parseISO';
+import { formatDistanceToNow as distanceInWordsToNow, parseISO } from 'date-fns';
 import snarkdown from 'snarkdown';
 import { createSignal, For, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';

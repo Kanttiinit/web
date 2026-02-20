@@ -3,6 +3,7 @@ import { styled } from 'solid-styled-components';
 interface ButtonProps {
   small?: boolean;
   secondary?: boolean;
+  color?: string;
 }
 
 const Button = styled.button<ButtonProps>`
@@ -15,7 +16,7 @@ const Button = styled.button<ButtonProps>`
   text-transform: uppercase;
   min-width: 4rem;
   background: ${props =>
-    props.secondary ? 'var(--gray3)' : 'var(--accent_color)'};
+    props.color === 'secondary' || props.secondary ? 'var(--gray3)' : 'var(--accent_color)'};
   text-align: center;
   color: var(--gray6);
   outline: none;

@@ -1,5 +1,4 @@
-import getIsoDay from 'date-fns/getISODay';
-import isSameDay from 'date-fns/isSameDay';
+import { getISODay as getIsoDay, isSameDay } from 'date-fns';
 import { styled } from 'solid-styled-components';
 
 import { RestaurantType } from '../../types';

@@ -2,10 +2,7 @@ import { Route, Router, useLocation, useMatch, useNavigate } from '@solidjs/rout
 import { createEffect, createSignal, lazy, Match, onCleanup, onMount, Switch } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { computedState, getDisplayedDays, setState, state } from '../state';
-import addDays from 'date-fns/addDays';
-import startOfDay from 'date-fns/startOfDay';
-import parse from 'date-fns/parse';
-import isSameDay from 'date-fns/isSameDay';
+import { addDays, startOfDay, parse, isSameDay } from 'date-fns';
 import Footer from './Footer';
 import Modal from './Modal';
 import RestaurantList from './RestaurantList';

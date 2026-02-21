@@ -1,9 +1,9 @@
-import { createSignal } from "solid-js";
-import { computedState } from "../../state";
-import Button from "../Button";
-import Input from "../Input";
-import LatLngInput from "../LatLngInput";
-import type { FormProps } from "./ReportModal";
+import { createSignal } from 'solid-js';
+import { computedState } from '../../state';
+import Button from '../Button';
+import Input from '../Input';
+import LatLngInput from '../LatLngInput';
+import type { FormProps } from './ReportModal';
 
 export default (props: FormProps) => {
   const [address, setAddress] = createSignal(props.restaurant.address);

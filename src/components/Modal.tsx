@@ -1,10 +1,10 @@
-import { useLocation, useNavigate } from "@solidjs/router";
-import { createEffect, createSignal } from "solid-js";
-import { styled } from "solid-styled-components";
-import { breakLarge, breakSmall } from "../globalStyles";
-import { computedState } from "../state";
-import { ErrorBoundary } from "./ErrorBoundary";
-import PageContainer from "./PageContainer";
+import { useLocation, useNavigate } from '@solidjs/router';
+import { createEffect, createSignal } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import { breakLarge, breakSmall } from '../globalStyles';
+import { computedState } from '../state';
+import { ErrorBoundary } from './ErrorBoundary';
+import PageContainer from './PageContainer';
 
 const ModalError = () => {
   return (
@@ -34,12 +34,12 @@ const Container = styled.div<{ open: boolean }>`
   pointer-events: none;
   display: flex;
 
-  ${(props) => (props.open ? "pointer-events: auto;" : "")}
+  ${props => (props.open ? 'pointer-events: auto;' : '')}
 `;
 
 const Overlay = styled.div<{ open: boolean; darkMode: boolean }>`
-  background: ${(props) =>
-    props.darkMode ? "rgba(50, 50, 50, 0.5)" : "rgba(0, 0, 0, 0.55)"};
+  background: ${props =>
+    props.darkMode ? 'rgba(50, 50, 50, 0.5)' : 'rgba(0, 0, 0, 0.55)'};
   position: absolute;
   width: 100%;
   height: 100%;
@@ -52,7 +52,7 @@ const Overlay = styled.div<{ open: boolean; darkMode: boolean }>`
     background: var(--gray6);
   }
 
-  ${(props) => (props.open ? "opacity: 1;" : "")}
+  ${props => (props.open ? 'opacity: 1;' : '')}
 `;
 
 const Content = styled.div<{ open: boolean }>`
@@ -72,7 +72,7 @@ const Content = styled.div<{ open: boolean }>`
     max-width: 100%;
   }
 
-  ${(props) => (props.open ? "opacity: 1;" : "")}
+  ${props => (props.open ? 'opacity: 1;' : '')}
 `;
 
 const CloseText = styled.div<{ open: boolean }>`
@@ -92,7 +92,7 @@ const CloseText = styled.div<{ open: boolean }>`
     display: none;
   }
 
-  ${(props) => (props.open ? "opacity: 1;" : "")}
+  ${props => (props.open ? 'opacity: 1;' : '')}
 `;
 
 type Props = {
@@ -108,25 +108,25 @@ const Modal = (props: Props) => {
     navigate(`/${location.search}`, { replace: true, scroll: false });
 
   createEffect(() => {
-    setOpen(location.pathname !== "/");
+    setOpen(location.pathname !== '/');
   });
 
   createEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
+      if (e.key === 'Escape') {
         e.preventDefault();
         closeModal();
       }
     };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
   }, [location.pathname]);
 
   createEffect(() => {
     if (open()) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "initial";
+      document.body.style.overflow = 'initial';
     }
   });
 

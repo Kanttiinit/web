@@ -1,9 +1,9 @@
-import { styled } from "solid-styled-components";
-import logo from "../assets/logo_48.png";
-import { version } from "../consts";
-import { breakSmall } from "../globalStyles";
-import { computedState } from "../state";
-import Link from "./Link";
+import { styled } from 'solid-styled-components';
+import logo from '../assets/logo_48.png';
+import { version } from '../consts';
+import { breakSmall } from '../globalStyles';
+import { computedState } from '../state';
+import Link from './Link';
 
 const Footer = styled.footer`
   text-align: center;
@@ -65,7 +65,7 @@ const LogoImage = styled.img<{ darkMode: boolean }>`
     display: none;
   }
 
-  ${(props) => (props.darkMode ? "filter: grayscale(0.6);" : "")}
+  ${props => (props.darkMode ? 'filter: grayscale(0.6);' : '')}
 `;
 
 const NavigationContainer = styled.div`
@@ -86,7 +86,7 @@ const VersionLink = styled.a`
 `;
 
 export default () => {
-  const showInfo = localStorage.getItem("isSurprise") === "false";
+  const showInfo = localStorage.getItem('isSurprise') === 'false';
   return (
     <Footer>
       <NavigationContainer>

@@ -1,6 +1,6 @@
-import { splitProps } from "solid-js";
-import { styled } from "solid-styled-components";
-import { breakSmall } from "../globalStyles";
+import { splitProps } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import { breakSmall } from '../globalStyles';
 
 interface Props {
   children?: any;
@@ -29,7 +29,7 @@ const Title = styled.h1<{ compact?: boolean }>`
   font-weight: 300;
   letter-spacing: 0.02em;
   color: var(--gray1);
-  font-size: ${(props) => (props.compact ? "1.5em" : "1.75em")};
+  font-size: ${props => (props.compact ? '1.5em' : '1.75em')};
 
   &:first-child {
     margin-top: 0;
@@ -51,10 +51,10 @@ const Title = styled.h1<{ compact?: boolean }>`
 
 const PageContainer = (props: Props) => {
   const [ownProps, rest] = splitProps(props, [
-    "children",
-    "title",
-    "class",
-    "compactTitle",
+    'children',
+    'title',
+    'class',
+    'compactTitle',
   ]);
   return (
     <Container {...rest}>

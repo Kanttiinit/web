@@ -1,4 +1,4 @@
-import { useParams } from "@solidjs/router";
+import { useParams } from '@solidjs/router';
 
 import {
   createResource,
@@ -9,20 +9,20 @@ import {
   Show,
   Switch,
   type ValidComponent,
-} from "solid-js";
-import { Dynamic } from "solid-js/web";
-import { styled } from "solid-styled-components";
-import { createRestaurantChange, getRestaurant } from "../../api";
-import { ClockIcon, ErrorIcon, LocationIcon, MoreIcon } from "../../icons";
-import { computedState, state } from "../../state";
-import type allTranslations from "../../translations";
-import type { RestaurantType } from "../../types";
-import Button from "../Button";
-import InlineIcon from "../InlineIcon";
-import PageContainer from "../PageContainer";
-import LocationEditor from "./LocationEditor";
-import MessageForm from "./MessageForm";
-import OpeningHoursEditor from "./OpeningHoursEditor";
+} from 'solid-js';
+import { Dynamic } from 'solid-js/web';
+import { styled } from 'solid-styled-components';
+import { createRestaurantChange, getRestaurant } from '../../api';
+import { ClockIcon, ErrorIcon, LocationIcon, MoreIcon } from '../../icons';
+import { computedState, state } from '../../state';
+import type allTranslations from '../../translations';
+import type { RestaurantType } from '../../types';
+import Button from '../Button';
+import InlineIcon from '../InlineIcon';
+import PageContainer from '../PageContainer';
+import LocationEditor from './LocationEditor';
+import MessageForm from './MessageForm';
+import OpeningHoursEditor from './OpeningHoursEditor';
 
 export interface FormProps {
   restaurant: RestaurantType;
@@ -73,17 +73,17 @@ const reportForms: ReportForm[] = [
   {
     component: OpeningHoursEditor,
     icon: <ClockIcon />,
-    labelId: "openingHours",
+    labelId: 'openingHours',
   },
   {
     component: LocationEditor,
     icon: <LocationIcon />,
-    labelId: "location",
+    labelId: 'location',
   },
   {
     component: MessageForm,
     icon: <MoreIcon />,
-    labelId: "somethingElse",
+    labelId: 'somethingElse',
   },
 ];
 
@@ -98,10 +98,10 @@ const ReportModal = () => {
       id: Number(params.id),
       lang: state.preferences.lang,
     }),
-    (source) => getRestaurant(source.id, source.lang),
+    source => getRestaurant(source.id, source.lang),
   );
 
-  const sendChange: FormProps["sendChange"] = async (change) => {
+  const sendChange: FormProps['sendChange'] = async change => {
     setIsSending(true);
     try {
       const _response = await createRestaurantChange(restaurant()!.id, change);
@@ -122,10 +122,10 @@ const ReportModal = () => {
       ? computedState
           .translations()
           .fixRestaurantInformation.replace(
-            "%restaurantName%",
+            '%restaurantName%',
             restaurant()?.name,
           )
-      : "";
+      : '';
 
   return (
     <PageContainer title={title()} compactTitle>
@@ -135,7 +135,7 @@ const ReportModal = () => {
           {computedState.translations().thanksForFeedback}
         </Match>
         <Match keyed when={activeForm()}>
-          {(form) => (
+          {form => (
             <>
               <Dynamic
                 component={form.component}
@@ -150,11 +150,11 @@ const ReportModal = () => {
                 setError={setError}
               />
               <Show keyed when={error()}>
-                {(error) => (
+                {error => (
                   <ErrorMessage>
                     <InlineIcon>
                       <ErrorIcon />
-                    </InlineIcon>{" "}
+                    </InlineIcon>{' '}
                     {error.message}
                   </ErrorMessage>
                 )}
@@ -164,7 +164,7 @@ const ReportModal = () => {
         </Match>
         <Match when={true}>
           <For each={reportForms}>
-            {(form) => (
+            {form => (
               <ListItem onClick={() => setActiveForm(form)}>
                 <InlineIcon>{form.icon}</InlineIcon>
                 {computedState.translations()[form.labelId]}

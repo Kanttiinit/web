@@ -1,8 +1,8 @@
-import leaflet from "leaflet";
-import { createEffect, onCleanup, onMount } from "solid-js";
-import { styled } from "solid-styled-components";
-import Input from "./Input";
-import "leaflet/dist/leaflet.css";
+import leaflet from 'leaflet';
+import { createEffect, onCleanup, onMount } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import Input from './Input';
+import 'leaflet/dist/leaflet.css';
 
 interface Props {
   disabled?: boolean;
@@ -47,14 +47,14 @@ const LatLngInput = (props: Props) => {
   onMount(() => {
     map = leaflet.map(container!).setView(props.value, 14);
     leaflet
-      .tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      .tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       })
       .addTo(map);
     marker = leaflet.marker(props.value, { draggable: true }).addTo(map);
-    marker.addEventListener("dragend", () => {
+    marker.addEventListener('dragend', () => {
       const pos = marker.getLatLng();
       props.onChange([pos.lat, pos.lng]);
     });
@@ -83,7 +83,7 @@ const LatLngInput = (props: Props) => {
           step="any"
           disabled={props.disabled}
           value={props.value[0] || 0}
-          onChange={(strValue) =>
+          onChange={strValue =>
             props.onChange([Number(strValue), props.value[1]])
           }
         />
@@ -94,7 +94,7 @@ const LatLngInput = (props: Props) => {
           step="any"
           disabled={props.disabled}
           value={props.value[1] || 0}
-          onChange={(strValue) =>
+          onChange={strValue =>
             props.onChange([props.value[0], Number(strValue)])
           }
         />

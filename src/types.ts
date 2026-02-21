@@ -1,7 +1,7 @@
 export enum PriceCategory {
-  student = "student",
-  studentPremium = "studentPremium",
-  regular = "regular",
+  student = 'student',
+  studentPremium = 'studentPremium',
+  regular = 'regular',
 }
 
 export interface RestaurantType {
@@ -49,7 +49,7 @@ export interface CourseType {
   properties: string[];
 }
 
-export type UpdateType = "software-update" | "information-update" | "bugfix";
+export type UpdateType = 'software-update' | 'information-update' | 'bugfix';
 
 export interface Update {
   type: UpdateType;
@@ -60,23 +60,23 @@ export interface Update {
 }
 
 export enum Lang {
-  FI = "fi",
-  EN = "en",
+  FI = 'fi',
+  EN = 'en',
 }
 
 export enum Order {
-  AUTOMATIC = "ORDER_AUTOMATIC",
-  ALPHABET = "ORDER_ALPHABET",
-  DISTANCE = "ORDER_DISTANCE",
+  AUTOMATIC = 'ORDER_AUTOMATIC',
+  ALPHABET = 'ORDER_ALPHABET',
+  DISTANCE = 'ORDER_DISTANCE',
 }
 
 export enum DarkModeChoice {
-  DEFAULT = "DEFAULT",
-  ON = "ON",
-  OFF = "OFF",
+  DEFAULT = 'DEFAULT',
+  ON = 'ON',
+  OFF = 'OFF',
 }
 
 export enum HighlighOperator {
-  AND = "and",
-  OR = "or",
+  AND = 'and',
+  OR = 'or',
 }

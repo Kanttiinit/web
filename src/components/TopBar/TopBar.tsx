@@ -1,16 +1,16 @@
-import { createSignal, onCleanup, onMount } from "solid-js";
-import { styled } from "solid-styled-components";
-import { breakSmall } from "../../globalStyles";
-import { MapIcon, NewsIcon, SettingsIcon } from "../../icons";
-import { computedState, setState, state } from "../../state";
-import { Lang } from "../../types";
-import AreaSelector from "../AreaSelector";
-import ClickOutside from "../ClickOutside";
-import DaySelector from "../DaySelector";
-import InlineIcon from "../InlineIcon";
-import Link from "../Link";
-import EN from "./en.svg";
-import FI from "./fi.svg";
+import { createSignal, onCleanup, onMount } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import { breakSmall } from '../../globalStyles';
+import { MapIcon, NewsIcon, SettingsIcon } from '../../icons';
+import { computedState, setState, state } from '../../state';
+import { Lang } from '../../types';
+import AreaSelector from '../AreaSelector';
+import ClickOutside from '../ClickOutside';
+import DaySelector from '../DaySelector';
+import InlineIcon from '../InlineIcon';
+import Link from '../Link';
+import EN from './en.svg';
+import FI from './fi.svg';
 
 const Container = styled.header<{ darkMode: boolean }>`
   background: linear-gradient(to bottom, var(--gray6) 0%, var(--gray7) 100%);
@@ -30,7 +30,7 @@ const Container = styled.header<{ darkMode: boolean }>`
     padding-left: 1rem;
   }
 
-  ${(props) => (props.darkMode ? "background: var(--gray7);" : "")}
+  ${props => (props.darkMode ? 'background: var(--gray7);' : '')}
 `;
 
 const Content = styled.div`
@@ -67,12 +67,12 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
   transition: opacity 75ms;
   pointer-events: none;
 
-  ${(props) =>
+  ${props =>
     props.isOpen
       ? `opacity: 1;
       pointer-events: all;
     `
-      : ""}
+      : ''}
 
   @media (max-width: ${breakSmall}) {
     top: 52px;
@@ -161,7 +161,7 @@ export default function TopBar() {
     );
     if (endTarget instanceof HTMLElement) {
       endTarget.dispatchEvent(
-        new MouseEvent("mouseup", {
+        new MouseEvent('mouseup', {
           bubbles: true,
         }),
       );
@@ -170,28 +170,28 @@ export default function TopBar() {
 
   onMount(() => {
     if (areaSelectorLink) {
-      areaSelectorLink.addEventListener("touchstart", touchStart, {
+      areaSelectorLink.addEventListener('touchstart', touchStart, {
         passive: false,
       });
-      areaSelectorLink.addEventListener("touchmove", touchMove, {
+      areaSelectorLink.addEventListener('touchmove', touchMove, {
         passive: false,
       });
-      areaSelectorLink.addEventListener("touchend", touchEnd);
+      areaSelectorLink.addEventListener('touchend', touchEnd);
     }
   });
 
   onCleanup(() => {
     if (areaSelectorLink) {
-      areaSelectorLink.removeEventListener("touchstart", touchStart);
-      areaSelectorLink.removeEventListener("touchmove", touchMove);
-      areaSelectorLink.removeEventListener("touchend", touchEnd);
+      areaSelectorLink.removeEventListener('touchstart', touchStart);
+      areaSelectorLink.removeEventListener('touchmove', touchMove);
+      areaSelectorLink.removeEventListener('touchend', touchEnd);
     }
   });
 
   function toggleLang() {
     setState(
-      "preferences",
-      "lang",
+      'preferences',
+      'lang',
       state.preferences.lang === Lang.FI ? Lang.EN : Lang.FI,
     );
   }
@@ -212,9 +212,9 @@ export default function TopBar() {
             ref={areaSelectorLink}
             onMouseDown={toggleAreaSelector}
             tabIndex={0}
-            onKeyDown={(e) => e.key === "Enter" && toggleAreaSelector()}
+            onKeyDown={e => e.key === 'Enter' && toggleAreaSelector()}
           >
-            <MapIcon size={18} style={{ "padding-left": "1rem" }} />
+            <MapIcon size={18} style={{ 'padding-left': '1rem' }} />
             <span>{computedState.translations().selectArea}</span>
           </NativeIconLink>
           <AreaSelectorContainer isOpen={areaSelectorOpen()}>
@@ -228,11 +228,11 @@ export default function TopBar() {
         <NativeIconLink
           tabIndex={0}
           onClick={toggleLang}
-          onKeyDown={(e) => e.key === "Enter" && toggleLang()}
+          onKeyDown={e => e.key === 'Enter' && toggleLang()}
         >
           <FlagImg
             alt={state.preferences.lang.toUpperCase()}
-            src={state.preferences.lang === "fi" ? FI : EN}
+            src={state.preferences.lang === 'fi' ? FI : EN}
           />
         </NativeIconLink>
       </Content>

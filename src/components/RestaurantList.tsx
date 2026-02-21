@@ -1,15 +1,15 @@
-import { createSignal, For, Match, Switch } from "solid-js";
+import { createSignal, For, Match, Switch } from 'solid-js';
 
-import { styled } from "solid-styled-components";
-import locating from "../assets/locating.svg";
-import { breakLarge, breakSmall } from "../globalStyles";
-import { WarningIcon } from "../icons";
-import { computedState, resources, state } from "../state";
-import { useFormattedRestaurants } from "../utils";
-import InlineIcon from "./InlineIcon";
-import NetworkStatus from "./NetworkStatus";
-import Notice from "./Notice";
-import Restaurant, { Placeholder } from "./Restaurant";
+import { styled } from 'solid-styled-components';
+import locating from '../assets/locating.svg';
+import { breakLarge, breakSmall } from '../globalStyles';
+import { WarningIcon } from '../icons';
+import { computedState, resources, state } from '../state';
+import { useFormattedRestaurants } from '../utils';
+import InlineIcon from './InlineIcon';
+import NetworkStatus from './NetworkStatus';
+import Notice from './Notice';
+import Restaurant, { Placeholder } from './Restaurant';
 
 const MakeItStopButton = styled.button`
   background-color: tomato;
@@ -142,7 +142,7 @@ function ListContent() {
     setShowMakeItStaph(true);
   }
   function makeItStaph() {
-    localStorage.setItem("isSurprise", "false");
+    localStorage.setItem('isSurprise', 'false');
     setShowContribLink(true);
     setShowMakeItStaph(false);
   }
@@ -163,7 +163,7 @@ function ListContent() {
         <Notice>
           <InlineIcon>
             <WarningIcon />
-          </InlineIcon>{" "}
+          </InlineIcon>{' '}
           {computedState.translations().turnOnLocation()}
         </Notice>
       </Match>
@@ -177,7 +177,7 @@ function ListContent() {
         <Notice>
           <InlineIcon>
             <WarningIcon />
-          </InlineIcon>{" "}
+          </InlineIcon>{' '}
           {computedState.translations().emptyRestaurants}
         </Notice>
       </Match>
@@ -213,7 +213,7 @@ function ListContent() {
           </ContribModal>
         )}
         <For each={useFormattedRestaurants()}>
-          {(restaurant) => (
+          {restaurant => (
             <Restaurant
               restaurant={restaurant}
               onShowMakeItStaph={onShowMakeItStaph}

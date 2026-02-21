@@ -1,14 +1,14 @@
-import { useLocation, useNavigate } from "@solidjs/router";
-import { addDays, isSameDay, parse, startOfDay } from "date-fns";
-import haversine from "haversine";
-import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
-import { styled } from "solid-styled-components";
-import { computedState, getDisplayedDays, setState, state } from "../state";
-import { getNewPath, isDateInRange } from "../utils";
-import Footer from "./Footer";
-import Modal from "./Modal";
-import RestaurantList from "./RestaurantList";
-import TopBar from "./TopBar";
+import { useLocation, useNavigate } from '@solidjs/router';
+import { addDays, isSameDay, parse, startOfDay } from 'date-fns';
+import haversine from 'haversine';
+import { createEffect, createSignal, onCleanup, onMount } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import { computedState, getDisplayedDays, setState, state } from '../state';
+import { getNewPath, isDateInRange } from '../utils';
+import Footer from './Footer';
+import Modal from './Modal';
+import RestaurantList from './RestaurantList';
+import TopBar from './TopBar';
 
 const Container = styled.div`
   display: flex;
@@ -23,9 +23,9 @@ export default function App(props: any) {
 
   createEffect(() => {
     if (computedState.darkMode()) {
-      document.body.classList.add("dark");
+      document.body.classList.add('dark');
     } else {
-      document.body.classList.remove("dark");
+      document.body.classList.remove('dark');
     }
   });
 
@@ -42,7 +42,7 @@ export default function App(props: any) {
       // @ts-expect-error
       !!window.__SVELTE_DEVTOOLS_HOOK__ ||
       // @ts-expect-error
-      typeof window.ng !== "undefined";
+      typeof window.ng !== 'undefined';
 
     if (isDev) {
       // check if it is april fools day
@@ -52,26 +52,26 @@ export default function App(props: any) {
         now.getMonth() === 3 &&
         now.getFullYear() === 2025;
       if (
-        (isAprilFools && localStorage.getItem("isSurprise") !== "false") ||
-        localStorage.getItem("forceSurprise") === "true"
+        (isAprilFools && localStorage.getItem('isSurprise') !== 'false') ||
+        localStorage.getItem('forceSurprise') === 'true'
       ) {
-        localStorage.setItem("isSurprise", "true");
+        localStorage.setItem('isSurprise', 'true');
       }
     }
   });
 
   createEffect(() => {
-    localStorage.setItem("preferences", JSON.stringify(state.preferences));
+    localStorage.setItem('preferences', JSON.stringify(state.preferences));
   });
 
   createEffect(() => {
     const day = new URL(`http://dummy.com${location.search}`).searchParams.get(
-      "day",
+      'day',
     );
     setState(
-      "selectedDay",
+      'selectedDay',
       day
-        ? startOfDay(parse(day, "y-MM-dd", new Date()))
+        ? startOfDay(parse(day, 'y-MM-dd', new Date()))
         : startOfDay(new Date()),
     );
   });
@@ -85,12 +85,12 @@ export default function App(props: any) {
       setLocationWatchId(
         navigator.geolocation.watchPosition(
           ({ coords }) => {
-            setState("location", (currentLocation) => {
+            setState('location', currentLocation => {
               if (!currentLocation) {
                 return coords;
               }
               const distance = haversine(currentLocation, coords, {
-                unit: "meter",
+                unit: 'meter',
               });
               if (distance > 100) {
                 return coords;
@@ -98,7 +98,7 @@ export default function App(props: any) {
               return currentLocation;
             });
           },
-          (error) => {
+          error => {
             switch (error.code) {
               case 1:
                 state.preferences.useLocation = false;
@@ -123,15 +123,15 @@ export default function App(props: any) {
       state.displayedDays.length &&
       !isSameDay(new Date(), state.displayedDays[0])
     ) {
-      setState("displayedDays", getDisplayedDays());
+      setState('displayedDays', getDisplayedDays());
     }
   };
 
   const onKeyDown = (e: KeyboardEvent) => {
-    if (e.target instanceof HTMLElement && e.target.tagName !== "INPUT") {
-      if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+    if (e.target instanceof HTMLElement && e.target.tagName !== 'INPUT') {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
         e.preventDefault();
-        const offset = e.key === "ArrowLeft" ? -1 : 1;
+        const offset = e.key === 'ArrowLeft' ? -1 : 1;
         const newDay = addDays(state.selectedDay, offset);
         if (isDateInRange(newDay)) {
           navigate(getNewPath(newDay), { replace: true });
@@ -141,13 +141,13 @@ export default function App(props: any) {
   };
 
   onMount(() => {
-    window.addEventListener("keydown", onKeyDown);
-    window.addEventListener("focus", update);
+    window.addEventListener('keydown', onKeyDown);
+    window.addEventListener('focus', update);
   });
 
   onCleanup(() => {
-    window.removeEventListener("keydown", onKeyDown);
-    window.removeEventListener("focus", update);
+    window.removeEventListener('keydown', onKeyDown);
+    window.removeEventListener('focus', update);
   });
 
   return (

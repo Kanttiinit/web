@@ -1,23 +1,23 @@
-import { useParams } from "@solidjs/router";
-import { setISODay as setIsoDay } from "date-fns";
-import { createResource, For, Show } from "solid-js";
-import { styled } from "solid-styled-components";
-import * as api from "../../api";
-import { breakSmall } from "../../globalStyles";
-import { HomeIcon, LocationIcon } from "../../icons";
-import { computedState, resources, state } from "../../state";
-import { formattedDay } from "../../utils";
-import InlineIcon from "../InlineIcon";
-import MenuViewer from "../MenuViewer";
-import PageContainer from "../PageContainer";
-import PriceCategoryBadge from "../PriceCategoryBadge";
-import MapComponent from "./Map";
+import { useParams } from '@solidjs/router';
+import { setISODay as setIsoDay } from 'date-fns';
+import { createResource, For, Show } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import * as api from '../../api';
+import { breakSmall } from '../../globalStyles';
+import { HomeIcon, LocationIcon } from '../../icons';
+import { computedState, resources, state } from '../../state';
+import { formattedDay } from '../../utils';
+import InlineIcon from '../InlineIcon';
+import MenuViewer from '../MenuViewer';
+import PageContainer from '../PageContainer';
+import PriceCategoryBadge from '../PriceCategoryBadge';
+import MapComponent from './Map';
 
 function getOpeningHourString(hours: string[]) {
   return hours.reduce(
     (open, hour, i) => {
       if (hour) {
-        const existingIndex = open.findIndex((i) => i.hour === hour);
+        const existingIndex = open.findIndex(i => i.hour === hour);
         if (existingIndex > -1) {
           open[existingIndex].endDay = i;
         } else {
@@ -108,9 +108,9 @@ const RestaurantModal = () => {
         id: params.id,
       };
     },
-    async (source) => {
+    async source => {
       const restaurant = (resources.restaurants[0]() || []).find(
-        (r) => r.id === Number(source.id),
+        r => r.id === Number(source.id),
       );
       if (restaurant) {
         return restaurant;
@@ -135,7 +135,7 @@ const RestaurantModal = () => {
         />
       }
     >
-      {(restaurant) => (
+      {restaurant => (
         <PageContainer title={restaurant.name}>
           <Info>
             <LinkContainer>
@@ -163,14 +163,14 @@ const RestaurantModal = () => {
             </LinkContainer>
             <OpeningHoursContainer>
               <For each={getOpeningHourString(restaurant.openingHours)}>
-                {(hours) => {
+                {hours => {
                   const startDate = formattedDay(
                     setIsoDay(new Date(), hours.startDay + 1),
-                    "EEEEEE",
+                    'EEEEEE',
                   );
                   const endDate = formattedDay(
                     setIsoDay(new Date(), (hours.endDay || 0) + 1),
-                    "EEEEEE",
+                    'EEEEEE',
                   );
                   return (
                     <OpeningHoursRow>
@@ -184,7 +184,7 @@ const RestaurantModal = () => {
                         )}
                       </OpeningHoursDay>
                       <OpeningHoursTime>
-                        {hours.hour.replace("-", "–") ||
+                        {hours.hour.replace('-', '–') ||
                           computedState.translations().closed}
                       </OpeningHoursTime>
                     </OpeningHoursRow>

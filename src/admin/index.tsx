@@ -1,13 +1,13 @@
-import { useLocation, useNavigate } from "@solidjs/router";
-import { For, onMount, Show } from "solid-js";
-import { createStore } from "solid-js/store";
-import { styled } from "solid-styled-components";
-import Button from "../components/Button";
-import Input from "../components/Input";
+import { useLocation, useNavigate } from '@solidjs/router';
+import { For, onMount, Show } from 'solid-js';
+import { createStore } from 'solid-js/store';
+import { styled } from 'solid-styled-components';
+import Button from '../components/Button';
+import Input from '../components/Input';
 
-import http from "../http";
-import DataTable from "./DataTable";
-import models from "./models";
+import http from '../http';
+import DataTable from './DataTable';
+import models from './models';
 
 export let showMessage: (message: string) => void;
 
@@ -23,7 +23,7 @@ const Tabs = styled.div`
 
 const Tab = styled.button<{ selected: boolean }>`
   cursor: pointer;
-  background: ${(props) => (props.selected ? "#ccc" : "#eee")};
+  background: ${props => (props.selected ? '#ccc' : '#eee')};
   border-radius: 2rem;
   padding: 0.5rem 1rem;
   margin-right: 0.5rem;
@@ -44,7 +44,7 @@ export default function Admin() {
     e.preventDefault();
     const password = e.target.elements[0].value;
     try {
-      await http.post("/admin/login", { password });
+      await http.post('/admin/login', { password });
       clearMessage();
       checkAuth();
     } catch (e) {
@@ -53,9 +53,9 @@ export default function Admin() {
   };
 
   const logout = async () => {
-    await http.post("/admin/logout");
+    await http.post('/admin/logout');
     checkAuth();
-    setState({ message: "Goodbye!", messageVisible: true });
+    setState({ message: 'Goodbye!', messageVisible: true });
   };
 
   const tabChange = (value: string) => {
@@ -67,18 +67,18 @@ export default function Admin() {
 
   const updateMenus = async () => {
     setState({ updatingRestaurants: true });
-    await http.post("/admin/update-restaurants");
+    await http.post('/admin/update-restaurants');
     setState({ updatingRestaurants: false });
   };
 
   const checkAuth = async () => {
     try {
-      await http.get("/admin/logged-in", true);
-      if (!location.pathname.includes("/model/")) {
-        navigate("/admin/model/areas", { replace: true });
+      await http.get('/admin/logged-in', true);
+      if (!location.pathname.includes('/model/')) {
+        navigate('/admin/model/areas', { replace: true });
       }
     } catch (_e) {
-      navigate("/admin/login", { replace: true });
+      navigate('/admin/login', { replace: true });
     }
   };
 
@@ -92,14 +92,14 @@ export default function Admin() {
   function Model() {
     const model = () => {
       const match = location.pathname.match(/\/model\/([^/]+)/);
-      return match ? models.find((m) => m.key === match[1]) : undefined;
+      return match ? models.find(m => m.key === match[1]) : undefined;
     };
 
     return (
       <Container>
         <Tabs>
           <For each={models}>
-            {(m) => (
+            {m => (
               <Tab
                 onClick={() => tabChange(m.key)}
                 selected={m.key === model()?.key}
@@ -110,11 +110,11 @@ export default function Admin() {
           </For>
         </Tabs>
         <div
-          style={{ position: "absolute", top: 0, right: 0, padding: "0.5em" }}
+          style={{ position: 'absolute', top: 0, right: 0, padding: '0.5em' }}
         >
           <Button disabled={state.updatingRestaurants} onClick={updateMenus}>
-            {state.updatingRestaurants ? "Updating..." : "Update menus"}
-          </Button>{" "}
+            {state.updatingRestaurants ? 'Updating...' : 'Update menus'}
+          </Button>{' '}
           <Button color="secondary" onClick={logout}>
             Log out
           </Button>
@@ -129,7 +129,7 @@ export default function Admin() {
             </p>
           }
         >
-          {(model) => <DataTable model={model} />}
+          {model => <DataTable model={model} />}
         </Show>
       </Container>
     );
@@ -137,14 +137,14 @@ export default function Admin() {
 
   return (
     <>
-      <Show when={location.pathname.endsWith("/login")}>
+      <Show when={location.pathname.endsWith('/login')}>
         <form
           onSubmit={login}
           style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translateY(-50%) translateX(-50%)",
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translateY(-50%) translateX(-50%)',
           }}
         >
           <Input
@@ -158,7 +158,7 @@ export default function Admin() {
           </Button>
         </form>
       </Show>
-      <Show when={location.pathname.includes("/model/")}>
+      <Show when={location.pathname.includes('/model/')}>
         <Model />
       </Show>
       {/* <Snackbar

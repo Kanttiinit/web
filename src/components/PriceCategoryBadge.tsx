@@ -1,9 +1,9 @@
-import { For } from "solid-js";
-import { styled } from "solid-styled-components";
-import { MoneyIcon } from "../icons";
-import { computedState } from "../state";
-import { PriceCategory } from "../types";
-import Tooltip from "./Tooltip";
+import { For } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import { MoneyIcon } from '../icons';
+import { computedState } from '../state';
+import { PriceCategory } from '../types';
+import Tooltip from './Tooltip';
 
 type Props = {
   priceCategory: PriceCategory;

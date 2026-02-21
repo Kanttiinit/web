@@ -1,4 +1,4 @@
-import PageContainer from "./PageContainer";
+import PageContainer from './PageContainer';
 
 const NotFound = () => (
   <PageContainer title="Page not found">

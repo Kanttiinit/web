@@ -8,20 +8,20 @@ import {
   setHours,
   setMinutes,
   startOfDay,
-} from "date-fns";
-import { enGB as enLocale, fi as fiLocale } from "date-fns/locale";
-import { type ISortByObjectSorter, sort } from "fast-sort";
-import haversine from "haversine";
-import { type Accessor, createMemo, createSignal } from "solid-js";
-import { createStore } from "solid-js/store";
-import { sendFeedback } from "./api";
-import { resources, state } from "./state";
+} from 'date-fns';
+import { enGB as enLocale, fi as fiLocale } from 'date-fns/locale';
+import { type ISortByObjectSorter, sort } from 'fast-sort';
+import haversine from 'haversine';
+import { type Accessor, createMemo, createSignal } from 'solid-js';
+import { createStore } from 'solid-js/store';
+import { sendFeedback } from './api';
+import { resources, state } from './state';
 import {
   type CourseType,
   type FavoriteType,
   Order,
   type RestaurantType,
-} from "./types";
+} from './types';
 
 export const selectedFavorites = createMemo(() => {
   if (!resources.favorites[0].loading) {
@@ -36,7 +36,7 @@ export const selectedFavorites = createMemo(() => {
 
 export const isFavorite = (course: CourseType) =>
   selectedFavorites().some(
-    (favorite) => !!course.title.match(new RegExp(favorite.regexp, "i")),
+    favorite => !!course.title.match(new RegExp(favorite.regexp, 'i')),
   );
 
 export const formattedFavorites: Accessor<
@@ -45,7 +45,7 @@ export const formattedFavorites: Accessor<
   })[]
 > = createMemo(() => {
   return sort(resources.favorites[0]() || [])
-    .asc((i) => i.name)
+    .asc(i => i.name)
     .map((favorite: FavoriteType) => ({
       ...favorite,
       isSelected: state.preferences.favorites.indexOf(favorite.id) > -1,
@@ -53,7 +53,7 @@ export const formattedFavorites: Accessor<
 });
 
 const parseTimeOfDay = (input: string) => {
-  const parts = input.split(":");
+  const parts = input.split(':');
   return setHours(setMinutes(new Date(), Number(parts[1])), Number(parts[0]));
 };
 
@@ -62,7 +62,7 @@ const isOpenNow = (restaurant: RestaurantType, day: Date) => {
   if (!restaurant.openingHours[weekday]) {
     return false;
   }
-  const [open, close] = restaurant.openingHours[weekday].split(" - ");
+  const [open, close] = restaurant.openingHours[weekday].split(' - ');
   const now = new Date();
   return (
     isAfter(now, parseTimeOfDay(open)) && isBefore(now, parseTimeOfDay(close))
@@ -75,25 +75,25 @@ const getOrder = (
 ): ISortByObjectSorter<RestaurantType>[] => {
   if (orderType === Order.ALPHABET) {
     return [
-      { desc: (r) => r.isStarred },
-      { asc: (r) => r.noCourses },
-      { asc: (r) => r.name },
+      { desc: r => r.isStarred },
+      { asc: r => r.noCourses },
+      { asc: r => r.name },
     ];
   } else if (orderType === Order.DISTANCE && useLocation) {
     return [
-      { desc: (r) => r.isStarred },
-      { asc: (r) => r.noCourses },
-      { asc: (r) => r.distance },
-      { asc: (r) => r.name },
+      { desc: r => r.isStarred },
+      { asc: r => r.noCourses },
+      { asc: r => r.distance },
+      { asc: r => r.name },
     ];
   } else {
     return [
-      { desc: (r) => r.isStarred },
-      { desc: (r) => r.isOpenNow },
-      { asc: (r) => r.noCourses },
-      { desc: (r) => r.favoriteCourses },
-      { asc: (r) => r.distance },
-      { desc: (r) => r.name },
+      { desc: r => r.isStarred },
+      { desc: r => r.isOpenNow },
+      { asc: r => r.noCourses },
+      { desc: r => r.favoriteCourses },
+      { asc: r => r.distance },
+      { desc: r => r.name },
     ];
   }
 };
@@ -101,13 +101,13 @@ const getOrder = (
 export const useFormattedRestaurants = createMemo(() => {
   const day = state.selectedDay;
   const restaurants = (resources.restaurants[0].latest || []).map(
-    (restaurant) => {
+    restaurant => {
       const courses =
         resources.menus[0].latest?.[restaurant.id]?.[
-          format(day, "y-MM-dd")
-        ]?.filter((course) => course.title) || [];
+          format(day, 'y-MM-dd')
+        ]?.filter(course => course.title) || [];
       const distance = state.location
-        ? haversine(state.location, restaurant, { unit: "meter" })
+        ? haversine(state.location, restaurant, { unit: 'meter' })
         : undefined;
       return {
         ...restaurant,
@@ -149,7 +149,7 @@ export function getArrayWithToggled<T>(array: T[], item: T) {
 }
 
 const maxDayOffset = 6;
-const dateFormat = "y-MM-dd";
+const dateFormat = 'y-MM-dd';
 
 export function isDateInRange(date: Date) {
   const now = startOfDay(new Date());
@@ -163,7 +163,7 @@ export function isDateInRange(date: Date) {
 export function getNewPath(date: Date) {
   const regexp = /day=[^&$]+/;
   if (isSameDay(date, new Date())) {
-    return location.pathname.replace(regexp, "");
+    return location.pathname.replace(regexp, '');
   } else if (location.pathname.match(regexp)) {
     return location.pathname.replace(regexp, `day=${format(date, dateFormat)}`);
   }
@@ -191,7 +191,7 @@ export function useFeedback(): [
     async (message: string, email?: string) => {
       setState({ sending: true });
       try {
-        await sendFeedback(message, email || "anonymous");
+        await sendFeedback(message, email || 'anonymous');
         setState({ sending: false, sent: true, error: null });
       } catch (error) {
         setState({ sending: false, error: error as Error });
@@ -214,7 +214,7 @@ export default function useInput(defaultValue: T): [
   const inputProps = createMemo(() => ({
     value,
     onChange(e: Event & { currentTarget: HTMLInputElement }) {
-      if (typeof defaultValue === "number") {
+      if (typeof defaultValue === 'number') {
         setValue(Number(e.currentTarget.value));
       } else {
         setValue(e.currentTarget.value);
@@ -226,9 +226,9 @@ export default function useInput(defaultValue: T): [
 
 export function get(obj: any, path: string, def: any = undefined) {
   const fullPath = path
-    .replace(/\[/g, ".")
-    .replace(/]/g, "")
-    .split(".")
+    .replace(/\[/g, '.')
+    .replace(/]/g, '')
+    .split('.')
     .filter(Boolean);
 
   return fullPath.every(everyFunc) ? obj : def;

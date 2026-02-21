@@ -1,8 +1,8 @@
-import { addDays, parseISO, startOfDay } from "date-fns";
-import { createMemo, createResource } from "solid-js";
-import { createStore } from "solid-js/store";
-import * as api from "./api";
-import translations from "./translations";
+import { addDays, parseISO, startOfDay } from 'date-fns';
+import { createMemo, createResource } from 'solid-js';
+import { createStore } from 'solid-js/store';
+import * as api from './api';
+import translations from './translations';
 import {
   DarkModeChoice,
   HighlighOperator,
@@ -11,7 +11,7 @@ import {
   PriceCategory,
   type RestaurantType,
   type Update,
-} from "./types";
+} from './types';
 
 const maxDayOffset = 6;
 
@@ -26,21 +26,21 @@ type TranslatedDict = { [t in keyof typeof translations]: any };
 
 const migrateOldSettings = () => {
   return [
-    "darkMode",
-    "favorites",
-    "lang",
-    "selectedArea",
-    "maxPriceCategory",
-    "starredRestaurants",
-    "properties",
-    "location",
-    "order",
-    "updatesLastSeenAt",
+    'darkMode',
+    'favorites',
+    'lang',
+    'selectedArea',
+    'maxPriceCategory',
+    'starredRestaurants',
+    'properties',
+    'location',
+    'order',
+    'updatesLastSeenAt',
   ].reduce(
     (settings, i) => {
       const value = localStorage.getItem(i);
       if (value !== undefined && value !== null) {
-        settings[i === "location" ? "useLocation" : i] = JSON.parse(value);
+        settings[i === 'location' ? 'useLocation' : i] = JSON.parse(value);
         localStorage.removeItem(i);
       }
       return settings;
@@ -50,7 +50,7 @@ const migrateOldSettings = () => {
 };
 
 const persistedSettings = JSON.parse(
-  localStorage.getItem("preferences") || "{}",
+  localStorage.getItem('preferences') || '{}',
 ) as Record<string, unknown>;
 
 const [state, setState] = createStore({
@@ -77,7 +77,7 @@ const [state, setState] = createStore({
 
 const areaResource = createResource(
   () => ({ lang: state.preferences.lang }),
-  (source) => api.getAreas(source.lang),
+  source => api.getAreas(source.lang),
 );
 
 const restaurantResourceSource = () => {
@@ -106,9 +106,9 @@ const restaurantResource = createResource<
     const { latitude, longitude } = source.location;
     return api.getRestaurantsByLocation(latitude, longitude, source.lang);
   } else if (source.areas?.length && !source.areasLoading) {
-    const ids = source.areas.find((a) => a.id === source.area)?.restaurants;
+    const ids = source.areas.find(a => a.id === source.area)?.restaurants;
     if (!ids) return [];
-    if (v.value?.length && v.value?.every((r) => ids.includes(r.id)))
+    if (v.value?.length && v.value?.every(r => ids.includes(r.id)))
       return v.value;
 
     return api.getRestaurantsByIds(ids, source.lang, source.maxPriceCategory);
@@ -124,11 +124,9 @@ const menuResource = createResource(
       lang: state.preferences.lang,
     };
   },
-  (source) => {
+  source => {
     if (source.restaurants) {
-      const restaurantIds = source.restaurants.map(
-        (restaurant) => restaurant.id,
-      );
+      const restaurantIds = source.restaurants.map(restaurant => restaurant.id);
       return api.getMenus(restaurantIds, [source.selectedDay], source.lang);
     }
   },
@@ -138,7 +136,7 @@ const resources = {
   areas: areaResource,
   favorites: createResource(
     () => ({ lang: state.preferences.lang }),
-    (source) => api.getFavorites(source.lang),
+    source => api.getFavorites(source.lang),
   ),
   menus: menuResource,
   restaurants: restaurantResource,
@@ -153,7 +151,7 @@ const computedState = {
     }
 
     return updates.filter(
-      (update) =>
+      update =>
         parseISO(update.createdAt).getTime() >
         state.preferences.updatesLastSeenAt,
     );
@@ -167,7 +165,7 @@ const computedState = {
   }),
   darkMode: createMemo(() => {
     if (state.preferences.darkMode === DarkModeChoice.DEFAULT) {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
     return state.preferences.darkMode === DarkModeChoice.ON;
   }),

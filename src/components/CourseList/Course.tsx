@@ -1,11 +1,11 @@
-import { createMemo, For } from "solid-js";
-import { styled } from "solid-styled-components";
-import { HeartFilledIcon } from "../../icons";
-import { state } from "../../state";
-import { properties } from "../../translations";
-import { type CourseType, HighlighOperator } from "../../types";
-import { isFavorite } from "../../utils";
-import Property from "./Property";
+import { createMemo, For } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import { HeartFilledIcon } from '../../icons';
+import { state } from '../../state';
+import { properties } from '../../translations';
+import { type CourseType, HighlighOperator } from '../../types';
+import { isFavorite } from '../../utils';
+import Property from './Property';
 
 const CourseTitle = styled.h2<{ highlight: boolean; dimmed: boolean }>`
   flex: 1;
@@ -14,15 +14,15 @@ const CourseTitle = styled.h2<{ highlight: boolean; dimmed: boolean }>`
   font-size: inherit;
   font-weight: inherit;
 
-  ${(props) =>
+  ${props =>
     props.highlight
       ? `
       color: var(--friendly);
       font-weight: 500;
     `
-      : ""}
+      : ''}
 
-  ${(props) => (props.dimmed ? "color: var(--gray4);" : "")}
+  ${props => (props.dimmed ? 'color: var(--gray4);' : '')}
 `;
 
 const PropertyContainer = styled.span`
@@ -49,16 +49,16 @@ const CourseWrapper = styled.li<{
     border-bottom: 1px solid var(--gray6);
   }
 
-  ${(props) => (props.favorite ? "color: var(--hearty);" : "")}
+  ${props => (props.favorite ? 'color: var(--hearty);' : '')}
 `;
 
 function getProperty(propertyKey: string) {
-  return properties.find((p) => p.key === propertyKey);
+  return properties.find(p => p.key === propertyKey);
 }
 
 const isPropertySelected = (propertyKey: string) =>
   state.preferences.properties.some(
-    (p) => p.toLowerCase() === propertyKey.toLowerCase(),
+    p => p.toLowerCase() === propertyKey.toLowerCase(),
   );
 
 function isDesiredProperty(propertyKey: string) {
@@ -79,17 +79,17 @@ function isUndesiredProperty(propertyKey: string) {
 
 const Course = (props: { course: CourseType }) => {
   const desiredProperties = createMemo(() =>
-    props.course.properties.filter((p) => getProperty(p)?.desired),
+    props.course.properties.filter(p => getProperty(p)?.desired),
   );
 
   const propertyOperator = createMemo(() =>
     state.preferences.highlightOperator === HighlighOperator.OR
-      ? "some"
-      : "every",
+      ? 'some'
+      : 'every',
   );
   const highlight = () =>
     state.preferences.properties.length !== 0 &&
-    state.preferences.properties[propertyOperator()]((p) =>
+    state.preferences.properties[propertyOperator()](p =>
       desiredProperties().includes(p),
     );
 
@@ -105,7 +105,7 @@ const Course = (props: { course: CourseType }) => {
       </CourseTitle>
       <PropertyContainer>
         <For each={props.course.properties}>
-          {(p) => (
+          {p => (
             <Property
               highlighted={isDesiredProperty(p)}
               dimmed={isUndesiredProperty(p)}

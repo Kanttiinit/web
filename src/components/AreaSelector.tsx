@@ -1,9 +1,9 @@
-import { For, type JSX } from "solid-js";
-import { css, styled } from "solid-styled-components";
-import { FilledStarIcon, WalkIcon } from "../icons";
-import { computedState, resources, setState, state } from "../state";
-import type allTranslations from "../translations";
-import Button from "./Button";
+import { For, type JSX } from 'solid-js';
+import { css, styled } from 'solid-styled-components';
+import { FilledStarIcon, WalkIcon } from '../icons';
+import { computedState, resources, setState, state } from '../state';
+import type allTranslations from '../translations';
+import Button from './Button';
 
 const iconStyles = css`
   margin-right: 0.5ch;
@@ -28,12 +28,12 @@ const specialAreas: SpecialArea[] = [
   {
     icon: <StyledWalkIcon />,
     id: -2,
-    translationKey: "nearby",
+    translationKey: 'nearby',
   },
   {
     icon: <StarIcon />,
     id: -1,
-    translationKey: "starred",
+    translationKey: 'starred',
   },
 ];
 
@@ -43,8 +43,8 @@ const AreaWrapper = styled.div`
 `;
 
 const AreaButton = styled(Button)<{ selected: boolean }>`
-  background-color: ${(props) =>
-    props.selected ? "var(--gray6)" : "transparent"};
+  background-color: ${props =>
+    props.selected ? 'var(--gray6)' : 'transparent'};
   color: inherit;
   width: 100%;
   padding: 1em 0.5em;
@@ -52,7 +52,7 @@ const AreaButton = styled(Button)<{ selected: boolean }>`
   font-weight: inherit;
   text-align: center;
   outline: none;
-  color: ${(props) => (props.selected ? "var(--accent_color)" : "var(--gray1)")};
+  color: ${props => (props.selected ? 'var(--accent_color)' : 'var(--gray1)')};
   cursor: pointer;
 
   &:hover,
@@ -69,13 +69,13 @@ const Area = (props: {
   <AreaWrapper>
     <AreaButton
       onKeyDown={(e: KeyboardEvent) =>
-        e.key === "Enter" && props.selectArea(props.area.id)
+        e.key === 'Enter' && props.selectArea(props.area.id)
       }
       onMouseUp={() => props.selectArea(props.area.id)}
       selected={props.selectedAreaId === props.area.id}
     >
       {props.area.icon && (
-        <div style={{ "margin-right": "4px", display: "inline-block" }}>
+        <div style={{ 'margin-right': '4px', display: 'inline-block' }}>
           {props.area.icon}
         </div>
       )}
@@ -100,7 +100,7 @@ const Container = styled.menu`
 
 export default function AreaSelector(props: Props) {
   const selectArea = (areaId: number) => {
-    setState("preferences", "selectedArea", areaId);
+    setState('preferences', 'selectedArea', areaId);
     if (props.onAreaSelected) {
       props.onAreaSelected();
     }
@@ -111,7 +111,7 @@ export default function AreaSelector(props: Props) {
   return (
     <Container>
       <For each={specialAreas}>
-        {(area) => (
+        {area => (
           <Area
             selectedAreaId={state.preferences.selectedArea}
             selectArea={selectArea}
@@ -124,7 +124,7 @@ export default function AreaSelector(props: Props) {
         )}
       </For>
       <For each={areas()?.sort((a, b) => (a.name > b.name ? -1 : 1))}>
-        {(area) => (
+        {area => (
           <Area
             selectedAreaId={state.preferences.selectedArea}
             selectArea={selectArea}

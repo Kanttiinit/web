@@ -2,13 +2,13 @@ import {
   createPopper,
   type Placement,
   type Instance as PopperInstance,
-} from "@popperjs/core";
-import { createSignal, Show } from "solid-js";
-import { Portal } from "solid-js/web";
-import { styled } from "solid-styled-components";
+} from '@popperjs/core';
+import { createSignal, Show } from 'solid-js';
+import { Portal } from 'solid-js/web';
+import { styled } from 'solid-styled-components';
 
-import { computedState } from "../state";
-import translations from "../translations";
+import { computedState } from '../state';
+import translations from '../translations';
 
 const Container = styled.div`
   font-size: 0.8rem;
@@ -40,7 +40,7 @@ const Tooltip = (props: Props): any => {
   const setTooltip = (tooltipRef: HTMLDivElement) => {
     if (anchorRef && tooltipRef && isOpen()) {
       _popper = createPopper(anchorRef, tooltipRef, {
-        placement: props.position || "bottom-start",
+        placement: props.position || 'bottom-start',
       });
     }
   };

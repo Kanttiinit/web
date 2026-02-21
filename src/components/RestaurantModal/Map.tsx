@@ -1,12 +1,12 @@
-import leaflet from "leaflet";
-import { styled } from "solid-styled-components";
-import "leaflet/dist/leaflet.css";
-import { onCleanup, onMount } from "solid-js";
-import { breakSmall } from "../../globalStyles";
+import leaflet from 'leaflet';
+import { styled } from 'solid-styled-components';
+import 'leaflet/dist/leaflet.css';
+import { onCleanup, onMount } from 'solid-js';
+import { breakSmall } from '../../globalStyles';
 
-import type { RestaurantType } from "../../types";
-import restaurantLocationIcon from "./restaurant-location.png";
-import userLocationIcon from "./user-location.png";
+import type { RestaurantType } from '../../types';
+import restaurantLocationIcon from './restaurant-location.png';
+import userLocationIcon from './user-location.png';
 
 const Container = styled.div`
   border-top: 1px solid var(--gray6);
@@ -45,7 +45,7 @@ export default function RestaurantMap(props: Props) {
   onMount(() => {
     map = leaflet.map(container!).setView(props.restaurantPoint, 14);
     leaflet
-      .tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      .tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',

@@ -1,7 +1,7 @@
-import { createSignal, onCleanup, onMount } from "solid-js";
-import { styled } from "solid-styled-components";
-import { ErrorIcon } from "../icons";
-import { computedState } from "../state";
+import { createSignal, onCleanup, onMount } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import { ErrorIcon } from '../icons';
+import { computedState } from '../state';
 
 const Container = styled.div<{ isOnline: boolean }>`
   background: rgb(255, 222, 148);
@@ -15,7 +15,7 @@ const Container = styled.div<{ isOnline: boolean }>`
   align-items: center;
   justify-content: center;
 
-  ${(props) =>
+  ${props =>
     !props.isOnline
       ? `
     padding: 0.5em 1em;
@@ -23,7 +23,7 @@ const Container = styled.div<{ isOnline: boolean }>`
     height: 1.5em;
     opacity: 1;
   `
-      : ""}
+      : ''}
 `;
 
 export default function NetworkStatus() {
@@ -39,8 +39,8 @@ export default function NetworkStatus() {
   });
 
   onCleanup(() => {
-    window.removeEventListener("online", updateNetworkStatus);
-    window.removeEventListener("offline", updateNetworkStatus);
+    window.removeEventListener('online', updateNetworkStatus);
+    window.removeEventListener('offline', updateNetworkStatus);
   });
 
   return (

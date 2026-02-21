@@ -1,7 +1,7 @@
-import { For } from "solid-js";
-import { keyframes, styled } from "solid-styled-components";
+import { For } from 'solid-js';
+import { keyframes, styled } from 'solid-styled-components';
 
-import { Container, courseListStyles } from "./Restaurant";
+import { Container, courseListStyles } from './Restaurant';
 
 const animation = keyframes`
   0% {
@@ -30,7 +30,7 @@ const AnimationBase = styled.div<{ width: number }>`
   border-radius: 4px;
   display: inline-block;
   line-height: 1;
-  width: ${(props) => props.width || 100}%;
+  width: ${props => props.width || 100}%;
 `;
 
 const Header = styled(AnimationBase)`

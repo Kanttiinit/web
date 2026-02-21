@@ -1,5 +1,5 @@
-import { format } from "date-fns";
-import http from "./http";
+import { format } from 'date-fns';
+import http from './http';
 
 import {
   type AreaType,
@@ -10,7 +10,7 @@ import {
   PriceCategory,
   type RestaurantType,
   type Update,
-} from "./types";
+} from './types';
 
 export const getCourses = async (
   restaurantId: number,
@@ -20,7 +20,7 @@ export const getCourses = async (
   const restaurant = await http.get(
     `/restaurants/${restaurantId}/menu?day=${format(
       day,
-      "y-MM-dd",
+      'y-MM-dd',
     )}&lang=${lang}`,
   );
   if (!restaurant.menus.length) {
@@ -37,26 +37,26 @@ export const getMenus = (
 ): Promise<MenuType> => {
   return http.get(
     `/menus?lang=${lang}&restaurants=${restaurantIds.join(
-      ",",
-    )}&days=${days.map((day) => format(day, "y-MM-dd")).join(",")}`,
+      ',',
+    )}&days=${days.map(day => format(day, 'y-MM-dd')).join(',')}`,
   );
 };
 
 export const sendFeedback = (message: string, email: string) =>
-  fetch("https://kitchen.kanttiinit.fi/contact", {
+  fetch('https://kitchen.kanttiinit.fi/contact', {
     body: JSON.stringify({
       message,
       email,
     }),
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
-    method: "POST",
+    method: 'POST',
   });
 
 export const getUpdates = (): Promise<Update[]> => {
-  return http.get("/updates");
+  return http.get('/updates');
 };
 
 export const getAreas = (lang: Lang): Promise<AreaType[]> =>
@@ -81,8 +81,8 @@ export const getRestaurantsByIds = (
   );
   return http.get(
     `/restaurants?lang=${lang}&ids=${ids.join(
-      ",",
-    )}&priceCategories=${priceCategories.join(",")}`,
+      ',',
+    )}&priceCategories=${priceCategories.join(',')}`,
   );
 };
 
@@ -100,11 +100,11 @@ export const getRestaurantsByLocation = (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createRestaurantChange = (restaurantId: number, change: any) =>
-  http.post("/changes", {
+  http.post('/changes', {
     change,
     modelFilter: { id: restaurantId },
-    modelName: "Restaurant",
+    modelName: 'Restaurant',
   });
 
 export const getApprovedUpdates = (uuids: string[]) =>
-  http.get(`/changes/${uuids.join(",")}`);
+  http.get(`/changes/${uuids.join(',')}`);

@@ -1,4 +1,4 @@
-import { onCleanup, onMount, splitProps } from "solid-js";
+import { onCleanup, onMount, splitProps } from 'solid-js';
 
 type Props = {
   onClickOutside(): any;
@@ -7,8 +7,8 @@ type Props = {
 
 const ClickOutside = (props: Props) => {
   const [ownProps, otherProps] = splitProps(props, [
-    "onClickOutside",
-    "children",
+    'onClickOutside',
+    'children',
   ]);
   let containerRef: HTMLDivElement | undefined;
 
@@ -21,11 +21,11 @@ const ClickOutside = (props: Props) => {
   };
 
   onMount(() => {
-    window.addEventListener("click", onClick);
+    window.addEventListener('click', onClick);
   });
 
   onCleanup(() => {
-    window.removeEventListener("click", onClick);
+    window.removeEventListener('click', onClick);
   });
 
   return (

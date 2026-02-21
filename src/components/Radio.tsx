@@ -41,8 +41,7 @@ export const Button = styled.button<{ selected: boolean }>`
   cursor: pointer;
 
   &:focus {
-    outline: 2px solid var(--accent_color);
-    outline-offset: -2px;
+    outline: none;
   }
 `;
 

@@ -1,6 +1,14 @@
 import { A, useLocation } from '@solidjs/router';
 import { format, isSameDay } from 'date-fns';
-import { createMemo, For, type JSX, splitProps } from 'solid-js';
+import {
+  createMemo,
+  createSignal,
+  For,
+  type JSX,
+  onCleanup,
+  onMount,
+  splitProps,
+} from 'solid-js';
 import { styled } from 'solid-styled-components';
 
 import { state } from '../state';
@@ -11,6 +19,13 @@ interface DayLinkProps {
   selectedDay: Date;
 }
 
+const Wrapper = styled.div`
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+`;
+
 const Container = styled.nav`
   flex: 1;
   display: flex;
@@ -18,6 +33,7 @@ const Container = styled.nav`
   gap: 2px;
   overflow-x: auto;
   padding: 6px 0;
+  scrollbar-width: none;
 
   &::-webkit-scrollbar {
     display: none;
@@ -56,15 +72,14 @@ const StyledLink = styled(DayA)<{ active: boolean }>`
     }
 
     &:focus {
-      outline: 2px solid var(--accent_color);
-      outline-offset: 2px;
+      outline: none;
     }
   }
 `;
 
 const WeekDay = styled.span`
   font-size: 0.6rem;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   line-height: 1;
@@ -101,15 +116,62 @@ const DayLink = (props: DayLinkProps) => {
   );
 };
 
+function getMask(left: boolean, right: boolean) {
+  const fade = '2.5rem';
+  if (left && right) {
+    return `linear-gradient(to right, transparent, black ${fade}, black calc(100% - ${fade}), transparent)`;
+  }
+  if (left) {
+    return `linear-gradient(to right, transparent, black ${fade})`;
+  }
+  if (right) {
+    return `linear-gradient(to right, black calc(100% - ${fade}), transparent)`;
+  }
+  return 'none';
+}
+
 export default function DaySelector() {
+  let containerRef: HTMLElement | undefined;
+  const [showLeft, setShowLeft] = createSignal(false);
+  const [showRight, setShowRight] = createSignal(false);
+
+  const updateFades = () => {
+    if (!containerRef) return;
+    const { scrollLeft, scrollWidth, clientWidth } = containerRef;
+    setShowLeft(scrollLeft > 1);
+    setShowRight(scrollLeft + clientWidth < scrollWidth - 1);
+  };
+
+  onMount(() => {
+    if (!containerRef) return;
+    containerRef.addEventListener('scroll', updateFades, { passive: true });
+    const ro = new ResizeObserver(updateFades);
+    ro.observe(containerRef);
+    updateFades();
+    onCleanup(() => {
+      containerRef?.removeEventListener('scroll', updateFades);
+      ro.disconnect();
+    });
+  });
+
+  const mask = () => getMask(showLeft(), showRight());
+
   return (
-    <Container>
-      {!isDateInRange(state.selectedDay) && (
-        <DayLink day={state.selectedDay} selectedDay={state.selectedDay} />
-      )}
-      <For each={state.displayedDays}>
-        {day => <DayLink selectedDay={state.selectedDay} day={day} />}
-      </For>
-    </Container>
+    <Wrapper>
+      <Container
+        ref={containerRef}
+        style={{
+          '-webkit-mask-image': mask(),
+          'mask-image': mask(),
+        }}
+      >
+        {!isDateInRange(state.selectedDay) && (
+          <DayLink day={state.selectedDay} selectedDay={state.selectedDay} />
+        )}
+        <For each={state.displayedDays}>
+          {day => <DayLink selectedDay={state.selectedDay} day={day} />}
+        </For>
+      </Container>
+    </Wrapper>
   );
 }

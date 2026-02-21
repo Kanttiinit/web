@@ -338,7 +338,7 @@ const Restaurant = (props: Props) => {
           to={`/report/${props.restaurant.id}`}
         >
           <EditIcon size={14} />
-          <EditLabel>Propose edit</EditLabel>
+          <EditLabel>{computedState.translations().fixInfo}</EditLabel>
         </EditLink>
         <RightActions>
           <StyledNativeActionLink

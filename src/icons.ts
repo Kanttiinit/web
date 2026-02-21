@@ -28,6 +28,7 @@ export {
   TbOutlineLoader as LoaderIcon,
   TbOutlineMapPin as MapIcon,
   TbOutlineSchool as StudentIcon,
+  TbOutlineX as CloseIcon,
 } from 'solid-icons/tb';
 export {
   VsHeart as HeartIcon,

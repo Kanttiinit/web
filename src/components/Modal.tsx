@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from '@solidjs/router';
 import { createEffect, createSignal } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { breakLarge, breakSmall } from '../globalStyles';
+import { CloseIcon } from '../icons';
 import { computedState } from '../state';
 import { ErrorBoundary } from './ErrorBoundary';
 import PageContainer from './PageContainer';
@@ -108,6 +109,37 @@ const Content = styled.div<{ open: boolean }>`
   }
 `;
 
+const CloseButtonRow = styled.div`
+  position: sticky;
+  top: 0;
+  height: 0;
+  overflow: visible;
+  z-index: 10;
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+
+  &:hover {
+    background: var(--bg-interactive);
+    border-color: var(--border);
+    color: var(--text-primary);
+  }
+`;
+
 const CloseText = styled.div<{ open: boolean }>`
   z-index: 5;
   display: flex;
@@ -170,6 +202,11 @@ const Modal = (props: Props) => {
         onClick={closeModal}
       />
       <Content open={open()}>
+        <CloseButtonRow>
+          <CloseButton onClick={closeModal} aria-label="Close">
+            <CloseIcon size={16} />
+          </CloseButton>
+        </CloseButtonRow>
         <ErrorBoundary fallback={ModalError}>{props.children}</ErrorBoundary>
       </Content>
       <CloseText open={open()} onClick={closeModal}>

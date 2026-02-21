@@ -46,12 +46,12 @@ const StyledLink = styled(DayA)<{ active: boolean }>`
     border-radius: var(--radius-md);
     min-width: 2.5rem;
     text-align: center;
-    background: ${props => (props.active ? 'var(--radio-track)' : 'transparent')};
+    background: ${props => (props.active ? 'var(--radio-selected)' : 'transparent')};
     color: ${props => (props.active ? 'var(--text-primary)' : 'var(--text-disabled)')};
     transition: background 0.15s, color 0.15s;
 
     &:hover {
-      background: var(--radio-track);
+      background: var(--radio-selected);
       color: var(--text-primary);
     }
 

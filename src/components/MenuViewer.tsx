@@ -11,6 +11,7 @@ import Tooltip from './Tooltip';
 const Header = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 8px;
 `;
 
 const ButtonContainer = styled.div`

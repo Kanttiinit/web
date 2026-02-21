@@ -13,12 +13,8 @@ const Container = styled.div`
   border-bottom: 1px solid var(--border-subtle);
   min-height: 20rem;
   height: 20rem;
-  margin: 1rem -1rem -1rem -1rem;
+  margin: -1rem -1rem -1rem -1rem;
   overflow: hidden;
-
-  @media (max-width: ${breakSmall}) {
-    display: none;
-  }
 `;
 
 const _RestaurantPin = styled.div`

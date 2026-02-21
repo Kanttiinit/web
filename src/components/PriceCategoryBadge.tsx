@@ -18,9 +18,7 @@ const categories = [
 const Container = styled.span<Props>`
   font-size: 0.9rem;
   color: var(--text-primary);
-  vertical-align: -3px;
   display: inline-flex;
-  margin-left: 6px;
 
   svg {
     display: block;

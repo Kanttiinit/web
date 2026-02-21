@@ -30,7 +30,16 @@ function getOpeningHourString(hours: string[]) {
   );
 }
 
-const Info = styled.div`
+const Card = styled.div`
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  border: solid 1px var(--border-subtle);
+  box-shadow: 0px 1px 2px 0px rgba(50, 50, 50, 0.1);
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+`;
+
+const Info = styled(Card)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -38,6 +47,7 @@ const Info = styled.div`
   color: var(--text-secondary);
   font-size: 0.8rem;
   line-height: 1.5em;
+  padding: 0.75rem 1rem;
 
   @media (max-width: ${breakSmall}) {
     font-size: 0.7em;
@@ -45,9 +55,22 @@ const Info = styled.div`
   }
 `;
 
+const MenuCard = styled(Card)`
+  padding: 0.75rem 1rem;
+`;
+
+const MapCard = styled(Card)`
+  padding: 0;
+`;
+
+const PriceContainer = styled.div`
+  padding: 0.25rem;
+`;
+
 const LinkContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
+  gap: 2px;
 
   @media (max-width: ${breakSmall}) {
     flex-direction: column;
@@ -55,24 +78,21 @@ const LinkContainer = styled.div`
 `;
 
 const MetaLink = styled.a`
-  text-transform: uppercase;
-  display: block;
-  padding: 0.25em 0.5em;
-  border-radius: 0.25em;
-  margin: 0 0.5em 0.5em 0;
-  transition: background 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: 0.3em 0.75em 0.3em 0.55em;
+  color: var(--text-secondary);
+  font-weight: 500;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 
   &:hover,
   &:focus {
     background: var(--bg-interactive);
-  }
-
-  svg {
-    margin-right: 0.5ch;
-  }
-
-  @media (max-width: ${breakSmall}) {
-    padding: 0;
+    border-color: var(--border);
+    color: var(--text-primary);
   }
 `;
 
@@ -157,9 +177,9 @@ const RestaurantModal = () => {
                 </InlineIcon>
                 {computedState.translations().homepage}
               </MetaLink>
-              <div>
+              <PriceContainer>
                 <PriceCategoryBadge priceCategory={restaurant.priceCategory} />
-              </div>
+              </PriceContainer>
             </LinkContainer>
             <OpeningHoursContainer>
               <For each={getOpeningHourString(restaurant.openingHours)}>
@@ -193,16 +213,20 @@ const RestaurantModal = () => {
               </For>
             </OpeningHoursContainer>
           </Info>
-          <MenuViewer showCopyButton restaurantId={restaurant.id} />
-          <MapComponent
-            restaurant={restaurant}
-            restaurantPoint={[restaurant.latitude, restaurant.longitude]}
-            userPoint={
-              state.location
-                ? [state.location.latitude, state.location.longitude]
-                : undefined
-            }
-          />
+          <MenuCard>
+            <MenuViewer showCopyButton restaurantId={restaurant.id} />
+          </MenuCard>
+          <MapCard>
+            <MapComponent
+              restaurant={restaurant}
+              restaurantPoint={[restaurant.latitude, restaurant.longitude]}
+              userPoint={
+                state.location
+                  ? [state.location.latitude, state.location.longitude]
+                  : undefined
+              }
+            />
+          </MapCard>
         </PageContainer>
       )}
     </Show>

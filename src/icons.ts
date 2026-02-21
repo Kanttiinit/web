@@ -1,6 +1,5 @@
 export {
   AiFillEdit as EditIcon,
-  AiFillHome as HomeIcon,
   AiFillStar as FilledStarIcon,
   AiFillWarning as WarningIcon,
   AiOutlineLink as LinkIcon,
@@ -18,12 +17,13 @@ export {
   FiCopy as CopyIcon,
   FiMoreVertical as MoreIcon,
 } from 'solid-icons/fi';
-export { IoLocationSharp as LocationIcon } from 'solid-icons/io';
 export { RiFinanceMoneyEuroCircleFill as MoneyIcon } from 'solid-icons/ri';
 export {
   TbOutlineAdjustmentsHorizontal as SettingsIcon,
   TbOutlineBell as NewsIcon,
   TbOutlineBike as BikeIcon,
+  TbOutlineCurrentLocation as LocationIcon,
+  TbOutlineHome as HomeIcon,
   TbOutlineMapPin as MapIcon,
 } from 'solid-icons/tb';
 export {

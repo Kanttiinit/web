@@ -12,34 +12,50 @@ import {
   type Update,
 } from './types';
 
+const coursesCache = new Map<string, CourseType[]>();
+
+const coursesCacheKey = (
+  restaurantId: number | string,
+  dateStr: string,
+  lang: string,
+) => `${restaurantId}-${dateStr}-${lang}`;
+
 export const getCourses = async (
   restaurantId: number,
   day: Date,
   lang: Lang,
 ): Promise<CourseType[]> => {
-  const restaurant = await http.get(
-    `/restaurants/${restaurantId}/menu?day=${format(
-      day,
-      'y-MM-dd',
-    )}&lang=${lang}`,
-  );
-  if (!restaurant.menus.length) {
-    return [];
-  } else {
-    return restaurant.menus[0].courses;
+  const dateStr = format(day, 'y-MM-dd');
+  const key = coursesCacheKey(restaurantId, dateStr, lang);
+  if (coursesCache.has(key)) {
+    return coursesCache.get(key) as CourseType[];
   }
+  const restaurant = await http.get(
+    `/restaurants/${restaurantId}/menu?day=${dateStr}&lang=${lang}`,
+  );
+  const courses: CourseType[] = restaurant.menus.length
+    ? restaurant.menus[0].courses
+    : [];
+  coursesCache.set(key, courses);
+  return courses;
 };
 
-export const getMenus = (
+export const getMenus = async (
   restaurantIds: number[],
   days: Date[],
   lang: string,
 ): Promise<MenuType> => {
-  return http.get(
+  const result: MenuType = await http.get(
     `/menus?lang=${lang}&restaurants=${restaurantIds.join(
       ',',
     )}&days=${days.map(day => format(day, 'y-MM-dd')).join(',')}`,
   );
+  for (const [restaurantId, dates] of Object.entries(result)) {
+    for (const [dateStr, courses] of Object.entries(dates)) {
+      coursesCache.set(coursesCacheKey(restaurantId, dateStr, lang), courses);
+    }
+  }
+  return result;
 };
 
 export const sendFeedback = (message: string, email: string) =>

@@ -76,10 +76,47 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
 
   @media (max-width: ${breakSmall}) {
     top: 52px;
-    left: 0;
-    width: 100%;
-    box-sizing: border-box;
+    left: 0.5rem;
+    right: 0.5rem;
+    width: auto;
+    border: 1px solid var(--gray6);
   }
+`;
+
+const MobileOverlay = styled.div<{ open: boolean }>`
+  display: none;
+
+  @media (max-width: ${breakSmall}) {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 2.5rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease-out;
+
+    ${props => (props.open ? 'opacity: 1; pointer-events: auto;' : '')}
+  }
+`;
+
+const MobileOverlayClose = styled.div`
+  color: var(--gray2);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.6rem 1.5rem;
+  border-radius: var(--radius-full);
+  background: var(--gray7);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--gray5);
 `;
 
 const PopoverHeader = styled.div`
@@ -229,49 +266,56 @@ export default function TopBar() {
   });
 
   return (
-    <Container>
-      <Content>
-        <DaySelector />
-        {computedState.unseenUpdates().length > 0 && (
-          <Link to="/news">
-            <InlineIcon>
-              <StyledNewsIcon size={24} />
-            </InlineIcon>
-          </Link>
-        )}
-        <AreaSelectorButton onClickOutside={closeAreaSelector}>
+    <>
+      <MobileOverlay open={areaSelectorOpen()} onClick={closeAreaSelector}>
+        <MobileOverlayClose>
+          {computedState.translations().closeModal}
+        </MobileOverlayClose>
+      </MobileOverlay>
+      <Container>
+        <Content>
+          <DaySelector />
+          {computedState.unseenUpdates().length > 0 && (
+            <Link to="/news">
+              <InlineIcon>
+                <StyledNewsIcon size={24} />
+              </InlineIcon>
+            </Link>
+          )}
+          <AreaSelectorButton onClickOutside={closeAreaSelector}>
+            <NativeIconLink
+              ref={areaSelectorLink}
+              onMouseDown={toggleAreaSelector}
+              tabIndex={0}
+              onKeyDown={e => e.key === 'Enter' && toggleAreaSelector()}
+            >
+              <MapIcon size={18} style={{ 'padding-left': '1rem' }} />
+              <AreaTriggerLabel>{currentAreaLabel()}</AreaTriggerLabel>
+              <CaretIcon size={12} open={areaSelectorOpen()} />
+            </NativeIconLink>
+            <AreaSelectorContainer isOpen={areaSelectorOpen()}>
+              <PopoverHeader>
+                {computedState.translations().selectArea}
+              </PopoverHeader>
+              <AreaSelector onAreaSelected={toggleAreaSelector} />
+            </AreaSelectorContainer>
+          </AreaSelectorButton>
+          <IconLink to="/settings" aria-label="Settings">
+            <SettingsIcon size={18} />
+            <span>{computedState.translations().settings}</span>
+          </IconLink>
           <NativeIconLink
-            ref={areaSelectorLink}
-            onMouseDown={toggleAreaSelector}
             tabIndex={0}
-            onKeyDown={e => e.key === 'Enter' && toggleAreaSelector()}
+            onClick={toggleLang}
+            onKeyDown={e => e.key === 'Enter' && toggleLang()}
           >
-            <MapIcon size={18} style={{ 'padding-left': '1rem' }} />
-            <AreaTriggerLabel>{currentAreaLabel()}</AreaTriggerLabel>
-            <CaretIcon size={12} open={areaSelectorOpen()} />
+            <FlagImg
+              alt={state.preferences.lang.toUpperCase()}
+              src={state.preferences.lang === 'fi' ? FI : EN}
+            />
           </NativeIconLink>
-          <AreaSelectorContainer isOpen={areaSelectorOpen()}>
-            <PopoverHeader>
-              {computedState.translations().selectArea}
-            </PopoverHeader>
-            <AreaSelector onAreaSelected={toggleAreaSelector} />
-          </AreaSelectorContainer>
-        </AreaSelectorButton>
-        <IconLink to="/settings" aria-label="Settings">
-          <SettingsIcon size={18} />
-          <span>{computedState.translations().settings}</span>
-        </IconLink>
-        <NativeIconLink
-          tabIndex={0}
-          onClick={toggleLang}
-          onKeyDown={e => e.key === 'Enter' && toggleLang()}
-        >
-          <FlagImg
-            alt={state.preferences.lang.toUpperCase()}
-            src={state.preferences.lang === 'fi' ? FI : EN}
-          />
-        </NativeIconLink>
-      </Content>
-    </Container>
+        </Content>
+      </Container>
+    </>
   );
 }

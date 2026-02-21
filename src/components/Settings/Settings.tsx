@@ -11,7 +11,7 @@ import PriceCategorySelector from './PriceCategorySelector';
 import PropertySelector from './PropertySelector';
 
 const SettingsCard = styled.div`
-  background: var(--gray6);
+  background: var(--bg-inset);
   border-radius: var(--radius-lg);
   padding: 0.25rem 0;
   margin-bottom: 0.75rem;
@@ -27,7 +27,7 @@ const SettingsRow = styled.div<{ column?: boolean; mobileColumn?: boolean }>`
   gap: 1rem;
 
   & + & {
-    border-top: 1px solid var(--gray5);
+    border-top: 1px solid var(--border-subtle);
   }
 
   @media (max-width: ${breakSmall}) {
@@ -40,7 +40,7 @@ const SettingsRow = styled.div<{ column?: boolean; mobileColumn?: boolean }>`
 
 const RowLabel = styled.span`
   font-size: 0.85rem;
-  color: var(--gray2);
+  color: var(--text-secondary);
   font-weight: 500;
 `;
 

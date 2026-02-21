@@ -21,7 +21,7 @@ const Contact = () => {
         computedState.translations().thanksForFeedback
       ) : !acknowledged() ? (
         <>
-          <p style={{ 'line-height': '1.6', color: 'var(--gray2)' }}>
+          <p style={{ 'line-height': '1.6', color: 'var(--text-secondary)' }}>
             {computedState.translations().tosShort}
           </p>
           <Button onClick={() => setAcknowledged(true)}>

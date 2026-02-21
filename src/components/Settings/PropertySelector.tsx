@@ -28,7 +28,7 @@ export default function PropertySelector(props: {
                 getArrayWithToggled(state.preferences.properties, p.key),
               )
             }
-            color={p.desired ? 'var(--friendly)' : 'var(--gray3)'}
+            color={p.desired ? 'var(--friendly)' : 'var(--text-muted)'}
             selected={isPropertySelected(p.key)}
           >
             {state.preferences.lang === 'fi' ? p.name_fi : p.name_en}

@@ -16,7 +16,7 @@ const Track = styled.button`
   padding: 0;
   cursor: pointer;
   flex-shrink: 0;
-  background: var(--gray4);
+  background: var(--border);
   transition: background 0.2s ease;
 
   &[data-on] {

@@ -16,10 +16,10 @@ const Button = styled.button<ButtonProps>`
   min-width: 4rem;
   background: ${props =>
     props.color === 'secondary' || props.secondary
-      ? 'var(--gray3)'
+      ? 'var(--text-muted)'
       : 'var(--accent_color)'};
   text-align: center;
-  color: var(--gray6);
+  color: white;
   font-weight: 600;
   letter-spacing: 0.01em;
   transition: transform 0.1s, box-shadow 0.1s;
@@ -37,7 +37,7 @@ const Button = styled.button<ButtonProps>`
   }
 
   &:focus {
-    color: var(--gray6);
+    color: white;
     outline: 2px solid var(--accent_color);
     outline-offset: 2px;
   }

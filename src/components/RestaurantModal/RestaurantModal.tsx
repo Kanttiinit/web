@@ -35,7 +35,7 @@ const Info = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  color: var(--gray2);
+  color: var(--text-secondary);
   font-size: 0.8rem;
   line-height: 1.5em;
 
@@ -64,7 +64,7 @@ const MetaLink = styled.a`
 
   &:hover,
   &:focus {
-    background: var(--gray5);
+    background: var(--bg-interactive);
   }
 
   svg {

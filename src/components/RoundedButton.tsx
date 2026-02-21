@@ -44,7 +44,7 @@ export const RoundedButton = styled.button<{
     props.selected
       ? `
       background: ${props.color};
-      color: var(--gray6);
+      color: white;
 
       &:focus {
         filter: brightness(115%);

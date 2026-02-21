@@ -51,7 +51,7 @@ const Overlay = styled.div<{ open: boolean; darkMode: boolean }>`
   opacity: 0;
 
   @media (max-width: ${breakSmall}) {
-    background: var(--gray6);
+    background: var(--bg-app);
   }
 
   ${props => (props.open ? 'opacity: 1;' : '')}
@@ -63,8 +63,8 @@ const Content = styled.div<{ open: boolean }>`
   max-width: 40rem;
   border-radius: var(--radius-lg);
   overflow: auto;
-  background: var(--gray7);
-  border: 1px var(--gray6) solid;
+  background: var(--bg-surface);
+  border: 1px var(--border-subtle) solid;
   box-shadow: var(--shadow-md), 0 0 0 1px rgba(0,0,0,0.04);
   flex: 1;
   transition: opacity 0.2s ease-out, transform 0.2s ease-out;
@@ -88,7 +88,7 @@ const CloseText = styled.div<{ open: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--gray3);
+  color: var(--text-muted);
   font-weight: 400;
   font-size: 0.85rem;
   height: 5rem;

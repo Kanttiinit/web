@@ -7,7 +7,7 @@ import Link from './Link';
 
 const Footer = styled.footer`
   text-align: center;
-  color: var(--gray4);
+  color: var(--text-disabled);
   font-size: 0.8rem;
   letter-spacing: 0.05rem;
   padding: 1rem;
@@ -18,7 +18,7 @@ const Footer = styled.footer`
 `;
 
 const linkStyles = `
-  color: var(--gray2);
+  color: var(--text-secondary);
   margin: 0 0.5rem;
   text-decoration: none;
   vertical-align: middle;
@@ -77,7 +77,7 @@ const NavigationContainer = styled.div`
 const VersionLink = styled.a`
   && {
     font-weight: 500;
-    color: var(--gray2);
+    color: var(--text-secondary);
 
     &:hover {
       color: var(--accent_color);
@@ -99,7 +99,7 @@ export default () => {
           <StyledNavLink to="/contact">
             {computedState.translations().contact}
           </StyledNavLink>
-<StyledNavLink to="/terms-of-service">
+          <StyledNavLink to="/terms-of-service">
             {computedState.translations().termsOfService}
           </StyledNavLink>
           {showInfo && (

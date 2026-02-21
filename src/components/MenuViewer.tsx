@@ -17,7 +17,7 @@ const ButtonContainer = styled.div`
   svg {
     cursor: pointer;
     margin-left: 1rem;
-    color: var(--gray1);
+    color: var(--text-primary);
   }
 `;
 

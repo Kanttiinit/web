@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Container = styled.div`
-  background: var(--gray7);
+  background: var(--bg-surface);
   padding: 1.25rem 1.5rem 1.5rem;
 
   @media (max-width: ${breakSmall}) {
@@ -19,12 +19,12 @@ const Container = styled.div`
   height: 100%;
   overflow: auto;
   box-sizing: border-box;
-  color: var(--gray1);
+  color: var(--text-primary);
 
   p,
   strong,
   ul {
-    color: var(--gray1);
+    color: var(--text-primary);
   }
 `;
 
@@ -32,7 +32,7 @@ const Title = styled.h1<{ compact?: boolean }>`
   margin: 1em 0;
   font-weight: 500;
   letter-spacing: 0.02em;
-  color: var(--gray1);
+  color: var(--text-primary);
   font-size: ${props => (props.compact ? '1.4em' : '1.5em')};
 
   &:first-child {

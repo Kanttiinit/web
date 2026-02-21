@@ -47,14 +47,14 @@ const AreaButton = styled.button<{ selected: boolean }>`
   font-size: 0.875rem;
   font-family: inherit;
   font-weight: ${props => (props.selected ? '500' : 'inherit')};
-  background: ${props => (props.selected ? 'var(--gray5)' : 'transparent')};
-  color: ${props => (props.selected ? 'var(--accent_color)' : 'var(--gray1)')};
+  background: ${props => (props.selected ? 'var(--bg-interactive)' : 'transparent')};
+  color: ${props => (props.selected ? 'var(--accent_color)' : 'var(--text-primary)')};
   border: none;
   cursor: pointer;
   transition: background 0.1s, color 0.1s;
 
   &:hover {
-    background: var(--gray5);
+    background: var(--bg-interactive);
   }
 
   &:focus {
@@ -71,7 +71,7 @@ const Checkmark = styled.span`
 
 const Divider = styled.hr`
   border: none;
-  border-top: 1px solid var(--gray5);
+  border-top: 1px solid var(--border-subtle);
   margin: 4px 8px;
 `;
 

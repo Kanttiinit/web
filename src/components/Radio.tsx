@@ -27,7 +27,7 @@ const Container = styled.div`
 `;
 
 export const Button = styled.button<{ selected: boolean }>`
-  color: ${props => (props.selected ? 'var(--gray1)' : 'var(--gray3)')};
+  color: ${props => (props.selected ? 'var(--text-primary)' : 'var(--text-muted)')};
   background: ${props => (props.selected ? 'var(--radio-selected)' : 'transparent')};
   box-shadow: ${props => (props.selected ? 'var(--shadow-sm)' : 'none')};
   font-family: inherit;

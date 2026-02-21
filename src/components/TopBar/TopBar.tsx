@@ -22,7 +22,7 @@ const Container = styled.header`
   position: fixed;
   width: 100%;
   z-index: 10;
-  color: var(--gray3);
+  color: var(--text-muted);
   user-select: none;
 
   @media (max-width: ${breakSmall}) {
@@ -57,7 +57,7 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
   right: 0;
   top: 36px;
   width: 22em;
-  background: var(--gray7);
+  background: var(--bg-surface);
   padding: 0.4em;
   box-shadow: var(--shadow-popover);
   border-radius: var(--radius-md);
@@ -79,7 +79,7 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
     left: 0.5rem;
     right: 0.5rem;
     width: auto;
-    border: 1px solid var(--gray6);
+    border: 1px solid var(--border-subtle);
   }
 `;
 
@@ -109,20 +109,20 @@ const MobileOverlay = styled.div<{ open: boolean }>`
 `;
 
 const MobileOverlayClose = styled.div`
-  color: var(--gray2);
+  color: var(--text-secondary);
   font-size: 0.85rem;
   font-weight: 500;
   padding: 0.6rem 1.5rem;
   border-radius: var(--radius-full);
-  background: var(--gray7);
+  background: var(--bg-surface);
   box-shadow: var(--shadow-sm);
-  border: 1px solid var(--gray5);
+  border: 1px solid var(--border-subtle);
 `;
 
 const PopoverHeader = styled.div`
   text-transform: uppercase;
   font-size: 0.65rem;
-  color: var(--gray4);
+  color: var(--text-disabled);
   padding: 0.5rem 0.75rem 0.25rem;
   letter-spacing: 0.06em;
 `;

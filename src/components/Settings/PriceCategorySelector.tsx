@@ -26,7 +26,7 @@ const ButtonContainer = styled.div`
 
 const Item = styled(Button)`
   border-radius: var(--radius-full);
-  color: ${props => (props.selected ? 'var(--gray1)' : 'var(--gray3)')};
+  color: ${props => (props.selected ? 'var(--text-primary)' : 'var(--text-muted)')};
   background: ${props => (props.selected ? 'var(--radio-selected)' : 'transparent')};
   box-shadow: ${props => (props.selected ? 'var(--shadow-sm)' : 'none')};
   min-width: 3rem;

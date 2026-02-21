@@ -6,5 +6,5 @@ export default styled.p`
   opacity: 0.8;
   text-align: center;
   width: 100%;
-  color: var(--gray1);
+  color: var(--text-primary);
 `;

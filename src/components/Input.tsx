@@ -22,7 +22,7 @@ const Container = styled.div`
   margin-bottom: 1rem;
 
   label {
-    color: var(--gray1);
+    color: var(--text-primary);
     display: block;
     margin-bottom: 0.4rem;
     font-size: 0.9rem;
@@ -37,13 +37,13 @@ const Container = styled.div`
     font-family: inherit;
     border: none;
     background: transparent;
-    color: var(--gray1);
-    border: solid 1px var(--gray4);
+    color: var(--text-primary);
+    border: solid 1px var(--border);
     border-radius: 4px;
 
     &:disabled {
-      color: var(--gray5);
-      border-color: var(--gray5);
+      color: var(--text-disabled);
+      border-color: var(--border-subtle);
     }
 
     &:focus {

@@ -38,7 +38,7 @@ const Group = styled.ul`
 
 const GroupTitle = styled.h1`
   display: block;
-  color: var(--gray2);
+  color: var(--text-secondary);
   margin: 0 0 0.2rem 0;
   font-size: 0.8em;
   font-weight: 500;

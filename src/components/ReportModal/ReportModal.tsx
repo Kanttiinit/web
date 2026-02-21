@@ -44,7 +44,7 @@ const ListItem = styled(Button)`
   transition: background 0.2s;
   margin-bottom: 0.5em;
   outline: none;
-  color: var(--gray1);
+  color: var(--text-primary);
   background: none;
 
   svg {
@@ -53,7 +53,7 @@ const ListItem = styled(Button)`
   }
 
   &:hover {
-    background: var(--gray5);
+    background: var(--bg-interactive);
   }
 `;
 
@@ -136,7 +136,7 @@ const ReportModal = () => {
           {computedState.translations().thanksForFeedback}
         </Match>
         <Match when={!acknowledged()}>
-          <p style={{ 'line-height': '1.6', color: 'var(--gray2)' }}>
+          <p style={{ 'line-height': '1.6', color: 'var(--text-secondary)' }}>
             {computedState.translations().reportDisclaimer}
           </p>
           <Button onClick={() => setAcknowledged(true)}>

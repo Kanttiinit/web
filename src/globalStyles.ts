@@ -13,10 +13,11 @@ export default createGlobalStyles`
   body {
     font-family: "Interface", sans-serif;
     margin: 0;
-    background-color: var(--gray6);
+    background-color: var(--bg-app);
 
     --accent_color: #09ACFE;
 
+    /* Raw palette — keep for derived tokens and legacy references */
     --gray1: #464646;
     --gray2: #636363;
     --gray3: #777;
@@ -43,6 +44,23 @@ export default createGlobalStyles`
     --shadow-md: 0 4px 16px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.06);
     --shadow-popover: 0 8px 32px rgba(0,0,0,0.14), 0 0 0 1px rgba(0,0,0,0.06);
 
+    /* Semantic background tokens */
+    --bg-app: var(--gray6);
+    --bg-surface: var(--gray7);
+    --bg-inset: var(--gray6);
+    --bg-interactive: var(--gray5);
+
+    /* Semantic border tokens */
+    --border-subtle: var(--gray5);
+    --border: var(--gray4);
+
+    /* Semantic text tokens */
+    --text-primary: var(--gray1);
+    --text-secondary: var(--gray2);
+    --text-muted: var(--gray3);
+    --text-disabled: var(--gray4);
+
+    /* Component tokens */
     --radio-track: var(--gray5);
     --radio-selected: var(--gray7);
 
@@ -50,21 +68,37 @@ export default createGlobalStyles`
     --topbar-border: rgba(0, 0, 0, 0.07);
 
     &.dark {
-      --topbar-bg: rgba(22, 28, 30, 0.88);
-      --topbar-border: rgba(255, 255, 255, 0.07);
-      --accent_color: #0898be;
-
+      /* Raw palette */
       --gray7: #1e2629;
       --gray6: #161c1e;
       --gray5: #253032;
-
-      --radio-track: #0c1416;
-      --radio-selected: #1c2b2e;
-
       --gray4: #505858;
       --gray3: #707c7c;
       --gray2: #9aa4a4;
       --gray1: #c4c8c8;
+
+      /* Semantic backgrounds — independently tuned */
+      --bg-app: #111719;
+      --bg-surface: #1c2427;
+      --bg-inset: #141c1f;
+      --bg-interactive: #253437;
+
+      /* Semantic borders */
+      --border-subtle: #1e2c30;
+      --border: #2c3c40;
+
+      /* Semantic text */
+      --text-primary: #cdd1d1;
+      --text-secondary: #8fa0a0;
+      --text-muted: #637476;
+      --text-disabled: #475659;
+
+      /* Component tokens */
+      --topbar-bg: rgba(22, 28, 30, 0.88);
+      --topbar-border: rgba(255, 255, 255, 0.07);
+      --accent_color: #0898be;
+      --radio-track: #0c1416;
+      --radio-selected: #1c2b2e;
 
       --hearty: #fe346e;
       --friendly: #06CBB0;

@@ -69,37 +69,37 @@ export default createGlobalStyles`
     --topbar-border: rgba(0, 0, 0, 0.07);
 
     &.dark {
-      /* Raw palette — blue-teal hue (~205°) */
-      --gray7: #1b2530;
-      --gray6: #121c26;
-      --gray5: #203040;
-      --gray4: #405870;
-      --gray3: #5c7c90;
-      --gray2: #8aaabb;
-      --gray1: #c8d8e2;
+      /* Raw palette — desaturated blue-gray (~205°, ~25% less saturated) */
+      --gray7: #1e252d;
+      --gray6: #151c24;
+      --gray5: #24303c;
+      --gray4: #46586a;
+      --gray3: #637b8a;
+      --gray2: #91a9b6;
+      --gray1: #ccd8df;
 
       /* Semantic backgrounds — independently tuned, clear hierarchy */
-      --bg-app: #0d1318;       /* page canvas + modal base */
-      --bg-surface: #131c26;   /* restaurant cards, elevated above page */
-      --bg-inset: #1c2d44;     /* settings cards within modal, further elevated */
-      --bg-interactive: #213248; /* hover/pressed states */
+      --bg-app: #0e1317;       /* page canvas + modal base */
+      --bg-surface: #161c24;   /* restaurant cards, elevated above page */
+      --bg-inset: #212e3f;     /* settings cards within modal, further elevated */
+      --bg-interactive: #263243; /* hover/pressed states */
 
       /* Semantic borders — visible against respective surfaces */
-      --border-subtle: #182c40; /* dividers, subtle outlines */
-      --border: #243d56;        /* card outlines, focused states */
+      --border-subtle: #1d2c3b; /* dividers, subtle outlines */
+      --border: #2a3d50;        /* card outlines, focused states */
 
-      /* Semantic text — cool tint, strong contrast hierarchy */
-      --text-primary: #dce8ee;
-      --text-secondary: #8aaabb;
-      --text-muted: #587888;
-      --text-disabled: #384e5c;
+      /* Semantic text — neutral tint, strong contrast hierarchy */
+      --text-primary: #dfe8ec;
+      --text-secondary: #91a9b6;
+      --text-muted: #5f7783;
+      --text-disabled: #3d4d58;
 
       /* Component tokens */
-      --topbar-bg: rgba(19, 28, 38, 0.90);
+      --topbar-bg: rgba(22, 28, 36, 0.90);
       --topbar-border: rgba(255, 255, 255, 0.07);
       --accent_color: #1ab0d8;
-      --radio-track: #080d12;
-      --radio-selected: #1c2d44;
+      --radio-track: #090d11;
+      --radio-selected: #212e3f;
 
       --hearty: #f23d6e;
       --friendly: #06CBB0;

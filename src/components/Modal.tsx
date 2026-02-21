@@ -61,6 +61,7 @@ const Content = styled.div<{ open: boolean }>`
   z-index: 6;
   position: relative;
   max-width: 40rem;
+  min-height: 20rem;
   border-radius: var(--radius-lg);
   overflow: auto;
   background: var(--bg-app);

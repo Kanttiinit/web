@@ -19,6 +19,7 @@ const getCourseGroup = (course: CourseType) => {
 
 interface Props {
   courses: CourseType[];
+  loading?: boolean;
   class?: string;
 }
 
@@ -86,7 +87,7 @@ const CourseList = (props: Props) => {
 
   return (
     <Container {...props}>
-      {!props.courses.length && (
+      {!props.loading && !props.courses.length && (
         <EmptyText>{computedState.translations().noMenu}</EmptyText>
       )}
       <For each={courseGroups()}>

@@ -24,6 +24,7 @@ export {
   TbOutlineBike as BikeIcon,
   TbOutlineCurrentLocation as LocationIcon,
   TbOutlineHome as HomeIcon,
+  TbOutlineLoader as LoaderIcon,
   TbOutlineMapPin as MapIcon,
   TbOutlineSchool as StudentIcon,
 } from 'solid-icons/tb';

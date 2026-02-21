@@ -394,12 +394,12 @@ const translations = {
     en: 'Student lunch',
   },
   [PriceCategory.studentPremium]: {
-    fi: 'Joitain alennuksia opiskelijoille',
-    en: 'Some discounts for students',
+    fi: 'Opiskelija-ale',
+    en: 'Student discount',
   },
   [PriceCategory.regular]: {
-    fi: 'Ei opiskelija-alennuksia',
-    en: 'No student discounts',
+    fi: 'Ei alennuksia',
+    en: 'No discounts',
   },
 };
 

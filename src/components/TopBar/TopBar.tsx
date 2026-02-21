@@ -121,6 +121,7 @@ const MobileOverlay = styled.div<{ open: boolean }>`
     right: 0;
     bottom: 0;
     z-index: 9;
+    background: rgba(0, 0, 0, 0.45);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     pointer-events: none;

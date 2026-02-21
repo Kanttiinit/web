@@ -17,6 +17,7 @@ export {
 export {
   FiClock as ClockIcon,
   FiCopy as CopyIcon,
+  FiGithub as GithubIcon,
   FiMoreVertical as MoreIcon,
 } from 'solid-icons/fi';
 export {

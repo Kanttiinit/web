@@ -88,6 +88,7 @@ const reportForms: ReportForm[] = [
 ];
 
 const ReportModal = () => {
+  const [acknowledged, setAcknowledged] = createSignal(false);
   const [activeForm, setActiveForm] = createSignal<ReportForm | null>(null);
   const [error, setError] = createSignal<Error | null>(null);
   const [done, setDone] = createSignal(false);
@@ -133,6 +134,14 @@ const ReportModal = () => {
         <Match when={restaurant.loading}>Loading...</Match>
         <Match when={done()}>
           {computedState.translations().thanksForFeedback}
+        </Match>
+        <Match when={!acknowledged()}>
+          <p style={{ 'line-height': '1.6', color: 'var(--gray2)' }}>
+            {computedState.translations().reportDisclaimer}
+          </p>
+          <Button onClick={() => setAcknowledged(true)}>
+            {computedState.translations().continueButton}
+          </Button>
         </Match>
         <Match keyed when={activeForm()}>
           {form => (

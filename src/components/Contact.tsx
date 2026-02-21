@@ -1,3 +1,4 @@
+import { createSignal } from 'solid-js';
 import { computedState } from '../state';
 import { useFeedback } from '../utils';
 import Button from './Button';
@@ -6,6 +7,7 @@ import PageContainer from './PageContainer';
 
 const Contact = () => {
   const [feedback, send] = useFeedback();
+  const [acknowledged, setAcknowledged] = createSignal(false);
 
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -17,6 +19,15 @@ const Contact = () => {
     <PageContainer title={computedState.translations().contact}>
       {feedback.sent ? (
         computedState.translations().thanksForFeedback
+      ) : !acknowledged() ? (
+        <>
+          <p style={{ 'line-height': '1.6', color: 'var(--gray2)' }}>
+            {computedState.translations().tosShort}
+          </p>
+          <Button onClick={() => setAcknowledged(true)}>
+            {computedState.translations().continueButton}
+          </Button>
+        </>
       ) : (
         <form onSubmit={onSubmit}>
           <Input
@@ -34,9 +45,6 @@ const Contact = () => {
             label={computedState.translations().message}
             rows={10}
           />
-          <p>
-            <i>{computedState.translations().tosShort}</i>
-          </p>
           <Button disabled={feedback.sending} type="submit">
             {feedback.sending
               ? computedState.translations().sending

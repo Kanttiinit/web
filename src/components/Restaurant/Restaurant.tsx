@@ -203,6 +203,34 @@ const StyledActionLink = styled(Link)`
   }
 `;
 
+const EditLink = styled(Link)`
+  && {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    border: 1px solid var(--gray5);
+    border-radius: var(--radius-full);
+    padding: 0.22em 0.55em 0.22em 0.35em;
+    color: var(--gray3);
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: none;
+
+    &:hover,
+    &:focus {
+      outline: none;
+      color: var(--accent_color);
+      border-color: var(--accent_color);
+    }
+  }
+`;
+
+const EditLabel = styled.span`
+  @media (max-width: ${breakSmall}) {
+    display: none;
+  }
+`;
+
 const StyledNativeActionLink = styled.a<{ color: string }>`
     ${actionLinkStyles}
     color: ${props => props.color} !important;
@@ -305,12 +333,13 @@ const Restaurant = (props: Props) => {
       </Link>
       <StyledCourseList courses={props.restaurant.courses} />
       <ActionsContainer>
-        <StyledActionLink
+        <EditLink
           aria-label={`Fix information about ${props.restaurant.name}`}
           to={`/report/${props.restaurant.id}`}
         >
-          <EditIcon size={18} />
-        </StyledActionLink>
+          <EditIcon size={14} />
+          <EditLabel>Propose edit</EditLabel>
+        </EditLink>
         <RightActions>
           <StyledNativeActionLink
             aria-label={

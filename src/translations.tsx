@@ -305,6 +305,14 @@ const translations = {
     fi: 'Ravintolaa ei löytynyt.',
     en: 'Restaurant not found.',
   },
+  menuTab: {
+    en: 'Menu',
+    fi: 'Ruokalista',
+  },
+  mapTab: {
+    en: 'Map',
+    fi: 'Kartta',
+  },
   assetsLoading: {
     fi: 'Ladataan...',
     en: 'Loading...',

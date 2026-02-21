@@ -11,8 +11,8 @@ import userLocationIcon from './user-location.png';
 const Container = styled.div`
   border-top: 1px solid var(--border-subtle);
   border-bottom: 1px solid var(--border-subtle);
-  min-height: 20rem;
-  height: 20rem;
+  min-height: 30rem;
+  height: 30rem;
   margin: -1rem -1rem -1rem -1rem;
   overflow: hidden;
 `;

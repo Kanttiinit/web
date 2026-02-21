@@ -2,6 +2,7 @@ import { createGlobalStyles } from 'solid-styled-components';
 
 export const breakSmall = '767px';
 export const breakLarge = '768px';
+export const breakMini = '390px';
 
 export default createGlobalStyles`
   html,

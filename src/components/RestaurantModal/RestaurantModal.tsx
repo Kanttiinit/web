@@ -1,9 +1,16 @@
 import { useParams } from '@solidjs/router';
 import { setISODay as setIsoDay } from 'date-fns';
-import { createResource, For, Show } from 'solid-js';
+import {
+  createResource,
+  createSignal,
+  For,
+  onCleanup,
+  onMount,
+  Show,
+} from 'solid-js';
 import { styled } from 'solid-styled-components';
 import * as api from '../../api';
-import { breakSmall } from '../../globalStyles';
+import { breakMini, breakSmall } from '../../globalStyles';
 import { HomeIcon, LoaderIcon, LocationIcon } from '../../icons';
 import { computedState, resources, state } from '../../state';
 import { formattedDay } from '../../utils';
@@ -120,6 +127,32 @@ const OpeningHoursTime = styled.div`
   padding-left: 0.4em;
 `;
 
+const TabBar = styled.div`
+  display: none;
+
+  @media (max-width: ${breakMini}) {
+    display: flex;
+    background: var(--radio-track);
+    border-radius: var(--radius-full);
+    padding: 3px;
+    margin-bottom: 0.75rem;
+  }
+`;
+
+const TabButton = styled.button<{ active: boolean }>`
+  flex: 1;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius-full);
+  padding: 0.45rem 1rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+  background: ${props => (props.active ? 'var(--radio-selected)' : 'transparent')};
+  color: ${props => (props.active ? 'var(--text-primary)' : 'var(--text-muted)')};
+  box-shadow: ${props => (props.active ? 'var(--shadow-sm)' : 'none')};
+`;
+
 const SpinnerContainer = styled.div`
   display: flex;
   align-items: center;
@@ -140,6 +173,17 @@ const SpinnerContainer = styled.div`
 
 const RestaurantModal = () => {
   const params = useParams();
+
+  const mql = window.matchMedia(`(max-width: ${breakMini})`);
+  const [isMini, setIsMini] = createSignal(mql.matches);
+  onMount(() => {
+    const handler = (e: MediaQueryListEvent) => setIsMini(e.matches);
+    mql.addEventListener('change', handler);
+    onCleanup(() => mql.removeEventListener('change', handler));
+  });
+
+  const [activeTab, setActiveTab] = createSignal<'menu' | 'map'>('menu');
+
   const [restaurant] = createResource(
     () => {
       return {
@@ -245,20 +289,38 @@ const RestaurantModal = () => {
                 </For>
               </OpeningHoursContainer>
             </Info>
-            <MenuCard>
-              <MenuViewer showCopyButton restaurantId={restaurant.id} />
-            </MenuCard>
-            <MapCard>
-              <MapComponent
-                restaurant={restaurant}
-                restaurantPoint={[restaurant.latitude, restaurant.longitude]}
-                userPoint={
-                  state.location
-                    ? [state.location.latitude, state.location.longitude]
-                    : undefined
-                }
-              />
-            </MapCard>
+            <TabBar>
+              <TabButton
+                active={activeTab() === 'menu'}
+                onClick={() => setActiveTab('menu')}
+              >
+                {computedState.translations().menuTab}
+              </TabButton>
+              <TabButton
+                active={activeTab() === 'map'}
+                onClick={() => setActiveTab('map')}
+              >
+                {computedState.translations().mapTab}
+              </TabButton>
+            </TabBar>
+            <Show when={!isMini() || activeTab() === 'menu'}>
+              <MenuCard>
+                <MenuViewer showCopyButton restaurantId={restaurant.id} />
+              </MenuCard>
+            </Show>
+            <Show when={!isMini() || activeTab() === 'map'}>
+              <MapCard>
+                <MapComponent
+                  restaurant={restaurant}
+                  restaurantPoint={[restaurant.latitude, restaurant.longitude]}
+                  userPoint={
+                    state.location
+                      ? [state.location.latitude, state.location.longitude]
+                      : undefined
+                  }
+                />
+              </MapCard>
+            </Show>
           </PageContainer>
         )}
       </Show>

@@ -11,7 +11,7 @@ interface Props {
 
 const Container = styled.div`
   background: var(--gray7);
-  padding: 0.5rem 1rem 1rem;
+  padding: 1.25rem 1.5rem 1.5rem;
   height: 100%;
   overflow: auto;
   box-sizing: border-box;
@@ -26,10 +26,10 @@ const Container = styled.div`
 
 const Title = styled.h1<{ compact?: boolean }>`
   margin: 1em 0;
-  font-weight: 300;
+  font-weight: 500;
   letter-spacing: 0.02em;
   color: var(--gray1);
-  font-size: ${props => (props.compact ? '1.5em' : '1.75em')};
+  font-size: ${props => (props.compact ? '1.4em' : '1.5em')};
 
   &:first-child {
     margin-top: 0;
@@ -42,7 +42,6 @@ const Title = styled.h1<{ compact?: boolean }>`
   &:first-child {
     margin-top: 0;
     margin-bottom: 0.5rem;
-    font-weight: normal;
     padding: 0.5rem 0 0.5rem 0;
     top: 0;
     z-index: 1000;

@@ -19,13 +19,13 @@ export {
   FiCopy as CopyIcon,
   FiMoreVertical as MoreIcon,
 } from 'solid-icons/fi';
-export {
-  IoLocationSharp as LocationIcon,
-  IoNewspaperSharp as NewsIcon,
-  IoSettingsSharp as SettingsIcon,
-} from 'solid-icons/io';
+export { IoLocationSharp as LocationIcon } from 'solid-icons/io';
 export { RiFinanceMoneyEuroCircleFill as MoneyIcon } from 'solid-icons/ri';
-export { TbOutlineBike as BikeIcon } from 'solid-icons/tb';
+export {
+  TbOutlineBell as NewsIcon,
+  TbOutlineBike as BikeIcon,
+  TbOutlineSettings2 as SettingsIcon,
+} from 'solid-icons/tb';
 export {
   VsHeart as HeartIcon,
   VsHeartFilled as HeartFilledIcon,

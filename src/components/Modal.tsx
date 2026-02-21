@@ -39,7 +39,9 @@ const Container = styled.div<{ open: boolean }>`
 
 const Overlay = styled.div<{ open: boolean; darkMode: boolean }>`
   background: ${props =>
-    props.darkMode ? 'rgba(50, 50, 50, 0.5)' : 'rgba(0, 0, 0, 0.55)'};
+    props.darkMode ? 'rgba(50, 50, 50, 0.5)' : 'rgba(0, 0, 0, 0.4)'};
+  backdrop-filter: blur(3px) saturate(1.1);
+  -webkit-backdrop-filter: blur(3px);
   position: absolute;
   width: 100%;
   height: 100%;
@@ -59,20 +61,26 @@ const Content = styled.div<{ open: boolean }>`
   z-index: 6;
   position: relative;
   max-width: 40rem;
-  border-radius: 0.8rem;
+  border-radius: var(--radius-lg);
   overflow: auto;
+  background: var(--gray7);
   border: 1px var(--gray6) solid;
-  box-shadow: 0rem 0.1rem 0.6rem -0.2rem rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(0,0,0,0.04);
   flex: 1;
-  transition: opacity 0.3s;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
   opacity: 0;
+  transform: translateY(12px);
   max-height: 90vh;
 
   @media (max-width: ${breakSmall}) {
     max-width: 100%;
   }
 
-  ${props => (props.open ? 'opacity: 1;' : '')}
+  ${props =>
+    props.open
+      ? `opacity: 1;
+      transform: translateY(0);`
+      : ''}
 `;
 
 const CloseText = styled.div<{ open: boolean }>`
@@ -80,10 +88,9 @@ const CloseText = styled.div<{ open: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  text-transform: uppercase;
-  color: var(--gray4);
-  font-weight: 300;
-  font-size: 0.9em;
+  color: var(--gray3);
+  font-weight: 400;
+  font-size: 0.85rem;
   height: 5rem;
   transition: opacity 0.2s;
   opacity: 0;

@@ -31,13 +31,13 @@ export const RoundedButton = styled.button<{
   flex-grow: 1;
   background: transparent;
   border: 1px solid ${props => props.color};
-  border-radius: 1rem;
+  border-radius: var(--radius-full);
   transition: background 0.1s, color 0.1s;
-  padding: 0.4rem 0.8rem 0.45rem;
-  outline: none;
+  padding: 0.35rem 0.75rem 0.4rem;
 
   &:focus {
-    background: var(--gray5);
+    outline: 2px solid currentColor;
+    outline-offset: 1px;
   }
 
   ${props =>

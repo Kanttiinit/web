@@ -1,8 +1,8 @@
-import { createSignal, onCleanup, onMount } from 'solid-js';
+import { createMemo, createSignal, onCleanup, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { breakSmall } from '../../globalStyles';
-import { MapIcon, NewsIcon, SettingsIcon } from '../../icons';
-import { computedState, setState, state } from '../../state';
+import { CaretDownIcon, MapIcon, NewsIcon, SettingsIcon } from '../../icons';
+import { computedState, resources, setState, state } from '../../state';
 import { Lang } from '../../types';
 import AreaSelector from '../AreaSelector';
 import ClickOutside from '../ClickOutside';
@@ -12,25 +12,24 @@ import Link from '../Link';
 import EN from './en.svg';
 import FI from './fi.svg';
 
-const Container = styled.header<{ darkMode: boolean }>`
-  background: linear-gradient(to bottom, var(--gray6) 0%, var(--gray7) 100%);
+const Container = styled.header`
+  background: var(--topbar-bg);
+  backdrop-filter: blur(16px) saturate(1.8);
+  -webkit-backdrop-filter: blur(16px) saturate(1.8);
+  border-bottom: 1px solid var(--topbar-border);
   box-sizing: border-box;
   padding: 0 0.5em;
   position: fixed;
   width: 100%;
   z-index: 10;
   color: var(--gray3);
-  border-bottom: 1px solid var(--gray5);
   user-select: none;
 
   @media (max-width: ${breakSmall}) {
-    background-color: var(--gray7);
     justify-content: flex-start;
     padding: 0.2em;
     padding-left: 1rem;
   }
-
-  ${props => (props.darkMode ? 'background: var(--gray7);' : '')}
 `;
 
 const Content = styled.div`
@@ -56,20 +55,21 @@ const AreaSelectorButton = styled(ClickOutside)`
 const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
   position: absolute;
   right: 0;
-  top: 32px;
-  width: 20em;
+  top: 36px;
+  width: 22em;
   background: var(--gray7);
   padding: 0.4em;
-  box-shadow: 0rem 0.1rem 0.6rem -0.2rem rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
-  border: solid 1px var(--gray5);
+  box-shadow: var(--shadow-popover);
+  border-radius: var(--radius-md);
   opacity: 0;
-  transition: opacity 75ms;
+  transform: translateY(-6px);
+  transition: opacity 150ms ease-out, transform 150ms ease-out;
   pointer-events: none;
 
   ${props =>
     props.isOpen
       ? `opacity: 1;
+      transform: translateY(0);
       pointer-events: all;
     `
       : ''}
@@ -82,12 +82,20 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
   }
 `;
 
-const iconLinkStyles = `
+const PopoverHeader = styled.div`
   text-transform: uppercase;
+  font-size: 0.65rem;
+  color: var(--gray4);
+  padding: 0.5rem 0.75rem 0.25rem;
+  letter-spacing: 0.06em;
+`;
+
+const iconLinkStyles = `
   font-weight: 500;
   font-size: 0.8rem;
   display: flex;
   align-items: center;
+  gap: 0.3em;
   padding: 0 1em;
 
   :last-child {
@@ -119,6 +127,19 @@ const IconLink = styled(Link)`
 `;
 const NativeIconLink = styled.a`
   ${iconLinkStyles}
+`;
+
+const AreaTriggerLabel = styled.span`
+  @media (max-width: ${breakSmall}) {
+    display: none;
+  }
+`;
+
+const CaretIcon = styled(CaretDownIcon)<{ open: boolean }>`
+  display: block !important;
+  font-size: 0.7rem;
+  transition: transform 0.15s ease-out;
+  ${props => (props.open ? 'transform: rotate(180deg);' : '')}
 `;
 
 const FlagImg = styled.img`
@@ -196,8 +217,19 @@ export default function TopBar() {
     );
   }
 
+  const [areas] = resources.areas;
+
+  const currentAreaLabel = createMemo(() => {
+    const t = computedState.translations();
+    const selected = state.preferences.selectedArea;
+    if (selected === -2) return t.nearby;
+    if (selected === -1) return t.starred;
+    const area = areas()?.find(a => a.id === selected);
+    return area?.name ?? t.selectArea;
+  });
+
   return (
-    <Container darkMode={computedState.darkMode()}>
+    <Container>
       <Content>
         <DaySelector />
         {computedState.unseenUpdates().length > 0 && (
@@ -215,9 +247,13 @@ export default function TopBar() {
             onKeyDown={e => e.key === 'Enter' && toggleAreaSelector()}
           >
             <MapIcon size={18} style={{ 'padding-left': '1rem' }} />
-            <span>{computedState.translations().selectArea}</span>
+            <AreaTriggerLabel>{currentAreaLabel()}</AreaTriggerLabel>
+            <CaretIcon size={12} open={areaSelectorOpen()} />
           </NativeIconLink>
           <AreaSelectorContainer isOpen={areaSelectorOpen()}>
+            <PopoverHeader>
+              {computedState.translations().selectArea}
+            </PopoverHeader>
             <AreaSelector onAreaSelected={toggleAreaSelector} />
           </AreaSelectorContainer>
         </AreaSelectorButton>

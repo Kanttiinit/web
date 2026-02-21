@@ -18,17 +18,19 @@ const categories = [
 ];
 
 const ButtonContainer = styled.div`
-  border: solid 2px var(--accent_color);
-  border-radius: 4px;
-  display: inline-block;
-  overflow: hidden;
+  background: var(--gray5);
+  border-radius: var(--radius-full);
+  padding: 3px;
+  display: inline-flex;
 `;
 
 const Item = styled(Button)`
-  border-radius: 0;
-  color: ${props => (props.selected ? 'var(--gray7)' : 'var(--accent_color)')};
+  border-radius: var(--radius-full);
+  color: ${props => (props.selected ? 'var(--gray1)' : 'var(--gray3)')};
+  background: ${props => (props.selected ? 'var(--gray7)' : 'transparent')};
+  box-shadow: ${props => (props.selected ? 'var(--shadow-sm)' : 'none')};
   min-width: 3rem;
-  padding-top: 0.6rem;
+  padding: 0.45rem 1rem;
 
   svg {
     font-size: 1rem;
@@ -38,18 +40,9 @@ const Item = styled(Button)`
     }
   }
 
-  :first-child {
-    border-radius: 1em 0 0 1em;
-  }
-
-  :last-child {
-    border-radius: 0 1em 1em 0;
-    border-right: none;
-  }
-
   :focus {
-    background: var(--accent_color);
-    border-color: transparent;
+    outline: 2px solid var(--accent_color);
+    outline-offset: -2px;
   }
 `;
 

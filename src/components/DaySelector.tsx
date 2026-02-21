@@ -1,12 +1,10 @@
-import { useLocation } from '@solidjs/router';
+import { A, useLocation } from '@solidjs/router';
 import { format, isSameDay } from 'date-fns';
-import { For } from 'solid-js';
+import { createMemo, For, type JSX, splitProps } from 'solid-js';
 import { styled } from 'solid-styled-components';
 
-import { breakLarge, breakSmall } from '../globalStyles';
 import { state } from '../state';
 import { formattedDay, isDateInRange } from '../utils';
-import Link from './Link';
 
 interface DayLinkProps {
   day: Date;
@@ -15,71 +13,90 @@ interface DayLinkProps {
 
 const Container = styled.nav`
   flex: 1;
-  white-space: nowrap;
-  overflow: auto;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  overflow-x: auto;
+  padding: 6px 0;
 
   &::-webkit-scrollbar {
     display: none;
   }
 `;
 
-const StyledLink = styled(Link)<{ activeLink: boolean }>`
-  && {
-    border: none;
-    background: transparent;
-    display: inline-block;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    border-radius: 0.25em;
-    color: var(--gray3);
-    padding: 1.25em 2em 1.25em 0;
-    transition: color 0.2s;
-    font-weight: 500;
+// Wrapper so 'active' doesn't leak to the DOM <a> element
+function DayA(props: {
+  active: boolean;
+  href: string;
+  noScroll?: boolean;
+  class?: string;
+  children?: JSX.Element;
+}) {
+  const [, rest] = splitProps(props, ['active']);
+  return <A {...rest} />;
+}
 
-    &:first-child {
-      margin-left: 0;
+const StyledLink = styled(DayA)<{ active: boolean }>`
+  && {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 0.35rem 0.6rem;
+    border-radius: var(--radius-md);
+    min-width: 2.5rem;
+    text-align: center;
+    background: ${props => (props.active ? 'var(--radio-track)' : 'transparent')};
+    color: ${props => (props.active ? 'var(--gray1)' : 'var(--gray4)')};
+    transition: background 0.15s, color 0.15s;
+
+    &:hover {
+      background: var(--radio-track);
+      color: var(--gray1);
     }
 
     &:focus {
-      outline: none;
-      color: var(--accent_color);
-    }
-
-    &:hover {
-      color: var(--gray1);
-    }
-
-    ${props =>
-      props.activeLink
-        ? `
-      color: var(--gray1);
-      font-weight: 600;
-    `
-        : ''}
-
-    @media (min-width: ${breakSmall}) {
-      font-size: 0.8rem;
-    }
-
-    @media (max-width: ${breakLarge}) {
-      margin: 0;
+      outline: 2px solid var(--accent_color);
+      outline-offset: 2px;
     }
   }
 `;
 
-const DayLink = (props: DayLinkProps) => {
-  const date = formattedDay(props.day, 'iiiiii d.M.');
-  const search = () =>
-    isSameDay(props.day, new Date())
-      ? ''
-      : `?day=${format(props.day, 'y-MM-dd')}`;
-  const active = () => isSameDay(props.selectedDay, props.day);
+const WeekDay = styled.span`
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1;
+`;
 
+const DateNum = styled.span`
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.1;
+`;
+
+const DayLink = (props: DayLinkProps) => {
+  const weekday = formattedDay(props.day, 'iiiiii');
+  const dateNum = formattedDay(props.day, 'd');
   const location = useLocation();
+  const isActive = () => isSameDay(props.selectedDay, props.day);
+
+  const href = createMemo(() => {
+    const params = new URLSearchParams(location.search);
+    if (isSameDay(props.day, new Date())) {
+      params.delete('day');
+    } else {
+      params.set('day', format(props.day, 'y-MM-dd'));
+    }
+    const qs = params.toString();
+    return location.pathname + (qs ? `?${qs}` : '');
+  });
 
   return (
-    <StyledLink activeLink={active()} to={location.pathname + search()}>
-      {date()}
+    <StyledLink active={isActive()} href={href()} noScroll>
+      <WeekDay>{weekday()}</WeekDay>
+      <DateNum>{dateNum()}</DateNum>
     </StyledLink>
   );
 };

@@ -5,7 +5,9 @@ const Link = styled.a`
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  margin-right: 1rem;
+  padding: 0.5rem 0.8rem;
+  margin-right: 0.5rem;
+  border-radius: var(--radius-md);
   color: var(--gray4);
   font-size: 0.8rem;
   letter-spacing: 0.05rem;
@@ -13,6 +15,7 @@ const Link = styled.a`
 
   &:hover {
     color: var(--accent_color);
+    background-color: var(--bg-interactive);
   }
 `;
 

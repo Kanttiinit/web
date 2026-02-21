@@ -8,15 +8,30 @@ import Link from './Link';
 import PoweredByUpcloud from './PoweredByUpcloud';
 
 const Footer = styled.footer`
-  text-align: center;
   color: var(--text-disabled);
   font-size: 0.8rem;
   letter-spacing: 0.05rem;
   padding: 1rem;
   user-select: none;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+
+  @media (max-width: ${breakSmall}) {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+`;
+
+const Divider = styled.div`
+  width: 1px;
+  height: 18px;
+  background: var(--border-subtle);
+
+  @media (max-width: ${breakSmall}) {
+    display: none;
+  }
 `;
 
 const linkStyles = `
@@ -70,10 +85,15 @@ const LogoImage = styled.img<{ darkMode: boolean }>`
   ${props => (props.darkMode ? 'filter: grayscale(0.6);' : '')}
 `;
 
-const NavigationContainer = styled.div`
+const NavRow = styled.div`
   display: flex;
   align-items: center;
-  text-align: left;
+  justify-content: space-between;
+  flex: 1;
+
+  @media (max-width: ${breakSmall}) {
+    width: 100%;
+  }
 `;
 
 const VersionLink = styled.a`
@@ -91,13 +111,14 @@ export default () => {
   const showInfo = localStorage.getItem('isSurprise') === 'false';
   return (
     <Footer>
-      <NavigationContainer>
-        <LogoImage
-          darkMode={computedState.darkMode()}
-          alt="Kanttiinit logo"
-          src={logo}
-        />
-        <PoweredByUpcloud />
+      <LogoImage
+        darkMode={computedState.darkMode()}
+        alt="Kanttiinit logo"
+        src={logo}
+      />
+      <PoweredByUpcloud />
+      <Divider />
+      <NavRow>
         <nav>
           <StyledNavLink to="/contact">
             {computedState.translations().contact}
@@ -115,8 +136,7 @@ export default () => {
             </StyledExternalLink>
           )}
         </nav>
-      </NavigationContainer>
-      <VersionLink
+        <VersionLink
           href='https://github.com/Kanttiinit/web'
           rel='noopener'
           target='_blank'
@@ -124,6 +144,7 @@ export default () => {
           <GithubIcon style={{ 'vertical-align': 'middle', 'margin-right': '0.25rem' }} />
           v{version}
         </VersionLink>
+      </NavRow>
     </Footer>
   );
 };

@@ -1,9 +1,6 @@
 import {
-  Route,
-  Router,
   useLocation,
-  useNavigate,
-  useParams
+  useNavigate
 } from '@solidjs/router';
 import { onMount, Show, For } from 'solid-js';
 import { createStore } from 'solid-js/store';
@@ -96,8 +93,10 @@ export default function Admin() {
   });
 
   function Model() {
-    const params = useParams();
-    const model = () => models.find(m => m.key === params.model);
+    const model = () => {
+      const match = location.pathname.match(/\/model\/([^/]+)/);
+      return match ? models.find(m => m.key === match[1]) : undefined;
+    };
 
     return (
       <Container>
@@ -127,7 +126,7 @@ export default function Admin() {
         <Show
           keyed
           when={model()}
-          fallback={<p>No such model &quot;{params.model}&quot;.</p>}
+          fallback={<p>No such model &quot;{location.pathname.match(/\/model\/([^/]+)/)?.[1]}&quot;.</p>}
         >
           {model => <DataTable model={model} />}
         </Show>
@@ -137,33 +136,30 @@ export default function Admin() {
 
   return (
     <>
-      <Router>
-        <Route
-          path="/login"
-          component={() => (
-            <form
-              onSubmit={login}
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translateY(-50%) translateX(-50%)'
-              }}
-            >
-              <Input
-                type="password"
-                label="Password"
-                autoComplete="current-password"
-              />
-              &nbsp;
-              <Button type="submit" color="primary">
-                Log in
-              </Button>
-            </form>
-          )}
-        />
-        <Route path="/model/:model" component={Model} />
-      </Router>
+      <Show when={location.pathname.endsWith('/login')}>
+        <form
+          onSubmit={login}
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translateY(-50%) translateX(-50%)'
+          }}
+        >
+          <Input
+            type="password"
+            label="Password"
+            autoComplete="current-password"
+          />
+          &nbsp;
+          <Button type="submit" color="primary">
+            Log in
+          </Button>
+        </form>
+      </Show>
+      <Show when={location.pathname.includes('/model/')}>
+        <Model />
+      </Show>
       {/* <Snackbar
         autoHideDuration={4000}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}

@@ -25,8 +25,10 @@ import {
 
 export const selectedFavorites = createMemo(() => {
   if (!resources.favorites[0].loading) {
-    return resources.favorites[0]()?.filter(
-      ({ id }) => state.preferences.favorites.indexOf(id) > -1,
+    return (
+      resources.favorites[0]()?.filter(
+        ({ id }) => state.preferences.favorites.indexOf(id) > -1,
+      ) ?? []
     );
   }
   return [];

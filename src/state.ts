@@ -107,6 +107,7 @@ const restaurantResource = createResource<
     return api.getRestaurantsByLocation(latitude, longitude, source.lang);
   } else if (source.areas?.length && !source.areasLoading) {
     const ids = source.areas.find((a) => a.id === source.area)?.restaurants;
+    if (!ids) return [];
     if (v.value?.length && v.value?.every((r) => ids.includes(r.id)))
       return v.value;
 

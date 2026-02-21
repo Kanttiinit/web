@@ -225,11 +225,7 @@ const EditLink = styled(Link)`
   }
 `;
 
-const EditLabel = styled.span`
-  @media (max-width: ${breakSmall}) {
-    display: none;
-  }
-`;
+const EditLabel = styled.span``;
 
 const StyledNativeActionLink = styled.a<{ color: string }>`
     ${actionLinkStyles}

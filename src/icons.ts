@@ -11,7 +11,6 @@ export {
 } from 'solid-icons/bi';
 export {
   FaSolidAngleDown as CaretDownIcon,
-  FaSolidMap as MapIcon,
   FaSolidPersonWalking as WalkIcon,
 } from 'solid-icons/fa';
 export {
@@ -22,9 +21,10 @@ export {
 export { IoLocationSharp as LocationIcon } from 'solid-icons/io';
 export { RiFinanceMoneyEuroCircleFill as MoneyIcon } from 'solid-icons/ri';
 export {
+  TbOutlineAdjustmentsHorizontal as SettingsIcon,
   TbOutlineBell as NewsIcon,
   TbOutlineBike as BikeIcon,
-  TbOutlineSettings2 as SettingsIcon,
+  TbOutlineMapPin as MapIcon,
 } from 'solid-icons/tb';
 export {
   VsHeart as HeartIcon,

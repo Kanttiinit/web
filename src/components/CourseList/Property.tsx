@@ -30,7 +30,7 @@ const Container = styled(Tooltip)<{ dimmed: boolean; highlighted: boolean }>`
     `
       : ''}
 
-  ${props => (props.dimmed ? 'color: var(--gray4);' : '')}
+  ${props => (props.dimmed ? 'color: var(--text-disabled);' : '')}
 
   &:hover {
     color: var(--accent_color);

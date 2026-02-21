@@ -9,16 +9,12 @@ import restaurantLocationIcon from './restaurant-location.png';
 import userLocationIcon from './user-location.png';
 
 const Container = styled.div`
-  border-top: 1px solid var(--gray6);
-  border-bottom: 1px solid var(--gray6);
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
   min-height: 20rem;
   height: 20rem;
-  margin: 1rem -1rem -1rem -1rem;
+  margin: -1rem -1rem -1rem -1rem;
   overflow: hidden;
-
-  @media (max-width: ${breakSmall}) {
-    display: none;
-  }
 `;
 
 const _RestaurantPin = styled.div`

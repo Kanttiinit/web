@@ -48,11 +48,11 @@ const MakeItStopButton = styled.button`
 `;
 
 const ContribModal = styled.div`
-  background-color: var(--gray6);
+  background-color: var(--bg-inset);
   border-radius: 0.8rem;
-  border: 1px var(--gray6) solid;
+  border: 1px var(--border-subtle) solid;
   box-shadow: 0rem 0.1rem 0.6rem -0.2rem rgba(0, 0, 0, 0.3);
-  color: var(--gray1);
+  color: var(--text-primary);
   font-size: 16pt;
   padding: 0.5rem 1rem;
   max-width: 400px;
@@ -76,9 +76,9 @@ const ContribModal = styled.div`
     font-size: 0.8rem;
     display: inline-block;
     min-width: 4rem;
-    background: var(--gray3);
+    background: var(--text-muted);
     text-align: center;
-    color: var(--gray6);
+    color: white;
     outline: none;
     font-weight: 500;
     transition: transform 0.1s;

@@ -39,7 +39,9 @@ const Container = styled.div<{ open: boolean }>`
 
 const Overlay = styled.div<{ open: boolean; darkMode: boolean }>`
   background: ${props =>
-    props.darkMode ? 'rgba(50, 50, 50, 0.5)' : 'rgba(0, 0, 0, 0.55)'};
+    props.darkMode ? 'rgba(50, 50, 50, 0.5)' : 'rgba(0, 0, 0, 0.4)'};
+  backdrop-filter: blur(3px) saturate(1.1);
+  -webkit-backdrop-filter: blur(3px);
   position: absolute;
   width: 100%;
   height: 100%;
@@ -49,7 +51,7 @@ const Overlay = styled.div<{ open: boolean; darkMode: boolean }>`
   opacity: 0;
 
   @media (max-width: ${breakSmall}) {
-    background: var(--gray6);
+    background: var(--bg-app);
   }
 
   ${props => (props.open ? 'opacity: 1;' : '')}
@@ -59,20 +61,51 @@ const Content = styled.div<{ open: boolean }>`
   z-index: 6;
   position: relative;
   max-width: 40rem;
-  border-radius: 0.8rem;
+  min-height: 20rem;
+  border-radius: var(--radius-lg);
   overflow: auto;
-  border: 1px var(--gray6) solid;
-  box-shadow: 0rem 0.1rem 0.6rem -0.2rem rgba(0, 0, 0, 0.3);
+  background: var(--bg-app);
+  border: 1px var(--border-subtle) solid;
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(0,0,0,0.04);
   flex: 1;
-  transition: opacity 0.3s;
-  opacity: 0;
   max-height: 90vh;
+  transform-origin: center bottom;
+
+  /* Closed — snappy dismiss */
+  opacity: 0;
+  transform: translateY(10px) scale(0.97);
+  transition: opacity 0.1s ease-in, transform 0.12s ease-in;
+
+  /* Open — spring entry */
+  ${props =>
+    props.open
+      ? `
+    animation:
+      modalFadeIn 0.08s ease-out both,
+      modalSpringIn 0.2s cubic-bezier(0.34, 1.15, 0.64, 1) both;
+  `
+      : ''}
+
+  @keyframes modalFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes modalSpringIn {
+    from { transform: translateY(10px) scale(0.97); }
+    to   { transform: translateY(0) scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none !important;
+    transform: none !important;
+    transition: opacity 0.15s ease-out;
+    opacity: ${props => (props.open ? 1 : 0)};
+  }
 
   @media (max-width: ${breakSmall}) {
     max-width: 100%;
   }
-
-  ${props => (props.open ? 'opacity: 1;' : '')}
 `;
 
 const CloseText = styled.div<{ open: boolean }>`
@@ -80,10 +113,9 @@ const CloseText = styled.div<{ open: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  text-transform: uppercase;
-  color: var(--gray4);
-  font-weight: 300;
-  font-size: 0.9em;
+  color: var(--text-muted);
+  font-weight: 400;
+  font-size: 0.85rem;
   height: 5rem;
   transition: opacity 0.2s;
   opacity: 0;

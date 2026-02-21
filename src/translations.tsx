@@ -329,6 +329,10 @@ const translations = {
     fi: 'Ehdota tietojen korjausta ravintolalle %restaurantName%',
     en: 'Suggest a fix for %restaurantName%',
   },
+  fixInfo: {
+    fi: 'Korjaa tietoja',
+    en: 'Fix info',
+  },
   location: {
     fi: 'Sijainti',
     en: 'Location',
@@ -358,8 +362,16 @@ const translations = {
     en: 'Dark',
   },
   tosShort: {
-    fi: 'Huom. Kanttiinit tarjoaa ruokalistat muokkaamattomana, ota yhteyttä itse ravintolaan jos palautteesi koskee ruokaa tai sen sisältöä',
-    en: 'Note: Kanttiinit displays the restaurant menus unedited, please contact the restaurant itself if your feedback concerns the food or its contents',
+    fi: 'Kanttiinit on palvelu, joka näyttää ruokalistat kootusti, mutta ei vastaa ravintoloiden toiminnasta. Palautteessa ruuan sisällöstä tai allergeeneista ota yhteyttä suoraan ravintolaan.',
+    en: "Kanttiinit is a menu aggregator and doesn't operate any restaurants. For feedback about food contents or allergens, contact the restaurant directly.",
+  },
+  reportDisclaimer: {
+    fi: 'Voit ehdottaa korjauksia aukioloaikoihin, sijaintiin ja muihin perustietoihin. Kanttiinit vain näyttää ruokalistat kootussa paikassa — emme vastaa ruokalistojen sisällöstä. Ota ruokaan liittyvissä asioissa yhteyttä suoraan ravintolaan.',
+    en: "You can suggest corrections to opening hours, location, and other details. Kanttiinit is an aggregator — we don't control menu content. For that, contact the restaurant directly.",
+  },
+  continueButton: {
+    fi: 'Jatka',
+    en: 'Continue',
   },
   priceCategory: {
     fi: 'Hintaluokka',
@@ -382,12 +394,12 @@ const translations = {
     en: 'Student lunch',
   },
   [PriceCategory.studentPremium]: {
-    fi: 'Joitain alennuksia opiskelijoille',
-    en: 'Some discounts for students',
+    fi: 'Opiskelija-ale',
+    en: 'Student discount',
   },
   [PriceCategory.regular]: {
-    fi: 'Ei opiskelija-alennuksia',
-    en: 'No student discounts',
+    fi: 'Ei alennuksia',
+    en: 'No discounts',
   },
 };
 

@@ -9,33 +9,37 @@ interface ButtonProps {
 const Button = styled.button<ButtonProps>`
   border: none;
   padding: 0.8em 1.2em;
-  border-radius: 0.4em;
+  border-radius: var(--radius-md);
   font-family: inherit;
   font-size: 0.8rem;
   display: inline-block;
-  text-transform: uppercase;
   min-width: 4rem;
   background: ${props =>
     props.color === 'secondary' || props.secondary
-      ? 'var(--gray3)'
+      ? 'var(--text-muted)'
       : 'var(--accent_color)'};
   text-align: center;
-  color: var(--gray6);
-  outline: none;
-  font-weight: 500;
-  transition: transform 0.1s;
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: transform 0.1s, box-shadow 0.1s;
   opacity: 0.95;
 
   &:hover {
     opacity: 1;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
   }
 
   &:active {
-    transform: scale(0.98);
+    transform: translateY(0) scale(0.98);
+    box-shadow: none;
   }
 
   &:focus {
-    color: var(--gray6);
+    color: white;
+    outline: 2px solid var(--accent_color);
+    outline-offset: 2px;
   }
 
   &:disabled {

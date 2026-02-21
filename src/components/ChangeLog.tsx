@@ -14,13 +14,13 @@ import PageContainer from './PageContainer';
 const UpdateWrapper = styled.div`
   margin-bottom: 0.5em;
   display: flex;
-  color: var(--gray2);
+  color: var(--text-secondary);
   padding: 0.5em;
   border-radius: 0.2em;
   cursor: pointer;
 
   &:hover {
-    background: var(--gray5);
+    background: var(--bg-interactive);
   }
 
   &:last-child {
@@ -47,7 +47,7 @@ const PublishedAt = styled.p`
   text-transform: uppercase;
   font-weight: 500;
   margin: 0 0 0;
-  color: var(--gray2) !important;
+  color: var(--text-secondary) !important;
 `;
 
 const ArrowDownIcon = styled(CaretDownIcon)<{ isVisible: boolean }>`

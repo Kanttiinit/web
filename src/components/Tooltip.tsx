@@ -13,8 +13,8 @@ import translations from '../translations';
 const Container = styled.div`
   font-size: 0.8rem;
   position: absolute;
-  background: var(--gray2);
-  color: var(--gray7);
+  background: var(--text-secondary);
+  color: var(--bg-surface);
   padding: 0.25rem 0.5rem;
   margin: 1em;
   z-index: 99999;

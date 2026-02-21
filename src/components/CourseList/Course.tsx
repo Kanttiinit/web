@@ -9,7 +9,7 @@ import Property from './Property';
 
 const CourseTitle = styled.h2<{ highlight: boolean; dimmed: boolean }>`
   flex: 1;
-  color: var(--gray1);
+  color: var(--text-primary);
   margin: 0;
   font-size: inherit;
   font-weight: inherit;
@@ -22,14 +22,14 @@ const CourseTitle = styled.h2<{ highlight: boolean; dimmed: boolean }>`
     `
       : ''}
 
-  ${props => (props.dimmed ? 'color: var(--gray4);' : '')}
+  ${props => (props.dimmed ? 'color: var(--text-disabled);' : '')}
 `;
 
 const PropertyContainer = styled.span`
   font-size: 0.7rem;
   font-weight: 300;
   display: inline;
-  color: var(--gray2);
+  color: var(--text-secondary);
 `;
 
 const FavoriteIcon = styled(HeartFilledIcon)`
@@ -46,7 +46,7 @@ const CourseWrapper = styled.li<{
   font-size: 0.9rem;
 
   &:not(:last-child) {
-    border-bottom: 1px solid var(--gray6);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   ${props => (props.favorite ? 'color: var(--hearty);' : '')}

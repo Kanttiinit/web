@@ -3,7 +3,6 @@ import { css, styled } from 'solid-styled-components';
 import { FilledStarIcon, WalkIcon } from '../icons';
 import { computedState, resources, setState, state } from '../state';
 import type allTranslations from '../translations';
-import Button from './Button';
 
 const iconStyles = css`
   margin-right: 0.5ch;
@@ -37,52 +36,71 @@ const specialAreas: SpecialArea[] = [
   },
 ];
 
-const AreaWrapper = styled.div`
-  width: 50%;
-  box-sizing: border-box;
+const AreaButton = styled.button<{ selected: boolean }>`
+  width: 100%;
+  border-radius: var(--radius-sm);
+  padding: 0.6em 0.75em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  font-size: 0.875rem;
+  font-family: inherit;
+  font-weight: ${props => (props.selected ? '500' : 'inherit')};
+  background: ${props => (props.selected ? 'var(--bg-interactive)' : 'transparent')};
+  color: ${props => (props.selected ? 'var(--accent_color)' : 'var(--text-primary)')};
+  border: none;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+
+  &:hover {
+    background: var(--bg-interactive);
+  }
+
+  &:focus {
+    outline: 2px solid var(--accent_color);
+    outline-offset: -2px;
+  }
 `;
 
-const AreaButton = styled(Button)<{ selected: boolean }>`
-  background-color: ${props =>
-    props.selected ? 'var(--gray6)' : 'transparent'};
-  color: inherit;
-  width: 100%;
-  padding: 1em 0.5em;
-  border-radius: 4px;
-  font-weight: inherit;
-  text-align: center;
-  outline: none;
-  color: ${props => (props.selected ? 'var(--accent_color)' : 'var(--gray1)')};
-  cursor: pointer;
+const Checkmark = styled.span`
+  color: var(--accent_color);
+  font-size: 0.9rem;
+  font-weight: 600;
+`;
 
-  &:hover,
-  &:focus {
-    background: var(--gray6);
-  }
+const Divider = styled.hr`
+  border: none;
+  border-top: 1px solid var(--border-subtle);
+  margin: 4px 8px;
 `;
 
 const Area = (props: {
   area: { icon?: JSX.Element; label: JSX.Element; id: number };
   selectedAreaId: number;
   selectArea: (id: number) => void;
-}) => (
-  <AreaWrapper>
+}) => {
+  const selected = () => props.selectedAreaId === props.area.id;
+  return (
     <AreaButton
       onKeyDown={(e: KeyboardEvent) =>
         e.key === 'Enter' && props.selectArea(props.area.id)
       }
       onMouseUp={() => props.selectArea(props.area.id)}
-      selected={props.selectedAreaId === props.area.id}
+      selected={selected()}
     >
-      {props.area.icon && (
-        <div style={{ 'margin-right': '4px', display: 'inline-block' }}>
-          {props.area.icon}
-        </div>
-      )}
-      {props.area.label}
+      <span>
+        {props.area.icon && (
+          <span style={{ 'margin-right': '4px', display: 'inline-block' }}>
+            {props.area.icon}
+          </span>
+        )}
+        {props.area.label}
+      </span>
+      {selected() && <Checkmark>✓</Checkmark>}
     </AreaButton>
-  </AreaWrapper>
-);
+  );
+};
 
 interface Props {
   onAreaSelected?: () => void;
@@ -90,11 +108,10 @@ interface Props {
 
 const Container = styled.menu`
   margin: 0;
-  padding: 0;
+  padding: 4px 0;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 2px;
   user-select: none;
 `;
 
@@ -123,7 +140,12 @@ export default function AreaSelector(props: Props) {
           />
         )}
       </For>
-      <For each={areas()?.sort((a, b) => (a.name > b.name ? -1 : 1))}>
+      <Divider />
+      <For
+        each={areas()
+          ?.slice()
+          .sort((a, b) => (a.name > b.name ? 1 : -1))}
+      >
         {area => (
           <Area
             selectedAreaId={state.preferences.selectedArea}

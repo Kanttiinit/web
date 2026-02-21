@@ -55,10 +55,10 @@ const Distance = (props: { distance?: number }) => {
 export const Container = styled.article<{ noCourses?: boolean }>`
   display: flex;
   flex-direction: column;
-  background-color: var(--gray7);
+  background-color: var(--bg-surface);
   padding: 1.2rem;
   border-radius: 8px;
-  border: solid 1px var(--gray5);
+  border: solid 1px var(--border-subtle);
   box-shadow: 0px 1px 2px 0px rgba(50, 50, 50, 0.1);
   box-sizing: border-box;
   width: calc(25% - 0.5rem);
@@ -128,7 +128,7 @@ export const Container = styled.article<{ noCourses?: boolean }>`
     margin: 0.25rem 0;
     border-left: none;
     border-right: none;
-    border-color: var(--gray5);
+    border-color: var(--border-subtle);
     border-radius: 0;
   }
 
@@ -145,10 +145,10 @@ export const Header = styled.header`
 const RestaurantName = styled.h2<{ noCourses?: boolean; isClosed?: boolean }>`
   color: ${props =>
     props.isClosed
-      ? 'var(--gray1)'
+      ? 'var(--text-primary)'
       : props.noCourses
-        ? 'var(--gray3)'
-        : 'var(--gray1)'};
+        ? 'var(--text-muted)'
+        : 'var(--text-primary)'};
   font-weight: 500;
   margin: 0;
   max-width: 60%;
@@ -160,7 +160,7 @@ const RestaurantName = styled.h2<{ noCourses?: boolean; isClosed?: boolean }>`
 `;
 
 const RestaurantMeta = styled.section`
-  color: var(--gray2);
+  color: var(--text-secondary);
   font-size: 0.8rem;
   font-weight: 500;
   text-align: right;
@@ -171,7 +171,7 @@ const RestaurantMeta = styled.section`
 `;
 
 const ActionsContainer = styled.section`
-  color: var(--gray4);
+  color: var(--text-disabled);
   font-size: 0.75em;
   text-transform: uppercase;
   font-weight: 500;
@@ -203,6 +203,30 @@ const StyledActionLink = styled(Link)`
   }
 `;
 
+const EditLink = styled(Link)`
+  && {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    padding: 0.22em 0.55em 0.22em 0.35em;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: none;
+
+    &:hover,
+    &:focus {
+      outline: none;
+      color: var(--accent_color);
+      border-color: var(--accent_color);
+    }
+  }
+`;
+
+const EditLabel = styled.span``;
+
 const StyledNativeActionLink = styled.a<{ color: string }>`
     ${actionLinkStyles}
     color: ${props => props.color} !important;
@@ -214,13 +238,13 @@ export const courseListStyles = `
   flex: 1;
   min-height: 5rem;
   font-size: 0.9em;
-  color: var(--gray1);
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 `;
 
 const StyledCourseList = styled(CourseList)<{ noCourses?: boolean }>`
   ${courseListStyles}
-  ${props => (props.noCourses ? 'var(--gray3)' : '')}
+  ${props => (props.noCourses ? 'var(--text-muted)' : '')}
 `;
 
 const ClosedText = styled.small`
@@ -305,12 +329,13 @@ const Restaurant = (props: Props) => {
       </Link>
       <StyledCourseList courses={props.restaurant.courses} />
       <ActionsContainer>
-        <StyledActionLink
+        <EditLink
           aria-label={`Fix information about ${props.restaurant.name}`}
           to={`/report/${props.restaurant.id}`}
         >
-          <EditIcon size={18} />
-        </StyledActionLink>
+          <EditIcon size={14} />
+          <EditLabel>{computedState.translations().fixInfo}</EditLabel>
+        </EditLink>
         <RightActions>
           <StyledNativeActionLink
             aria-label={

@@ -1,6 +1,5 @@
 export {
   AiFillEdit as EditIcon,
-  AiFillHome as HomeIcon,
   AiFillStar as FilledStarIcon,
   AiFillWarning as WarningIcon,
   AiOutlineLink as LinkIcon,
@@ -11,7 +10,6 @@ export {
 } from 'solid-icons/bi';
 export {
   FaSolidAngleDown as CaretDownIcon,
-  FaSolidMap as MapIcon,
   FaSolidPersonWalking as WalkIcon,
 } from 'solid-icons/fa';
 export {
@@ -19,13 +17,17 @@ export {
   FiCopy as CopyIcon,
   FiMoreVertical as MoreIcon,
 } from 'solid-icons/fi';
-export {
-  IoLocationSharp as LocationIcon,
-  IoNewspaperSharp as NewsIcon,
-  IoSettingsSharp as SettingsIcon,
-} from 'solid-icons/io';
 export { RiFinanceMoneyEuroCircleFill as MoneyIcon } from 'solid-icons/ri';
-export { TbOutlineBike as BikeIcon } from 'solid-icons/tb';
+export {
+  TbOutlineAdjustmentsHorizontal as SettingsIcon,
+  TbOutlineBell as NewsIcon,
+  TbOutlineBike as BikeIcon,
+  TbOutlineCurrentLocation as LocationIcon,
+  TbOutlineHome as HomeIcon,
+  TbOutlineLoader as LoaderIcon,
+  TbOutlineMapPin as MapIcon,
+  TbOutlineSchool as StudentIcon,
+} from 'solid-icons/tb';
 export {
   VsHeart as HeartIcon,
   VsHeartFilled as HeartFilledIcon,

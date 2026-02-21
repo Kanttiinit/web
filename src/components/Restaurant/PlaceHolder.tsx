@@ -18,12 +18,12 @@ const PlaceholderContainer = styled(Container)`
 
 const AnimationBase = styled.div<{ width: number }>`
   animation: ${animation} 1.2s ease-in-out infinite;
-  background-color: var(--gray6);
+  background-color: var(--bg-interactive);
   background-image: linear-gradient(
     90deg,
-    var(--gray6),
-    var(--gray6),
-    var(--gray6)
+    var(--bg-interactive),
+    var(--bg-interactive),
+    var(--bg-interactive)
   );
   background-size: 200px 100%;
   background-repeat: no-repeat;

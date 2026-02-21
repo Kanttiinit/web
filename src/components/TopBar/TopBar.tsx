@@ -1,8 +1,8 @@
-import { createSignal, onCleanup, onMount } from 'solid-js';
+import { createMemo, createSignal, onCleanup, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { breakSmall } from '../../globalStyles';
-import { MapIcon, NewsIcon, SettingsIcon } from '../../icons';
-import { computedState, setState, state } from '../../state';
+import { CaretDownIcon, MapIcon, NewsIcon, SettingsIcon } from '../../icons';
+import { computedState, resources, setState, state } from '../../state';
 import { Lang } from '../../types';
 import AreaSelector from '../AreaSelector';
 import ClickOutside from '../ClickOutside';
@@ -12,25 +12,24 @@ import Link from '../Link';
 import EN from './en.svg';
 import FI from './fi.svg';
 
-const Container = styled.header<{ darkMode: boolean }>`
-  background: linear-gradient(to bottom, var(--gray6) 0%, var(--gray7) 100%);
+const Container = styled.header`
+  background: var(--topbar-bg);
+  backdrop-filter: blur(16px) saturate(1.8);
+  -webkit-backdrop-filter: blur(16px) saturate(1.8);
+  border-bottom: 1px solid var(--topbar-border);
   box-sizing: border-box;
   padding: 0 0.5em;
   position: fixed;
   width: 100%;
   z-index: 10;
-  color: var(--gray3);
-  border-bottom: 1px solid var(--gray5);
+  color: var(--text-muted);
   user-select: none;
 
   @media (max-width: ${breakSmall}) {
-    background-color: var(--gray7);
     justify-content: flex-start;
     padding: 0.2em;
     padding-left: 1rem;
   }
-
-  ${props => (props.darkMode ? 'background: var(--gray7);' : '')}
 `;
 
 const Content = styled.div`
@@ -56,38 +55,109 @@ const AreaSelectorButton = styled(ClickOutside)`
 const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
   position: absolute;
   right: 0;
-  top: 32px;
-  width: 20em;
-  background: var(--gray7);
+  top: 36px;
+  width: 22em;
+  background: var(--bg-surface);
   padding: 0.4em;
-  box-shadow: 0rem 0.1rem 0.6rem -0.2rem rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
-  border: solid 1px var(--gray5);
-  opacity: 0;
-  transition: opacity 75ms;
-  pointer-events: none;
+  box-shadow: var(--shadow-popover);
+  border-radius: var(--radius-md);
+  transform-origin: top right;
 
+  /* Closed — fast snappy dismiss */
+  opacity: 0;
+  transform: translateY(-2px) scaleX(0.96) scaleY(0.5);
+  pointer-events: none;
+  transition: opacity 0.08s ease-in, transform 0.1s ease-in;
+
+  /* Open — spring entry animation */
   ${props =>
     props.isOpen
-      ? `opacity: 1;
-      pointer-events: all;
-    `
+      ? `
+    pointer-events: all;
+    animation:
+      popoverFadeIn 0.06s ease-out both,
+      popoverSpringIn 0.25s cubic-bezier(0.34, 1.2, 0.64, 1) both;
+  `
       : ''}
 
+  @keyframes popoverFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes popoverSpringIn {
+    from { transform: translateY(-2px) scaleX(0.96) scaleY(0.5); }
+    to   { transform: translateY(0) scaleX(1) scaleY(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none !important;
+    transform: none !important;
+    transition: opacity 0.15s ease-out;
+    opacity: ${props => (props.isOpen ? 1 : 0)};
+  }
+
   @media (max-width: ${breakSmall}) {
+    transform-origin: top center;
     top: 52px;
-    left: 0;
-    width: 100%;
-    box-sizing: border-box;
+    left: 0.5rem;
+    right: 0.5rem;
+    width: auto;
+    border: 1px solid var(--border-subtle);
   }
 `;
 
-const iconLinkStyles = `
+const MobileOverlay = styled.div<{ open: boolean }>`
+  display: none;
+
+  @media (max-width: ${breakSmall}) {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 2.5rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease-out;
+
+    ${props => (props.open ? 'opacity: 1; pointer-events: auto;' : '')}
+  }
+`;
+
+const MobileOverlayClose = styled.div`
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.6rem 1.5rem;
+  border-radius: var(--radius-full);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-subtle);
+`;
+
+const PopoverHeader = styled.div`
   text-transform: uppercase;
+  font-size: 0.65rem;
+  color: var(--text-disabled);
+  padding: 0.5rem 0.75rem 0.25rem;
+  letter-spacing: 0.06em;
+`;
+
+const iconLinkStyles = `
   font-weight: 500;
   font-size: 0.8rem;
   display: flex;
   align-items: center;
+  gap: 0.3em;
   padding: 0 1em;
 
   :last-child {
@@ -119,6 +189,19 @@ const IconLink = styled(Link)`
 `;
 const NativeIconLink = styled.a`
   ${iconLinkStyles}
+`;
+
+const AreaTriggerLabel = styled.span`
+  @media (max-width: ${breakSmall}) {
+    display: none;
+  }
+`;
+
+const CaretIcon = styled(CaretDownIcon)<{ open: boolean }>`
+  display: block !important;
+  font-size: 0.7rem;
+  transition: transform 0.15s ease-out;
+  ${props => (props.open ? 'transform: rotate(180deg);' : '')}
 `;
 
 const FlagImg = styled.img`
@@ -196,46 +279,68 @@ export default function TopBar() {
     );
   }
 
+  const [areas] = resources.areas;
+
+  const currentAreaLabel = createMemo(() => {
+    const t = computedState.translations();
+    const selected = state.preferences.selectedArea;
+    if (selected === -2) return t.nearby;
+    if (selected === -1) return t.starred;
+    const area = areas()?.find(a => a.id === selected);
+    return area?.name ?? t.selectArea;
+  });
+
   return (
-    <Container darkMode={computedState.darkMode()}>
-      <Content>
-        <DaySelector />
-        {computedState.unseenUpdates().length > 0 && (
-          <Link to="/news">
-            <InlineIcon>
-              <StyledNewsIcon size={24} />
-            </InlineIcon>
-          </Link>
-        )}
-        <AreaSelectorButton onClickOutside={closeAreaSelector}>
+    <>
+      <MobileOverlay open={areaSelectorOpen()} onClick={closeAreaSelector}>
+        <MobileOverlayClose>
+          {computedState.translations().closeModal}
+        </MobileOverlayClose>
+      </MobileOverlay>
+      <Container>
+        <Content>
+          <DaySelector />
+          {computedState.unseenUpdates().length > 0 && (
+            <Link to="/news">
+              <InlineIcon>
+                <StyledNewsIcon size={24} />
+              </InlineIcon>
+            </Link>
+          )}
+          <AreaSelectorButton onClickOutside={closeAreaSelector}>
+            <NativeIconLink
+              ref={areaSelectorLink}
+              onMouseDown={toggleAreaSelector}
+              tabIndex={0}
+              onKeyDown={e => e.key === 'Enter' && toggleAreaSelector()}
+            >
+              <MapIcon size={18} style={{ 'padding-left': '1rem' }} />
+              <AreaTriggerLabel>{currentAreaLabel()}</AreaTriggerLabel>
+              <CaretIcon size={12} open={areaSelectorOpen()} />
+            </NativeIconLink>
+            <AreaSelectorContainer isOpen={areaSelectorOpen()}>
+              <PopoverHeader>
+                {computedState.translations().selectArea}
+              </PopoverHeader>
+              <AreaSelector onAreaSelected={toggleAreaSelector} />
+            </AreaSelectorContainer>
+          </AreaSelectorButton>
+          <IconLink to="/settings" aria-label="Settings">
+            <SettingsIcon size={18} />
+            <span>{computedState.translations().settings}</span>
+          </IconLink>
           <NativeIconLink
-            ref={areaSelectorLink}
-            onMouseDown={toggleAreaSelector}
             tabIndex={0}
-            onKeyDown={e => e.key === 'Enter' && toggleAreaSelector()}
+            onClick={toggleLang}
+            onKeyDown={e => e.key === 'Enter' && toggleLang()}
           >
-            <MapIcon size={18} style={{ 'padding-left': '1rem' }} />
-            <span>{computedState.translations().selectArea}</span>
+            <FlagImg
+              alt={state.preferences.lang.toUpperCase()}
+              src={state.preferences.lang === 'fi' ? FI : EN}
+            />
           </NativeIconLink>
-          <AreaSelectorContainer isOpen={areaSelectorOpen()}>
-            <AreaSelector onAreaSelected={toggleAreaSelector} />
-          </AreaSelectorContainer>
-        </AreaSelectorButton>
-        <IconLink to="/settings" aria-label="Settings">
-          <SettingsIcon size={18} />
-          <span>{computedState.translations().settings}</span>
-        </IconLink>
-        <NativeIconLink
-          tabIndex={0}
-          onClick={toggleLang}
-          onKeyDown={e => e.key === 'Enter' && toggleLang()}
-        >
-          <FlagImg
-            alt={state.preferences.lang.toUpperCase()}
-            src={state.preferences.lang === 'fi' ? FI : EN}
-          />
-        </NativeIconLink>
-      </Content>
-    </Container>
+        </Content>
+      </Container>
+    </>
   );
 }

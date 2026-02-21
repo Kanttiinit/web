@@ -1,6 +1,5 @@
 import { For, splitProps } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { breakLarge, breakSmall } from '../globalStyles';
 
 interface Props<T> {
   options: {
@@ -14,8 +13,13 @@ interface Props<T> {
 }
 
 const Container = styled.div`
-  white-space: nowrap;
+  display: inline-flex;
+  background: var(--radio-track);
+  border-radius: var(--radius-full);
+  padding: 3px;
+  gap: 0;
   overflow-x: auto;
+  white-space: nowrap;
 
   &::-webkit-scrollbar {
     display: none;
@@ -23,43 +27,23 @@ const Container = styled.div`
 `;
 
 export const Button = styled.button<{ selected: boolean }>`
-  color: var(--gray3);
-  background: transparent;
+  color: ${props => (props.selected ? 'var(--text-primary)' : 'var(--text-muted)')};
+  background: ${props => (props.selected ? 'var(--radio-selected)' : 'transparent')};
+  box-shadow: ${props => (props.selected ? 'var(--shadow-sm)' : 'none')};
   font-family: inherit;
   font-weight: 500;
-  text-transform: uppercase;
-  transition: background 0.1s, color 0.1s;
+  font-size: 0.8rem;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-full);
+  border: none;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
   margin: 0;
-  border-radius: 0.2em;
-  outline: none;
-  border: solid 2px transparent;
-
-  @media (max-width: ${breakSmall}) {
-    font-size: 0.7rem;
-    padding: 0.5rem 0.4rem;
-  }
-
-  @media (min-width: ${breakLarge}) {
-    font-size: 0.8rem;
-    padding: 0.5rem 1rem;
-  }
+  cursor: pointer;
 
   &:focus {
-    border-color: var(--gray4);
+    outline: 2px solid var(--accent_color);
+    outline-offset: -2px;
   }
-
-  ${props =>
-    props.selected
-      ? `
-    background: var(--accent_color);
-    color: var(--gray6);
-
-    &:focus {
-      filter: brightness(115%);
-      color: var(--gray6);
-    }
-  `
-      : ''}
 `;
 
 export default function Radio<T>(props: Props<T>) {

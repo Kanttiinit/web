@@ -19,6 +19,7 @@ const getCourseGroup = (course: CourseType) => {
 
 interface Props {
   courses: CourseType[];
+  loading?: boolean;
   class?: string;
 }
 
@@ -38,7 +39,7 @@ const Group = styled.ul`
 
 const GroupTitle = styled.h1`
   display: block;
-  color: var(--gray2);
+  color: var(--text-secondary);
   margin: 0 0 0.2rem 0;
   font-size: 0.8em;
   font-weight: 500;
@@ -86,7 +87,7 @@ const CourseList = (props: Props) => {
 
   return (
     <Container {...props}>
-      {!props.courses.length && (
+      {!props.loading && !props.courses.length && (
         <EmptyText>{computedState.translations().noMenu}</EmptyText>
       )}
       <For each={courseGroups()}>

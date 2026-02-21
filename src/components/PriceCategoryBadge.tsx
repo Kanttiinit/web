@@ -1,48 +1,79 @@
-import { For } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { MoneyIcon } from '../icons';
+import { StudentIcon } from '../icons';
 import { computedState } from '../state';
 import { PriceCategory } from '../types';
-import Tooltip from './Tooltip';
 
 type Props = {
   priceCategory: PriceCategory;
+  alwaysExpanded?: boolean;
 };
 
-const categories = [
-  PriceCategory.student,
-  PriceCategory.studentPremium,
-  PriceCategory.regular,
-];
-
-const Container = styled.span<Props>`
-  font-size: 0.9rem;
-  color: var(--gray1);
-  vertical-align: -3px;
+const Badge = styled.span<{ priceCategory: PriceCategory }>`
   display: inline-flex;
-  margin-left: 6px;
+  align-items: center;
+  border-radius: var(--radius-full);
+  padding: 0.2em 0.6em;
+  font-size: 0.72rem;
+  font-weight: 500;
+  line-height: 1;
+  background: var(--bg-interactive);
+  color: ${props => `var(--priceCategory_${props.priceCategory})`};
+  overflow: hidden;
+  white-space: nowrap;
 
-  svg {
-    display: block;
+  .price-short {
+    display: flex;
+    align-items: center;
+    max-width: 3em;
+    opacity: 1;
+    overflow: hidden;
+    transition: max-width 0.2s ease-out, opacity 0.15s;
+  }
+
+  .price-full {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-width 0.2s ease-out, opacity 0.15s;
+  }
+
+  &:hover .price-short,
+  &[data-expanded] .price-short {
+    max-width: 0;
+    opacity: 0;
+  }
+
+  &:hover .price-full,
+  &[data-expanded] .price-full {
+    max-width: 15em;
+    opacity: 1;
+  }
+
+  &[data-expanded] {
+    cursor: default;
+    pointer-events: none;
   }
 `;
 
 const PriceCategoryBadge = (props: Props) => {
   return (
-    <Tooltip text={computedState.translations()[props.priceCategory]}>
-      <Container {...props}>
-        <For each={Array(categories.length).fill(0)}>
-          {(_, i) => (
-            <MoneyIcon
-              style={{
-                opacity:
-                  i() <= categories.indexOf(props.priceCategory) ? 1.0 : 0.33,
-              }}
-            />
-          )}
-        </For>
-      </Container>
-    </Tooltip>
+    <Badge
+      priceCategory={props.priceCategory}
+      data-expanded={props.alwaysExpanded ? '' : undefined}
+    >
+      <span class="price-short">
+        {props.priceCategory === PriceCategory.student ? (
+          <StudentIcon size={13} />
+        ) : props.priceCategory === PriceCategory.studentPremium ? (
+          '€€'
+        ) : (
+          '€€€'
+        )}
+      </span>
+      <span class="price-full">
+        {computedState.translations()[props.priceCategory]}
+      </span>
+    </Badge>
   );
 };
 

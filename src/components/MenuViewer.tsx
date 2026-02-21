@@ -11,13 +11,14 @@ import Tooltip from './Tooltip';
 const Header = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 8px;
 `;
 
 const ButtonContainer = styled.div`
   svg {
     cursor: pointer;
     margin-left: 1rem;
-    color: var(--gray1);
+    color: var(--text-primary);
   }
 `;
 

@@ -19,7 +19,6 @@ const Footer = styled.footer`
 
 const linkStyles = `
   color: var(--gray2);
-  text-transform: uppercase;
   margin: 0 0.5rem;
   text-decoration: none;
   vertical-align: middle;
@@ -100,13 +99,7 @@ export default () => {
           <StyledNavLink to="/contact">
             {computedState.translations().contact}
           </StyledNavLink>
-          <StyledNavLink to="/clients">
-            {computedState.translations().otherClients}
-          </StyledNavLink>
-          <StyledNavLink to="/news">
-            {computedState.translations().updates}
-          </StyledNavLink>
-          <StyledNavLink to="/terms-of-service">
+<StyledNavLink to="/terms-of-service">
             {computedState.translations().termsOfService}
           </StyledNavLink>
           {showInfo && (

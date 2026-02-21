@@ -11,7 +11,7 @@ const Link = styled.a`
   text-decoration: none;
 
   &:hover {
-    color: var(--gray2);
+    color: var(--accent_color);
   }
 `;
 

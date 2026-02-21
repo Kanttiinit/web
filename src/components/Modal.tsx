@@ -67,20 +67,43 @@ const Content = styled.div<{ open: boolean }>`
   border: 1px var(--border-subtle) solid;
   box-shadow: var(--shadow-md), 0 0 0 1px rgba(0,0,0,0.04);
   flex: 1;
-  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
-  opacity: 0;
-  transform: translateY(12px);
   max-height: 90vh;
+  transform-origin: center bottom;
+
+  /* Closed — snappy dismiss */
+  opacity: 0;
+  transform: translateY(10px) scale(0.97);
+  transition: opacity 0.1s ease-in, transform 0.12s ease-in;
+
+  /* Open — spring entry */
+  ${props =>
+    props.open &&
+    `
+    animation:
+      modalFadeIn 0.08s ease-out both,
+      modalSpringIn 0.2s cubic-bezier(0.34, 1.15, 0.64, 1) both;
+  `}
+
+  @keyframes modalFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes modalSpringIn {
+    from { transform: translateY(10px) scale(0.97); }
+    to   { transform: translateY(0) scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none !important;
+    transform: none !important;
+    transition: opacity 0.15s ease-out;
+    opacity: ${props => (props.open ? 1 : 0)};
+  }
 
   @media (max-width: ${breakSmall}) {
     max-width: 100%;
   }
-
-  ${props =>
-    props.open
-      ? `opacity: 1;
-      transform: translateY(0);`
-      : ''}
 `;
 
 const CloseText = styled.div<{ open: boolean }>`

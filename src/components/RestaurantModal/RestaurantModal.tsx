@@ -74,6 +74,7 @@ const LinkContainer = styled.div`
 
   @media (max-width: ${breakSmall}) {
     flex-direction: column;
+    align-items: flex-start;
   }
 `;
 

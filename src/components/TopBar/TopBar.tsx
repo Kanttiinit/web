@@ -61,20 +61,43 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
   padding: 0.4em;
   box-shadow: var(--shadow-popover);
   border-radius: var(--radius-md);
-  opacity: 0;
-  transform: translateY(-6px);
-  transition: opacity 150ms ease-out, transform 150ms ease-out;
-  pointer-events: none;
+  transform-origin: top right;
 
+  /* Closed — fast snappy dismiss */
+  opacity: 0;
+  transform: translateY(-2px) scaleX(0.96) scaleY(0.5);
+  pointer-events: none;
+  transition: opacity 0.08s ease-in, transform 0.1s ease-in;
+
+  /* Open — spring entry animation */
   ${props =>
-    props.isOpen
-      ? `opacity: 1;
-      transform: translateY(0);
-      pointer-events: all;
+    props.isOpen &&
     `
-      : ''}
+    pointer-events: all;
+    animation:
+      popoverFadeIn 0.06s ease-out both,
+      popoverSpringIn 0.25s cubic-bezier(0.34, 1.2, 0.64, 1) both;
+  `}
+
+  @keyframes popoverFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes popoverSpringIn {
+    from { transform: translateY(-2px) scaleX(0.96) scaleY(0.5); }
+    to   { transform: translateY(0) scaleX(1) scaleY(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none !important;
+    transform: none !important;
+    transition: opacity 0.15s ease-out;
+    opacity: ${props => (props.isOpen ? 1 : 0)};
+  }
 
   @media (max-width: ${breakSmall}) {
+    transform-origin: top center;
     top: 52px;
     left: 0.5rem;
     right: 0.5rem;

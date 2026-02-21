@@ -71,13 +71,14 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
 
   /* Open — spring entry animation */
   ${props =>
-    props.isOpen &&
-    `
+    props.isOpen
+      ? `
     pointer-events: all;
     animation:
       popoverFadeIn 0.06s ease-out both,
       popoverSpringIn 0.25s cubic-bezier(0.34, 1.2, 0.64, 1) both;
-  `}
+  `
+      : ''}
 
   @keyframes popoverFadeIn {
     from { opacity: 0; }

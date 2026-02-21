@@ -78,12 +78,13 @@ const Content = styled.div<{ open: boolean }>`
 
   /* Open — spring entry */
   ${props =>
-    props.open &&
-    `
+    props.open
+      ? `
     animation:
       modalFadeIn 0.08s ease-out both,
       modalSpringIn 0.2s cubic-bezier(0.34, 1.15, 0.64, 1) both;
-  `}
+  `
+      : ''}
 
   @keyframes modalFadeIn {
     from { opacity: 0; }

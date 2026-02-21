@@ -5,6 +5,7 @@ const Link = styled.a`
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  margin-right: 1rem;
   color: var(--gray4);
   font-size: 0.8rem;
   letter-spacing: 0.05rem;

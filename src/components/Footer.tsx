@@ -97,6 +97,7 @@ export default () => {
           alt="Kanttiinit logo"
           src={logo}
         />
+        <PoweredByUpcloud />
         <nav>
           <StyledNavLink to="/contact">
             {computedState.translations().contact}
@@ -121,9 +122,7 @@ export default () => {
           )}
         </nav>
       </NavigationContainer>
-      <div style={{ display: 'flex', 'align-items': 'center', gap: '1.5rem' }}>
-        <PoweredByUpcloud />
-        <VersionLink
+      <VersionLink
           href='https://github.com/Kanttiinit/web'
           rel='noopener'
           target='_blank'
@@ -131,7 +130,6 @@ export default () => {
           <GithubIcon style={{ 'vertical-align': 'middle', 'margin-right': '0.25rem' }} />
           v{version}
         </VersionLink>
-      </div>
     </Footer>
   );
 };

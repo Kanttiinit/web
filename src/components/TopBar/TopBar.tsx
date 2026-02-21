@@ -1,17 +1,16 @@
-import FI from './fi.svg';
-import EN from './en.svg';
-
+import { createSignal, onCleanup, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
+import { breakSmall } from '../../globalStyles';
+import { MapIcon, NewsIcon, SettingsIcon } from '../../icons';
+import { computedState, setState, state } from '../../state';
+import { Lang } from '../../types';
 import AreaSelector from '../AreaSelector';
 import ClickOutside from '../ClickOutside';
 import DaySelector from '../DaySelector';
 import InlineIcon from '../InlineIcon';
 import Link from '../Link';
-import { computedState, setState, state } from '../../state';
-import { breakSmall } from '../../globalStyles';
-import { createSignal, onCleanup, onMount } from 'solid-js';
-import { MapIcon, NewsIcon, SettingsIcon } from '../../icons';
-import { Lang } from '../../types';
+import EN from './en.svg';
+import FI from './fi.svg';
 
 const Container = styled.header<{ darkMode: boolean }>`
   background: linear-gradient(to bottom, var(--gray6) 0%, var(--gray7) 100%);
@@ -148,7 +147,7 @@ export default function TopBar() {
     event.preventDefault();
     const target = document.elementFromPoint(
       event.touches[0].pageX,
-      event.touches[0].pageY
+      event.touches[0].pageY,
     );
     if (target instanceof HTMLButtonElement) {
       target.focus();
@@ -158,13 +157,13 @@ export default function TopBar() {
   const touchEnd = (event: TouchEvent) => {
     const endTarget = document.elementFromPoint(
       event.changedTouches[0].pageX,
-      event.changedTouches[0].pageY
+      event.changedTouches[0].pageY,
     );
     if (endTarget instanceof HTMLElement) {
       endTarget.dispatchEvent(
         new MouseEvent('mouseup', {
-          bubbles: true
-        })
+          bubbles: true,
+        }),
       );
     }
   };
@@ -172,10 +171,10 @@ export default function TopBar() {
   onMount(() => {
     if (areaSelectorLink) {
       areaSelectorLink.addEventListener('touchstart', touchStart, {
-        passive: false
+        passive: false,
       });
       areaSelectorLink.addEventListener('touchmove', touchMove, {
-        passive: false
+        passive: false,
       });
       areaSelectorLink.addEventListener('touchend', touchEnd);
     }
@@ -193,7 +192,7 @@ export default function TopBar() {
     setState(
       'preferences',
       'lang',
-      state.preferences.lang === Lang.FI ? Lang.EN : Lang.FI
+      state.preferences.lang === Lang.FI ? Lang.EN : Lang.FI,
     );
   }
 

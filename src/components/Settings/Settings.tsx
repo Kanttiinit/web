@@ -1,8 +1,7 @@
-import { JSXElement } from 'solid-js';
+import type { JSXElement } from 'solid-js';
 import { styled } from 'solid-styled-components';
-
-import { DarkModeChoice, HighlighOperator, Lang, Order } from '../../types';
 import { computedState, setState, state } from '../../state';
+import { DarkModeChoice, HighlighOperator, Lang, Order } from '../../types';
 import FavoriteSelector from '../FavoriteSelector';
 import PageContainer from '../PageContainer';
 import Radio from '../Radio';
@@ -34,7 +33,7 @@ const orders = [Order.AUTOMATIC, Order.ALPHABET, Order.DISTANCE];
 
 const languageOptions = [
   { label: 'Finnish', value: Lang.FI },
-  { label: 'English', value: Lang.EN }
+  { label: 'English', value: Lang.EN },
 ];
 
 const Settings = () => {
@@ -58,16 +57,16 @@ const Settings = () => {
           options={[
             {
               label: computedState.translations().default,
-              value: DarkModeChoice.DEFAULT
+              value: DarkModeChoice.DEFAULT,
             },
             {
               label: computedState.translations().light,
-              value: DarkModeChoice.OFF
+              value: DarkModeChoice.OFF,
             },
             {
               label: computedState.translations().dark,
-              value: DarkModeChoice.ON
-            }
+              value: DarkModeChoice.ON,
+            },
           ]}
           selected={state.preferences.darkMode}
           onChange={value => setState('preferences', 'darkMode', value)}
@@ -77,7 +76,7 @@ const Settings = () => {
         <Radio
           options={orders.map(order => ({
             label: computedState.translations()[order],
-            value: order
+            value: order,
           }))}
           selected={state.preferences.order}
           onChange={value => setState('preferences', 'order', value)}
@@ -95,11 +94,19 @@ const Settings = () => {
       <Item label={computedState.translations().highlightOperator}>
         <Radio
           options={[
-            { label: computedState.translations().and, value: HighlighOperator.AND },
-            { label: computedState.translations().or, value: HighlighOperator.OR }
+            {
+              label: computedState.translations().and,
+              value: HighlighOperator.AND,
+            },
+            {
+              label: computedState.translations().or,
+              value: HighlighOperator.OR,
+            },
           ]}
           selected={state.preferences.highlightOperator}
-          onChange={value => setState('preferences', 'highlightOperator', value)}
+          onChange={value =>
+            setState('preferences', 'highlightOperator', value)
+          }
         />
       </Item>
       <Item label={computedState.translations().avoidDiets}>

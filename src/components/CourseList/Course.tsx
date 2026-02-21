@@ -1,10 +1,10 @@
-import { For, createMemo } from 'solid-js';
+import { createMemo, For } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { CourseType, HighlighOperator } from '../../types';
-import { state } from '../../state';
-import { isFavorite } from '../../utils';
 import { HeartFilledIcon } from '../../icons';
+import { state } from '../../state';
 import { properties } from '../../translations';
+import { type CourseType, HighlighOperator } from '../../types';
+import { isFavorite } from '../../utils';
 import Property from './Property';
 
 const CourseTitle = styled.h2<{ highlight: boolean; dimmed: boolean }>`
@@ -58,12 +58,12 @@ function getProperty(propertyKey: string) {
 
 const isPropertySelected = (propertyKey: string) =>
   state.preferences.properties.some(
-    p => p.toLowerCase() === propertyKey.toLowerCase()
+    p => p.toLowerCase() === propertyKey.toLowerCase(),
   );
 
 function isDesiredProperty(propertyKey: string) {
   const property = getProperty(propertyKey);
-  if (property && property.desired) {
+  if (property?.desired) {
     return isPropertySelected(propertyKey);
   }
   return false;
@@ -78,10 +78,20 @@ function isUndesiredProperty(propertyKey: string) {
 }
 
 const Course = (props: { course: CourseType }) => {
-  const desiredProperties = createMemo(() => props.course.properties.filter(p => getProperty(p)?.desired));
+  const desiredProperties = createMemo(() =>
+    props.course.properties.filter(p => getProperty(p)?.desired),
+  );
 
-  const propertyOperator = createMemo(() => state.preferences.highlightOperator === HighlighOperator.OR ? 'some' : 'every');
-  const highlight = () => state.preferences.properties.length !== 0 && state.preferences.properties[propertyOperator()](p => desiredProperties().includes(p));
+  const propertyOperator = createMemo(() =>
+    state.preferences.highlightOperator === HighlighOperator.OR
+      ? 'some'
+      : 'every',
+  );
+  const highlight = () =>
+    state.preferences.properties.length !== 0 &&
+    state.preferences.properties[propertyOperator()](p =>
+      desiredProperties().includes(p),
+    );
 
   const dim = () => props.course.properties.some(isUndesiredProperty);
 

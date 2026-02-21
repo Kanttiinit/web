@@ -1,8 +1,7 @@
 import { createMemo, For } from 'solid-js';
 import { styled } from 'solid-styled-components';
-
-import { CourseType } from '../../types';
 import { computedState } from '../../state';
+import type { CourseType } from '../../types';
 import Course from './Course';
 
 interface CourseGroup {
@@ -61,24 +60,27 @@ const capitalize = (string: string) => {
 
 const CourseList = (props: Props) => {
   const courseGroups = createMemo(() => {
-    const groups = props.courses.reduce((g, course) => {
-      const group = getCourseGroup(course);
-      if (group in g) {
-        g[group].push(course);
-      } else {
-        g[group] = [course];
-      }
-      return g;
-    }, {} as { [key: string]: CourseType[] });
+    const groups = props.courses.reduce(
+      (g, course) => {
+        const group = getCourseGroup(course);
+        if (group in g) {
+          g[group].push(course);
+        } else {
+          g[group] = [course];
+        }
+        return g;
+      },
+      {} as { [key: string]: CourseType[] },
+    );
 
     return Object.keys(groups).map(groupKey => ({
       courses: groups[groupKey]
         .filter(c => !!c.title)
         .map(c => ({
           ...c,
-          title: c.title.replace(groupKey + ': ', '')
+          title: c.title.replace(`${groupKey}: `, ''),
         })),
-      key: groupKey
+      key: groupKey,
     }));
   });
 

@@ -1,4 +1,3 @@
-import { sort } from 'fast-sort';
 import {
   createEffect,
   createMemo,
@@ -6,7 +5,7 @@ import {
   Match,
   onMount,
   Show,
-  Switch
+  Switch,
 } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { styled } from 'solid-styled-components';
@@ -14,7 +13,7 @@ import Button from '../components/Button';
 import { get } from '../utils';
 import * as api from './api';
 import Editor from './Editor';
-import { Model } from './models';
+import type { Model } from './models';
 
 const Table = styled.table`
   width: 100%;
@@ -114,7 +113,7 @@ export default function DataTable(props: Props) {
   const [state, setState] = createStore<State>({
     sortDirection: 'asc',
     items: [],
-    loading: false
+    loading: false,
   });
 
   const openCreateDialog = () =>
@@ -122,18 +121,18 @@ export default function DataTable(props: Props) {
 
   const hideDialog = () => setState({ mode: undefined });
 
-  const getSortIndicator = (sortedColumn: string) =>
+  const _getSortIndicator = (sortedColumn: string) =>
     sortedColumn === state.sortedColumn
       ? state.sortDirection === 'asc'
         ? '︎︎↑'
         : '↓'
       : '';
 
-  const changeSort = (columnKey: string) => {
+  const _changeSort = (columnKey: string) => {
     const { sortedColumn, sortDirection } = state;
     if (sortedColumn === columnKey) {
       setState({
-        sortDirection: sortDirection === 'asc' ? 'desc' : 'asc'
+        sortDirection: sortDirection === 'asc' ? 'desc' : 'asc',
       });
     } else {
       setState({ sortedColumn: columnKey, sortDirection: 'asc' });
@@ -150,13 +149,13 @@ export default function DataTable(props: Props) {
     () =>
       /*state.sortedColumn
     ? sort(state.items).by({ [state.sortDirection]: state.sortedColumn! })
-    : */ state.items
+    : */ state.items,
   );
 
   const resetSort = () => {
     setState({
       sortedColumn: props.model.defaultSort,
-      sortDirection: 'asc'
+      sortDirection: 'asc',
     });
   };
 
@@ -171,7 +170,7 @@ export default function DataTable(props: Props) {
 
   return (
     <>
-      {!!state.mode &&
+      {!!state.mode && (
         <>
           <ModalBg onClick={hideDialog} />
           <Modal>
@@ -184,7 +183,7 @@ export default function DataTable(props: Props) {
             />
           </Modal>
         </>
-      }
+      )}
       <Button style={{ margin: '1em 0' }} onClick={openCreateDialog}>
         Create
       </Button>

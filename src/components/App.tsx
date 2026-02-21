@@ -1,18 +1,14 @@
-import { Route, Router, useLocation, useMatch, useNavigate } from '@solidjs/router';
-import { createEffect, createSignal, lazy, Match, onCleanup, onMount, Switch } from 'solid-js';
+import { useLocation, useNavigate } from '@solidjs/router';
+import { addDays, isSameDay, parse, startOfDay } from 'date-fns';
+import haversine from 'haversine';
+import { createEffect, createSignal, onCleanup, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { computedState, getDisplayedDays, setState, state } from '../state';
-import addDays from 'date-fns/addDays';
-import startOfDay from 'date-fns/startOfDay';
-import parse from 'date-fns/parse';
-import isSameDay from 'date-fns/isSameDay';
+import { getNewPath, isDateInRange } from '../utils';
 import Footer from './Footer';
 import Modal from './Modal';
 import RestaurantList from './RestaurantList';
-
 import TopBar from './TopBar';
-import { getNewPath, isDateInRange } from '../utils';
-import haversine from 'haversine';
 
 const Container = styled.div`
   display: flex;
@@ -35,17 +31,17 @@ export default function App(props: any) {
 
   createEffect(() => {
     const isDev =
-      // @ts-ignore
+      // @ts-expect-error
       !!window.__REACT_DEVTOOLS_GLOBAL_HOOK__ ||
-      // @ts-ignore
+      // @ts-expect-error
       !!window.__REDUX_DEVTOOLS_EXTENSION__ ||
-      // @ts-ignore
+      // @ts-expect-error
       !!window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ||
-      // @ts-ignore
+      // @ts-expect-error
       !!window.__VUE_DEVTOOLS_GLOBAL_HOOK__ ||
-      // @ts-ignore
+      // @ts-expect-error
       !!window.__SVELTE_DEVTOOLS_HOOK__ ||
-      // @ts-ignore
+      // @ts-expect-error
       typeof window.ng !== 'undefined';
 
     if (isDev) {
@@ -69,19 +65,19 @@ export default function App(props: any) {
   });
 
   createEffect(() => {
-    const day = new URL('http://dummy.com' + location.search).searchParams.get(
-      'day'
+    const day = new URL(`http://dummy.com${location.search}`).searchParams.get(
+      'day',
     );
     setState(
       'selectedDay',
       day
         ? startOfDay(parse(day, 'y-MM-dd', new Date()))
-        : startOfDay(new Date())
+        : startOfDay(new Date()),
     );
   });
 
   const [locationWatchId, setLocationWatchId] = createSignal<number | null>(
-    null
+    null,
   );
   createEffect(() => {
     // start or stop watching for location
@@ -94,7 +90,7 @@ export default function App(props: any) {
                 return coords;
               }
               const distance = haversine(currentLocation, coords, {
-                unit: 'meter'
+                unit: 'meter',
               });
               if (distance > 100) {
                 return coords;
@@ -107,8 +103,8 @@ export default function App(props: any) {
               case 1:
                 state.preferences.useLocation = false;
             }
-          }
-        )
+          },
+        ),
       );
     } else if (!state.preferences.useLocation && locationWatchId()) {
       navigator.geolocation.clearWatch(locationWatchId()!);
@@ -155,17 +151,13 @@ export default function App(props: any) {
   });
 
   return (
-    <>
-      <Container>
-        <div>
-          <TopBar />
-          <RestaurantList />
-        </div>
-        <Footer />
-        <Modal>
-          {props.children}
-        </Modal>
-      </Container>
-    </>
+    <Container>
+      <div>
+        <TopBar />
+        <RestaurantList />
+      </div>
+      <Footer />
+      <Modal>{props.children}</Modal>
+    </Container>
   );
 }

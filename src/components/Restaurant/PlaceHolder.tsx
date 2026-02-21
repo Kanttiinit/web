@@ -1,5 +1,5 @@
 import { For } from 'solid-js';
-import { styled, keyframes } from 'solid-styled-components';
+import { keyframes, styled } from 'solid-styled-components';
 
 import { Container, courseListStyles } from './Restaurant';
 

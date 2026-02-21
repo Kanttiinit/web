@@ -1,25 +1,23 @@
-import getIsoDay from 'date-fns/getISODay';
-import isSameDay from 'date-fns/isSameDay';
+import { getISODay as getIsoDay, isSameDay } from 'date-fns';
+import { createSignal } from 'solid-js';
 import { styled } from 'solid-styled-components';
-
-import { RestaurantType } from '../../types';
 import { breakSmall } from '../../globalStyles';
-import { computedState, setState, state } from '../../state';
 import {
   BikeIcon,
   EditIcon,
   FilledStarIcon,
   LocationIcon,
   MoreIcon,
-  WalkIcon
+  WalkIcon,
 } from '../../icons';
+import { computedState, setState, state } from '../../state';
+import type { RestaurantType } from '../../types';
+import { getArrayWithToggled } from '../../utils';
 import Colon from '../Colon';
 import CourseList from '../CourseList';
 import InlineIcon from '../InlineIcon';
 import Link from '../Link';
 import PriceCategoryBadge from '../PriceCategoryBadge';
-import { getArrayWithToggled } from '../../utils';
-import { createSignal } from 'solid-js';
 
 const Distance = (props: { distance?: number }) => {
   const kilometers = () => (props.distance || 0) > 1500;
@@ -28,7 +26,7 @@ const Distance = (props: { distance?: number }) => {
       style={{
         'font-weight': 400,
         'text-align': 'left',
-        display: 'inline-block'
+        display: 'inline-block',
       }}
     >
       <InlineIcon>
@@ -43,8 +41,8 @@ const Distance = (props: { distance?: number }) => {
       {!props.distance
         ? computedState.translations().locating
         : kilometers()
-        ? parseFloat(String(props.distance / 1000)).toFixed(1)
-        : Math.round(props.distance)}
+          ? parseFloat(String(props.distance / 1000)).toFixed(1)
+          : Math.round(props.distance)}
       &nbsp;
       {props.distance &&
         (kilometers()
@@ -149,8 +147,8 @@ const RestaurantName = styled.h2<{ noCourses?: boolean; isClosed?: boolean }>`
     props.isClosed
       ? 'var(--gray1)'
       : props.noCourses
-      ? 'var(--gray3)'
-      : 'var(--gray1)'};
+        ? 'var(--gray3)'
+        : 'var(--gray1)'};
   font-weight: 500;
   margin: 0;
   max-width: 60%;
@@ -246,13 +244,13 @@ const Restaurant = (props: Props) => {
       'starredRestaurants',
       getArrayWithToggled(
         state.preferences.starredRestaurants,
-        props.restaurant.id
-      )
+        props.restaurant.id,
+      ),
     );
   };
 
   const [hovering, setHovering] = createSignal(false);
-  function deploySurprise() { 
+  function deploySurprise() {
     if (localStorage.getItem('isSurprise') === 'true') {
       setHovering(true);
       setTimeout(() => {

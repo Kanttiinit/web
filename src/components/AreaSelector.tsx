@@ -1,10 +1,8 @@
-import { For, JSX } from 'solid-js';
-import { styled, css } from 'solid-styled-components';
-
-import { AreaType } from '../types';
-import { computedState, setState, state, resources } from '../state';
+import { For, type JSX } from 'solid-js';
+import { css, styled } from 'solid-styled-components';
 import { FilledStarIcon, WalkIcon } from '../icons';
-import allTranslations from '../translations';
+import { computedState, resources, setState, state } from '../state';
+import type allTranslations from '../translations';
 import Button from './Button';
 
 const iconStyles = css`
@@ -30,13 +28,13 @@ const specialAreas: SpecialArea[] = [
   {
     icon: <StyledWalkIcon />,
     id: -2,
-    translationKey: 'nearby'
+    translationKey: 'nearby',
   },
   {
     icon: <StarIcon />,
     id: -1,
-    translationKey: 'starred'
-  }
+    translationKey: 'starred',
+  },
 ];
 
 const AreaWrapper = styled.div`
@@ -77,7 +75,9 @@ const Area = (props: {
       selected={props.selectedAreaId === props.area.id}
     >
       {props.area.icon && (
-        <div style={{ 'margin-right': '4px', display: 'inline-block' }}>{props.area.icon}</div>
+        <div style={{ 'margin-right': '4px', display: 'inline-block' }}>
+          {props.area.icon}
+        </div>
       )}
       {props.area.label}
     </AreaButton>
@@ -118,7 +118,7 @@ export default function AreaSelector(props: Props) {
             area={{
               id: area.id,
               icon: area.icon,
-              label: computedState.translations()[area.translationKey]
+              label: computedState.translations()[area.translationKey],
             }}
           />
         )}
@@ -130,7 +130,7 @@ export default function AreaSelector(props: Props) {
             selectArea={selectArea}
             area={{
               id: area.id,
-              label: area.name
+              label: area.name,
             }}
           />
         )}

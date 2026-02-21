@@ -1,10 +1,9 @@
 import { styled } from 'solid-styled-components';
-import { computedState } from '../state';
-
 import logo from '../assets/logo_48.png';
 import { version } from '../consts';
-import Link from './Link';
 import { breakSmall } from '../globalStyles';
+import { computedState } from '../state';
+import Link from './Link';
 
 const Footer = styled.footer`
   text-align: center;

@@ -1,10 +1,9 @@
 import { For } from 'solid-js';
 import { styled } from 'solid-styled-components';
-
-import { PriceCategory } from '../types';
-import { computedState } from '../state';
-import Tooltip from './Tooltip';
 import { MoneyIcon } from '../icons';
+import { computedState } from '../state';
+import { PriceCategory } from '../types';
+import Tooltip from './Tooltip';
 
 type Props = {
   priceCategory: PriceCategory;
@@ -13,7 +12,7 @@ type Props = {
 const categories = [
   PriceCategory.student,
   PriceCategory.studentPremium,
-  PriceCategory.regular
+  PriceCategory.regular,
 ];
 
 const Container = styled.span<Props>`
@@ -37,7 +36,7 @@ const PriceCategoryBadge = (props: Props) => {
             <MoneyIcon
               style={{
                 opacity:
-                  i() <= categories.indexOf(props.priceCategory) ? 1.0 : 0.33
+                  i() <= categories.indexOf(props.priceCategory) ? 1.0 : 0.33,
               }}
             />
           )}

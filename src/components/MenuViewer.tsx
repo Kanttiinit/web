@@ -1,10 +1,9 @@
 import { createResource } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { breakSmall } from '../globalStyles';
-import { state } from '../state';
-
 import { getCourses } from '../api';
+import { breakSmall } from '../globalStyles';
 import { CopyIcon, LinkIcon, ShareIcon } from '../icons';
+import { state } from '../state';
 import CourseList from './CourseList';
 import DaySelector from './DaySelector';
 import Tooltip from './Tooltip';
@@ -46,9 +45,9 @@ export default function MenuViewer(props: Props) {
     () => ({
       id: props.restaurantId,
       selectedDay: state.selectedDay,
-      lang: state.preferences.lang
+      lang: state.preferences.lang,
     }),
-    source => getCourses(source.id, source.selectedDay, source.lang)
+    source => getCourses(source.id, source.selectedDay, source.lang),
   );
 
   const onCopy = (target: string) => {
@@ -62,7 +61,7 @@ export default function MenuViewer(props: Props) {
             }
             return line;
           })
-          .join('\n')
+          .join('\n'),
       );
     } else if (target === 'url') {
       navigator.clipboard.writeText(location.href);
@@ -72,7 +71,7 @@ export default function MenuViewer(props: Props) {
   const share = () => {
     (navigator as any).share({
       title: 'Kanttiinit.fi',
-      url: location.href
+      url: location.href,
     });
   };
 

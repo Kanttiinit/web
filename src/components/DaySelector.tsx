@@ -1,14 +1,12 @@
-import format from 'date-fns/format';
-import isSameDay from 'date-fns/isSameDay';
+import { useLocation } from '@solidjs/router';
+import { format, isSameDay } from 'date-fns';
 import { For } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { isDateInRange } from '../utils';
 
 import { breakLarge, breakSmall } from '../globalStyles';
 import { state } from '../state';
-import { formattedDay } from '../utils';
+import { formattedDay, isDateInRange } from '../utils';
 import Link from './Link';
-import { useLocation } from '@solidjs/router';
 
 interface DayLinkProps {
   day: Date;

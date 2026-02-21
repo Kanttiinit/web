@@ -1,12 +1,17 @@
+import { addDays, parseISO, startOfDay } from 'date-fns';
+import { createMemo, createResource } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import { createResource } from 'solid-js';
 import * as api from './api';
-import addDays from 'date-fns/addDays';
-import startOfDay from 'date-fns/startOfDay';
 import translations from './translations';
-import { DarkModeChoice, HighlighOperator, Lang, Order, PriceCategory, RestaurantType, Update } from './types';
-import parseISO from 'date-fns/parseISO';
-import { createMemo } from 'solid-js';
+import {
+  DarkModeChoice,
+  HighlighOperator,
+  Lang,
+  Order,
+  PriceCategory,
+  type RestaurantType,
+  type Update,
+} from './types';
 
 const maxDayOffset = 6;
 
@@ -30,19 +35,22 @@ const migrateOldSettings = () => {
     'properties',
     'location',
     'order',
-    'updatesLastSeenAt'
-  ].reduce((settings, i) => {
-    const value = localStorage.getItem(i);
-    if (value !== undefined && value !== null) {
-      settings[i === 'location' ? 'useLocation' : i] = JSON.parse(value);
-      localStorage.removeItem(i);
-    }
-    return settings;
-  }, {} as Record<string, unknown>);
+    'updatesLastSeenAt',
+  ].reduce(
+    (settings, i) => {
+      const value = localStorage.getItem(i);
+      if (value !== undefined && value !== null) {
+        settings[i === 'location' ? 'useLocation' : i] = JSON.parse(value);
+        localStorage.removeItem(i);
+      }
+      return settings;
+    },
+    {} as Record<string, unknown>,
+  );
 };
 
 const persistedSettings = JSON.parse(
-  localStorage.getItem('preferences') || '{}'
+  localStorage.getItem('preferences') || '{}',
 ) as Record<string, unknown>;
 
 const [state, setState] = createStore({
@@ -64,12 +72,12 @@ const [state, setState] = createStore({
     ...migrateOldSettings(),
     ...persistedSettings,
   },
-  properties: [] as string[]
+  properties: [] as string[],
 });
 
 const areaResource = createResource(
   () => ({ lang: state.preferences.lang }),
-  source => api.getAreas(source.lang)
+  source => api.getAreas(source.lang),
 );
 
 const restaurantResourceSource = () => {
@@ -80,41 +88,40 @@ const restaurantResourceSource = () => {
     starredRestaurants: state.preferences.starredRestaurants,
     maxPriceCategory: state.preferences.maxPriceCategory,
     areas: areaResource[0].latest,
-    areasLoading: areaResource[0].loading
+    areasLoading: areaResource[0].loading,
   };
 };
 
-const restaurantResource = createResource<RestaurantType[], ReturnType<typeof restaurantResourceSource>>(
-  restaurantResourceSource,
-  (source, v) => {
-    if (source.area === -1) {
-      if (!source.starredRestaurants.length)
-        return [];
+const restaurantResource = createResource<
+  RestaurantType[],
+  ReturnType<typeof restaurantResourceSource>
+>(restaurantResourceSource, (source, v) => {
+  if (source.area === -1) {
+    if (!source.starredRestaurants.length) return [];
 
-      return api.getRestaurantsByIds(source.starredRestaurants, source.lang);
-    } else if (source.area === -2) {
-      if (!source.location)
-        return [];
-        
-      const { latitude, longitude } = source.location;
-      return api.getRestaurantsByLocation(latitude, longitude, source.lang);
-    } else if (source.areas?.length && !source.areasLoading) {
-      const ids = source.areas.find(a => a.id === source.area)!.restaurants;
-      if (v.value?.length && v.value?.every(r => ids.includes(r.id)))
-        return v.value;
+    return api.getRestaurantsByIds(source.starredRestaurants, source.lang);
+  } else if (source.area === -2) {
+    if (!source.location) return [];
 
-      return api.getRestaurantsByIds(ids, source.lang, source.maxPriceCategory);
-    }
-    return [];
+    const { latitude, longitude } = source.location;
+    return api.getRestaurantsByLocation(latitude, longitude, source.lang);
+  } else if (source.areas?.length && !source.areasLoading) {
+    const ids = source.areas.find(a => a.id === source.area)?.restaurants;
+    if (!ids) return [];
+    if (v.value?.length && v.value?.every(r => ids.includes(r.id)))
+      return v.value;
+
+    return api.getRestaurantsByIds(ids, source.lang, source.maxPriceCategory);
   }
-);
+  return [];
+});
 
 const menuResource = createResource(
   () => {
     return {
       restaurants: restaurantResource[0].latest,
       selectedDay: state.selectedDay,
-      lang: state.preferences.lang
+      lang: state.preferences.lang,
     };
   },
   source => {
@@ -122,18 +129,18 @@ const menuResource = createResource(
       const restaurantIds = source.restaurants.map(restaurant => restaurant.id);
       return api.getMenus(restaurantIds, [source.selectedDay], source.lang);
     }
-  }
+  },
 );
 
 const resources = {
   areas: areaResource,
   favorites: createResource(
     () => ({ lang: state.preferences.lang }),
-    source => api.getFavorites(source.lang)
+    source => api.getFavorites(source.lang),
   ),
   menus: menuResource,
   restaurants: restaurantResource,
-  updates: createResource<Update[]>(() => api.getUpdates())
+  updates: createResource<Update[]>(() => api.getUpdates()),
 };
 
 const computedState = {
@@ -146,7 +153,7 @@ const computedState = {
     return updates.filter(
       update =>
         parseISO(update.createdAt).getTime() >
-        state.preferences.updatesLastSeenAt
+        state.preferences.updatesLastSeenAt,
     );
   }),
   translations: createMemo(() => {
@@ -161,7 +168,7 @@ const computedState = {
       return window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
     return state.preferences.darkMode === DarkModeChoice.ON;
-  })
+  }),
 };
 
 export { state, setState, computedState, resources };

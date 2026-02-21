@@ -1,9 +1,9 @@
 import { For } from 'solid-js';
+import { FilledHeartIcon, HeartIcon } from '../icons';
+import { setState, state } from '../state';
 import { formattedFavorites, getArrayWithToggled } from '../utils';
 import InlineIcon from './InlineIcon';
 import { RoundedButton, RoundedButtonContainer } from './RoundedButton';
-import { setState, state } from '../state';
-import { FilledHeartIcon, HeartIcon } from '../icons';
 
 export default function FavoriteSelector() {
   return (
@@ -17,7 +17,7 @@ export default function FavoriteSelector() {
               setState(
                 'preferences',
                 'favorites',
-                getArrayWithToggled(state.preferences.favorites, favorite.id)
+                getArrayWithToggled(state.preferences.favorites, favorite.id),
               )
             }
           >

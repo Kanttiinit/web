@@ -1,8 +1,8 @@
 import { styled } from 'solid-styled-components';
 
 import { setState, state } from '../../state';
-import { getArrayWithToggled } from '../../utils';
 import { properties } from '../../translations';
+import { getArrayWithToggled } from '../../utils';
 import Tooltip from '../Tooltip';
 
 const ClickTrap = styled.span`
@@ -67,7 +67,7 @@ export default function Property(props: Props) {
           setState(
             'preferences',
             'properties',
-            getArrayWithToggled(state.preferences.properties, props.property)
+            getArrayWithToggled(state.preferences.properties, props.property),
           )
         }
       />

@@ -8,7 +8,7 @@ type Props = {
 const ClickOutside = (props: Props) => {
   const [ownProps, otherProps] = splitProps(props, [
     'onClickOutside',
-    'children'
+    'children',
   ]);
   let containerRef: HTMLDivElement | undefined;
 

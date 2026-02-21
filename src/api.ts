@@ -1,27 +1,27 @@
-import format from 'date-fns/format';
+import { format } from 'date-fns';
 import http from './http';
 
 import {
-  AreaType,
-  CourseType,
-  FavoriteType,
-  Lang,
-  MenuType,
+  type AreaType,
+  type CourseType,
+  type FavoriteType,
+  type Lang,
+  type MenuType,
   PriceCategory,
-  RestaurantType,
-  Update
+  type RestaurantType,
+  type Update,
 } from './types';
 
 export const getCourses = async (
   restaurantId: number,
   day: Date,
-  lang: Lang
+  lang: Lang,
 ): Promise<CourseType[]> => {
   const restaurant = await http.get(
     `/restaurants/${restaurantId}/menu?day=${format(
       day,
-      'y-MM-dd'
-    )}&lang=${lang}`
+      'y-MM-dd',
+    )}&lang=${lang}`,
   );
   if (!restaurant.menus.length) {
     return [];
@@ -33,12 +33,12 @@ export const getCourses = async (
 export const getMenus = (
   restaurantIds: number[],
   days: Date[],
-  lang: string
+  lang: string,
 ): Promise<MenuType> => {
   return http.get(
     `/menus?lang=${lang}&restaurants=${restaurantIds.join(
-      ','
-    )}&days=${days.map(day => format(day, 'y-MM-dd')).join(',')}`
+      ',',
+    )}&days=${days.map(day => format(day, 'y-MM-dd')).join(',')}`,
   );
 };
 
@@ -46,13 +46,13 @@ export const sendFeedback = (message: string, email: string) =>
   fetch('https://kitchen.kanttiinit.fi/contact', {
     body: JSON.stringify({
       message,
-      email
+      email,
     }),
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    method: 'POST'
+    method: 'POST',
   });
 
 export const getUpdates = (): Promise<Update[]> => {
@@ -68,21 +68,21 @@ export const getFavorites = (lang: Lang): Promise<FavoriteType[]> =>
 export const getRestaurantsByIds = (
   ids: number[],
   lang: Lang,
-  maxPriceCategory: PriceCategory = PriceCategory.regular
+  maxPriceCategory: PriceCategory = PriceCategory.regular,
 ): Promise<RestaurantType[]> => {
   const categories = [
     PriceCategory.student,
     PriceCategory.studentPremium,
-    PriceCategory.regular
+    PriceCategory.regular,
   ];
   const priceCategories = categories.slice(
     0,
-    categories.indexOf(maxPriceCategory) + 1
+    categories.indexOf(maxPriceCategory) + 1,
   );
   return http.get(
     `/restaurants?lang=${lang}&ids=${ids.join(
-      ','
-    )}&priceCategories=${priceCategories.join(',')}`
+      ',',
+    )}&priceCategories=${priceCategories.join(',')}`,
   );
 };
 
@@ -94,7 +94,7 @@ export const getRestaurant = async (id: number, lang: Lang) => {
 export const getRestaurantsByLocation = (
   latitude: number,
   longitude: number,
-  lang: Lang
+  lang: Lang,
 ): Promise<RestaurantType[]> =>
   http.get(`/restaurants?lang=${lang}&location=${latitude},${longitude}`);
 
@@ -103,7 +103,7 @@ export const createRestaurantChange = (restaurantId: number, change: any) =>
   http.post('/changes', {
     change,
     modelFilter: { id: restaurantId },
-    modelName: 'Restaurant'
+    modelName: 'Restaurant',
   });
 
 export const getApprovedUpdates = (uuids: string[]) =>

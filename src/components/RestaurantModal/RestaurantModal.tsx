@@ -1,31 +1,33 @@
 import { useParams } from '@solidjs/router';
-import setIsoDay from 'date-fns/setISODay';
+import { setISODay as setIsoDay } from 'date-fns';
 import { createResource, For, Show } from 'solid-js';
 import { styled } from 'solid-styled-components';
-
-import { breakSmall } from '../../globalStyles';
-import { computedState, state, resources } from '../../state';
 import * as api from '../../api';
-import { formattedDay } from '../../utils';
+import { breakSmall } from '../../globalStyles';
 import { HomeIcon, LocationIcon } from '../../icons';
+import { computedState, resources, state } from '../../state';
+import { formattedDay } from '../../utils';
 import InlineIcon from '../InlineIcon';
 import MenuViewer from '../MenuViewer';
 import PageContainer from '../PageContainer';
 import PriceCategoryBadge from '../PriceCategoryBadge';
-import Map from './Map';
+import MapComponent from './Map';
 
 function getOpeningHourString(hours: string[]) {
-  return hours.reduce((open, hour, i) => {
-    if (hour) {
-      const existingIndex = open.findIndex(i => i.hour === hour);
-      if (existingIndex > -1) {
-        open[existingIndex].endDay = i;
-      } else {
-        open.push({ startDay: i, hour });
+  return hours.reduce(
+    (open, hour, i) => {
+      if (hour) {
+        const existingIndex = open.findIndex(i => i.hour === hour);
+        if (existingIndex > -1) {
+          open[existingIndex].endDay = i;
+        } else {
+          open.push({ startDay: i, hour });
+        }
       }
-    }
-    return open;
-  }, [] as { startDay: number; endDay?: number; hour: string }[]);
+      return open;
+    },
+    [] as { startDay: number; endDay?: number; hour: string }[],
+  );
 }
 
 const Info = styled.div`
@@ -103,24 +105,24 @@ const RestaurantModal = () => {
     () => {
       return {
         lang: state.preferences.lang,
-        id: params.id
+        id: params.id,
       };
     },
     async source => {
       const restaurant = (resources.restaurants[0]() || []).find(
-        r => r.id === Number(source.id)
+        r => r.id === Number(source.id),
       );
       if (restaurant) {
         return restaurant;
       }
       const result = await api.getRestaurantsByIds(
         [Number(source.id)],
-        source.lang
+        source.lang,
       );
       if (result.length) {
         return result[0];
       }
-    }
+    },
   );
 
   return (
@@ -139,7 +141,7 @@ const RestaurantModal = () => {
             <LinkContainer>
               <MetaLink
                 href={`https://maps.google.com/?q=${encodeURIComponent(
-                  restaurant.address
+                  restaurant.address,
                 )}`}
                 rel="noopener"
                 target="_blank"
@@ -164,11 +166,11 @@ const RestaurantModal = () => {
                 {hours => {
                   const startDate = formattedDay(
                     setIsoDay(new Date(), hours.startDay + 1),
-                    'EEEEEE'
+                    'EEEEEE',
                   );
                   const endDate = formattedDay(
                     setIsoDay(new Date(), (hours.endDay || 0) + 1),
-                    'EEEEEE'
+                    'EEEEEE',
                   );
                   return (
                     <OpeningHoursRow>
@@ -192,7 +194,7 @@ const RestaurantModal = () => {
             </OpeningHoursContainer>
           </Info>
           <MenuViewer showCopyButton restaurantId={restaurant.id} />
-          <Map
+          <MapComponent
             restaurant={restaurant}
             restaurantPoint={[restaurant.latitude, restaurant.longitude]}
             userPoint={

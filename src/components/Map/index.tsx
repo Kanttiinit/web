@@ -1,3 +1,3 @@
-import * as React from 'react';
+import { lazy } from 'solid-js';
 
-export default React.lazy(() => import('./Map'));
+export default lazy(() => import('./Map'));

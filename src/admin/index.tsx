@@ -1,11 +1,5 @@
-import {
-  Route,
-  Router,
-  useLocation,
-  useNavigate,
-  useParams
-} from '@solidjs/router';
-import { onMount, Show, For } from 'solid-js';
+import { useLocation, useNavigate } from '@solidjs/router';
+import { For, onMount, Show } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { styled } from 'solid-styled-components';
 import Button from '../components/Button';
@@ -29,7 +23,7 @@ const Tabs = styled.div`
 
 const Tab = styled.button<{ selected: boolean }>`
   cursor: pointer;
-  background: ${props => props.selected ? '#ccc' : '#eee'};
+  background: ${props => (props.selected ? '#ccc' : '#eee')};
   border-radius: 2rem;
   padding: 0.5rem 1rem;
   margin-right: 0.5rem;
@@ -65,7 +59,7 @@ export default function Admin() {
   };
 
   const tabChange = (value: string) => {
-    navigate('/admin/model/' + value);
+    navigate(`/admin/model/${value}`);
   };
 
   const showMessageInternal = (message: string) =>
@@ -83,7 +77,7 @@ export default function Admin() {
       if (!location.pathname.includes('/model/')) {
         navigate('/admin/model/areas', { replace: true });
       }
-    } catch (e) {
+    } catch (_e) {
       navigate('/admin/login', { replace: true });
     }
   };
@@ -96,8 +90,10 @@ export default function Admin() {
   });
 
   function Model() {
-    const params = useParams();
-    const model = () => models.find(m => m.key === params.model);
+    const model = () => {
+      const match = location.pathname.match(/\/model\/([^/]+)/);
+      return match ? models.find(m => m.key === match[1]) : undefined;
+    };
 
     return (
       <Container>
@@ -118,8 +114,7 @@ export default function Admin() {
         >
           <Button disabled={state.updatingRestaurants} onClick={updateMenus}>
             {state.updatingRestaurants ? 'Updating...' : 'Update menus'}
-          </Button>
-          {' '}
+          </Button>{' '}
           <Button color="secondary" onClick={logout}>
             Log out
           </Button>
@@ -127,7 +122,12 @@ export default function Admin() {
         <Show
           keyed
           when={model()}
-          fallback={<p>No such model &quot;{params.model}&quot;.</p>}
+          fallback={
+            <p>
+              No such model &quot;
+              {location.pathname.match(/\/model\/([^/]+)/)?.[1]}&quot;.
+            </p>
+          }
         >
           {model => <DataTable model={model} />}
         </Show>
@@ -137,33 +137,30 @@ export default function Admin() {
 
   return (
     <>
-      <Router>
-        <Route
-          path="/login"
-          element={
-            <form
-              onSubmit={login}
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translateY(-50%) translateX(-50%)'
-              }}
-            >
-              <Input
-                type="password"
-                label="Password"
-                autoComplete="current-password"
-              />
-              &nbsp;
-              <Button type="submit" color="primary">
-                Log in
-              </Button>
-            </form>
-          }
-        />
-        <Route path="/model/:model" component={Model} />
-      </Router>
+      <Show when={location.pathname.endsWith('/login')}>
+        <form
+          onSubmit={login}
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translateY(-50%) translateX(-50%)',
+          }}
+        >
+          <Input
+            type="password"
+            label="Password"
+            autoComplete="current-password"
+          />
+          &nbsp;
+          <Button type="submit" color="primary">
+            Log in
+          </Button>
+        </form>
+      </Show>
+      <Show when={location.pathname.includes('/model/')}>
+        <Model />
+      </Show>
       {/* <Snackbar
         autoHideDuration={4000}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}

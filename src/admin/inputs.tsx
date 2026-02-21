@@ -1,20 +1,18 @@
+import { format } from 'date-fns';
+import { sort } from 'fast-sort';
 import { createResource, createSignal, For, Show } from 'solid-js';
+import { styled } from 'solid-styled-components';
+import Input from '../components/Input';
 import LatLngInput from '../components/LatLngInput';
 import OpeningHoursInput from '../components/OpeningHoursInput';
-import * as api from './api';
-import models from './models';
-import {
-  EnumField,
-  ModelField,
-  ModelFieldGroup,
-  RelationField
-} from './models';
-import Input from '../components/Input';
-import format from 'date-fns/format';
-import { styled } from 'solid-styled-components';
 import { get } from '../utils';
-import { sort } from 'fast-sort';
-import { unwrap } from 'solid-js/store';
+import * as api from './api';
+import models, {
+  type EnumField,
+  type ModelField,
+  type ModelFieldGroup,
+  type RelationField,
+} from './models';
 
 interface InputProps {
   value: any;
@@ -42,16 +40,16 @@ const Control = styled.label`
   margin-bottom: 1rem;
 `;
 
-const Label = styled.div``;
+const _Label = styled.div``;
 
 const UrlInput = (props: InputProps) => (
-  <Control style={{"display":"flex","align-items":"center","gap":"1rem"}}>
+  <Control style={{ display: 'flex', 'align-items': 'center', gap: '1rem' }}>
     <Input
       label={props.field.title}
       onChange={(e: string) => props.setValue(props.field.path, e)}
       value={props.value || ''}
       type="text"
-      style={{"flex":"1"}}
+      style={{ flex: '1' }}
     />
     <a target="_blank" href={props.value}>
       Open
@@ -62,19 +60,18 @@ const UrlInput = (props: InputProps) => (
 const MenuUrlInput = (props: InputProps) => {
   const now = () => new Date();
   const link = () =>
-    props.value &&
     props.value
-      .replace('%year%', format(now(), 'yyyy'))
+      ?.replace('%year%', format(now(), 'yyyy'))
       .replace('%month%', format(now(), 'mm'))
       .replace('%day%', format(now(), 'dd'));
   return (
-    <Control style={{"display":"flex","align-items":"center","gap":"1rem"}}>
+    <Control style={{ display: 'flex', 'align-items': 'center', gap: '1rem' }}>
       <Input
         onChange={value => props.setValue(props.field.path, value)}
         value={props.value || ''}
         type="text"
         label={props.field.title}
-        style={{"flex":"1"}}
+        style={{ flex: '1' }}
       />
       <a target="_blank" href={link()}>
         Open
@@ -115,7 +112,7 @@ const RegExpInput = (props: InputProps) => {
           value={test()}
           onChange={value => setTest(value)}
         />
-        <small style={{"margin-top":"-0.5rem","display":"block"}}>
+        <small style={{ 'margin-top': '-0.5rem', display: 'block' }}>
           {match()
             ? 'The regexp matches this value.'
             : 'The regexp does not match this value.'}
@@ -132,7 +129,8 @@ export const BooleanInput = (props: InputProps) => (
     <input
       type="checkbox"
       checked={props.value || false}
-      onChange={(e: any) => props.setValue(props.field.path, e.target.checked)} />
+      onChange={(e: any) => props.setValue(props.field.path, e.target.checked)}
+    />
   </Control>
 );
 
@@ -179,7 +177,7 @@ function TranslatedInput(props: GroupInputProps) {
             <PlainField
               field={{
                 ...field,
-                title: `${props.field.title} in ${field.title}`
+                title: `${props.field.title} in ${field.title}`,
               }}
               setValue={props.setValue}
               value={props.value[i()]}
@@ -222,7 +220,7 @@ export const DayOfWeekSelect = (props: InputProps) => (
           'Thursday',
           'Friday',
           'Saturday',
-          'Sunday'
+          'Sunday',
         ]}
       >
         {(day, i) => <option value={String(i())}>{day}</option>}
@@ -238,15 +236,16 @@ const RelationInput = (props: {
 }) => {
   const [state] = createResource(
     () => ({
-      model: models.find(m => m.key === props.field.relationKey)
+      model: models.find(m => m.key === props.field.relationKey),
     }),
-    source => api.fetchItems(source.model!)
+    source => api.fetchItems(source.model!),
   );
 
   return (
     <Show when={!state.loading} fallback={<span>Loading...</span>}>
       <Control>
-        {props.field.title}<br />
+        {props.field.title}
+        <br />
         <select
           value={props.value || (state().length ? state()[0].id : '')}
           onChange={(e: any) =>
@@ -255,7 +254,7 @@ const RelationInput = (props: {
         >
           <For
             each={sort(state()).asc(i =>
-              get(i, props.field.relationDisplayField)
+              get(i, props.field.relationDisplayField),
             )}
           >
             {(item: any) => (
@@ -294,7 +293,8 @@ const OpeningHoursEditor = (props: InputProps) => {
 
 const EnumInput = (props: InputProps) => (
   <Control>
-    {props.field.title}<br />
+    {props.field.title}
+    <br />
     <select
       value={props.value || props.field.default}
       onChange={(e: any) => props.setValue(props.field.path, e.target.value)}
@@ -321,7 +321,7 @@ const inputs: any = {
   dayOfWeek: DayOfWeekSelect,
   openingHours: OpeningHoursEditor,
   enum: EnumInput,
-  _: PlainField
+  _: PlainField,
 };
 
 export default inputs;

@@ -1,7 +1,7 @@
 export enum PriceCategory {
   student = 'student',
   studentPremium = 'studentPremium',
-  regular = 'regular'
+  regular = 'regular',
 }
 
 export interface RestaurantType {
@@ -61,22 +61,22 @@ export interface Update {
 
 export enum Lang {
   FI = 'fi',
-  EN = 'en'
+  EN = 'en',
 }
 
 export enum Order {
   AUTOMATIC = 'ORDER_AUTOMATIC',
   ALPHABET = 'ORDER_ALPHABET',
-  DISTANCE = 'ORDER_DISTANCE'
+  DISTANCE = 'ORDER_DISTANCE',
 }
 
 export enum DarkModeChoice {
   DEFAULT = 'DEFAULT',
   ON = 'ON',
-  OFF = 'OFF'
+  OFF = 'OFF',
 }
 
 export enum HighlighOperator {
   AND = 'and',
-  OR = 'or'
+  OR = 'or',
 }

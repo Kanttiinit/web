@@ -59,6 +59,6 @@
 
 // export default Map;
 
-export default function Map() {
+export default function MapComponent() {
   return null;
 }

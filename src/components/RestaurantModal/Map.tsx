@@ -1,12 +1,12 @@
-import { styled } from 'solid-styled-components';
 import leaflet from 'leaflet';
+import { styled } from 'solid-styled-components';
 import 'leaflet/dist/leaflet.css';
-import userLocationIcon from './user-location.png';
-import restaurantLocationIcon from './restaurant-location.png';
-
-import { RestaurantType } from '../../types';
-import { breakSmall } from '../../globalStyles';
 import { onCleanup, onMount } from 'solid-js';
+import { breakSmall } from '../../globalStyles';
+
+import type { RestaurantType } from '../../types';
+import restaurantLocationIcon from './restaurant-location.png';
+import userLocationIcon from './user-location.png';
 
 const Container = styled.div`
   border-top: 1px solid var(--gray6);
@@ -21,12 +21,12 @@ const Container = styled.div`
   }
 `;
 
-const RestaurantPin = styled.div`
+const _RestaurantPin = styled.div`
   display: flex;
   align-items: center;
 `;
 
-const RestaurantLabel = styled.span`
+const _RestaurantLabel = styled.span`
   font-weight: bold;
   text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white,
     1px 1px 0 white;
@@ -48,27 +48,33 @@ export default function RestaurantMap(props: Props) {
       .tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution:
-          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       })
       .addTo(map);
-      
-    const restaurantMarker = leaflet.marker(props.restaurantPoint, {
-      icon: leaflet.icon({
-        iconUrl: restaurantLocationIcon,
-        iconSize: [32, 32],
-        iconAnchor: [16, 32]
+
+    const restaurantMarker = leaflet
+      .marker(props.restaurantPoint, {
+        icon: leaflet.icon({
+          iconUrl: restaurantLocationIcon,
+          iconSize: [32, 32],
+          iconAnchor: [16, 32],
+        }),
       })
-    }).addTo(map);
+      .addTo(map);
 
     if (props.userPoint) {
-      const userMarker = leaflet.marker(props.userPoint, {
-        icon: leaflet.icon({
-          iconUrl: userLocationIcon,
-          iconSize: [24, 24],
-          iconAnchor: [12, 12]
+      const userMarker = leaflet
+        .marker(props.userPoint, {
+          icon: leaflet.icon({
+            iconUrl: userLocationIcon,
+            iconSize: [24, 24],
+            iconAnchor: [12, 12],
+          }),
         })
-      }).addTo(map);
-      map.fitBounds(leaflet.featureGroup([restaurantMarker, userMarker]).getBounds());
+        .addTo(map);
+      map.fitBounds(
+        leaflet.featureGroup([restaurantMarker, userMarker]).getBounds(),
+      );
     }
   });
 

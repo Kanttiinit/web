@@ -1,5 +1,5 @@
 import http from '../http';
-import { Model } from './models';
+import type { Model } from './models';
 
 export const fetchItems = (model: Model) =>
   http.get(`/admin/${model.key}`, true);

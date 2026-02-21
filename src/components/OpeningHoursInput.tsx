@@ -1,13 +1,13 @@
-import setISODay from 'date-fns/setISODay';
+import { setISODay } from 'date-fns';
 import { createEffect, createSignal, For, onMount } from 'solid-js';
+import { unwrap } from 'solid-js/store';
 import { styled } from 'solid-styled-components';
+import { CopyIcon } from '../icons';
 import { computedState } from '../state';
 import { formattedDay } from '../utils';
-import { CopyIcon } from '../icons';
 import { TextButton } from './Button';
 import Input from './Input';
 import Tooltip from './Tooltip';
-import { unwrap } from 'solid-js/store';
 
 const InputGroup = styled.div`
   display: flex;
@@ -49,18 +49,18 @@ const OpeningHoursInput = (props: Props) => {
         }
         return hours.map((hour: number) =>
           String(hour).length === 4
-            ? String(hour).substr(0, 2) + ':' + String(hour).substring(2)
-            : String(hour)
+            ? `${String(hour).substr(0, 2)}:${String(hour).substring(2)}`
+            : String(hour),
         );
-      })
+      }),
     );
   });
 
   createEffect(() => {
     props.onChange(
       openingHours().map(hours =>
-        hours ? hours.map(h => Number(h.replace(':', ''))) : null
-      )
+        hours ? hours.map(h => Number(h.replace(':', ''))) : null,
+      ),
     );
   });
 
@@ -70,7 +70,11 @@ const OpeningHoursInput = (props: Props) => {
         const isClosed = times === null;
         const weekDayLabel = formattedDay(setISODay(new Date(), i() + 1), 'EE');
 
-        const changeDayAndTime = (value: string, dayIndex: number, timeIndex: number) => {
+        const changeDayAndTime = (
+          value: string,
+          dayIndex: number,
+          timeIndex: number,
+        ) => {
           const hours = [...openingHours()];
           const dayHours = hours[dayIndex];
           if (dayHours) dayHours[timeIndex] = value;
@@ -112,7 +116,10 @@ const OpeningHoursInput = (props: Props) => {
               value={isClosed ? computedState.translations().closed : times[1]}
               onChange={v => changeDayAndTime(v, i(), 1)}
             />
-            <Tooltip style={{"align-self":"end","padding-bottom":"0.3rem"}} translationKey="copyFromPreviousDay">
+            <Tooltip
+              style={{ 'align-self': 'end', 'padding-bottom': '0.3rem' }}
+              translationKey="copyFromPreviousDay"
+            >
               <TextButton
                 onClick={() => {
                   const hours = [...openingHours()];

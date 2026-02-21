@@ -1,4 +1,3 @@
-import 'whatwg-fetch';
 import { apiBase } from './consts';
 
 console.log(apiBase);
@@ -11,12 +10,12 @@ export default {
       body: undefined,
       credentials: undefined,
       headers: [],
-      method
+      method,
     };
     if (authorize) {
       options.credentials = 'include';
     }
-    if (body && options.headers instanceof Array) {
+    if (body && Array.isArray(options.headers)) {
       options.headers.push(['Content-Type', 'application/json']);
       options.body = JSON.stringify(body);
     }
@@ -38,5 +37,5 @@ export default {
   },
   delete(url: string, data?: unknown) {
     return this.fetch('DELETE', url, data, true);
-  }
+  },
 };

@@ -1,14 +1,15 @@
-import distanceInWordsToNow from 'date-fns/formatDistanceToNow';
-import parseISO from 'date-fns/parseISO';
+import {
+  formatDistanceToNow as distanceInWordsToNow,
+  parseISO,
+} from 'date-fns';
 import snarkdown from 'snarkdown';
 import { createSignal, For, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
-
-import { Update } from '../types';
-import { computedState, setState, resources } from '../state';
+import { CaretDownIcon } from '../icons';
+import { computedState, resources, setState } from '../state';
+import type { Update } from '../types';
 import Collapse from './Collapse';
 import PageContainer from './PageContainer';
-import { CaretDownIcon } from '../icons';
 
 const UpdateWrapper = styled.div`
   margin-bottom: 0.5em;
@@ -57,7 +58,7 @@ const ArrowDownIcon = styled(CaretDownIcon)<{ isVisible: boolean }>`
 
 const ChangeLog = () => {
   const [visibleItems, setVisibleItems] = createSignal(
-    computedState.unseenUpdates().map(update => update.id)
+    computedState.unseenUpdates().map(update => update.id),
   );
 
   const toggleVisible = (update: Update) => {

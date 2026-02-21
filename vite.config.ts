@@ -24,30 +24,30 @@ export default defineConfig({
           {
             src: 'logo.png',
             sizes: '800x800',
-            type: 'image/png'
-          }
+            type: 'image/png',
+          },
         ],
         related_applications: [
           {
             platform: 'web',
-            url: 'https://kanttiinit.fi/'
+            url: 'https://kanttiinit.fi/',
           },
           {
             platform: 'itunes',
-            url: 'https://itunes.apple.com/fi/app/kanttiinit/id1069903670?l=fi&mt=8'
-          }
-        ]
-      }
-    })
+            url: 'https://itunes.apple.com/fi/app/kanttiinit/id1069903670?l=fi&mt=8',
+          },
+        ],
+      },
+    }),
   ],
   define: {
-    'VERSION': JSON.stringify(pkg.version),
-    'PUBLIC_ASSET_PATH': JSON.stringify('/'),
-    'API_BASE': JSON.stringify('https://kitchen.kanttiinit.fi')
+    VERSION: JSON.stringify(pkg.version),
+    PUBLIC_ASSET_PATH: JSON.stringify('/'),
+    API_BASE: JSON.stringify('https://kitchen.kanttiinit.fi'),
   },
   server: {
     port: 8080,
-    hmr: false
+    hmr: false,
   },
   build: {
     target: 'es2015',

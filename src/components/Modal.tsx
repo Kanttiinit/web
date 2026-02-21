@@ -1,11 +1,10 @@
+import { useLocation, useNavigate } from '@solidjs/router';
 import { createEffect, createSignal } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { useLocation, useNavigate } from '@solidjs/router';
 import { breakLarge, breakSmall } from '../globalStyles';
 import { computedState } from '../state';
-
-import PageContainer from './PageContainer';
 import { ErrorBoundary } from './ErrorBoundary';
+import PageContainer from './PageContainer';
 
 const ModalError = () => {
   return (
@@ -106,7 +105,7 @@ const Modal = (props: Props) => {
   const navigate = useNavigate();
 
   const closeModal = () =>
-    navigate('/' + location.search, { replace: true, scroll: false });
+    navigate(`/${location.search}`, { replace: true, scroll: false });
 
   createEffect(() => {
     setOpen(location.pathname !== '/');
@@ -133,19 +132,17 @@ const Modal = (props: Props) => {
 
   return (
     <Container open={open()}>
-      <>
-        <Overlay
-          darkMode={computedState.darkMode()}
-          open={open()}
-          onClick={closeModal}
-        />
-        <Content open={open()}>
-          <ErrorBoundary fallback={ModalError}>{props.children}</ErrorBoundary>
-        </Content>
-        <CloseText open={open()} onClick={closeModal}>
-          {computedState.translations().closeModal}
-        </CloseText>
-      </>
+      <Overlay
+        darkMode={computedState.darkMode()}
+        open={open()}
+        onClick={closeModal}
+      />
+      <Content open={open()}>
+        <ErrorBoundary fallback={ModalError}>{props.children}</ErrorBoundary>
+      </Content>
+      <CloseText open={open()} onClick={closeModal}>
+        {computedState.translations().closeModal}
+      </CloseText>
     </Container>
   );
 };

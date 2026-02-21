@@ -1,15 +1,15 @@
-import locating from '../assets/locating.svg';
+import { createSignal, For, Match, Switch } from 'solid-js';
 
 import { styled } from 'solid-styled-components';
+import locating from '../assets/locating.svg';
+import { breakLarge, breakSmall } from '../globalStyles';
+import { WarningIcon } from '../icons';
+import { computedState, resources, state } from '../state';
+import { useFormattedRestaurants } from '../utils';
 import InlineIcon from './InlineIcon';
 import NetworkStatus from './NetworkStatus';
 import Notice from './Notice';
 import Restaurant, { Placeholder } from './Restaurant';
-import { breakLarge, breakSmall } from '../globalStyles';
-import { For, Match, Switch, createSignal } from 'solid-js';
-import { computedState, state, resources } from '../state';
-import { WarningIcon } from '../icons';
-import { useFormattedRestaurants } from '../utils';
 
 const MakeItStopButton = styled.button`
   background-color: tomato;
@@ -169,7 +169,7 @@ function ListContent() {
       </Match>
       <Match when={state.preferences.selectedArea === -2 && !state.location}>
         <Locating>
-          <img src={locating} />
+          <img src={locating} alt="" />
           <Notice>{computedState.translations().locating}</Notice>
         </Locating>
       </Match>
@@ -207,7 +207,9 @@ function ListContent() {
                 </a>
               </p>
             </section>
-            <button onClick={() => setShowContribLink(false)}>close</button>
+            <button type="button" onClick={() => setShowContribLink(false)}>
+              close
+            </button>
           </ContribModal>
         )}
         <For each={useFormattedRestaurants()}>

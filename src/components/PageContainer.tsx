@@ -54,7 +54,7 @@ const PageContainer = (props: Props) => {
     'children',
     'title',
     'class',
-    'compactTitle'
+    'compactTitle',
   ]);
   return (
     <Container {...rest}>

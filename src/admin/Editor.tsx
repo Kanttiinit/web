@@ -6,7 +6,7 @@ import { get } from '../utils';
 import * as api from './api';
 import { showMessage } from './index';
 import inputs from './inputs';
-import { Model } from './models';
+import type { Model } from './models';
 
 interface Props {
   mode: 'creating' | 'editing';
@@ -18,11 +18,10 @@ interface Props {
 }
 
 function setToValue(obj: any, p: string, value: any) {
-  let i;
+  let i: number;
   const path = p.split('.');
   for (i = 0; i < path.length - 1; i++) {
-    if (!(path[i] in obj))
-      obj[path[i]] = {};
+    if (!(path[i] in obj)) obj[path[i]] = {};
 
     obj = obj[path[i]];
   }
@@ -53,7 +52,7 @@ export default function Editor(props: Props) {
       showMessage('The item has been saved.');
     } catch (error) {
       console.error(error);
-      showMessage('Error: ' + (error as any).message);
+      showMessage(`Error: ${(error as any).message}`);
     }
   };
 
@@ -65,9 +64,12 @@ export default function Editor(props: Props) {
     }
   };
 
-  const setValue = (key: string, value: any) => setItem(produce(s => {
-    setToValue(s, key, value);
-  }));
+  const setValue = (key: string, value: any) =>
+    setItem(
+      produce(s => {
+        setToValue(s, key, value);
+      }),
+    );
 
   return (
     <Show when={item}>
@@ -80,16 +82,18 @@ export default function Editor(props: Props) {
           <For each={props.model.fields}>
             {field => {
               return (
-              <div>
-                <Dynamic
-                  component={inputs[field.type!] || inputs._}
-                  field={field}
-                  value={'fields' in field
-                    ? field.fields.map(f => get(item, f.path))
-                    : get(item, field.path)}
-                  setValue={setValue}
-                />
-              </div>
+                <div>
+                  <Dynamic
+                    component={inputs[field.type!] || inputs._}
+                    field={field}
+                    value={
+                      'fields' in field
+                        ? field.fields.map(f => get(item, f.path))
+                        : get(item, field.path)
+                    }
+                    setValue={setValue}
+                  />
+                </div>
               );
             }}
           </For>
@@ -97,9 +101,12 @@ export default function Editor(props: Props) {
         <div>
           <Button type="submit" color="primary">
             {props.mode === 'creating' ? 'Create' : 'Save'}
-          </Button>
-          {' '}
-          {props.mode === 'editing' && <><Button onClick={deleteItem}>Delete</Button>{' '}</>}
+          </Button>{' '}
+          {props.mode === 'editing' && (
+            <>
+              <Button onClick={deleteItem}>Delete</Button>{' '}
+            </>
+          )}
           <Button onClick={props.onCancel} secondary>
             Cancel
           </Button>

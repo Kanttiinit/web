@@ -1,27 +1,34 @@
-import format from 'date-fns/format';
-import getIsoDay from 'date-fns/getISODay';
-import isAfter from 'date-fns/isAfter';
-import isBefore from 'date-fns/isBefore';
-import enLocale from 'date-fns/locale/en-GB';
-import fiLocale from 'date-fns/locale/fi';
-import addDays from 'date-fns/addDays';
-import isSameDay from 'date-fns/isSameDay';
-import startOfDay from 'date-fns/startOfDay';
-import setHours from 'date-fns/setHours';
-import setMinutes from 'date-fns/setMinutes';
+import {
+  addDays,
+  format,
+  getISODay as getIsoDay,
+  isAfter,
+  isBefore,
+  isSameDay,
+  setHours,
+  setMinutes,
+  startOfDay,
+} from 'date-fns';
+import { enGB as enLocale, fi as fiLocale } from 'date-fns/locale';
+import { type ISortByObjectSorter, sort } from 'fast-sort';
 import haversine from 'haversine';
-import { Accessor, createMemo, createSignal } from 'solid-js';
-import { sendFeedback } from './api';
-
-import { CourseType, FavoriteType, Order, RestaurantType } from './types';
-import { state, resources } from './state';
+import { type Accessor, createMemo, createSignal } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import { ISortByObjectSorter, sort } from 'fast-sort';
+import { sendFeedback } from './api';
+import { resources, state } from './state';
+import {
+  type CourseType,
+  type FavoriteType,
+  Order,
+  type RestaurantType,
+} from './types';
 
 export const selectedFavorites = createMemo(() => {
   if (!resources.favorites[0].loading) {
-    return resources.favorites[0]()!.filter(
-      ({ id }) => state.preferences.favorites.indexOf(id) > -1
+    return (
+      resources.favorites[0]()?.filter(
+        ({ id }) => state.preferences.favorites.indexOf(id) > -1,
+      ) ?? []
     );
   }
   return [];
@@ -29,17 +36,19 @@ export const selectedFavorites = createMemo(() => {
 
 export const isFavorite = (course: CourseType) =>
   selectedFavorites().some(
-    favorite => !!course.title.match(new RegExp(favorite.regexp, 'i'))
+    favorite => !!course.title.match(new RegExp(favorite.regexp, 'i')),
   );
 
-export const formattedFavorites: Accessor<(FavoriteType & {
-  isSelected: boolean;
-})[]> = createMemo(() => {
+export const formattedFavorites: Accessor<
+  (FavoriteType & {
+    isSelected: boolean;
+  })[]
+> = createMemo(() => {
   return sort(resources.favorites[0]() || [])
     .asc(i => i.name)
     .map((favorite: FavoriteType) => ({
       ...favorite,
-      isSelected: state.preferences.favorites.indexOf(favorite.id) > -1
+      isSelected: state.preferences.favorites.indexOf(favorite.id) > -1,
     }));
 });
 
@@ -62,20 +71,20 @@ const isOpenNow = (restaurant: RestaurantType, day: Date) => {
 
 const getOrder = (
   orderType: Order,
-  useLocation: boolean
+  useLocation: boolean,
 ): ISortByObjectSorter<RestaurantType>[] => {
   if (orderType === Order.ALPHABET) {
     return [
       { desc: r => r.isStarred },
       { asc: r => r.noCourses },
-      { asc: r => r.name }
+      { asc: r => r.name },
     ];
   } else if (orderType === Order.DISTANCE && useLocation) {
     return [
       { desc: r => r.isStarred },
       { asc: r => r.noCourses },
       { asc: r => r.distance },
-      { asc: r => r.name }
+      { asc: r => r.name },
     ];
   } else {
     return [
@@ -84,7 +93,7 @@ const getOrder = (
       { asc: r => r.noCourses },
       { desc: r => r.favoriteCourses },
       { asc: r => r.distance },
-      { desc: r => r.name }
+      { desc: r => r.name },
     ];
   }
 };
@@ -108,19 +117,19 @@ export const useFormattedRestaurants = createMemo(() => {
         isOpenNow: isOpenNow(restaurant, day),
         isStarred:
           state.preferences.starredRestaurants.indexOf(restaurant.id) > -1,
-        noCourses: !courses.length
+        noCourses: !courses.length,
       };
-    }
+    },
   );
 
   return sort(restaurants).by(
-    getOrder(state.preferences.order, state.preferences.useLocation)
+    getOrder(state.preferences.order, state.preferences.useLocation),
   );
 });
 
 const locales = {
   en: enLocale,
-  fi: fiLocale
+  fi: fiLocale,
 };
 
 export const formattedDay = (date: Date, dateFormat: string) =>
@@ -169,12 +178,12 @@ interface State {
 
 export function useFeedback(): [
   State,
-  (message: string, email?: string) => Promise<void>
+  (message: string, email?: string) => Promise<void>,
 ] {
   const [state, setState] = createStore<State>({
     error: null,
     sending: false,
-    sent: false
+    sent: false,
   });
 
   return [
@@ -187,32 +196,30 @@ export function useFeedback(): [
       } catch (error) {
         setState({ sending: false, error: error as Error });
       }
-    }
+    },
   ];
 }
 
 type T = string | number;
 
-export default function useInput(
-  defaultValue: T
-): [
+export default function useInput(defaultValue: T): [
   Accessor<T>,
   Accessor<{
     value: Accessor<T>;
-    onChange(e: React.ChangeEvent<HTMLInputElement>): void;
+    onChange(e: Event & { currentTarget: HTMLInputElement }): void;
   }>,
-  (value: T) => void
+  (value: T) => void,
 ] {
   const [value, setValue] = createSignal(defaultValue);
   const inputProps = createMemo(() => ({
     value,
-    onChange(e: React.ChangeEvent<HTMLInputElement>) {
+    onChange(e: Event & { currentTarget: HTMLInputElement }) {
       if (typeof defaultValue === 'number') {
-        setValue(Number(e.target.value));
+        setValue(Number(e.currentTarget.value));
       } else {
-        setValue(e.target.value);
+        setValue(e.currentTarget.value);
       }
-    }
+    },
   }));
   return [value, inputProps, setValue];
 }
@@ -227,6 +234,8 @@ export function get(obj: any, path: string, def: any = undefined) {
   return fullPath.every(everyFunc) ? obj : def;
 
   function everyFunc(step: any) {
-    return !(step && (obj = obj[step]) === undefined);
+    if (!step) return true;
+    obj = obj[step];
+    return obj !== undefined;
   }
 }

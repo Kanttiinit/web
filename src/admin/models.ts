@@ -56,7 +56,7 @@ const models: Model[] = [
     tableFields: [
       { key: 'id', name: 'ID' },
       { key: 'name_i18n.fi', name: 'Name' },
-      { key: 'hidden', name: 'Hidden' }
+      { key: 'hidden', name: 'Hidden' },
     ],
     fields: [
       {
@@ -64,14 +64,14 @@ const models: Model[] = [
         title: 'Name',
         fields: [
           { path: 'name_i18n.fi', title: 'Finnish' },
-          { path: 'name_i18n.en', title: 'English' }
-        ]
+          { path: 'name_i18n.en', title: 'English' },
+        ],
       },
       {
         type: 'number',
         title: 'Location Radius',
         path: 'locationRadius',
-        default: 2
+        default: 2,
       },
       {
         type: 'location',
@@ -81,23 +81,23 @@ const models: Model[] = [
             path: 'latitude',
             default: 60.123,
             title: 'Latitude',
-            type: 'number'
+            type: 'number',
           },
           {
             path: 'longitude',
             default: 24.123,
             title: 'Longitude',
-            type: 'number'
-          }
-        ]
+            type: 'number',
+          },
+        ],
       },
       {
         type: 'boolean',
         path: 'hidden',
         title: 'Hidden',
-        default: false
-      }
-    ]
+        default: false,
+      },
+    ],
   },
   {
     name: 'Restaurants',
@@ -109,7 +109,7 @@ const models: Model[] = [
       { key: 'name_i18n.fi', name: 'Name' },
       { key: 'address', name: 'Address' },
       { key: 'hidden', name: 'Hidden' },
-      { key: 'url', name: 'URL' }
+      { key: 'url', name: 'URL' },
     ],
     fields: [
       {
@@ -117,21 +117,21 @@ const models: Model[] = [
         title: 'Name',
         fields: [
           { path: 'name_i18n.fi', title: 'Finnish' },
-          { path: 'name_i18n.en', title: 'English' }
-        ]
+          { path: 'name_i18n.en', title: 'English' },
+        ],
       },
       {
         path: 'priceCategory',
         type: 'enum',
         title: 'Price Category',
         values: ['student', 'regular', 'studentPremium'],
-        default: 'student'
+        default: 'student',
       },
       {
         path: 'openingHours',
         title: 'Opening Hours',
         type: 'openingHours',
-        default: [null, null, null, null, null, null, null]
+        default: [null, null, null, null, null, null, null],
       },
       { path: 'url', title: 'URL', type: 'url' },
       { path: 'menuUrl', title: 'Menu URL', type: 'menuUrl' },
@@ -143,15 +143,15 @@ const models: Model[] = [
             path: 'latitude',
             default: 60.123,
             title: 'Latitude',
-            type: 'number'
+            type: 'number',
           },
           {
             path: 'longitude',
             default: 24.123,
             title: 'Longitude',
-            type: 'number'
-          }
-        ]
+            type: 'number',
+          },
+        ],
       },
       { path: 'address', title: 'Address', type: 'address' },
       {
@@ -159,10 +159,10 @@ const models: Model[] = [
         title: 'Area ID',
         type: 'relation',
         relationKey: 'areas',
-        relationDisplayField: 'name_i18n.fi'
+        relationDisplayField: 'name_i18n.fi',
       },
-      { path: 'hidden', title: 'Hidden', type: 'boolean' }
-    ]
+      { path: 'hidden', title: 'Hidden', type: 'boolean' },
+    ],
   },
   {
     name: 'Favorites',
@@ -171,7 +171,7 @@ const models: Model[] = [
     tableFields: [
       { key: 'id', name: 'ID' },
       { key: 'name_i18n.fi', name: 'Name' },
-      { key: 'regexp', name: 'Regular Expression' }
+      { key: 'regexp', name: 'Regular Expression' },
     ],
     fields: [
       {
@@ -179,11 +179,11 @@ const models: Model[] = [
         title: 'Name',
         fields: [
           { path: 'name_i18n.fi', title: 'Finnish' },
-          { path: 'name_i18n.en', title: 'English' }
-        ]
+          { path: 'name_i18n.en', title: 'English' },
+        ],
       },
-      { type: 'regExp', path: 'regexp', title: 'Regular Expression' }
-    ]
+      { type: 'regExp', path: 'regexp', title: 'Regular Expression' },
+    ],
   },
   {
     name: 'Updates',
@@ -193,14 +193,14 @@ const models: Model[] = [
       { key: 'id', name: 'ID' },
       { key: 'createdAt', name: 'Created at' },
       { key: 'type', name: 'Type' },
-      { key: 'title', name: 'Title' }
+      { key: 'title', name: 'Title' },
     ],
     fields: [
       { path: 'type', title: 'Type', type: 'updateType' },
       { path: 'title', title: 'Title' },
-      { path: 'description', title: 'Description' }
-    ]
-  }
+      { path: 'description', title: 'Description' },
+    ],
+  },
 ];
 
 export default models;

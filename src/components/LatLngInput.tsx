@@ -1,7 +1,7 @@
+import leaflet from 'leaflet';
 import { createEffect, onCleanup, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import Input from './Input';
-import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 interface Props {
@@ -20,7 +20,7 @@ const MapContainer = styled.div`
   margin-bottom: 1rem;
 `;
 
-const CrossHair = styled.div`
+const _CrossHair = styled.div`
   width: 22px;
   height: 22px;
   border: solid 2px var(--hearty, red);
@@ -50,7 +50,7 @@ const LatLngInput = (props: Props) => {
       .tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution:
-          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       })
       .addTo(map);
     marker = leaflet.marker(props.value, { draggable: true }).addTo(map);
@@ -61,8 +61,8 @@ const LatLngInput = (props: Props) => {
   });
 
   onCleanup(() => {
-    marker && marker.remove();
-    map && map.remove();
+    marker?.remove();
+    map?.remove();
   });
 
   createEffect(() => {

@@ -1,16 +1,16 @@
-import { Accessor, createMemo, createSignal } from 'solid-js';
+import { type Accessor, createMemo, createSignal } from 'solid-js';
 import { computedState } from '../../state';
 import Button from '../Button';
 import OpeningHoursInput from '../OpeningHoursInput';
-import { FormProps } from './ReportModal';
+import type { FormProps } from './ReportModal';
 
 export default (props: FormProps) => {
   const [openingHours, setOpeningHours] = createSignal<(number[] | null)[]>([]);
 
   const initialHours: Accessor<(number[] | null)[]> = createMemo(() =>
     props.restaurant.openingHours.map(hours =>
-      hours ? hours.split(' - ').map(n => Number(n.replace(':', ''))) : null
-    )
+      hours ? hours.split(' - ').map(n => Number(n.replace(':', ''))) : null,
+    ),
   );
 
   const onSubmit = (e: SubmitEvent) => {

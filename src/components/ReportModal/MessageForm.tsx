@@ -3,7 +3,7 @@ import { computedState } from '../../state';
 import { useFeedback } from '../../utils';
 import Button from '../Button';
 import Input from '../Input';
-import { FormProps } from './ReportModal';
+import type { FormProps } from './ReportModal';
 
 export default (props: FormProps) => {
   const [email, setEmail] = createSignal('');
@@ -16,7 +16,7 @@ export default (props: FormProps) => {
       `Feedback regarding restaurant "${
         props.restaurant.name
       }":\n"${message()}"`,
-      email() as string
+      email() as string,
     );
   };
 

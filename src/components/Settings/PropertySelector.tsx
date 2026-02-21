@@ -1,7 +1,7 @@
 import { For } from 'solid-js';
 import { setState, state } from '../../state';
-import { getArrayWithToggled } from '../../utils';
 import { properties } from '../../translations';
+import { getArrayWithToggled } from '../../utils';
 import { RoundedButton, RoundedButtonContainer } from '../RoundedButton';
 
 export default function PropertySelector(props: {
@@ -9,14 +9,14 @@ export default function PropertySelector(props: {
 }) {
   const isPropertySelected = (propertyKey: string) =>
     state.preferences.properties.some(
-      p => p.toLowerCase() === propertyKey.toLowerCase()
+      p => p.toLowerCase() === propertyKey.toLowerCase(),
     );
 
   return (
     <RoundedButtonContainer>
       <For
         each={properties.filter(p =>
-          props.showDesiredProperties ? p.desired : !p.desired
+          props.showDesiredProperties ? p.desired : !p.desired,
         )}
       >
         {p => (
@@ -25,7 +25,7 @@ export default function PropertySelector(props: {
               setState(
                 'preferences',
                 'properties',
-                getArrayWithToggled(state.preferences.properties, p.key)
+                getArrayWithToggled(state.preferences.properties, p.key),
               )
             }
             color={p.desired ? 'var(--friendly)' : 'var(--gray3)'}

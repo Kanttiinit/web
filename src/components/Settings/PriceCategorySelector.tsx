@@ -1,10 +1,10 @@
 import { For } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { PriceCategory } from '../../types';
+import { MoneyIcon } from '../../icons';
 import { state } from '../../state';
 import { priceCategorySettings } from '../../translations';
+import { PriceCategory } from '../../types';
 import { Button } from '../Radio';
-import { MoneyIcon } from '../../icons';
 
 type Props = {
   value: PriceCategory;
@@ -14,7 +14,7 @@ type Props = {
 const categories = [
   PriceCategory.student,
   PriceCategory.studentPremium,
-  PriceCategory.regular
+  PriceCategory.regular,
 ];
 
 const ButtonContainer = styled.div`

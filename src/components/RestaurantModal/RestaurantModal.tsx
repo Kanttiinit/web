@@ -64,7 +64,7 @@ const MapCard = styled(Card)`
 `;
 
 const PriceContainer = styled.div`
-  padding: 0.25rem;
+  margin-top: 6px;
 `;
 
 const LinkContainer = styled.div`
@@ -158,6 +158,7 @@ const RestaurantModal = () => {
       {restaurant => (
         <PageContainer title={restaurant.name}>
           <Info>
+            <div>
             <LinkContainer>
               <MetaLink
                 href={`https://maps.google.com/?q=${encodeURIComponent(
@@ -177,10 +178,11 @@ const RestaurantModal = () => {
                 </InlineIcon>
                 {computedState.translations().homepage}
               </MetaLink>
-              <PriceContainer>
-                <PriceCategoryBadge priceCategory={restaurant.priceCategory} />
-              </PriceContainer>
             </LinkContainer>
+            <PriceContainer>
+              <PriceCategoryBadge priceCategory={restaurant.priceCategory} alwaysExpanded />
+              </PriceContainer>
+            </div>
             <OpeningHoursContainer>
               <For each={getOpeningHourString(restaurant.openingHours)}>
                 {hours => {

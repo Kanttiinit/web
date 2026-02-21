@@ -25,6 +25,7 @@ export {
   TbOutlineCurrentLocation as LocationIcon,
   TbOutlineHome as HomeIcon,
   TbOutlineMapPin as MapIcon,
+  TbOutlineSchool as StudentIcon,
 } from 'solid-icons/tb';
 export {
   VsHeart as HeartIcon,

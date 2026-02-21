@@ -12,6 +12,10 @@ interface Props {
 const Container = styled.div`
   background: var(--gray7);
   padding: 1.25rem 1.5rem 1.5rem;
+
+  @media (max-width: ${breakSmall}) {
+    padding: 1rem 0.75rem 1.25rem;
+  }
   height: 100%;
   overflow: auto;
   box-sizing: border-box;

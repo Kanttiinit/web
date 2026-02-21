@@ -1,5 +1,6 @@
 import type { JSXElement } from 'solid-js';
 import { styled } from 'solid-styled-components';
+import { breakSmall } from '../../globalStyles';
 import { computedState, setState, state } from '../../state';
 import { DarkModeChoice, HighlighOperator, Lang, Order } from '../../types';
 import FavoriteSelector from '../FavoriteSelector';
@@ -17,7 +18,7 @@ const SettingsCard = styled.div`
   overflow: hidden;
 `;
 
-const SettingsRow = styled.div<{ column?: boolean }>`
+const SettingsRow = styled.div<{ column?: boolean; mobileColumn?: boolean }>`
   display: flex;
   align-items: ${props => (props.column ? 'flex-start' : 'center')};
   flex-direction: ${props => (props.column ? 'column' : 'row')};
@@ -27,6 +28,13 @@ const SettingsRow = styled.div<{ column?: boolean }>`
 
   & + & {
     border-top: 1px solid var(--gray5);
+  }
+
+  @media (max-width: ${breakSmall}) {
+    ${props =>
+      props.mobileColumn
+        ? 'flex-direction: column; align-items: flex-start;'
+        : ''}
   }
 `;
 
@@ -47,10 +55,11 @@ interface RowProps {
   label: JSXElement;
   children: JSXElement;
   column?: boolean;
+  mobileColumn?: boolean;
 }
 
 const Row = (props: RowProps) => (
-  <SettingsRow column={props.column}>
+  <SettingsRow column={props.column} mobileColumn={props.mobileColumn}>
     <RowLabel>{props.label}</RowLabel>
     {props.children}
   </SettingsRow>
@@ -89,7 +98,7 @@ const Settings = () => {
         </Row>
       </SettingsCard>
       <SettingsCard>
-        <Row label={computedState.translations().order}>
+        <Row label={computedState.translations().order} mobileColumn>
           <Radio
             options={orders.map(order => ({
               label: computedState.translations()[order],
@@ -120,7 +129,10 @@ const Settings = () => {
         <Row label={computedState.translations().highlightDiets} column>
           <PropertySelector showDesiredProperties />
         </Row>
-        <Row label={computedState.translations().highlightOperator}>
+        <Row
+          label={computedState.translations().highlightOperator}
+          mobileColumn
+        >
           <Radio
             options={[
               {

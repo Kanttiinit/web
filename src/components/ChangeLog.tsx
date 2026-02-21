@@ -1,13 +1,15 @@
-import { formatDistanceToNow as distanceInWordsToNow, parseISO } from 'date-fns';
-import snarkdown from 'snarkdown';
-import { createSignal, For, onMount } from 'solid-js';
-import { styled } from 'solid-styled-components';
-
-import { Update } from '../types';
-import { computedState, setState, resources } from '../state';
-import Collapse from './Collapse';
-import PageContainer from './PageContainer';
-import { CaretDownIcon } from '../icons';
+import {
+  formatDistanceToNow as distanceInWordsToNow,
+  parseISO,
+} from "date-fns";
+import snarkdown from "snarkdown";
+import { createSignal, For, onMount } from "solid-js";
+import { styled } from "solid-styled-components";
+import { CaretDownIcon } from "../icons";
+import { computedState, resources, setState } from "../state";
+import type { Update } from "../types";
+import Collapse from "./Collapse";
+import PageContainer from "./PageContainer";
 
 const UpdateWrapper = styled.div`
   margin-bottom: 0.5em;
@@ -51,24 +53,24 @@ const PublishedAt = styled.p`
 const ArrowDownIcon = styled(CaretDownIcon)<{ isVisible: boolean }>`
   margin-top: 0.4em;
   transition: transform 0.3s;
-  ${props => (props.isVisible ? 'transform: rotateX(180deg);' : '')}
+  ${(props) => (props.isVisible ? "transform: rotateX(180deg);" : "")}
 `;
 
 const ChangeLog = () => {
   const [visibleItems, setVisibleItems] = createSignal(
-    computedState.unseenUpdates().map(update => update.id)
+    computedState.unseenUpdates().map((update) => update.id),
   );
 
   const toggleVisible = (update: Update) => {
     if (visibleItems().indexOf(update.id) > -1) {
-      setVisibleItems(visibleItems().filter(id => id !== update.id));
+      setVisibleItems(visibleItems().filter((id) => id !== update.id));
     } else {
       setVisibleItems([...visibleItems(), update.id]);
     }
   };
 
   onMount(() => {
-    setState('preferences', 'updatesLastSeenAt', Date.now());
+    setState("preferences", "updatesLastSeenAt", Date.now());
   });
 
   const [updates] = resources.updates;
@@ -79,8 +81,9 @@ const ChangeLog = () => {
         <p>Loading...</p>
       ) : (
         <For each={updates()}>
-          {update => {
-            const isVisible = () => visibleItems().some(id => update.id === id);
+          {(update) => {
+            const isVisible = () =>
+              visibleItems().some((id) => update.id === id);
             return (
               <UpdateWrapper onClick={() => toggleVisible(update)}>
                 <ArrowDownIcon isVisible={isVisible()} size={18} />

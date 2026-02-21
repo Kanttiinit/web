@@ -1,10 +1,17 @@
-import { createStore } from 'solid-js/store';
-import { createResource } from 'solid-js';
-import * as api from './api';
-import { addDays, startOfDay, parseISO } from 'date-fns';
-import translations from './translations';
-import { DarkModeChoice, HighlighOperator, Lang, Order, PriceCategory, RestaurantType, Update } from './types';
-import { createMemo } from 'solid-js';
+import { addDays, parseISO, startOfDay } from "date-fns";
+import { createMemo, createResource } from "solid-js";
+import { createStore } from "solid-js/store";
+import * as api from "./api";
+import translations from "./translations";
+import {
+  DarkModeChoice,
+  HighlighOperator,
+  Lang,
+  Order,
+  PriceCategory,
+  type RestaurantType,
+  type Update,
+} from "./types";
 
 const maxDayOffset = 6;
 
@@ -19,28 +26,31 @@ type TranslatedDict = { [t in keyof typeof translations]: any };
 
 const migrateOldSettings = () => {
   return [
-    'darkMode',
-    'favorites',
-    'lang',
-    'selectedArea',
-    'maxPriceCategory',
-    'starredRestaurants',
-    'properties',
-    'location',
-    'order',
-    'updatesLastSeenAt'
-  ].reduce((settings, i) => {
-    const value = localStorage.getItem(i);
-    if (value !== undefined && value !== null) {
-      settings[i === 'location' ? 'useLocation' : i] = JSON.parse(value);
-      localStorage.removeItem(i);
-    }
-    return settings;
-  }, {} as Record<string, unknown>);
+    "darkMode",
+    "favorites",
+    "lang",
+    "selectedArea",
+    "maxPriceCategory",
+    "starredRestaurants",
+    "properties",
+    "location",
+    "order",
+    "updatesLastSeenAt",
+  ].reduce(
+    (settings, i) => {
+      const value = localStorage.getItem(i);
+      if (value !== undefined && value !== null) {
+        settings[i === "location" ? "useLocation" : i] = JSON.parse(value);
+        localStorage.removeItem(i);
+      }
+      return settings;
+    },
+    {} as Record<string, unknown>,
+  );
 };
 
 const persistedSettings = JSON.parse(
-  localStorage.getItem('preferences') || '{}'
+  localStorage.getItem("preferences") || "{}",
 ) as Record<string, unknown>;
 
 const [state, setState] = createStore({
@@ -62,12 +72,12 @@ const [state, setState] = createStore({
     ...migrateOldSettings(),
     ...persistedSettings,
   },
-  properties: [] as string[]
+  properties: [] as string[],
 });
 
 const areaResource = createResource(
   () => ({ lang: state.preferences.lang }),
-  source => api.getAreas(source.lang)
+  (source) => api.getAreas(source.lang),
 );
 
 const restaurantResourceSource = () => {
@@ -78,60 +88,60 @@ const restaurantResourceSource = () => {
     starredRestaurants: state.preferences.starredRestaurants,
     maxPriceCategory: state.preferences.maxPriceCategory,
     areas: areaResource[0].latest,
-    areasLoading: areaResource[0].loading
+    areasLoading: areaResource[0].loading,
   };
 };
 
-const restaurantResource = createResource<RestaurantType[], ReturnType<typeof restaurantResourceSource>>(
-  restaurantResourceSource,
-  (source, v) => {
-    if (source.area === -1) {
-      if (!source.starredRestaurants.length)
-        return [];
+const restaurantResource = createResource<
+  RestaurantType[],
+  ReturnType<typeof restaurantResourceSource>
+>(restaurantResourceSource, (source, v) => {
+  if (source.area === -1) {
+    if (!source.starredRestaurants.length) return [];
 
-      return api.getRestaurantsByIds(source.starredRestaurants, source.lang);
-    } else if (source.area === -2) {
-      if (!source.location)
-        return [];
-        
-      const { latitude, longitude } = source.location;
-      return api.getRestaurantsByLocation(latitude, longitude, source.lang);
-    } else if (source.areas?.length && !source.areasLoading) {
-      const ids = source.areas.find(a => a.id === source.area)!.restaurants;
-      if (v.value?.length && v.value?.every(r => ids.includes(r.id)))
-        return v.value;
+    return api.getRestaurantsByIds(source.starredRestaurants, source.lang);
+  } else if (source.area === -2) {
+    if (!source.location) return [];
 
-      return api.getRestaurantsByIds(ids, source.lang, source.maxPriceCategory);
-    }
-    return [];
+    const { latitude, longitude } = source.location;
+    return api.getRestaurantsByLocation(latitude, longitude, source.lang);
+  } else if (source.areas?.length && !source.areasLoading) {
+    const ids = source.areas.find((a) => a.id === source.area)?.restaurants;
+    if (v.value?.length && v.value?.every((r) => ids.includes(r.id)))
+      return v.value;
+
+    return api.getRestaurantsByIds(ids, source.lang, source.maxPriceCategory);
   }
-);
+  return [];
+});
 
 const menuResource = createResource(
   () => {
     return {
       restaurants: restaurantResource[0].latest,
       selectedDay: state.selectedDay,
-      lang: state.preferences.lang
+      lang: state.preferences.lang,
     };
   },
-  source => {
+  (source) => {
     if (source.restaurants) {
-      const restaurantIds = source.restaurants.map(restaurant => restaurant.id);
+      const restaurantIds = source.restaurants.map(
+        (restaurant) => restaurant.id,
+      );
       return api.getMenus(restaurantIds, [source.selectedDay], source.lang);
     }
-  }
+  },
 );
 
 const resources = {
   areas: areaResource,
   favorites: createResource(
     () => ({ lang: state.preferences.lang }),
-    source => api.getFavorites(source.lang)
+    (source) => api.getFavorites(source.lang),
   ),
   menus: menuResource,
   restaurants: restaurantResource,
-  updates: createResource<Update[]>(() => api.getUpdates())
+  updates: createResource<Update[]>(() => api.getUpdates()),
 };
 
 const computedState = {
@@ -142,9 +152,9 @@ const computedState = {
     }
 
     return updates.filter(
-      update =>
+      (update) =>
         parseISO(update.createdAt).getTime() >
-        state.preferences.updatesLastSeenAt
+        state.preferences.updatesLastSeenAt,
     );
   }),
   translations: createMemo(() => {
@@ -156,10 +166,10 @@ const computedState = {
   }),
   darkMode: createMemo(() => {
     if (state.preferences.darkMode === DarkModeChoice.DEFAULT) {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
     }
     return state.preferences.darkMode === DarkModeChoice.ON;
-  })
+  }),
 };
 
 export { state, setState, computedState, resources };

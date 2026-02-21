@@ -1,13 +1,13 @@
-import { createEffect, createSignal } from 'solid-js';
-import { computedState } from '../../state';
-import { useFeedback } from '../../utils';
-import Button from '../Button';
-import Input from '../Input';
-import { FormProps } from './ReportModal';
+import { createEffect, createSignal } from "solid-js";
+import { computedState } from "../../state";
+import { useFeedback } from "../../utils";
+import Button from "../Button";
+import Input from "../Input";
+import type { FormProps } from "./ReportModal";
 
 export default (props: FormProps) => {
-  const [email, setEmail] = createSignal('');
-  const [message, setMessage] = createSignal('');
+  const [email, setEmail] = createSignal("");
+  const [message, setMessage] = createSignal("");
   const [feedback, send] = useFeedback();
 
   const onSubmit = (e: SubmitEvent) => {
@@ -16,7 +16,7 @@ export default (props: FormProps) => {
       `Feedback regarding restaurant "${
         props.restaurant.name
       }":\n"${message()}"`,
-      email() as string
+      email() as string,
     );
   };
 

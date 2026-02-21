@@ -1,5 +1,5 @@
-import { createEffect, createSignal } from 'solid-js';
-import { styled } from 'solid-styled-components';
+import { createEffect, createSignal } from "solid-js";
+import { styled } from "solid-styled-components";
 
 interface Props {
   children: any;
@@ -8,7 +8,7 @@ interface Props {
 
 const Content = styled.div<{ contentHeight: number }>`
   overflow: hidden;
-  height: ${props => props.contentHeight}px;
+  height: ${(props) => props.contentHeight}px;
   transition: height 0.2s;
 `;
 

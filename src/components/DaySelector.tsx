@@ -1,13 +1,12 @@
-import { format, isSameDay } from 'date-fns';
-import { For } from 'solid-js';
-import { styled } from 'solid-styled-components';
-import { isDateInRange } from '../utils';
+import { useLocation } from "@solidjs/router";
+import { format, isSameDay } from "date-fns";
+import { For } from "solid-js";
+import { styled } from "solid-styled-components";
 
-import { breakLarge, breakSmall } from '../globalStyles';
-import { state } from '../state';
-import { formattedDay } from '../utils';
-import Link from './Link';
-import { useLocation } from '@solidjs/router';
+import { breakLarge, breakSmall } from "../globalStyles";
+import { state } from "../state";
+import { formattedDay, isDateInRange } from "../utils";
+import Link from "./Link";
 
 interface DayLinkProps {
   day: Date;
@@ -50,13 +49,13 @@ const StyledLink = styled(Link)<{ activeLink: boolean }>`
       color: var(--gray1);
     }
 
-    ${props =>
+    ${(props) =>
       props.activeLink
         ? `
       color: var(--gray1);
       font-weight: 600;
     `
-        : ''}
+        : ""}
 
     @media (min-width: ${breakSmall}) {
       font-size: 0.8rem;
@@ -69,11 +68,11 @@ const StyledLink = styled(Link)<{ activeLink: boolean }>`
 `;
 
 const DayLink = (props: DayLinkProps) => {
-  const date = formattedDay(props.day, 'iiiiii d.M.');
+  const date = formattedDay(props.day, "iiiiii d.M.");
   const search = () =>
     isSameDay(props.day, new Date())
-      ? ''
-      : `?day=${format(props.day, 'y-MM-dd')}`;
+      ? ""
+      : `?day=${format(props.day, "y-MM-dd")}`;
   const active = () => isSameDay(props.selectedDay, props.day);
 
   const location = useLocation();
@@ -92,7 +91,7 @@ export default function DaySelector() {
         <DayLink day={state.selectedDay} selectedDay={state.selectedDay} />
       )}
       <For each={state.displayedDays}>
-        {day => <DayLink selectedDay={state.selectedDay} day={day} />}
+        {(day) => <DayLink selectedDay={state.selectedDay} day={day} />}
       </For>
     </Container>
   );

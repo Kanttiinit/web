@@ -1,10 +1,14 @@
-import { createPopper, Instance as PopperInstance, Placement } from '@popperjs/core';
-import { createSignal, Show } from 'solid-js';
-import { Portal } from 'solid-js/web';
-import { styled } from 'solid-styled-components';
+import {
+  createPopper,
+  type Placement,
+  type Instance as PopperInstance,
+} from "@popperjs/core";
+import { createSignal, Show } from "solid-js";
+import { Portal } from "solid-js/web";
+import { styled } from "solid-styled-components";
 
-import { computedState, state } from '../state';
-import translations from '../translations';
+import { computedState } from "../state";
+import translations from "../translations";
 
 const Container = styled.div`
   font-size: 0.8rem;
@@ -31,12 +35,12 @@ interface Props {
 const Tooltip = (props: Props): any => {
   const [isOpen, setIsOpen] = createSignal(false);
   let anchorRef: HTMLSpanElement | undefined;
-  let popper: PopperInstance | undefined;
+  let _popper: PopperInstance | undefined;
 
   const setTooltip = (tooltipRef: HTMLDivElement) => {
     if (anchorRef && tooltipRef && isOpen()) {
-      popper = createPopper(anchorRef, tooltipRef, {
-        placement: props.position || 'bottom-start'
+      _popper = createPopper(anchorRef, tooltipRef, {
+        placement: props.position || "bottom-start",
       });
     }
   };
@@ -54,8 +58,11 @@ const Tooltip = (props: Props): any => {
       fallback={props.children}
     >
       <span
+        role="tooltip"
         onMouseOver={() => setIsOpen(true)}
         onMouseLeave={() => setIsOpen(false)}
+        onFocus={() => setIsOpen(true)}
+        onBlur={() => setIsOpen(false)}
         ref={anchorRef}
         class={props.class}
         style={props.style}

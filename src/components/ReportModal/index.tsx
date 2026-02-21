@@ -1,1 +1,1 @@
-export { default } from './ReportModal';
+export { default } from "./ReportModal";

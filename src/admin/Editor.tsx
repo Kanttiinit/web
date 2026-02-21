@@ -1,15 +1,15 @@
-import { createEffect, For, Show } from 'solid-js';
-import { createStore, produce, unwrap } from 'solid-js/store';
-import { Dynamic } from 'solid-js/web';
-import Button from '../components/Button';
-import { get } from '../utils';
-import * as api from './api';
-import { showMessage } from './index';
-import inputs from './inputs';
-import { Model } from './models';
+import { createEffect, For, Show } from "solid-js";
+import { createStore, produce, unwrap } from "solid-js/store";
+import { Dynamic } from "solid-js/web";
+import Button from "../components/Button";
+import { get } from "../utils";
+import * as api from "./api";
+import { showMessage } from "./index";
+import inputs from "./inputs";
+import type { Model } from "./models";
 
 interface Props {
-  mode: 'creating' | 'editing';
+  mode: "creating" | "editing";
   onSuccess: () => void;
   onCancel: () => void;
   onError?: () => void;
@@ -18,11 +18,10 @@ interface Props {
 }
 
 function setToValue(obj: any, p: string, value: any) {
-  let i;
-  const path = p.split('.');
+  let i: number;
+  const path = p.split(".");
   for (i = 0; i < path.length - 1; i++) {
-    if (!(path[i] in obj))
-      obj[path[i]] = {};
+    if (!(path[i] in obj)) obj[path[i]] = {};
 
     obj = obj[path[i]];
   }
@@ -43,63 +42,71 @@ export default function Editor(props: Props) {
   const save = async (e: SubmitEvent) => {
     e.preventDefault();
     try {
-      if (props.mode === 'editing') {
+      if (props.mode === "editing") {
         await api.editItem(props.model, unwrap(item));
       } else {
         await api.createItem(props.model, unwrap(item));
       }
 
       props.onSuccess();
-      showMessage('The item has been saved.');
+      showMessage("The item has been saved.");
     } catch (error) {
       console.error(error);
-      showMessage('Error: ' + (error as any).message);
+      showMessage(`Error: ${(error as any).message}`);
     }
   };
 
   const deleteItem = async () => {
-    if (confirm('Are you sure?')) {
+    if (confirm("Are you sure?")) {
       await api.deleteItem(props.model, props.item);
       props.onSuccess();
-      showMessage('The item has been deleted.');
+      showMessage("The item has been deleted.");
     }
   };
 
-  const setValue = (key: string, value: any) => setItem(produce(s => {
-    setToValue(s, key, value);
-  }));
+  const setValue = (key: string, value: any) =>
+    setItem(
+      produce((s) => {
+        setToValue(s, key, value);
+      }),
+    );
 
   return (
     <Show when={item}>
       <h1>
-        {props.mode === 'editing' ? 'Edit ' : 'Create new '}
+        {props.mode === "editing" ? "Edit " : "Create new "}
         {props.model.name}
       </h1>
       <form onSubmit={save}>
         <div>
           <For each={props.model.fields}>
-            {field => {
+            {(field) => {
               return (
-              <div>
-                <Dynamic
-                  component={inputs[field.type!] || inputs._}
-                  field={field}
-                  value={'fields' in field
-                    ? field.fields.map(f => get(item, f.path))
-                    : get(item, field.path)}
-                  setValue={setValue}
-                />
-              </div>
+                <div>
+                  <Dynamic
+                    component={inputs[field.type!] || inputs._}
+                    field={field}
+                    value={
+                      "fields" in field
+                        ? field.fields.map((f) => get(item, f.path))
+                        : get(item, field.path)
+                    }
+                    setValue={setValue}
+                  />
+                </div>
               );
             }}
           </For>
         </div>
         <div>
           <Button type="submit" color="primary">
-            {props.mode === 'creating' ? 'Create' : 'Save'}
-          </Button>
-          {' '}
-          {props.mode === 'editing' && <><Button onClick={deleteItem}>Delete</Button>{' '}</>}
+            {props.mode === "creating" ? "Create" : "Save"}
+          </Button>{" "}
+          {props.mode === "editing" && (
+            <>
+              <Button onClick={deleteItem}>Delete</Button>{" "}
+            </>
+          )}
           <Button onClick={props.onCancel} secondary>
             Cancel
           </Button>

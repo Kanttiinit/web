@@ -1,4 +1,4 @@
-import { styled } from 'solid-styled-components';
+import { styled } from "solid-styled-components";
 
 export default styled.span`
   vertical-align: -0.1rem;

@@ -1,6 +1,6 @@
-import { styled } from 'solid-styled-components';
-import { computedState } from '../state';
-import PageContainer from './PageContainer';
+import { styled } from "solid-styled-components";
+import { computedState } from "../state";
+import PageContainer from "./PageContainer";
 
 const Link = styled.a`
   font-size: 1.25em;

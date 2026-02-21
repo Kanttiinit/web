@@ -1,6 +1,6 @@
-import { For, splitProps } from 'solid-js';
-import { styled } from 'solid-styled-components';
-import { breakLarge, breakSmall } from '../globalStyles';
+import { For, splitProps } from "solid-js";
+import { styled } from "solid-styled-components";
+import { breakLarge, breakSmall } from "../globalStyles";
 
 interface Props<T> {
   options: {
@@ -48,7 +48,7 @@ export const Button = styled.button<{ selected: boolean }>`
     border-color: var(--gray4);
   }
 
-  ${props =>
+  ${(props) =>
     props.selected
       ? `
     background: var(--accent_color);
@@ -59,14 +59,14 @@ export const Button = styled.button<{ selected: boolean }>`
       color: var(--gray6);
     }
   `
-      : ''}
+      : ""}
 `;
 
 export default function Radio<T>(props: Props<T>) {
-  const [ownProps, rest] = splitProps(props, [
-    'onChange',
-    'options',
-    'selected'
+  const [_ownProps, rest] = splitProps(props, [
+    "onChange",
+    "options",
+    "selected",
   ]);
   return (
     <Container {...rest}>

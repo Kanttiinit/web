@@ -1,28 +1,28 @@
-import { styled } from 'solid-styled-components';
+import { useParams } from "@solidjs/router";
 
 import {
   createResource,
   createSignal,
   For,
-  JSX,
+  type JSX,
   Match,
   Show,
   Switch,
-  ValidComponent
-} from 'solid-js';
-import { RestaurantType } from '../../types';
-import { createRestaurantChange, getRestaurant } from '../../api';
-import allTranslations from '../../translations';
-import Button from '../Button';
-import InlineIcon from '../InlineIcon';
-import PageContainer from '../PageContainer';
-import LocationEditor from './LocationEditor';
-import MessageForm from './MessageForm';
-import OpeningHoursEditor from './OpeningHoursEditor';
-import { ClockIcon, ErrorIcon, LocationIcon, MoreIcon } from '../../icons';
-import { computedState, state } from '../../state';
-import { Dynamic } from 'solid-js/web';
-import { useParams } from '@solidjs/router';
+  type ValidComponent,
+} from "solid-js";
+import { Dynamic } from "solid-js/web";
+import { styled } from "solid-styled-components";
+import { createRestaurantChange, getRestaurant } from "../../api";
+import { ClockIcon, ErrorIcon, LocationIcon, MoreIcon } from "../../icons";
+import { computedState, state } from "../../state";
+import type allTranslations from "../../translations";
+import type { RestaurantType } from "../../types";
+import Button from "../Button";
+import InlineIcon from "../InlineIcon";
+import PageContainer from "../PageContainer";
+import LocationEditor from "./LocationEditor";
+import MessageForm from "./MessageForm";
+import OpeningHoursEditor from "./OpeningHoursEditor";
 
 export interface FormProps {
   restaurant: RestaurantType;
@@ -73,18 +73,18 @@ const reportForms: ReportForm[] = [
   {
     component: OpeningHoursEditor,
     icon: <ClockIcon />,
-    labelId: 'openingHours'
+    labelId: "openingHours",
   },
   {
     component: LocationEditor,
     icon: <LocationIcon />,
-    labelId: 'location'
+    labelId: "location",
   },
   {
     component: MessageForm,
     icon: <MoreIcon />,
-    labelId: 'somethingElse'
-  }
+    labelId: "somethingElse",
+  },
 ];
 
 const ReportModal = () => {
@@ -96,15 +96,15 @@ const ReportModal = () => {
   const [restaurant] = createResource(
     () => ({
       id: Number(params.id),
-      lang: state.preferences.lang
+      lang: state.preferences.lang,
     }),
-    source => getRestaurant(source.id, source.lang)
+    (source) => getRestaurant(source.id, source.lang),
   );
 
-  const sendChange: FormProps['sendChange'] = async change => {
+  const sendChange: FormProps["sendChange"] = async (change) => {
     setIsSending(true);
     try {
-      const response = await createRestaurantChange(restaurant()!.id, change);
+      const _response = await createRestaurantChange(restaurant()?.id, change);
       // preferences.addSuggestedUpdate(response.uuid);
       setDone(true);
       if (error()) {
@@ -122,10 +122,10 @@ const ReportModal = () => {
       ? computedState
           .translations()
           .fixRestaurantInformation.replace(
-            '%restaurantName%',
-            restaurant()?.name
+            "%restaurantName%",
+            restaurant()?.name,
           )
-      : '';
+      : "";
 
   return (
     <PageContainer title={title()} compactTitle>
@@ -135,11 +135,14 @@ const ReportModal = () => {
           {computedState.translations().thanksForFeedback}
         </Match>
         <Match keyed when={activeForm()}>
-          {form => (
+          {(form) => (
             <>
               <Dynamic
                 component={form.component}
-                goBack={() => (setActiveForm(null), setError(null))}
+                goBack={() => {
+                  setActiveForm(null);
+                  setError(null);
+                }}
                 isSending={isSending()}
                 restaurant={restaurant()}
                 sendChange={sendChange}
@@ -147,11 +150,11 @@ const ReportModal = () => {
                 setError={setError}
               />
               <Show keyed when={error()}>
-                {error => (
+                {(error) => (
                   <ErrorMessage>
                     <InlineIcon>
                       <ErrorIcon />
-                    </InlineIcon>{' '}
+                    </InlineIcon>{" "}
                     {error.message}
                   </ErrorMessage>
                 )}
@@ -161,7 +164,7 @@ const ReportModal = () => {
         </Match>
         <Match when={true}>
           <For each={reportForms}>
-            {form => (
+            {(form) => (
               <ListItem onClick={() => setActiveForm(form)}>
                 <InlineIcon>{form.icon}</InlineIcon>
                 {computedState.translations()[form.labelId]}

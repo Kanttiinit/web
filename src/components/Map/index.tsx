@@ -1,3 +1,3 @@
-import { lazy } from 'solid-js';
+import { lazy } from "solid-js";
 
-export default lazy(() => import('./Map'));
+export default lazy(() => import("./Map"));

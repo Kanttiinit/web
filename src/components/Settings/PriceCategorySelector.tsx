@@ -1,10 +1,10 @@
-import { For } from 'solid-js';
-import { styled } from 'solid-styled-components';
-import { PriceCategory } from '../../types';
-import { state } from '../../state';
-import { priceCategorySettings } from '../../translations';
-import { Button } from '../Radio';
-import { MoneyIcon } from '../../icons';
+import { For } from "solid-js";
+import { styled } from "solid-styled-components";
+import { MoneyIcon } from "../../icons";
+import { state } from "../../state";
+import { priceCategorySettings } from "../../translations";
+import { PriceCategory } from "../../types";
+import { Button } from "../Radio";
 
 type Props = {
   value: PriceCategory;
@@ -14,7 +14,7 @@ type Props = {
 const categories = [
   PriceCategory.student,
   PriceCategory.studentPremium,
-  PriceCategory.regular
+  PriceCategory.regular,
 ];
 
 const ButtonContainer = styled.div`
@@ -26,7 +26,7 @@ const ButtonContainer = styled.div`
 
 const Item = styled(Button)`
   border-radius: 0;
-  color: ${props => (props.selected ? 'var(--gray7)' : 'var(--accent_color)')};
+  color: ${(props) => (props.selected ? "var(--gray7)" : "var(--accent_color)")};
   min-width: 3rem;
   padding-top: 0.6rem;
 
@@ -69,7 +69,7 @@ const PriceCategorySelector = (props: Props) => {
           )}
         </For>
       </ButtonContainer>
-      <p style={{ 'font-size': '0.8rem' }}>
+      <p style={{ "font-size": "0.8rem" }}>
         {priceCategorySettings[props.value][state.preferences.lang]}
       </p>
     </>

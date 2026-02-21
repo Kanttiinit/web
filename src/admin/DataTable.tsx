@@ -1,4 +1,3 @@
-import { sort } from 'fast-sort';
 import {
   createEffect,
   createMemo,
@@ -6,15 +5,15 @@ import {
   Match,
   onMount,
   Show,
-  Switch
-} from 'solid-js';
-import { createStore } from 'solid-js/store';
-import { styled } from 'solid-styled-components';
-import Button from '../components/Button';
-import { get } from '../utils';
-import * as api from './api';
-import Editor from './Editor';
-import { Model } from './models';
+  Switch,
+} from "solid-js";
+import { createStore } from "solid-js/store";
+import { styled } from "solid-styled-components";
+import Button from "../components/Button";
+import { get } from "../utils";
+import * as api from "./api";
+import Editor from "./Editor";
+import type { Model } from "./models";
 
 const Table = styled.table`
   width: 100%;
@@ -77,10 +76,10 @@ interface Props {
 }
 
 interface State {
-  mode?: 'editing' | 'creating';
+  mode?: "editing" | "creating";
   item?: any;
   sortedColumn?: string;
-  sortDirection: 'asc' | 'desc';
+  sortDirection: "asc" | "desc";
   items: any[];
   loading: boolean;
 }
@@ -91,19 +90,19 @@ function Value(props: { value: any }) {
       <Match
         keyed
         when={
-          typeof props.value === 'string' &&
-          props.value.startsWith('http') &&
+          typeof props.value === "string" &&
+          props.value.startsWith("http") &&
           props.value
         }
       >
-        {value => (
+        {(value) => (
           <a href={value} target="_blank" rel="noreferrer">
             {value}
           </a>
         )}
       </Match>
-      <Match when={typeof props.value === 'boolean'}>
-        {props.value ? 'Yes' : 'No'}
+      <Match when={typeof props.value === "boolean"}>
+        {props.value ? "Yes" : "No"}
       </Match>
       <Match when={true}>{props.value}</Match>
     </Switch>
@@ -112,31 +111,31 @@ function Value(props: { value: any }) {
 
 export default function DataTable(props: Props) {
   const [state, setState] = createStore<State>({
-    sortDirection: 'asc',
+    sortDirection: "asc",
     items: [],
-    loading: false
+    loading: false,
   });
 
   const openCreateDialog = () =>
-    setState({ mode: 'creating', item: undefined });
+    setState({ mode: "creating", item: undefined });
 
   const hideDialog = () => setState({ mode: undefined });
 
-  const getSortIndicator = (sortedColumn: string) =>
+  const _getSortIndicator = (sortedColumn: string) =>
     sortedColumn === state.sortedColumn
-      ? state.sortDirection === 'asc'
-        ? '︎︎↑'
-        : '↓'
-      : '';
+      ? state.sortDirection === "asc"
+        ? "︎︎↑"
+        : "↓"
+      : "";
 
-  const changeSort = (columnKey: string) => {
+  const _changeSort = (columnKey: string) => {
     const { sortedColumn, sortDirection } = state;
     if (sortedColumn === columnKey) {
       setState({
-        sortDirection: sortDirection === 'asc' ? 'desc' : 'asc'
+        sortDirection: sortDirection === "asc" ? "desc" : "asc",
       });
     } else {
-      setState({ sortedColumn: columnKey, sortDirection: 'asc' });
+      setState({ sortedColumn: columnKey, sortDirection: "asc" });
     }
   };
 
@@ -150,13 +149,13 @@ export default function DataTable(props: Props) {
     () =>
       /*state.sortedColumn
     ? sort(state.items).by({ [state.sortDirection]: state.sortedColumn! })
-    : */ state.items
+    : */ state.items,
   );
 
   const resetSort = () => {
     setState({
       sortedColumn: props.model.defaultSort,
-      sortDirection: 'asc'
+      sortDirection: "asc",
     });
   };
 
@@ -171,7 +170,7 @@ export default function DataTable(props: Props) {
 
   return (
     <>
-      {!!state.mode &&
+      {!!state.mode && (
         <>
           <ModalBg onClick={hideDialog} />
           <Modal>
@@ -184,17 +183,17 @@ export default function DataTable(props: Props) {
             />
           </Modal>
         </>
-      }
-      <Button style={{ margin: '1em 0' }} onClick={openCreateDialog}>
+      )}
+      <Button style={{ margin: "1em 0" }} onClick={openCreateDialog}>
         Create
       </Button>
       <Show when={!state.loading} fallback={<p>Loading...</p>}>
-        <div style={{ 'overflow-x': 'auto' }}>
+        <div style={{ "overflow-x": "auto" }}>
           <Table>
             <thead>
               <tr>
                 <For each={props.model.tableFields}>
-                  {field => (
+                  {(field) => (
                     <th>
                       {/* <TableSortLabel
                       direction={state.sortDirection}
@@ -210,10 +209,10 @@ export default function DataTable(props: Props) {
             </thead>
             <tbody>
               <For each={sortedItems()}>
-                {item => (
-                  <tr onClick={() => setState({ mode: 'editing', item })}>
+                {(item) => (
+                  <tr onClick={() => setState({ mode: "editing", item })}>
                     <For each={props.model.tableFields}>
-                      {field => (
+                      {(field) => (
                         <td>
                           <Value value={get(item, field.key)} />
                         </td>

@@ -1,9 +1,8 @@
-import { createMemo, For } from 'solid-js';
-import { styled } from 'solid-styled-components';
-
-import { CourseType } from '../../types';
-import { computedState } from '../../state';
-import Course from './Course';
+import { createMemo, For } from "solid-js";
+import { styled } from "solid-styled-components";
+import { computedState } from "../../state";
+import type { CourseType } from "../../types";
+import Course from "./Course";
 
 interface CourseGroup {
   key: string;
@@ -12,10 +11,10 @@ interface CourseGroup {
 
 const getCourseGroup = (course: CourseType) => {
   if (!course.title) {
-    return '';
+    return "";
   }
-  const split = course.title.split(':');
-  return split.length > 1 ? split[0] : '';
+  const split = course.title.split(":");
+  return split.length > 1 ? split[0] : "";
 };
 
 interface Props {
@@ -56,29 +55,32 @@ const EmptyText = styled.p`
 const capitalize = (string: string) => {
   return string
     ? string.charAt(0).toUpperCase() + string.slice(1).toLowerCase()
-    : '';
+    : "";
 };
 
 const CourseList = (props: Props) => {
   const courseGroups = createMemo(() => {
-    const groups = props.courses.reduce((g, course) => {
-      const group = getCourseGroup(course);
-      if (group in g) {
-        g[group].push(course);
-      } else {
-        g[group] = [course];
-      }
-      return g;
-    }, {} as { [key: string]: CourseType[] });
+    const groups = props.courses.reduce(
+      (g, course) => {
+        const group = getCourseGroup(course);
+        if (group in g) {
+          g[group].push(course);
+        } else {
+          g[group] = [course];
+        }
+        return g;
+      },
+      {} as { [key: string]: CourseType[] },
+    );
 
-    return Object.keys(groups).map(groupKey => ({
+    return Object.keys(groups).map((groupKey) => ({
       courses: groups[groupKey]
-        .filter(c => !!c.title)
-        .map(c => ({
+        .filter((c) => !!c.title)
+        .map((c) => ({
           ...c,
-          title: c.title.replace(groupKey + ': ', '')
+          title: c.title.replace(`${groupKey}: `, ""),
         })),
-      key: groupKey
+      key: groupKey,
     }));
   });
 
@@ -91,7 +93,7 @@ const CourseList = (props: Props) => {
         {(group: CourseGroup) => (
           <Group>
             <GroupTitle>{capitalize(group.key)}</GroupTitle>
-            <For each={group.courses}>{c => <Course course={c} />}</For>
+            <For each={group.courses}>{(c) => <Course course={c} />}</For>
           </Group>
         )}
       </For>

@@ -1,13 +1,13 @@
-import { setISODay } from 'date-fns';
-import { createEffect, createSignal, For, onMount } from 'solid-js';
-import { styled } from 'solid-styled-components';
-import { computedState } from '../state';
-import { formattedDay } from '../utils';
-import { CopyIcon } from '../icons';
-import { TextButton } from './Button';
-import Input from './Input';
-import Tooltip from './Tooltip';
-import { unwrap } from 'solid-js/store';
+import { setISODay } from "date-fns";
+import { createEffect, createSignal, For, onMount } from "solid-js";
+import { unwrap } from "solid-js/store";
+import { styled } from "solid-styled-components";
+import { CopyIcon } from "../icons";
+import { computedState } from "../state";
+import { formattedDay } from "../utils";
+import { TextButton } from "./Button";
+import Input from "./Input";
+import Tooltip from "./Tooltip";
 
 const InputGroup = styled.div`
   display: flex;
@@ -43,24 +43,24 @@ const OpeningHoursInput = (props: Props) => {
 
   onMount(() => {
     setOpeningHours(
-      unwrap(props.defaultValue).map(hours => {
+      unwrap(props.defaultValue).map((hours) => {
         if (!hours) {
           return null;
         }
         return hours.map((hour: number) =>
           String(hour).length === 4
-            ? String(hour).substr(0, 2) + ':' + String(hour).substring(2)
-            : String(hour)
+            ? `${String(hour).substr(0, 2)}:${String(hour).substring(2)}`
+            : String(hour),
         );
-      })
+      }),
     );
   });
 
   createEffect(() => {
     props.onChange(
-      openingHours().map(hours =>
-        hours ? hours.map(h => Number(h.replace(':', ''))) : null
-      )
+      openingHours().map((hours) =>
+        hours ? hours.map((h) => Number(h.replace(":", ""))) : null,
+      ),
     );
   });
 
@@ -68,9 +68,13 @@ const OpeningHoursInput = (props: Props) => {
     <For each={openingHours()}>
       {(times, i) => {
         const isClosed = times === null;
-        const weekDayLabel = formattedDay(setISODay(new Date(), i() + 1), 'EE');
+        const weekDayLabel = formattedDay(setISODay(new Date(), i() + 1), "EE");
 
-        const changeDayAndTime = (value: string, dayIndex: number, timeIndex: number) => {
+        const changeDayAndTime = (
+          value: string,
+          dayIndex: number,
+          timeIndex: number,
+        ) => {
           const hours = [...openingHours()];
           const dayHours = hours[dayIndex];
           if (dayHours) dayHours[timeIndex] = value;
@@ -86,7 +90,7 @@ const OpeningHoursInput = (props: Props) => {
                 onChange={(event: any) => {
                   const hours = [...openingHours()];
                   if (event.target.checked) {
-                    hours[i()] = ['', ''];
+                    hours[i()] = ["", ""];
                   } else {
                     hours[i()] = null;
                   }
@@ -102,7 +106,7 @@ const OpeningHoursInput = (props: Props) => {
               pattern="[0-9]{1,}:[0-9]{2}"
               disabled={isClosed || props.disabled}
               value={isClosed ? computedState.translations().closed : times[0]}
-              onChange={v => changeDayAndTime(v, i(), 0)}
+              onChange={(v) => changeDayAndTime(v, i(), 0)}
             />
             <StyledInput
               id={`closing-time-${i()}`}
@@ -110,9 +114,12 @@ const OpeningHoursInput = (props: Props) => {
               pattern="[0-9]{1,}:[0-9]{2}"
               disabled={isClosed || props.disabled}
               value={isClosed ? computedState.translations().closed : times[1]}
-              onChange={v => changeDayAndTime(v, i(), 1)}
+              onChange={(v) => changeDayAndTime(v, i(), 1)}
             />
-            <Tooltip style={{"align-self":"end","padding-bottom":"0.3rem"}} translationKey="copyFromPreviousDay">
+            <Tooltip
+              style={{ "align-self": "end", "padding-bottom": "0.3rem" }}
+              translationKey="copyFromPreviousDay"
+            >
               <TextButton
                 onClick={() => {
                   const hours = [...openingHours()];

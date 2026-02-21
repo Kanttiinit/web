@@ -1,22 +1,24 @@
-import { render } from 'solid-js/web';
-import { Route, Router } from '@solidjs/router';
+import { Route, Router } from "@solidjs/router";
+import { render } from "solid-js/web";
 
-import App from './components/App';
+import App from "./components/App";
 // import Map from './components/Map';
-import Global from './globalStyles';
-import './fonts.css';
-import { lazy } from 'solid-js';
-import { ErrorBoundary } from './components/ErrorBoundary';
-const Admin = lazy(() => import('./admin'));
+import Global from "./globalStyles";
+import "./fonts.css";
+import { lazy } from "solid-js";
+import { ErrorBoundary } from "./components/ErrorBoundary";
 
-const RestaurantModal = lazy(() => import('./components/RestaurantModal'));
-const ReportModal = lazy(() => import('./components/ReportModal'));
-import Settings from './components/Settings';
-import TermsOfService from './components/TermsOfService';
-import NotFound from './components/NotFound';
-import ChangeLog from './components/ChangeLog';
-import Clients from './components/Clients';
-import Contact from './components/Contact';
+const Admin = lazy(() => import("./admin"));
+
+const RestaurantModal = lazy(() => import("./components/RestaurantModal"));
+const ReportModal = lazy(() => import("./components/ReportModal"));
+
+import ChangeLog from "./components/ChangeLog";
+import Clients from "./components/Clients";
+import Contact from "./components/Contact";
+import NotFound from "./components/NotFound";
+import Settings from "./components/Settings";
+import TermsOfService from "./components/TermsOfService";
 
 render(
   () => (
@@ -39,5 +41,5 @@ render(
       </Router>
     </ErrorBoundary>
   ),
-  document.getElementById('root')!
+  document.getElementById("root")!,
 );

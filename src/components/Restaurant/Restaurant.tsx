@@ -1,33 +1,32 @@
-import { getISODay as getIsoDay, isSameDay } from 'date-fns';
-import { styled } from 'solid-styled-components';
-
-import { RestaurantType } from '../../types';
-import { breakSmall } from '../../globalStyles';
-import { computedState, setState, state } from '../../state';
+import { getISODay as getIsoDay, isSameDay } from "date-fns";
+import { createSignal } from "solid-js";
+import { styled } from "solid-styled-components";
+import { breakSmall } from "../../globalStyles";
 import {
   BikeIcon,
   EditIcon,
   FilledStarIcon,
   LocationIcon,
   MoreIcon,
-  WalkIcon
-} from '../../icons';
-import Colon from '../Colon';
-import CourseList from '../CourseList';
-import InlineIcon from '../InlineIcon';
-import Link from '../Link';
-import PriceCategoryBadge from '../PriceCategoryBadge';
-import { getArrayWithToggled } from '../../utils';
-import { createSignal } from 'solid-js';
+  WalkIcon,
+} from "../../icons";
+import { computedState, setState, state } from "../../state";
+import type { RestaurantType } from "../../types";
+import { getArrayWithToggled } from "../../utils";
+import Colon from "../Colon";
+import CourseList from "../CourseList";
+import InlineIcon from "../InlineIcon";
+import Link from "../Link";
+import PriceCategoryBadge from "../PriceCategoryBadge";
 
 const Distance = (props: { distance?: number }) => {
   const kilometers = () => (props.distance || 0) > 1500;
   return (
     <RestaurantMeta
       style={{
-        'font-weight': 400,
-        'text-align': 'left',
-        display: 'inline-block'
+        "font-weight": 400,
+        "text-align": "left",
+        display: "inline-block",
       }}
     >
       <InlineIcon>
@@ -42,8 +41,8 @@ const Distance = (props: { distance?: number }) => {
       {!props.distance
         ? computedState.translations().locating
         : kilometers()
-        ? parseFloat(String(props.distance / 1000)).toFixed(1)
-        : Math.round(props.distance)}
+          ? parseFloat(String(props.distance / 1000)).toFixed(1)
+          : Math.round(props.distance)}
       &nbsp;
       {props.distance &&
         (kilometers()
@@ -133,7 +132,7 @@ export const Container = styled.article<{ noCourses?: boolean }>`
     border-radius: 0;
   }
 
-  ${props => (props.noCourses ? 'opacity: 0.6;' : '')}
+  ${(props) => (props.noCourses ? "opacity: 0.6;" : "")}
 `;
 
 export const Header = styled.header`
@@ -144,12 +143,12 @@ export const Header = styled.header`
 `;
 
 const RestaurantName = styled.h2<{ noCourses?: boolean; isClosed?: boolean }>`
-  color: ${props =>
+  color: ${(props) =>
     props.isClosed
-      ? 'var(--gray1)'
+      ? "var(--gray1)"
       : props.noCourses
-      ? 'var(--gray3)'
-      : 'var(--gray1)'};
+        ? "var(--gray3)"
+        : "var(--gray1)"};
   font-weight: 500;
   margin: 0;
   max-width: 60%;
@@ -206,7 +205,7 @@ const StyledActionLink = styled(Link)`
 
 const StyledNativeActionLink = styled.a<{ color: string }>`
     ${actionLinkStyles}
-    color: ${props => props.color} !important;
+    color: ${(props) => props.color} !important;
 `;
 
 export const courseListStyles = `
@@ -221,7 +220,7 @@ export const courseListStyles = `
 
 const StyledCourseList = styled(CourseList)<{ noCourses?: boolean }>`
   ${courseListStyles}
-  ${props => (props.noCourses ? 'var(--gray3)' : '')}
+  ${(props) => (props.noCourses ? "var(--gray3)" : "")}
 `;
 
 const ClosedText = styled.small`
@@ -241,21 +240,21 @@ const Restaurant = (props: Props) => {
 
   const toggleStar = () => {
     setState(
-      'preferences',
-      'starredRestaurants',
+      "preferences",
+      "starredRestaurants",
       getArrayWithToggled(
         state.preferences.starredRestaurants,
-        props.restaurant.id
-      )
+        props.restaurant.id,
+      ),
     );
   };
 
   const [hovering, setHovering] = createSignal(false);
-  function deploySurprise() { 
-    if (localStorage.getItem('isSurprise') === 'true') {
+  function deploySurprise() {
+    if (localStorage.getItem("isSurprise") === "true") {
       setHovering(true);
       setTimeout(() => {
-        if (localStorage.getItem('isSurprise') === 'true') {
+        if (localStorage.getItem("isSurprise") === "true") {
           props.onShowMakeItStaph?.();
         }
       }, 2000);
@@ -291,7 +290,7 @@ const Restaurant = (props: Props) => {
             {props.restaurant.openingHours[dayOfWeek()] && (
               <>
                 <Colon>
-                  {props.restaurant.openingHours[dayOfWeek()].replace('-', '–')}
+                  {props.restaurant.openingHours[dayOfWeek()].replace("-", "–")}
                 </Colon>
                 <br />
               </>
@@ -320,7 +319,7 @@ const Restaurant = (props: Props) => {
                 : `Unstar ${props.restaurant.name}`
             }
             onClick={toggleStar}
-            color={props.restaurant.isStarred ? 'var(--star)' : ''}
+            color={props.restaurant.isStarred ? "var(--star)" : ""}
             tabIndex={0}
           >
             <FilledStarIcon size={18} />

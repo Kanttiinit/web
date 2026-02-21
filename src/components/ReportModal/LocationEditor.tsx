@@ -1,15 +1,15 @@
-import { createSignal } from 'solid-js';
-import { computedState } from '../../state';
-import Button from '../Button';
-import Input from '../Input';
-import LatLngInput from '../LatLngInput';
-import { FormProps } from './ReportModal';
+import { createSignal } from "solid-js";
+import { computedState } from "../../state";
+import Button from "../Button";
+import Input from "../Input";
+import LatLngInput from "../LatLngInput";
+import type { FormProps } from "./ReportModal";
 
 export default (props: FormProps) => {
   const [address, setAddress] = createSignal(props.restaurant.address);
   const [latLng, setLatLng] = createSignal<[number, number]>([
     props.restaurant.latitude,
-    props.restaurant.longitude
+    props.restaurant.longitude,
   ]);
 
   const onSubmit = (e: SubmitEvent) => {
@@ -17,7 +17,7 @@ export default (props: FormProps) => {
     props.sendChange({
       address: address(),
       latitude: latLng()[0],
-      longitude: latLng()[1]
+      longitude: latLng()[1],
     });
   };
 

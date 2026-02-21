@@ -1,13 +1,12 @@
-import { createResource } from 'solid-js';
-import { styled } from 'solid-styled-components';
-import { breakSmall } from '../globalStyles';
-import { state } from '../state';
-
-import { getCourses } from '../api';
-import { CopyIcon, LinkIcon, ShareIcon } from '../icons';
-import CourseList from './CourseList';
-import DaySelector from './DaySelector';
-import Tooltip from './Tooltip';
+import { createResource } from "solid-js";
+import { styled } from "solid-styled-components";
+import { getCourses } from "../api";
+import { breakSmall } from "../globalStyles";
+import { CopyIcon, LinkIcon, ShareIcon } from "../icons";
+import { state } from "../state";
+import CourseList from "./CourseList";
+import DaySelector from "./DaySelector";
+import Tooltip from "./Tooltip";
 
 const Header = styled.div`
   display: flex;
@@ -28,7 +27,7 @@ const StyledCourseList = styled(CourseList)<{ loading: boolean }>`
   max-height: 25vh;
   padding-right: 1ch;
 
-  ${props => (props.loading ? 'opacity: 0.5;' : '')}
+  ${(props) => (props.loading ? "opacity: 0.5;" : "")}
 
   @media (max-width: ${breakSmall}) {
     max-height: 100%;
@@ -46,33 +45,33 @@ export default function MenuViewer(props: Props) {
     () => ({
       id: props.restaurantId,
       selectedDay: state.selectedDay,
-      lang: state.preferences.lang
+      lang: state.preferences.lang,
     }),
-    source => getCourses(source.id, source.selectedDay, source.lang)
+    (source) => getCourses(source.id, source.selectedDay, source.lang),
   );
 
   const onCopy = (target: string) => {
-    if (target === 'courses') {
+    if (target === "courses") {
       navigator.clipboard.writeText(
         (courses() || [])
-          .map(c => {
+          .map((c) => {
             let line = c.title;
             if (c.properties.length) {
-              line += `(${c.properties.join(', ')})`;
+              line += `(${c.properties.join(", ")})`;
             }
             return line;
           })
-          .join('\n')
+          .join("\n"),
       );
-    } else if (target === 'url') {
+    } else if (target === "url") {
       navigator.clipboard.writeText(location.href);
     }
   };
 
   const share = () => {
     (navigator as any).share({
-      title: 'Kanttiinit.fi',
-      url: location.href
+      title: "Kanttiinit.fi",
+      url: location.href,
     });
   };
 
@@ -82,16 +81,16 @@ export default function MenuViewer(props: Props) {
         <DaySelector />
         {props.showCopyButton && (
           <ButtonContainer>
-            {'share' in navigator && (
+            {"share" in navigator && (
               <Tooltip translationKey="shareURL">
                 <ShareIcon size={18} onClick={share} />
               </Tooltip>
             )}
             <Tooltip translationKey="copyURLToClipboard">
-              <LinkIcon size={18} onClick={() => onCopy('url')} />
+              <LinkIcon size={18} onClick={() => onCopy("url")} />
             </Tooltip>
             <Tooltip translationKey="copyMenuToClipboard">
-              <CopyIcon size={18} onClick={() => onCopy('courses')} />
+              <CopyIcon size={18} onClick={() => onCopy("courses")} />
             </Tooltip>
           </ButtonContainer>
         )}

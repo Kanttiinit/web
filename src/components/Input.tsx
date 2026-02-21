@@ -1,5 +1,4 @@
-import { createEffect } from 'solid-js';
-import { styled } from 'solid-styled-components';
+import { styled } from "solid-styled-components";
 
 type Props = {
   label: string;
@@ -62,7 +61,7 @@ export default function Input(props: Props) {
     disabled: props.disabled,
     autoFocus: props.autoFocus,
     pattern: props.pattern,
-    step: props.step
+    step: props.step,
   });
 
   const onChange = (e: any) => {

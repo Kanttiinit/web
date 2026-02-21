@@ -1,5 +1,5 @@
-import { computedState } from '../state';
-import PageContainer from './PageContainer';
+import { computedState } from "../state";
+import PageContainer from "./PageContainer";
 
 export default function PrivacyPolicy() {
   return (

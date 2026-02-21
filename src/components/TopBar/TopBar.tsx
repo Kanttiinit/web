@@ -1,4 +1,4 @@
-import { createMemo, createSignal, onCleanup, onMount } from 'solid-js';
+import { createMemo, createSignal } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { breakSmall } from '../../globalStyles';
 import { CaretDownIcon, MapIcon, NewsIcon, SettingsIcon } from '../../icons';
@@ -213,63 +213,11 @@ const FlagImg = styled.img`
 `;
 
 export default function TopBar() {
-  let areaSelectorLink: HTMLAnchorElement | undefined;
   const [areaSelectorOpen, setAreaSelectorOpen] = createSignal(false);
 
-  const toggleAreaSelector = () => setAreaSelectorOpen(!areaSelectorOpen());
+  const toggleAreaSelector = () => setAreaSelectorOpen(v => !v);
 
-  const closeAreaSelector = () =>
-    areaSelectorOpen() && setAreaSelectorOpen(false);
-
-  const touchStart = (e: TouchEvent) => {
-    e.preventDefault();
-    toggleAreaSelector();
-  };
-
-  const touchMove = (event: TouchEvent) => {
-    event.preventDefault();
-    const target = document.elementFromPoint(
-      event.touches[0].pageX,
-      event.touches[0].pageY,
-    );
-    if (target instanceof HTMLButtonElement) {
-      target.focus();
-    }
-  };
-
-  const touchEnd = (event: TouchEvent) => {
-    const endTarget = document.elementFromPoint(
-      event.changedTouches[0].pageX,
-      event.changedTouches[0].pageY,
-    );
-    if (endTarget instanceof HTMLElement) {
-      endTarget.dispatchEvent(
-        new MouseEvent('mouseup', {
-          bubbles: true,
-        }),
-      );
-    }
-  };
-
-  onMount(() => {
-    if (areaSelectorLink) {
-      areaSelectorLink.addEventListener('touchstart', touchStart, {
-        passive: false,
-      });
-      areaSelectorLink.addEventListener('touchmove', touchMove, {
-        passive: false,
-      });
-      areaSelectorLink.addEventListener('touchend', touchEnd);
-    }
-  });
-
-  onCleanup(() => {
-    if (areaSelectorLink) {
-      areaSelectorLink.removeEventListener('touchstart', touchStart);
-      areaSelectorLink.removeEventListener('touchmove', touchMove);
-      areaSelectorLink.removeEventListener('touchend', touchEnd);
-    }
-  });
+  const closeAreaSelector = () => setAreaSelectorOpen(false);
 
   function toggleLang() {
     setState(
@@ -309,8 +257,7 @@ export default function TopBar() {
           )}
           <AreaSelectorButton onClickOutside={closeAreaSelector}>
             <NativeIconLink
-              ref={areaSelectorLink}
-              onMouseDown={toggleAreaSelector}
+              onClick={toggleAreaSelector}
               tabIndex={0}
               onKeyDown={e => e.key === 'Enter' && toggleAreaSelector()}
             >

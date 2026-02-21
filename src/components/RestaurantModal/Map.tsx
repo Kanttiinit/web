@@ -1,14 +1,16 @@
 import leaflet from 'leaflet';
+import { createSignal, onCleanup, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import 'leaflet/dist/leaflet.css';
-import { onCleanup, onMount } from 'solid-js';
 import { breakSmall } from '../../globalStyles';
+import { MapLockedIcon, MapUnlockedIcon } from '../../icons';
 
 import type { RestaurantType } from '../../types';
 import restaurantLocationIcon from './restaurant-location.png';
 import userLocationIcon from './user-location.png';
 
-const Container = styled.div`
+const MapWrapper = styled.div`
+  position: relative;
   border-top: 1px solid var(--border-subtle);
   border-bottom: 1px solid var(--border-subtle);
   min-height: 30rem;
@@ -17,15 +19,49 @@ const Container = styled.div`
   overflow: hidden;
 `;
 
-const _RestaurantPin = styled.div`
-  display: flex;
-  align-items: center;
+const Container = styled.div`
+  position: absolute;
+  inset: 0;
 `;
 
-const _RestaurantLabel = styled.span`
-  font-weight: bold;
-  text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white,
-    1px 1px 0 white;
+const MapOverlay = styled.div<{ locked: boolean }>`
+  display: none;
+
+  @media (max-width: ${breakSmall}) {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 500;
+    pointer-events: ${props => (props.locked ? 'auto' : 'none')};
+  }
+`;
+
+const LockButton = styled.button`
+  display: none;
+
+  @media (max-width: ${breakSmall}) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    z-index: 501;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    transition: transform 0.1s;
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
 `;
 
 interface Props {
@@ -37,6 +73,8 @@ interface Props {
 export default function RestaurantMap(props: Props) {
   let container: HTMLDivElement | undefined;
   let map: leaflet.Map;
+
+  const [locked, setLocked] = createSignal(true);
 
   onMount(() => {
     map = leaflet.map(container!).setView(props.restaurantPoint, 14);
@@ -78,5 +116,13 @@ export default function RestaurantMap(props: Props) {
     map.remove();
   });
 
-  return <Container ref={container} />;
+  return (
+    <MapWrapper>
+      <Container ref={container} />
+      <MapOverlay locked={locked()} />
+      <LockButton type="button" onClick={() => setLocked(v => !v)}>
+        {locked() ? <MapLockedIcon size={18} /> : <MapUnlockedIcon size={18} />}
+      </LockButton>
+    </MapWrapper>
+  );
 }

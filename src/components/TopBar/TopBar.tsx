@@ -60,6 +60,7 @@ const AreaSelectorContainer = styled.div<{ isOpen: boolean }>`
   background: var(--bg-surface);
   padding: 0.4em;
   box-shadow: var(--shadow-popover);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   transform-origin: top right;
 

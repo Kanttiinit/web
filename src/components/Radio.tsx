@@ -30,6 +30,7 @@ export const Button = styled.button<{ selected: boolean }>`
   color: ${props => (props.selected ? 'var(--text-primary)' : 'var(--text-muted)')};
   background: ${props => (props.selected ? 'var(--radio-selected)' : 'transparent')};
   box-shadow: ${props => (props.selected ? 'var(--shadow-sm)' : 'none')};
+  border: ${props => (props.selected ? '1px solid var(--border-subtle)' : '1px solid transparent')};
   font-family: inherit;
   font-weight: 500;
   font-size: 0.8rem;

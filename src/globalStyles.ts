@@ -68,39 +68,39 @@ export default createGlobalStyles`
     --topbar-border: rgba(0, 0, 0, 0.07);
 
     &.dark {
-      /* Raw palette */
-      --gray7: #1e2629;
-      --gray6: #161c1e;
-      --gray5: #253032;
-      --gray4: #505858;
-      --gray3: #707c7c;
-      --gray2: #9aa4a4;
-      --gray1: #c4c8c8;
+      /* Raw palette — blue-teal hue (~205°) */
+      --gray7: #1b2530;
+      --gray6: #121c26;
+      --gray5: #203040;
+      --gray4: #405870;
+      --gray3: #5c7c90;
+      --gray2: #8aaabb;
+      --gray1: #c8d8e2;
 
-      /* Semantic backgrounds — independently tuned */
-      --bg-app: #111719;
-      --bg-surface: #1c2427;
-      --bg-inset: #141c1f;
-      --bg-interactive: #253437;
+      /* Semantic backgrounds — independently tuned, clear hierarchy */
+      --bg-app: #0d1318;       /* page canvas + modal base */
+      --bg-surface: #131c26;   /* restaurant cards, elevated above page */
+      --bg-inset: #1c2d44;     /* settings cards within modal, further elevated */
+      --bg-interactive: #213248; /* hover/pressed states */
 
-      /* Semantic borders */
-      --border-subtle: #1e2c30;
-      --border: #2c3c40;
+      /* Semantic borders — visible against respective surfaces */
+      --border-subtle: #182c40; /* dividers, subtle outlines */
+      --border: #243d56;        /* card outlines, focused states */
 
-      /* Semantic text */
-      --text-primary: #cdd1d1;
-      --text-secondary: #8fa0a0;
-      --text-muted: #637476;
-      --text-disabled: #475659;
+      /* Semantic text — cool tint, strong contrast hierarchy */
+      --text-primary: #dce8ee;
+      --text-secondary: #8aaabb;
+      --text-muted: #587888;
+      --text-disabled: #384e5c;
 
       /* Component tokens */
-      --topbar-bg: rgba(22, 28, 30, 0.88);
+      --topbar-bg: rgba(19, 28, 38, 0.90);
       --topbar-border: rgba(255, 255, 255, 0.07);
-      --accent_color: #0898be;
-      --radio-track: #0c1416;
-      --radio-selected: #1c2b2e;
+      --accent_color: #1ab0d8;
+      --radio-track: #080d12;
+      --radio-selected: #1c2d44;
 
-      --hearty: #fe346e;
+      --hearty: #f23d6e;
       --friendly: #06CBB0;
     }
   }

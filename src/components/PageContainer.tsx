@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Container = styled.div`
-  background: var(--bg-surface);
+  background: var(--bg-app);
   padding: 1.25rem 1.5rem 1.5rem;
 
   @media (max-width: ${breakSmall}) {

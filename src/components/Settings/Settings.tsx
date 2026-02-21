@@ -11,8 +11,10 @@ import PriceCategorySelector from './PriceCategorySelector';
 import PropertySelector from './PropertySelector';
 
 const SettingsCard = styled.div`
-  background: var(--bg-inset);
+  background: var(--bg-surface);
   border-radius: var(--radius-lg);
+  border: solid 1px var(--border-subtle);
+  box-shadow: 0px 1px 2px 0px rgba(50, 50, 50, 0.1);
   padding: 0.25rem 0;
   margin-bottom: 0.75rem;
   overflow: hidden;

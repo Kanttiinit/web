@@ -63,7 +63,7 @@ const Content = styled.div<{ open: boolean }>`
   max-width: 40rem;
   border-radius: var(--radius-lg);
   overflow: auto;
-  background: var(--bg-surface);
+  background: var(--bg-app);
   border: 1px var(--border-subtle) solid;
   box-shadow: var(--shadow-md), 0 0 0 1px rgba(0,0,0,0.04);
   flex: 1;

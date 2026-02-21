@@ -22,6 +22,7 @@ export {
   TbOutlineAdjustmentsHorizontal as SettingsIcon,
   TbOutlineBell as NewsIcon,
   TbOutlineBike as BikeIcon,
+  TbOutlineCheck as CheckIcon,
   TbOutlineCurrentLocation as LocationIcon,
   TbOutlineHome as HomeIcon,
   TbOutlineLoader as LoaderIcon,

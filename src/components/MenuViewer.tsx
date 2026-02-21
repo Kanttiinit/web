@@ -1,8 +1,8 @@
-import { createResource } from 'solid-js';
+import { createResource, createSignal, type JSX } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { getCourses } from '../api';
 import { breakSmall } from '../globalStyles';
-import { CopyIcon, LinkIcon, ShareIcon } from '../icons';
+import { CheckIcon, CopyIcon, LinkIcon, ShareIcon } from '../icons';
 import { state } from '../state';
 import CourseList from './CourseList';
 import DaySelector from './DaySelector';
@@ -15,12 +15,69 @@ const Header = styled.div`
 `;
 
 const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: 1rem;
+
   svg {
     cursor: pointer;
-    margin-left: 1rem;
     color: var(--text-primary);
+    display: block;
   }
 `;
+
+const CopyTrack = styled.span<{ done: boolean }>`
+  position: relative;
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  flex-shrink: 0;
+
+  .icon-default {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: ${props => (props.done ? 'translateY(-100%)' : 'translateY(0)')};
+  }
+
+  .icon-check {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #22c55e;
+    border-radius: 50%;
+    color: white;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: ${props => (props.done ? 'translateY(0)' : 'translateY(100%)')};
+  }
+`;
+
+function CopyButton(props: { icon: JSX.Element; onCopy: () => void }) {
+  const [done, setDone] = createSignal(false);
+
+  const handle = () => {
+    props.onCopy();
+    setDone(true);
+    setTimeout(() => setDone(false), 1200);
+  };
+
+  return (
+    <CopyTrack done={done()} onClick={handle}>
+      <span class="icon-default">{props.icon}</span>
+      <span class="icon-check">
+        <CheckIcon size={18} />
+      </span>
+    </CopyTrack>
+  );
+}
 
 const StyledCourseList = styled(CourseList)<{ loading: boolean }>`
   transition: opacity 0.2s;
@@ -51,23 +108,20 @@ export default function MenuViewer(props: Props) {
     source => getCourses(source.id, source.selectedDay, source.lang),
   );
 
-  const onCopy = (target: string) => {
-    if (target === 'courses') {
-      navigator.clipboard.writeText(
-        (courses() || [])
-          .map(c => {
-            let line = c.title;
-            if (c.properties.length) {
-              line += `(${c.properties.join(', ')})`;
-            }
-            return line;
-          })
-          .join('\n'),
-      );
-    } else if (target === 'url') {
-      navigator.clipboard.writeText(location.href);
-    }
-  };
+  const copyURL = () => navigator.clipboard.writeText(location.href);
+
+  const copyMenu = () =>
+    navigator.clipboard.writeText(
+      (courses() || [])
+        .map(c => {
+          let line = c.title;
+          if (c.properties.length) {
+            line += `(${c.properties.join(', ')})`;
+          }
+          return line;
+        })
+        .join('\n'),
+    );
 
   const share = () => {
     (navigator as any).share({
@@ -88,10 +142,10 @@ export default function MenuViewer(props: Props) {
               </Tooltip>
             )}
             <Tooltip translationKey="copyURLToClipboard">
-              <LinkIcon size={18} onClick={() => onCopy('url')} />
+              <CopyButton icon={<LinkIcon size={18} />} onCopy={copyURL} />
             </Tooltip>
             <Tooltip translationKey="copyMenuToClipboard">
-              <CopyIcon size={18} onClick={() => onCopy('courses')} />
+              <CopyButton icon={<CopyIcon size={18} />} onCopy={copyMenu} />
             </Tooltip>
           </ButtonContainer>
         )}

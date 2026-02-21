@@ -15,6 +15,7 @@ export {
 export {
   FiClock as ClockIcon,
   FiCopy as CopyIcon,
+  FiGithub as GithubIcon,
   FiMoreVertical as MoreIcon,
 } from 'solid-icons/fi';
 export { RiFinanceMoneyEuroCircleFill as MoneyIcon } from 'solid-icons/ri';

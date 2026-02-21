@@ -2,8 +2,10 @@ import { styled } from 'solid-styled-components';
 import logo from '../assets/logo_48.png';
 import { version } from '../consts';
 import { breakSmall } from '../globalStyles';
+import { GithubIcon } from '../icons';
 import { computedState } from '../state';
 import Link from './Link';
+import PoweredByUpcloud from './PoweredByUpcloud';
 
 const Footer = styled.footer`
   text-align: center;
@@ -95,6 +97,7 @@ export default () => {
           alt="Kanttiinit logo"
           src={logo}
         />
+        <PoweredByUpcloud />
         <nav>
           <StyledNavLink to="/contact">
             {computedState.translations().contact}
@@ -114,12 +117,13 @@ export default () => {
         </nav>
       </NavigationContainer>
       <VersionLink
-        href="https://github.com/Kanttiinit/web"
-        rel="noopener"
-        target="_blank"
-      >
-        {version}
-      </VersionLink>
+          href='https://github.com/Kanttiinit/web'
+          rel='noopener'
+          target='_blank'
+        >
+          <GithubIcon style={{ 'vertical-align': 'middle', 'margin-right': '0.25rem' }} />
+          v{version}
+        </VersionLink>
     </Footer>
   );
 };

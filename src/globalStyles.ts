@@ -50,20 +50,21 @@ export default createGlobalStyles`
     --topbar-border: rgba(0, 0, 0, 0.07);
 
     &.dark {
-      --topbar-bg: rgba(43, 49, 56, 0.85);
-      --topbar-border: rgba(255, 255, 255, 0.06);
-      --accent_color: #0ba3cb;
+      --topbar-bg: rgba(22, 28, 30, 0.88);
+      --topbar-border: rgba(255, 255, 255, 0.07);
+      --accent_color: #0898be;
 
-      --gray7: #2B3138;
-      --gray6: #202329;
-      --gray5: #313131;
+      --gray7: #1e2629;
+      --gray6: #161c1e;
+      --gray5: #253032;
 
-      --radio-track: #1c2128;
-      --radio-selected: #363d47;
-      --gray4: #989898;
-      --gray3: #adadad;
-      --gray2: #b3b3b3;
-      --gray1: #c3c3c3;
+      --radio-track: #0c1416;
+      --radio-selected: #1c2b2e;
+
+      --gray4: #505858;
+      --gray3: #707c7c;
+      --gray2: #9aa4a4;
+      --gray1: #c4c8c8;
 
       --hearty: #fe346e;
       --friendly: #06CBB0;

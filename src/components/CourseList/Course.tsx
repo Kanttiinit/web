@@ -46,7 +46,7 @@ const CourseWrapper = styled.li<{
   font-size: 0.9rem;
 
   &:not(:last-child) {
-    border-bottom: 1px solid var(--gray6);
+    border-bottom: 1px solid var(--gray5);
   }
 
   ${props => (props.favorite ? 'color: var(--hearty);' : '')}

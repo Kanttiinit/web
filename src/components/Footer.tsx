@@ -60,6 +60,7 @@ const StyledExternalLink = styled.a`
 const LogoImage = styled.img<{ darkMode: boolean }>`
   height: 48px;
   margin-right: 1rem;
+  border-radius: var(--radius-md);
 
   @media (max-width: ${breakSmall}) {
     display: none;

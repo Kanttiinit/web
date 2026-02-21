@@ -18,7 +18,7 @@ const categories = [
 ];
 
 const ButtonContainer = styled.div`
-  background: var(--gray5);
+  background: var(--radio-track);
   border-radius: var(--radius-full);
   padding: 3px;
   display: inline-flex;
@@ -27,7 +27,7 @@ const ButtonContainer = styled.div`
 const Item = styled(Button)`
   border-radius: var(--radius-full);
   color: ${props => (props.selected ? 'var(--gray1)' : 'var(--gray3)')};
-  background: ${props => (props.selected ? 'var(--gray7)' : 'transparent')};
+  background: ${props => (props.selected ? 'var(--radio-selected)' : 'transparent')};
   box-shadow: ${props => (props.selected ? 'var(--shadow-sm)' : 'none')};
   min-width: 3rem;
   padding: 0.45rem 1rem;

@@ -1,5 +1,5 @@
-import { useLocation, useNavigate } from '@solidjs/router';
-import { addDays, isSameDay, parse, startOfDay } from 'date-fns';
+import { useNavigate } from '@solidjs/router';
+import { addDays, isSameDay } from 'date-fns';
 import haversine from 'haversine';
 import { createEffect, createSignal, onCleanup, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
@@ -19,7 +19,6 @@ const Container = styled.div`
 
 export default function App(props: any) {
   const navigate = useNavigate();
-  const location = useLocation();
 
   createEffect(() => {
     const isDev =
@@ -54,18 +53,6 @@ export default function App(props: any) {
 
   createEffect(() => {
     localStorage.setItem('preferences', JSON.stringify(state.preferences));
-  });
-
-  createEffect(() => {
-    const day = new URL(`http://dummy.com${location.search}`).searchParams.get(
-      'day',
-    );
-    setState(
-      'selectedDay',
-      day
-        ? startOfDay(parse(day, 'y-MM-dd', new Date()))
-        : startOfDay(new Date()),
-    );
   });
 
   const [locationWatchId, setLocationWatchId] = createSignal<number | null>(

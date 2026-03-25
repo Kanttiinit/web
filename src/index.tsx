@@ -1,12 +1,13 @@
-import { Route, Router } from '@solidjs/router';
+import { Route, Router, useLocation } from '@solidjs/router';
+import { parse, startOfDay } from 'date-fns';
 import { render } from 'solid-js/web';
 
 import App from './components/App';
 import Global from './globalStyles';
 import './fonts.css';
-import { createEffect, lazy } from 'solid-js';
+import { createEffect, lazy, type ParentProps } from 'solid-js';
 import { ErrorBoundary } from './components/ErrorBoundary';
-import { computedState } from './state';
+import { computedState, setState } from './state';
 
 const Admin = lazy(() => import('./admin'));
 const MapView = lazy(() => import('./components/MapView/MapView'));
@@ -32,24 +33,42 @@ function DarkModeEffect() {
   return null;
 }
 
+function RootLayout(props: ParentProps) {
+  const location = useLocation();
+  createEffect(() => {
+    const day = new URL(`http://dummy.com${location.search}`).searchParams.get(
+      'day',
+    );
+    setState(
+      'selectedDay',
+      day
+        ? startOfDay(parse(day, 'y-MM-dd', new Date()))
+        : startOfDay(new Date()),
+    );
+  });
+  return <>{props.children}</>;
+}
+
 render(
   () => (
     <ErrorBoundary>
       <Global />
       <DarkModeEffect />
       <Router>
-        <Route path="/admin/*" component={Admin} />
-        <Route path="/map" component={MapView} />
-        <Route path="*" component={App}>
-          <Route path="/" component={() => <></>} />
-          <Route path="settings" component={Settings} />
-          <Route path="contact" component={Contact} />
-          <Route path="terms-of-service" component={TermsOfService} />
-          <Route path="clients" component={Clients} />
-          <Route path="news" component={ChangeLog} />
-          <Route path="restaurant/:id" component={RestaurantModal} />
-          <Route path="report/:id" component={ReportModal} />
-          <Route path="*" component={NotFound} />
+        <Route path="*" component={RootLayout}>
+          <Route path="/admin/*" component={Admin} />
+          <Route path="/map" component={MapView} />
+          <Route path="*" component={App}>
+            <Route path="/" component={() => <></>} />
+            <Route path="settings" component={Settings} />
+            <Route path="contact" component={Contact} />
+            <Route path="terms-of-service" component={TermsOfService} />
+            <Route path="clients" component={Clients} />
+            <Route path="news" component={ChangeLog} />
+            <Route path="restaurant/:id" component={RestaurantModal} />
+            <Route path="report/:id" component={ReportModal} />
+            <Route path="*" component={NotFound} />
+          </Route>
         </Route>
       </Router>
     </ErrorBoundary>

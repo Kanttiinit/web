@@ -1,4 +1,4 @@
-import { useNavigate } from '@solidjs/router';
+import { useNavigate, useSearchParams } from '@solidjs/router';
 import { getISODay as getIsoDay } from 'date-fns';
 import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -6,7 +6,6 @@ import {
   createEffect,
   createMemo,
   createResource,
-  createSignal,
   on,
   onCleanup,
   onMount,
@@ -183,17 +182,37 @@ function getTodayHours(restaurant: RestaurantType): string {
 
 export default function MapView() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   let mapContainer: HTMLDivElement | undefined;
   let map: leaflet.Map;
 
-  // Initialize selectedAreaId from the regular UI's selected area
-  // Positive IDs are real areas; -1 (starred), -2 (nearby) fall back to overview
-  const initialArea = state.preferences.selectedArea;
-  const [selectedAreaId, setSelectedAreaId] = createSignal<number | null>(
-    initialArea > 0 ? initialArea : null,
-  );
-  const [selectedRestaurant, setSelectedRestaurant] =
-    createSignal<RestaurantType | null>(null);
+  // Initialize URL from preferences if no area param present
+  if (!searchParams.area) {
+    const initial = state.preferences.selectedArea;
+    if (initial > 0) {
+      setSearchParams({ area: String(initial) }, { replace: true });
+    }
+  }
+
+  // Derive area/restaurant selection from URL search params
+  const selectedAreaId = createMemo(() => {
+    const param = searchParams.area;
+    if (param) {
+      const id = Number(param);
+      return Number.isNaN(id) ? null : id;
+    }
+    return null;
+  });
+
+  const setSelectedAreaId = (areaId: number | null) => {
+    setSearchParams(
+      {
+        area: areaId !== null ? String(areaId) : undefined,
+        restaurant: undefined,
+      },
+      { replace: true },
+    );
+  };
 
   const [areas] = resources.areas;
 
@@ -236,6 +255,33 @@ export default function MapView() {
       return grouped;
     },
   );
+
+  const selectedRestaurantId = createMemo(() => {
+    const param = searchParams.restaurant;
+    if (param) {
+      const id = Number(param);
+      return Number.isNaN(id) ? null : id;
+    }
+    return null;
+  });
+
+  const selectedRestaurant = createMemo(() => {
+    const id = selectedRestaurantId();
+    const data = allRestaurants();
+    if (id === null || !data) return null;
+    for (const restaurants of data.values()) {
+      const found = restaurants.find(r => r.id === id);
+      if (found) return found;
+    }
+    return null;
+  });
+
+  const setSelectedRestaurant = (restaurant: RestaurantType | null) => {
+    setSearchParams(
+      { restaurant: restaurant ? String(restaurant.id) : undefined },
+      { replace: true },
+    );
+  };
 
   const markerSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="%23e63946" stroke="%23fff" stroke-width="1.5" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5" fill="%23fff"/></svg>`;
   const markerIcon = leaflet.icon({

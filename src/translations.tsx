@@ -409,6 +409,14 @@ const translations = {
     fi: 'Ei alennuksia',
     en: 'No discounts',
   },
+  map: {
+    fi: 'Kartta',
+    en: 'Map',
+  },
+  allAreas: {
+    fi: 'Kaikki alueet',
+    en: 'All areas',
+  },
 };
 
 export default translations;

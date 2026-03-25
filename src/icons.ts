@@ -25,12 +25,14 @@ export {
 } from 'solid-icons/tb';
 export {
   TbOutlineAdjustmentsHorizontal as SettingsIcon,
+  TbOutlineArrowsMaximize as ExpandIcon,
   TbOutlineBell as NewsIcon,
   TbOutlineBike as BikeIcon,
   TbOutlineCheck as CheckIcon,
   TbOutlineCurrentLocation as LocationIcon,
   TbOutlineHome as HomeIcon,
   TbOutlineLoader as LoaderIcon,
+  TbOutlineMap as MapViewIcon,
   TbOutlineMapPin as MapIcon,
   TbOutlineSchool as StudentIcon,
   TbOutlineX as CloseIcon,

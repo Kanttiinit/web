@@ -1,7 +1,7 @@
 import { createMemo, createSignal } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { breakSmall } from '../../globalStyles';
-import { CaretDownIcon, MapIcon, NewsIcon, SettingsIcon } from '../../icons';
+import { CaretDownIcon, MapIcon, MapViewIcon, NewsIcon, SettingsIcon } from '../../icons';
 import { computedState, resources, setState, state } from '../../state';
 import { Lang } from '../../types';
 import AreaSelector from '../AreaSelector';
@@ -273,6 +273,10 @@ export default function TopBar() {
               <AreaSelector onAreaSelected={toggleAreaSelector} />
             </AreaSelectorContainer>
           </AreaSelectorButton>
+          <IconLink to="/map" aria-label="Map">
+            <MapViewIcon size={18} />
+            <span>{computedState.translations().map}</span>
+          </IconLink>
           <IconLink to="/settings" aria-label="Settings">
             <SettingsIcon size={18} />
             <span>{computedState.translations().settings}</span>

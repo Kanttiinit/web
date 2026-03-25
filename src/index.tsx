@@ -2,13 +2,13 @@ import { Route, Router } from '@solidjs/router';
 import { render } from 'solid-js/web';
 
 import App from './components/App';
-// import Map from './components/Map';
 import Global from './globalStyles';
 import './fonts.css';
 import { lazy } from 'solid-js';
 import { ErrorBoundary } from './components/ErrorBoundary';
 
 const Admin = lazy(() => import('./admin'));
+const MapView = lazy(() => import('./components/MapView/MapView'));
 
 const RestaurantModal = lazy(() => import('./components/RestaurantModal'));
 const ReportModal = lazy(() => import('./components/ReportModal'));
@@ -26,7 +26,7 @@ render(
       <Global />
       <Router>
         <Route path="/admin/*" component={Admin} />
-        {/* <Route path="/map" element={<Map />} /> */}
+        <Route path="/map" component={MapView} />
         <Route path="*" component={App}>
           <Route path="/" component={() => <></>} />
           <Route path="settings" component={Settings} />

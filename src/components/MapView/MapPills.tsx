@@ -61,10 +61,7 @@ export default function MapPills(props: Props) {
           /* Overview mode: show area pills */
           <For each={props.areas}>
             {area => (
-              <Pill
-                active={false}
-                onClick={() => props.onSelectArea(area.id)}
-              >
+              <Pill active={false} onClick={() => props.onSelectArea(area.id)}>
                 {area.name}
               </Pill>
             )}

@@ -1,7 +1,13 @@
 import { createMemo, createSignal } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { breakSmall } from '../../globalStyles';
-import { CaretDownIcon, MapIcon, MapViewIcon, NewsIcon, SettingsIcon } from '../../icons';
+import {
+  CaretDownIcon,
+  MapIcon,
+  MapViewIcon,
+  NewsIcon,
+  SettingsIcon,
+} from '../../icons';
 import { computedState, resources, setState, state } from '../../state';
 import { Lang } from '../../types';
 import AreaSelector from '../AreaSelector';

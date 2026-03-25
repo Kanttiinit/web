@@ -137,11 +137,13 @@ export default () => {
           )}
         </nav>
         <VersionLink
-          href='https://github.com/Kanttiinit/web'
-          rel='noopener'
-          target='_blank'
+          href="https://github.com/Kanttiinit/web"
+          rel="noopener"
+          target="_blank"
         >
-          <GithubIcon style={{ 'vertical-align': 'middle', 'margin-right': '0.25rem' }} />
+          <GithubIcon
+            style={{ 'vertical-align': 'middle', 'margin-right': '0.25rem' }}
+          />
           v{version}
         </VersionLink>
       </NavRow>

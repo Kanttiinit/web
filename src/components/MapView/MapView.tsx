@@ -17,11 +17,10 @@ import * as api from '../../api';
 import { CloseIcon, LoaderIcon } from '../../icons';
 import { computedState, resources, state } from '../../state';
 import type { AreaType, RestaurantType } from '../../types';
+import restaurantLocationIcon from '../RestaurantModal/restaurant-location.png';
 import { bufferPolygon, convexHull, smoothPolygon } from './convexHull';
 import MapPills from './MapPills';
 import RestaurantBottomSheet from './RestaurantBottomSheet';
-
-import restaurantLocationIcon from '../RestaurantModal/restaurant-location.png';
 
 const Wrapper = styled.div`
   position: fixed;
@@ -163,9 +162,18 @@ const SpinnerOverlay = styled.div`
 `;
 
 const AREA_COLORS = [
-  '#09ACFE', '#06CBB0', '#F2A65A', '#fe346e',
-  '#8b5cf6', '#22c55e', '#f59e0b', '#ef4444',
-  '#14b8a6', '#ec4899', '#6366f1', '#84cc16',
+  '#09ACFE',
+  '#06CBB0',
+  '#F2A65A',
+  '#fe346e',
+  '#8b5cf6',
+  '#22c55e',
+  '#f59e0b',
+  '#ef4444',
+  '#14b8a6',
+  '#ec4899',
+  '#6366f1',
+  '#84cc16',
 ];
 
 function getTodayHours(restaurant: RestaurantType): string {
@@ -185,7 +193,8 @@ export default function MapView() {
   const [selectedAreaId, setSelectedAreaId] = createSignal<number | null>(
     initialArea > 0 ? initialArea : null,
   );
-  const [selectedRestaurant, setSelectedRestaurant] = createSignal<RestaurantType | null>(null);
+  const [selectedRestaurant, setSelectedRestaurant] =
+    createSignal<RestaurantType | null>(null);
 
   const [areas] = resources.areas;
 
@@ -241,9 +250,11 @@ export default function MapView() {
   let markerGroup: leaflet.LayerGroup;
 
   onMount(() => {
-    map = leaflet.map(mapContainer!, {
-      zoomControl: false,
-    }).setView([60.17, 24.94], 12);
+    map = leaflet
+      .map(mapContainer!, {
+        zoomControl: false,
+      })
+      .setView([60.17, 24.94], 12);
 
     leaflet
       .tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -285,7 +296,10 @@ export default function MapView() {
     if (map) map.remove();
   });
 
-  function renderOverview(areasData: AreaType[], restaurantsByArea: Map<number, RestaurantType[]>) {
+  function renderOverview(
+    areasData: AreaType[],
+    restaurantsByArea: Map<number, RestaurantType[]>,
+  ) {
     polygonGroup.clearLayers();
     markerGroup.clearLayers();
 
@@ -304,15 +318,20 @@ export default function MapView() {
       if (points.length < 3) {
         // Fall back to circle markers for areas with too few restaurants
         for (const p of points) {
-          leaflet.circleMarker(p, {
-            radius: 20,
-            color,
-            fillColor: color,
-            fillOpacity: 0.25,
-            weight: 2,
-          }).bindTooltip(area.name, { permanent: false }).addTo(polygonGroup);
+          leaflet
+            .circleMarker(p, {
+              radius: 20,
+              color,
+              fillColor: color,
+              fillOpacity: 0.25,
+              weight: 2,
+            })
+            .bindTooltip(area.name, { permanent: false })
+            .addTo(polygonGroup);
         }
-        allBounds.push(leaflet.latLngBounds(points.map(p => leaflet.latLng(p[0], p[1]))));
+        allBounds.push(
+          leaflet.latLngBounds(points.map(p => leaflet.latLng(p[0], p[1]))),
+        );
         return;
       }
 
@@ -320,12 +339,14 @@ export default function MapView() {
       const buffered = bufferPolygon(hull, 250);
       const smoothed = smoothPolygon(buffered, 3);
 
-      const polygon = leaflet.polygon(smoothed, {
-        color,
-        fillColor: color,
-        fillOpacity: 0.15,
-        weight: 2,
-      }).addTo(polygonGroup);
+      const polygon = leaflet
+        .polygon(smoothed, {
+          color,
+          fillColor: color,
+          fillOpacity: 0.15,
+          weight: 2,
+        })
+        .addTo(polygonGroup);
 
       polygon.bindTooltip(area.name, {
         permanent: false,
@@ -349,7 +370,10 @@ export default function MapView() {
     }
   }
 
-  function renderArea(areaId: number, restaurantsByArea: Map<number, RestaurantType[]>) {
+  function renderArea(
+    areaId: number,
+    restaurantsByArea: Map<number, RestaurantType[]>,
+  ) {
     polygonGroup.clearLayers();
     markerGroup.clearLayers();
 
@@ -374,9 +398,10 @@ export default function MapView() {
         </div>
       `;
 
-      leaflet.marker([restaurant.latitude, restaurant.longitude], {
-        icon: markerIcon,
-      })
+      leaflet
+        .marker([restaurant.latitude, restaurant.longitude], {
+          icon: markerIcon,
+        })
         .bindPopup(popupHtml, { closeButton: false, minWidth: 160 })
         .addTo(markerGroup);
     }
@@ -406,7 +431,9 @@ export default function MapView() {
           Math.abs(latLng.lat - restaurant.latitude) < 0.0001 &&
           Math.abs(latLng.lng - restaurant.longitude) < 0.0001
         ) {
-          map.flyTo([restaurant.latitude, restaurant.longitude], 16, { duration: 0.6 });
+          map.flyTo([restaurant.latitude, restaurant.longitude], 16, {
+            duration: 0.6,
+          });
           layer.openPopup();
         }
       }
@@ -416,7 +443,11 @@ export default function MapView() {
   // React to data + selection changes
   createEffect(
     on(
-      () => ({ areaId: selectedAreaId(), data: allRestaurants(), areasData: areas() }),
+      () => ({
+        areaId: selectedAreaId(),
+        data: allRestaurants(),
+        areasData: areas(),
+      }),
       ({ areaId, data, areasData }) => {
         if (!data || !areasData || !map) return;
 

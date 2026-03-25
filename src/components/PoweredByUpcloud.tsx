@@ -26,8 +26,8 @@ const Logo = styled.img`
 
 export default function PoweredByUpcloud() {
   return (
-    <Link href='https://upcloud.com/' target='_blank' rel='noopener noreferrer'>
-      Powered by <Logo src={upcloudLogo} alt='UpCloud' />
+    <Link href="https://upcloud.com/" target="_blank" rel="noopener noreferrer">
+      Powered by <Logo src={upcloudLogo} alt="UpCloud" />
     </Link>
   );
 }

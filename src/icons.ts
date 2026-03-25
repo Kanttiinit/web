@@ -20,16 +20,14 @@ export {
 } from 'solid-icons/fi';
 export { RiFinanceMoneyEuroCircleFill as MoneyIcon } from 'solid-icons/ri';
 export {
-  TbOutlineHandGrab as MapUnlockedIcon,
-  TbOutlineHandOff as MapLockedIcon,
-} from 'solid-icons/tb';
-export {
   TbOutlineAdjustmentsHorizontal as SettingsIcon,
   TbOutlineArrowsMaximize as ExpandIcon,
   TbOutlineBell as NewsIcon,
   TbOutlineBike as BikeIcon,
   TbOutlineCheck as CheckIcon,
   TbOutlineCurrentLocation as LocationIcon,
+  TbOutlineHandGrab as MapUnlockedIcon,
+  TbOutlineHandOff as MapLockedIcon,
   TbOutlineHome as HomeIcon,
   TbOutlineLoader as LoaderIcon,
   TbOutlineMap as MapViewIcon,

@@ -13,7 +13,10 @@ export function convexHull(points: Point[]): Point[] {
 
   const lower: Point[] = [];
   for (const p of sorted) {
-    while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) {
+    while (
+      lower.length >= 2 &&
+      cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0
+    ) {
       lower.pop();
     }
     lower.push(p);
@@ -22,7 +25,10 @@ export function convexHull(points: Point[]): Point[] {
   const upper: Point[] = [];
   for (let i = sorted.length - 1; i >= 0; i--) {
     const p = sorted[i];
-    while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) {
+    while (
+      upper.length >= 2 &&
+      cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0
+    ) {
       upper.pop();
     }
     upper.push(p);
@@ -35,7 +41,10 @@ export function convexHull(points: Point[]): Point[] {
   return [...lower, ...upper];
 }
 
-export function bufferPolygon(points: Point[], paddingMeters: number = 200): Point[] {
+export function bufferPolygon(
+  points: Point[],
+  paddingMeters: number = 200,
+): Point[] {
   if (points.length === 0) return [];
   if (points.length === 1) {
     // Create a small square around the single point
@@ -56,7 +65,8 @@ export function bufferPolygon(points: Point[], paddingMeters: number = 200): Poi
 
   // Convert padding from meters to approximate degrees
   const latOffset = paddingMeters / 111320;
-  const lngOffset = paddingMeters / (111320 * Math.cos((centroid[0] * Math.PI) / 180));
+  const lngOffset =
+    paddingMeters / (111320 * Math.cos((centroid[0] * Math.PI) / 180));
 
   return points.map(p => {
     const dx = p[0] - centroid[0];
@@ -69,7 +79,10 @@ export function bufferPolygon(points: Point[], paddingMeters: number = 200): Poi
   });
 }
 
-export function smoothPolygon(points: Point[], iterations: number = 2): Point[] {
+export function smoothPolygon(
+  points: Point[],
+  iterations: number = 2,
+): Point[] {
   if (points.length < 3) return [...points];
 
   let result = [...points];

@@ -4,6 +4,7 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {
   createEffect,
+  createMemo,
   createResource,
   createSignal,
   on,
@@ -13,12 +14,11 @@ import {
 } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import * as api from '../../api';
-import { breakSmall } from '../../globalStyles';
 import { CloseIcon, LoaderIcon } from '../../icons';
 import { computedState, resources, state } from '../../state';
 import type { AreaType, RestaurantType } from '../../types';
 import { bufferPolygon, convexHull, smoothPolygon } from './convexHull';
-import AreaPills from './AreaPills';
+import MapPills from './MapPills';
 import RestaurantBottomSheet from './RestaurantBottomSheet';
 
 import restaurantLocationIcon from '../RestaurantModal/restaurant-location.png';
@@ -41,14 +41,17 @@ const TopOverlay = styled.div`
   left: 0;
   right: 0;
   z-index: 500;
-  background: linear-gradient(to bottom, var(--bg-app) 0%, transparent 100%);
   padding-top: env(safe-area-inset-top, 0);
+  background: var(--topbar-bg);
+  backdrop-filter: blur(16px) saturate(1.8);
+  -webkit-backdrop-filter: blur(16px) saturate(1.8);
+  border-bottom: 1px solid var(--topbar-border);
 `;
 
 const TopRow = styled.div`
   display: flex;
   align-items: center;
-  padding: 0.5rem 0.5rem 0 0.5rem;
+  padding: 0.4rem 0.5rem;
   gap: 0.5rem;
 `;
 
@@ -56,17 +59,20 @@ const BackButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: var(--radius-full);
   border: 1px solid var(--border-subtle);
-  background: var(--bg-surface);
+  background: var(--bg-interactive);
   color: var(--text-secondary);
-  box-shadow: var(--shadow-md);
   cursor: pointer;
   flex-shrink: 0;
   z-index: 501;
-  transition: transform 0.1s;
+  transition: background 0.15s, transform 0.1s;
+
+  &:hover {
+    background: var(--border-subtle);
+  }
 
   &:active {
     transform: scale(0.9);
@@ -110,7 +116,12 @@ export default function MapView() {
   let mapContainer: HTMLDivElement | undefined;
   let map: leaflet.Map;
 
-  const [selectedAreaId, setSelectedAreaId] = createSignal<number | null>(null);
+  // Initialize selectedAreaId from the regular UI's selected area
+  // Positive IDs are real areas; -1 (starred), -2 (nearby) fall back to overview
+  const initialArea = state.preferences.selectedArea;
+  const [selectedAreaId, setSelectedAreaId] = createSignal<number | null>(
+    initialArea > 0 ? initialArea : null,
+  );
   const [selectedRestaurant, setSelectedRestaurant] = createSignal<RestaurantType | null>(null);
 
   const [areas] = resources.areas;
@@ -198,7 +209,6 @@ export default function MapView() {
           for (const restaurants of data.values()) {
             const found = restaurants.find(r => r.id === restaurantId);
             if (found) {
-              map.closePopup();
               setSelectedRestaurant(found);
               return;
             }
@@ -321,6 +331,32 @@ export default function MapView() {
     map.flyToBounds(bounds, { padding: [60, 60], duration: 0.8 });
   }
 
+  // Restaurants for the currently selected area (used by MapPills for restaurant list)
+  const selectedAreaRestaurants = createMemo(() => {
+    const areaId = selectedAreaId();
+    const data = allRestaurants();
+    if (areaId === null || !data) return [];
+    return data.get(areaId) || [];
+  });
+
+  // When a restaurant is selected via pill, open its popup on the map and fly to it
+  function handleRestaurantSelect(restaurant: RestaurantType) {
+    if (!map) return;
+    // Find the marker for this restaurant and open its popup
+    markerGroup.eachLayer((layer: any) => {
+      if (layer instanceof leaflet.Marker) {
+        const latLng = layer.getLatLng();
+        if (
+          Math.abs(latLng.lat - restaurant.latitude) < 0.0001 &&
+          Math.abs(latLng.lng - restaurant.longitude) < 0.0001
+        ) {
+          map.flyTo([restaurant.latitude, restaurant.longitude], 16, { duration: 0.6 });
+          layer.openPopup();
+        }
+      }
+    });
+  }
+
   // React to data + selection changes
   createEffect(
     on(
@@ -349,19 +385,22 @@ export default function MapView() {
 
       <TopOverlay>
         <TopRow>
-          <BackButton onClick={() => navigate('/')}>
-            <CloseIcon size={18} />
+          <BackButton onClick={() => navigate('/')} aria-label="Close map">
+            <CloseIcon size={14} />
           </BackButton>
+          <Show when={areas()}>
+            {areasData => (
+              <MapPills
+                areas={areasData()}
+                selectedAreaId={selectedAreaId()}
+                restaurants={selectedAreaRestaurants()}
+                selectedRestaurant={selectedRestaurant()}
+                onSelectArea={setSelectedAreaId}
+                onSelectRestaurant={handleRestaurantSelect}
+              />
+            )}
+          </Show>
         </TopRow>
-        <Show when={areas()}>
-          {areasData => (
-            <AreaPills
-              areas={areasData()}
-              selectedAreaId={selectedAreaId()}
-              onSelect={setSelectedAreaId}
-            />
-          )}
-        </Show>
       </TopOverlay>
 
       <RestaurantBottomSheet

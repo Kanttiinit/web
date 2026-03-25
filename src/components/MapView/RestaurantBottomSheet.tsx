@@ -31,10 +31,8 @@ const Backdrop = styled.div<{ open: boolean }>`
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.4);
-  opacity: ${props => (props.open ? '1' : '0')};
+  background: transparent;
   pointer-events: ${props => (props.open ? 'auto' : 'none')};
-  transition: opacity 0.25s ease-out;
 `;
 
 const Sheet = styled.div<{ open: boolean }>`

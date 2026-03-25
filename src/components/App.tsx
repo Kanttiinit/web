@@ -3,7 +3,7 @@ import { addDays, isSameDay, parse, startOfDay } from 'date-fns';
 import haversine from 'haversine';
 import { createEffect, createSignal, onCleanup, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
-import { computedState, getDisplayedDays, setState, state } from '../state';
+import { getDisplayedDays, setState, state } from '../state';
 import { getNewPath, isDateInRange } from '../utils';
 import Footer from './Footer';
 import Modal from './Modal';
@@ -20,14 +20,6 @@ const Container = styled.div`
 export default function App(props: any) {
   const navigate = useNavigate();
   const location = useLocation();
-
-  createEffect(() => {
-    if (computedState.darkMode()) {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark');
-    }
-  });
 
   createEffect(() => {
     const isDev =

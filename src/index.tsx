@@ -4,8 +4,9 @@ import { render } from 'solid-js/web';
 import App from './components/App';
 import Global from './globalStyles';
 import './fonts.css';
-import { lazy } from 'solid-js';
+import { createEffect, lazy } from 'solid-js';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { computedState } from './state';
 
 const Admin = lazy(() => import('./admin'));
 const MapView = lazy(() => import('./components/MapView/MapView'));
@@ -20,10 +21,22 @@ import NotFound from './components/NotFound';
 import Settings from './components/Settings';
 import TermsOfService from './components/TermsOfService';
 
+function DarkModeEffect() {
+  createEffect(() => {
+    if (computedState.darkMode()) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  });
+  return null;
+}
+
 render(
   () => (
     <ErrorBoundary>
       <Global />
+      <DarkModeEffect />
       <Router>
         <Route path="/admin/*" component={Admin} />
         <Route path="/map" component={MapView} />

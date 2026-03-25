@@ -33,6 +33,69 @@ const Wrapper = styled.div`
 const MapContainer = styled.div`
   width: 100%;
   height: 100%;
+
+  .leaflet-popup-content-wrapper {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-popover);
+    padding: 0;
+  }
+
+  .leaflet-popup-content {
+    margin: 0;
+    font-family: 'Interface', sans-serif;
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .leaflet-popup-tip {
+    background: var(--bg-surface);
+  }
+
+  .leaflet-popup-close-button {
+    color: var(--text-muted) !important;
+  }
+
+  .map-popup {
+    padding: 0.6rem 0.75rem;
+    min-width: 140px;
+  }
+
+  .map-popup-name {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+  }
+
+  .map-popup-hours {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+  }
+
+  .map-popup-expand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    padding: 0.25em 0.65em;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    font-family: 'Interface', sans-serif;
+  }
+
+  .map-popup-expand:hover {
+    background: var(--bg-interactive);
+    border-color: var(--border);
+    color: var(--text-primary);
+  }
 `;
 
 const TopOverlay = styled.div`
@@ -302,18 +365,11 @@ export default function MapView() {
       const hoursDisplay = todayHours || closedText;
 
       const popupHtml = `
-        <div style="min-width: 160px; font-family: 'Interface', sans-serif;">
-          <div style="font-weight: 600; font-size: 0.9rem; margin-bottom: 4px;">${escapeHtml(restaurant.name)}</div>
-          <div style="font-size: 0.78rem; color: #636363; margin-bottom: 8px;">${escapeHtml(hoursDisplay)}</div>
-          <button class="expand-btn" data-id="${restaurant.id}" style="
-            display: flex; align-items: center; gap: 4px;
-            background: var(--accent_color, #09ACFE); color: #fff;
-            border: none; border-radius: 6px; padding: 5px 10px;
-            font-size: 0.75rem; font-weight: 500; cursor: pointer;
-            width: 100%;
-            justify-content: center;
-          ">
-            ${computedState.translations().menuTab}
+        <div class="map-popup">
+          <div class="map-popup-name">${escapeHtml(restaurant.name)}</div>
+          <div class="map-popup-hours">${escapeHtml(hoursDisplay)}</div>
+          <button class="expand-btn map-popup-expand" data-id="${restaurant.id}">
+            ${escapeHtml(computedState.translations().menuTab)} ›
           </button>
         </div>
       `;

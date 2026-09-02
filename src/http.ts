@@ -1,7 +1,5 @@
 import { apiBase } from './consts';
 
-console.log(apiBase);
-
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 export default {

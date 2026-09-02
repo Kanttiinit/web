@@ -255,13 +255,6 @@ export default function TopBar() {
       <Container>
         <Content>
           <DaySelector />
-          {computedState.unseenUpdates().length > 0 && (
-            <Link to="/news">
-              <InlineIcon>
-                <StyledNewsIcon size={24} />
-              </InlineIcon>
-            </Link>
-          )}
           <AreaSelectorButton onClickOutside={closeAreaSelector}>
             <NativeIconLink
               onClick={toggleAreaSelector}

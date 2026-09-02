@@ -15,7 +15,6 @@ const MapView = lazy(() => import('./components/MapView/MapView'));
 const RestaurantModal = lazy(() => import('./components/RestaurantModal'));
 const ReportModal = lazy(() => import('./components/ReportModal'));
 
-import ChangeLog from './components/ChangeLog';
 import Clients from './components/Clients';
 import Contact from './components/Contact';
 import NotFound from './components/NotFound';
@@ -64,7 +63,6 @@ render(
             <Route path="contact" component={Contact} />
             <Route path="terms-of-service" component={TermsOfService} />
             <Route path="clients" component={Clients} />
-            <Route path="news" component={ChangeLog} />
             <Route path="restaurant/:id" component={RestaurantModal} />
             <Route path="report/:id" component={ReportModal} />
             <Route path="*" component={NotFound} />

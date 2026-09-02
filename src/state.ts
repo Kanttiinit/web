@@ -1,4 +1,4 @@
-import { addDays, parseISO, startOfDay } from 'date-fns';
+import { addDays, startOfDay } from 'date-fns';
 import { createMemo, createResource } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import * as api from './api';
@@ -10,7 +10,6 @@ import {
   Order,
   PriceCategory,
   type RestaurantType,
-  type Update,
 } from './types';
 
 const maxDayOffset = 6;
@@ -140,22 +139,9 @@ const resources = {
   ),
   menus: menuResource,
   restaurants: restaurantResource,
-  updates: createResource<Update[]>(() => api.getUpdates()),
 };
 
 const computedState = {
-  unseenUpdates: createMemo(() => {
-    const updates: Update[] | undefined = resources.updates[0]();
-    if (!state.preferences.updatesLastSeenAt || !updates) {
-      return [];
-    }
-
-    return updates.filter(
-      update =>
-        parseISO(update.createdAt).getTime() >
-        state.preferences.updatesLastSeenAt,
-    );
-  }),
   translations: createMemo(() => {
     return Object.keys(translations).reduce((t, k) => {
       const key = k as keyof typeof translations;

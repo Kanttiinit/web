@@ -125,7 +125,7 @@ const menuResource = createResource(
     };
   },
   source => {
-    if (source.restaurants) {
+    if (source.restaurants?.length) {
       const restaurantIds = source.restaurants.map(restaurant => restaurant.id);
       return api.getMenus(restaurantIds, [source.selectedDay], source.lang);
     }

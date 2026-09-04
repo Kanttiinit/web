@@ -9,7 +9,6 @@ import { createEffect, lazy, type ParentProps } from 'solid-js';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { computedState, setState } from './state';
 
-const Admin = lazy(() => import('./admin'));
 const MapView = lazy(() => import('./components/MapView/MapView'));
 
 const RestaurantModal = lazy(() => import('./components/RestaurantModal'));
@@ -56,7 +55,6 @@ render(
       <DarkModeEffect />
       <Router>
         <Route path="*" component={RootLayout}>
-          <Route path="/admin/*" component={Admin} />
           <Route path="/map" component={MapView} />
           <Route path="*" component={App}>
             <Route path="/" component={() => <></>} />

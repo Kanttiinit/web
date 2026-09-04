@@ -118,8 +118,8 @@ export const getRestaurantsByLocation = (
 export const createRestaurantChange = (restaurantId: number, change: any) =>
   http.post('/changes', {
     change,
-    modelFilter: { id: restaurantId },
-    modelName: 'Restaurant',
+    filter: { id: restaurantId },
+    dataType: 'restaurant',
   });
 
 export const getApprovedUpdates = (uuids: string[]) =>

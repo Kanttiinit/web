@@ -49,8 +49,10 @@ const OpeningHoursInput = (props: Props) => {
         }
         return hours.map((hour: number) =>
           String(hour).length === 4
-            ? `${String(hour).substr(0, 2)}:${String(hour).substring(2)}`
-            : String(hour),
+            ? `${String(hour).substring(0, 2)}:${String(hour).substring(2)}`
+            : String(hour).length === 3
+              ? `${String(hour).substring(0, 1)}:${String(hour).substring(1)}`
+              : String(hour),
         );
       }),
     );

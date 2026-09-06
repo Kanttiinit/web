@@ -370,8 +370,24 @@ const translations = {
     en: 'Dark',
   },
   tosShort: {
-    fi: 'Kanttiinit on palvelu, joka näyttää ruokalistat kootusti, mutta ei vastaa ravintoloiden toiminnasta. Palautteessa ruuan sisällöstä tai allergeeneista ota yhteyttä suoraan ravintolaan.',
-    en: "Kanttiinit is a menu aggregator and doesn't operate any restaurants. For feedback about food contents or allergens, contact the restaurant directly.",
+    fi: <>
+      <p>Kanttiinit on palvelu, joka näyttää ruokalistat kootusti, mutta ei vastaa ravintoloiden toiminnasta. Palautteessa ruuan sisällöstä tai allergeeneista ota yhteyttä suoraan ravintolaan.</p>
+      <h3>Puuttuuko ravintola?</h3>
+      <p>
+        Kanttiinit on avoimen lähdekoodin projekti, jonka koodi sekä data löytyy repositoriosta <a href="https://github.com/Kanttiinit/kitchen">github.com/Kanttiinit/kitchen</a>. 
+        Jos olet kykeneväinen kirjoittamaan pienen määrän koodia, pystynet lisäämään ravintolan itse README-tiedostosta löytyvien ohjeiden avulla.
+        Löydät meidät myös <a href="https://t.me/kanttiinitfeedback">Kanttiinit Contributors -kanavalta Telegramista</a>, jossa voimme ohjeistaa lisää.
+      </p>
+    </>,
+    en: <>
+      <p>Kanttiinit is a menu aggregator and doesn't operate any restaurants. For feedback about food contents or allergens, contact the restaurant directly.</p>
+      <h3>Missing a restaurant?</h3>
+      <p>
+        Kanttiinit is an open-source project hosted at <a href="https://github.com/Kanttiinit/kitchen">github.com/Kanttiinit/kitchen</a>.
+        If you're capable of writing a little bit of code, you should able to add a restaurant yourself by following the instructions in the README-file.
+        You can also find us in the <a href="https://t.me/kanttiinitfeedback">Kanttiinit Contributors channel on Telegram</a> where we can provide additional assistance.
+      </p>
+    </>,
   },
   reportDisclaimer: {
     fi: 'Voit ehdottaa korjauksia aukioloaikoihin, sijaintiin ja muihin perustietoihin. Kanttiinit vain näyttää ruokalistat kootussa paikassa — emme vastaa ruokalistojen sisällöstä. Ota ruokaan liittyvissä asioissa yhteyttä suoraan ravintolaan.',

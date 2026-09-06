@@ -26,6 +26,15 @@ const Container = styled.div`
   ul {
     color: var(--text-primary);
   }
+
+  a {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
 `;
 
 const Title = styled.h1<{ compact?: boolean }>`

@@ -371,12 +371,12 @@ const translations = {
   },
   tosShort: {
     fi: <>
-      <p>Kanttiinit on palvelu, joka näyttää ruokalistat kootusti, mutta ei vastaa ravintoloiden toiminnasta. Palautteessa ruuan sisällöstä tai allergeeneista ota yhteyttä suoraan ravintolaan.</p>
+      <p>Kanttiinit on palvelu, joka näyttää ruokalistat kootusti, mutta ei vastaa ravintoloiden toiminnasta. Ruokien sisältöä tai allergeeneja koskevaa palautetta varten ota yhteyttä suoraan ravintolaan.</p>
       <h3>Puuttuuko ravintola?</h3>
       <p>
-        Kanttiinit on avoimen lähdekoodin projekti, jonka koodi sekä data löytyy repositoriosta <a href="https://github.com/Kanttiinit/kitchen">github.com/Kanttiinit/kitchen</a>. 
-        Jos olet kykeneväinen kirjoittamaan pienen määrän koodia, pystynet lisäämään ravintolan itse README-tiedostosta löytyvien ohjeiden avulla.
-        Löydät meidät myös <a href="https://t.me/kanttiinitfeedback">Kanttiinit Contributors -kanavalta Telegramista</a>, jossa voimme ohjeistaa lisää.
+        Kanttiinit on avoimen lähdekoodin projekti, joka sijaitsee osoitteessa <a href="https://github.com/Kanttiinit/kitchen">github.com/Kanttiinit/kitchen</a>.
+        Jos osaat kirjoittaa hieman koodia, voit lisätä ravintolan itse noudattamalla README-tiedoston ohjeita.
+        Löydät meidät myös <a href="https://t.me/kanttiinitfeedback">Kanttiinit Contributors -kanavalta Telegramista</a>, jossa voimme tarjota lisäapua.
       </p>
     </>,
     en: <>

@@ -3,7 +3,7 @@ import {
   parseISO,
 } from 'date-fns';
 import snarkdown from 'snarkdown';
-import { createSignal, For, onMount } from 'solid-js';
+import { createEffect, createSignal, For, on, onMount } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { CaretDownIcon } from '../icons';
 import { computedState, resources, setState } from '../state';
@@ -57,8 +57,16 @@ const ArrowDownIcon = styled(CaretDownIcon)<{ isVisible: boolean }>`
 `;
 
 const ChangeLog = () => {
-  const [visibleItems, setVisibleItems] = createSignal(
-    computedState.unseenUpdates().map(update => update.id),
+  const [updates] = resources.updates;
+
+  // Expand only the latest update (the list is sorted newest first)
+  const [visibleItems, setVisibleItems] = createSignal<number[]>([]);
+  createEffect(
+    on(updates, list => {
+      if (list?.length) {
+        setVisibleItems([list[0].id]);
+      }
+    }),
   );
 
   const toggleVisible = (update: Update) => {
@@ -72,8 +80,6 @@ const ChangeLog = () => {
   onMount(() => {
     setState('preferences', 'updatesLastSeenAt', Date.now());
   });
-
-  const [updates] = resources.updates;
 
   return (
     <PageContainer title={computedState.translations().updates}>

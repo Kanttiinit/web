@@ -13,7 +13,6 @@ import { Lang } from '../../types';
 import AreaSelector from '../AreaSelector';
 import ClickOutside from '../ClickOutside';
 import DaySelector from '../DaySelector';
-import InlineIcon from '../InlineIcon';
 import Link from '../Link';
 import EN from './en.svg';
 import FI from './fi.svg';
@@ -45,8 +44,29 @@ const Content = styled.div`
   margin: 0 auto;
 `;
 
-const StyledNewsIcon = styled(NewsIcon)`
-  color: var(--accent_color);
+const NewsLink = styled(Link)`
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 0.5em;
+  color: inherit;
+
+  :hover,
+  :focus {
+    outline: none;
+    color: var(--accent_color);
+  }
+`;
+
+const NewsDot = styled.span`
+  position: absolute;
+  top: -1px;
+  right: calc(0.5em - 1px);
+  width: 7px;
+  height: 7px;
+  border-radius: var(--radius-full);
+  background: var(--hearty);
+  box-shadow: 0 0 0 2px var(--topbar-bg);
 `;
 
 const AreaSelectorButton = styled(ClickOutside)`
@@ -256,11 +276,13 @@ export default function TopBar() {
         <Content>
           <DaySelector />
           {computedState.unseenUpdates().length > 0 && (
-            <Link to="/news">
-              <InlineIcon>
-                <StyledNewsIcon size={24} />
-              </InlineIcon>
-            </Link>
+            <NewsLink
+              to="/news"
+              aria-label={computedState.translations().updates}
+            >
+              <NewsIcon size={18} />
+              <NewsDot />
+            </NewsLink>
           )}
           <AreaSelectorButton onClickOutside={closeAreaSelector}>
             <NativeIconLink

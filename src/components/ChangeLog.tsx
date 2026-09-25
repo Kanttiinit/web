@@ -59,7 +59,6 @@ const ArrowDownIcon = styled(CaretDownIcon)<{ isVisible: boolean }>`
 const ChangeLog = () => {
   const [updates] = resources.updates;
 
-  // Expand only the latest update (the list is sorted newest first)
   const [visibleItems, setVisibleItems] = createSignal<number[]>([]);
   createEffect(
     on(updates, list => {

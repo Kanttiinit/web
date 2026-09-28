@@ -6,6 +6,7 @@ import { breakLarge, breakSmall } from '../globalStyles';
 import { WarningIcon } from '../icons';
 import { computedState, resources, state } from '../state';
 import { useFormattedRestaurants } from '../utils';
+import AppBanner from './AppBanner';
 import InlineIcon from './InlineIcon';
 import NetworkStatus from './NetworkStatus';
 import Notice from './Notice';
@@ -227,6 +228,7 @@ function ListContent() {
 
 export default () => (
   <Container>
+    <AppBanner />
     <NetworkStatus />
     <ListContainer>
       <ListContent />

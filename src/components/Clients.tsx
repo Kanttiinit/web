@@ -10,7 +10,7 @@ const Clients = () => {
   return (
     <PageContainer title={computedState.translations().otherClients}>
       <Link
-        href="https://itunes.apple.com/fi/app/kanttiinit/id1069903670?mt=8"
+        href="https://apps.apple.com/fi/app/kanttiinit-fi/id6814973609"
         target="_blank"
         rel="noopener"
       >

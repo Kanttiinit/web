@@ -281,6 +281,18 @@ const translations = {
     fi: 'Priorisoi',
     en: 'prioritize',
   },
+  appBannerSubtitle: {
+    fi: 'iPhonelle ja Apple Watchille',
+    en: 'For iPhone and Apple Watch',
+  },
+  appBannerStore: {
+    fi: 'Avaa App Storessa',
+    en: 'Open in the App Store',
+  },
+  appBannerView: {
+    fi: 'Näytä',
+    en: 'View',
+  },
   offline: {
     fi: 'Ei verkkoyhteyttä.',
     en: 'You are currently offline.',

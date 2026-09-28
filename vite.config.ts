@@ -34,7 +34,7 @@ export default defineConfig({
           },
           {
             platform: 'itunes',
-            url: 'https://itunes.apple.com/fi/app/kanttiinit/id1069903670?l=fi&mt=8',
+            url: 'https://apps.apple.com/fi/app/kanttiinit-fi/id6814973609',
           },
         ],
       },

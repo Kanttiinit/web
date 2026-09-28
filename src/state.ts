@@ -67,6 +67,7 @@ const [state, setState] = createStore({
     properties: [] as string[],
     darkMode: DarkModeChoice.DEFAULT,
     updatesLastSeenAt: 0,
+    dismissedBanners: [] as string[],
     maxPriceCategory: PriceCategory.studentPremium,
     highlightOperator: HighlighOperator.OR,
     ...migrateOldSettings(),

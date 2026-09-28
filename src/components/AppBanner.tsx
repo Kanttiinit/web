@@ -4,13 +4,10 @@ import logo from '../assets/logo.png';
 import { CloseIcon } from '../icons';
 import { computedState, setState, state } from '../state';
 
-// Change the id for a new announcement so earlier dismissals don't hide it.
 const BANNER_ID = 'ios-app';
 const APP_STORE_URL =
   'https://apps.apple.com/fi/app/kanttiinit-fi/id6814973609';
 
-// Safari shows the native Smart App Banner (see index.html). Chrome, Firefox
-// and Edge on iOS don't, so we render a look-alike for them.
 const isThirdPartyIOSBrowser = /CriOS|FxiOS|EdgiOS/.test(navigator.userAgent);
 
 const Container = styled.div`

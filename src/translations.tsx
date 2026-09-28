@@ -382,24 +382,51 @@ const translations = {
     en: 'Dark',
   },
   tosShort: {
-    fi: <>
-      <p>Kanttiinit on palvelu, joka näyttää ruokalistat kootusti, mutta ei vastaa ravintoloiden toiminnasta. Ruokien sisältöä tai allergeeneja koskevaa palautetta varten ota yhteyttä suoraan ravintolaan.</p>
-      <h3>Puuttuuko ravintola?</h3>
-      <p>
-        Kanttiinit on avoimen lähdekoodin projekti, joka sijaitsee osoitteessa <a href="https://github.com/Kanttiinit/kitchen">github.com/Kanttiinit/kitchen</a>.
-        Jos osaat kirjoittaa hieman koodia, voit lisätä ravintolan itse noudattamalla README-tiedoston ohjeita.
-        Löydät meidät myös <a href="https://t.me/kanttiinitfeedback">Kanttiinit Contributors -kanavalta Telegramista</a>, jossa voimme tarjota lisäapua.
-      </p>
-    </>,
-    en: <>
-      <p>Kanttiinit is a menu aggregator and doesn't operate any restaurants. For feedback about food contents or allergens, contact the restaurant directly.</p>
-      <h3>Missing a restaurant?</h3>
-      <p>
-        Kanttiinit is an open-source project hosted at <a href="https://github.com/Kanttiinit/kitchen">github.com/Kanttiinit/kitchen</a>.
-        If you're capable of writing a little bit of code, you should able to add a restaurant yourself by following the instructions in the README-file.
-        You can also find us in the <a href="https://t.me/kanttiinitfeedback">Kanttiinit Contributors channel on Telegram</a> where we can provide additional assistance.
-      </p>
-    </>,
+    fi: (
+      <>
+        <p>
+          Kanttiinit on palvelu, joka näyttää ruokalistat kootusti, mutta ei
+          vastaa ravintoloiden toiminnasta. Ruokien sisältöä tai allergeeneja
+          koskevaa palautetta varten ota yhteyttä suoraan ravintolaan.
+        </p>
+        <h3>Puuttuuko ravintola?</h3>
+        <p>
+          Kanttiinit on avoimen lähdekoodin projekti, joka sijaitsee osoitteessa{' '}
+          <a href="https://github.com/Kanttiinit/kitchen">
+            github.com/Kanttiinit/kitchen
+          </a>
+          . Jos osaat kirjoittaa hieman koodia, voit lisätä ravintolan itse
+          noudattamalla README-tiedoston ohjeita. Löydät meidät myös{' '}
+          <a href="https://t.me/kanttiinitfeedback">
+            Kanttiinit Contributors -kanavalta Telegramista
+          </a>
+          , jossa voimme tarjota lisäapua.
+        </p>
+      </>
+    ),
+    en: (
+      <>
+        <p>
+          Kanttiinit is a menu aggregator and doesn't operate any restaurants.
+          For feedback about food contents or allergens, contact the restaurant
+          directly.
+        </p>
+        <h3>Missing a restaurant?</h3>
+        <p>
+          Kanttiinit is an open-source project hosted at{' '}
+          <a href="https://github.com/Kanttiinit/kitchen">
+            github.com/Kanttiinit/kitchen
+          </a>
+          . If you're capable of writing a little bit of code, you should able
+          to add a restaurant yourself by following the instructions in the
+          README-file. You can also find us in the{' '}
+          <a href="https://t.me/kanttiinitfeedback">
+            Kanttiinit Contributors channel on Telegram
+          </a>{' '}
+          where we can provide additional assistance.
+        </p>
+      </>
+    ),
   },
   reportDisclaimer: {
     fi: 'Voit ehdottaa korjauksia aukioloaikoihin, sijaintiin ja muihin perustietoihin. Kanttiinit vain näyttää ruokalistat kootussa paikassa — emme vastaa ruokalistojen sisällöstä. Ota ruokaan liittyvissä asioissa yhteyttä suoraan ravintolaan.',

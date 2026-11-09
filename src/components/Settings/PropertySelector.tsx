@@ -1,8 +1,10 @@
 import { For } from 'solid-js';
 import { setState, state } from '../../state';
-import { properties } from '../../translations';
+import { nonVeganPreference, properties } from '../../translations';
 import { getArrayWithToggled } from '../../utils';
 import { RoundedButton, RoundedButtonContainer } from '../RoundedButton';
+
+const propertyOptions = [...properties, nonVeganPreference];
 
 export default function PropertySelector(props: {
   showDesiredProperties?: boolean;
@@ -15,7 +17,7 @@ export default function PropertySelector(props: {
   return (
     <RoundedButtonContainer>
       <For
-        each={properties.filter(p =>
+        each={propertyOptions.filter(p =>
           props.showDesiredProperties ? p.desired : !p.desired,
         )}
       >

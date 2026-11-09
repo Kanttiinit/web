@@ -75,6 +75,13 @@ export const properties: FormattedProperty[] = [
   { key: 'VV', desired: true, name_en: 'vegan', name_fi: 'vegaani' },
 ];
 
+export const nonVeganPreference: FormattedProperty = {
+  key: 'non-vegan',
+  desired: true,
+  name_en: 'non-vegan',
+  name_fi: 'ei-vegaani',
+};
+
 export const priceCategorySettings = {
   [PriceCategory.student]: {
     fi: 'Näytetään vain ravintolat, jotka tarjoavat opiskelijahintaisen lounaan.',
@@ -441,8 +448,8 @@ const translations = {
     en: 'Price Category',
   },
   highlightOperator: {
-    fi: 'Korosta ruokalajit jotka sisältävät',
-    en: 'Highlight courses that contain',
+    fi: 'Korostuksen ehdot',
+    en: 'Highlight criteria',
   },
   and: {
     fi: 'Kaikki valinnat',

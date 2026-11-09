@@ -8,6 +8,13 @@ interface FormattedProperty {
   name_fi: string;
 }
 
+export const nonVeganPreference: FormattedProperty = {
+  key: 'non-vegan',
+  desired: true,
+  name_en: 'non-vegan',
+  name_fi: 'ei-vegaani',
+};
+
 export const properties: FormattedProperty[] = [
   {
     desired: false,
@@ -73,6 +80,7 @@ export const properties: FormattedProperty[] = [
   },
   { key: 'V', desired: true, name_en: 'vegetarian', name_fi: 'vegetaarinen' },
   { key: 'VV', desired: true, name_en: 'vegan', name_fi: 'vegaani' },
+  nonVeganPreference,
 ];
 
 export const priceCategorySettings = {
@@ -441,8 +449,8 @@ const translations = {
     en: 'Price Category',
   },
   highlightOperator: {
-    fi: 'Korosta ruokalajit jotka sisältävät',
-    en: 'Highlight courses that contain',
+    fi: 'Korostuksen ehdot',
+    en: 'Highlight criteria',
   },
   and: {
     fi: 'Kaikki valinnat',

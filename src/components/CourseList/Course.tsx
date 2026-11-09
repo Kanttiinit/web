@@ -2,7 +2,7 @@ import { createMemo, For } from 'solid-js';
 import { styled } from 'solid-styled-components';
 import { HeartFilledIcon } from '../../icons';
 import { state } from '../../state';
-import { properties } from '../../translations';
+import { nonVeganPreference, properties } from '../../translations';
 import { type CourseType, HighlighOperator } from '../../types';
 import { isFavorite } from '../../utils';
 import Property from './Property';
@@ -90,7 +90,9 @@ const Course = (props: { course: CourseType }) => {
   const highlight = () =>
     state.preferences.properties.length !== 0 &&
     state.preferences.properties[propertyOperator()](p =>
-      desiredProperties().includes(p),
+      p === nonVeganPreference.key
+        ? !props.course.properties.includes('VV')
+        : desiredProperties().includes(p),
     );
 
   const dim = () => props.course.properties.some(isUndesiredProperty);
